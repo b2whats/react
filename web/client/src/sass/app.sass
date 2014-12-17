@@ -1,0 +1,66 @@
+//@font-face
+  font-family: Graffiti2C
+  src: url(/bower_components/bootsketch/build/fonts/graf.woff)
+
+@import 'common_vars.json'
+
+@import 'values'
+
+@import 'admin_page'
+
+@import 'autocomplete'
+
+//font reset ОБЯЗАТЕЛЕН! иначе на button Arial и нет antialias что бросается в глаза
+html, body, input, button, textarea
+  font: inherit
+  -webkit-font-smoothing: inherit
+
+
+html
+  height: 100%
+
+body
+  height: 100%
+  //background-color: #100034
+  //-webkit-font-smoothing: antialiased
+  font-family: Arial, Helvetica, sans-serif
+  -webkit-font-smoothing: antialiased
+  font-size: 12px
+  //overflow: hidden
+  .main-view
+    height: 100%
+    //width: 100%
+    //overflow: hidden
+
+.height100
+  height: 100% 
+
+.bred
+  border: 1px solid red
+
+
+
+.disable-pointer-events
+  .disable-events-on-map-move
+    pointer-events: none
+
+.noselect
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+
+
+
+
+
+
+
+
+
+
+
+

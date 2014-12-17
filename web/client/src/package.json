@@ -1,0 +1,10 @@
+{
+  "name": "client_only_libraries",
+  "version": "0.0.1",
+  "description": "base templates",
+  "dependencies": {
+    "page": "^1.4.1"
+  },
+  "author": "istarkov@gmail.com",
+  "license": "commerce"
+}

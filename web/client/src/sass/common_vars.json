@@ -1,0 +1,6 @@
+// variables.json
+{
+  "plot-shared-vars" : {
+    "num-colors" : "12"
+  }
+}

@@ -1,0 +1,17 @@
+запустить докер контейнер
+~/web_projects/criteria_editor/web/docker_run.sh
+
+в своем проекте в докер ран подправить посл строчку на контейнер
+sentimeta/node_scikit_image
+
+
+dps список запщенных контейнеров
+dkill -a -убить все контейнеры
+denter crit_editor зайти внутрь контейнера
+
+внутри контейнера 
+~/web_projects/criteria_editor/web/tmux_run
+в нижней ctrl+c и пускаем grunt server
+
+
+127.0.0.1:3080

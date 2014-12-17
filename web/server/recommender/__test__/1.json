@@ -1,0 +1,227 @@
+[
+ {
+  "id": "9170af98-ecf3-4c8b-8b0b-9ede5c5bc652",
+  "title": "Странная корзина",
+  "weight": 2,
+  "features": [
+   {
+    "feature": {
+     "freq": 77545,
+     "id": "good-parking-area",
+     "title": "Good Parking Area"
+    },
+    "weight": 1
+   },
+   {
+    "feature": {
+     "freq": 241126,
+     "id": "friendly-staff",
+     "title": "Friendly Staff"
+    },
+    "weight": 2
+   },
+   {
+    "feature": {
+     "freq": 214187,
+     "id": "high-quality-rooms",
+     "title": "High Quality Rooms"
+    },
+    "weight": 1
+   }
+  ],
+  "rules": [
+   {
+    "feature": {
+     "id": "in_filter",
+     "title": "filter Country",
+     "type": "in"
+    },
+    "weight": "2",
+    "value": {
+     "id": "-france-",
+     "title": "France"
+    }
+   },
+   {
+    "feature": {
+     "id": "in_filter_2",
+     "title": "filter Price",
+     "type": "in"
+    },
+    "weight": "2",
+    "value": {
+     "id": "-2big-",
+     "title": "big"
+    }
+   },
+   {
+    "feature": {
+     "freq": 241126,
+     "id": "friendly-staff",
+     "title": "Friendly Staff"
+    },
+    "weight": 1
+   }
+  ]
+ },
+ {
+  "id": "ff25f1d4-c941-4dbc-a020-0ca0fca0302d",
+  "weight": 1,
+  "features": [
+   {
+    "feature": {
+     "freq": 241126,
+     "id": "friendly-staff",
+     "title": "Friendly Staff"
+    },
+    "weight": 1
+   }
+  ],
+  "rules": [
+   {
+    "feature": {
+     "freq": 209424,
+     "id": "clean-rooms",
+     "title": "Clean Rooms"
+    },
+    "weight": "2"
+   },
+   {
+    "feature": {
+     "id": "in_filter",
+     "title": "filter Country",
+     "type": "in"
+    },
+    "weight": "4",
+    "value": {
+     "id": "-ger-",
+     "title": "Germany"
+    }
+   },
+   {
+    "feature": {
+     "freq": 210832,
+     "id": "tasty-food",
+     "title": "Tasty Food"
+    },
+    "weight": "4"
+   }
+  ],
+  "title": "Германия"
+ },
+ {
+  "id": "d840f1af-314a-41c2-ad22-3ff9cfb23020",
+  "weight": 1,
+  "features": [
+   {
+    "feature": {
+     "freq": 203173,
+     "id": "spacious-rooms",
+     "title": "Spacious Rooms"
+    },
+    "weight": "2"
+   },
+   {
+    "feature": {
+     "freq": 139238,
+     "id": "romantic-holiday",
+     "title": "Romantic Holiday"
+    },
+    "weight": "8"
+   },
+   {
+    "feature": {
+     "freq": 209424,
+     "id": "clean-rooms",
+     "title": "Clean Rooms"
+    },
+    "weight": "2"
+   }
+  ],
+  "rules": [
+   {
+    "feature": {
+     "id": "in_filter",
+     "title": "filter Country",
+     "type": "in"
+    },
+    "weight": 1,
+    "value": {
+     "id": "-france-",
+     "title": "France"
+    }
+   }
+  ],
+  "title": "Франция"
+ },
+ {
+  "id": "d8dee35c-3564-482a-b267-3e8d49c64cc2",
+  "weight": 1,
+  "features": [
+   {
+    "feature": {
+     "freq": 210832,
+     "id": "tasty-food",
+     "title": "Tasty Food"
+    },
+    "weight": "2"
+   },
+   {
+    "feature": {
+     "freq": 203173,
+     "id": "spacious-rooms",
+     "title": "Spacious Rooms"
+    },
+    "weight": 1
+   }
+  ],
+  "rules": [
+   {
+    "feature": {
+     "freq": 214187,
+     "id": "high-quality-rooms",
+     "title": "High Quality Rooms"
+    },
+    "weight": "2"
+   },
+   {
+    "feature": {
+     "freq": 44855,
+     "id": "clean-pool",
+     "title": "Clean Pool"
+    },
+    "weight": 1
+   }
+  ],
+  "title": "Супер корзина"
+ },
+ {
+  "id": "28ea250e-e10c-4dc8-a05c-8e7ea4eac68d",
+  "weight": 1,
+  "features": [
+   {
+    "feature": {
+     "freq": 241126,
+     "id": "friendly-staff",
+     "title": "Friendly Staff"
+    },
+    "weight": 1
+   }
+  ],
+  "rules": [
+   {
+    "feature": {
+     "id": "in_filter",
+     "title": "filter Country",
+     "type": "in"
+    },
+    "weight": 1,
+    "value": {
+     "id": "-ger-",
+     "title": "Germany"
+    }
+   }
+  ],
+  "title": "dsfdsfdsf"
+ }
+]

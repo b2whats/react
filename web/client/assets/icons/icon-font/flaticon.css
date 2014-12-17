@@ -1,0 +1,151 @@
+@font-face {
+	font-family: "Flaticon";
+	src: url("flaticon.eot");
+	src: url("flaticon.eot#iefix") format("embedded-opentype"),
+	url("flaticon.woff?v=5") format("woff"),
+	url("flaticon.ttf?v=5") format("truetype"),
+	url("flaticon.svg?v=5") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+	font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}.flaticon-general-hotel-quality:before {
+	content: "\e000";
+}
+.flaticon-approval1:before {
+	content: "\e001";
+}
+.flaticon-general-hotel-quality1:before {
+	content: "\e002";
+}
+.flaticon-medal-award:before {
+	content: "\e003";
+}
+.flaticon-bathroom-quality:before {
+	content: "\e004";
+}
+.flaticon-star-nosolid:before {
+	content: "\e005";
+}
+.flaticon-hospitable-staff:before {
+	content: "\e006";
+}
+.flaticon-title-close-sign:before {
+	content: "\e007";
+}
+.flaticon-high-quality-drinks:before {
+	content: "\e008";
+}
+.flaticon-coffee:before {
+	content: "\e009";
+}
+.flaticon-reasonable-prices:before {
+	content: "\e00a";
+}
+.flaticon-comfortable-rooms:before {
+	content: "\e00b";
+}
+.flaticon-restaurant-quality:before {
+	content: "\e00c";
+}
+.flaticon-tasty-food:before {
+	content: "\e00d";
+}
+.flaticon-reception:before {
+	content: "\e00e";
+}
+.flaticon-great-exteriors:before {
+	content: "\e00f";
+}
+.flaticon-medal-first:before {
+	content: "\e010";
+}
+.flaticon-stylish-rooms:before {
+	content: "\e011";
+}
+.flaticon-bed-linen:before {
+	content: "\e012";
+}
+.flaticon-comfortable-beds:before {
+	content: "\e013";
+}
+.flaticon-quiet-rooms:before {
+	content: "\e014";
+}
+.flaticon-livingroom14:before {
+	content: "\e015";
+}
+.flaticon-quiet-hotel:before {
+	content: "\e016";
+}
+.flaticon-friendly-staff:before {
+	content: "\e017";
+}
+.flaticon-friendly-guests:before {
+	content: "\e018";
+}
+.flaticon-great-location:before {
+	content: "\e019";
+}
+.flaticon-medal-star:before {
+	content: "\e01a";
+}
+.flaticon-quiet-location:before {
+	content: "\e01b";
+}
+.flaticon-high-quality-rooms:before {
+	content: "\e01c";
+}
+.flaticon-good-parking-area:before {
+	content: "\e01d";
+}
+.flaticon-great-views:before {
+	content: "\e01e";
+}
+.flaticon-star-solid:before {
+	content: "\e01f";
+}
+.flaticon-national-cuisine:before {
+	content: "\e020";
+}
+.flaticon-big-beds:before {
+	content: "\e021";
+}
+.flaticon-service-quality:before {
+	content: "\e022";
+}
+.flaticon-shower-quality:before {
+	content: "\e023";
+}
+.flaticon-spacious-rooms:before {
+	content: "\e024";
+}
+.flaticon-overall-value:before {
+	content: "\e025";
+}
+.flaticon-hotel-atmosphere:before {
+	content: "\e026";
+}
+.flaticon-pool-quality:before {
+	content: "\e027";
+}
+.flaticon-clean-towels:before {
+	content: "\e028";
+}
+.flaticon-facilities-quality:before {
+	content: "\e029";
+}
+.flaticon-wi-fi:before {
+	content: "\e02a";
+}
+.flaticon-clean-rooms:before {
+	content: "\e02b";
+}
+.flaticon-comfortable-hotel:before {
+	content: "\e02c";
+}
