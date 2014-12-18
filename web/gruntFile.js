@@ -92,10 +92,10 @@ grunt.initConfig({
   watch: {
     all:{
       files: ['<%= src.dev_src %>**/*.js', '<%= src.dev_src %>**/*.jsx','<%= src.dev_src %>**/*.tpl.html', '<%= src.dev_src %>**/*.css', '<%= src.sass_d2 %>', '<%= src.sass_watch_2 %>'],
-      tasks: ['devscripts'],
+      tasks: ['watchify'],
       options:{
         spawn: false,
-        //interval: 5000,
+        interval: 0,
         livereload: 3081
       }
     },
