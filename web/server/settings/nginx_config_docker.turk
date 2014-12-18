@@ -14,12 +14,6 @@ upstream ice_map_upstream {
 }
 
 
-upstream ice_map_upstream2 {
-  server 127.0.0.1:3005;
-  keepalive 16;
-}
-
-
 #server {
 #  server_name sobutiliniki.ru;
 #  return 301 $scheme://www.sobutiliniki.ru$request_uri;
@@ -48,7 +42,7 @@ server {
     #error_page 502  /errors/502.html;
 
     location ~ ^/(libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
-      root /home/ice/web_projects/recommendation_admin_rnd/web/client/assets;
+      root /home/ice/ext/toolfind/react/web/client/assets;
       access_log off;
       expires 90d;
     }
@@ -57,19 +51,19 @@ server {
     #standart build
     location ~ ^/(js/|lcss/|docs/) {
       #gzip_static on;
-      root /home/ice/web_projects/recommendation_admin_rnd/web/client/build/dev;
+      root /home/ice/ext/toolfind/react/web/client/build/dev;
       access_log off;
       expires 0;
     }
 
     location ~ ^/(icons/|bower_components/) {
-      root /home/ice/web_projects/recommendation_admin_rnd/web/client/assets;
+      root /home/ice/ext/toolfind/react/web/client/assets;
       access_log off;
       expires 90d;
     }
 
     location ~ ^/(images/) {
-      root /home/ice/web_projects/recommendation_admin_rnd/web/client/assets;
+      root /home/ice/ext/toolfind/react/web/client/assets;
       access_log off;
       expires 0;
 
@@ -79,22 +73,7 @@ server {
     }
 
     #limit_rate 25k;
-    
-    location ~ ^/(help) {
-      proxy_redirect off;
-      proxy_buffering off;
-      proxy_set_header   X-Real-IP            $remote_addr;
-      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
-      proxy_set_header   X-Forwarded-Proto $scheme;
-      proxy_set_header   Host                   $http_host;
-      proxy_set_header   X-NginX-Proxy    true;
-      proxy_set_header   Connection "";
-      proxy_http_version 1.1;
-      proxy_cache smap;
-      proxy_cache_key $scheme$proxy_host$request_uri;
-      proxy_pass         http://ice_map_upstream2;
-    }
-
+     
     location / {
       proxy_redirect off;
       proxy_buffering off;

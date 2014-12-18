@@ -18,10 +18,10 @@ CROSS_COMPAT_DIR=${PARENT_DIR#$HOME}
 #echo $HOME$CROSS_COMPAT_DIR
 #echo /home/ice$CROSS_COMPAT_DIR
 
-docker run --name rec_admin -d -t \
--e HOSTNAME=rec_admin \
+docker run --name react -d -t \
+-e HOSTNAME=react \
 -p 3080:80 \
 -p 3081:3081 \
 -v $HOME$CROSS_COMPAT_DIR:/home/ice$CROSS_COMPAT_DIR \
-sentimeta/node_scikit_image
+whats/react
 

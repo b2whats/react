@@ -56,7 +56,8 @@ SYSTEM=`uname`
 #временно кастомный билд reactify
 #echo '127.0.0.1    sob' | sudo tee -a /etc/hosts
 tmux send-keys -t algo2_tmux_server:1.2 "cd ." C-m "mkdir -p ./client/build/dev/js" C-m "watchify ./client/src/flux/app.js -o ./client/build/dev/js/app_w_map.js -t [ reactify --es6 --global] -v -d" C-m
-tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m "sudo ln -n -s $DIR/node_modules/reactify /usr/lib/node_modules/reactify" C-m "grunt" C-m
+sleep 2
+tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m "sudo ln -n -s $DIR/node_modules/reactify /usr/lib/node_modules/reactify" C-m "grunt devscripts" C-m "grunt" C-m 
 tmux send-keys -t algo2_tmux_server:1.0 "cd ." C-m "OAUTH2=$OAUTH2 node --max-old-space-size=4000 app.js" C-m
 
 sleep 1

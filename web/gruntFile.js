@@ -33,7 +33,7 @@ grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/de
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown', 'exec:sleep', 'exec:exorcist']);
 
 
-grunt.registerTask('server', ['devscripts', 'watch:all']);
+grunt.registerTask('server', ['watchify', 'watch:all']);
 
 
 
