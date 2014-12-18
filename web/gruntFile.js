@@ -95,7 +95,7 @@ grunt.initConfig({
       tasks: ['watchify'],
       options:{
         spawn: false,
-        interval: 0,
+        //interval: 0,
         livereload: 3081
       }
     },
