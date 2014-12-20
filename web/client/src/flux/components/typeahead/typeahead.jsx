@@ -311,27 +311,17 @@ var Results = React.createClass({
 
     return (
       <ul {...this.props} style={style} className="react-autocomplete-Results">
-        {this.props.results.map(this.renderResult)}
+        {this.props.results.map((result, index) => <Result 
+          ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
+          key={index}
+          result={result}
+          focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
+          onMouseEnter={this.onMouseEnterResult}
+          onClick={this.props.onSelect} />)}
       </ul>
     );
   },
 
-  renderResult(result) {
-    var focused = this.props.focusedValue &&
-                  this.props.focusedValue.id === result.id;
-    
-    return <Result ref={focused ? "focused" : undefined} key={result.id} result={result} focused={focused} onMouseEnter={this.onMouseEnterResult} onClick={this.props.onSelect} />
-    /*
-    return this.props.renderer({
-      ref: focused ? "focused" : undefined,
-      key: result.id,
-      result: result,
-      focused: focused,
-      onMouseEnter: this.onMouseEnterResult,
-      onClick: this.props.onSelect
-    });
-  */
-  },
 
   getDefaultProps() {
     return {renderer: React.createFactory(Result)};

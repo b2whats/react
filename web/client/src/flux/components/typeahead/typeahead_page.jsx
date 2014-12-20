@@ -21,13 +21,12 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 suggestion_store /*observable store list*/);
 
 
-
 var TypeaheadPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
   last_cb: null,
 
-  typeahead_changed_2 (options, search_term, cb) { //вариант без    
+  typeahead_search (options, search_term, cb) { //вариант без    
     if((''+ (search_term || '')).trim().length < 1) {
       cb(null,[]);
       this.last_cb = null;
@@ -38,14 +37,25 @@ var TypeaheadPage = React.createClass({
     }
   },
 
-  typeahead_changed (options, search_term, cb) { //вариант с колбеком
+  typeahead_changed (value) {
+    //console.log('value_changed', value);
+    //сохранить в состоянии
+  },
+
+  typeahead_tmp (options, search_term, cb) { //вариант с колбеком
     typeahead_actions.suggest(search_term);
     cb(null, [{id:'1', title: 'fddfdfddsfds s ff'}, {id:'2', title: 'dddddd   '}]);
   },
 
   render () {
+    
+    var kLINE_ID = 0;
+    var kLINE_ARTICUL = 1;
+    var kLINE_PRODUCER = 2;
+    var kLINE_SENTENCE_INDEX = 3;
 
-    var options = this.state.suggestion_list && this.state.suggestion_list.map( line => ({id: line.get(0), title: line.get(2)}) ).toJS() || [];
+    var options = this.state.suggestion_list && 
+      this.state.suggestion_list.map( line => ({id: line.get(kLINE_ID), title: line.get(kLINE_SENTENCE_INDEX)}) ).toJS() || [];
 
     if(this.last_cb) {
       this.last_cb(null, options, this.last_st);
@@ -59,7 +69,7 @@ var TypeaheadPage = React.createClass({
             <div className="tp-search-panel">
               <h5 className="tp-search-header">ПОИСК АВТОЗАПЧАСТЕЙ</h5>
               <div className="tp-search-content">
-                <Typeahead search={this.typeahead_changed}/>
+                <Typeahead search={this.typeahead_tmp}/>
               </div>
               <div className="tp-search-footer">
                 наберите блу блу для бла бла
@@ -70,7 +80,7 @@ var TypeaheadPage = React.createClass({
             <div className="tp-search-panel">
               <h5 className="tp-search-header">КОНСУЛЬТАЦИЯ МАСТЕРА</h5>
               <div className="tp-search-content">
-                <Typeahead search={this.typeahead_changed_2} />
+                <Typeahead onChange={this.typeahead_changed} search={this.typeahead_search} />
               </div>
               <div className="tp-search-footer">
                 наберите бла блу от ва ку ст

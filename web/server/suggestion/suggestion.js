@@ -20,6 +20,13 @@ if (typeof String.prototype.startsWith != 'function') {
   };
 }
 
+
+var kLINE_ID = 0;
+var kLINE_ARTICUL = 1;
+var kLINE_PRODUCER = 2;
+var kLINE_SENTENCE_INDEX = 3;
+
+
 var suggest_data = qread(__dirname + '/__test__/avtozapchasti.txt')
 .then(function(txt){
   return (''+txt).split('\n');
@@ -27,7 +34,7 @@ var suggest_data = qread(__dirname + '/__test__/avtozapchasti.txt')
 .then(function(lines){  
   return _.map(lines, function(line) {
     var aline =  line.split('###@@@@###');
-    aline[2] = aline[2].split(' ');
+    aline[kLINE_SENTENCE_INDEX] = aline[kLINE_SENTENCE_INDEX].split(' ');
     return aline;
   });
 })
@@ -58,7 +65,7 @@ function create_router(app) {
       suggest_data
       .then(function(lines) {
         return lines.filter(function(line){
-          var sentence = line[2];
+          var sentence = line[kLINE_SENTENCE_INDEX];
           return _.all(words, function(word) {  
             return _.some(sentence, function(sword) {          
               return sword.startsWith(word);
@@ -69,7 +76,7 @@ function create_router(app) {
       })
       .then(function(lines) {
         return _.map(lines, function(line) {
-          var sentence = line[2];
+          var sentence = line[kLINE_SENTENCE_INDEX];
           sentence = _.map(sentence, function(sword) {
             if (_.some(words, function(word) {
               return sword.startsWith(word);
@@ -78,7 +85,7 @@ function create_router(app) {
             }
             return sword;
           });
-          return [line[0], line[1], sentence.join(' ')];
+          return [line[kLINE_ID], line[kLINE_ARTICUL], line[kLINE_PRODUCER], sentence.join(' ')];
         });
       })
       .then(function(lines) {
