@@ -28,9 +28,9 @@ var Typeahead = React.createClass({
       this.props.className,
       'input-group', 
       'input-group-sm',
-      'react-autocomplete-Autocomplete',
+      'typeahead-holder',
       this.state.showResults ?
-        'react-autocomplete-Autocomplete--resultsShown' :
+        'show-results' :
         undefined
     );
     var style = {
@@ -46,7 +46,7 @@ var Typeahead = React.createClass({
         style={style}>
         <input
           ref="search"
-          className="form-control react-autocomplete-Autocomplete__search"
+          className="form-control typeahead-input"
           placeholder={this.props.placeholder}
           style={ this.props.style }
           onClick={this.showAllResults}
@@ -56,8 +56,7 @@ var Typeahead = React.createClass({
           onKeyDown={this.onQueryKeyDown}
           value={this.state.searchTerm}
           />
-        <Results
-          className="react-autocomplete-Autocomplete__results"
+        <Results          
           onSelect={this.onValueChange}
           onFocus={this.onValueFocus}
           results={this.state.results}
@@ -85,17 +84,6 @@ var Typeahead = React.createClass({
     };
   },
 
-  componentWillReceiveProps(nextProps) {    
-    //if (nextProps.value.id != this.props.value.id) {
-      //console.log('searchTerm', nextProps);
-
-      //var searchTerm = this.getSearchTerm(nextProps);
-
-      //if(searchTerm!==undefined && searchTerm!=='') {        
-      //this.setState({searchTerm});
-      //}
-    //}
-  },
 
   componentWillMount() {
     this.blurTimer = null;
@@ -263,42 +251,10 @@ var Typeahead = React.createClass({
   }
 });
 
-var Result = React.createClass({
 
-  render() {
-
-    var className = cx({
-      'react-autocomplete-Result': true,
-      'react-autocomplete-Result--active': this.props.focused
-    });
-
-    return (
-      <li
-        style={{listStyleType: 'none'}}
-        className={className}
-        onClick={this.onClick}
-        onMouseEnter={this.onMouseEnter}>
-        <a dangerouslySetInnerHTML={{__html:this.props.result.title}}></a>
-      </li>
-    );
-  },
-
-  onClick() {
-    this.props.onClick(this.props.result);
-  },
-
-  onMouseEnter(e) {
-    if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(e, this.props.result);
-    }
-  },
-
-  shouldComponentUpdate(nextProps) {
-    return true;
-    //return (nextProps.result.id !== this.props.result.id ||
-    //        nextProps.focused !== this.props.focused);
-  }
-});
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
 var Results = React.createClass({
 
@@ -310,7 +266,7 @@ var Results = React.createClass({
     };
 
     return (
-      <ul {...this.props} style={style} className="react-autocomplete-Results">
+      <ul {...this.props} style={style} className="typeahead-list">
         {this.props.results.map((result, index) => <Result 
           ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
           key={index}
@@ -384,6 +340,48 @@ var Results = React.createClass({
         this.props.onFocus(result);
       }
     }
+  }
+});
+
+
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
+var Result = React.createClass({
+
+  render() {
+
+    var className = cx({
+      'typeahead-list-item': true,
+      'active': this.props.focused
+    });
+
+    return (
+      <li
+        style={{listStyleType: 'none'}}
+        className={className}
+        onClick={this.onClick}
+        onMouseEnter={this.onMouseEnter}
+        dangerouslySetInnerHTML={{__html:this.props.result.title}}>
+        {/*<a dangerouslySetInnerHTML={{__html:this.props.result.title}}></a>*/}
+      </li>
+    );
+  },
+
+  onClick() {
+    this.props.onClick(this.props.result);
+  },
+
+  onMouseEnter(e) {
+    if (this.props.onMouseEnter) {
+      this.props.onMouseEnter(e, this.props.result);
+    }
+  },
+
+  shouldComponentUpdate(nextProps) {
+    return true;
+    //return (nextProps.result.id !== this.props.result.id ||
+    //        nextProps.focused !== this.props.focused);
   }
 });
 

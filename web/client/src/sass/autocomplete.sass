@@ -1,17 +1,20 @@
-.react-autocomplete-Autocomplete
+$max-typeahead-list-height: 289px
+
+
+
+.typeahead-holder
   width: 100%
-  
+  //этот стиль если видно выпадающий лист
+  //&.show-results
 
 
-.react-autocomplete-Autocomplete__search
-  //border: 1px solid #aaa
+.typeahead-input
   padding: 5px
+  //если инпут в фокусе
+  //&:focus
+  //  background-color: red
 
-.react-autocomplete-Autocomplete__search:focus
-  outline: none
-
-
-.react-autocomplete-Results
+.typeahead-list
   z-index: 1000
   background: white
   border: 1px solid #aaa
@@ -19,19 +22,16 @@
   width: 100%
   margin: 0
   margin-top: 30px
-  max-height: 200px
+  max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0
 
 
-.react-autocomplete-Result
+.typeahead-list-item
   margin: 0 !important
   padding: 5px 10px
   a
     color: gray
-
-
-
-.react-autocomplete-Result--active
-  background: #dadada
+  &.active
+    background: #dadada
 
