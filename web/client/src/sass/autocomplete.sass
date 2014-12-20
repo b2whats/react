@@ -1,6 +1,7 @@
 //$max-typeahead-list-height: 289px
-
 $max-typeahead-list-height: 193px
+$typeahead-scrollbar-move-delta: 30px //на сколько утащить скроллбар вправо
+
 
 
 .typeahead-holder
@@ -15,6 +16,8 @@ $max-typeahead-list-height: 193px
   //&:focus
   //  background-color: red
 
+
+//нужен чтобы скрыть настоящий скроллбар у typeahead-list
 .typeahead-list-holder
   width: 100%
   overflow: hidden
@@ -32,9 +35,11 @@ $max-typeahead-list-height: 193px
   max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0
-  padding-right: 30px
+  padding-right: $typeahead-scrollbar-move-delta
+  //скрипт завязан на relative
   position: relative
 
+//Ох еслиб у всех стоял хром
 //.typeahead-list::-webkit-scrollbar
 //  display: none
 
