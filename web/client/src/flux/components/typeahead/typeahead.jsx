@@ -261,20 +261,23 @@ var Results = React.createClass({
   render() {
     var style = {
       display: (this.props.show && this.props.results && this.props.results.length>0) ? 'block' : 'none',
-      position: 'absolute',
+      //position: 'absolute',
       listStyleType: 'none'
     };
 
+
     return (
-      <ul {...this.props} style={style} className="typeahead-list">
-        {this.props.results.map((result, index) => <Result 
-          ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
-          key={index}
-          result={result}
-          focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
-          onMouseEnter={this.onMouseEnterResult}
-          onClick={this.props.onSelect} />)}
-      </ul>
+      <div style={style}  className="typeahead-list-holder">
+        <ul ref="scrollnode" {...this.props} className="typeahead-list">
+          {this.props.results.map((result, index) => <Result 
+            ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
+            key={index}
+            result={result}
+            focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
+            onMouseEnter={this.onMouseEnterResult}
+            onClick={this.props.onSelect} />)}
+        </ul>
+      </div>
     );
   },
 
@@ -298,9 +301,14 @@ var Results = React.createClass({
   scrollToFocused() {
     var focused = this.refs && this.refs.focused;
     if (focused) {
-      var containerNode = this.getDOMNode();
+      //console.log(this.refs.scrollnode, this.refs.scrollnode.getDOMNode());
+
+      var containerNode = this.refs.scrollnode.getDOMNode();//this.getDOMNode();
+      
       var scroll = containerNode.scrollTop;
       var height = containerNode.offsetHeight;
+
+
 
       var node = focused.getDOMNode();
       var top = node.offsetTop;
@@ -319,16 +327,22 @@ var Results = React.createClass({
     }
   },
 
+  
+  //todo на начале скрола врубить поинтер евентс в ноне
   onMouseEnterResult(e, result) {
     // check if we need to prevent the next onFocus event because it was
     // probably caused by a mouseover due to scroll position change
-    if (this.ignoreFocus) {
-      this.ignoreFocus = false;
-    } else {
+    //if (this.ignoreFocus) {
+    //  this.ignoreFocus = false;
+    //} else {
       // we need to make sure focused node is visible
       // for some reason mouse events fire on visible nodes due to
       // box-shadow
-      var containerNode = this.getDOMNode();
+      //var containerNode = this.getDOMNode();
+
+      var containerNode = this.refs.scrollnode.getDOMNode();//this.getDOMNode();
+
+
       var scroll = containerNode.scrollTop;
       var height = containerNode.offsetHeight;
 
@@ -336,10 +350,10 @@ var Results = React.createClass({
       var top = node.offsetTop;
       var bottom = top + node.offsetHeight;
 
-      if (bottom > scroll && top < scroll + height) {
+      //if (bottom > scroll && top < scroll + height) {
         this.props.onFocus(result);
-      }
-    }
+      //}
+    //}
   }
 });
 

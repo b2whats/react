@@ -1,5 +1,6 @@
-$max-typeahead-list-height: 289px
+//$max-typeahead-list-height: 289px
 
+$max-typeahead-list-height: 193px
 
 
 .typeahead-holder
@@ -14,17 +15,28 @@ $max-typeahead-list-height: 289px
   //&:focus
   //  background-color: red
 
-.typeahead-list
-  z-index: 1000
-  background: white
+.typeahead-list-holder
+  width: 100%
+  overflow: hidden
+  position: absolute
   border: 1px solid #aaa
   border-top: none
+
+.typeahead-list
+  box-sizing: content-box
+  z-index: 1000
+  background: white
   width: 100%
   margin: 0
   margin-top: 30px
   max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0
+  padding-right: 30px
+  position: relative
+
+//.typeahead-list::-webkit-scrollbar
+//  display: none
 
 
 .typeahead-list-item
