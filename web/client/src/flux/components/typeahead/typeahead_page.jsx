@@ -38,6 +38,11 @@ var TypeaheadPage = React.createClass({
   },
 
   typeahead_changed (value) {
+    if(this.last_cb) {
+      console.log('cb called');
+      this.last_cb(null, []);
+    }
+
     this.last_cb = null;
     console.log('value_changed', value);
     //сохранить в состоянии
