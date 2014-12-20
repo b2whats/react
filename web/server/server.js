@@ -98,7 +98,7 @@ app.get('/userinfo', function(req, res) {
 
 
 _.each([
-  '/', '/page/:id', '/help', '/sphere/:sphere_id',
+  '/', '/page/:id', '/help', '/typeahead', '/sphere/:sphere_id',
   ],  function(route) {
   app.get(route, ice_middlewares.cache_middleware(config.kCACHE_MAIN_PAGE_SECONDS), function (req, res){
 

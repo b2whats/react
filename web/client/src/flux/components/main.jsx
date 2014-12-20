@@ -26,6 +26,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 routes_store /*observable store list*/);
 
 var Recommender = require('./recommender/recommender.jsx');
+var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
+
 
 
 var ice_main = React.createClass({
@@ -39,6 +41,10 @@ var ice_main = React.createClass({
 
 		var main = (function(router_state) { 
 			switch(router_state) {
+
+				case route_names.kTYPEAHEAD_ROUTE:
+					return <TypeaheadPage />
+
 				case route_names.kDEFAULT_ROUTE:
 					/* jshint ignore:start */
 					return (
@@ -46,7 +52,7 @@ var ice_main = React.createClass({
 	        		<Col xs={12}>
 	        			<h3>Ссылки</h3>
 								<Link href="/sphere/1">Туризм</Link><br/>
-								
+								<Link href="/typeahead">Typeahead</Link>
 
 							</Col>
 						</Row>
@@ -81,7 +87,7 @@ var ice_main = React.createClass({
 	        <Col xs={4}>
 	        	<Link href="/">
 	          	<div className="header-text">
-	            	Recommendation admin interface
+	            	whats
 	          	</div>
 	        	</Link>
 	        </Col>
