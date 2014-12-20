@@ -7,11 +7,11 @@ var evt = require('shared_constants/event_names.js');
 
 var r_suggestions_ = resource('/api/suggest/:words');
 
-module.exports.recommender_load = function(words) {
+module.exports.suggest = function(words) {
   return r_suggestions_
   .get({words:words})
   .then(function(res) {
-    main_dispatcher.fire.apply (main_dispatcher, [evt.kON_SUGGESTION_DATA_LOADED].concat(res));
+    main_dispatcher.fire.apply (main_dispatcher, [evt.kON_SUGGESTION_DATA_LOADED].concat([res]));
     return res;
   });
 };

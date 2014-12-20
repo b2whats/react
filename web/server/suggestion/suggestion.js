@@ -46,43 +46,52 @@ function create_router(app) {
     
     var words = (''+req.params.words).split(' ');
     words = _.filter(words, function(word) {
-      return word.length>2;
+      return word.length>0;
     });
 
-    suggest_data
-    .then(function(lines) {
-      return lines.filter(function(line){
-        var sentence = line[2];
-        return _.all(words, function(word) {  
-          return _.some(sentence, function(sword) {          
-            return sword.startsWith(word);
-          });
+    if(words.length === 0) {
+      res.json([]);
+      return;
+    } else {
 
+
+      suggest_data
+      .then(function(lines) {
+        return lines.filter(function(line){
+          var sentence = line[2];
+          return _.all(words, function(word) {  
+            return _.some(sentence, function(sword) {          
+              return sword.startsWith(word);
+            });
+
+          });
         });
-      });
-    })
-    .then(function(lines) {
-      return _.map(lines, function(line) {
-        var sentence = line[2];
-        sentence = _.map(sentence, function(sword) {
-          if (_.some(words, function(word) {
-            return sword.startsWith(word);
-          })) {
-            return '<strong>' + sword + '</strong>';
-          }
-          return sword;
+      })
+      .then(function(lines) {
+        return _.map(lines, function(line) {
+          var sentence = line[2];
+          sentence = _.map(sentence, function(sword) {
+            if (_.some(words, function(word) {
+              return sword.startsWith(word);
+            })) {
+              return '<strong>' + sword + '</strong>';
+            }
+            return sword;
+          });
+          return [line[0], line[1], sentence.join(' ')];
         });
-        return [line[0], line[1], sentence.join(' ')];
-      });
-    })
-    .then(function(lines) {
-      res.json(lines);
-    })
-    .catch(function(e) {
-      console.error(e.stack);
-      res.status(500).json(e);
-    })
-    .done();
+      })
+      .then(function(lines) {
+        console.log('lines', lines.length);
+        res.json(lines);
+      })
+      .catch(function(e) {
+        console.error(e.stack);
+        res.status(500).json(e);
+      })
+      .done();
+    }
+
   });
 
   return router;
