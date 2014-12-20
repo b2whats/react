@@ -2,14 +2,13 @@
 docker version >= 1.3.0
 
 #Install
-* get https://github.com/Solver-Club/sentimeta-deploy
-read sentimeta-deploy/docker/readme.md
+* Склонировать проект https://github.com/Whatss/deploy/tree/master/docker
+* Сбилдить docker контейнеры
 ```shell
 cd docker
 #and install next docker images
-docker build --no-cache=true -t sentimeta/baseimage ./base_image
-docker build --no-cache=true -t sentimeta/python_all_scikit python_all_scikit
-docker build --no-cache=true -t sentimeta/node_scikit_image node_scikit_image
+./base_image/build.sh
+./react_image/build.sh
 ```
 
 #Use
