@@ -19,6 +19,7 @@ var ice_middlewares = require('ice_middlewares');
 
 var users_rest = require('./json_test/json_test.js');
 var recommender = require('./recommender/recommender.js');
+var suggester = require('./suggestion/suggestion.js');
 
 //var hotels_router_fab =  require('./hotels/get_hotels_near.js')
 //var passport = require('./auth_strategy/passport_init.js').init(config.kUSER_TOKEN_EXPIRE, config.kHOST_NAME);
@@ -67,6 +68,7 @@ app.use(ice_middlewares.session_touch_middleware(kTOUCH_SESSION_TIME));
 //app.use('/hotels_info', hotels_router_fab.create_router(app));
 app.use('/pages', users_rest.create_router(app));
 app.use('/recommender', recommender.create_router(app));
+app.use('/api', suggester.create_router(app));
 
 
 

@@ -11,6 +11,8 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var ReactAutocomplete = require('react-autocomplete');
 /* jshint ignore:end */
 
+
+var typeahead_actions = require('actions/typeahead_actions.js');
 //var bin_actions = require('actions/bin_actions');
 
 var TypeaheadPage = React.createClass({
