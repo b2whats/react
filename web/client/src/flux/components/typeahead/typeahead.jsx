@@ -332,9 +332,9 @@ var Results = React.createClass({
   onMouseEnterResult(e, result) {
     // check if we need to prevent the next onFocus event because it was
     // probably caused by a mouseover due to scroll position change
-    //if (this.ignoreFocus) {
-    //  this.ignoreFocus = false;
-    //} else {
+    if (this.ignoreFocus) {
+      this.ignoreFocus = false;
+    } else {
       // we need to make sure focused node is visible
       // for some reason mouse events fire on visible nodes due to
       // box-shadow
@@ -350,10 +350,10 @@ var Results = React.createClass({
       var top = node.offsetTop;
       var bottom = top + node.offsetHeight;
 
-      //if (bottom > scroll && top < scroll + height) {
+      if (bottom > scroll && top < scroll + height) {
         this.props.onFocus(result);
-      //}
-    //}
+      }
+    }
   }
 });
 
