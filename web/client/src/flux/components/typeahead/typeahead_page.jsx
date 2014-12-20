@@ -38,7 +38,8 @@ var TypeaheadPage = React.createClass({
   },
 
   typeahead_changed (value) {
-    //console.log('value_changed', value);
+    this.last_cb = null;
+    console.log('value_changed', value);
     //сохранить в состоянии
   },
 
@@ -48,7 +49,7 @@ var TypeaheadPage = React.createClass({
   },
 
   render () {
-    
+
     var kLINE_ID = 0;
     var kLINE_ARTICUL = 1;
     var kLINE_PRODUCER = 2;
