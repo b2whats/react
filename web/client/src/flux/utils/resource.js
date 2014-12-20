@@ -37,19 +37,27 @@ function http(method, url, object) {
   });
 }
 
+
+var encode_object_properties = (obj) => {
+  return _.reduce(obj, (memo, v, k) => {
+    memo[k] = _.isString(v) ? encodeURIComponent(v) : v;
+    return memo;
+  }, {});
+};
+
 //пока говнореализация без параметров и тп
 module.exports = function(route) {
   var route_tpl = _.template(route);
 
   return {
     get: function(obj) {
-      return http('GET', route_tpl(obj));
+      return http('GET', route_tpl(encode_object_properties(obj)));
     },
     post: function(obj) {
-      return http('POST', route_tpl(obj), obj);
+      return http('POST', route_tpl(encode_object_properties(obj)), obj);
     },
     save: function(context, obj) {
-      return http('POST', route_tpl(context), obj);
+      return http('POST', route_tpl(encode_object_properties(context)), obj);
     }
   };
 };

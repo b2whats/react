@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 var evt = require('shared_constants/event_names.js');
 
@@ -15,7 +16,7 @@ module.exports.data_preload_route = function (route_data_promise) {
   return function(route_name, route_context) {
     main_dispatcher.fire(evt.kON_ROUTE_WILL_CHANGE, route_name, route_context); //WILL перед апдейтом роута
 
-    return route_data_promise(route_context.params)
+    return route_data_promise(_.extend({},route_context.params))
       .then(function(){
         main_dispatcher.fire(evt.kON_ROUTE_DID_CHANGE, route_name, route_context); //DID роут проапдейчен
       })
