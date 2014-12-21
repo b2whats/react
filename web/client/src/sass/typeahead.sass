@@ -1,5 +1,5 @@
 //$max-typeahead-list-height: 289px
-$max-typeahead-list-height: 193px
+
 $typeahead-scrollbar-move-delta: 30px //на сколько утащить скроллбар вправо
 
 
@@ -24,14 +24,15 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
   position: absolute
   border: 1px solid #aaa
   border-top: none
+  margin-top: 30px
 
 .typeahead-list
   box-sizing: content-box
-  z-index: 1000
+  z-index: $typeahead-z-index
   background: white
   width: 100%
   margin: 0
-  margin-top: 30px
+  
   max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0

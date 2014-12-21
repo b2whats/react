@@ -1,0 +1,77 @@
+//стили скролбара
+//в данном примере стрелки вверх вниз из Flaticon
+
+//полная ширина скролбара
+$scrollbar-width: 12px
+
+//ширина высота стрелок
+$arrow-wh: $scrollbar-width
+
+//отступ до стрелочек
+$scrollbar-to-arrow-delta: 1px
+
+//минимальная высота ползунка
+$scrollbar-thumb-min-height: 20px
+
+//максимальная высота ползунка
+$scrollbar-thumb-max-height: $max-typeahead-list-height - $arrow-wh*2 - $scrollbar-to-arrow-delta*2
+
+//ширина ползунка
+$scrollbar-thumb-width: 10px
+
+
+.scrollbar
+  position: absolute
+  right: 0
+  top: 0
+  bottom: 0  
+  width: $scrollbar-width
+  background-color: gray
+  z-index: $typeahead-z-index + 1
+  .thumb
+    position: absolute
+    width: $scrollbar-thumb-width
+    right: ($scrollbar-width - $scrollbar-thumb-width)/2
+    top: $arrow-wh + $scrollbar-to-arrow-delta
+    min-height: $scrollbar-thumb-min-height
+    max-height: $scrollbar-thumb-max-height
+    
+    background-color: #eee
+    border-radius: 4px
+
+  .arrow
+    position: absolute
+    height: $arrow-wh
+    left: 0
+    right: 0
+    color: gray
+    background-color: #eee
+    border: none
+    padding: 0
+    margin: 0
+    text-decoration: none
+    &:before,&:after
+      font-family: Flaticon
+      font-size: $scrollbar-width
+      font-style: normal
+
+    &:hover
+      color: yellow
+    &:active
+      color: red
+
+    &.up
+      top: 0
+      &:before
+        content: "\e001"
+    &.down
+      bottom: 0
+      &:before
+        content: "\e000"
+
+
+
+
+
+
+

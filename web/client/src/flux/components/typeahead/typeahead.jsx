@@ -263,7 +263,8 @@ var Results = React.createClass({
   render() {
     var style = {
       display: (this.props.show && this.props.results && this.props.results.length>0) ? 'block' : 'none',
-      //position: 'absolute',
+
+
       listStyleType: 'none'
     };
 
@@ -279,6 +280,11 @@ var Results = React.createClass({
             onMouseEnter={this.onMouseEnterResult}
             onClick={this.props.onSelect} />)}
         </ul>
+        <div ref="scrollbar" className="scrollbar">
+          <a className="arrow up"></a>
+          <a className="arrow down"></a>
+          <div ref="thumb" className="thumb"></div>
+        </div>
       </div>
     );
   },
