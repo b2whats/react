@@ -32,9 +32,11 @@ $scrollbar-thumb-width: 10px
     position: absolute
     width: $scrollbar-thumb-width
     right: ($scrollbar-width - $scrollbar-thumb-width)/2
-    top: $arrow-wh + $scrollbar-to-arrow-delta
+    top: 0
+    //margin-top: $arrow-wh + $scrollbar-to-arrow-delta //МОЖНО НЕ ЗАДАВАТЬ, НО БУДЕТ НЕЗАМЕТНЫЙ ГЛЮЧОК
+
     min-height: $scrollbar-thumb-min-height
-    max-height: $scrollbar-thumb-max-height
+    max-height: $scrollbar-thumb-max-height //ВАЖНО УКАЗАТЬ МАКС ИМЕННО ПО НЕМУ Я СУЖУ О РАЗМЕРЕ ОТСТУПА ОТ СТРЕЛОК
     
     background-color: #eee
     border-radius: 4px

@@ -7,6 +7,7 @@ var React     = require('react/addons');
 var PropTypes = React.PropTypes;
 var cx        = React.addons.classSet;
 var raf = require('utils/raf.js');
+var style_utils = require('utils/style_utils.js');
 
 
 var Typeahead = React.createClass({
@@ -57,7 +58,7 @@ var Typeahead = React.createClass({
           onKeyDown={this.onQueryKeyDown}
           value={this.state.searchTerm}
           />
-        <Results          
+        <TypeaheadResults          
           onSelect={this.onValueChange}
           onFocus={this.onValueFocus}
           results={this.state.results}
@@ -260,11 +261,18 @@ var Typeahead = React.createClass({
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 
-var Results = React.createClass({
+var TypeaheadResults = React.createClass({
+  scroll_height: 0,
+  offset_height: 0,
+
+
+  is_visible() {
+    return this.props && this.props.show && this.props.results && this.props.results.length>0;
+  },
 
   render() {
     var style = {
-      display: (this.props.show && this.props.results && this.props.results.length>0) ? 'block' : 'none',
+      display: this.is_visible() ? 'block' : 'none',
       listStyleType: 'none'
     };
     //console.log('this.has_custom_scroll',this.props.has_custom_scroll);
@@ -275,19 +283,24 @@ var Results = React.createClass({
     });
 
     var scroll_style = this.state.scroll_visible ? {display: 'block'} : {display: 'none'};
+    var thumb_style = {
+      height: this.state.thumb_height,
+      top: this.state.thumb_position
+    };
     
+
     var custom_scrollbar = this.props.has_custom_scroll && 
       (<div ref="scrollbar" className="scrollbar" style={scroll_style}>
         <a className="arrow up"></a>
         <a className="arrow down"></a>
-        <div ref="thumb" className="thumb"></div>
+        <div ref="thumb" style={thumb_style} className="thumb"></div>
       </div>);
 
 
     return (
       <div style={style}  className="typeahead-list-holder">
-        <ul ref="scrollnode" {...this.props} className={typeahead_list_class}>
-          {this.props.results.map((result, index) => <Result 
+        <ul ref="scrollnode" onScroll={this.on_scroll} {...this.props} className={typeahead_list_class}>
+          {this.props.results.map((result, index) => <TypeaheadResult 
             ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
             key={index}
             result={result}
@@ -302,42 +315,102 @@ var Results = React.createClass({
 
   getInitialState() {
     return {
-      scroll_visible: false
+      scroll_visible: false,
+      thumb_height: 0,
+      offset_height: 0,
+      scroll_height: 0,
+      thumb_position: 0
+      //arrow_thumb_delta: null
     };
   },
 
-  getDefaultProps() {
-    return {renderer: React.createFactory(Result)};
+  on_scroll() {
+    if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {    
+      var containerNode = this.refs.scrollnode.getDOMNode();
+
+      var scroll_top = containerNode.scrollTop;
+      var thumb_position = this.calc_thumb_position(scroll_top, this.state.offset_height, this.state.scroll_height, this.state.thumb_height, this.state.thumb_max_height);
+      
+      /*
+      console.log(
+        'thumb_position', thumb_position, 
+        'scroll_top', scroll_top,
+        'offset_height',this.state.offset_height,
+        'scroll_height',this.state.scroll_height,
+        'thumb_height',this.state.thumb_height,
+        'thumb_max_height',this.state.thumb_max_height);
+      */
+      
+      if(this.state.thumb_position !== thumb_position) {          
+        raf(() => this.setState({
+          thumb_position: thumb_position
+        }), null, this.constructor.displayName);
+      }
+      
+    }
+  },
+
+  calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height) {
+    var min_thumb_top = (offset_height - thumb_max_height)/2;
+    var max_thumb_top = offset_height - (offset_height - thumb_max_height)/2 - thumb_height; //надо бы раскрыть скобки но лень
+    //осталось scrollPosition
+
+    var real_thumb_position = scroll_top / (scroll_height - offset_height);
+    return min_thumb_top + (max_thumb_top - min_thumb_top)*real_thumb_position;
   },
 
   componentDidUpdate() {
-    this.scrollToFocused();
-
-    if(this.refs && this.refs.scrollnode) {
+    
+      
+    if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {
+      
       var containerNode = this.refs.scrollnode.getDOMNode();
+      
       var scroll_top = containerNode.scrollTop;
-      //var heighto = containerNode.offsetHeight;
       var offset_height = containerNode.offsetHeight;
       var scroll_height = containerNode.scrollHeight;
 
-      //console.log('getBoundingClientRect',containerNode.getBoundingClientRect(), ', stop:', scroll_top, ', oh:', heighto, ', oc:',offset_height, ', sh:', scroll_height);
-
+      
       if(scroll_height > offset_height) {
-        if(this.state.scroll_visible === false) {
-          raf(()=> this.setState({scroll_visible:true}), null, this.constructor.displayName);
+
+        //this.scrollToFocused();
+
+        //console.log(window.getComputedStyle(this.refs.thumb.getDOMNode()).maxHeight);
+
+        //return ;
+
+        var thumb_max_height =  this.state.thumb_max_height === undefined ? //расчитать единократно потом не обновлять
+          style_utils.from_px_to_number(window.getComputedStyle(this.refs.thumb.getDOMNode()).maxHeight) : this.state.thumb_max_height;
+
+        var thumb_height =  thumb_max_height * offset_height/scroll_height;
+
+        var thumb_position = this.calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height);
+
+        //console.log('thumb_position',thumb_position);
+
+        //не стоит вызывать апдейт если переменные равны - можно попасть в вечный цикл
+        if( this.state.scroll_visible === false || 
+            thumb_height!==this.state.thumb_height || 
+            thumb_max_height !==  this.state.thumb_max_height ||
+            offset_height !== this.state.offset_height ||
+            scroll_height !== this.state.scroll_height //|| thumb_position !== this.state.thumb_position
+            ) {
+          //расчитать и скопировать параметры для своего скрола
+          raf(() => this.setState({
+            scroll_visible: true,
+            thumb_height: thumb_height,
+            thumb_max_height: thumb_max_height,
+            offset_height: offset_height,
+            scroll_height: scroll_height,
+            thumb_position: thumb_position
+          }), null, this.constructor.displayName);
         }
       } else {
         if(this.state.scroll_visible === true) {
-          raf(()=> this.setState({scroll_visible:false}), null, this.constructor.displayName);
+          raf(() => this.setState({scroll_visible:false}), null, this.constructor.displayName);
         }
-      }
-      
-      //scroll_height изменения можно смело ловить и кэшировать здесь
-      //offset_height тоже
-
-
+      }      
     }
-
   },
 
   componentDidMount() {
@@ -411,7 +484,7 @@ var Results = React.createClass({
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
-var Result = React.createClass({
+var TypeaheadResult = React.createClass({
 
   render() {
 
