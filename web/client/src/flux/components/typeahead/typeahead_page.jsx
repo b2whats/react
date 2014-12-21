@@ -16,56 +16,45 @@ var suggestion_store = require('stores/suggestion_store.js');
 
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  suggestion_list: suggestion_store.get_suggestion_list ()
+  suggestion_list: suggestion_store.get_suggestion_list (),
+  suggestion_list_state: suggestion_store.get_suggestion_list_state()
 }),
 suggestion_store /*observable store list*/);
+
+var kLINE_ID = 0;
+var kLINE_ARTICUL = 1;
+var kLINE_PRODUCER = 2;
+var kLINE_SENTENCE_INDEX = 3;  
+
 
 
 var TypeaheadPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-  last_cb: null,
+  last_st: '',
 
-  typeahead_search (options, search_term, cb) { //вариант без    
-    
-    if((''+ (search_term || '')).trim().length < 1) {
-      
-      cb(null,[]);
-      this.last_cb = null;
-    } else {
-      typeahead_actions.suggest(search_term);
-      this.last_cb = cb;
-      this.last_st = search_term;
-    }
+  typeahead_search (options, search_term, cb) { //вариант без      
+    typeahead_actions.suggest(search_term, {cb: cb, search_term: search_term});
+    this.last_st = search_term;
   },
 
   typeahead_changed (value) {
-
-    this.last_cb = null;
+    this.last_st = null; //нет смысла обновлять и показывать список
     console.log('value_changed', value);
-    //сохранить в состоянии
   },
 
-  typeahead_tmp (options, search_term, cb) { //вариант с колбеком
-    typeahead_actions.suggest(search_term);
-    cb(null, [{id:'1', title: 'fddfdfddsfds s ff'}, {id:'2', title: 'dddddd   '}]);
-  },
 
   render () {
 
-    var kLINE_ID = 0;
-    var kLINE_ARTICUL = 1;
-    var kLINE_PRODUCER = 2;
-    var kLINE_SENTENCE_INDEX = 3;
+    if(this.last_st!==null && this.state.suggestion_list_state) {
+      var suggeset_st = this.state.suggestion_list_state.get('search_term');
+      if( suggeset_st === this.last_st) { //нет смысла показывать промежуточные списки
+        var options = this.state.suggestion_list && 
+          this.state.suggestion_list.map( line => ({id: line.get(kLINE_ID), title: line.get(kLINE_SENTENCE_INDEX)}) ).toJS() || [];
 
-    
-
-    var options = this.state.suggestion_list && 
-      this.state.suggestion_list.map( line => ({id: line.get(kLINE_ID), title: line.get(kLINE_SENTENCE_INDEX)}) ).toJS() || [];
-
-    if(this.last_cb) {
-      this.last_cb(null, options, this.last_st);
-      this.last_cb = null;
+        this.state.suggestion_list_state.get('cb')(null, options);
+        this.last_st = null; //больше не надо вызывать
+      }
     }
 
     return (      
@@ -75,7 +64,7 @@ var TypeaheadPage = React.createClass({
             <div className="tp-search-panel">
               <h5 className="tp-search-header">ПОИСК АВТОЗАПЧАСТЕЙ</h5>
               <div className="tp-search-content">
-                <Typeahead search={this.typeahead_tmp}/>
+                <Typeahead />
               </div>
               <div className="tp-search-footer">
                 наберите блу блу для бла бла
