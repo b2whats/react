@@ -260,10 +260,14 @@ var Typeahead = React.createClass({
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
+var kPREVENT_TIME = 300; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
+var kPOINTER_EVENTS_PREVENT_TIME = 1300; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
+var kSMALL_DELTA = 10;
 
 var TypeaheadResults = React.createClass({
 
   prevent_scroll_2_focused_time: 0,
+  pointer_events_timer_started: false,
 
 
   is_visible() {
@@ -305,6 +309,7 @@ var TypeaheadResults = React.createClass({
             key={index}
             result={result}
             focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
+            events_disabled={this.state.pointer_events_disabled}
             onMouseEnter={this.onMouseEnterResult}
             onClick={this.props.onSelect} />)}
         </ul>
@@ -319,13 +324,46 @@ var TypeaheadResults = React.createClass({
       thumb_height: 0,
       offset_height: 0,
       scroll_height: 0,
-      thumb_position: 0
+      thumb_position: 0,
+      pointer_events_disabled: false
       //arrow_thumb_delta: null
     };
   },
 
+  pointer_events_guard() {
+    
+
+    if((new Date()).getTime() - this.prevent_scroll_2_focused_time > kPOINTER_EVENTS_PREVENT_TIME) {
+      this.pointer_events_timer_started = false;
+      
+      raf(() => {
+        //могли за это время перестартовать
+        if((new Date()).getTime() - this.prevent_scroll_2_focused_time > kPOINTER_EVENTS_PREVENT_TIME) {
+
+          this.setState({
+            pointer_events_disabled: false
+          });
+        }
+      }, null);
+
+    } else {
+      //рестартануть
+      setTimeout(this.pointer_events_guard, kPOINTER_EVENTS_PREVENT_TIME - ((new Date()).getTime() - this.prevent_scroll_2_focused_time) + kSMALL_DELTA);
+    }
+
+  },
+
   on_wheel() {
     this.prevent_scroll_2_focused_time = (new Date()).getTime();
+    if(!this.pointer_events_timer_started) {
+
+      raf(() => this.setState({
+        pointer_events_disabled: true
+      }), null);
+
+      setTimeout(this.pointer_events_guard, kPOINTER_EVENTS_PREVENT_TIME + kSMALL_DELTA);
+      this.pointer_events_timer_started = true;
+    }
   },
 
   on_scroll() {
@@ -346,10 +384,9 @@ var TypeaheadResults = React.createClass({
       */
       
       if(this.state.thumb_position !== thumb_position) {
-
         raf(() => this.setState({
           thumb_position: thumb_position
-        }), null, this.constructor.displayName);
+        }), null, 'scroll_' + this.constructor.displayName);
       }
       
     }
@@ -367,7 +404,6 @@ var TypeaheadResults = React.createClass({
 
   componentDidUpdate() {
     
-    var kPREVENT_TIME = 300;
 
     if((new Date()).getTime() - this.prevent_scroll_2_focused_time > kPREVENT_TIME) {
       this.scrollToFocused();
@@ -501,7 +537,10 @@ var TypeaheadResult = React.createClass({
 
     var className = cx({
       'typeahead-list-item': true,
-      'active': this.props.focused
+      'active': this.props.focused,
+      
+      //Сильно много гемороя с потом наводкой на фокус
+      //'scrollbar-disable-events': this.props.events_disabled
     });
 
     return (
