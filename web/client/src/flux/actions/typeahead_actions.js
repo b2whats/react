@@ -7,11 +7,17 @@ var evt = require('shared_constants/event_names.js');
 
 var r_suggestions_ = resource('/api/suggest/:words');
 
+
+
+//все вызовы сюда сериализовать
+//добавить LRU cache - этот https://github.com/isaacs/node-lru-cache/blob/master/lib/lru-cache.js
 module.exports.suggest = function(words) {
+  
   return r_suggestions_
   .get({words:words})
   .then(function(res) {
     main_dispatcher.fire.apply (main_dispatcher, [evt.kON_SUGGESTION_DATA_LOADED].concat([res]));
     return res;
   });
+
 };

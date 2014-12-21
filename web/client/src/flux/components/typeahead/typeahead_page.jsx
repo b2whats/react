@@ -58,6 +58,8 @@ var TypeaheadPage = React.createClass({
     var kLINE_PRODUCER = 2;
     var kLINE_SENTENCE_INDEX = 3;
 
+    
+
     var options = this.state.suggestion_list && 
       this.state.suggestion_list.map( line => ({id: line.get(kLINE_ID), title: line.get(kLINE_SENTENCE_INDEX)}) ).toJS() || [];
 
