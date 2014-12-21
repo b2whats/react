@@ -262,8 +262,8 @@ var Typeahead = React.createClass({
 //-------------------------------------------------------------------------------------------------
 
 var TypeaheadResults = React.createClass({
-  scroll_height: 0,
-  offset_height: 0,
+
+  prevent_scroll_2_focused_time: 0,
 
 
   is_visible() {
@@ -299,7 +299,7 @@ var TypeaheadResults = React.createClass({
 
     return (
       <div style={style}  className="typeahead-list-holder">
-        <ul ref="scrollnode" onScroll={this.on_scroll} {...this.props} className={typeahead_list_class}>
+        <ul ref="scrollnode" onWheel={this.on_wheel} onScroll={this.on_scroll} {...this.props} className={typeahead_list_class}>
           {this.props.results.map((result, index) => <TypeaheadResult 
             ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
             key={index}
@@ -324,6 +324,10 @@ var TypeaheadResults = React.createClass({
     };
   },
 
+  on_wheel() {
+    this.prevent_scroll_2_focused_time = (new Date()).getTime();
+  },
+
   on_scroll() {
     if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {    
       var containerNode = this.refs.scrollnode.getDOMNode();
@@ -341,7 +345,8 @@ var TypeaheadResults = React.createClass({
         'thumb_max_height',this.state.thumb_max_height);
       */
       
-      if(this.state.thumb_position !== thumb_position) {          
+      if(this.state.thumb_position !== thumb_position) {
+
         raf(() => this.setState({
           thumb_position: thumb_position
         }), null, this.constructor.displayName);
@@ -349,6 +354,7 @@ var TypeaheadResults = React.createClass({
       
     }
   },
+
 
   calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height) {
     var min_thumb_top = (offset_height - thumb_max_height)/2;
@@ -361,6 +367,11 @@ var TypeaheadResults = React.createClass({
 
   componentDidUpdate() {
     
+    var kPREVENT_TIME = 300;
+
+    if((new Date()).getTime() - this.prevent_scroll_2_focused_time > kPREVENT_TIME) {
+      this.scrollToFocused();
+    }
       
     if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {
       
