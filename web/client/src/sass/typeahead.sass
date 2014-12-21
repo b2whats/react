@@ -36,9 +36,11 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
   max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0
-  padding-right: $typeahead-scrollbar-move-delta
+  
   //скрипт завязан на relative
   position: relative
+  &.custom_scroll
+    padding-right: $typeahead-scrollbar-move-delta
 
 //Ох еслиб у всех стоял хром
 //.typeahead-list::-webkit-scrollbar

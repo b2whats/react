@@ -75,7 +75,7 @@ var TypeaheadPage = React.createClass({
             <div className="tp-search-panel">
               <h5 className="tp-search-header">КОНСУЛЬТАЦИЯ МАСТЕРА</h5>
               <div className="tp-search-content">
-                <Typeahead onChange={this.typeahead_changed} search={this.typeahead_search} />
+                <Typeahead has_custom_scroll={true} onChange={this.typeahead_changed} search={this.typeahead_search} />
               </div>
               <div className="tp-search-footer">
                 наберите бла блу от ва ку ст

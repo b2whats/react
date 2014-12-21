@@ -20,7 +20,8 @@ var Typeahead = React.createClass({
     ]),
     value: PropTypes.object,
     onChange: PropTypes.func,
-    onError: PropTypes.func
+    onError: PropTypes.func,
+    has_custom_scroll: PropTypes.bool
   },
 
   render() {
@@ -63,6 +64,7 @@ var Typeahead = React.createClass({
           focusedValue={this.state.focusedValue}
           show={this.state.showResults}
           renderer={this.props.resultRenderer}
+          has_custom_scroll={!!this.props.has_custom_scroll}
           />
       </div>
     );
@@ -263,15 +265,28 @@ var Results = React.createClass({
   render() {
     var style = {
       display: (this.props.show && this.props.results && this.props.results.length>0) ? 'block' : 'none',
-
-
       listStyleType: 'none'
     };
+    //console.log('this.has_custom_scroll',this.props.has_custom_scroll);
+
+    var typeahead_list_class = cx({
+      'typeahead-list': true,
+      'custom_scroll': this.props.has_custom_scroll
+    });
+
+    var scroll_style = this.state.scroll_visible ? {display: 'block'} : {display: 'none'};
+    
+    var custom_scrollbar = this.props.has_custom_scroll && 
+      (<div ref="scrollbar" className="scrollbar" style={scroll_style}>
+        <a className="arrow up"></a>
+        <a className="arrow down"></a>
+        <div ref="thumb" className="thumb"></div>
+      </div>);
 
 
     return (
       <div style={style}  className="typeahead-list-holder">
-        <ul ref="scrollnode" {...this.props} className="typeahead-list">
+        <ul ref="scrollnode" {...this.props} className={typeahead_list_class}>
           {this.props.results.map((result, index) => <Result 
             ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
             key={index}
@@ -280,15 +295,16 @@ var Results = React.createClass({
             onMouseEnter={this.onMouseEnterResult}
             onClick={this.props.onSelect} />)}
         </ul>
-        <div ref="scrollbar" className="scrollbar">
-          <a className="arrow up"></a>
-          <a className="arrow down"></a>
-          <div ref="thumb" className="thumb"></div>
-        </div>
+        {custom_scrollbar}
       </div>
     );
   },
 
+  getInitialState() {
+    return {
+      scroll_visible: false
+    };
+  },
 
   getDefaultProps() {
     return {renderer: React.createFactory(Result)};
@@ -296,6 +312,32 @@ var Results = React.createClass({
 
   componentDidUpdate() {
     this.scrollToFocused();
+
+    if(this.refs && this.refs.scrollnode) {
+      var containerNode = this.refs.scrollnode.getDOMNode();
+      var scroll_top = containerNode.scrollTop;
+      //var heighto = containerNode.offsetHeight;
+      var offset_height = containerNode.offsetHeight;
+      var scroll_height = containerNode.scrollHeight;
+
+      //console.log('getBoundingClientRect',containerNode.getBoundingClientRect(), ', stop:', scroll_top, ', oh:', heighto, ', oc:',offset_height, ', sh:', scroll_height);
+
+      if(scroll_height > offset_height) {
+        if(this.state.scroll_visible === false) {
+          raf(()=> this.setState({scroll_visible:true}), null, this.constructor.displayName);
+        }
+      } else {
+        if(this.state.scroll_visible === true) {
+          raf(()=> this.setState({scroll_visible:false}), null, this.constructor.displayName);
+        }
+      }
+      
+      //scroll_height изменения можно смело ловить и кэшировать здесь
+      //offset_height тоже
+
+
+    }
+
   },
 
   componentDidMount() {
