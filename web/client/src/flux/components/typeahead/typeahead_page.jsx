@@ -27,7 +27,9 @@ var TypeaheadPage = React.createClass({
   last_cb: null,
 
   typeahead_search (options, search_term, cb) { //вариант без    
+    
     if((''+ (search_term || '')).trim().length < 1) {
+      
       cb(null,[]);
       this.last_cb = null;
     } else {
@@ -38,10 +40,6 @@ var TypeaheadPage = React.createClass({
   },
 
   typeahead_changed (value) {
-    if(this.last_cb) {
-      console.log('cb called');
-      this.last_cb(null, []);
-    }
 
     this.last_cb = null;
     console.log('value_changed', value);

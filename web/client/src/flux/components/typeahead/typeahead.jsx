@@ -144,8 +144,10 @@ var Typeahead = React.createClass({
       var term = value.title.replace(re, '');
       state.searchTerm = term;//value.title;
     }
-
-    this.setState(state);
+    
+    raf(() => {
+      this.setState(state);
+    }, null, this.constructor.displayName);
 
     if (this.props.onChange) {
       this.props.onChange(value);
