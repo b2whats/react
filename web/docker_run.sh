@@ -23,5 +23,6 @@ docker run --name react -d -t \
 -p 3080:80 \
 -p 3081:3081 \
 -v $HOME$CROSS_COMPAT_DIR:/home/ice$CROSS_COMPAT_DIR \
+--add-host react:127.0.0.1 \
 whats/react
 

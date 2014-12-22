@@ -12,6 +12,8 @@ var style_utils = require('utils/style_utils.js');
 
 var Typeahead = React.createClass({
 
+  focused_can_change: true,
+
   propTypes: {
     options: PropTypes.any,
     search: PropTypes.func,
@@ -66,10 +68,28 @@ var Typeahead = React.createClass({
           show={this.state.showResults}
           renderer={this.props.resultRenderer}
           has_custom_scroll={!!this.props.has_custom_scroll}
+          on_disable_focused_value={this.on_disable_focused_value}
+          on_enable_focused_value={this.on_enable_focused_value}
+
           />
       </div>
     );
   },
+
+
+  on_disable_focused_value() {
+    this.focused_can_change = false;
+    this.setState({
+      focusedValue: null
+    });
+  },
+
+  on_enable_focused_value() {
+    this.focused_can_change = true;
+  },
+
+
+
 
   getDefaultProps() {
     return {
@@ -180,6 +200,8 @@ var Typeahead = React.createClass({
     this.setState({focusedValue: value});
   },
 
+
+
   onQueryChange(e) {
     var searchTerm = e.target.value;
     
@@ -261,7 +283,7 @@ var Typeahead = React.createClass({
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 var kPREVENT_TIME = 300; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
-var kPOINTER_EVENTS_PREVENT_TIME = 1300; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
+var kPOINTER_EVENTS_PREVENT_TIME = 100; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
 var kSMALL_DELTA = 10;
 
 var TypeaheadResults = React.createClass({
@@ -343,6 +365,21 @@ var TypeaheadResults = React.createClass({
           this.setState({
             pointer_events_disabled: false
           });
+
+          this.props.on_enable_focused_value();
+
+          //надо сгенерить mouseover event иначе не будет наведения на ноду
+          var containerNode = this.refs.scrollnode.getDOMNode();
+          if(containerNode.scrollTop > 0.005) {
+            containerNode.scrollTop = containerNode.scrollTop - 1;
+            containerNode.scrollTop = containerNode.scrollTop + 1;
+          } else { 
+            containerNode.scrollTop = containerNode.scrollTop + 1;
+            containerNode.scrollTop = containerNode.scrollTop - 1;
+          }
+
+
+
         }
       }, null);
 
@@ -357,9 +394,14 @@ var TypeaheadResults = React.createClass({
     this.prevent_scroll_2_focused_time = (new Date()).getTime();
     if(!this.pointer_events_timer_started) {
 
-      raf(() => this.setState({
-        pointer_events_disabled: true
-      }), null);
+      raf(() => {
+        this.setState({
+          pointer_events_disabled: true
+        });
+
+        this.props.on_disable_focused_value();
+        
+      }, null);
 
       setTimeout(this.pointer_events_guard, kPOINTER_EVENTS_PREVENT_TIME + kSMALL_DELTA);
       this.pointer_events_timer_started = true;
@@ -509,6 +551,7 @@ var TypeaheadResults = React.createClass({
       // for some reason mouse events fire on visible nodes due to
       // box-shadow
       //var containerNode = this.getDOMNode();
+      if(this.state.pointer_events_disabled) return;
 
       var containerNode = this.refs.scrollnode.getDOMNode();//this.getDOMNode();
 
@@ -520,8 +563,8 @@ var TypeaheadResults = React.createClass({
       var top = node.offsetTop;
       var bottom = top + node.offsetHeight;
 
-      if (bottom > scroll && top < scroll + height) {
-        this.props.onFocus(result);
+      if (bottom > scroll && top < scroll + height) {        
+        this.props.onFocus(result);      
       }
     }
   }
@@ -540,7 +583,7 @@ var TypeaheadResult = React.createClass({
       'active': this.props.focused,
       
       //Сильно много гемороя с потом наводкой на фокус
-      //'scrollbar-disable-events': this.props.events_disabled
+      'scrollbar-disable-events': this.props.events_disabled
     });
 
     return (

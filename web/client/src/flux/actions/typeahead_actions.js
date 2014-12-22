@@ -9,7 +9,7 @@ var r_suggestions_ = resource('/api/suggest/:words');
 
 
 
-//все вызовы сюда сериализовать
+//все вызовы сюда сериализовать иначе возможен мелкий баг
 //добавить LRU cache - этот https://github.com/isaacs/node-lru-cache/blob/master/lib/lru-cache.js
 module.exports.suggest = function(words, list_state) {
   
