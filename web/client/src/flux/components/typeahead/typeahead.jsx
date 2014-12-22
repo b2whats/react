@@ -70,6 +70,8 @@ var Typeahead = React.createClass({
           has_custom_scroll={!!this.props.has_custom_scroll}
           on_disable_focused_value={this.on_disable_focused_value}
           on_enable_focused_value={this.on_enable_focused_value}
+          on_move_up={this.on_move_up}
+          on_move_down={this.on_move_down}
 
           />
       </div>
@@ -88,7 +90,26 @@ var Typeahead = React.createClass({
     this.focused_can_change = true;
   },
 
+  on_move_up() {
+    var prevIdx = Math.max(
+      this.focusedValueIndex() - 1,
+      0
+    );
+    this.setState({
+      focusedValue: this.state.results[prevIdx]
+    });
+  },
 
+  on_move_down() {
+    var nextIdx = Math.min(
+      this.focusedValueIndex() + (this.state.showResults ? 1 : 0),
+      this.state.results.length - 1
+    );
+    this.setState({
+      showResults: true,
+      focusedValue: this.state.results[nextIdx]
+    });    
+  },
 
 
   getDefaultProps() {
@@ -317,8 +338,8 @@ var TypeaheadResults = React.createClass({
 
     var custom_scrollbar = this.props.has_custom_scroll && 
       (<div ref="scrollbar" className="scrollbar" style={scroll_style}>
-        <a className="arrow up"></a>
-        <a className="arrow down"></a>
+        <a onClick={this.on_arrow_up_click} className="arrow up"></a>
+        <a onClick={this.on_arrow_down_click} className="arrow down"></a>
         <div ref="thumb" style={thumb_style} className="thumb"></div>
       </div>);
 
@@ -350,6 +371,14 @@ var TypeaheadResults = React.createClass({
       pointer_events_disabled: false
       //arrow_thumb_delta: null
     };
+  },
+
+  on_arrow_up_click (e) {
+    this.props.on_move_up();
+  },
+
+  on_arrow_down_click (e) {
+    this.props.on_move_down();
   },
 
   pointer_events_guard() {
