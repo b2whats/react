@@ -14,7 +14,6 @@ var Col = require('react-bootstrap').Col;
 //var Table = require('react-bootstrap').Table;
 var Input = require('react-bootstrap').Input;
 
-var ReactAutocomplete = require('react-autocomplete');
 /* jshint ignore:end */
 
 var recommender_store = require('stores/recommender_store.js');

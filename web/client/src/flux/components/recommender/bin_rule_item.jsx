@@ -12,7 +12,8 @@ var Col = require('react-bootstrap').Col;
 //var Table = require('react-bootstrap').Table;
 var Input = require('react-bootstrap').Input;
 
-var ReactAutocomplete = require('react-autocomplete');
+var Typeahead = require('components/typeahead/typeahead.jsx');
+
 /* jshint ignore:end */
 
 var bin_actions = require('actions/bin_actions');
@@ -51,7 +52,8 @@ var BinRuleItem = React.createClass({
 
       var feature_full = this.props.feature_list.find(feature => feature.get('id')===feature_id);
 
-      rule_values = <ReactAutocomplete 
+      rule_values = <Typeahead 
+        has_custom_scroll={true}
         options={ feature_full.get('values').toJS() } 
         value={ this.props.rule.get('value') && this.props.rule.get('value').toJS() } 
         onChange={this.on_rule_value_changed}/> 
@@ -63,7 +65,8 @@ var BinRuleItem = React.createClass({
         <td>
           
           <Col sm={6}>
-            <ReactAutocomplete 
+            <Typeahead
+              has_custom_scroll={true} 
               options={feature_list} 
               value={ this.props.rule.get('feature').toJS() } 
               onChange={this.on_feature_changed}/>

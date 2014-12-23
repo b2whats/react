@@ -12,7 +12,7 @@ var _ = require('underscore');
 //var Table = require('react-bootstrap').Table;
 var Input = require('react-bootstrap').Input;
 
-var ReactAutocomplete = require('react-autocomplete');
+var Typeahead = require('components/typeahead/typeahead.jsx');
 /* jshint ignore:end */
 
 var bin_actions = require('actions/bin_actions');
@@ -40,7 +40,8 @@ var BinFeatureItem = React.createClass({
     return (
       <tr>
         <td>
-          <ReactAutocomplete 
+          <Typeahead
+            has_custom_scroll={true} 
             options={feature_list} 
             value={ this.props.feature.get('feature').toJS() } 
             onChange={this.on_feature_changed}/>

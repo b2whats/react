@@ -14,8 +14,6 @@ var Col = require('react-bootstrap').Col;
 var Table = require('react-bootstrap').Table;
 var Input = require('react-bootstrap').Input;
 
-var ReactAutocomplete = require('react-autocomplete');
-
 var Bin = require('./bin.jsx');
 var WorkView = require('./work_view.jsx');
 /* jshint ignore:end */

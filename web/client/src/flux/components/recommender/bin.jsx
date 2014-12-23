@@ -14,8 +14,6 @@ var Col = require('react-bootstrap').Col;
 var Table = require('react-bootstrap').Table;
 var Input = require('react-bootstrap').Input;
 
-var ReactAutocomplete = require('react-autocomplete');
-
 var BinFeatureItem = require('./bin_feature_item.jsx');
 var BinRuleItem = require('./bin_rule_item.jsx');
 /* jshint ignore:end */
