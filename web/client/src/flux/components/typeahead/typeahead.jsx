@@ -311,6 +311,10 @@ var TypeaheadResults = React.createClass({
 
   prevent_scroll_2_focused_time: 0,
   pointer_events_timer_started: false,
+  
+  //is_scroll_thumb_in_drag_mode: false,
+  scroll_thumb_mouse_y_start: null,
+  scroll_thumb_scroll_top_pos: null,
 
 
   is_visible() {
@@ -338,9 +342,9 @@ var TypeaheadResults = React.createClass({
 
     var custom_scrollbar = this.props.has_custom_scroll && 
       (<div ref="scrollbar" className="scrollbar" style={scroll_style}>
-        <a onClick={this.on_arrow_up_click} className="arrow up"></a>
-        <a onClick={this.on_arrow_down_click} className="arrow down"></a>
-        <div ref="thumb" style={thumb_style} className="thumb"></div>
+        <a onClick={this.on_scroll_arrow_up_click} className="arrow up"></a>
+        <a onClick={this.on_scroll_arrow_down_click} className="arrow down"></a>
+        <div onMouseDown={this.on_scroll_thumb_mouse_down} ref="thumb" style={thumb_style} className="thumb"></div>
       </div>);
 
 
@@ -373,11 +377,73 @@ var TypeaheadResults = React.createClass({
     };
   },
 
-  on_arrow_up_click (e) {
+  on_scroll_thumb_mouse_down (e) {
+    if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) { 
+      var containerNode = this.refs.scrollnode.getDOMNode();
+      var thumb_top_pos = this.calc_thumb_position(containerNode.scrollTop, this.state.offset_height, this.state.scroll_height, this.state.thumb_height, this.state.thumb_max_height);
+
+      this.scroll_thumb_mouse_y_start = e.clientY;
+      this.scroll_thumb_scroll_top_pos = thumb_top_pos;
+
+      raf(() => {
+        this.setState({
+          pointer_events_disabled: true
+        });
+        this.props.on_disable_focused_value();
+      }, null);
+    }
+  },
+
+  on_document_mousemove (e) {
+    if(this.scroll_thumb_mouse_y_start===null) return;
+    var delta_y = e.clientY - this.scroll_thumb_mouse_y_start;
+    
+    var {min_thumb_top, max_thumb_top} = this.calc_min_max_thumb_pos(this.state.offset_height, this.state.thumb_height, this.state.thumb_max_height);
+    
+    var new_thumb_top_pos =  this.scroll_thumb_scroll_top_pos + delta_y;
+    
+    new_thumb_top_pos = Math.max(min_thumb_top, Math.min(max_thumb_top, new_thumb_top_pos));
+
+    var real_thumb_position = (new_thumb_top_pos - min_thumb_top) / (max_thumb_top - min_thumb_top);
+
+    var scroll_top  =  real_thumb_position * (this.state.scroll_height - this.state.offset_height);    
+
+    raf(()=> {
+      var containerNode = this.refs.scrollnode.getDOMNode();
+      containerNode.scrollTop = scroll_top;
+    }, null, 'mouse_move_' + this.constructor.displayName );
+
+  },
+
+  on_document_mouseup (e) {
+    if(this.scroll_thumb_mouse_y_start!==null) {
+      this.scroll_thumb_mouse_y_start = null;
+      this.scroll_thumb_scroll_top_pos = null;
+      
+      raf(() => {      
+        this.setState({
+          pointer_events_disabled: false
+        });
+
+        this.props.on_enable_focused_value();
+
+        var containerNode = this.refs.scrollnode.getDOMNode();
+        if(containerNode.scrollTop > 0.005) {
+          containerNode.scrollTop = containerNode.scrollTop - 1;
+          containerNode.scrollTop = containerNode.scrollTop + 1;
+        } else { 
+          containerNode.scrollTop = containerNode.scrollTop + 1;
+          containerNode.scrollTop = containerNode.scrollTop - 1;
+        }        
+      }, null);
+    }
+  },
+
+  on_scroll_arrow_up_click (e) {
     this.props.on_move_up();
   },
 
-  on_arrow_down_click (e) {
+  on_scroll_arrow_down_click (e) {
     this.props.on_move_down();
   },
 
@@ -406,9 +472,6 @@ var TypeaheadResults = React.createClass({
             containerNode.scrollTop = containerNode.scrollTop + 1;
             containerNode.scrollTop = containerNode.scrollTop - 1;
           }
-
-
-
         }
       }, null);
 
@@ -438,7 +501,8 @@ var TypeaheadResults = React.createClass({
   },
 
   on_scroll() {
-    if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {    
+    if(this.refs && this.refs.scrollnode && this.refs.thumb && this.is_visible()) {
+      console.log('scroll');    
       var containerNode = this.refs.scrollnode.getDOMNode();
 
       var scroll_top = containerNode.scrollTop;
@@ -463,12 +527,14 @@ var TypeaheadResults = React.createClass({
     }
   },
 
-
-  calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height) {
+  calc_min_max_thumb_pos(offset_height, thumb_height, thumb_max_height) {
     var min_thumb_top = (offset_height - thumb_max_height)/2;
     var max_thumb_top = offset_height - (offset_height - thumb_max_height)/2 - thumb_height; //надо бы раскрыть скобки но лень
-    //осталось scrollPosition
+    return {min_thumb_top:min_thumb_top, max_thumb_top:max_thumb_top};
+  },
 
+  calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height) {
+    var {min_thumb_top, max_thumb_top} = this.calc_min_max_thumb_pos(offset_height, thumb_height, thumb_max_height);
     var real_thumb_position = scroll_top / (scroll_height - offset_height);
     return min_thumb_top + (max_thumb_top - min_thumb_top)*real_thumb_position;
   },
@@ -533,6 +599,15 @@ var TypeaheadResults = React.createClass({
 
   componentDidMount() {
     this.scrollToFocused();
+    document.addEventListener('mousemove', this.on_document_mousemove);
+    document.addEventListener('mouseup', this.on_document_mouseup);
+
+
+  },
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.on_document_mousemove);
+    document.removeEventListener('mouseup', this.on_document_mouseup);
   },
 
   componentWillMount() {
