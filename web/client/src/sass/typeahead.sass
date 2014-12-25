@@ -6,12 +6,14 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 
 .typeahead-holder
   width: 100%
+
   //этот стиль если видно выпадающий лист
   //&.show-results
 
 
 .typeahead-input
   padding: 5px
+  width: 100%
   //если инпут в фокусе
   //&:focus
   //  background-color: red
@@ -24,7 +26,7 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
   position: absolute
   border: 1px solid #aaa
   border-top: none
-  margin-top: 30px
+  margin-top: 3px
   z-index: $typeahead-z-index - 1
   -webkit-touch-callout: none
   -webkit-user-select: none
@@ -56,6 +58,7 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 
 
 .typeahead-list-item
+  font-size: 12px
   margin: 0 !important
   padding: 5px 10px
   cursor: pointer
