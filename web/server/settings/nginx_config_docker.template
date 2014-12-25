@@ -41,7 +41,7 @@ server {
 
     #error_page 502  /errors/502.html;
 
-    location ~ ^/(libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
+    location ~ ^/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
       root {DIR}/assets;
       access_log off;
       expires 90d;

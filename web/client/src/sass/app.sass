@@ -14,34 +14,42 @@
 
 @import 'typeahead_scrollbar'
 
+@import 'header'
+@import 'footer'
+
+@import 'default_page'
+
+
 //font reset ОБЯЗАТЕЛЕН! иначе на button Arial и нет antialias что бросается в глаза
-html, body, input, button, textarea
-  font: inherit
-  -webkit-font-smoothing: inherit
 
+//html, body, input, button, textarea
+//  font: inherit
+//  -webkit-font-smoothing: inherit
 
-html
+html, body, .main-view
   height: 100%
+  margin: 0
+  padding: 0
 
-body
-  height: 100%
-  //background-color: #100034
-  //-webkit-font-smoothing: antialiased
-  font-family: Arial, Helvetica, sans-serif
-  -webkit-font-smoothing: antialiased
-  font-size: 12px
-  //overflow: hidden
-  .main-view
-    height: 100%
-    //width: 100%
-    //overflow: hidden
+*
+  box-sizing: border-box
 
-.height100
-  height: 100% 
+.hfm-wrapper
+  max-width: 1200px
+  min-width: 900px
+  width: 100%
+  padding-left: 20px
+  padding-right: 20px
+  margin: 0 auto
 
-.bred
-  border: 1px solid red
+.main-wrapper
+  min-height: 100%
+  padding: 0
+  position: relative
 
+.main-body
+  margin-bottom: 0
+  padding-bottom: $footer-height
 
 
 .disable-pointer-events
@@ -58,13 +66,9 @@ body
 
 
 
-
-
-
-
-
-
-
-
-
-
+.height100
+  height: 100% 
+.bgred
+  background-color: red
+.bred
+  border: 1px solid red

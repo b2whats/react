@@ -11,11 +11,11 @@ var rafBatchStateUpdateMixinCreate =require('./mixins/raf_state_update.js');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 /* jshint ignore:start */
-var Grid = require('react-bootstrap').Grid;
-var Row = require('react-bootstrap').Row;
-var Col = require('react-bootstrap').Col;
+var Header = require('components/header.jsx');
+var Footer = require('components/footer.jsx');
+var DefaultPage = require('components/default/default_page.jsx');
 
-var Link = require('./link.jsx');
+var Link = require('components/link.jsx');
 /* jshint ignore:end */
 
 
@@ -25,7 +25,6 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 }),
 routes_store /*observable store list*/);
 
-var Recommender = require('./recommender/recommender.jsx');
 var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
 
@@ -48,59 +47,22 @@ var ice_main = React.createClass({
 				case route_names.kDEFAULT_ROUTE:
 					/* jshint ignore:start */
 					return (
-						<Row>
-	        		<Col xs={12}>
-	        			<h3>Ссылки</h3>
-								<Link href="/sphere/1">Туризм</Link><br/>
-								<Link href="/typeahead">Typeahead</Link>
-
-							</Col>
-						</Row>
+						<DefaultPage />
 					);
 					/* jshint ignore:end */
 				break;
 
-				case route_names.kHELP_ROUTE:
-					/* jshint ignore:start */
-					return (
-						<Row>
-	        		<Col xs={12}>
-	        			<iframe className="help-iframe" src="/docs/index.html"/>
-	        		</Col>
-	        	</Row>
-	        );
-
-					/* jshint ignore:end */
-				break;
-
-				case route_names.kSPHERE_ROUTE:
-					/* jshint ignore:start */
-					return <Recommender />
-					/* jshint ignore:end */
-				break;
 			}
 		}) (this.state.router_state);
 
 		return (
-	    <Grid className="recommandation">
-	      <Row className="header">
-	        <Col xs={4}>
-	        	<Link href="/">
-	          	<div className="header-text">
-	            	whats
-	          	</div>
-	        	</Link>
-	        </Col>
-	        <Col xs={4}>
-	        </Col>
-	        <Col className="align-right" xs={4}>
-	        	<Link className='help-link' href="/help">help</Link>
-	        </Col>
-	      </Row>
-
-	      {main}
-	    
-	    </Grid>
+			<div className="main-wrapper">
+				<Header />	
+				<div className="hfm-wrapper main-body">					
+					{main}
+				</div>
+				<Footer />
+			</div>
 	  );
 	}
 });

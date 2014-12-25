@@ -24,12 +24,14 @@ grunt.loadNpmTasks('grunt-markdown');
 grunt.registerTask('devscripts',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
                                  'concat:cards', 'exec:browserify',  'concat:devhtml_d2', 'sass:build_d2', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown']);
 
 
 grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp',
                                  'concat:devhtml_d2', 'sass:build_d2', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown', 'exec:sleep', 'exec:exorcist']);
 
 
@@ -234,6 +236,74 @@ grunt.initConfig({
   },
 
   cachebreaker: {
+
+    css_0: {
+
+        options: {
+            match: 'reset.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/css/reset.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+        }
+    },
+
+    css_1: {
+
+        options: {
+            match: 'fonts.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/css/fonts.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+        }
+    },
+    css_2: {
+
+        options: {
+            match: 'forms.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/css/forms.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+        }
+    },
+    css_3: {
+
+        options: {
+            match: 'modules.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/css/modules.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+        }
+    },
+    css_4: {
+
+        options: {
+            match: 'template.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/css/template.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+        }
+    },
+
     css: {
         options: {
             match: ['dev_sass_d2.css'],
