@@ -801,6 +801,9 @@ var TypeaheadColumnHeaders = React.createClass({
 
     return (
       <div style={style} className="typeahead-headers">
+        {_.map(_.range(0, this.props.columns), function(idx) {
+          return <span key={idx} className={"typeahead-list-col-header typeahead-list-col-"+idx} dangerouslySetInnerHTML={{__html:this.props.column_headers[idx]}}></span>
+        }, this)}
       </div>
     );
   }
