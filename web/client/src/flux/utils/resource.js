@@ -11,10 +11,17 @@ var kCONTENT_TYPE_APPLICATION_JSON = {'Content-Type': 'application/json;charset=
 function http(method, url, object) {
   return new q(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
-
+    
     xhr.open(method, url, true);
     
+    //если запрос cors то проставить хедер который не вызывает preflight запроса
+    if(url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0) {
+      //не вызывает preflight запроса
+      xhr.setRequestHeader("Content-Type","text/plain");
+    }
+    
     xhr.onreadystatechange = function () {
+
       if (this.readyState === this.DONE) {
         if (this.status === 200) {
           resolve(typeof(this.response) === 'string' ? JSON.parse(this.response) : this.response);
