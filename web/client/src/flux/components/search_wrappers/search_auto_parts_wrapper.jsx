@@ -54,7 +54,7 @@ var SearchAutoPartsWrapper = React.createClass({
     }
 
     return (      
-      <Typeahead placeholder={this.props.placeholder} has_custom_scroll={true} onChange={this.typeahead_changed} search={this.typeahead_search} />
+      <Typeahead list_width={this.props.list_width} placeholder={this.props.placeholder} has_custom_scroll={true} onChange={this.typeahead_changed} search={this.typeahead_search} />
     )
   }
 });

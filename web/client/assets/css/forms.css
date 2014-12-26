@@ -190,5 +190,5 @@ button:hover {
 .stylized-input.text_btn button {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
-    margin-left: -2px;
+   /* margin-left: -2px; */
 }

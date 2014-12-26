@@ -73,6 +73,7 @@ var Typeahead = React.createClass({
           on_enable_focused_value={this.on_enable_focused_value}
           on_move_up={this.on_move_up}
           on_move_down={this.on_move_down}
+          list_width={this.props.list_width}
 
           />
       </div>
@@ -323,10 +324,20 @@ var TypeaheadResults = React.createClass({
   },
 
   render() {
+
+    
+
+
     var style = {
       display: this.is_visible(this.props) ? 'block' : 'none',
       listStyleType: 'none'
     };
+
+    if(this.props.list_width && this.props.list_width > 0) {
+      style.width = this.props.list_width - 10; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
+    }
+
+
     //console.log('this.has_custom_scroll',this.props.has_custom_scroll);
 
     var typeahead_list_class = cx({

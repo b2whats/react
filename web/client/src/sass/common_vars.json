@@ -2,5 +2,12 @@
 {
   "plot-shared-vars" : {
     "num-colors" : "12"
+  },
+
+  "default-page" : {
+    "input-padding" : "50px"
   }
+
+
+
 }
