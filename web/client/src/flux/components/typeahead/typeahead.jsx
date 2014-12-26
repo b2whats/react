@@ -324,7 +324,7 @@ var TypeaheadResults = React.createClass({
 
   render() {
     var style = {
-      //display: this.is_visible(this.props) ? 'block' : 'none',
+      display: this.is_visible(this.props) ? 'block' : 'none',
       listStyleType: 'none'
     };
     //console.log('this.has_custom_scroll',this.props.has_custom_scroll);

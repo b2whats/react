@@ -21,12 +21,22 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 
 //нужен чтобы скрыть настоящий скроллбар у typeahead-list
 .typeahead-list-holder
-  width: 100%
+  //width: 100%
+  width: 900px
   overflow: hidden
   position: absolute
-  border: 1px solid #aaa
+  //border: 1px solid #aaa
+  background-color: #FFF
+  border-bottom-left-radius: 8px
+  border-bottom-right-radius: 8px
+
+
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+
   border-top: none
-  margin-top: 3px
+  margin-top: 0
   z-index: $typeahead-z-index - 1
   -webkit-touch-callout: none
   -webkit-user-select: none
