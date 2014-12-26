@@ -188,10 +188,11 @@ var Typeahead = React.createClass({
   showAllResults() {
     //console.log('this.getSearchTerm(this.props)', this.state.searchTerm);
     //this.showResults(searchTerm);
-
-    //if (!this.state.showResultsInProgress && !this.state.showResults) {
-    this.showResults(this.state.searchTerm);
-    //}
+    
+    //Какая то была бага свзяанная с этой строчкой, пока верну
+    if (!this.state.showResultsInProgress && !this.state.showResults) {
+      this.showResults(this.state.searchTerm);
+    }
   },
 
   onValueChange(value) {
@@ -776,9 +777,10 @@ var TypeaheadResult = React.createClass({
   },
 
   shouldComponentUpdate(nextProps) {
-    return true;
-    //return (nextProps.result.id !== this.props.result.id ||
-    //        nextProps.focused !== this.props.focused);
+    //return true;
+    return (nextProps.result.id !== this.props.result.id ||
+            nextProps.focused !== this.props.focused || 
+            nextProps.events_disabled !== this.props.events_disabled);
   }
 });
 
