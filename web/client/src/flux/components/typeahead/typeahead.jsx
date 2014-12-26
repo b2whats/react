@@ -615,7 +615,11 @@ var TypeaheadResults = React.createClass({
         var thumb_max_height =  this.state.thumb_max_height === undefined ? //расчитать единократно потом не обновлять
           style_utils.from_px_to_number(window.getComputedStyle(this.refs.thumb.getDOMNode()).maxHeight) : this.state.thumb_max_height;
 
-        var thumb_height =  thumb_max_height * offset_height/scroll_height;
+        var thumb_min_height =  this.state.thumb_min_height === undefined ? //расчитать единократно потом не обновлять
+          style_utils.from_px_to_number(window.getComputedStyle(this.refs.thumb.getDOMNode()).minHeight) : this.state.thumb_min_height;
+
+
+        var thumb_height =  Math.max(thumb_min_height,  thumb_max_height * offset_height/scroll_height);
 
         var thumb_position = this.calc_thumb_position(scroll_top, offset_height, scroll_height, thumb_height, thumb_max_height);
 
