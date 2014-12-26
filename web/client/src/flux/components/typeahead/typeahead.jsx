@@ -8,7 +8,7 @@ var PropTypes = React.PropTypes;
 var cx        = React.addons.classSet;
 var raf = require('utils/raf.js');
 var style_utils = require('utils/style_utils.js');
-
+var _ = require('underscore');
 
 var Typeahead = React.createClass({
 
@@ -24,7 +24,9 @@ var Typeahead = React.createClass({
     value: PropTypes.object,
     onChange: PropTypes.func,
     onError: PropTypes.func,
-    has_custom_scroll: PropTypes.bool
+    has_custom_scroll: PropTypes.bool,
+    columns: PropTypes.number,
+    column_title_idx: PropTypes.number
   },
 
   render() {
@@ -74,6 +76,8 @@ var Typeahead = React.createClass({
           on_move_up={this.on_move_up}
           on_move_down={this.on_move_down}
           list_width={this.props.list_width}
+          columns={this.props.columns}
+          column_title_idx={this.props.column_title_idx}
 
           />
       </div>
@@ -116,7 +120,8 @@ var Typeahead = React.createClass({
 
   getDefaultProps() {
     return {
-      search: searchArray
+      search: searchArray,
+      column_title_idx: 0
     };
   },
 
@@ -135,6 +140,13 @@ var Typeahead = React.createClass({
     this.blurTimer = null;
   },
 
+  get_title_value(title) {
+    if(this.props.columns && this.props.columns>0) {
+      return title[this.props.column_title_idx];
+    }
+    return title;
+  },
+
   getSearchTerm(props) {
     var searchTerm;
     if (props.searchTerm) {
@@ -142,11 +154,13 @@ var Typeahead = React.createClass({
     } else if (props.value) {
       var {id, title} = props.value;
       if (title) {
-        searchTerm = title;
+
+        searchTerm = this.get_title_value(title);
+      
       } else if (id) {
         props.options.forEach((opt) => {
-          if (opt.id == id) {
-            searchTerm = opt.title;
+          if (opt.id == id) {            
+            searchTerm = this.get_title_value(opt.title);
           }
         });
       }
@@ -187,7 +201,7 @@ var Typeahead = React.createClass({
 
     if (value) {
       var re = /<(.|\n)*?>/ig;
-      var term = value.title.replace(re, '');
+      var term = this.get_title_value(value.title).replace(re, '');
       state.searchTerm = term;//value.title;
     }
     
@@ -368,6 +382,8 @@ var TypeaheadResults = React.createClass({
             ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
             key={index}
             result={result}
+            columns={this.props.columns}
+            column_title_idx={this.props.column_title_idx}
             focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
             events_disabled={this.state.pointer_events_disabled}
             onMouseEnter={this.onMouseEnterResult}
@@ -703,16 +719,31 @@ var TypeaheadResult = React.createClass({
       'scrollbar-disable-events': this.props.events_disabled
     });
 
-    return (
-      <li
-        style={{listStyleType: 'none'}}
-        className={className}
-        onClick={this.onClick}
-        onMouseEnter={this.onMouseEnter}
-        dangerouslySetInnerHTML={{__html:this.props.result.title}}>
-        {/*<a dangerouslySetInnerHTML={{__html:this.props.result.title}}></a>*/}
-      </li>
-    );
+    if(this.props.columns && this.props.columns > 0) {
+        return (
+          <li
+            style={{listStyleType: 'none'}}
+            className={className}
+            onClick={this.onClick}
+            onMouseEnter={this.onMouseEnter}>
+              {_.map(_.range(0, this.props.columns), function(idx) {
+                return <span key={idx} className={"typeahead-list-col-"+idx} dangerouslySetInnerHTML={{__html:this.props.result.title[idx]}}></span>
+              }, this)}
+          </li>
+        );
+    } else {
+
+      return (
+        <li
+          style={{listStyleType: 'none'}}
+          className={className}
+          onClick={this.onClick}
+          onMouseEnter={this.onMouseEnter}
+          dangerouslySetInnerHTML={{__html:this.props.result.title}}>
+          {/*<a dangerouslySetInnerHTML={{__html:this.props.result.title}}></a>*/}
+        </li>
+      );
+    }
   },
 
   onClick() {

@@ -46,7 +46,9 @@ var SearchAutoPartsWrapper = React.createClass({
       var suggeset_st = this.state.suggestion_list_state.get('search_term');
       if( suggeset_st === this.last_st) { //нет смысла показывать промежуточные списки
         var options = this.state.suggestion_list && 
-          this.state.suggestion_list.map( line => ({id: line.get(kLINE_ID), title: line.get(kLINE_SENTENCE_INDEX)}) ).toJS() || [];
+          this.state.suggestion_list.map( line => ({
+            id: line.get(kLINE_ID), 
+            title: [line.get(kLINE_ARTICUL), line.get(kLINE_PRODUCER),line.get(kLINE_SENTENCE_INDEX)]}) ).toJS() || [];
 
         this.state.suggestion_list_state.get('cb')(null, options);
         this.last_st = null; //больше не надо вызывать
@@ -54,7 +56,14 @@ var SearchAutoPartsWrapper = React.createClass({
     }
 
     return (      
-      <Typeahead list_width={this.props.list_width} placeholder={this.props.placeholder} has_custom_scroll={true} onChange={this.typeahead_changed} search={this.typeahead_search} />
+      <Typeahead 
+        columns={3} 
+        column_title_idx={2} 
+        list_width={this.props.list_width} 
+        placeholder={this.props.placeholder} 
+        has_custom_scroll={true} 
+        onChange={this.typeahead_changed} 
+        search={this.typeahead_search} />
     )
   }
 });
