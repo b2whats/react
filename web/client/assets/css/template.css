@@ -127,7 +127,7 @@ a.icon-link {
 .big-search-block > .big-search-block-block {
     display: table-cell;
     box-sizing: border-box;
-    width: calc(50% - 5px);
+    width: 49.5%;
     border-radius: 15px;
     text-align: left;
 }
