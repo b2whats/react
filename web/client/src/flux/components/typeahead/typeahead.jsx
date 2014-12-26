@@ -359,6 +359,10 @@ var TypeaheadResults = React.createClass({
       'custom_scroll': this.props.has_custom_scroll
     });
 
+    if(this.props.columns && this.props.columns > 0) {
+      typeahead_list_class = cx(typeahead_list_class,  "typeahead-list-columns");
+    }
+
     //надо всегда при переходе из состояния
     var scroll_style = this.state.scroll_visible ? {display: 'block'} : {display: 'none'};
     var thumb_style = {
@@ -723,7 +727,7 @@ var TypeaheadResult = React.createClass({
         return (
           <li
             style={{listStyleType: 'none'}}
-            className={className}
+            className={cx(className, 'typeahead-list-item-columns')}
             onClick={this.onClick}
             onMouseEnter={this.onMouseEnter}>
               {_.map(_.range(0, this.props.columns), function(idx) {

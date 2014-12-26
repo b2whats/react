@@ -56,14 +56,15 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
   z-index: $typeahead-z-index
   background: white
   width: 100%
-  margin: 0
-  
+  margin: 0  
   max-height: $max-typeahead-list-height
   overflow: auto
   padding: 0
-  
   //скрипт завязан на relative
   position: relative
+  &.typeahead-list-columns
+    //display: table
+
   &.custom_scroll
     padding-right: $typeahead-scrollbar-move-delta
 
@@ -71,12 +72,18 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 //.typeahead-list::-webkit-scrollbar
 //  display: none
 
+  
 
 .typeahead-list-item
   font-size: 12px
   margin: 0 !important
   padding: 5px 10px
   cursor: pointer
+  &.typeahead-list-item-columns
+    strong
+      color: #5F42A4
+      font-weight: 500
+
   strong
     font-weight: bold
     color: red
@@ -85,6 +92,31 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
     color: gray
   &.active
     background: #dadada
+
+
+
+.typeahead-list-col-0, .typeahead-list-col-1, .typeahead-list-col-2, .typeahead-list-col-3, .typeahead-list-col-3
+  display: inline-block
+  overflow: hidden
+  text-overflow: ellipsis
+
+
+.typeahead-list-col-0
+  width: 15%
+
+.typeahead-list-col-1
+  width: 15%
+
+.typeahead-list-col-2
+  width: 70%
+
+
+
+//продолжить если надо больше
+
+
+
+
 
 
 
