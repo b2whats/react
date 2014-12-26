@@ -17,7 +17,7 @@ function http(method, url, object) {
     xhr.onreadystatechange = function () {
       if (this.readyState === this.DONE) {
         if (this.status === 200) {
-          resolve(this.response);
+          resolve(typeof(this.response) === 'string' ? JSON.parse(this.response) : this.response);
         } else {
           reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
         }
