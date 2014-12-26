@@ -125,9 +125,9 @@ a.icon-link {
 }
 
 .big-search-block > .big-search-block-block {
-    display: inline-block;
+    display: table-cell;
     box-sizing: border-box;
-    width: 49.5%;
+    width: calc(50% - 5px);
     border-radius: 15px;
     text-align: left;
 }

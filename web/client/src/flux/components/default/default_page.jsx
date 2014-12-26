@@ -9,6 +9,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var DefaultPageSearchBlock = require('./default_page_search_block.jsx');
 var SearchAutoPartsWrapper = require('components/search_wrappers/search_auto_parts_wrapper.jsx');
+var SearchConsultationWrapper = require('components/search_wrappers/search_consultation_wrapper.jsx');
 /* jshint ignore:end */
 
 
@@ -46,6 +47,7 @@ var DefaultPage = React.createClass({
   componentDidMount() {
     window.addEventListener('resize', this.handle_resize);
     this.fire_change();
+    setTimeout(() => this.fire_change(), 0); //layout render
   },
 
   componentWillUnmount() {    
@@ -61,7 +63,7 @@ var DefaultPage = React.createClass({
       <div className="default-page-abs">
         <div className="hfm-wrapper default-page-search-height">
           <div className="default-page-wrapper default-page-search-height">
-            <div ref='default_page_content' className="default-page-content big-search-block entire-width">
+            <div ref='default_page_content' className="default-page-content big-search-block">
               <div className="default-page-logo big-logo"><span className="ap-color fl">Auto</span><span className="as-color fb">Giper</span></div>
               
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
@@ -70,12 +72,14 @@ var DefaultPage = React.createClass({
                 description="*Начните вводить в строку название или производителя детали и марку, модель своего автомобиля и выберите из нескольких вариантов поискового запроса.">
                   <SearchAutoPartsWrapper list_width={this.state.width} placeholder="Введите название, производителя или код*" />
               </DefaultPageSearchBlock>
-
+              <div style={{width:'10px', display: 'table-cell'}}></div>
               <DefaultPageSearchBlock className="big-search-block-block autoservices" 
                 header="КОНСУЛЬТАЦИЯ МАСТЕРА"
                 sample="mazda ремонт подвески"
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
-                  <input className="default-page-search-block-width" type="text" placeholder="Введите марку автомобиля и название работ**"/>
+                  <SearchConsultationWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />
+                  {/*<input className="default-page-search-block-width" type="text" placeholder="Введите марку автомобиля и название работ**"/>*/}
+              
               </DefaultPageSearchBlock>
             </div>
           </div>
