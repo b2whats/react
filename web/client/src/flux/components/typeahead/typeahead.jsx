@@ -26,7 +26,8 @@ var Typeahead = React.createClass({
     onError: PropTypes.func,
     has_custom_scroll: PropTypes.bool,
     columns: PropTypes.number,
-    column_title_idx: PropTypes.number
+    column_title_idx: PropTypes.number,
+    column_headers: PropTypes.arrayOf(PropTypes.string)
   },
 
   render() {
@@ -61,8 +62,9 @@ var Typeahead = React.createClass({
           onFocus={this.showAllResults}
           onBlur={this.onQueryBlur}
           onKeyDown={this.onQueryKeyDown}
-          value={this.state.searchTerm}
-          />
+          value={this.state.searchTerm} />
+
+        
         <TypeaheadResults          
           onSelect={this.onValueChange}
           onFocus={this.onValueFocus}
@@ -77,9 +79,8 @@ var Typeahead = React.createClass({
           on_move_down={this.on_move_down}
           list_width={this.props.list_width}
           columns={this.props.columns}
-          column_title_idx={this.props.column_title_idx}
-
-          />
+          column_title_idx={this.props.column_title_idx} 
+          column_headers={this.props.column_headers} />
       </div>
     );
   },
@@ -323,6 +324,8 @@ var kPREVENT_TIME = 300; //на длинных списках может не х
 var kPOINTER_EVENTS_PREVENT_TIME = 100; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
 var kSMALL_DELTA = 10;
 
+var kLIST_DELTA=10;
+
 var TypeaheadResults = React.createClass({
 
   prevent_scroll_2_focused_time: 0,
@@ -348,8 +351,9 @@ var TypeaheadResults = React.createClass({
     };
 
     if(this.props.list_width && this.props.list_width > 0) {
-      style.width = this.props.list_width - 10; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
+      style.width = this.props.list_width - kLIST_DELTA; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
     }
+
 
 
     //console.log('this.has_custom_scroll',this.props.has_custom_scroll);
@@ -380,7 +384,18 @@ var TypeaheadResults = React.createClass({
 
 
     return (
-      <div style={style}  className="typeahead-list-holder">
+      <div style={style}  className={this.props.column_headers ? 'typeahead-list-holder typeahead-list-holder-headers' : 'typeahead-list-holder'}>
+
+        {this.props.column_headers ? 
+          <TypeaheadColumnHeaders
+            show={this.props.show}
+            results={this.props.results}  
+            list_width={this.props.list_width} 
+            column_headers={this.props.column_headers}
+            columns={this.props.columns}
+            column_title_idx={this.props.column_title_idx} /> : 
+          undefined
+        }  
         <ul ref="scrollnode" onWheel={this.on_wheel} onScroll={this.on_scroll} {...this.props} className={typeahead_list_class}>
           {this.props.results.map((result, index) => <TypeaheadResult 
             ref={ this.props.focusedValue && this.props.focusedValue.id === result.id && 'focused' || undefined } 
@@ -766,6 +781,32 @@ var TypeaheadResult = React.createClass({
     //        nextProps.focused !== this.props.focused);
   }
 });
+
+
+var TypeaheadColumnHeaders = React.createClass({
+  
+  is_visible(props) {
+    return props && props.show && props.results && props.results.length>0;
+  },
+
+  render() {
+    
+    var style = {
+      display: this.is_visible(this.props) ? 'block' : 'none'
+    };
+
+    if(this.props.list_width && this.props.list_width > 0) {
+      style.width = this.props.list_width - kLIST_DELTA; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
+    }
+
+    return (
+      <div style={style} className="typeahead-headers">
+      </div>
+    );
+  }
+});
+
+
 
 /**
 * Search options using specified search term treating options as an array

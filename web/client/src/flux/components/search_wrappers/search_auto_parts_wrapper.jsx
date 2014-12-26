@@ -25,6 +25,8 @@ var kLINE_ARTICUL = 1;
 var kLINE_PRODUCER = 2;
 var kLINE_SENTENCE_INDEX = 3;  
 
+var kHEADERS=['Артикул', 'Производитель', 'Наименование'];
+
 var SearchAutoPartsWrapper = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
@@ -58,7 +60,8 @@ var SearchAutoPartsWrapper = React.createClass({
     return (      
       <Typeahead 
         columns={3} 
-        column_title_idx={2} 
+        column_title_idx={2}
+        column_headers={kHEADERS} 
         list_width={this.props.list_width} 
         placeholder={this.props.placeholder} 
         has_custom_scroll={true} 

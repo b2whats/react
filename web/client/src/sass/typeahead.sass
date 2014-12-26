@@ -2,7 +2,7 @@
 
 $typeahead-scrollbar-move-delta: 30px //на сколько утащить скроллбар вправо
 
-
+$typeahead-headers-height: 30px
 
 .typeahead-holder
   width: 100%
@@ -21,10 +21,19 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
   //  background-color: red
 
 
+
+.typeahead-headers
+  background-color: #FF0
+  height: $typeahead-headers-height
+  overflow: hidden
+  //position: absolute
+  //z-index: $typeahead-z-index - 1
+
+
 //нужен чтобы скрыть настоящий скроллбар у typeahead-list
 .typeahead-list-holder
-  //width: 100%
-  width: 900px
+  width: 100%
+  //width: 900px
   overflow: hidden
   position: absolute
   //border: 1px solid #aaa
@@ -39,14 +48,16 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 
   border-top: none
   margin-top: 0
-  z-index: $typeahead-z-index - 1
+  z-index: $typeahead-z-index - 2
   -webkit-touch-callout: none
   -webkit-user-select: none
   -khtml-user-select: none
   -moz-user-select: none
   -ms-user-select: none
   user-select: none
-
+  &.typeahead-list-holder-headers
+    .scrollbar
+      margin-top: $typeahead-headers-height
 
 
 
@@ -95,10 +106,12 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 
 
 
-.typeahead-list-col-0, .typeahead-list-col-1, .typeahead-list-col-2, .typeahead-list-col-3, .typeahead-list-col-3
+.typeahead-list-col-0, .typeahead-list-col-1, .typeahead-list-col-2, .typeahead-list-col-3, .typeahead-list-col-4
   display: inline-block
   overflow: hidden
   text-overflow: ellipsis
+  &.typeahead-list-col-header //стиль заголовков колонок
+    font-weight: bold
 
 
 .typeahead-list-col-0
