@@ -139,7 +139,7 @@ var Typeahead = React.createClass({
 
   componentWillReceiveProps(next_props) {
     if(next_props.show_value) {
-      var prev_index = this.props.show_value && this.props.show_value.index || -1;
+      var prev_index = this.props.show_value && this.props.show_value.index || 0;
       var new_index = next_props.show_value.index;
       if(prev_index != new_index) {
         this.setState({
