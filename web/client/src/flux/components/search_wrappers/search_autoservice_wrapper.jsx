@@ -27,7 +27,7 @@ var kLINE_ID = 0;
 var kLINE_NAME = 1;
 var kLINE_SERVICE_NAME = 2;
 
-var kHEADERS=['Имя', 'Вид сервиса'];
+var kHEADERS=['Марка авто', 'Вид сервиса'];
 
 var kCOLUMNS = 2;
 var kCOLUMN_TITLE_IDX = 1;
