@@ -32,6 +32,7 @@ var sass_vars = require('sass/common_vars.json')['default-page'];
 var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-padding'] );
 
 
+var kLIST_DELTA=9; //сумма толщин бордеров - потом посчитаю и хз откуда 1 пиксель
 
 var DefaultPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
@@ -40,7 +41,7 @@ var DefaultPage = React.createClass({
     if(this.refs && this.refs.default_page_content) {
       var node = this.refs.default_page_content.getDOMNode();
      
-      default_page_size_actions.default_page_size_chaged (node.clientWidth - 2*sass_input_padding);
+      default_page_size_actions.default_page_size_chaged (node.clientWidth - 2*sass_input_padding - kLIST_DELTA);
     }
   },
 

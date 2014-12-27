@@ -341,7 +341,7 @@ var kPREVENT_TIME = 300; //на длинных списках может не х
 var kPOINTER_EVENTS_PREVENT_TIME = 100; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
 var kSMALL_DELTA = 10;
 
-var kLIST_DELTA=10;
+var kLIST_DELTA=0;
 
 var TypeaheadResults = React.createClass({
 

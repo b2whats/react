@@ -1,8 +1,12 @@
-//$max-typeahead-list-height: 289px
+//-------------------------------------------------------------------------------
+//Стили тайпахеда по умолчанию, лучше не трогать если не затрагивает все элементы
+//-------------------------------------------------------------------------------
+
 
 $typeahead-scrollbar-move-delta: 30px //на сколько утащить скроллбар вправо
 
 $typeahead-headers-height: 30px
+$typeahead-top-margin: 3px
 
 .typeahead-holder
   width: 100%
@@ -23,14 +27,16 @@ $typeahead-headers-height: 30px
 
 
 .typeahead-headers
-  background-color: #EEE
+  //background-color: #EEE
   height: $typeahead-headers-height
   overflow: hidden
   border-bottom: 1px solid gray
   font-size: 12px
-  font-weight: bold
+  font-weight: normal
   line-height: $typeahead-headers-height
   padding: 0px 10px
+  border-radius: 0
+
   //position: absolute
   //z-index: $typeahead-z-index - 1
 
@@ -43,8 +49,9 @@ $typeahead-headers-height: 30px
   position: absolute
   //border: 1px solid #aaa
   background-color: #FFF
-  border-bottom-left-radius: 8px
-  border-bottom-right-radius: 8px
+  //border-bottom-left-radius: 8px
+  //border-bottom-right-radius: 8px
+  border-radius: 8px
 
 
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
@@ -52,7 +59,7 @@ $typeahead-headers-height: 30px
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
 
   border-top: none
-  margin-top: 0
+  margin-top: $typeahead-top-margin
   z-index: $typeahead-z-index - 2
   -webkit-touch-callout: none
   -webkit-user-select: none
@@ -92,17 +99,14 @@ $typeahead-headers-height: 30px
 
 .typeahead-list-item
   font-size: 12px
-  margin: 0 !important
+  margin: 0
   padding: 5px 10px
   cursor: pointer
-  &.typeahead-list-item-columns
-    strong
-      color: #5F42A4
-      font-weight: 500
-
+  //&.typeahead-list-item-columns
   strong
     font-weight: bold
-    color: red
+    color: #00F
+
 
   a
     color: gray
@@ -118,18 +122,23 @@ $typeahead-headers-height: 30px
   vertical-align: middle
   //font-family: arial
   &.typeahead-list-col-header //стиль заголовков колонок
-    font-weight: bold
+    //font-weight: bold
 
 
 .typeahead-list-col-0
-  width: 15%
+  //width: 15%
 
 .typeahead-list-col-1
-  width: 15%
+  padding-left: 5px
 
 .typeahead-list-col-2
-  width: 70%
+  padding-left: 5px
 
+.typeahead-list-col-3
+  padding-left: 5px
+
+.typeahead-list-col-4
+  padding-left: 5px
 
 
 //продолжить если надо больше
