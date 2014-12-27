@@ -137,6 +137,23 @@ var Typeahead = React.createClass({
   },
 
 
+  componentWillReceiveProps(next_props) {
+    if(next_props.show_value) {
+      var prev_index = this.props.show_value && this.props.show_value.index || -1;
+      var new_index = next_props.show_value.index;
+      if(prev_index != new_index) {
+        this.setState({
+          searchTerm: next_props.show_value.search_term,
+          showResults: false
+        });
+        raf(() => {
+          this.onFocus();
+          this.showAllResults();
+        }, null);
+      }
+    }
+  },
+
   componentWillMount() {
     this.blurTimer = null;
   },
@@ -276,7 +293,6 @@ var Typeahead = React.createClass({
       if (this.state.focusedValue) {
         this.onValueChange(this.state.focusedValue);
       }
-
     } else if (e.key === 'ArrowUp' && this.state.showResults) {
       e.preventDefault();
       var prevIdx = Math.max(

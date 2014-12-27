@@ -14,10 +14,17 @@ var DefaultPageSearchBlock = React.createClass({
     className: PropTypes.string.isRequired,
     header: PropTypes.string.isRequired,
     sample: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired
+    description: PropTypes.string.isRequired,
+    sample_action: PropTypes.func.isRequired
   },
 
   mixins: [PureRenderMixin],
+
+  sample_click(e) {
+    this.props.sample_action(this.props.sample);
+    e.preventDefault();
+    e.stopPropagation();
+  },
 
   render () {
     return (
@@ -38,7 +45,7 @@ var DefaultPageSearchBlock = React.createClass({
 
           <div className="big-search-block__hint">
               <span className="default-page-forexample">Например:</span>
-              <a href="#">{this.props.sample}</a>
+              <a onClick={this.sample_click} href="#">{this.props.sample}</a>
           </div>
           <div className="big-search-block__description">
             {this.props.description}

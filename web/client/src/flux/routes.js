@@ -2,7 +2,6 @@
 
 var route_names = require('shared_constants/route_names.js');
 var route_actions = require('actions/route_actions.js');
-var page_actions = require('actions/page_actions.js');
 
 
 var recommender_actions = require('actions/recommender_actions.js')

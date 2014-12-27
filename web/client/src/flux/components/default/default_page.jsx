@@ -16,6 +16,9 @@ var SearchConsultationWrapper = require('components/search_wrappers/search_consu
 var default_page_size_actions = require('actions/default_page_size_actions.js');
 var default_page_size_store = require('stores/default_page_size_store.js');
 
+var search_auto_actions = require('actions/search_auto_actions.js');
+
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: default_page_size_store.get_width (),
 }),
@@ -69,13 +72,17 @@ var DefaultPage = React.createClass({
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
                 sample="стойка стабилизатора bmw x5"
+                sample_action={search_auto_actions.show_value_changed}
                 description="*Начните вводить в строку название или производителя детали и марку, модель своего автомобиля и выберите из нескольких вариантов поискового запроса.">
-                  <SearchAutoPartsWrapper list_width={this.state.width} placeholder="Введите название, производителя или код*" />
+                  <SearchAutoPartsWrapper 
+                    list_width={this.state.width}
+                    placeholder="Введите название, производителя или код*" />
               </DefaultPageSearchBlock>
               <div style={{width:'1%', display: 'table-cell'}}></div>
               <DefaultPageSearchBlock className="big-search-block-block autoservices" 
                 header="КОНСУЛЬТАЦИЯ МАСТЕРА"
                 sample="mazda ремонт подвески"
+                sample_action={search_auto_actions.show_value_changed}
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
                   <SearchConsultationWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />
                   {/*<input className="default-page-search-block-width" type="text" placeholder="Введите марку автомобиля и название работ**"/>*/}
