@@ -44,6 +44,7 @@ var Typeahead = React.createClass({
       position: 'relative',
       outline: 'none'
     };
+
     return (
       <div
         tabIndex="1"
@@ -80,7 +81,8 @@ var Typeahead = React.createClass({
           list_width={this.props.list_width}
           columns={this.props.columns}
           column_title_idx={this.props.column_title_idx} 
-          column_headers={this.props.column_headers} />
+          column_headers={this.props.column_headers} 
+          search_term={this.state.searchTerm}/>
       </div>
     );
   },
@@ -428,7 +430,8 @@ var TypeaheadResults = React.createClass({
             focused={this.props.focusedValue && this.props.focusedValue.id === result.id}
             events_disabled={this.state.pointer_events_disabled}
             onMouseEnter={this.onMouseEnterResult}
-            onClick={this.props.onSelect} />)}
+            onClick={this.props.onSelect}
+            search_term={this.props.search_term} />)}
         </ul>
         {custom_scrollbar}
       </div>
@@ -771,7 +774,7 @@ var TypeaheadResult = React.createClass({
             className={cx(className, 'typeahead-list-item-columns')}
             onClick={this.onClick}
             onMouseEnter={this.onMouseEnter}>
-              {_.map(_.range(0, this.props.columns), function(idx) {
+              {_.map(_.range(0, this.props.columns), (idx) => {
                 return <span key={idx} className={"typeahead-list-col-"+idx} dangerouslySetInnerHTML={{__html:this.props.result.title[idx]}}></span>
               }, this)}
           </li>
@@ -802,7 +805,18 @@ var TypeaheadResult = React.createClass({
   },
 
   shouldComponentUpdate(nextProps) {
-    //return true;
+    //проверить было ли выделение
+    if(this.props.columns && this.props.columns > 0) {
+      if(_.some(_.range(0, this.props.columns), idx => this.props.result.title[idx] !== nextProps.result.title[idx])) {
+        return true;
+      }
+    } else {
+      if(this.props.result.title !== nextProps.result.title) {
+        return true;
+      }
+    }
+
+
     return (nextProps.result.id !== this.props.result.id ||
             nextProps.focused !== this.props.focused || 
             nextProps.events_disabled !== this.props.events_disabled);
