@@ -14,6 +14,8 @@ var promise_serializer = require('utils/promise_serializer.js');
 
 var serializer = promise_serializer.create_serializer();
 
+var text_util = require('utils/text.js');
+
 //var r_suggestions_ = resource('/api/suggest/:words');
 var r_suggestions_ = resource(api_refs.kAUTO_PART_SUGGESTER_API);
 //cors настройки для nginx тут http://enable-cors.org/server_nginx.html
@@ -36,7 +38,9 @@ module.exports.suggest = function(words, list_state) {
       return r_suggestions_
       .get({words:words})
       .then(function(sugg_list) {
-        return _.map(sugg_list,  x => [x.id, x.code, x.manufacturer, x.name]);
+        var replacer = text_util.create_selection_replacer(words);
+
+        return _.map(sugg_list,  x => [x.id, replacer(x.code), replacer(x.manufacturer), replacer(x.name)]);
       })
       .then(res => {
         main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_AUTO_PART_SUGGESTION_DATA_LOADED].concat([res, list_state]));
