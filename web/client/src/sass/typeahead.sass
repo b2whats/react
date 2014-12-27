@@ -91,6 +91,9 @@ $typeahead-top-margin: 3px
   &.custom_scroll
     padding-right: $typeahead-scrollbar-move-delta
 
+  @-moz-document url-prefix()
+    max-height: $max-typeahead-list-height + 4 //убрать мелкий баг с бордерами под файфокс
+
 //Ох еслиб у всех стоял хром
 //.typeahead-list::-webkit-scrollbar
 //  display: none
