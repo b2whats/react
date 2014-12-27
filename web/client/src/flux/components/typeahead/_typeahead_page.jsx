@@ -12,7 +12,7 @@ var Typeahead = require('./typeahead.jsx');
 
 var typeahead_actions = require('actions/typeahead_actions.js');
 
-var suggestion_store = require('stores/suggestion_store.js');
+var suggestion_store = require('stores/auto_part_suggestion_store.js');
 
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda

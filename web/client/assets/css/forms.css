@@ -1,6 +1,6 @@
 input[type=text] {
     padding: 10px 4px 8px 8px;
-    font-size: 14px;
+    /*font-size: 14px;*/
     border-radius: 2px;
     border: 1px solid #c1c1c1;
     box-shadow: inset 1px 1px 3px -1px rgba(0,0,0,0.2);
@@ -182,7 +182,7 @@ button:hover {
     line-height: 1.2;
 }
 .stylized-input {
-    font-size: 0px;
+    /*font-size: 0px;*/
 }
 .stylized-input.text_btn input {
     border-right: 0px;

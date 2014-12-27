@@ -11,7 +11,7 @@ var Typeahead = require('components/typeahead/typeahead.jsx');
 
 var search_actions = require('actions/search_auto_actions.js');
 
-var suggestion_store = require('stores/suggestion_store.js');
+var suggestion_store = require('stores/auto_part_suggestion_store.js');
 
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -66,7 +66,7 @@ var SearchAutoPartsWrapper = React.createClass({
       }
     }
 
-    console.log(this.state.suggestion_show_value.toJS(), this.state.suggestion_value.toJS(), this.state.suggestion_search_term);
+    //console.log(this.state.suggestion_show_value.toJS(), this.state.suggestion_value.toJS(), this.state.suggestion_search_term);
 
     return (      
       <Typeahead
