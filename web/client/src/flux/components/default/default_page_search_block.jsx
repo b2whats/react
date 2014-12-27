@@ -27,11 +27,13 @@ var DefaultPageSearchBlock = React.createClass({
   },
 
   render () {
+
     return (
       <div className={this.props.className}>
           <h2 className="default-page-search-block-header">
             <span className="text-free-icon">{this.props.header}</span>
           </h2>
+          
           <div className="default-page-search-block-content">
             <table className="default-page-search-block-width">            
               <tr className="default-page-search-block-width stylized-input text_btn">

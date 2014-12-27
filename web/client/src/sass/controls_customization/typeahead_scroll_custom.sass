@@ -1,0 +1,21 @@
+
+
+.scrollbar
+  background-color : transparent
+  width: $scrollbar-custom-width
+  right: 1px
+  .arrow
+    background-color : transparent
+
+  .thumb
+    background-color: #FFF
+    background-image: -moz-linear-gradient(right, rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%)
+    background-image: -o-linear-gradient(right, rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%)
+    background-image: -webkit-linear-gradient(right, rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%)
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, rgba(255, 255, 255, 0) 100%)
+    border: 1px solid #D0D0D0
+    -moz-border-radius: 4px
+    -webkit-border-radius: 4px
+    border-radius: 4px
+    width: $scrollbar-custom-thumb-width
+    right: ($scrollbar-custom-width - $scrollbar-custom-thumb-width)/2
