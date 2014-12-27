@@ -25,7 +25,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 }),
 routes_store /*observable store list*/);
 
-var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
+//var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
 
 
@@ -40,9 +40,6 @@ var ice_main = React.createClass({
 
 		var main = (function(router_state) { 
 			switch(router_state) {
-
-				case route_names.kTYPEAHEAD_ROUTE:
-					return <TypeaheadPage />
 
 				case route_names.kDEFAULT_ROUTE:
 					/* jshint ignore:start */

@@ -9,7 +9,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Typeahead = require('components/typeahead/typeahead.jsx');
 /* jshint ignore:end */
 
-var typeahead_actions = require('actions/typeahead_actions.js');
+//var typeahead_actions = require('actions/typeahead_actions.js');
 
 var suggestion_store = require('stores/suggestion_store.js');
 
