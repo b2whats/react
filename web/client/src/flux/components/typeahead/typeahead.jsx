@@ -341,7 +341,6 @@ var kPREVENT_TIME = 300; //на длинных списках может не х
 var kPOINTER_EVENTS_PREVENT_TIME = 100; //на длинных списках может не хватить - надо на максимальной длине потестить и увеличить
 var kSMALL_DELTA = 10;
 
-var kLIST_DELTA=0;
 
 var TypeaheadResults = React.createClass({
 
@@ -368,7 +367,7 @@ var TypeaheadResults = React.createClass({
     };
 
     if(this.props.list_width && this.props.list_width > 0) {
-      style.width = this.props.list_width - kLIST_DELTA; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
+      style.width = this.props.list_width; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
     }
 
 
@@ -818,7 +817,7 @@ var TypeaheadColumnHeaders = React.createClass({
     };
 
     if(this.props.list_width && this.props.list_width > 0) {
-      style.width = this.props.list_width - kLIST_DELTA; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
+      style.width = this.props.list_width; //TODO 10 походу это граница, вопрос почему разная в файрфоксе
     }
 
     return (
