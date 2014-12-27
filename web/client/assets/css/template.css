@@ -188,7 +188,7 @@ a.icon-link {
 }
 .footer a {
     margin: 0 12px;
-    font-size: 12px;
+    /* font-size: 12px; */
 }
 .footer a.icon-link {
     margin: 0;

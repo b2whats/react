@@ -66,7 +66,7 @@ var SearchAutoPartsWrapper = React.createClass({
       }
     }
 
-    //console.log(this.state.suggestion_show_value.toJS(), this.state.suggestion_value.toJS(), this.state.suggestion_search_term);
+    console.log(this.state.suggestion_show_value.toJS(), this.state.suggestion_value.toJS(), this.state.suggestion_search_term);
 
     return (      
       <Typeahead

@@ -240,10 +240,10 @@ grunt.initConfig({
     css_0: {
 
         options: {
-            match: 'reset.css',
+            match: 'normalize.css',
             replacement: 'md5',
             src: {
-                path: '<%= src.g_assets_dir %>/css/reset.css'
+                path: '<%= src.g_assets_dir %>/css/normalize.css'
             }
         },
         files: {
