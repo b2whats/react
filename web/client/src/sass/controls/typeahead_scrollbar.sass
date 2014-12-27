@@ -55,15 +55,16 @@ $scrollbar-thumb-width: 10px
     padding: 0
     margin: 0
     text-decoration: none
+    border-style: none 
     &:before,&:after
       font-family: Flaticon
       font-size: $scrollbar-width
       font-style: normal
       line-height: $scrollbar-width
     &:hover
-      color: yellow
+      color: lighten(gray, 20%)
     &:active
-      color: red
+      color: darken(gray, 20%)
 
     &.up
       top: 0
