@@ -398,9 +398,15 @@ var TypeaheadResults = React.createClass({
         <div onMouseDown={this.on_scroll_thumb_mouse_down} ref="thumb" style={thumb_style} className="thumb"></div>
       </div>);
 
+    var class_holder = cx ({
+      'typeahead-list-holder': true,
+      'typeahead-list-holder-headers' : this.props.column_headers,
+      'typeahead-list-holder-scroll-visible' : this.state.scroll_visible && this.props.has_custom_scroll
+    });
+
 
     return (
-      <div style={style}  className={this.props.column_headers ? 'typeahead-list-holder typeahead-list-holder-headers' : 'typeahead-list-holder'}>
+      <div style={style}  className={class_holder}>
 
         {this.props.column_headers ? 
           <TypeaheadColumnHeaders
