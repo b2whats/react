@@ -9,7 +9,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var DefaultPageSearchBlock = require('./default_page_search_block.jsx');
 var SearchAutoPartsWrapper = require('components/search_wrappers/search_auto_parts_wrapper.jsx');
-var SearchConsultationWrapper = require('components/search_wrappers/search_consultation_wrapper.jsx');
+var SearchAutoServiceWrapper = require('components/search_wrappers/search_autoservice_wrapper.jsx');
 /* jshint ignore:end */
 
 
@@ -17,6 +17,7 @@ var default_page_size_actions = require('actions/default_page_size_actions.js');
 var default_page_size_store = require('stores/default_page_size_store.js');
 
 var search_auto_actions = require('actions/search_auto_actions.js');
+var autoservices_search_actions = require('actions/autoservices_search_actions.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -81,12 +82,10 @@ var DefaultPage = React.createClass({
               <div style={{width:'1%', display: 'table-cell'}}></div>
               <DefaultPageSearchBlock className="big-search-block-block autoservices" 
                 header="КОНСУЛЬТАЦИЯ МАСТЕРА"
-                sample="mazda ремонт подвески"
-                sample_action={search_auto_actions.show_value_changed}
+                sample="mazda ремонт"
+                sample_action={autoservices_search_actions.show_value_changed}
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
-                  <SearchConsultationWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />
-                  {/*<input className="default-page-search-block-width" type="text" placeholder="Введите марку автомобиля и название работ**"/>*/}
-              
+                  <SearchAutoServiceWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />              
               </DefaultPageSearchBlock>
             </div>
           </div>

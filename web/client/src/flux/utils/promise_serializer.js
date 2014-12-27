@@ -36,6 +36,7 @@ var create_serializer = () => {
       return res;
     })
     .catch(e => {
+      console.error(e, e.stack);
       is_in_request_ = false;
       call_next();
       throw e;
