@@ -735,7 +735,7 @@ var TypeaheadResults = React.createClass({
 
 
       var scroll = containerNode.scrollTop;
-      var height = containerNode.offsetHeight;
+      var height = containerNode.clientHeight;
 
       var node = e.target;
       var top = node.offsetTop;
