@@ -35,6 +35,14 @@ grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/de
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown', 'exec:sleep', 'exec:exorcist']);
 
 
+grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
+                                 'concat:cards', 'exec:browserify_production',  'concat:devhtml_d2', 'sass:build_d2', 
+                                 'cachebreaker:css', 'cachebreaker:css_flaticon', 
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
+                                 'cachebreaker:js', 'markdown:all', 'copy:markdown']);
+
+
+
 grunt.registerTask('server', ['watchify', 'watch:all']);
 
 
@@ -81,6 +89,9 @@ grunt.initConfig({
      js_main: '<%= src.dev_src %>/flux/app.js',
      js_main_out: '<%= build.dev_build_dir %>js/app.js',
      js_main_w_map: '<%= build.dev_build_dir %>js/app_w_map.js',
+
+     js_main_out_prod_unmin: '<%= build.dev_build_dir %>/tmp/app_r_unminified.js',
+     js_main_out_prod_min: '<%= build.dev_build_dir %>/js/app.js',
 
      md_files: '<%= src.dev_src %>/docs/',
      md_files_tmp: '<%= build.dev_build_dir %>/tmp/docs',
@@ -142,6 +153,11 @@ grunt.initConfig({
     browserify: {     
       cmd: 'mkdir -p <%= build.dev_build_dir %>js && browserify -t [ reactify --es6 --global] --debug <%= src.js_main %> | ./node_modules/exorcist/bin/exorcist.js <%= src.js_main_out %>.map > <%= src.js_main_out %>'
     },
+
+    browserify_production: {     
+      cmd: 'NODE_ENV=production browserify -t [ reactify --es6 --global] <%= src.js_main %> | uglifyjs --compress --mangle > <%= src.js_main_out %>'
+    },
+
     exorcist: {
       cmd: 'cat <%= src.js_main_w_map%> | ./node_modules/exorcist/bin/exorcist.js <%= src.js_main_out %>.map > <%= src.js_main_out %>'
     },
