@@ -17,12 +17,14 @@ var kON_REGION__REGION_STORE_PRIORITY = sc.kON_REGION__REGION_STORE_PRIORITY;
 
 var state_ =  init_state(_.last(__filename.split('/')), {
   region_list: [],
-  region_current: null
+  region_current: null,
+  region_selection_visible: false,
+  show_value: {index:0, search_term:''}
 });
 
 var cncl_ = [
   main_dispatcher
-  .on(event_names.kON_REGION_LIST_LOADED, (region_list) => {  
+  .on(event_names.kON_REGION_LIST_LOADED, region_list => {  
     
     state_.region_list_cursor
       .update(() => immutable.fromJS(region_list));
@@ -32,13 +34,30 @@ var cncl_ = [
 
 
   main_dispatcher
-  .on(event_names.kON_REGION_CHANGED, (region_id) => {
+  .on(event_names.kON_REGION_CHANGED, region_id => {
     //к этому времени список регионов есть всегда
     var region_current = state_.region_list.find(region => region.get('id') == region_id);
 
     if(!immutable.is(state_.region_current, region_current)) {
       state_.region_current_cursor
         .update(() => region_current);
+
+      state_.region_selection_visible_cursor
+        .update(() => false);
+        
+      region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были 
+    }
+  }, kON_REGION__REGION_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_CHANGE_REGION_SELECTION, region_selection_visible => {
+    
+    if(!immutable.is(state_.region_selection_visible, region_selection_visible)) {
+      state_.region_selection_visible_cursor
+        .update(() => region_selection_visible);
+
+      state_.show_value_cursor
+        .update(v => v.set('index', v.get('index') + 1));
 
       region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были 
     }
@@ -54,6 +73,13 @@ var region_store = merge(Emitter.prototype, {
   get_region_current () {
     return state_.region_current;
   },
+  get_region_selection_visible() {
+    return state_.region_selection_visible;
+  },
+  get_region_selection_show_value() {
+    return state_.show_value; //это хак
+  },
+
   dispose () {
     if(cncl_) {
       _.each(cncl_, cncl => cncl());

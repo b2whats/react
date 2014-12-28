@@ -4,6 +4,8 @@ var _ = require('underscore');
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 var evt = require('shared_constants/event_names.js');
 
+var page = require('page'); //router
+
 
 module.exports.default_route = function(route_name, route_context) {
   //console.log('pageroute', route_context);
@@ -28,3 +30,9 @@ module.exports.data_preload_route = function (route_data_promise) {
       
   };
 };
+
+
+module.exports.goto_link = function (link) {
+  page(link);
+};
+

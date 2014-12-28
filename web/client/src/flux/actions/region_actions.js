@@ -13,12 +13,14 @@ var promise_serializer = require('utils/promise_serializer.js');
 var serializer = promise_serializer.create_serializer();
 
 var memoize = require('utils/promise_memoizer.js');
-
-
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
 var r_regions_ = resource(api_refs.kREGIONS_QUERY_API);
+
+var actions_ = [
+  ['change_region_selection_visibility', event_names.kON_CHANGE_REGION_SELECTION]
+];
 
 
 var get_regions_memoized = memoize(() => 
@@ -36,8 +38,7 @@ var get_regions_memoized = memoize(() =>
 , kMEMOIZE_OPTIONS);
 
 
-
-module.exports.region_changed = (region_id) => {  
+module.exports.region_changed = (region_id) => {  //подгружает список регионов если надо
   return serializer( () => get_regions_memoized() //для смены региона надо быть уверенным что они загружены
     .then(region_list => {      
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_CHANGED].concat([region_id]));
@@ -54,6 +55,8 @@ module.exports.region_changed = (region_id) => {
   });
 };
 
+
+module.exports = _.extend({}, module.exports, action_export_helper(actions_));
 
 
 

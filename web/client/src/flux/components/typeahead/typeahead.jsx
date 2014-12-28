@@ -88,6 +88,7 @@ var Typeahead = React.createClass({
   },
 
 
+
   on_disable_focused_value() {
     this.focused_can_change = false;
     this.setState({
@@ -279,13 +280,23 @@ var Typeahead = React.createClass({
     this.refs.search.getDOMNode().focus();
   },
 
-  onBlur() {
+  onBlur(e) {
+    var self = this;
     // wrap in setTimeout so we can catch a click on results
     this.blurTimer = setTimeout(() => {
       if (this.isMounted()) {
+        //console.log('blur-blur-blur');
+        if(self.props.on_blur) {
+          self.props.on_blur();
+        }
+
         this.setState({showResults: false});
       }
     }, 100);
+  },
+
+  onQueryBlur (e) {
+    //console.log('onQueryBlur', _.extend({}, e));
   },
 
   onQueryKeyDown(e) {
