@@ -23,14 +23,24 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 }),
 region_store /*observable store list*/);
 
+//странное срабатывание click евента с задержкой 100-200мс после blur 
+//если клик вызывает blur то сам event клик почему то отрабатывает с нехилой задержкой после blur
+//поэтому после блур клик не обрабатываем 
+var kCLICK_BLUR_DELAY_MS = 500;
 
 var RegionSelector = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
-  
-  on_region_click (e) {
-    region_actions.change_region_selection_visibility(!this.state.region_selection_visible);
+
+  componentWillMount() {
+    this.last_blur_time_ = 0;
   },
   
+  on_region_click (e) {
+    if((new Date()).getTime() - this.last_blur_time_ > kCLICK_BLUR_DELAY_MS) { //странное срабатывание click евента с задержкой 100-200мс после blur 
+      region_actions.change_region_selection_visibility(!this.state.region_selection_visible);
+    }
+  },
+
   typeahead_changed (v) {
     if(v.id!==this.state.region_current.get('id')) {
       route_actions.goto_link('/'+v.id);
@@ -40,8 +50,10 @@ var RegionSelector = React.createClass({
   },
 
   typeahead_lost_focus () { //означает что тайпахед закрылся
+    this.last_blur_time_ = (new Date()).getTime();
     region_actions.change_region_selection_visibility(false);
   },
+
 
   render () {
     var region_name = this.state.region_current && this.state.region_current.get('title');
@@ -56,7 +68,7 @@ var RegionSelector = React.createClass({
           <div className="stylized-select select-dotted">
             <span 
               className="stylized-select__select-text"
-              onClick={this.on_region_click}>{region_name}</span>
+              onClick={this.on_region_click} >{region_name}</span>
             
             <div style={style} className="region_selector stylized-select__dropdown">
               <Typeahead
