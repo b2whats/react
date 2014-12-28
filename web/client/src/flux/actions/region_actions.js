@@ -24,6 +24,12 @@ var r_regions_ = resource(api_refs.kREGIONS_QUERY_API);
 var get_regions_memoized = memoize(() => 
   r_regions_.get()
   .then(region_list => {
+    region_list = _.map(region_list, r => {
+      var res = _.extend({}, r);
+      res.title = r.center;
+      return res;
+    });
+
     main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_LIST_LOADED].concat([region_list]));
     return region_list;
   })
