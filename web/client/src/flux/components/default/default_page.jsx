@@ -8,15 +8,15 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var DefaultPageSearchBlock = require('./default_page_search_block.jsx');
-var SearchAutoPartsWrapper = require('components/search_wrappers/search_auto_parts_wrapper.jsx');
-var SearchAutoServiceWrapper = require('components/search_wrappers/search_autoservice_wrapper.jsx');
+var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
+var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 /* jshint ignore:end */
 
 
 var default_page_size_actions = require('actions/default_page_size_actions.js');
 var default_page_size_store = require('stores/default_page_size_store.js');
 
-var search_auto_actions = require('actions/search_auto_actions.js');
+var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 var autoservices_search_actions = require('actions/autoservices_search_actions.js');
 
 
@@ -74,9 +74,9 @@ var DefaultPage = React.createClass({
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
                 sample="стойка стабилизатора bmw x5"
-                sample_action={search_auto_actions.show_value_changed}
+                sample_action={auto_part_search_actions.show_value_changed}
                 description="*Начните вводить в строку название или производителя детали и марку, модель своего автомобиля и выберите из нескольких вариантов поискового запроса.">
-                  <SearchAutoPartsWrapper 
+                  <AutoPartsSearchWrapper 
                     list_width={this.state.width}
                     placeholder="Введите название, производителя или код*" />
               </DefaultPageSearchBlock>
@@ -86,7 +86,7 @@ var DefaultPage = React.createClass({
                 sample="mazda ремонт"
                 sample_action={autoservices_search_actions.show_value_changed}
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
-                  <SearchAutoServiceWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />              
+                  <AutoServiceSearchWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />              
               </DefaultPageSearchBlock>
             </div>
           </div>

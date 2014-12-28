@@ -1,4 +1,7 @@
 'use strict';
+/**
+* Тайпахед заточенный под поиск автозапастей
+*/
 
 var React = require('react/addons');
 
@@ -9,7 +12,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Typeahead = require('components/typeahead/typeahead.jsx');
 /* jshint ignore:end */
 
-var search_actions = require('actions/search_auto_actions.js');
+var search_actions = require('actions/auto_part_search_actions.js');
 
 var suggestion_store = require('stores/auto_part_suggestion_store.js');
 
@@ -33,7 +36,7 @@ var kHEADERS=['Артикул', 'Производитель', 'Наименов�
 var kCOLUMNS = 3;
 var kCOLUMN_TITLE_IDX = 2;
 
-var SearchAutoPartsWrapper = React.createClass({
+var AutoPartsSearchWrapper = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
   last_st: '',
@@ -83,4 +86,4 @@ var SearchAutoPartsWrapper = React.createClass({
   }
 });
 
-module.exports = SearchAutoPartsWrapper;
+module.exports = AutoPartsSearchWrapper;

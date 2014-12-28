@@ -11,7 +11,7 @@ var rafBatchStateUpdateMixinCreate =require('./mixins/raf_state_update.js');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 /* jshint ignore:start */
-var Header = require('components/header.jsx');
+var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
 

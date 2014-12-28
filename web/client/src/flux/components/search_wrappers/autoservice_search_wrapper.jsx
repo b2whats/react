@@ -1,4 +1,7 @@
 'use strict';
+/**
+* Тайпахед заточенный под поиск автосервисов
+*/
 
 var React = require('react/addons');
 
@@ -32,7 +35,7 @@ var kHEADERS=['Марка авто', 'Вид сервиса'];
 var kCOLUMNS = 2;
 var kCOLUMN_TITLE_IDX = 1;
 
-var SearchAutoServiceWrapper = React.createClass({
+var AutoServiceSearchWrapper = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
   last_st: '',
@@ -84,4 +87,4 @@ var SearchAutoServiceWrapper = React.createClass({
   }
 });
 
-module.exports = SearchAutoServiceWrapper;
+module.exports = AutoServiceSearchWrapper;
