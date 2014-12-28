@@ -24,11 +24,14 @@ var RegionSelector = React.createClass({
   
 
   render () {
+    var region_name = this.state.region_current && this.state.region_current.get('center');
+
+
     return (
         <div className="header-region">
           <img src="images/templates/icon-map.png" alt="" />
           <div className="stylized-select select-dotted">
-            <span className="stylized-select__select-text">Санкт-Петербург</span>
+            <span className="stylized-select__select-text">{region_name}</span>
             
             <div style={{display:'None'}} className="stylized-select__dropdown">
               <div className="stylized-select__search">

@@ -16,7 +16,11 @@ module.exports = function(routes) {
         _.each(routes, function(route) {          
           if(typeof(route[kROUTE_PATH_IDX])==='string' && typeof(route[kROUTE_HANDLER_IDX]) === 'function') {            
             page(route[kROUTE_PATH_IDX], function(route_context) {              
-              route[kROUTE_HANDLER_IDX](route[kROUTE_OBJECT_IDX], route_context);
+              
+              for(var i=kROUTE_HANDLER_IDX; i<route.length;++i) {
+                route[i](route[kROUTE_OBJECT_IDX], route_context, _.extend({},route_context.params));
+              }
+            
             });          
           } else {
             console.error('bad types for route ', route[kROUTE_PATH_IDX]);

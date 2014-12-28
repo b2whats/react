@@ -27,17 +27,18 @@ var cncl_ = [
     state_.region_list_cursor
       .update(() => immutable.fromJS(region_list));
     
-
     region_store.fire(event_names.kON_CHANGE);
   }, kON_REGION__REGION_STORE_PRIORITY),
 
 
   main_dispatcher
-  .on(event_names.kON_REGION_CHANGED, (region_current) => {
-    var im_region_current = immutable.fromJS(region_current);
-    if(!immutable.is(state_.region_current, im_region_current)) {
+  .on(event_names.kON_REGION_CHANGED, (region_id) => {
+    //к этому времени список регионов есть всегда
+    var region_current = state_.region_list.find(region => region.get('id') == region_id);
+
+    if(!immutable.is(state_.region_current, region_current)) {
       state_.region_current_cursor
-        .update(() => im_region_current);
+        .update(() => region_current);
 
       region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были 
     }
