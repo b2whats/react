@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "exorcist": "^0.1.6",
+    "fb-flo": "^0.4.0",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.4.1",
     "grunt-cache-breaker": "^1.0.1",
