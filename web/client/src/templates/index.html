@@ -20,24 +20,25 @@
     
     <link rel="stylesheet" type="text/css" href="/icons/icon-font/flaticon.css"> 
     -->
-
     <!--слить -->
     <!--link rel="stylesheet" href="css/reset.css"/-->
-    <link rel="stylesheet" href="css/normalize.css"/>
+    <link rel="stylesheet" href="/css/normalize.css"/>
     
-    <link rel="stylesheet" href="css/fonts.css"/>
-    <link rel="stylesheet" href="css/forms.css"/>
-    <link rel="stylesheet" href="css/modules.css"/>
-    <link rel="stylesheet" href="css/template.css"/>
+    <link rel="stylesheet" href="/css/fonts.css"/>
+    <link rel="stylesheet" href="/css/forms.css"/>
+    <link rel="stylesheet" href="/css/modules.css"/>
+    <link rel="stylesheet" href="/css/template.css"/>
     
 
     <link rel="stylesheet" type="text/css" href="/icons/icon-font/flaticon.css">     
-    <link rel="stylesheet" href="/lcss/dev_sass_d2.css">
-
-    
-    
+    <link rel="stylesheet" href="/lcss/sass.css">
     <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
   </head>
 <!--иначе карта глючит - если драг будет нужен перенести на элемент карты или выше и проверить сто раз-->  
-<body ondragstart="return false;">
-
+  <body ondragstart="return false;">
+    <div id="react_main" class="main-view">
+    </div>
+    <!--грузим асинхронно, document.write нет-->
+    <script async defer src="/js/app.js" type="text/javascript"></script>
+  </body>
+</html>
