@@ -23,10 +23,9 @@ var server = flo(
   function resolver(filepath, callback) {
     
     var upd = {
-      update: function(_window, _resourceURL, param) {
-        // this function is executed in the browser, immediately after the resource has been updated with new content perform additional steps here to reinitialize your application so it would take advantage of the new resource
+      update: function(_window, _resourceURL) {
         console.log("Resource " + _resourceURL + " has just been updated with new content");
-        console.log(param);
+        return true;
       },
       contents: fs.readFileSync('./client/' + filepath)
     };
