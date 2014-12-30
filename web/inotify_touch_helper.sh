@@ -7,7 +7,10 @@ set -e
 
 export LC_NUMERIC=C
 export kWATCH_DIR='client/src'
-export kTRIGGER_NAME='web_rec_admin'
+export kWATCH_ASSETS_DIR='client/assets'
+
+export kTRIGGER_NAME='trigger'
+export kTRIGGER_NAME_ASSETS='trigger_assets'
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
@@ -19,12 +22,19 @@ done
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 WATCH_DIR="$( cd -P "$( dirname "$SOURCE" )/$kWATCH_DIR" && pwd )"
+WATCH_ASSETS_DIR="$( cd -P "$( dirname "$SOURCE" )/$kWATCH_ASSETS_DIR" && pwd )"
 
 echo 'START LOG' > "$DIR/log_inotify.txt"
 
+#смотрим src
 watchman trigger-del "$WATCH_DIR" "$kTRIGGER_NAME"
+watchman -- trigger "$WATCH_DIR" "$kTRIGGER_NAME" -- 'bash -c "$DIR/watch.sh"'
 
-watchman -- trigger "$WATCH_DIR" "$kTRIGGER_NAME" -- "$DIR/watch.sh"
+#смотрим assets
+watchman trigger-del "$WATCH_ASSETS_DIR" "$kTRIGGER_NAME_ASSETS"
+watchman -- trigger "$WATCH_ASSETS_DIR" "$kTRIGGER_NAME_ASSETS" -- "$DIR/watch.sh"
+
+
 
 #echo $DIR
 

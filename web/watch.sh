@@ -10,7 +10,9 @@
 set -e
 
 export LC_NUMERIC=C
-export kWATCH_DIR='client/src'
+kWATCH_DIR='client/src'
+[[ $WATCHMAN_TRIGGER=='trigger_assets' ]] && kWATCH_DIR='client/assets';
+
 
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
