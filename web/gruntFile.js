@@ -3,6 +3,11 @@ var path = require('path');
 var _ = require('underscore');
 var crypto = require('crypto');
 
+
+//итого остается 
+//сделать сache_break подключенным файлам
+//сбилдить sass остальное сделает watchify
+
 module.exports = function (grunt) {
 
 grunt.loadNpmTasks('grunt-contrib-concat');
@@ -15,28 +20,34 @@ grunt.loadNpmTasks('grunt-contrib-sass');
 grunt.loadNpmTasks('grunt-cache-breaker');
 grunt.loadNpmTasks('grunt-exec');
 
+
 grunt.loadNpmTasks('grunt-markdown');
 
 //grunt.loadNpmTasks('grunt-autoprefixer');
 
 //grunt.loadNpmTasks('grunt-nodemon');
 
+grunt.registerTask('clear',['clean:build']);
+
+
 grunt.registerTask('devscripts',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
-                                 'concat:cards', 'exec:browserify',  'concat:devhtml_d2', 'sass:build_d2', 
+                                 'exec:browserify',  'sass:build', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown']);
 
 
-grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp',
-                                 'concat:devhtml_d2', 'sass:build_d2', 
+//тут только билд html md и sass
+grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/dev/', //назначить директорию
+                                 'sass:build', //сбилдить сасс
+                                 'copy:index',
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
-                                 'cachebreaker:js', 'markdown:all', 'copy:markdown', 'exec:sleep', 'exec:exorcist']);
+                                 'cachebreaker:js', 'markdown:all', 'copy:markdown']);
 
 
 grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
-                                 'concat:cards', 'exec:browserify_production',  'concat:devhtml_d2', 'sass:build_d2', 
+                                 'concat:cards', 'exec:browserify_production',  'concat:devhtml_d2', 'sass:build', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown']);
@@ -47,15 +58,10 @@ grunt.registerTask('server', ['watchify', 'watch:all']);
 
 
 
-grunt.registerTask('default',['watchify', 'watch:touchw']);
+grunt.registerTask('default',['execute_fb_flo', 'watchify', 'watch:touch_sass_html_md']);
+
 //grunt.registerTask('default',['devscripts', 'watch:nonjs']);
-
-
-
-grunt.registerTask('clear',['clean:build']);
-
-
-grunt.registerTask('test',['exec:test']);
+grunt.registerTask('test',['copy:index']);
 
 
 grunt.registerTask('set_config', 'Set a config property.', function(name, val) {
@@ -65,69 +71,67 @@ grunt.registerTask('set_config', 'Set a config property.', function(name, val) {
 });
 
 
+var fb_flo_already_started_ = false;
+grunt.registerTask('execute_fb_flo', '', function(name, value) {
+  console.log('executing fb-flo');
+  require('./fb-flo.js');
+  fb_flo_already_started_ = true;
+});
+
+
 grunt.initConfig({
   distdir: 'dist',
 
   src: {
      dev_src:'client/src/',
-     touch_file: 'client/touch_helper.md',
-     admin_src:'admin/src/',
+     touch_sass_html_md: 'client/osx/touch_helper_sass_html_md.md',
      g_assets_dir:'client/assets/',
-     templates_sub_dir: 'templates/',
-     dev_templates: '<%= src.dev_src %><%= src.templates_sub_dir %>',
-     tpl: {
-        header_dev_sass_tpls_d2 : ['<%= src.dev_templates %>header_dev_sass_d2.tpl.html'],
-        innerbody_dev_sass_tpls : ['<%= src.dev_templates %>innerbody_sass.tpl.html'],
-        livereload_dev_tpls : ['<%= src.dev_templates %>livereload.tpl.html'],
-        footer_dev_tpls : ['<%= src.dev_templates %>footer.tpl.html'],
-        app_mains: ['<%= src.dev_templates %>*/**/*.tpl.html']
-      },
 
-     sass_d2: ['<%= src.dev_src %>sass/app.sass'],
-     sass_watch_2: ['<%= src.dev_src %>sass/**/*.sass', '<%= src.dev_src %>sass_d2/**/*.sass'],
+     dev_templates: '<%= src.dev_src %>templates/',
+
+     sass: ['<%= src.dev_src %>sass/app.sass'],
+     sass_all: ['<%= src.dev_src %>sass/**/*.sass'],
 
      js_main: '<%= src.dev_src %>/flux/app.js',
      js_main_out: '<%= build.dev_build_dir %>js/app.js',
      js_main_w_map: '<%= build.dev_build_dir %>js/app_w_map.js',
 
-     js_main_out_prod_unmin: '<%= build.dev_build_dir %>/tmp/app_r_unminified.js',
+     js_main_out_prod_unmin: '<%= build.dev_build_dir %>/tmp/app_r_unminified.js', //релиз
      js_main_out_prod_min: '<%= build.dev_build_dir %>/js/app.js',
 
-     md_files: '<%= src.dev_src %>/docs/',
+     md_files: '<%= src.dev_src %>/docs/', //документация
      md_files_tmp: '<%= build.dev_build_dir %>/tmp/docs',
      md_files_out: '<%= build.dev_build_dir %>/docs'
-
   },
+
   build:{
     dev_build_dir:'client/build/dev/',
     release_build_dir:'client/build/release/'
   },
+
   watch: {
     all:{
-      files: ['<%= src.dev_src %>**/*.js', '<%= src.dev_src %>**/*.jsx','<%= src.dev_src %>**/*.tpl.html', '<%= src.dev_src %>**/*.css', '<%= src.sass_d2 %>', '<%= src.sass_watch_2 %>'],
+      files: ['<%= src.dev_src %>**/*.js', 
+              '<%= src.dev_src %>**/*.jsx',
+              '<%= src.dev_src %>**/*.tpl.html', 
+              '<%= src.g_assets_dir %>**/*.css', 
+              '<%= src.dev_src %>**/*.css', 
+              '<%= src.sass %>', 
+              '<%= src.sass_all %>'],
       tasks: ['watchify'],
       options:{
         spawn: false,
         //interval: 0,
-        livereload: 3081
+        //livereload: 3081
       }
     },
     
-    touch: {
-      files: ['<%= src.touch_file %>'],
-      tasks: ['devscripts'],
-      options:{
-        spawn: false,
-        livereload: 3081
-      }
-    },
-
-    touchw: {
-      files: ['<%= src.touch_file %>'],
+    touch_sass_html_md: { //этот гемор чтоб под виртуалкой вотч не тормозил
+      files: ['<%= src.touch_sass_html_md %>'],
       tasks: ['watchify'],
       options:{
         spawn: false,
-        livereload: 3081
+        //livereload: 3081
       }
     }
 
@@ -143,9 +147,8 @@ grunt.initConfig({
     markdown:{
       files:[{expand: true, cwd:'<%= src.md_files_tmp %>', flatten: true, src: ['**/*.html'], dest: '<%= src.md_files_out %>'}]
     },
-
-    devscripts:{
-      files:[{expand: true, cwd:'<%= src.dev_src %>', src: ['**/*.js'], dest: '<%= build.dev_build_dir %>js/'}]
+    index: {
+      files:[{expand: true, cwd:'<%= build.dev_templates %>',  flatten: true, src: ['<%= src.dev_templates %>*.html'], dest: '<%= build.dev_build_dir %>'}]      
     }
   },
 
@@ -169,69 +172,31 @@ grunt.initConfig({
     }
   },
 
-  concat:{
-    cards:{
-      src: ['<%= src.tpl.app_mains %>'],
-      dest : '<%= build.dev_build_dir %>tmp/cards.tmp',
-      options: {
-        separator: '\n',
-        process: function(src, filepath) {
-          //var base_name = path.basename(filepath);
-          //if(base_name.indexOf('card_')>=0)
-          //console.log('TEMPLATE FILE PATHES', filepath);
-          var fpath_array = filepath.split('/');
-          if(_.some(fpath_array, function(dir_or_file_name){ return dir_or_file_name[0]==='_';})){
-            return '';
-          }
-          if(filepath.indexOf('.ractive.')>0) {
-            return '<script id="'+ path.basename(filepath,'.ractive.tpl.html') + '" type="text/ractive">\n' + src + '\n</script>\n';
-          } else {
-            return '<script id="'+ path.basename(filepath,'.tpl.html') + '" type="text/ng-template">\n' + src + '\n</script>\n';
-          }
-        }
-      }
-    },
-    
-    devhtml_d2:{ //TODO для релиза создать новый relhtml и убрать livereload
-      src: ['<%= src.tpl.header_dev_sass_tpls_d2 %>',
-            '<%= build.dev_build_dir %>tmp/cards.tmp',
-            '<%= src.tpl.innerbody_dev_sass_tpls %>',
-            //'<%= build.dev_build_dir %>tmp/dev_scripts_includes.tmp',
-            '<%= src.tpl.livereload_dev_tpls %>',
-            '<%= src.tpl.footer_dev_tpls %>'],
-
-      dest:'<%= build.dev_build_dir %>index_sass_d2.html',
-      options: {
-        separator: '\n'
-      }
-    }
-  },
 
   autoprefixer: {
-    sass_build_d2: {
+    sass: {
       options: {
       },
-      src: '<%= build.dev_build_dir %>lcss/dev_sass_d2.css',
-      dest: '<%= build.dev_build_dir %>lcss/dev_sass_d2.css'
+      src: '<%= build.dev_build_dir %>lcss/sass.css',
+      dest: '<%= build.dev_build_dir %>lcss/sass.css'
     }
   },
 
   sass: {
-
-    build_d2: {
+    build: {
       options:{
-        noCache:false, //не генерить кэшпапку
+        noCache: false, //не генерить кэшпапку
         cacheLocation:'<%= build.dev_build_dir %>/../sass_cache',
         //sourcemap:true,
         require: 'sass-json-vars'
-
       },
       files: {
-        '<%= build.dev_build_dir %>lcss/dev_sass_d2.css': '<%= src.sass_d2 %>'
+        '<%= build.dev_build_dir %>lcss/sass.css': '<%= src.sass %>'
       }
     }
   },
 
+  //документация
   markdown: {
     all: {
       files: [
@@ -263,7 +228,7 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
 
@@ -277,7 +242,7 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
     css_2: {
@@ -290,7 +255,7 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
     css_3: {
@@ -303,7 +268,7 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
     css_4: {
@@ -316,20 +281,20 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
 
     css: {
         options: {
-            match: ['dev_sass_d2.css'],
+            match: ['sass.css'],
             replacement: 'md5',
             src: {
-                path: '<%= build.dev_build_dir %>lcss/dev_sass_d2.css'
+                path: '<%= build.dev_build_dir %>lcss/sass.css'
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
     css_flaticon: {
@@ -341,7 +306,7 @@ grunt.initConfig({
             }
         },
         files: {
-            src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+            src: ['<%= build.dev_build_dir %>index.html']
         }
     },
  
@@ -356,7 +321,7 @@ grunt.initConfig({
             }
         },
         files: {
-          src: ['<%= build.dev_build_dir %>index_sass_d2.html']
+          src: ['<%= build.dev_build_dir %>index.html']
         }
     }
 

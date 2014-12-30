@@ -25,6 +25,7 @@ docker run --name "$DOCKER_HOST_NAME" -d -t \
 -e HOSTNAME="$DOCKER_HOST_NAME" \
 -p 3080:80 \
 -p 3081:3081 \
+-p 3082:3082 \
 -v $HOME$CROSS_COMPAT_DIR:/home/ice$CROSS_COMPAT_DIR \
 --add-host "$DOCKER_HOST_NAME":127.0.0.1 \
 "$CONTAINER_NAME"

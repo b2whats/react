@@ -28,7 +28,7 @@ echo 'START LOG' > "$DIR/log_inotify.txt"
 
 #смотрим src
 watchman trigger-del "$WATCH_DIR" "$kTRIGGER_NAME"
-watchman -- trigger "$WATCH_DIR" "$kTRIGGER_NAME" -- 'bash -c "$DIR/watch.sh"'
+watchman -- trigger "$WATCH_DIR" "$kTRIGGER_NAME" -- "$DIR/watch.sh"
 
 #смотрим assets
 watchman trigger-del "$WATCH_ASSETS_DIR" "$kTRIGGER_NAME_ASSETS"

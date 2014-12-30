@@ -117,7 +117,7 @@ _.each([
       res.end('Redirecting to ' + req.url + '/');
     }
 
-    send(req, 'index_sass_d2.html')
+    send(req, 'index.html')
     .root(__dirname + config.kDEV_RELEASE)
     .on('error', error)
     .on('directory', redirect)
