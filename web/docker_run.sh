@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+CONTAINER_NAME=whats/react
+DOCKER_HOST_NAME=react
 
 export LC_NUMERIC=C
 
@@ -13,16 +15,33 @@ done
 PARENT_DIR="$( cd -P "$( dirname "$SOURCE" )"/.. && pwd )"
 DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
+#если мак то настроить ватчман #brew install watchman
+SYSTEM=`uname`
+[ "$SYSTEM" = "Darwin" ] && ./inotify_touch_helper.sh 
 
 CROSS_COMPAT_DIR=${PARENT_DIR#$HOME}
-#echo $HOME$CROSS_COMPAT_DIR
-#echo /home/ice$CROSS_COMPAT_DIR
 
-docker run --name react -d -t \
--e HOSTNAME=react \
+docker run --name "$DOCKER_HOST_NAME" -d -t \
+-e HOSTNAME="$DOCKER_HOST_NAME" \
 -p 3080:80 \
 -p 3081:3081 \
 -v $HOME$CROSS_COMPAT_DIR:/home/ice$CROSS_COMPAT_DIR \
---add-host react:127.0.0.1 \
-whats/react
+--add-host "$DOCKER_HOST_NAME":127.0.0.1 \
+"$CONTAINER_NAME"
+
+
+#Запустить внутри контейнера все что надо
+docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "script -q /dev/null -c 'cd /home/ice$CROSS_COMPAT_DIR/web && ./tmux_run'"
+#echo 'please wait'
+#sleep 10 #чуть подождать и отдетачить клиента от контейнера
+CLIENT_LIST=
+
+while [[ -z "$CLIENT_LIST" ]]; do
+  CLIENT_LIST=$(docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients")
+  echo 'please wait ...'
+  sleep 2
+done
+
+#если где то окажется что не /dev/pts/0 то отловить
+docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "tmux detach-client -t /dev/pts/0"
 
