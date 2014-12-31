@@ -18,4 +18,12 @@ React.render(
 );
 /* jshint ignore:end */
 
-console.log('hello worlssmm   sd', Event);
+
+
+console.log('j', Event); 
+
+window.is_set_reload || window.addEventListener('fb-flo-reload', function(ev) {
+    window.React.unmountComponentAtNode(document.getElementById('react_main'));
+    window.is_set_reload = true;
+    eval(ev.data.contents);
+});

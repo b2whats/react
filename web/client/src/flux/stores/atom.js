@@ -4,7 +4,8 @@ var immutable = require('immutable');
 
 var _ = require('underscore');
 var cursor = require('immutable/contrib/cursor');
-var atom_ = immutable.Map({});
+var atom_ = immutable.Map(window.__atom__ || {});
+
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js').create_proxy();
 //var shared_constants = require('shared_constants');
@@ -30,6 +31,8 @@ var atom_store = merge(Emitter.prototype, {
     var update_fn = function(new_atom) {
       //atom_ = atom_.merge(new_atom);
       atom_ = new_atom;
+      window.__atom__ = atom_;
+
       //atom_store.fire(event_names.kON_CHANGE);
       //console.log(atom_.toString().indexOf('Seq')); //так тестить что нигде случайно незамапил на динамическую последовательность
       if(callback) { //механизм для оповещения основного курсора если был изменен подкурсор

@@ -22,6 +22,8 @@ var server = flo(
   },
   function resolver(filepath, callback) {
     
+    console.log(111);
+    var reload = false;
     var upd = {
       update: function(_window, _resourceURL) {
         console.log("Resource " + _resourceURL + " has just been updated with new content");
@@ -31,12 +33,20 @@ var server = flo(
     };
 
     console.log('-------------------------::::/',filepath);
+
     if(filepath === 'build/dev/js/app.js') {
       //запустить процесс разбиения на два
       filepath = 'js/app.js';
+      //reload = true;
+    }
+
+    if(filepath === 'build/dev/lcss/sass.css') {
+      //запустить процесс разбиения на два
+      filepath = 'lcss/sass.css';
     }
 
     callback(_.extend({
+      reload: reload,
       resourceURL: '/' + filepath,
     }, upd));
   }
