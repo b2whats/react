@@ -2,86 +2,87 @@
 var path = require('path');
 var _ = require('underscore');
 var crypto = require('crypto');
+var fs = require('fs');
 
 
-//итого остается 
-//сделать сache_break подключенным файлам
-//сбилдить sass остальное сделает watchify
 
 module.exports = function (grunt) {
 
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-copy');
-grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-clean');
-grunt.loadNpmTasks('grunt-recess');
 grunt.loadNpmTasks('grunt-contrib-sass');
 grunt.loadNpmTasks('grunt-cache-breaker');
 grunt.loadNpmTasks('grunt-exec');
-
-
 grunt.loadNpmTasks('grunt-markdown');
-
 //grunt.loadNpmTasks('grunt-autoprefixer');
 
-//grunt.loadNpmTasks('grunt-nodemon');
 
 grunt.registerTask('clear',['clean:build']);
 
 
 grunt.registerTask('devscripts',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
-                                 'exec:browserify',  'sass:build', 
+                                 'exec:browserify_vendor', 'exec:browserify_app_exorcist',
+                                 'sass:build', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
-                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
-                                 'cachebreaker:js', 'markdown:all', 'copy:markdown']);
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',                                 
+                                 'cachebreaker:js_vendor', 'cachebreaker:js', 
+                                 'markdown:all', 'copy:markdown']);
 
 
 //тут только билд html md и sass
-grunt.registerTask('watchify',  ['set_config:build.dev_build_dir:client/build/dev/', //назначить директорию
+grunt.registerTask('watchify_task',  ['set_config:build.dev_build_dir:client/build/dev/', //назначить директорию
                                  'sass:build', //сбилдить сасс
                                  'copy:index',
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
-                                 'cachebreaker:js', 'markdown:all', 'copy:markdown']);
-
-
+                                 'cachebreaker:js_vendor', 'cachebreaker:js',
+                                 'markdown:all', 'copy:markdown']);
+/*
 grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
                                  'concat:cards', 'exec:browserify_production',  'concat:devhtml_d2', 'sass:build', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
                                  'cachebreaker:js', 'markdown:all', 'copy:markdown']);
 
+*/
 
+//grunt.registerTask('test2',['exec:browserify_app_exorcist']);
 
-grunt.registerTask('server', ['watchify', 'watch:all']);
+grunt.registerTask('default',['exec:browserify_vendor', 'exec:browserify_app_exorcist', 'execute_fb_flo', 'watchify_task', 'watch:touch_sass_html_md']);
 
+grunt.registerTask('server', ['devscripts', 'watchify_task', 'watch:all']);
 
-
-grunt.registerTask('default',['execute_fb_flo', 'watchify', 'watch:touch_sass_html_md']);
-
-//grunt.registerTask('default',['devscripts', 'watch:nonjs']);
-grunt.registerTask('test',['copy:index']);
 
 
 grunt.registerTask('set_config', 'Set a config property.', function(name, val) {
   grunt.config.set(name, val);
   console.log('SET_CONFIG: '+name + '; v: '+grunt.config.get(name));
-
 });
 
+console.log (process.argv)
 
 var fb_flo_already_started_ = false;
-grunt.registerTask('execute_fb_flo', '', function(name, value) {
-  console.log('executing fb-flo');
-  require('./fb-flo.js');
-  fb_flo_already_started_ = true;
+var watchify_already_started_ = false;
+
+grunt.registerTask('execute_fb_flo', 'execute fb-flo server', function(name, value) {
+  if(!fb_flo_already_started_) {
+    console.log('executing fb-flo');
+    require('./fb-flo.js');
+    fb_flo_already_started_ = true;
+  }
 });
+//запуск watchify
+
+
+
+
 
 
 grunt.initConfig({
   distdir: 'dist',
-
+  
   src: {
      dev_src:'client/src/',
      touch_sass_html_md: 'client/osx/touch_helper_sass_html_md.md',
@@ -93,12 +94,7 @@ grunt.initConfig({
      sass_all: ['<%= src.dev_src %>sass/**/*.sass'],
 
      js_main: '<%= src.dev_src %>/flux/app.js',
-     js_main_out: '<%= build.dev_build_dir %>js/app.js',
-     js_main_w_map: '<%= build.dev_build_dir %>js/app_w_map.js',
-
-     js_main_out_prod_unmin: '<%= build.dev_build_dir %>/tmp/app_r_unminified.js', //релиз
-     js_main_out_prod_min: '<%= build.dev_build_dir %>/js/app.js',
-
+     
      md_files: '<%= src.dev_src %>/docs/', //документация
      md_files_tmp: '<%= build.dev_build_dir %>/tmp/docs',
      md_files_out: '<%= build.dev_build_dir %>/docs'
@@ -106,8 +102,14 @@ grunt.initConfig({
 
   build:{
     dev_build_dir:'client/build/dev/',
-    release_build_dir:'client/build/release/'
+    release_build_dir:'client/build/release/',
+    js_dir: '<%= build.dev_build_dir %>js/',    
+    vendor_js: '<%= build.js_dir %>vendor.js',
+    app_js: '<%= build.js_dir %>app.js',
   },
+
+
+ 
 
   watch: {
     all:{
@@ -118,7 +120,7 @@ grunt.initConfig({
               '<%= src.dev_src %>**/*.css', 
               '<%= src.sass %>', 
               '<%= src.sass_all %>'],
-      tasks: ['watchify'],
+      tasks: ['watchify_task'],
       options:{
         spawn: false,
         //interval: 0,
@@ -128,7 +130,7 @@ grunt.initConfig({
     
     touch_sass_html_md: { //этот гемор чтоб под виртуалкой вотч не тормозил
       files: ['<%= src.touch_sass_html_md %>'],
-      tasks: ['watchify'],
+      tasks: ['watchify_task'],
       options:{
         spawn: false,
         //livereload: 3081
@@ -153,23 +155,20 @@ grunt.initConfig({
   },
 
   exec: {
-    browserify: {     
-      cmd: 'mkdir -p <%= build.dev_build_dir %>js && browserify -t [ reactify --es6 --global] --debug <%= src.js_main %> | ./node_modules/exorcist/bin/exorcist.js <%= src.js_main_out %>.map > <%= src.js_main_out %>'
+
+    browserify_vendor: {
+      cmd: "mkdir -p <%= build.dev_build_dir %>js && browserify -r 'react/addons' -r underscore -r immutable -r 'immutable/contrib/cursor' > <%= build.vendor_js %>"
+    },
+    
+    browserify_app_exorcist: {
+      cmd: "mkdir -p <%= build.dev_build_dir %>js && browserify <%= src.js_main %> -x 'react/addons' -x underscore -x 'immutable/contrib/cursor' -x immutable -t [ reactify --es6 --global] -d |  ./node_modules/exorcist/bin/exorcist.js  <%= build.app_js %>.map > <%= build.app_js %> "
     },
 
+    /*
     browserify_production: {     
       cmd: 'NODE_ENV=production browserify -t [ reactify --es6 --global] <%= src.js_main %> | uglifyjs --compress --mangle > <%= src.js_main_out %>'
     },
-
-    exorcist: {
-      cmd: 'cat <%= src.js_main_w_map%> | ./node_modules/exorcist/bin/exorcist.js <%= src.js_main_out %>.map > <%= src.js_main_out %>'
-    },
-    sleep: {
-      cmd: 'sleep 1'
-    },
-    test: {
-      cmd: 'NODE_ENV=production browserify --debug <%= src.js_main %> -o <%= src.js_main_out %>'
-    }
+    */
   },
 
 
@@ -310,6 +309,18 @@ grunt.initConfig({
         }
     },
  
+    js_vendor: {
+      options: {
+          match: ['vendor.js'],
+          replacement: 'md5',
+          src: {
+            path: '<%= build.dev_build_dir %>js/vendor.js'
+          }
+      },
+      files: {
+        src: ['<%= build.dev_build_dir %>index.html']
+      }
+    },
 
 
     js: {

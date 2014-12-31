@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 'use strict';
 
 var React = require('react/addons');
@@ -11,19 +10,12 @@ require('third_party/console-polyfill.js');
 
 var IceMain = require('./components/main.jsx');
 
-/* jshint ignore:start */
 React.render(
     <IceMain/>, //ice_main(null)
     document.getElementById('react_main')
 );
-/* jshint ignore:end */
 
 
 
-console.log('j', Event); 
+//document.addEventListener('click', () => console.log('hello world ice wow'));
 
-window.is_set_reload || window.addEventListener('fb-flo-reload', function(ev) {
-    window.React.unmountComponentAtNode(document.getElementById('react_main'));
-    window.is_set_reload = true;
-    eval(ev.data.contents);
-});

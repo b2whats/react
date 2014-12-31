@@ -1,9 +1,18 @@
 'use strict';
 var _ = require('underscore');
-var path = require('path');
+//var path = require('path');
 var flo = require('fb-flo');
 var fs = require('fs');
+var q = require('q');
+var multiline = require('multiline');
 
+var qread = q.denodeify(fs.readFile);
+var bash_create = require('ice_bash_exec')(__dirname);
+
+var exorcist = bash_create(['FILE_WITH_MAP', 'APP_JS', 'APP_JS_MAP'], multiline.stripIndent(function() {/*
+  cat "$FILE_WITH_MAP" | ./node_modules/exorcist/bin/exorcist.js  "$APP_JS_MAP" > "$APP_JS"
+*/})
+);
 
 
 //flo смотрит в билд папку и в папку assets
@@ -16,39 +25,62 @@ var server = flo(
     verbose: false,
     glob: [
       'assets/css/*.css',
-      'build/dev/js/app.js',
-      'build/dev/lcss/*.css'
+      //'build/dev/js/app.js',
+      'build/dev/js/map.app.js',
+      'build/dev/lcss/sass.css'
     ]
   },
   function resolver(filepath, callback) {
-    
-    console.log(111);
-    var reload = false;
-    var upd = {
-      update: function(_window, _resourceURL) {
-        console.log("Resource " + _resourceURL + " has just been updated with new content");
-        return true;
-      },
-      contents: fs.readFileSync('./client/' + filepath)
-    };
+
 
     console.log('-------------------------::::/',filepath);
+    
+    var upd = {
+      update: function(_window, _resourceURL) {
+        console.log('Resource ' + _resourceURL + ' has just been updated with new content');
+      }
+    };
 
-    if(filepath === 'build/dev/js/app.js') {
-      //запустить процесс разбиения на два
-      filepath = 'js/app.js';
-      //reload = true;
-    }
+    var kBUILD_DIR = 'build/dev';
 
-    if(filepath === 'build/dev/lcss/sass.css') {
-      //запустить процесс разбиения на два
-      filepath = 'lcss/sass.css';
-    }
 
-    callback(_.extend({
-      reload: reload,
-      resourceURL: '/' + filepath,
-    }, upd));
+    ((function() {
+      if(filepath === 'build/dev/js/map.app.js') {
+        return exorcist('./client/build/dev/js/map.app.js', './client/build/dev/js/app.js', './client/build/dev/js/app.js.map')
+        .then(function() {
+          console.log('exorcist done');
+          return qread('./client/build/dev/js/app.js');
+        })
+        .then(function(content) {
+          console.log('file readed done');
+          return {
+            contents: content,
+            reload: false,
+            resourceURL: '/js/app.js'
+          };
+        });
+      } else {
+        return qread('./client/' + filepath)
+        .then(function(content) {
+          var local_path = filepath.indexOf(kBUILD_DIR)===0 ? filepath.substring(kBUILD_DIR.length + 1) : filepath;        
+          return {
+            contents: content,
+            reload: false,
+            resourceURL: '/'+local_path
+          };
+        });
+      }
+    })())
+    .then(function(obj){
+      callback(_.extend({},upd, obj)); 
+    })
+    .catch(function(e) {
+      console.error('-----------------------FB-FLO-ERROR---------------------------------');
+      console.error(e);
+    })
+    .done();
+
+
   }
 );
 
