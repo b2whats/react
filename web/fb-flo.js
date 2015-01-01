@@ -17,6 +17,7 @@ var exorcist = bash_create(['FILE_WITH_MAP', 'APP_JS', 'APP_JS_MAP'], multiline.
 
 //flo смотрит в билд папку и в папку assets
 //если в одной из них что то изменилось - обновляет браузер
+//одновременно использую на применение екзорциста на вачифай билд
 var server = flo(
   './client',
   {
