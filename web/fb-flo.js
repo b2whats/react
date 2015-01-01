@@ -49,7 +49,7 @@ var server = flo(
         return exorcist('./client/build/dev/js/map.app.js', './client/build/dev/js/app.js', './client/build/dev/js/app.js.map')
         .then(function() {
           console.log('exorcist done');
-          return q.all([qread('./client/build/dev/js/app.js'), qread('./client/build/dev/js/app.js.map')]);
+          return q.all([qread('./client/build/dev/js/app.js')/*, qread('./client/build/dev/js/app.js.map')*/]);
         })
         .then(function(contents) {
           console.log('file readed done');
@@ -58,12 +58,15 @@ var server = flo(
               contents: contents[0],
               reload: false,
               resourceURL: '/js/app.js'
-            },
+            }
+            /*
+            ,
             {
               contents: contents[1],
               reload: false,
               resourceURL: '/js/app.js.map'
             }
+            */
           ];
 
         });
@@ -82,7 +85,6 @@ var server = flo(
     .then(function(obj){
       if(_.isArray(obj)) {
         _.each(obj, function(o) {
-          console.log('wow');
           callback(_.extend({}, upd, o)); 
         });
         
