@@ -49,20 +49,28 @@ var server = flo(
         return exorcist('./client/build/dev/js/map.app.js', './client/build/dev/js/app.js', './client/build/dev/js/app.js.map')
         .then(function() {
           console.log('exorcist done');
-          return qread('./client/build/dev/js/app.js');
+          return q.all([qread('./client/build/dev/js/app.js'), qread('./client/build/dev/js/app.js.map')]);
         })
-        .then(function(content) {
+        .then(function(contents) {
           console.log('file readed done');
-          return {
-            contents: content,
-            reload: false,
-            resourceURL: '/js/app.js'
-          };
+          return [
+            {
+              contents: contents[0],
+              reload: false,
+              resourceURL: '/js/app.js'
+            },
+            {
+              contents: contents[1],
+              reload: false,
+              resourceURL: '/js/app.js.map'
+            }
+          ];
+
         });
       } else {
         return qread('./client/' + filepath)
         .then(function(content) {
-          var local_path = filepath.indexOf(kBUILD_DIR)===0 ? filepath.substring(kBUILD_DIR.length + 1) : filepath;        
+          var local_path = filepath.indexOf(kBUILD_DIR)===0 ? filepath.substring(kBUILD_DIR.length + 1) : filepath;
           return {
             contents: content,
             reload: false,
@@ -72,7 +80,16 @@ var server = flo(
       }
     })())
     .then(function(obj){
-      callback(_.extend({},upd, obj)); 
+      if(_.isArray(obj)) {
+        _.each(obj, function(o) {
+          console.log('wow');
+          callback(_.extend({}, upd, o)); 
+        });
+        
+      } else {
+        callback(_.extend({}, upd, obj)); 
+      }
+    
     })
     .catch(function(e) {
       console.error('-----------------------FB-FLO-ERROR---------------------------------');
