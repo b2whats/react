@@ -1,0 +1,2 @@
+#конфиг для fb-flo чтобы на ходу менять поведение на релоад или нет
+reload-page-on-script-change=false

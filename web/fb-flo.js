@@ -15,6 +15,28 @@ var exorcist = bash_create(['FILE_WITH_MAP', 'APP_JS', 'APP_JS_MAP'], multiline.
 );
 
 
+function read_cfg() {
+  var cfg = ''+fs.readFileSync('.fb-flo');
+  
+  var lines = _.filter(cfg.split('\n'), function(line) {
+    if(line.indexOf('#')===0) return false;
+    if(line.indexOf('=')>0) return true;
+  });
+
+  return _.reduce(lines, function(memo, line) {
+    line = line.split('=');
+    line[0]=line[0].trim();
+    line[1]=line[1].trim();
+    if(line[1] === 'true' || line[1] === 'True') {
+      line[1] = true;
+    } else {
+      line[1] = false;
+    }
+    memo[line[0]] = line[1];
+    return memo;
+  }, {});
+}
+
 //flo смотрит в билд папку и в папку assets
 //если в одной из них что то изменилось - обновляет браузер
 //одновременно использую на применение екзорциста на вачифай билд
@@ -33,8 +55,9 @@ var server = flo(
   },
   function resolver(filepath, callback) {
 
+    var config = read_cfg();
 
-    console.log('-------------------------::::/',filepath);
+    console.log('-------------------------::::/',config['reload-page-on-script-change'], filepath, config);
     
     var upd = {
       update: function(_window, _resourceURL) {
@@ -57,7 +80,7 @@ var server = flo(
           return [
             {
               contents: contents[0],
-              reload: false,
+              reload: config['reload-page-on-script-change'],
               resourceURL: '/js/app.js'
             }
             /*
