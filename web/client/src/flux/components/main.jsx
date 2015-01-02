@@ -14,6 +14,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
+var SearchPage = require('components/search_page/search_page.jsx');
 
 var Link = require('components/link.jsx');
 /* jshint ignore:end */
@@ -50,7 +51,7 @@ var ice_main = React.createClass({
 				break;
 				case route_names.kFIND_ROUTE:
 					return (
-						<h1>ПОИСК</h1>
+						<SearchPage />
 					);
 				break;	
 
