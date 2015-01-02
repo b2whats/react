@@ -2,9 +2,7 @@
 
 var _ = require('underscore');
 var q = require('third_party/es6_promise.js');
-_.templateSettings = {
-  interpolate: /\:([\w_]+)/g
-};
+var route_template = require('utils/route_template.js');
 
 var kCONTENT_TYPE_APPLICATION_JSON = {'Content-Type': 'application/json;charset=utf-8', 'Accept': 'application/json, text/plain, */*'};
 
@@ -54,7 +52,7 @@ var encode_object_properties = (obj) => {
 
 //пока говнореализация без параметров и тп
 module.exports = function(route) {
-  var route_tpl = _.template(route);
+  var route_tpl = route_template(route);
 
   return {
     get: function(obj) {

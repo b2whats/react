@@ -9,6 +9,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var Typeahead = require('components/typeahead/typeahead.jsx');
 /* jshint ignore:end */
+var route_names = require('shared_constants/route_names.js');
 
 var region_actions = require('actions/region_actions.js');
 var route_actions = require('actions/route_actions.js');
@@ -42,8 +43,8 @@ var RegionSelector = React.createClass({
   },
 
   typeahead_changed (v) {
-    if(v.id!==this.state.region_current.get('id')) {
-      route_actions.goto_link('/'+v.id);
+    if(v.id!==this.state.region_current.get('id')) {      
+      route_actions.goto_link_w_params(route_names.kROUTE_DEF_W_REGION, {region_id: v.id});
     } else {
       region_actions.change_region_selection_visibility(false);
     }

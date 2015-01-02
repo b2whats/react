@@ -1,11 +1,17 @@
 'use strict';
 
 var route_names = {
+  kROUTE_DEF: '/',
+  kROUTE_DEF_W_REGION: '/:region_id',
   kDEFAULT_ROUTE: 'kDEFAULT_ROUTE',
-  kPAGE_ROUTE: 'kPAGE_ROUTE',
-  kHELP_ROUTE: 'kHELP_ROUTE',
-  kTYPEAHEAD_ROUTE: 'kTYPEAHEAD_ROUTE',
-  kSPHERE_ROUTE: 'kSPHERE_ROUTE'
+  
+  
+  kROUTE_FIND: '/find/:region_id/:name/:articul/:id',
+  kFIND_ROUTE: 'kFIND_ROUTE',
+
+
+
+  kHELP_ROUTE: 'kHELP_ROUTE'
 };
 
 module.exports = route_names;

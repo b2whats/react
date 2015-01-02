@@ -48,6 +48,11 @@ var ice_main = React.createClass({
 					);
 					/* jshint ignore:end */
 				break;
+				case route_names.kFIND_ROUTE:
+					return (
+						<h1>ПОИСК</h1>
+					);
+				break;	
 
 			}
 		}) (this.state.router_state);

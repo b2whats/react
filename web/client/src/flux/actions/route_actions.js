@@ -5,7 +5,9 @@ var main_dispatcher = require('dispatchers/main_dispatcher.js');
 var evt = require('shared_constants/event_names.js');
 
 var page = require('page'); //router
+var route_template = require('utils/route_template.js');
 
+var route_templates_cache_ = {};
 
 module.exports.default_route = function(route_name, route_context) {
   //console.log('pageroute', route_context);
@@ -36,3 +38,12 @@ module.exports.goto_link = function (link) {
   page(link);
 };
 
+
+//подставляет парамеры в линки типа /x/:id
+//по хорошему все переходы по линкам должны идти через именно эту функцию
+module.exports.goto_link_w_params = function (link, params) {  
+  if(!(link in route_templates_cache_)) route_templates_cache_[link] = route_template(link);
+  var link_template = route_templates_cache_[link];  
+  var evaluated_link = link_template(params);
+  page(evaluated_link);
+};
