@@ -26,7 +26,7 @@ grunt.registerTask('devscripts',['set_config:build.dev_build_dir:client/build/de
                                  'exec:browserify_vendor', 'exec:browserify_app_exorcist',
                                  'sass:build', 
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
-                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',                                 
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4', 'cachebreaker:css_5',
                                  'cachebreaker:js_vendor', 'cachebreaker:js', 
                                  'markdown:all', 'copy:markdown']);
 
@@ -35,7 +35,7 @@ grunt.registerTask('watchify_task',  ['set_config:build.dev_build_dir:client/bui
                                  'sass:build', //сбилдить сасс
                                  'copy:index',
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
-                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4',
+                                 'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4','cachebreaker:css_5',
                                  //'cachebreaker:js_vendor', 'cachebreaker:js', //В ДЕВ ВЕРСИИ ТУТ КЕШ БРЕК УБРАН ЧТОБЫ МОЖНО БЫЛО КОД НА ЛЕТУ МЕНЯТЬ
                                  'markdown:all', 'copy:markdown']);
 /*
@@ -282,6 +282,22 @@ grunt.initConfig({
             src: ['<%= build.dev_build_dir %>index.html']
         }
     },
+
+    css_5: {
+
+        options: {
+            match: 'flexiblegs.min.css',
+            replacement: 'md5',
+            src: {
+                path: '<%= src.g_assets_dir %>/flexiblegs/css/flexiblegs.min.css'
+            }
+        },
+        files: {
+            src: ['<%= build.dev_build_dir %>index.html']
+        }
+    },
+
+
 
     css: {
         options: {

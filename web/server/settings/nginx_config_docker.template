@@ -43,18 +43,11 @@ server {
 
 
 
-    location ~ ^/assets\/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
+    location ~ ^/assets\/(flexiblegs/|fonts/|libs/|css/|static/|icons/|bower_components/|robots.txt|humans.txt|favicon.ico) {
       root {DIR};
       access_log off;
       expires 90d;
     }
-
-#    location ~ ^/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
-#      root {DIR}/assets;
-#      access_log off;
-#      expires 90d;
-#    }
-
 
     #standart build
     location ~ ^/(js/|lcss/|docs/) {
@@ -64,11 +57,6 @@ server {
       expires 0;
     }
 
-    location ~ ^/assets\/(icons/|bower_components/) {
-      root {DIR};
-      access_log off;
-      expires 90d;
-    }
 
     location ~ ^/assets\/(images/) {
       root {DIR};
