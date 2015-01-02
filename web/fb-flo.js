@@ -1,10 +1,11 @@
 'use strict';
 var _ = require('underscore');
-//var path = require('path');
+var path = require('path');
 var flo = require('fb-flo');
 var fs = require('fs');
 var q = require('q');
 var multiline = require('multiline');
+var crypto = require('crypto');
 
 var qread = q.denodeify(fs.readFile);
 var bash_create = require('ice_bash_exec')(__dirname);
@@ -14,6 +15,7 @@ var exorcist = bash_create(['FILE_WITH_MAP', 'APP_JS', 'APP_JS_MAP'], multiline.
 */})
 );
 
+var md5hash_prev_ = null;
 
 function read_cfg() {
   var cfg = ''+fs.readFileSync('.fb-flo');
@@ -50,7 +52,8 @@ var server = flo(
       'assets/css/*.css',
       //'build/dev/js/app.js',
       'build/dev/js/map.app.js',
-      'build/dev/lcss/sass.css'
+      'build/dev/lcss/sass.css',
+      'build/dev/index.html'
     ]
   },
   function resolver(filepath, callback) {
@@ -98,9 +101,20 @@ var server = flo(
         return qread('./client/' + filepath)
         .then(function(content) {
           var local_path = filepath.indexOf(kBUILD_DIR)===0 ? filepath.substring(kBUILD_DIR.length + 1) : filepath;
+          var reload = false;
+          console.log('path.extname(filepath)', path.extname(filepath));
+          if(path.extname(filepath) === '.html') {
+            var md5sum = crypto.createHash('md5');
+            md5sum.update(content);
+            var md5hash = md5sum.digest('hex');
+
+            reload = (md5hash_prev_===null) ? false :  (md5hash_prev_!==md5hash);
+            md5hash_prev_=md5hash;
+          }
+
           return {
             contents: content,
-            reload: false,
+            reload: reload,
             resourceURL: '/'+local_path
           };
         });

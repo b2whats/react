@@ -1,2 +1,3 @@
 #конфиг для fb-flo чтобы на ходу менять поведение на релоад или нет
-reload-page-on-script-change=false
+#например баги ловить удобней без релоада
+reload-page-on-script-change=true
