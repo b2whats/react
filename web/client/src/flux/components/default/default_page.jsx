@@ -35,6 +35,7 @@ var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-padding
 
 
 var kLIST_DELTA=9; //сумма толщин бордеров - потом посчитаю и хз откуда 1 пиксель
+var kRECALC_WIDTH_TIMEOUT = 200;
 
 var DefaultPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
@@ -53,7 +54,7 @@ var DefaultPage = React.createClass({
   componentDidMount() {
     window.addEventListener('resize', this.handle_resize);
     this.fire_change();
-    setTimeout(() => this.fire_change(), 0); //layout render
+    setTimeout(() => this.fire_change(), kRECALC_WIDTH_TIMEOUT); //layout render
   },
 
   componentWillUnmount() {    

@@ -31,6 +31,7 @@ var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-right-p
                          style_utils.from_px_to_number( sass_vars['input-left-padding'] ) +
                          2*style_utils.from_px_to_number( sass_vars['border-width'] );
 
+var kRECALC_WIDTH_TIMEOUT = 200;
 
 var SearchPage = React.createClass({
   mixins: [PureRenderMixin , RafBatchStateUpdateMixin],
@@ -49,7 +50,7 @@ var SearchPage = React.createClass({
   componentDidMount() {
     window.addEventListener('resize', this.handle_resize);
     this.fire_change();
-    setTimeout(() => this.fire_change(), 0); //layout render
+    setTimeout(() => this.fire_change(), kRECALC_WIDTH_TIMEOUT); //layout render
   },
 
   componentWillUnmount() {    
@@ -71,6 +72,7 @@ var SearchPage = React.createClass({
             </div>
           </div>
         </div>
+
         <div ref='default_page_content' className="search-page-container">
           <div className="wrap gutter-5-xs">
             <SearchPageSearchBlock 
@@ -91,7 +93,10 @@ var SearchPage = React.createClass({
                     on_value_changed={this.on_auto_service_value_changed} />
             </SearchPageSearchBlock>
 
-          </div>
+          </div>          
+        </div>
+        <div className="search-page-container">
+          <div style={ {height:'2000px'} }></div>
         </div>
       </div>
     );
