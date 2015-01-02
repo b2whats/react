@@ -29,25 +29,26 @@
         font-weight: 700
 
     .search-page-typeahed-border
-      border: 5px solid red
       -moz-border-radius: 8px
       -webkit-border-radius: 8px
       border-radius: 8px      
-      //background-image: url('/assets/images/templates/icon-gear.png')
+      text-align: left
       background-size: 45px 45px
       background-repeat: no-repeat
       background-position: 15px center
-      padding: 17px 20px 17px 75px
+      padding: 17px $search-page-input-right-padding 17px $search-page-input-left-padding
 
     .autoparts
       .search-page-typeahed-border
-        border: 5px solid #B7A6DE
+        border: $search-page-border-width solid #B7A6DE
         background-image: url('/assets/images/templates/icon-gear.png')
       
     .autoservices
       .search-page-typeahed-border
-        border: 5px solid #F6D600
+        border: $search-page-border-width solid #F6D600
         background-image: url('/assets/images/templates/icon-key.png')
+      .typeahead-list-holder  
+        right: 0
 
     .search-page-typeahed-helper-text
       text-align: left

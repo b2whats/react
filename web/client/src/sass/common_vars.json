@@ -6,8 +6,11 @@
 
   "default-page" : {
     "input-padding" : "50px"
+  },
+
+  "search-page" : {
+    "border-width": "5px",
+    "input-left-padding" : "75px",
+    "input-right-padding" : "20px"
   }
-
-
-
 }
