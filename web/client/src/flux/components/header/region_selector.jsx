@@ -9,7 +9,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var Typeahead = require('components/typeahead/typeahead.jsx');
 /* jshint ignore:end */
-var route_names = require('shared_constants/route_names.js');
+var route_definitions = require('shared_constants/route_names.js');
 
 var region_actions = require('actions/region_actions.js');
 var route_actions = require('actions/route_actions.js');
@@ -26,7 +26,7 @@ region_store /*observable store list*/);
 
 //странное срабатывание click евента с задержкой 100-200мс после blur 
 //если клик вызывает blur то сам event клик почему то отрабатывает с нехилой задержкой после blur
-//поэтому после блур клик не обрабатываем 
+//поэтому после блур клик не обрабатываем - это решает баг с кликаньем по региону
 var kCLICK_BLUR_DELAY_MS = 500;
 
 var RegionSelector = React.createClass({
@@ -44,7 +44,7 @@ var RegionSelector = React.createClass({
 
   typeahead_changed (v) {
     if(v.id!==this.state.region_current.get('id')) {      
-      route_actions.goto_link_w_params(route_names.kROUTE_DEF_W_REGION, {region_id: v.id});
+      route_actions.goto_link_w_params(route_definitions.kROUTE_DEF_W_REGION, {region_id: v.id});
     } else {
       region_actions.change_region_selection_visibility(false);
     }
