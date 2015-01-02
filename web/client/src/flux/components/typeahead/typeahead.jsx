@@ -9,6 +9,7 @@ var cx        = React.addons.classSet;
 var raf = require('utils/raf.js');
 var style_utils = require('utils/style_utils.js');
 var _ = require('underscore');
+var text_utils = require('utils/text.js');
 
 var Typeahead = React.createClass({
 
@@ -222,8 +223,7 @@ var Typeahead = React.createClass({
     };
 
     if (value) {
-      var re = /<(.|\n)*?>/ig;
-      var term = this.get_title_value(value.title).replace(re, '');
+      var term = text_utils.remove_tags(this.get_title_value(value.title));
       state.searchTerm = term;//value.title;
     }
     

@@ -10,3 +10,8 @@ var create_selection_replacer = (str) => {
 };
 
 module.exports.create_selection_replacer = create_selection_replacer;
+
+module.exports.remove_tags = (value) => {
+  var re = /<(.|\n)*?>/ig;
+  return value.replace(re, '');
+};
