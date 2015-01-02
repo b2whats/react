@@ -41,11 +41,19 @@ server {
 
     #error_page 502  /errors/502.html;
 
-    location ~ ^/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
-      root /home/ice/ext/toolfind/react/web/client/assets;
+
+
+    location ~ ^/assets\/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
+      root /home/ice/ext/toolfind/react/web/client;
       access_log off;
       expires 90d;
     }
+
+#    location ~ ^/(fonts/|libs/|css/|static/|robots.txt|humans.txt|favicon.ico) {
+#      root /home/ice/ext/toolfind/react/web/client/assets;
+#      access_log off;
+#      expires 90d;
+#    }
 
 
     #standart build
@@ -56,14 +64,14 @@ server {
       expires 0;
     }
 
-    location ~ ^/(icons/|bower_components/) {
-      root /home/ice/ext/toolfind/react/web/client/assets;
+    location ~ ^/assets\/(icons/|bower_components/) {
+      root /home/ice/ext/toolfind/react/web/client;
       access_log off;
       expires 90d;
     }
 
-    location ~ ^/(images/) {
-      root /home/ice/ext/toolfind/react/web/client/assets;
+    location ~ ^/assets\/(images/) {
+      root /home/ice/ext/toolfind/react/web/client;
       access_log off;
       expires 0;
 
