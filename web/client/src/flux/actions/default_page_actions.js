@@ -20,9 +20,9 @@ module.exports.goto_auto_parts_page = (region_id, id, articul, producer, sentenc
     text_utils.encode_link_object_properties({
       region_id: region_id,
       id: id,
-      articul: text_utils.remove_tags(articul), 
-      producer: text_utils.remove_tags(producer),
-      sentence: text_utils.remove_tags(sentence)
+      articul: text_utils.remove_tags(articul) || '_',
+      producer: text_utils.remove_tags(producer) || '_',
+      sentence: text_utils.remove_tags(sentence) || '_'
     }));
 };
 
