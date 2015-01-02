@@ -4,6 +4,7 @@
 */
 
 var React = require('react/addons');
+var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
@@ -39,7 +40,16 @@ var kCOLUMN_TITLE_IDX = 2;
 var AutoPartsSearchWrapper = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-  last_st: '',
+  propTypes: {
+    list_width: PropTypes.number,
+    placeholder: PropTypes.string,
+    on_value_changed: PropTypes.func
+  },
+
+  componentWillMount() {
+    this.last_st = '';
+  },
+
 
   typeahead_search (options, search_term, cb) { //вариант без      
     search_actions.suggest(search_term, {cb: cb, search_term: search_term});
@@ -49,11 +59,17 @@ var AutoPartsSearchWrapper = React.createClass({
 
   typeahead_changed (value) {
     this.last_st = null; //нет смысла обновлять и показывать список
-    console.log('value_changed', value);
+    console.log('auto_part value_changed', value);
     search_actions.value_changed(value);
     search_actions.search_term_changed(value.title[kCOLUMN_TITLE_IDX]);
+    if(this.props.on_value_changed !== undefined) {
+      this.props.on_value_changed.apply(null, [value.id].concat(value.title));
+    }
   },
-
+  
+  typeahead_lost_focus () {    
+    console.log('auto_part_lost_focus'); //закончили редактирование тайпахеда
+  },
 
   render () {
     
@@ -80,7 +96,8 @@ var AutoPartsSearchWrapper = React.createClass({
         list_width={this.props.list_width} 
         placeholder={this.props.placeholder} 
         has_custom_scroll={true} 
-        onChange={this.typeahead_changed} 
+        onChange={this.typeahead_changed}
+        on_blur={this.typeahead_lost_focus} 
         search={this.typeahead_search} />
     )
   }

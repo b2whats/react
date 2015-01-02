@@ -20,7 +20,9 @@ var routes = [
     (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route ],
 
-  [route_definitions.kROUTE_FIND, route_names.kFIND_ROUTE, route_actions.default_route]
+  [route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
+    (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
+    route_actions.default_route]
   
 
   //['/sphere/:sphere_id', route_names.kSPHERE_ROUTE, route_actions.data_preload_route(recommender_actions.recommender_load)],

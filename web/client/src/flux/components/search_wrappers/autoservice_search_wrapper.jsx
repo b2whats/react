@@ -4,6 +4,7 @@
 */
 
 var React = require('react/addons');
+var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
@@ -30,6 +31,7 @@ var kLINE_ID = 0;
 var kLINE_NAME = 1;
 var kLINE_SERVICE_NAME = 2;
 
+
 var kHEADERS=['Марка авто', 'Вид сервиса'];
 
 var kCOLUMNS = 2;
@@ -38,7 +40,16 @@ var kCOLUMN_TITLE_IDX = 1;
 var AutoServiceSearchWrapper = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-  last_st: '',
+  propTypes: {
+    list_width: PropTypes.number,
+    placeholder: PropTypes.string,
+    on_value_changed: PropTypes.func
+  },
+
+  componentWillMount() {
+    this.last_st = '';
+  },
+
 
   typeahead_search (options, search_term, cb) { //вариант без      
     search_actions.suggest(search_term, {cb: cb, search_term: search_term});
@@ -51,20 +62,24 @@ var AutoServiceSearchWrapper = React.createClass({
     console.log('autoservice value_changed', value);
     search_actions.value_changed(value);
     search_actions.search_term_changed(value.title[kCOLUMN_TITLE_IDX]);
+    if(this.props.on_value_changed !== undefined) {
+      this.props.on_value_changed.apply(null, [value.id].concat(value.title));
+    }
   },
 
+  typeahead_lost_focus () {    
+    console.log('autoservice_lost_focus'); //закончили редактирование тайпахеда
+  },
 
   render () {
     
     if(this.last_st!==null && this.state.suggestion_list_state) {
       var suggeset_st = this.state.suggestion_list_state.get('search_term');
-      if( suggeset_st === this.last_st) { //нет смысла показывать промежуточные списки
-        
+      if( suggeset_st === this.last_st) { //нет смысла показывать промежуточные списки        
         var options = this.state.suggestion_list && 
           this.state.suggestion_list.map( line => ({
             id: line.get(kLINE_ID), 
-            title: [line.get(kLINE_NAME), line.get(kLINE_SERVICE_NAME)]}) ).toJS() || [];
-        
+            title: [line.get(kLINE_NAME), line.get(kLINE_SERVICE_NAME)]}) ).toJS() || [];        
         this.state.suggestion_list_state.get('cb')(null, options);
         this.last_st = null; //больше не надо вызывать
       }
@@ -81,7 +96,8 @@ var AutoServiceSearchWrapper = React.createClass({
         list_width={this.props.list_width} 
         placeholder={this.props.placeholder} 
         has_custom_scroll={true} 
-        onChange={this.typeahead_changed} 
+        onChange={this.typeahead_changed}
+        on_blur={this.typeahead_lost_focus} 
         search={this.typeahead_search} />
     )
   }

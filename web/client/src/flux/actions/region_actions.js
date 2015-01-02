@@ -9,6 +9,9 @@ var api_refs = require('shared_constants/api_refs.js');
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
 
+var route_definitions = require('shared_constants/route_names.js');
+var route_actions = require('actions/route_actions.js');
+
 var promise_serializer = require('utils/promise_serializer.js');
 var serializer = promise_serializer.create_serializer();
 
@@ -38,6 +41,9 @@ var get_regions_memoized = memoize(() =>
 , kMEMOIZE_OPTIONS);
 
 
+//----------------------------------------------------------------------------------------------------------
+//exports section
+//----------------------------------------------------------------------------------------------------------
 module.exports.region_changed = (region_id) => {  //подгружает список регионов если надо
   return serializer( () => get_regions_memoized() //для смены региона надо быть уверенным что они загружены
     .then(region_list => {      
@@ -56,17 +62,9 @@ module.exports.region_changed = (region_id) => {  //подгружает спи�
 };
 
 
+module.exports.goto_region = (region_id) => {
+  route_actions.goto_link_w_params(route_definitions.kROUTE_DEF_W_REGION, {region_id: region_id});
+};
+
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
-
-
-
-
-
-
-
-
-
-
-
-
 

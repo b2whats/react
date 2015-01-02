@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var q = require('third_party/es6_promise.js');
 var route_template = require('utils/route_template.js');
+var text_utils = require('utils/text.js');
 
 var kCONTENT_TYPE_APPLICATION_JSON = {'Content-Type': 'application/json;charset=utf-8', 'Accept': 'application/json, text/plain, */*'};
 
@@ -43,12 +44,7 @@ function http(method, url, object) {
   };
 }
 
-var encode_object_properties = (obj) => {
-  return _.reduce(obj, (memo, v, k) => {
-    memo[k] = _.isString(v) ? encodeURIComponent(v) : v;
-    return memo;
-  }, {});
-};
+
 
 //пока говнореализация без параметров и тп
 module.exports = function(route) {
@@ -56,24 +52,24 @@ module.exports = function(route) {
 
   return {
     get: function(obj) {
-      return http('GET', route_tpl(encode_object_properties(obj))).promise;
+      return http('GET', route_tpl(text_utils.encode_object_properties(obj))).promise;
     },    
     get_ext: function(obj) {
-      return http('GET', route_tpl(encode_object_properties(obj)));
+      return http('GET', route_tpl(text_utils.encode_object_properties(obj)));
     },
 
     post: function(obj) {
-      return http('POST', route_tpl(encode_object_properties(obj)), obj).promise;
+      return http('POST', route_tpl(text_utils.encode_object_properties(obj)), obj).promise;
     },    
     post_ext: function(obj) {
-      return http('POST', route_tpl(encode_object_properties(obj)), obj);
+      return http('POST', route_tpl(text_utils.encode_object_properties(obj)), obj);
     },
     
     save: function(context, obj) {
-      return http('POST', route_tpl(encode_object_properties(context)), obj).promise;
+      return http('POST', route_tpl(text_utils.encode_object_properties(context)), obj).promise;
     },
     save_ext: function(context, obj) {
-      return http('POST', route_tpl(encode_object_properties(context)), obj);
+      return http('POST', route_tpl(text_utils.encode_object_properties(context)), obj);
     }
   };
 };

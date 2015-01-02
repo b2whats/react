@@ -13,11 +13,13 @@ var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_s
 /* jshint ignore:end */
 
 
-var default_page_size_actions = require('actions/default_page_size_actions.js');
-var default_page_size_store = require('stores/default_page_size_store.js');
-
+var default_page_actions = require('actions/default_page_actions.js');
 var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 var autoservices_search_actions = require('actions/autoservices_search_actions.js');
+
+
+var default_page_size_store = require('stores/default_page_size_store.js');
+var region_store = require('stores/region_store.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -39,9 +41,8 @@ var DefaultPage = React.createClass({
   
   fire_change() {
     if(this.refs && this.refs.default_page_content) {
-      var node = this.refs.default_page_content.getDOMNode();
-     
-      default_page_size_actions.default_page_size_chaged (node.clientWidth - 2*sass_input_padding - kLIST_DELTA);
+      var node = this.refs.default_page_content.getDOMNode();     
+      default_page_actions.default_page_size_chaged (node.clientWidth - 2*sass_input_padding - kLIST_DELTA);
     }
   },
 
@@ -59,6 +60,14 @@ var DefaultPage = React.createClass({
     window.removeEventListener('resize', this.handle_resize);
   },
 
+  on_auto_parts_value_changed(id, articul, producer, sentence) {    
+    var region_id = region_store.get_region_current().get('id');
+    default_page_actions.goto_auto_parts_page(region_id, id, articul, producer, sentence);
+  },
+  
+  on_auto_service_value_changed(id, auto_mark, name) {    
+    console.log('aserv:', id, auto_mark, name);
+  },
 
   render () {
     return (
@@ -76,7 +85,8 @@ var DefaultPage = React.createClass({
                 description="*Начните вводить в строку название или производителя детали и марку, модель своего автомобиля и выберите из нескольких вариантов поискового запроса.">
                   <AutoPartsSearchWrapper 
                     list_width={this.state.width}
-                    placeholder="Введите название, производителя или код*" />
+                    placeholder="Введите название, производителя или код*"
+                    on_value_changed={this.on_auto_parts_value_changed} />
               </DefaultPageSearchBlock>
               <div style={{width:'1%', display: 'table-cell'}}></div>
               <DefaultPageSearchBlock className="big-search-block-block autoservices" 
@@ -84,7 +94,10 @@ var DefaultPage = React.createClass({
                 sample="mazda ремонт"
                 sample_action={autoservices_search_actions.show_value_changed}
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
-                  <AutoServiceSearchWrapper list_width={this.state.width} placeholder="Введите марку автомобиля и название работ**" />              
+                  <AutoServiceSearchWrapper 
+                    list_width={this.state.width} 
+                    placeholder="Введите марку автомобиля и название работ**" 
+                    on_value_changed={this.on_auto_service_value_changed} />
               </DefaultPageSearchBlock>
             </div>
           </div>
