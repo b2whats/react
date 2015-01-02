@@ -102,25 +102,37 @@ var server = flo(
         .then(function(content) {
           var local_path = filepath.indexOf(kBUILD_DIR)===0 ? filepath.substring(kBUILD_DIR.length + 1) : filepath;
           var reload = false;
+          var is_html = false;
           console.log('path.extname(filepath)', path.extname(filepath));
-          if(path.extname(filepath) === '.html') {
+          if(path.extname(filepath) === '.html') {                        
+            content = fs.readFileSync('./client/src/templates/index.html');
             var md5sum = crypto.createHash('md5');
             md5sum.update(content);
             var md5hash = md5sum.digest('hex');
 
             reload = (md5hash_prev_===null) ? false :  (md5hash_prev_!==md5hash);
+            is_html = true;
             md5hash_prev_=md5hash;
+          }
+          if(reload === true) {
+            content = "";
           }
 
           return {
             contents: content,
             reload: reload,
+            is_html: is_html,
             resourceURL: '/'+local_path
           };
         });
       }
     })())
     .then(function(obj){
+
+      if(obj.is_html && obj.reload === false) {
+        return;
+      }
+
       if(_.isArray(obj)) {
         _.each(obj, function(o) {
           callback(_.extend({}, upd, o)); 
@@ -129,6 +141,7 @@ var server = flo(
       } else {
         callback(_.extend({}, upd, obj)); 
       }
+
     
     })
     .catch(function(e) {

@@ -7,6 +7,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
+var SearchPageSearchBlock = require('./search_page_search_block.jsx');
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 /* jshint ignore:end */
@@ -57,8 +58,44 @@ var SearchPage = React.createClass({
   },
 
   render() {
+    /*flexbox  класс пока не использую чтобы работало везде*/
     /* jshint ignore:start */
-    return (<h1>Поиск</h1>);
+    return (
+      <div className="search-page">
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <div className="md-12-6">
+              <div className="search-page-logo">
+                <span className="search-page-logo-first">Auto</span>
+                <span className="search-page-logo-second">Giper</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <SearchPageSearchBlock 
+              sample="* Введите название, производителя или код"
+              className="md-12-6 autoparts">
+              <AutoPartsSearchWrapper 
+                list_width={this.state.width}
+                placeholder="Поиск автозапчатей *"
+                on_value_changed={this.on_auto_parts_value_changed} />
+            </SearchPageSearchBlock>
+
+            <SearchPageSearchBlock 
+              sample="** Введите марку автомобиля и название работ"
+              className="md-12-6 autoservices">
+                  <AutoServiceSearchWrapper 
+                    list_width={this.state.width} 
+                    placeholder="Консультация мастера **" 
+                    on_value_changed={this.on_auto_service_value_changed} />
+            </SearchPageSearchBlock>
+
+          </div>
+        </div>
+      </div>
+    );
     /* jshint ignore:end */    
   }
 });
