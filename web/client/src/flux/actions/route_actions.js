@@ -9,10 +9,10 @@ var route_template = require('utils/route_template.js');
 
 var route_templates_cache_ = {};
 
-module.exports.default_route = function(route_name, route_context) {
+module.exports.default_route = function(route_name, route_context, route_params, route_defaults) {
   //console.log('pageroute', route_context);
-  main_dispatcher.fire(evt.kON_ROUTE_WILL_CHANGE, route_name, route_context); //WILL перед апдейтом роута
-  main_dispatcher.fire(evt.kON_ROUTE_DID_CHANGE, route_name, route_context); //DID роут проапдейчен
+  main_dispatcher.fire(evt.kON_ROUTE_WILL_CHANGE, route_name, route_context, route_params, route_defaults); //WILL перед апдейтом роута
+  main_dispatcher.fire(evt.kON_ROUTE_DID_CHANGE, route_name, route_context, route_params, route_defaults); //DID роут проапдейчен
 };
 
 

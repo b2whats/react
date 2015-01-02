@@ -17,13 +17,14 @@ var kON_ROUTE_DID_CHANGE__ROUTES_STORE_PRIORITY =  sc.kON_ROUTE_DID_CHANGE__ROUT
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
   route_state: route_names.kDEFAULT_ROUTE,
-  route_context_params: {}
+  route_context_params: {},
+  route_defaults: '/'
 });
 
 var routes_store_did_change_cncl = main_dispatcher
-.on(event_names.kON_ROUTE_DID_CHANGE, (route_name, route_context) => {
+.on(event_names.kON_ROUTE_DID_CHANGE, (route_name, route_context, route_params, route_defaults) => {
+  var route_context_params =  immutable.fromJS(route_params);
   
-  var route_context_params =  immutable.fromJS(_.extend({}, route_context.params));
 
   if(state_.route_state!==route_name) {
     state_.route_state_cursor
@@ -32,11 +33,19 @@ var routes_store_did_change_cncl = main_dispatcher
     routes_store.fire(event_names.kON_CHANGE);
   }
 
-  if( !immutable.is(route_context_params, state_.route_context_params) ) {    
+  if( !immutable.is(route_context_params, state_.route_context_params) ) {
     state_.route_context_params_cursor
       .update(() => route_context_params);
     
     routes_store.fire(event_names.kON_CHANGE);
+  }
+
+  route_defaults = immutable.fromJS(route_defaults);
+  if( !immutable.is(route_defaults, state_.route_defaults) ) {
+    state_.route_defaults_cursor
+      .update(() => route_defaults);
+
+    routes_store.fire(event_names.kON_CHANGE);   
   }
 
 
@@ -53,6 +62,9 @@ var routes_store = merge(Emitter.prototype, {
   },
   get_route_context_params () {
     return state_.route_context_params;
+  },
+  get_route_defaults () {
+    return state_.route_defaults;
   },
 
   dispose () {

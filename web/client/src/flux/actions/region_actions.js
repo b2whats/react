@@ -62,8 +62,12 @@ module.exports.region_changed = (region_id) => {  //подгружает спи�
 };
 
 
-module.exports.goto_region = (region_id) => {
-  route_actions.goto_link_w_params(route_definitions.kROUTE_DEF_W_REGION, {region_id: region_id});
+//тут пример что мы подменяем один из параметров в текущем роуте а не меняем существующий
+//потом эту логику если будет часто нужна упрощу, а пока каждый кому это надо, должен использовать route_store
+module.exports.goto_region = (region_id, route_params, route_defaults) => {
+  //если стоит пустой роут / то выбрать роут с проставленым region_id
+  route_defaults = (route_defaults === route_definitions.kROUTE_DEF) ? route_definitions.kROUTE_DEF_W_REGION : route_defaults;
+  route_actions.goto_link_w_params(route_defaults, _.extend({}, route_params, {region_id: region_id}));
 };
 
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));

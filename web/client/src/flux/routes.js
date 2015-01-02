@@ -17,11 +17,11 @@ var routes = [
   ['/help',       route_names.kHELP_ROUTE,    route_actions.default_route],
   
   [route_definitions.kROUTE_DEF_W_REGION, route_names.kDEFAULT_ROUTE, //при смене роута можно указать несколько подряд методов которые надо выполнить
-    (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
+    (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route ],
 
   [route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
-    (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
+    (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route]
   
 

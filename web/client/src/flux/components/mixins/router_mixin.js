@@ -15,10 +15,10 @@ module.exports = function(routes) {
         initialize_guard = true;
         _.each(routes, function(route) {          
           if(typeof(route[kROUTE_PATH_IDX])==='string' && typeof(route[kROUTE_HANDLER_IDX]) === 'function') {            
-            page(route[kROUTE_PATH_IDX], function(route_context) {              
+            page(route[kROUTE_PATH_IDX], function(route_context) {
               
               for(var i=kROUTE_HANDLER_IDX; i<route.length;++i) {
-                route[i](route[kROUTE_OBJECT_IDX], route_context, _.extend({},route_context.params));
+                route[i](route[kROUTE_OBJECT_IDX], route_context, _.extend({},route_context.params), route[kROUTE_PATH_IDX]);
               }
             
             });          
