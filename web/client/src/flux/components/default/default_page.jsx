@@ -61,8 +61,6 @@ var DefaultPage = React.createClass({
 
 
   render () {
-    //console.log(this.state && this.state.width);
-
     return (
     <div className="default-page">
       <div className="default-page-abs">

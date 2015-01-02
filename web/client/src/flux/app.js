@@ -14,8 +14,3 @@ React.render(
     <IceMain/>, //ice_main(null)
     document.getElementById('react_main')
 );
-
-
-
-//document.addEventListener('click', () => console.log('hello world ice wow'));
-
