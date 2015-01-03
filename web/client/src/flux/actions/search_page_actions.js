@@ -11,7 +11,8 @@ var route_definitions = require('shared_constants/route_names.js');
 var text_utils = require('utils/text.js');
 
 var actions_ = [
-  ['search_page_size_chaged', event_names.kON_SEARCH_PAGE_SIZE_CHANGED]
+  ['search_page_size_chaged', event_names.kON_SEARCH_PAGE_SIZE_CHANGED],
+  ['search_page_map_visibility_chaged', event_names.kON_SEARCH_PAGE_CHANGE_MAP_VISIBILITY],
 ];
 
 // find/:region_id/:sentence/:producer/:articul/:id

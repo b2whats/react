@@ -15,7 +15,9 @@ var immutable = require('immutable');
 var kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY =  sc.kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
-  width: 0
+  width: 0,
+  map_visible: false, //видно карту или нет
+  map_display: false, //подгружена вообще карта или нет
 });
 
 var cncl_ = [
@@ -29,13 +31,42 @@ var cncl_ = [
       
       default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
     }
-  }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY)
+  }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_SEARCH_PAGE_CHANGE_MAP_VISIBILITY, map_visible => {      
+    if(!immutable.is(state_.map_visible, map_visible)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
+      state_.map_visible_cursor
+        .update(() => map_visible);
+
+      if(map_visible) { //map_display включаем только один раз
+        if(!immutable.is(state_.map_display, map_visible)) {          
+          state_.map_display_cursor
+            .update(() => map_visible);
+        }
+      }  
+      default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
+    }
+  }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
+
+
+
+
+
 ];
 
 
 var default_page_size_store = merge(Emitter.prototype, {
   get_search_page_width () {
     return state_.width;
+  },
+
+  get_search_page_map_visible () {
+    return state_.map_visible;
+  },
+  
+  get_search_page_map_display () {
+    return state_.map_display;
   },
 
   dispose () {
