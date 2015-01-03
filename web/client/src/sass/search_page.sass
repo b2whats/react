@@ -5,7 +5,10 @@
     > *
       font-size: 14px      
   .search-page-container
-    margin: 0 0 45px 0
+    &.search-page-logo-margin
+      margin: 0 0 45px 0
+
+    margin: 0 0 15px 0
     //background: rgba(52, 152, 219, 0.1)
     border-radius: 0
     //min-height: 48px
@@ -55,6 +58,15 @@
       color: #909090
       margin: 5px 0
 
+    .search-page-yandex-map-border-radius
+      border: 0px solid red
+      border-radius: 12px
+      overflow: hidden
+      -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
+
+    .search-page-yandex-map
+      height: 384px
+      background-color: #aacbd9
 
       
 

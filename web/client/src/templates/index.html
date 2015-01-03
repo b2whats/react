@@ -33,6 +33,11 @@
     <link rel="stylesheet" type="text/css" href="/assets/icons/icon-font/flaticon.css">     
     <link rel="stylesheet" href="/lcss/sass.css">
     <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+    
+
+    <!--заинлайнить в релиз билде-->
+    <script defer src="/assets/libs/script.js"></script>
+
   </head>
 <!--иначе карта глючит - если драг будет нужен перенести на элемент карты или выше и проверить сто раз-->  
   <body ondragstart="return false;">
@@ -40,7 +45,15 @@
     </div>
     <!--грузим асинхронно, document.write нет-->
     <!--script async defer src="/js/app.js" type="text/javascript"></script-->
+    
+
+    <!--в релизе подрубить через $script обоих-->
+    
+    <!--script src="//api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script-->
+    
     <script defer src="/js/vendor.js"></script>
     <script defer src="/js/app.js"></script>
+    
+    
   </body>
 </html>

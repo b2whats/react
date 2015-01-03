@@ -8,6 +8,8 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var SearchPageSearchBlock = require('./search_page_search_block.jsx');
+var SearchPageYandexMap = require('./search_page_yandex_map.jsx');
+
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 /* jshint ignore:end */
@@ -30,6 +32,9 @@ var sass_vars = require('sass/common_vars.json')['search-page'];
 var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-right-padding'] ) + 
                          style_utils.from_px_to_number( sass_vars['input-left-padding'] ) +
                          2*style_utils.from_px_to_number( sass_vars['border-width'] );
+
+
+
 
 var kRECALC_WIDTH_TIMEOUT = 200;
 
@@ -62,7 +67,7 @@ var SearchPage = React.createClass({
     /* jshint ignore:start */
     return (
       <div className="search-page">
-        <div className="search-page-container">
+        <div className="search-page-container search-page-logo-margin">
           <div className="wrap gutter-5-xs">
             <div className="md-12-6">
               <div className="search-page-logo">
@@ -96,7 +101,11 @@ var SearchPage = React.createClass({
           </div>          
         </div>
         <div className="search-page-container">
-          <div style={ {height:'2000px'} }></div>
+          <div className="wrap gutter-5-xs">
+            <SearchPageYandexMap className="md-12-12">
+              
+            </SearchPageYandexMap>
+          </div>
         </div>
       </div>
     );
