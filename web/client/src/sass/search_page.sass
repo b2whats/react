@@ -61,16 +61,25 @@
 
 
     .search-page-yandex-map
-      border: 1px solid white //граница нужна чтобы при переходе от есть карта нет карты не было глюков
-      border-radius: 12px
+      border: 1px solid #eee //white //граница нужна чтобы при переходе от есть карта нет карты не было глюков
+      border-radius: 8px
       overflow: hidden
       //баг хрома - карта вылазит за пределы бордера, лечится так
       -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
-
+      position: relative
 
       &.search-page-yandex-map-map-visible
         height: 384px
-        background-color: #aacbd9
+        background-color: #ffffee
+        .search-page-yandex-map-header
+          position: absolute
+          left: 0
+          right: 0
+          top: 0
+          z-index: 1
+          background-color: rgba(250, 250, 250, 0.8)
+          border-bottom: 1px solid #eee
+
       &.search-page-yandex-map-map-hidden  
         //height: 50px
         border: 1px solid #eee
@@ -78,9 +87,100 @@
           display: none
 
 
-    .search-page-yandex-map-header
-      padding: 15px 0
 
+//------------------------ЗАГОЛОВОК 
+$search-page-header-element-max-height: 29px
+$search-page-header-select-height: 24px
 
-
+.search-page-yandex-map-header
+  padding: 10px 15px      
   
+  //выравнивание header элементов по высоте
+  .search-page-yandex-map-header-element
+    line-height: $search-page-header-element-max-height
+    font-size: 12px
+
+    display: inline-block
+    vertical-align: middle
+    &:after
+      content: ""
+      display: inline-block
+      vertical-align: middle
+      height: 100%
+                
+  
+  //SELECT выпадающий список
+  //значок выпадающего списка надо сделать background-image
+  .search-page-yandex-map-header-select-holder
+    overflow: hidden
+    width: 46px
+    height: 24px
+    border: 1px solid #eee
+    margin-left: 10px
+    margin-right: 10px
+    background-color: white
+
+    .search-page-yandex-map-header-select
+      font-size: 12px
+      padding: 0
+      margin: 0
+      padding-left: 6px
+      border-radius: 0
+      -webkit-appearance: none
+      background: transparent
+      border: none
+      height: $search-page-header-element-max-height
+      width: 70px
+      outline: none
+      vertical-align: middle
+      margin-top: $search-page-header-select-height - $search-page-header-element-max-height - 1px
+      margin-left: -1px //убрать в мозилле выделение селекта
+      @-moz-document url-prefix()        
+        padding-left: 3px
+
+      &:-moz-focusring
+        color: transparent
+        text-shadow: 0 0 0 #000
+
+        
+  //кнопки хедера справа
+  .search-page-yandex-map-header-button
+    font-size: 12px
+    height: $search-page-header-element-max-height
+    color: #2A2A2A
+    background-color: #FFF
+    background-image: -moz-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
+    background-image: -o-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
+    background-image: -webkit-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
+    background-image: linear-gradient(to bottom, #FCFCFC 0%, #F7F7F7 100%)
+    border: 1px solid rgba(64, 64, 64, 0.45)
+    -moz-border-radius: 2px
+    -webkit-border-radius: 2px
+    border-radius: 2px
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
+    &:hover
+      //color: lighten(#2A2A2A, 20%)
+      background-image: -moz-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
+      background-image: -o-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
+      background-image: -webkit-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
+      background-image: linear-gradient(to bottom, #EEE 0%, #F7F7F7 100%)
+
+    &:active
+      //color: lighten(#2A2A2A, 40%)
+      background-image: -moz-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
+      background-image: -o-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
+      background-image: -webkit-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
+      background-image: linear-gradient(to bottom, #CCC 0%, #F7F7F7 100%)
+
+    &.search-page-yandex-map-header-button-hide
+      //width: 131px
+      
+    &.search-page-yandex-map-header-button-switch  
+      margin-right: 11px
+      //width: 36px
+
+
+
+

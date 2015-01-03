@@ -1,5 +1,7 @@
 'use strict';
 
+var _ = require('underscore');
+
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 var cx        = React.addons.classSet;
@@ -25,7 +27,7 @@ var search_page_actions = require('actions/search_page_actions.js');
 
 
 
-
+var kWORK_HOURS = ['00:00','02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00'];
 
 var SearchPageYandexMap = React.createClass({
   propTypes: {
@@ -34,6 +36,11 @@ var SearchPageYandexMap = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
+
+  change_map_visibility () {
+    console.log('change');
+    search_page_actions.search_page_map_visibility_chaged(!this.state.map_visible);
+  },
 
   //search_page_map_visibility_chaged
 
@@ -48,7 +55,8 @@ var SearchPageYandexMap = React.createClass({
     if (this.state.map_display === true) {
       ya_map = <YandexMap />;
     }
-
+    var options_from = _.map(kWORK_HOURS, (value, index) => <option key={index} value={index}>{value}</option>);
+    var options_to = _.map(kWORK_HOURS, (value, index) => <option key={index} value={index}>{value}</option>)
 
 
     return (
@@ -56,14 +64,28 @@ var SearchPageYandexMap = React.createClass({
         <div className={class_name}>
           <div className="search-page-yandex-map-header">
             <div className="wrap gutter-5-xs">
-              <div className="md-12-3">
-                Рейтинг
+              <div className="md-12-3 left-md">
+                <div className="search-page-yandex-map-header-element"><strong>Рейтинг</strong></div>
               </div>
-              <div className="md-12-6">
-                Рейтинг
+              <div className="md-12-6 left-md">
+                <div className="search-page-yandex-map-header-element"><strong>Время работы</strong></div>
+                <div className="search-page-yandex-map-header-element search-page-yandex-map-header-select-holder">
+                  <select defaultValue={4} className="search-page-yandex-map-header-select">
+                    {options_from}
+                  </select>
+                </div>              
+                
+                <div className="search-page-yandex-map-header-element">-</div>
+
+                <div className="search-page-yandex-map-header-element search-page-yandex-map-header-select-holder">
+                  <select defaultValue={10} className="search-page-yandex-map-header-select">
+                    {options_to}
+                  </select>
+                </div>              
               </div>
-              <div className="md-12-3">
-                Рейтинг
+              <div className="md-12-3 right-md">
+                <button className="search-page-yandex-map-header-element search-page-yandex-map-header-button search-page-yandex-map-header-button-switch">^</button>
+                <button onClick={this.change_map_visibility} className="search-page-yandex-map-header-element search-page-yandex-map-header-button search-page-yandex-map-header-button-hide">Показать карту</button>
               </div>
           </div>
         </div>
