@@ -15,6 +15,7 @@ var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_s
 /* jshint ignore:end */
 
 var search_page_actions = require('actions/search_page_actions.js');
+var default_page_actions = require('actions/default_page_actions.js');
 
 var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 var autoservices_search_actions = require('actions/autoservices_search_actions.js');
@@ -62,7 +63,17 @@ var SearchPage = React.createClass({
     window.removeEventListener('resize', this.handle_resize);
   },
 
+  on_auto_parts_value_changed(id, articul, producer, sentence) {
+    var region_id = region_store.get_region_current().get('id');
+    default_page_actions.goto_auto_parts_page(region_id, id, articul, producer, sentence);
+  },
+
+  on_auto_service_value_changed(id, auto_mark, name) {    
+    console.error('Не сделано:', id, auto_mark, name);
+  },
+
   render() {
+    var autoparts_initial_value='Надо API см issue #6';// + '  ' + Math.random();
     /*flexbox  класс пока не использую чтобы работало везде*/
     /* jshint ignore:start */
     return (
@@ -83,7 +94,8 @@ var SearchPage = React.createClass({
             <SearchPageSearchBlock 
               sample="* Введите название, производителя или код"
               className="md-12-6 autoparts">
-              <AutoPartsSearchWrapper 
+              <AutoPartsSearchWrapper
+                initial_value={autoparts_initial_value}
                 list_width={this.state.width}
                 placeholder="Поиск автозапчатей *"
                 on_value_changed={this.on_auto_parts_value_changed} />

@@ -43,7 +43,8 @@ var AutoPartsSearchWrapper = React.createClass({
   propTypes: {
     list_width: PropTypes.number,
     placeholder: PropTypes.string,
-    on_value_changed: PropTypes.func
+    on_value_changed: PropTypes.func,
+    initial_value: PropTypes.string
   },
 
   componentWillMount() {
@@ -89,7 +90,8 @@ var AutoPartsSearchWrapper = React.createClass({
 
     return (      
       <Typeahead
-        show_value={this.state.suggestion_show_value.toJS()}         
+        show_value={this.state.suggestion_show_value.toJS()}
+        initial_value={this.props.initial_value}
         columns={kCOLUMNS}
         column_title_idx={kCOLUMN_TITLE_IDX}
         column_headers={kHEADERS} 

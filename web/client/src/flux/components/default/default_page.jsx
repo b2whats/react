@@ -67,7 +67,7 @@ var DefaultPage = React.createClass({
   },
   
   on_auto_service_value_changed(id, auto_mark, name) {    
-    console.log('aserv:', id, auto_mark, name);
+    console.error('Не сделано:', id, auto_mark, name);
   },
 
   render () {

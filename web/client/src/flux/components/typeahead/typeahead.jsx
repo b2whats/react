@@ -156,10 +156,24 @@ var Typeahead = React.createClass({
         }, null);
       }
     }
+
+
+    if(next_props.initial_value && this.props.initial_value !== next_props.initial_value) {
+      this.setState({
+        searchTerm: next_props.initial_value,
+        showResults: false
+      });
+    }
   },
 
   componentWillMount() {
     this.blurTimer = null;
+    if(this.props.initial_value) {
+      this.setState({
+        searchTerm: this.props.initial_value,
+        showResults: false
+      });
+    }    
   },
 
   get_title_value(title) {

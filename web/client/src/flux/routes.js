@@ -22,6 +22,8 @@ var routes = [
 
   [route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
     (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
+    //начать обновлять данные по новому региону
+
     route_actions.default_route]
   
 

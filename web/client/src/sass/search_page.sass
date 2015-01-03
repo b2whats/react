@@ -58,17 +58,18 @@
       color: #909090
       margin: 5px 0
 
-    .search-page-yandex-map-border-radius
-      border: 0px solid red
-      border-radius: 12px
-      overflow: hidden
-      -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
 
-    .search-page-yandex-map
+    .search-page-yandex-map-map-visible
       height: 384px
       background-color: #aacbd9
+    
+    .search-page-yandex-map
+      border: 1px solid white //граница нужна чтобы при переходе от есть карта нет карты не было глюков
+      border-radius: 12px
+      overflow: hidden
+      //баг хрома - карта вылазит за пределы бордера, лечится так
+      -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
 
-      
 
   
   
