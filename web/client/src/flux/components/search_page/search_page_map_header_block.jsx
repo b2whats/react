@@ -78,35 +78,33 @@ var SearchPageMapHeaderBlock = React.createClass({
       <div className="search-page-yandex-map-header">
         <div className="wrap gutter-5-xs">
           {/*левая часть заголовка*/}
-          <div className="md-12-3 left-md">
-            <div className="search-page-yandex-map-header-element"><strong>Рейтинг</strong></div>
-            <div onMouseLeave={this.on_star_mouse_leave} className="search-page-yandex-map-header-element search-page-yandex-map-header-rating">
+          <div className="md-12-3 left-md search-page-map-header">
+            <strong>Рейтинг</strong>
+            <div onMouseLeave={this.on_star_mouse_leave} className="search-page-yandex-map-header-rating">
               {StarList}
             </div>
           </div>              
           {/*центральная часть заголовка*/}
-          <div className="md-12-5 left-md">
-            <div className="search-page-yandex-map-header-element"><strong>Время работы</strong></div>
-            <div className="search-page-yandex-map-header-element search-page-yandex-map-header-select-holder">
+          <div className="md-12-5 left-md search-page-map-header">
+            <strong>Время работы</strong>
+            <div className="search-page-yandex-map-header-select-holder">
               <select defaultValue={4} className="search-page-yandex-map-header-select">
                 {options_from}
               </select>
             </div>
-            <div className="search-page-yandex-map-header-element">-</div>
-            <div className="search-page-yandex-map-header-element search-page-yandex-map-header-select-holder">
+            <div>-</div>
+            <div className="search-page-yandex-map-header-select-holder">
               <select defaultValue={10} className="search-page-yandex-map-header-select">
                 {options_to}
               </select>
             </div>              
           </div>              
           {/*правая часть заголовка*/}
-          <div className="md-12-4 right-md">
-            <button className="search-page-yandex-map-header-element 
-                               search-page-yandex-map-header-button 
+          <div className="md-12-4 right-md search-page-map-header">
+            <button className="search-page-yandex-map-header-button 
                                search-page-yandex-map-header-button-switch">^</button>
             <button onClick={this.on_map_visibility_changed} 
-                    className="search-page-yandex-map-header-element 
-                               search-page-yandex-map-header-button 
+                    className="search-page-yandex-map-header-button 
                                search-page-yandex-map-header-button-hide">{btn_show_map_button_text}</button>
           </div>
         </div>        

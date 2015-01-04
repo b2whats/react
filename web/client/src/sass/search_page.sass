@@ -1,14 +1,13 @@
 
 
 .search-page
-  .wrap
-    > *
-      font-size: 14px      
   .search-page-container
     &.search-page-logo-margin
       margin: 0 0 45px 0
 
     margin: 0 0 15px 0
+
+
     //background: rgba(52, 152, 219, 0.1)
     border-radius: 0
     //min-height: 48px
@@ -88,30 +87,19 @@
 
 
 
-//------------------------ЗАГОЛОВОК-------------------------------------------------------------------------------------- 
-$search-page-header-element-max-height: 29px
-$search-page-header-select-height: 24px
+//------------------------ЗАГОЛОВОК КАРТЫ----------------------------------------------- 
+.search-page-map-header
+  @include valign-middle()
+  height: 50px //запас карман не тянет
+  > *
+    display: inline-block
 
 .search-page-yandex-map-header
-  padding: 10px 15px      
-  
-  //выравнивание header элементов по высоте
-  .search-page-yandex-map-header-element
-    line-height: $search-page-header-element-max-height
-    font-size: 12px
-    display: inline-block
-    vertical-align: middle
+  padding: 0 15px
+  .wrap
     > *
-      vertical-align: middle
-    &:after
-      content: ""
-      display: inline-block
-      vertical-align: middle
-      height: 100%
-                
-  
-  //SELECT выпадающий список
-  //значок выпадающего списка надо сделать background-image
+      font-size: 13px
+  //кастом выпадающий список, значок выпадающего списка надо сделать background-image
   .search-page-yandex-map-header-select-holder
     overflow: hidden
     width: 46px
@@ -122,7 +110,9 @@ $search-page-header-select-height: 24px
     background-color: white
 
     .search-page-yandex-map-header-select
-      font-size: 12px
+      height: 100%
+      width: 70px      
+      vertical-align: middle
       padding: 0
       margin: 0
       padding-left: 6px
@@ -130,12 +120,7 @@ $search-page-header-select-height: 24px
       -webkit-appearance: none
       background: transparent
       border: none
-      height: $search-page-header-element-max-height
-      width: 70px
       outline: none
-      vertical-align: middle
-      margin-top: $search-page-header-select-height - $search-page-header-element-max-height - 1px
-      margin-left: -1px //убрать в мозилле выделение селекта
       @-moz-document url-prefix()        
         padding-left: 3px
 
@@ -146,35 +131,24 @@ $search-page-header-select-height: 24px
         
   //кнопки хедера справа
   .search-page-yandex-map-header-button
-    font-size: 12px
-    height: $search-page-header-element-max-height
-    color: #2A2A2A
-    background-color: #FFF
-    background-image: -moz-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
-    background-image: -o-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
-    background-image: -webkit-linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
-    background-image: linear-gradient(to bottom, #FCFCFC 0%, #F7F7F7 100%)
+    @include linear-gradient(top, #FCFCFC 0%, #F7F7F7 100%)
+    @include border-top-radius(2px)
+    @include border-bottom-radius(2px)
+
     border: 1px solid rgba(64, 64, 64, 0.45)
-    -moz-border-radius: 2px
-    -webkit-border-radius: 2px
-    border-radius: 2px
+    height: 29px
+    color: #2A2A2A
+    
     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
     -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.5)
     &:hover
-      background-image: -moz-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
-      background-image: -o-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
-      background-image: -webkit-linear-gradient(top, #EEE 0%, #F7F7F7 100%)
-      background-image: linear-gradient(to bottom, #EEE 0%, #F7F7F7 100%)
-
+      @include linear-gradient(top, #EEE 0%, #F7F7F7 100%)
     &:active
-      background-image: -moz-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
-      background-image: -o-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
-      background-image: -webkit-linear-gradient(top, #CCC 0%, #F7F7F7 100%)
-      background-image: linear-gradient(to bottom, #CCC 0%, #F7F7F7 100%)
+      @include linear-gradient(top, #CCC 0%, #F7F7F7 100%)
 
     &.search-page-yandex-map-header-button-hide
-      width: 131px //на кнопке разные тексты чтобы не скакала
+      min-width: 141px //на кнопке разные тексты чтобы не скакала
       
     &.search-page-yandex-map-header-button-switch  
       margin-right: 11px
@@ -196,23 +170,11 @@ $search-page-header-select-height: 24px
           color: inherit
         &.star-hovered
           color: yellow
-      //&.star-hovered
-      //  &.star-selected
-      //    color: orange
-
 
 
 .search-page-info-header
   height: 40px //запас карман не тянет
-  > *
-    vertical-align: middle
-  &:after
-    content: ""
-    display: inline-block
-    vertical-align: middle
-    height: 100%
-  
-
+  @include valign-middle()
   .pager-buttons
     margin-left: 10px
 
