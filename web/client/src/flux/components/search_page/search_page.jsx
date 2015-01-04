@@ -128,7 +128,7 @@ var SearchPage = React.createClass({
               <div className="search-page-info-header">  
                 <span>Найдено</span>&nbsp;
                 <strong>123</strong>&nbsp;
-                <span>предложений</span>
+                <span>предложений</span>                
               </div>            
             </div>
             <div className="md-12-6"></div>
