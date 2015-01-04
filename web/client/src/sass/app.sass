@@ -1,7 +1,9 @@
+@import 'bourbon/bourbon'
 
 @import 'common_vars.json'
 
 @import 'values'
+@import 'mixins/valign'
 
 @import 'controls/typeahead'
 @import 'controls/typeahead_scrollbar'
@@ -48,6 +50,11 @@ a
   &,:visited
     text-decoration: none
     outline-style: none
+
+.wrap
+  > *
+    font-size: 14px
+
 
 .hfm-wrapper
   max-width: 1200px
