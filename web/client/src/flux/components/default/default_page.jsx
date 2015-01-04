@@ -67,7 +67,8 @@ var DefaultPage = React.createClass({
   },
   
   on_auto_service_value_changed(id, auto_mark, name) {    
-    console.error('Не сделано:', id, auto_mark, name);
+    var region_id = region_store.get_region_current().get('id');
+    default_page_actions.goto_auto_service_page(region_id, id, auto_mark, name);
   },
 
   render () {

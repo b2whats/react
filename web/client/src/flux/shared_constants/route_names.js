@@ -6,7 +6,7 @@ var route_names = {
   kDEFAULT_ROUTE: 'kDEFAULT_ROUTE',
   
   
-  kROUTE_PARTS_FIND: '/find/:region_id/:sentence/:producer/:articul/:id',
+  kROUTE_PARTS_FIND: '/find/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id',
   kFIND_ROUTE: 'kFIND_ROUTE',
 
 

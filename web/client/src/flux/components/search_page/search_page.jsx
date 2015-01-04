@@ -15,13 +15,11 @@ var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_s
 /* jshint ignore:end */
 
 var search_page_actions = require('actions/search_page_actions.js');
-var default_page_actions = require('actions/default_page_actions.js');
 
 var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 var autoservices_search_actions = require('actions/autoservices_search_actions.js');
 
 var search_page_store = require('stores/search_page_store.js');
-var region_store = require('stores/region_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: search_page_store.get_search_page_width (),
@@ -64,12 +62,11 @@ var SearchPage = React.createClass({
   },
 
   on_auto_parts_value_changed(id, articul, producer, sentence) {
-    var region_id = region_store.get_region_current().get('id');
-    default_page_actions.goto_auto_parts_page(region_id, id, articul, producer, sentence);
+    search_page_actions.goto_auto_parts_page(id, articul, producer, sentence);
   },
 
   on_auto_service_value_changed(id, auto_mark, name) {    
-    console.error('Не сделано:', id, auto_mark, name);
+    search_page_actions.goto_auto_service_page(id, auto_mark, name);
   },
 
   render() {
@@ -84,8 +81,8 @@ var SearchPage = React.createClass({
             <div className="md-12-6">
               <div className="search-page-logo">
                 <Link href="/">
-                <span className="search-page-logo-first">Auto</span>
-                <span className="search-page-logo-second">Giper</span>
+                  <span className="search-page-logo-first">Auto</span>
+                  <span className="search-page-logo-second">Giper</span>
                 </Link>
               </div>
             </div>
