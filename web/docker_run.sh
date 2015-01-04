@@ -37,6 +37,9 @@ docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "script -q /dev/null -c 'cd /
 #sleep 10 #чуть подождать и отдетачить клиента от контейнера
 CLIENT_LIST=
 
+#почему то без этого слипа дебиан иногда вылетает на docker exec без ошибок
+sleep 1
+
 while [[ -z "$CLIENT_LIST" ]]; do
   CLIENT_LIST=$(docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients")
   echo 'please wait ...'

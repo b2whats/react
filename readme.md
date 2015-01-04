@@ -3,6 +3,13 @@ docker version >= 1.3.0
 
 #Install
 * Склонировать проект https://github.com/Whatss/deploy/tree/master/docker
+* склонировать сабмодули
+```shell
+git submodule init
+git submodule update
+```
+
+
 * Сбилдить docker контейнеры
 ```shell
 cd docker
