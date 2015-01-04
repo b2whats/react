@@ -39,7 +39,7 @@ var SearchPageYandexMap = React.createClass({
   render () {
     //для не загрузки скриптов яндекс карт YandexMap элемент показываем только когда его первый раз попросят показаться
     //потом тупо играем стилями, отсюда у карты по хорошему два свойства висибл и дисплей
-    var class_name_search_page_yandex_map = cx('search-page-yandex-map');
+    var class_name_search_page_yandex_map = cx('search-page-yandex-map-block');
 
     class_name_search_page_yandex_map = this.state.map_visible ? 
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-visible') : 

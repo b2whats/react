@@ -1,105 +1,109 @@
+//.search-page
+
+//заглавный элемент каждого блока на страничке
+.search-page-container
+  margin: 0 0 15px 0
+  border-radius: 0
+  //min-height: 48px
+  //overflow-x: hidden
+  &.search-page-logo-margin
+    margin: 0 0 45px 0
+
+//--------------------блок с логотипом-------------------------------------------------
+.search-page-logo
+  position: absolute
+  width: 100%
+  margin: 0
+  height: 48px
+  top: -26px
+  line-height: 50px
+  
+  font-family: "HelveticaNeueCyr"
+  font-size: 50px
+  
+  .search-page-logo-first
+    color: #B7A6DE
+    font-weight: 300
+  .search-page-logo-second
+    color: #F6D600
+    font-weight: 700
 
 
-.search-page
-  .search-page-container
-    &.search-page-logo-margin
-      margin: 0 0 45px 0
+//--------------------блок с поиском-------------------------------------------------
+.search-page-typeahed-border
+  -moz-border-radius: 8px
+  -webkit-border-radius: 8px
+  border-radius: 8px      
+  text-align: left
+  background-size: 45px 45px
+  background-repeat: no-repeat
+  background-position: 15px center
+  padding: 17px $search-page-input-right-padding 17px $search-page-input-left-padding
 
-    margin: 0 0 15px 0
+.autoparts
+  .search-page-typeahed-border
+    border: $search-page-border-width solid #B7A6DE
+    background-image: url('/assets/images/templates/icon-gear.png')
+  
+.autoservices
+  .search-page-typeahed-border
+    border: $search-page-border-width solid #F6D600
+    background-image: url('/assets/images/templates/icon-key.png')
+  .typeahead-list-holder  
+    right: 0
 
-
-    //background: rgba(52, 152, 219, 0.1)
-    border-radius: 0
-    //min-height: 48px
-    //overflow-x: hidden
-    .search-page-logo
-      position: absolute
-      width: 100%
-      margin: 0
-      height: 48px
-      top: -26px
-      line-height: 50px
-      
-      font-family: "HelveticaNeueCyr"
-      font-size: 50px
-      
-      .search-page-logo-first
-        color: #B7A6DE
-        font-weight: 300
-      .search-page-logo-second
-        color: #F6D600
-        font-weight: 700
-
-    .search-page-typeahed-border
-      -moz-border-radius: 8px
-      -webkit-border-radius: 8px
-      border-radius: 8px      
-      text-align: left
-      background-size: 45px 45px
-      background-repeat: no-repeat
-      background-position: 15px center
-      padding: 17px $search-page-input-right-padding 17px $search-page-input-left-padding
-
-    .autoparts
-      .search-page-typeahed-border
-        border: $search-page-border-width solid #B7A6DE
-        background-image: url('/assets/images/templates/icon-gear.png')
-      
-    .autoservices
-      .search-page-typeahed-border
-        border: $search-page-border-width solid #F6D600
-        background-image: url('/assets/images/templates/icon-key.png')
-      .typeahead-list-holder  
-        right: 0
-
-    .search-page-typeahed-helper-text
-      text-align: left
-      color: #909090
-      margin: 5px 0
+.search-page-typeahed-helper-text
+  text-align: left
+  color: #909090
+  margin: 5px 0
 
 
 
-    .search-page-yandex-map
-      border: 1px solid #eee //white //граница нужна чтобы при переходе от есть карта нет карты не было глюков
-      border-radius: 8px
-      overflow: hidden
-      //баг хрома - карта вылазит за пределы бордера, лечится так
-      -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
-      position: relative
 
-      &.search-page-yandex-map-map-visible
-        height: 384px
-        background-color: #ffffee
-        .search-page-yandex-map-header
-          position: absolute //разместить над картой если она видима
-          left: 0
-          right: 0
-          top: 0
-          z-index: 1
-          background-color: rgba(250, 250, 250, 0.8)
-          border-bottom: 1px solid #eee
+//------------------------БЛОК КАРТЫ---------------------------------------------------
+.search-page-yandex-map-block
+  border: 1px solid #eee //white //граница нужна чтобы при переходе от есть карта нет карты не было глюков
+  border-radius: 8px
+  overflow: hidden
+  //баг хрома - карта вылазит за пределы бордера, лечится так
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
+  position: relative
 
-      &.search-page-yandex-map-map-hidden  
-        //height: 50px
-        border: 1px solid #eee
-        .yandex-map
-          display: none
+  &.search-page-yandex-map-map-visible
+    height: 384px
+    background-color: #ffffee
+    .search-page-yandex-map-header
+      position: absolute //разместить над картой если она видима
+      left: 0
+      right: 0
+      top: 0
+      z-index: 1
+      background-color: rgba(250, 250, 250, 0.8)
+      border-bottom: 1px solid #eee
+
+  &.search-page-yandex-map-map-hidden  
+    //height: 50px
+    border: 1px solid #eee
+    .yandex-map
+      display: none
 
 
 
 //------------------------ЗАГОЛОВОК КАРТЫ----------------------------------------------- 
-.search-page-map-header
-  @include valign-middle()
-  height: 50px //запас карман не тянет
-  > *
-    display: inline-block
 
 .search-page-yandex-map-header
   padding: 0 15px
   .wrap
     > *
-      font-size: 13px
-  //кастом выпадающий список, значок выпадающего списка надо сделать background-image
+      font-size: 13px //так задавать размер фонта (почему то flexiblegs переопределяет его тут)
+
+  .search-page-map-header
+    @include valign-middle()
+    height: 50px //запас карман не тянет
+    > *
+      display: inline-block
+    
+  //кастом выпадающий список, значок треугольничек выпадающего списка надо сделать background-image
   .search-page-yandex-map-header-select-holder
     overflow: hidden
     width: 46px
@@ -154,14 +158,16 @@
       margin-right: 11px
 
   .search-page-yandex-map-header-rating
+    height: 16px
+    font-size: 16px
     margin: 0 10px
     cursor: pointer
+    @include valign-middle()
     .search-page-yandex-map-header-rating-star
-      font-size: 16px
+      
       padding: 0 5px
-      display: inline-block
-      height: 16px
-      vertical-align: -6px
+      //display: inline-block      
+      vertical-align: -3px //убрать после добавления нормальных звезд
       &.star-hovered
         color: darken(yellow, 3%)
       &.star-selected
@@ -172,6 +178,8 @@
           color: yellow
 
 
+
+//---------------------------------------------------------------------------------------------------------
 .search-page-info-header
   height: 40px //запас карман не тянет
   @include valign-middle()

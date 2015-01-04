@@ -84,7 +84,7 @@ var SearchPageMapHeaderBlock = React.createClass({
               {StarList}
             </div>
           </div>              
-          {/*центральная часть заголовка*/}
+          {/*центральная часть заголовка (селект потом уйдет в свой контрол)*/}
           <div className="md-12-5 left-md search-page-map-header">
             <strong>Время работы</strong>
             <div className="search-page-yandex-map-header-select-holder">
