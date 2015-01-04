@@ -51,7 +51,7 @@ grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/de
 
 grunt.registerTask('default',['exec:browserify_vendor', 'exec:browserify_app_exorcist', 'execute_fb_flo', 'watchify_task', 'watch:touch_sass_html_md']);
 
-grunt.registerTask('server', ['devscripts', 'watchify_task', 'watch:all']);
+grunt.registerTask('server', ['devscripts', 'execute_fb_flo', 'watchify_task', 'watch:all']);
 
 
 
