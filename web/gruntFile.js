@@ -114,7 +114,7 @@ grunt.initConfig({
     all:{
       files: ['<%= src.dev_src %>**/*.js', 
               '<%= src.dev_src %>**/*.jsx',
-              '<%= src.dev_src %>**/*.tpl.html', 
+              '<%= src.dev_src %>**/*.html', 
               '<%= src.g_assets_dir %>**/*.css', 
               '<%= src.dev_src %>**/*.css', 
               '<%= src.sass %>', 
