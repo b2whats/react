@@ -78,6 +78,7 @@ var SearchPage = React.createClass({
     /* jshint ignore:start */
     return (
       <div className="search-page">
+        {/*логотипчик*/}
         <div className="search-page-container search-page-logo-margin">
           <div className="wrap gutter-5-xs">
             <div className="md-12-6">
@@ -88,7 +89,8 @@ var SearchPage = React.createClass({
             </div>
           </div>
         </div>
-
+        
+        {/*поисковые формочки*/}
         <div ref='default_page_content' className="search-page-container">
           <div className="wrap gutter-5-xs">
             <SearchPageSearchBlock 
@@ -109,16 +111,20 @@ var SearchPage = React.createClass({
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />
             </SearchPageSearchBlock>
-
           </div>          
         </div>
+        
+        {/*карта с заголовком*/}
         <div className="search-page-container">
           <div className="wrap gutter-5-xs">
             <SearchPageYandexMap className="md-12-12">
-              
             </SearchPageYandexMap>
           </div>
         </div>
+        
+        {/*результаты поиска*/}
+
+
       </div>
     );
     /* jshint ignore:end */    

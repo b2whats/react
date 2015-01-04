@@ -18,6 +18,10 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   width: 0,
   map_visible: false, //видно карту или нет
   map_display: false, //подгружена вообще карта или нет
+
+  star_hover_value: -1,
+  star_click_value: 1
+
 });
 
 var cncl_ = [
@@ -50,9 +54,19 @@ var cncl_ = [
   }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
 
 
+  main_dispatcher
+  .on(event_names.kON_SEARCH_PAGE_HEADER_RATING_STAR_HOVER, star_hover_value => {      
+    state_.star_hover_value_cursor
+      .update(() => star_hover_value);
+    default_page_size_store.fire(event_names.kON_CHANGE);
+  }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
 
-
-
+  main_dispatcher
+  .on(event_names.kON_SEARCH_PAGE_HEADER_RATING_STAR_CLICK, star_click_value => {      
+    state_.star_click_value_cursor
+      .update(() => star_click_value);
+    default_page_size_store.fire(event_names.kON_CHANGE);  
+  }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
 ];
 
 
@@ -67,6 +81,13 @@ var default_page_size_store = merge(Emitter.prototype, {
   
   get_search_page_map_display () {
     return state_.map_display;
+  },
+
+  get_star_hover_value () {
+    return state_.star_hover_value;
+  },
+  get_star_click_value () {
+    return state_.star_click_value;
   },
 
   dispose () {

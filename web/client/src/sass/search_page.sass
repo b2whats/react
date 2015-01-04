@@ -72,7 +72,7 @@
         height: 384px
         background-color: #ffffee
         .search-page-yandex-map-header
-          position: absolute
+          position: absolute //разместить над картой если она видима
           left: 0
           right: 0
           top: 0
@@ -88,7 +88,7 @@
 
 
 
-//------------------------ЗАГОЛОВОК 
+//------------------------ЗАГОЛОВОК-------------------------------------------------------------------------------------- 
 $search-page-header-element-max-height: 29px
 $search-page-header-select-height: 24px
 
@@ -177,6 +177,27 @@ $search-page-header-select-height: 24px
       
     &.search-page-yandex-map-header-button-switch  
       margin-right: 11px
+
+  .search-page-yandex-map-header-rating
+    margin: 0 10px
+    cursor: pointer
+    .search-page-yandex-map-header-rating-star
+      font-size: 16px
+      padding: 0 5px
+      display: inline-block
+      height: 16px
+      vertical-align: -6px
+      &.star-hovered
+        color: darken(yellow, 3%)
+      &.star-selected
+        color: darken(yellow, 3%)
+        &.star-in-selection
+          color: inherit
+        &.star-hovered
+          color: yellow
+      //&.star-hovered
+      //  &.star-selected
+      //    color: orange
 
 
 

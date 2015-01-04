@@ -27,11 +27,6 @@ search_page_store /*observable store list*/);
 var search_page_actions = require('actions/search_page_actions.js');
 
 
-
-var kWORK_HOURS = ['00:00','02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00'];
-var kBTN_TEXT={0:'Показать карту', 1:'Скрыть карту'};
-
-
 var SearchPageYandexMap = React.createClass({
   propTypes: {
     className: PropTypes.string
@@ -40,12 +35,6 @@ var SearchPageYandexMap = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
 
-  on_map_visibility_changed () {
-    console.log('change');
-    search_page_actions.search_page_map_visibility_chaged(!this.state.map_visible);
-  },
-
-  //search_page_map_visibility_chaged
 
   render () {
     //для не загрузки скриптов яндекс карт YandexMap элемент показываем только когда его первый раз попросят показаться
@@ -56,24 +45,14 @@ var SearchPageYandexMap = React.createClass({
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-visible') : 
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-hidden');
 
-    var ya_map;
-    if (this.state.map_display === true) {
-      ya_map = <YandexMap />;
-    }
-    var options_from = _.map(kWORK_HOURS, (value, index) => <option key={index} value={index}>{value}</option>);
-    var options_to = _.map(kWORK_HOURS, (value, index) => <option key={index} value={index}>{value}</option>)
-
 
     return (
       <div className={this.props.className}>
-        <div className={class_name_search_page_yandex_map}>
-          
-          <SearchPageMapHeaderBlock 
-            map_visible={this.state.map_visible}
-            on_map_visibility_changed={this.on_map_visibility_changed}/>
+        <div className={class_name_search_page_yandex_map}>          
+          <SearchPageMapHeaderBlock />
         
-          {ya_map}          
-        
+          {this.state.map_display && 
+          <YandexMap />}        
         </div>
       </div>
     );
