@@ -19,10 +19,10 @@ var Header = React.createClass({
         <RegionSelector />
 
         <div className="top-navbar">
-          <Link className="h_link" href="#">Каталог компаний</Link>
+          <Link className="h_link" href="/">Каталог компаний</Link>
           <Link className="no-href">|</Link>
-          <Link className="ap-link" href="#">Регистрация</Link>
-          <Link className="ap-link" href="#">Вход</Link>
+          <Link className="ap-link" href="/">Регистрация</Link>
+          <Link className="ap-link" href="/">Вход</Link>
         </div>
       </div>      
     );
