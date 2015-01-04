@@ -122,7 +122,29 @@ var SearchPage = React.createClass({
         </div>
         
         {/*результаты поиска*/}
-
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <div className="md-12-3 left-md">
+              <div className="search-page-info-header">  
+                <span>Найдено</span>&nbsp;
+                <strong>123</strong>&nbsp;
+                <span>предложений</span>
+              </div>            
+            </div>
+            <div className="md-12-6"></div>
+            <div className="md-12-3 right-md">
+              <div className="search-page-info-header">
+                <span>Показывать по</span>
+                <span className="pager-buttons">
+                  <a href="/">1</a>
+                  <a href="/">2</a>
+                  <a href="/">...</a>
+                  <a href="/">30</a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     );
