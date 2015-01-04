@@ -85,7 +85,7 @@ var SearchPageMapHeaderBlock = React.createClass({
             </div>
           </div>              
           {/*центральная часть заголовка*/}
-          <div className="md-12-6 left-md">
+          <div className="md-12-5 left-md">
             <div className="search-page-yandex-map-header-element"><strong>Время работы</strong></div>
             <div className="search-page-yandex-map-header-element search-page-yandex-map-header-select-holder">
               <select defaultValue={4} className="search-page-yandex-map-header-select">
@@ -100,7 +100,7 @@ var SearchPageMapHeaderBlock = React.createClass({
             </div>              
           </div>              
           {/*правая часть заголовка*/}
-          <div className="md-12-3 right-md">
+          <div className="md-12-4 right-md">
             <button className="search-page-yandex-map-header-element 
                                search-page-yandex-map-header-button 
                                search-page-yandex-map-header-button-switch">^</button>
