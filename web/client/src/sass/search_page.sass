@@ -99,9 +99,10 @@ $search-page-header-select-height: 24px
   .search-page-yandex-map-header-element
     line-height: $search-page-header-element-max-height
     font-size: 12px
-
     display: inline-block
     vertical-align: middle
+    > *
+      vertical-align: middle
     &:after
       content: ""
       display: inline-block
@@ -199,8 +200,12 @@ $search-page-header-select-height: 24px
       //  &.star-selected
       //    color: orange
 
+
+
 .search-page-info-header
-  height: 30px
+  height: 40px //запас карман не тянет
+  > span
+    vertical-align: middle
   &:after
     content: ""
     display: inline-block

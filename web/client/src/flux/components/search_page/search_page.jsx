@@ -136,10 +136,10 @@ var SearchPage = React.createClass({
               <div className="search-page-info-header">
                 <span>Показывать по</span>
                 <span className="pager-buttons">
-                  <a href="/">1</a>
-                  <a href="/">2</a>
-                  <a href="/">...</a>
-                  <a href="/">30</a>
+                  <a href="">1</a>
+                  <a href="">2</a>
+                  <a href="">...</a>
+                  <a href="">30</a>
                 </span>
               </div>
             </div>
