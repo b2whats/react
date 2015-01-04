@@ -83,8 +83,10 @@ var SearchPage = React.createClass({
           <div className="wrap gutter-5-xs">
             <div className="md-12-6">
               <div className="search-page-logo">
+                <Link href="/">
                 <span className="search-page-logo-first">Auto</span>
                 <span className="search-page-logo-second">Giper</span>
+                </Link>
               </div>
             </div>
           </div>
