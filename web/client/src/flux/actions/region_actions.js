@@ -3,6 +3,8 @@ var _ = require('underscore');
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 
+var routes_store = require('stores/routes_store.js');
+
 var event_names = require('shared_constants/event_names.js');
 var api_refs = require('shared_constants/api_refs.js');
 
@@ -63,8 +65,9 @@ module.exports.region_changed = (region_id) => {  //подгружает спи�
 
 
 //тут пример что мы подменяем один из параметров в текущем роуте а не меняем существующий
-//потом эту логику если будет часто нужна упрощу, а пока каждый кому это надо, должен использовать route_store
-module.exports.goto_region = (region_id, route_params, route_defaults) => {
+module.exports.goto_region = (region_id) => {
+  var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
+  var route_defaults = routes_store.get_route_defaults();
   //если стоит пустой роут / то выбрать роут с проставленым region_id
   route_defaults = (route_defaults === route_definitions.kROUTE_DEF) ? route_definitions.kROUTE_DEF_W_REGION : route_defaults;
   route_actions.goto_link_w_params(route_defaults, _.extend({}, route_params, {region_id: region_id}));

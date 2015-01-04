@@ -14,7 +14,6 @@ var region_actions = require('actions/region_actions.js');
 
 
 var region_store = require('stores/region_store.js');
-var routes_store = require('stores/routes_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   region_list:              region_store.get_region_list (),
@@ -44,7 +43,7 @@ var RegionSelector = React.createClass({
 
   typeahead_changed (v) {
     if(v.id!==this.state.region_current.get('id')) {
-      region_actions.goto_region(v.id, routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS(), routes_store.get_route_defaults());
+      region_actions.goto_region(v.id);
     } else {
       region_actions.change_region_selection_visibility(false);
     }
