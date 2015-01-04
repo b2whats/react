@@ -27,9 +27,7 @@ var YandexMap = React.createClass({
     this.yamap = null;
   },
   
-  componentDidMount() {
-    console.time('yaload');
-    
+  componentDidMount() {    
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
         if(this.isMounted()) {
