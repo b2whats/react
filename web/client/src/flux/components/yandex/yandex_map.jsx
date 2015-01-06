@@ -36,22 +36,11 @@ var YandexMap = React.createClass({
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
         if(this.isMounted()) {          
-          var delta = this.props.header_height || 0;
-          var pos = ymaps.util.bounds.getCenterAndZoom(
-            [[59.744465, 30.042834], [60.090935, 30.568322]],
-            [this.props.width, this.props.height - delta] //занижаем высоту карты на высоту хедера
-          );
-          
-          this.yamap = new ymaps.Map(this.refs.yamap.getDOMNode(), _.extend({}, pos, {
+          var pos_w_delta = this.get_center_and_zoom([[59.744465, 30.042834], [60.090935, 30.568322]]);
+
+          this.yamap = new ymaps.Map(this.refs.yamap.getDOMNode(), _.extend({}, pos_w_delta, {
             controls: ['zoomControl']
           }));
-
-          //надо свдинуть карту на размер хедера, трабла в том что в разных частях мира px при равном зуме это разные
-          //расстояния (см проекцию меркатора) - поэтому сдвигаем карту на эти px только после определения а не сразу
-          var global_center = this.yamap.getGlobalPixelCenter();
-          global_center[1] = global_center[1] - delta/2;
-
-          this.yamap.setGlobalPixelCenter(global_center);
         }
       });
   },
@@ -61,6 +50,26 @@ var YandexMap = React.createClass({
       this.yamap.destroy();
     }
   },
+
+  get_center_and_zoom (bounds) {
+    var delta = this.props.header_height || 0;
+
+    var merkator = ymaps.projection.wgs84Mercator;
+    var pos = ymaps.util.bounds.getCenterAndZoom(
+      bounds,
+      [this.props.width, this.props.height - delta] //занижаем высоту карты на высоту хедера
+    );
+
+    var global_center = merkator.toGlobalPixels(pos.center, pos.zoom);
+    global_center[1] = global_center[1] - delta/2;
+    var pos_center = merkator.fromGlobalPixels(global_center, pos.zoom);
+
+    console.log(pos.center, pos_center);
+    var pos_w_delta = _.extend({}, pos, {center: pos_center});
+
+    return pos_w_delta;
+  },
+
 
   render () {
     return (
