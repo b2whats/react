@@ -5,6 +5,8 @@ var React = require('react/addons');
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 
+var route_definitions = require('shared_constants/route_names.js');
+
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var SearchPageSearchBlock = require('./search_page_search_block.jsx');
@@ -80,7 +82,7 @@ var SearchPage = React.createClass({
           <div className="wrap gutter-5-xs">
             <div className="md-12-6">
               <div className="search-page-logo">
-                <Link href="/">
+                <Link href={route_definitions.kROUTE_DEF_W_REGION}>
                   <span className="search-page-logo-first">Auto</span>
                   <span className="search-page-logo-second">Giper</span>
                 </Link>

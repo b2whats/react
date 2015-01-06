@@ -3,25 +3,51 @@
 var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
+var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 
-//var page = require('page'); //router
+var route_template = require('utils/route_template.js');
+
 var route_actions = require('actions/route_actions.js');
 
+var routes_store = require('stores/routes_store.js');
+
+var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
+  route_context_params: routes_store.get_route_context_params ()
+}),
+routes_store /*observable store list*/);
+
+
+var route_templates_cache_ = {};
+
 var Link = React.createClass({
-  mixins: [PureRenderMixin],
+  mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
+
+  get_evaluated_link (link) {
+    if(this.state.route_context_params && link!==undefined && typeof link === 'string') {
+
+      if(!(link in route_templates_cache_)) route_templates_cache_[link] = route_template(link);
+      var link_template = route_templates_cache_[link];  
+      
+      var evaluated_link = link_template(this.state.route_context_params.toJS());
+      return evaluated_link;
+    }
+    return link;
+  },
 
   on_click (event) {
-    //page(this.props.href);
-    route_actions.goto_link(this.props.href);
+    var link = this.get_evaluated_link(this.props.href);
+    route_actions.goto_link(link);
     event.preventDefault();
     event.stopPropagation();
   },
 
   render () {
+    var { href, ...other_props } = this.props;
+    var link = this.get_evaluated_link(href);
 
     /* jshint ignore:start */
     return (
-      <a onClick={this.on_click} {...this.props}>{this.props.children}</a>
+      <a onClick={this.on_click} href={link} {...other_props}>{this.props.children}</a>
     )
     /* jshint ignore:end */
   }

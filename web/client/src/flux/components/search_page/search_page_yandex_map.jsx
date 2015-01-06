@@ -41,18 +41,12 @@ var SearchPageYandexMap = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
-  //на карту можно и нужно будет добавлять точки, 
-  //карта должна будет отрабатывать события pan и zoom
-
   render () {
-    console.log(this.state.region_current && this.state.region_current.toJS());
+
     var bounds = null;
     if(this.state.region_current) {
       bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
     }
-
-    //center: "52.847258,116.200424", lower_corner: "49.155057,107.73435", upper_corner: "58.438733,122.145744"
-    //console.log('this.state.width',this.state.width);
 
     //для не загрузки скриптов яндекс карт YandexMap элемент показываем только когда его первый раз попросят показаться
     //потом тупо играем стилями, отсюда у карты по хорошему два свойства висибл и дисплей
