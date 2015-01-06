@@ -20,8 +20,8 @@ var region_store = require('stores/region_store.js');
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
-var map_height_ = style_utils.from_px_to_number( sass_vars['map-height'] );
-var map_header_height_ = style_utils.from_px_to_number( sass_vars['map-header-height'] );
+var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] );
+var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] );
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
@@ -65,9 +65,9 @@ var SearchPageYandexMap = React.createClass({
           {this.state.map_display && this.state.width>0 && bounds!==null &&
           <YandexMap  
             bounds={bounds}
-            height={map_height_} 
+            height={kMAP_HEIGHT} 
             width={this.state.width}
-            header_height={map_header_height_} />}
+            header_height={kMAP_HEADER_HEIGHT} />}
         </div>
       </div>
     );

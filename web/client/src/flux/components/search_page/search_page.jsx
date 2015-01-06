@@ -30,7 +30,7 @@ search_page_store /*observable store list*/);
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
-var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-right-padding'] ) + 
+var kSASS_INPUT_PADDING = style_utils.from_px_to_number( sass_vars['input-right-padding'] ) + 
                          style_utils.from_px_to_number( sass_vars['input-left-padding'] ) +
                          2*style_utils.from_px_to_number( sass_vars['border-width'] );
 
@@ -99,7 +99,7 @@ var SearchPage = React.createClass({
               className="md-12-6 autoparts">
               <AutoPartsSearchWrapper
                 initial_value={autoparts_initial_value}
-                list_width={this.state.width - sass_input_padding}
+                list_width={this.state.width - kSASS_INPUT_PADDING}
                 placeholder="Поиск автозапчатей *"
                 on_value_changed={this.on_auto_parts_value_changed} />
             </SearchPageSearchBlock>
@@ -108,7 +108,7 @@ var SearchPage = React.createClass({
               sample="** Введите марку автомобиля и название работ"
               className="md-12-6 autoservices">
                   <AutoServiceSearchWrapper 
-                    list_width={this.state.width - sass_input_padding} 
+                    list_width={this.state.width - kSASS_INPUT_PADDING} 
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />
             </SearchPageSearchBlock>

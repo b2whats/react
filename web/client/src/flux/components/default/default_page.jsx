@@ -31,7 +31,7 @@ default_page_size_store /*observable store list*/);
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['default-page'];
-var sass_input_padding = style_utils.from_px_to_number( sass_vars['input-padding'] );
+var kSASS_INPUT = style_utils.from_px_to_number( sass_vars['input-padding'] );
 
 
 var kLIST_DELTA=9; //сумма толщин бордеров - потом посчитаю и хз откуда 1 пиксель
@@ -43,7 +43,7 @@ var DefaultPage = React.createClass({
   fire_change() {
     if(this.refs && this.refs.default_page_content) {
       var node = this.refs.default_page_content.getDOMNode();     
-      default_page_actions.default_page_size_chaged (node.clientWidth - 2*sass_input_padding - kLIST_DELTA);
+      default_page_actions.default_page_size_chaged (node.clientWidth - 2*kSASS_INPUT - kLIST_DELTA);
     }
   },
 
