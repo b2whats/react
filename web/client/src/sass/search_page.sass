@@ -70,7 +70,7 @@
   position: relative
 
   &.search-page-yandex-map-map-visible
-    height: 384px
+    height: $search-page-map-height
     background-color: #ffffee
     .search-page-yandex-map-header
       position: absolute //разместить над картой если она видима
@@ -99,7 +99,7 @@
 
   .search-page-map-header
     @include valign-middle()
-    height: 50px //запас карман не тянет
+    height: $search-page-map-header-height //запас карман не тянет
     > *
       display: inline-block
     

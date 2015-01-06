@@ -11,6 +11,8 @@
   "search-page" : {
     "border-width": "5px",
     "input-left-padding" : "75px",
-    "input-right-padding" : "20px"
+    "input-right-padding" : "20px",
+    "map-height": "384px",
+    "map-header-height": "50px"
   }
 }

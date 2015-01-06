@@ -43,7 +43,7 @@ var SearchPage = React.createClass({
   fire_change() {      
     if(this.refs && this.refs.default_page_content) {
       var node = this.refs.default_page_content.getDOMNode();     
-      search_page_actions.search_page_size_chaged (node.clientWidth - sass_input_padding);
+      search_page_actions.search_page_size_chaged (node.clientWidth);
     }  
   },
 
@@ -97,7 +97,7 @@ var SearchPage = React.createClass({
               className="md-12-6 autoparts">
               <AutoPartsSearchWrapper
                 initial_value={autoparts_initial_value}
-                list_width={this.state.width}
+                list_width={this.state.width - sass_input_padding}
                 placeholder="Поиск автозапчатей *"
                 on_value_changed={this.on_auto_parts_value_changed} />
             </SearchPageSearchBlock>
@@ -106,7 +106,7 @@ var SearchPage = React.createClass({
               sample="** Введите марку автомобиля и название работ"
               className="md-12-6 autoservices">
                   <AutoServiceSearchWrapper 
-                    list_width={this.state.width} 
+                    list_width={this.state.width - sass_input_padding} 
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />
             </SearchPageSearchBlock>
