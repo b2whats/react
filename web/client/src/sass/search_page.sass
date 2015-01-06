@@ -179,10 +179,31 @@
 
 
 
-//---------------------------------------------------------------------------------------------------------
+//-------------сколько найдено и тп-------------------------------------------------------------------------------
 .search-page-info-header
   height: 40px //запас карман не тянет
   @include valign-middle()
   .pager-buttons
     margin-left: 10px
+
+
+
+//---------таблички-----------------------------------------------------------------------------------------------
+//из за колапседов и бага хрома когда контент выежает за уголки сделать бордер у вышестоящего
+.search-page-table-border
+  border: 1px solid #eee
+  @include border-bottom-radius(8px)  
+  @include border-top-radius(8px)
+  //хак хрома
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
+
+.search-page-table
+  width: 100%
+  border: 0  
+  td
+    &:last-child //судя по дизайну всегда едем по последнему столбцу
+      width: 100%
+
+
+
 

@@ -43,7 +43,7 @@ var RegionSelector = React.createClass({
 
   typeahead_changed (v) {
     if(v.id!==this.state.region_current.get('id')) {
-      region_actions.goto_region(v.id);
+      region_actions.goto_region(v.translit_name);
     } else {
       region_actions.change_region_selection_visibility(false);
     }

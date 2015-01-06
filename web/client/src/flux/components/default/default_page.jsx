@@ -62,12 +62,12 @@ var DefaultPage = React.createClass({
   },
 
   on_auto_parts_value_changed(id, articul, producer, sentence) {    
-    var region_id = region_store.get_region_current().get('id');
+    var region_id = region_store.get_region_current().get('translit_name');
     default_page_actions.goto_auto_parts_page(region_id, id, articul, producer, sentence);
   },
   
   on_auto_service_value_changed(id, auto_mark, name) {    
-    var region_id = region_store.get_region_current().get('id');
+    var region_id = region_store.get_region_current().get('translit_name');
     default_page_actions.goto_auto_service_page(region_id, id, auto_mark, name);
   },
 

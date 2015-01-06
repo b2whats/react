@@ -29,7 +29,7 @@ WATCH_DIR="$( cd -P "$( dirname "$SOURCE" )/$kWATCH_DIR" && pwd )"
 
 HELPER_TOUCH_TIME=`stat -c %y "$DIR/client/osx/touch_helper.md"`
 
-EXTENSIONS_TO_TOUCH_OTHER_FILE="#md# #sass# #css# #json# #html#"
+EXTENSIONS_TO_TOUCH_OTHER_FILE="#md# #sass# #scss# #css# #json# #html#"
 NEED_TOUCH=
 
 #echo $WATCH_DIR

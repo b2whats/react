@@ -36,7 +36,7 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_REGION_CHANGED, region_id => {
     //к этому времени список регионов есть всегда
-    var region_current = state_.region_list.find(region => region.get('id') == region_id);
+    var region_current = state_.region_list.find(region => region.get('id') == region_id || region.get('translit_name') == region_id);
 
     if(!immutable.is(state_.region_current, region_current)) {
       state_.region_current_cursor

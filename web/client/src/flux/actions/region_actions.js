@@ -33,7 +33,7 @@ var get_regions_memoized = memoize(() =>
   .then(region_list => {
     region_list = _.map(region_list, r => {
       var res = _.extend({}, r);
-      res.title = r.center;
+      res.title = r.name; //для тайпахеда
       return res;
     });
 

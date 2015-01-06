@@ -121,7 +121,7 @@ var SearchPage = React.createClass({
           </div>
         </div>
         
-        {/*результаты поиска*/}
+        {/*результаты поиска заголовок*/}
         <div className="search-page-container">
           <div className="wrap gutter-5-xs">
             <div className="md-12-6 left-md search-page-info-header">              
@@ -142,6 +142,49 @@ var SearchPage = React.createClass({
           </div>
         </div>
 
+        {/*результаты поиска таблички*/}
+
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <div className="md-12-12">
+              <div className="search-page-table-border">
+                <table cellSpacing="0" className="pure-table pure-table-striped search-page-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Honda</td>
+                            <td>Accord</td>
+                            <td>2009</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Toyota</td>
+                            <td>Camry</td>
+                            <td>2012</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Hyundai</td>
+                            <td>Elantra</td>
+                            <td>2010</td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
     /* jshint ignore:end */    
