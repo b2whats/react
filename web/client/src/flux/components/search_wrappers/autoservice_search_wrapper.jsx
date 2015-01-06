@@ -60,7 +60,7 @@ var AutoServiceSearchWrapper = React.createClass({
 
   typeahead_changed (value) {
     this.last_st = null; //нет смысла обновлять и показывать список
-    console.log('autoservice value_changed', value);
+    //console.log('autoservice value_changed', value);
     search_actions.value_changed(value);
     search_actions.search_term_changed(value.title[kCOLUMN_TITLE_IDX]);
     if(this.props.on_value_changed !== undefined) {
@@ -69,7 +69,7 @@ var AutoServiceSearchWrapper = React.createClass({
   },
 
   typeahead_lost_focus () {    
-    console.log('autoservice_lost_focus'); //закончили редактирование тайпахеда
+    //console.log('autoservice_lost_focus'); //закончили редактирование тайпахеда
   },
 
   render () {

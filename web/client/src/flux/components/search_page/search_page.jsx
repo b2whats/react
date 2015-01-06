@@ -22,11 +22,16 @@ var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 var autoservices_search_actions = require('actions/autoservices_search_actions.js');
 
 var search_page_store = require('stores/search_page_store.js');
+var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
+var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: search_page_store.get_search_page_width (),
+  auto_part_data: auto_part_by_id_store.get_auto_part_data (),
+  autoservice_data: autoservice_by_id_store.get_autoservice_data (),
 }),
-search_page_store /*observable store list*/);
+search_page_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
@@ -72,7 +77,9 @@ var SearchPage = React.createClass({
   },
 
   render() {
-    var autoparts_initial_value='Надо API см issue #6';// + '  ' + Math.random();
+    var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('header').get('name') : '';
+    var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('header').get('service') : '';
+
     /*flexbox  класс пока не использую чтобы работало везде*/
     /* jshint ignore:start */
     return (
@@ -107,7 +114,8 @@ var SearchPage = React.createClass({
             <SearchPageSearchBlock 
               sample="** Введите марку автомобиля и название работ"
               className="md-12-6 autoservices">
-                  <AutoServiceSearchWrapper 
+                  <AutoServiceSearchWrapper
+                    initial_value={autoservice_initial_value} 
                     list_width={this.state.width - kSASS_INPUT_PADDING} 
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />

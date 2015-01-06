@@ -151,6 +151,7 @@ var Typeahead = React.createClass({
           showResults: false
         });
         raf(() => {
+          if(!this.isMounted()) return;
           this.onFocus();
           this.showAllResults();
         }, null);
@@ -158,7 +159,7 @@ var Typeahead = React.createClass({
     }
 
 
-    if(next_props.initial_value && this.props.initial_value !== next_props.initial_value) {
+    if(next_props.initial_value!==undefined &&  next_props.initial_value!==null && this.props.initial_value !== next_props.initial_value) {
       this.setState({
         searchTerm: next_props.initial_value,
         showResults: false
@@ -168,7 +169,7 @@ var Typeahead = React.createClass({
 
   componentWillMount() {
     this.blurTimer = null;
-    if(this.props.initial_value) {
+    if(this.props.initial_value!==undefined && this.props.initial_value!==null) {
       this.setState({
         searchTerm: this.props.initial_value,
         showResults: false
@@ -242,7 +243,7 @@ var Typeahead = React.createClass({
     }
     
     raf(() => {
-      this.setState(state);
+      this.isMounted() && this.setState(state);
     }, null, this.constructor.displayName);
 
     if (this.props.onChange) {
@@ -260,7 +261,7 @@ var Typeahead = React.createClass({
     }
 
     raf(() => {
-      this.setState({
+      this.isMounted() && this.setState({
         showResultsInProgress: false,
         showResults: true,
         results: results
@@ -484,7 +485,7 @@ var TypeaheadResults = React.createClass({
       this.scroll_thumb_scroll_top_pos = thumb_top_pos;
 
       raf(() => {
-        this.setState({
+        this.isMounted() && this.setState({
           pointer_events_disabled: true
         });
         this.props.on_disable_focused_value();
@@ -507,6 +508,7 @@ var TypeaheadResults = React.createClass({
     var scroll_top  =  real_thumb_position * (this.state.scroll_height - this.state.offset_height);    
 
     raf(()=> {
+      if(!this.isMounted()) return;
       var containerNode = this.refs.scrollnode.getDOMNode();
       containerNode.scrollTop = scroll_top;
     }, null, 'mouse_move_' + this.constructor.displayName );
@@ -518,7 +520,8 @@ var TypeaheadResults = React.createClass({
       this.scroll_thumb_mouse_y_start = null;
       this.scroll_thumb_scroll_top_pos = null;
       
-      raf(() => {      
+      raf(() => {
+        if(!this.isMounted()) return;      
         this.setState({
           pointer_events_disabled: false
         });
@@ -552,6 +555,7 @@ var TypeaheadResults = React.createClass({
       this.pointer_events_timer_started = false;
       
       raf(() => {
+        if(!this.isMounted()) return;
         //могли за это время перестартовать
         if((new Date()).getTime() - this.prevent_scroll_2_focused_time > kPOINTER_EVENTS_PREVENT_TIME) {
 
@@ -585,6 +589,8 @@ var TypeaheadResults = React.createClass({
     if(!this.pointer_events_timer_started) {
 
       raf(() => {
+        if(!this.isMounted()) return;
+        
         this.setState({
           pointer_events_disabled: true
         });
@@ -606,7 +612,7 @@ var TypeaheadResults = React.createClass({
       var thumb_position = this.calc_thumb_position(scroll_top, this.state.offset_height, this.state.scroll_height, this.state.thumb_height, this.state.thumb_max_height);
             
       if(this.state.thumb_position !== thumb_position) {
-        raf(() => this.setState({
+        raf(() => this.isMounted() && this.setState({
           thumb_position: thumb_position
         }), null, 'scroll_' + this.constructor.displayName);
       }
@@ -682,7 +688,7 @@ var TypeaheadResults = React.createClass({
             scroll_height !== this.state.scroll_height //|| thumb_position !== this.state.thumb_position
             ) {
           //расчитать и скопировать параметры для своего скрола
-          raf(() => this.setState({
+          raf(() => this.isMounted() && this.setState({
             scroll_visible: true,
             thumb_height: thumb_height,
             thumb_max_height: thumb_max_height,
@@ -693,7 +699,7 @@ var TypeaheadResults = React.createClass({
         }
       } else {
         if(this.state.scroll_visible === true) {
-          raf(() => this.setState({scroll_visible:false}), null, this.constructor.displayName);
+          raf(() => this.isMounted() && this.setState({scroll_visible:false}), null, this.constructor.displayName);
         }
       }      
     }

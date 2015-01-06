@@ -50,7 +50,7 @@ var query_auto_parts_memoized = memoize(query_auto_parts, kMEMOIZE_OPTIONS);
 
 module.exports.suggest = function(words, list_state) {
 
-  serializer( () => query_auto_parts_memoized(words)
+  return serializer( () => query_auto_parts_memoized(words)
     .then(res => {
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_AUTO_PART_SUGGESTION_DATA_LOADED].concat([res, list_state]));
       return res;

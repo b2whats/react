@@ -19,7 +19,7 @@ var kANIM_MOVE_DUARATION = 500;
 var YandexMap = React.createClass({
   
   propTypes: {
-    width: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired, //размеры карты нужны чтобы считать проекции еще до появления карты
     height: PropTypes.number.isRequired,
     header_height: PropTypes.number,
     bounds: PropTypes.array.isRequired
@@ -79,10 +79,7 @@ var YandexMap = React.createClass({
     var global_center = merkator.toGlobalPixels(pos.center, pos.zoom);
     global_center[1] = global_center[1] - delta/2;
     var pos_center = merkator.fromGlobalPixels(global_center, pos.zoom);
-
-    console.log(pos.center, pos_center);
     var pos_w_delta = _.extend({}, pos, {center: pos_center});
-
     return pos_w_delta;
   },
 
