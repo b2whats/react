@@ -45,7 +45,12 @@ var SearchPageYandexMap = React.createClass({
   //карта должна будет отрабатывать события pan и zoom
 
   render () {
-    //console.log(this.state.region_current && this.state.region_current.toJS());
+    console.log(this.state.region_current && this.state.region_current.toJS());
+    var bounds = null;
+    if(this.state.region_current) {
+      bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
+    }
+
     //center: "52.847258,116.200424", lower_corner: "49.155057,107.73435", upper_corner: "58.438733,122.145744"
     //console.log('this.state.width',this.state.width);
 
@@ -63,8 +68,12 @@ var SearchPageYandexMap = React.createClass({
         <div className={class_name_search_page_yandex_map}>          
           <SearchPageMapHeaderBlock />
         
-          {this.state.map_display && this.state.width>0 &&
-          <YandexMap height={map_height_} width={this.state.width} header_height={map_header_height_} />}
+          {this.state.map_display && this.state.width>0 && bounds!==null &&
+          <YandexMap  
+            bounds={bounds}
+            height={map_height_} 
+            width={this.state.width}
+            header_height={map_header_height_} />}
         </div>
       </div>
     );

@@ -13,13 +13,16 @@ var PropTypes = React.PropTypes;
 /* jshint ignore:end */
 var ymap_loader = require('third_party/yandex_maps.js');
 
+var kANIM_MOVE_DUARATION = 500;
+
 
 var YandexMap = React.createClass({
   
   propTypes: {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    header_height: PropTypes.number
+    header_height: PropTypes.number,
+    bounds: PropTypes.array.isRequired
   },
   
 
@@ -36,7 +39,7 @@ var YandexMap = React.createClass({
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
         if(this.isMounted()) {          
-          var pos_w_delta = this.get_center_and_zoom([[59.744465, 30.042834], [60.090935, 30.568322]]);
+          var pos_w_delta = this.get_center_and_zoom(this.props.bounds);
 
           this.yamap = new ymaps.Map(this.refs.yamap.getDOMNode(), _.extend({}, pos_w_delta, {
             controls: ['zoomControl']
@@ -48,13 +51,26 @@ var YandexMap = React.createClass({
   componentWillUnmount() {
     if(this.yamap) {
       this.yamap.destroy();
+      this.yamap = null;
+    }
+  },
+
+  componentWillReceiveProps(next_props) {
+    //достаточно один угол проверять
+    if(this.yamap!==null) {
+      if(next_props.bounds[0][0]!=this.props.bounds[0][0] || next_props.bounds[0][1]!=this.props.bounds[0][1]) {
+        var pos_w_delta = this.get_center_and_zoom(next_props.bounds);
+        this.yamap.setCenter(pos_w_delta.center, pos_w_delta.zoom, {
+          duration: kANIM_MOVE_DUARATION
+        });
+      }
     }
   },
 
   get_center_and_zoom (bounds) {
     var delta = this.props.header_height || 0;
 
-    var merkator = ymaps.projection.wgs84Mercator;
+    var merkator = ymaps.projection.wgs84Mercator; //дефолтная проекция яндекс карт
     var pos = ymaps.util.bounds.getCenterAndZoom(
       bounds,
       [this.props.width, this.props.height - delta] //занижаем высоту карты на высоту хедера

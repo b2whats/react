@@ -28,12 +28,19 @@ var actions_ = [
 ];
 
 
+var convert_lat_lng_string_2_array = (str) => {
+  return _.map(str.split(','), v => 1*v);
+};
+
 var get_regions_memoized = memoize(() => 
   r_regions_.get()
   .then(region_list => {
     region_list = _.map(region_list, r => {
       var res = _.extend({}, r);
       res.title = r.name; //для тайпахеда
+      res.center = convert_lat_lng_string_2_array(res.center);
+      res.lower_corner = convert_lat_lng_string_2_array(res.lower_corner);
+      res.upper_corner = convert_lat_lng_string_2_array(res.upper_corner);
       return res;
     });
 
