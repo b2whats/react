@@ -44,6 +44,39 @@ var YandexMap = React.createClass({
           this.yamap = new ymaps.Map(this.refs.yamap.getDOMNode(), _.extend({}, pos_w_delta, {
             controls: ['zoomControl']
           }));
+
+
+          var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
+            '<div style="margin: 20px;">' +
+                '<b>{{properties.balloonContent}}</b><br />' +
+                '<i id="count"></i> ' +
+                '<button id="counter-button"> +1 </button>' +
+            '</div>', {
+
+            // Переопределяем функцию build, чтобы при создании макета начинать
+            // слушать событие click на кнопке-счетчике.
+            build: function () {
+                BalloonContentLayout.superclass.build.call(this);
+            }
+          });
+
+          var myPlacemark = new ymaps.Placemark([55.82, 38.9], {
+                balloonContent: 'Жопа',
+                balloonHasCloseButton: false,
+              }, 
+              {
+                balloonContentLayout: BalloonContentLayout,
+                
+                balloonHasCloseButton: false,
+                balloonPanelMaxMapArea: 0,
+                hasCloseButton: false
+              });
+          
+          this.yamap.geoObjects.add(myPlacemark);
+          setTimeout( () =>
+            myPlacemark.balloon.open(), 2000);
+
+
         }
       });
   },
