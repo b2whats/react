@@ -14,7 +14,7 @@ var YandexMapMarker = React.createClass({
   },
 
   get_nonsystem_props (props) {
-    var {object_manager, is_open, coordinates, ...clear_props} = props;
+    var {object_manager, is_open, coordinates, ...clear_props} = props; //jshint ignore:line
     return clear_props;
   },
 
@@ -57,7 +57,6 @@ var YandexMapMarker = React.createClass({
   },
 
   componentDidMount() {
-    //console.log('did mount', this.props.id);
     var pt = {
       id: this.props.id,
       'type': 'Feature',
@@ -77,10 +76,7 @@ var YandexMapMarker = React.createClass({
     this.props.object_manager.add(pt);
   },
 
-
-
   componentWillUnmount() {
-    //console.log('will Unmount', this.props.id);
     this.props.object_manager.remove(this.props.id);
   },
 

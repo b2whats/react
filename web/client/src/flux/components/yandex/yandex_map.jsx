@@ -5,11 +5,9 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
-
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 /* jshint ignore:start */
-//var Link = require('components/link.jsx');
 var YandexMapMap = require('./yandex_map_map.jsx');
 /* jshint ignore:end */
 
@@ -18,9 +16,17 @@ var ymap_loader = require('third_party/yandex_maps.js');
 
 var kANIM_MOVE_DUARATION = 500;
 var kMARKER_DEFAULT_PRESET = 'islands#blueIcon';
+var kOBJECT_MANAGER_OPTIONS = {
+    clusterize: false,
+    geoObjectBalloonCloseButton: false,
+    geoObjectHideIconOnBalloonOpen: false,
+    geoObjectBalloonPanelMaxMapArea: 0,
+    geoObjectBalloonOffset:[3,-40],
+    geoObjectBalloonAutoPanMargin: 70,
+    geoObjectOpenBalloonOnClick: false
+  };
 
-var YandexMap = React.createClass({
-  
+var YandexMap = React.createClass({  
   mixins: [PureRenderMixin],
   
   propTypes: {
@@ -44,24 +50,22 @@ var YandexMap = React.createClass({
     this.yamap = null;
   },
   
-  //TODO вызвать внаружу
   on_marker_click(e) {
     var object_id = e.get('objectId');
-    this.props.on_marker_click && this.props.on_marker_click(object_id);
+    this.props.on_marker_click && this.props.on_marker_click(object_id); //jshint ignore:line
   },
 
   on_balloon_event (event_source, marker_id, marker_properties) {
     if(event_source === 'CLOSE_CLICK') {
-      this.props.on_close_ballon_click && this.props.on_close_ballon_click(marker_id);
-    } else { //SHOW_PHONE_CLICK
-      this.props.on_balloon_event && this.props.on_balloon_event(event_source, marker_id, marker_properties);
+      this.props.on_close_ballon_click && this.props.on_close_ballon_click(marker_id); //jshint ignore:line
+    } else { //например SHOW_PHONE_CLICK
+      this.props.on_balloon_event && this.props.on_balloon_event(event_source, marker_id, marker_properties); //jshint ignore:line
     }    
   },
 
   on_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен
     var object_id = e.get('objectId');
-    //console.log('closed ', e, object_id);
-    this.props.on_close_ballon_click && this.props.on_close_ballon_click(object_id);
+    this.props.on_close_ballon_click && this.props.on_close_ballon_click(object_id); //jshint ignore:line
   },
 
   componentDidMount() {    
@@ -76,26 +80,16 @@ var YandexMap = React.createClass({
 
           var baloon_template = ymap_baloon_template(ymaps, this.on_balloon_event);
 
-          var object_manager = new ymaps.ObjectManager({
-            clusterize: false,
-            geoObjectBalloonCloseButton: false,
-            geoObjectHideIconOnBalloonOpen: false,
-            geoObjectBalloonPanelMaxMapArea: 0,
-            geoObjectBalloonOffset:[3,-40],
-            geoObjectBalloonAutoPanMargin: 70,
-            geoObjectBalloonContentLayout: baloon_template,
-            geoObjectOpenBalloonOnClick: false
-          });
+          var object_manager = new ymaps.ObjectManager(
+            _.extend({}, kOBJECT_MANAGER_OPTIONS, 
+                        {geoObjectBalloonContentLayout: baloon_template}));
 
           object_manager.objects.options.set('preset', this.props.marker_preset || kMARKER_DEFAULT_PRESET);
 
           object_manager.objects.events.add('click', this.on_marker_click);
           object_manager.objects.events.add('on_balloon_button_click', this.on_balloon_button_click);
+          object_manager.objects.balloon.events.add('close', this.on_balloon_closed);//яндекс порой сам закрывает балун       
           
-          //яндекс порой сам закрывает балун       
-          object_manager.objects.balloon.events.add('close', this.on_balloon_closed);
-          
-
           yamap.geoObjects.add(object_manager);
 
           this.setState({
@@ -156,7 +150,7 @@ var YandexMap = React.createClass({
 
 
   render () {    
-    var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => 
+    var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => //jshint ignore:line
       React.addons.cloneWithProps(child, {object_manager: this.state.object_manager, key: child.key})) : null;
     /* jshint ignore:start */
     return (
