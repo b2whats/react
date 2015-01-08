@@ -58,6 +58,12 @@ var YandexMap = React.createClass({
     }    
   },
 
+  on_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен
+    var object_id = e.get('objectId');
+    //console.log('closed ', e, object_id);
+    this.props.on_close_ballon_click && this.props.on_close_ballon_click(object_id);
+  },
+
   componentDidMount() {    
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
@@ -85,6 +91,10 @@ var YandexMap = React.createClass({
 
           object_manager.objects.events.add('click', this.on_marker_click);
           object_manager.objects.events.add('on_balloon_button_click', this.on_balloon_button_click);
+          
+          //яндекс порой сам закрывает балун       
+          object_manager.objects.balloon.events.add('close', this.on_balloon_closed);
+          
 
           yamap.geoObjects.add(object_manager);
 

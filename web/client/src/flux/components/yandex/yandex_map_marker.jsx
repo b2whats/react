@@ -8,21 +8,20 @@ var PropTypes = React.PropTypes;
 var YandexMapMarker = React.createClass({
   propTypes: {
     object_manager: PropTypes.object.isRequired,
-
+    is_open: PropTypes.bool
 
     
   },
 
+  get_nonsystem_props (props) {
+    var {object_manager, is_open, coordinates, ...clear_props} = props;
+    return clear_props;
+  },
+
   componentWillReceiveProps(next_props) {
     
-    var next_properties = {
-      iconContent: next_props.icon_number,
-      title: next_props.title,
-      address: next_props.address,
-      phone: next_props.phone,
-      show_phone: next_props.show_phone, //if потестить
-      is_open: next_props.is_open
-    };
+    var next_properties = this.get_nonsystem_props (next_props);
+    var curr_propertis = this.get_nonsystem_props (this.props);
 
     _.extend(this.props.object_manager.objects.getById(next_props.id).properties, next_properties);
     
@@ -30,8 +29,17 @@ var YandexMapMarker = React.createClass({
     if(balloon_data) {
       if(balloon_data.id === next_props.id) {
         //переоткрыть так как данные балуна изменились находу
-        if(next_props.is_open === true) {
-          this.props.object_manager.objects.balloon.open(next_props.id);
+        if(next_props.is_open === true) {          
+          if(this.props.is_open !== next_props.is_open || !_.isEqual(next_properties, curr_propertis)) {
+            //вызовет close метод балуна
+            if(this.props.is_open) { //уже открыт надо только обновить данные
+              var obj_data = this.props.object_manager.objects.balloon.getData();
+              _.extend(obj_data.properties, next_properties);
+              this.props.object_manager.objects.balloon.setData(obj_data);                            
+            } else {
+              this.props.object_manager.objects.balloon.open(next_props.id);
+            }
+          }        
         } else {
           this.props.object_manager.objects.balloon.close(next_props.id);
         }
@@ -46,8 +54,6 @@ var YandexMapMarker = React.createClass({
         this.props.object_manager.objects.balloon.open(next_props.id);
       }
     }
-
-
   },
 
   componentDidMount() {
