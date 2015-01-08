@@ -12,6 +12,7 @@ ymaps[class*='balloon__content']
   box-sizing: border-box
   position: relative
   padding: 10px
+  max-width: 300px
   
   *
     box-sizing: border-box !important
@@ -27,7 +28,9 @@ ymaps[class*='balloon__content']
     text-align: center
     vertical-align: middle
     cursor: pointer
-    
+    color: #eee
+    &:hover
+      color: black
 
   .yandex-map-balloon-title
     min-width: 220px

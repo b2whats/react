@@ -26,9 +26,12 @@ var YandexMap = React.createClass({
   propTypes: {
     width: PropTypes.number.isRequired, //размеры карты нужны чтобы считать проекции еще до появления карты
     height: PropTypes.number.isRequired,
-    header_height: PropTypes.number,
-    bounds: PropTypes.array.isRequired,
-    marker_preset: PropTypes.string
+    header_height: PropTypes.number, //кол-во пикселей сверху относительно которых сдвигается центр карты на header_height/2
+    bounds: PropTypes.array.isRequired, //какой кусок карты показать
+    marker_preset: PropTypes.string, //презеты иконок яндекса islands#blueIcon
+    on_marker_click: PropTypes.func,
+    on_close_ballon_click: PropTypes.func,
+    on_balloon_event: PropTypes.func
   },
 
   getInitialState() {
@@ -41,16 +44,18 @@ var YandexMap = React.createClass({
     this.yamap = null;
   },
   
+  //TODO вызвать внаружу
   on_marker_click(e) {
     var object_id = e.get('objectId');
-    console.log('on_marker_click', object_id);
-    //objectManager.objects.balloon.open(0);
+    this.props.on_marker_click && this.props.on_marker_click(object_id);
   },
 
   on_balloon_event (event_source, marker_id, marker_properties) {
-    console.log('on_balloon_button_click', event_source, marker_id, marker_properties);
-    //CLOSE_CLICK
-    //SHOW_PHONE_CLICK
+    if(event_source === 'CLOSE_CLICK') {
+      this.props.on_close_ballon_click && this.props.on_close_ballon_click(marker_id);
+    } else { //SHOW_PHONE_CLICK
+      this.props.on_balloon_event && this.props.on_balloon_event(event_source, marker_id, marker_properties);
+    }    
   },
 
   componentDidMount() {    
@@ -70,9 +75,10 @@ var YandexMap = React.createClass({
             geoObjectBalloonCloseButton: false,
             geoObjectHideIconOnBalloonOpen: false,
             geoObjectBalloonPanelMaxMapArea: 0,
-            geoObjectBalloonOffset:[3,-38],
+            geoObjectBalloonOffset:[3,-40],
             geoObjectBalloonAutoPanMargin: 70,
             geoObjectBalloonContentLayout: baloon_template,
+            geoObjectOpenBalloonOnClick: false
           });
 
           object_manager.objects.options.set('preset', this.props.marker_preset || kMARKER_DEFAULT_PRESET);
@@ -140,12 +146,12 @@ var YandexMap = React.createClass({
 
 
   render () {    
-    var children  = this.state.object_manager ? React.Children.map(this.props.children, child => 
+    var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => 
       React.addons.cloneWithProps(child, {object_manager: this.state.object_manager, key: child.key})) : null;
     /* jshint ignore:start */
     return (
       <div className="yandex-map-holder">
-        {children}
+        {fake_children}
         <YandexMapMap ref="yamap_dom"/>      
       </div>
     );

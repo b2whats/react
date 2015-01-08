@@ -28,6 +28,13 @@ var sass_vars = require('sass/common_vars.json')['search-page'];
 var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] );
 var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] );
 
+
+/* ДОБАВИТЬ
+  auto_part_data: auto_part_by_id_store.get_auto_part_data (),
+  autoservice_data: autoservice_by_id_store.get_autoservice_data (),
+*/
+
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
   map_display: search_page_store.get_search_page_map_display (),
@@ -49,7 +56,7 @@ var SearchPageYandexMap = React.createClass({
   
   componentWillMount() {
     
-    
+    /*    
     setTimeout(() => {    
       
       test_action.test_action(
@@ -58,9 +65,25 @@ var SearchPageYandexMap = React.createClass({
            {id:3, icon_number: 3, coordinates: [55.763338, 37.265466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'}]);
 
     } , 7000);
+    */
     
 
   },
+
+  on_marker_click(id) {
+    test_action.test_action_toggle_balloon(id);  
+  },
+
+  on_close_ballon_click(id) {
+    test_action.test_action_close_balloon(id);
+  },
+
+  on_balloon_event(event_name, id) {
+    if(event_name === 'SHOW_PHONE_CLICK') {
+      test_action.test_action_show_phone(id);
+    }
+  },
+
   render () {
 
     var YandexMarkers  = this.state.test_value.map(m => 
@@ -72,6 +95,7 @@ var SearchPageYandexMap = React.createClass({
           address={m.get('address')}
           icon_number={m.get('icon_number')}
           show_phone={m.get('show_phone')}
+          is_open={m.get('is_open')}
           phone={m.get('phone')} />).toJS();
 
     var bounds = null;
@@ -98,9 +122,12 @@ var SearchPageYandexMap = React.createClass({
             bounds={bounds}
             height={kMAP_HEIGHT} 
             width={this.state.width}
-            header_height={kMAP_HEADER_HEIGHT}>
+            header_height={kMAP_HEADER_HEIGHT}
+            on_marker_click={this.on_marker_click}
+            on_close_ballon_click={this.on_close_ballon_click} 
+            on_balloon_event={this.on_balloon_event}>
               {YandexMarkers}
-            </YandexMap>}
+          </YandexMap>}
         </div>
       </div>
     );

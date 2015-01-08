@@ -7,7 +7,10 @@ var PropTypes = React.PropTypes;
 
 var YandexMapMarker = React.createClass({
   propTypes: {
-    object_manager: PropTypes.object.isRequired
+    object_manager: PropTypes.object.isRequired,
+
+
+    
   },
 
   componentWillReceiveProps(next_props) {
@@ -17,18 +20,34 @@ var YandexMapMarker = React.createClass({
       title: next_props.title,
       address: next_props.address,
       phone: next_props.phone,
-      show_phone: next_props.show_phone //if потестить
+      show_phone: next_props.show_phone, //if потестить
+      is_open: next_props.is_open
     };
 
     _.extend(this.props.object_manager.objects.getById(next_props.id).properties, next_properties);
     
     var balloon_data = this.props.object_manager.objects.balloon.getData();
     if(balloon_data) {
-      if(balloon_data.id == next_props.id) {
+      if(balloon_data.id === next_props.id) {
         //переоткрыть так как данные балуна изменились находу
-        this.props.object_manager.objects.balloon.open(balloon_data.id);
+        if(next_props.is_open === true) {
+          this.props.object_manager.objects.balloon.open(next_props.id);
+        } else {
+          this.props.object_manager.objects.balloon.close(next_props.id);
+        }
+      } else {
+        if(next_props.is_open === true) {
+          this.props.object_manager.objects.balloon.close(balloon_data.id);
+          this.props.object_manager.objects.balloon.open(next_props.id);
+        }
+      }
+    } else {
+      if(next_props.is_open === true && this.props.is_open !== next_props.is_open) {
+        this.props.object_manager.objects.balloon.open(next_props.id);
       }
     }
+
+
   },
 
   componentDidMount() {

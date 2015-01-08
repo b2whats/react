@@ -15,9 +15,9 @@ var immutable = require('immutable');
 var kON_TEST_VALUE__TEST_STORE_PRIORITY =  sc.kON_TEST_VALUE__TEST_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
-  value: [{id:1, icon_number: 1, coordinates: [55.82, 38.9], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
-          {id:2, icon_number: 2, coordinates: [55.863338, 37.565466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
-          {id:3, icon_number: 3, coordinates: [55.763338, 37.265466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'}]
+  poi_list: [ {id:1, is_open:false, show_phone:false, icon_number: 1, coordinates: [55.82, 38.9], title:'фирма "Веников не вяжет"', address: 'г.Москва, улица Пржевальского', phone: '+7 926 367 21 00'},
+              {id:2, is_open:false, show_phone:false, icon_number: 2, coordinates: [55.863338, 37.565466], title:'Доставка автозапчастей за три часа', address: 'г.Москва, ул. Красноармейского ополчения, дом 4 корпус 1 комната 124', phone: '+7 926 367 21 00'},
+              {id:3, is_open:false, show_phone:false, icon_number: 3, coordinates: [55.763338, 37.265466], title:'Лучшие кони на дороге', address: 'г.Москва, Кремль', phone: '+7 926 367 21 00'}]
 });
 
 
@@ -27,8 +27,8 @@ var cncl_ = [
   .on(event_names.kON_TEST_VALUE, value => {  
     var im_value = immutable.fromJS(value);
 
-    if(!immutable.is(state_.value, value)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
-      state_.value_cursor
+    if(!immutable.is(state_.poi_list, value)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
+      state_.poi_list_cursor
         .update(() => im_value);
       
       test_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
@@ -36,12 +36,62 @@ var cncl_ = [
   }, kON_TEST_VALUE__TEST_STORE_PRIORITY),
 
 
+  main_dispatcher
+  .on(event_names.kON_TEST_TOGGLE_BALLOON, id => { 
+    var index  = state_.poi_list.findIndex(poi => poi.get('id') === id );
+    if (index<0) {
+      console.error('poi_list.findIndex returns -1 with id=', id);
+    }
+
+    state_.poi_list_cursor
+    .update(poi_list => 
+      poi_list.map(poi => 
+        poi.get('id') === id ? 
+          poi.set('is_open', !poi.get('is_open')) : 
+          poi.set('is_open', false) ));
+    /*
+    state_.poi_list_cursor
+      .cursor([index])
+      .update(poi => poi.set('is_open', !poi.get('is_open')));
+    */
+    test_store.fire(event_names.kON_CHANGE);
+  }, kON_TEST_VALUE__TEST_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_TEST_CLOSE_BALLOON, id => {
+    var index  = state_.poi_list.findIndex(poi => poi.get('id') === id );
+    if (index<0) {
+      console.error('poi_list.findIndex returns -1 with id=', id);
+    }
+
+    state_.poi_list_cursor
+      .cursor([index])
+      .update(poi => poi.set('is_open', false));
+
+    test_store.fire(event_names.kON_CHANGE);
+  }, kON_TEST_VALUE__TEST_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_TEST_SHOW_PHONE, id => { 
+
+    var index  = state_.poi_list.findIndex(poi => poi.get('id') === id );
+    if (index<0) {
+      console.error('poi_list.findIndex returns -1 with id=', id);
+    }
+
+    state_.poi_list_cursor
+      .cursor([index])
+      .update(poi => poi.set('show_phone', true));
+
+    test_store.fire(event_names.kON_CHANGE);
+  }, kON_TEST_VALUE__TEST_STORE_PRIORITY)
+
 ];
 
 
 var test_store = merge(Emitter.prototype, {
   get_test_value () {
-    return state_.value;
+    return state_.poi_list;
   },
 
   dispose () {
