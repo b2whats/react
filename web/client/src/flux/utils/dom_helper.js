@@ -13,11 +13,12 @@ module.exports.query_selector = function(selector, elt) {
 
 
 module.exports.subscribe = function(elt, event, fn) {
-  elt.addEventListener(event, function(evt) {
-    fn(evt);
-  }, false);
+  elt.addEventListener(event, fn, false);
 };
 
+module.exports.unsubscribe = function(elt, event, fn) {
+  elt.removeEventListener(event, fn);
+};
 
 module.exports.subscribe_w_capture = function(elt, event, fn) {
   elt.addEventListener(event, function(evt) {

@@ -12,11 +12,16 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var YandexMap = require('components/yandex/yandex_map.jsx');
+var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
 var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
 /* jshint ignore:end */
 
 var search_page_store = require('stores/search_page_store.js');
 var region_store = require('stores/region_store.js');
+
+var test_store = require('stores/test_store.js');
+
+var test_action = require('actions/test_action.js');
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
@@ -27,9 +32,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   map_visible: search_page_store.get_search_page_map_visible (),
   map_display: search_page_store.get_search_page_map_display (),
   width: search_page_store.get_search_page_width (),
-  region_current:           region_store.get_region_current ()
+  region_current:           region_store.get_region_current (), 
+  test_value: test_store.get_test_value()
 }),
-search_page_store, region_store /*observable store list*/);
+search_page_store, region_store, test_store /*observable store list*/);
 
 var search_page_actions = require('actions/search_page_actions.js');
 
@@ -41,7 +47,32 @@ var SearchPageYandexMap = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
+  componentWillMount() {
+    
+    
+    setTimeout(() => {    
+      
+      test_action.test_action(
+          [{id:1, show_phone: true, icon_number: 4, coordinates: [55.32, 38.1], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
+           {id:2, icon_number: 5, coordinates: [55.863338, 37.165466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
+           {id:3, icon_number: 3, coordinates: [55.763338, 37.265466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'}]);
+
+    } , 7000);
+    
+
+  },
   render () {
+
+    var YandexMarkers  = this.state.test_value.map(m => 
+        <YandexMapMarker 
+          key={m.get('id')} 
+          id={m.get('id')}
+          coordinates={m.get('coordinates').toJS()}
+          title={m.get('title')}
+          address={m.get('address')}
+          icon_number={m.get('icon_number')}
+          show_phone={m.get('show_phone')}
+          phone={m.get('phone')} />).toJS();
 
     var bounds = null;
     if(this.state.region_current) {
@@ -67,7 +98,9 @@ var SearchPageYandexMap = React.createClass({
             bounds={bounds}
             height={kMAP_HEIGHT} 
             width={this.state.width}
-            header_height={kMAP_HEADER_HEIGHT} />}
+            header_height={kMAP_HEADER_HEIGHT}>
+              {YandexMarkers}
+            </YandexMap>}
         </div>
       </div>
     );

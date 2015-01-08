@@ -30,7 +30,7 @@ var actions_ = [
 var query_auto_part_by_id = (region_text, id) => {
   return r_auto_parts_by_id_
     .get({id:id, region_text:region_text})
-    .then(function(res) {
+    .then(res => {
       // обработка результата
       console.log('apart res::: ',res);
       return res;
