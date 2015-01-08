@@ -8,9 +8,9 @@ var PropTypes = React.PropTypes;
 var YandexMapMarker = React.createClass({
   propTypes: {
     object_manager: PropTypes.object.isRequired,
-    is_open: PropTypes.bool
-
-    
+    is_open: PropTypes.bool, //открыт ли балун
+    coordinates: PropTypes.array.isRequired
+    //остальные параметры рисуются в шаблоне по желанию
   },
 
   get_nonsystem_props (props) {
