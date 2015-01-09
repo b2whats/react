@@ -18,8 +18,8 @@
 
   "yandex-map": {
     "auto-part-marker-color": "#6d57a0",
-    "auto-part-marker-color-hilite-main": "#d2bfff",
-    "auto-part-marker-color-hilite-secondary": "#b7a6de",
+    "auto-part-marker-color-hilite-main": "#9d7de6",
+    "auto-part-marker-color-hilite-secondary": "#8e71d0",
 
     "autoservice-marker-color": "#f6d600",
     "autoservice-marker-color-hilite-main": "#f6e98f",

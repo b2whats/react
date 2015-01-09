@@ -61,6 +61,10 @@ var SearchPageYandexMap = React.createClass({
     //test_action.test_action_toggle_balloon(id);
     auto_part_by_id_actions.auto_part_toggle_balloon(id);
   },
+  
+  on_marker_hover(id, hover_state) {
+    auto_part_by_id_actions.auto_part_marker_hover(id, hover_state);
+  },
 
   on_close_ballon_click(id) {
     //test_action.test_action_close_balloon(id);
@@ -107,6 +111,7 @@ var SearchPageYandexMap = React.createClass({
             header_height={kMAP_HEADER_HEIGHT}
             baloon_template={ymap_baloon_template}
             on_marker_click={this.on_marker_click}
+            on_marker_hover={this.on_marker_hover}
             on_close_ballon_click={this.on_close_ballon_click} 
             on_balloon_event={this.on_balloon_event}>
               

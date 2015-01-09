@@ -22,7 +22,21 @@ var YandexMapMarker = React.createClass({
   },
 
   get_options(props) {
-    return {iconColor: props.marker_color};
+    var opts =  {
+      iconColor: props.marker_color,
+      /*
+      zIndex: props.marker_z_index,
+      zIndexHover: props.marker_z_index,
+      zIndexActive: props.marker_z_index,
+      interactiveZIndex: false
+      */
+    };
+
+    if(props.marker_z_index) {
+      opts.zIndex = props.marker_z_index;
+    }
+
+    return opts;
   },
 
   componentWillReceiveProps(next_props) {
@@ -34,7 +48,18 @@ var YandexMapMarker = React.createClass({
     _.extend(this.props.object_manager.objects.getById(next_props.id).properties, next_properties);
     
     if(!_.isEqual(next_properties, curr_propertis)) { //вот эта строчка форсит перечитать не только options но и остальные данные
-      this.props.object_manager.objects.setObjectOptions(next_props.id, this.get_options(next_props));
+      var opts = this.get_options(next_props);
+      //if(opts.zIndex) {
+        //console.log('n=',this.props.icon_number, '  z=',opts.zIndex);
+        //console.log(this.props.object_manager.objects.getById(next_props.id));
+      //}
+      //this.props.object_manager.objects.getById(next_props.id).options = opts;
+      this.props.object_manager.objects.setObjectOptions(next_props.id, opts);
+
+      if(next_props.rank === 1) {
+        console.log(next_props.id, this.props.object_manager.objects.getById(next_props.id).options);
+      }
+
     }
 
     var balloon_data = this.props.object_manager.objects.balloon.getData();

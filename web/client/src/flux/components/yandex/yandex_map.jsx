@@ -23,7 +23,8 @@ var kOBJECT_MANAGER_OPTIONS = {
     geoObjectBalloonPanelMaxMapArea: 0,
     geoObjectBalloonOffset:[3,-40],
     geoObjectBalloonAutoPanMargin: 70,
-    geoObjectOpenBalloonOnClick: false
+    geoObjectOpenBalloonOnClick: false,
+    geoObjectZIndex: 1
   };
 
 var YandexMap = React.createClass({  
@@ -37,6 +38,7 @@ var YandexMap = React.createClass({
     bounds: PropTypes.array.isRequired, //какой кусок карты показать
     marker_preset: PropTypes.string, //презеты иконок яндекса islands#blueIcon
     on_marker_click: PropTypes.func,
+    on_marker_hover: PropTypes.func,
     on_close_ballon_click: PropTypes.func,
     on_balloon_event: PropTypes.func
   },
@@ -69,6 +71,15 @@ var YandexMap = React.createClass({
     this.props.on_close_ballon_click && this.props.on_close_ballon_click(object_id); //jshint ignore:line
   },
 
+  on_marker_hover (e) {
+    var object_id = e.get('objectId');
+    if (e.get('type') === 'mouseenter') {
+      this.props.on_marker_hover && this.props.on_marker_hover(object_id, true); //jshint ignore:line
+    } else {
+      this.props.on_marker_hover && this.props.on_marker_hover(object_id, false); //jshint ignore:line
+    }
+  },
+
   componentDidMount() {    
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
@@ -88,6 +99,8 @@ var YandexMap = React.createClass({
           object_manager.objects.options.set('preset', kMARKER_DEFAULT_PRESET);
 
           object_manager.objects.events.add('click', this.on_marker_click);
+          object_manager.objects.events.add(['mouseenter', 'mouseleave'], this.on_marker_hover);
+
           object_manager.objects.events.add('on_balloon_button_click', this.on_balloon_button_click);
           object_manager.objects.balloon.events.add('close', this.on_balloon_closed);//яндекс порой сам закрывает балун       
           

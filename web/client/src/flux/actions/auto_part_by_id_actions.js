@@ -25,7 +25,7 @@ var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_pe
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
 var kAUTO_PART_MARKER_TYPE = 0;
-var kAUTO_PART_HINT = 'автозапчасти';
+var kAUTO_PART_HINT = 'автозапчасти: ';
 var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
 
 
@@ -38,7 +38,8 @@ var actions_ = [
 
   ['auto_part_toggle_balloon', event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON],
   ['auto_part_close_balloon', event_names.kON_AUTO_PART_BY_ID_CLOSE_BALLOON],
-  ['auto_part_show_phone', event_names.kON_AUTO_PART_BY_ID_SHOW_PHONE]
+  ['auto_part_show_phone', event_names.kON_AUTO_PART_BY_ID_SHOW_PHONE],
+  ['auto_part_marker_hover', event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER]  
 ];
 
 var query_auto_part_by_id = (region_text, id) => {
@@ -58,11 +59,14 @@ var query_auto_part_by_id = (region_text, id) => {
       
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
       
-      markers = _.map(markers, m => 
+      markers = _.map(markers, (m, m_index) => 
         _.extend( {is_open: false, show_phone: false}, //system
-                  {marker_color: kAUTO_PART_MARKER_COLOR, marker_type: kAUTO_PART_MARKER_TYPE, hint: kAUTO_PART_HINT}, //брать потом из базы
+                  {marker_color: kAUTO_PART_MARKER_COLOR, marker_z_index: m.rank, marker_base_z_index: m.rank , marker_type: kAUTO_PART_MARKER_TYPE, hint: kAUTO_PART_HINT + m.company_name}, //брать потом из базы
                   m,
                   {server_id:m.id, id: m.id, icon_number:m.rank } ));
+
+
+      markers = _.sortBy(markers, m => m.rank);
 
 
       //поле не забыть доставка 1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"
