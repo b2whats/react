@@ -14,5 +14,15 @@
     "input-right-padding" : "20px",
     "map-height": "384px",
     "map-header-height": "50px"
+  },
+
+  "yandex-map": {
+    "auto-part-marker-color": "#6d57a0",
+    "auto-part-marker-color-hilite-main": "#d2bfff",
+    "auto-part-marker-color-hilite-secondary": "#b7a6de",
+
+    "autoservice-marker-color": "#f6d600",
+    "autoservice-marker-color-hilite-main": "#f6e98f",
+    "autoservice-marker-color-hilite-secondary": "#f6e361"
   }
 }

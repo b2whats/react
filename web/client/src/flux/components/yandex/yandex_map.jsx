@@ -11,7 +11,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var YandexMapMap = require('./yandex_map_map.jsx');
 /* jshint ignore:end */
 
-var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
+
 var ymap_loader = require('third_party/yandex_maps.js');
 
 var kANIM_MOVE_DUARATION = 500;
@@ -32,6 +32,7 @@ var YandexMap = React.createClass({
   propTypes: {
     width: PropTypes.number.isRequired, //размеры карты нужны чтобы считать проекции еще до появления карты
     height: PropTypes.number.isRequired,
+    baloon_template: PropTypes.func.isRequired,
     header_height: PropTypes.number, //кол-во пикселей сверху относительно которых сдвигается центр карты на header_height/2
     bounds: PropTypes.array.isRequired, //какой кусок карты показать
     marker_preset: PropTypes.string, //презеты иконок яндекса islands#blueIcon
@@ -78,7 +79,7 @@ var YandexMap = React.createClass({
                 controls: ['zoomControl']
           }));
 
-          var baloon_template = ymap_baloon_template(ymaps, this.on_balloon_event);
+          var baloon_template = this.props.baloon_template(ymaps, this.on_balloon_event);
 
           var object_manager = new ymaps.ObjectManager(
             _.extend({}, kOBJECT_MANAGER_OPTIONS, 

@@ -22,9 +22,14 @@ var serializer = promise_serializer.create_serializer();
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
 //var kAUTO_PART_ID_PREFIX = 'ap::'; //на карте одновременно могут быть и сервисы и запчасти и не факт что id не пересекаются
+var sass_vars = require('sass/common_vars.json')['yandex-map'];
+
 var kAUTO_PART_MARKER_TYPE = 0;
 var kAUTO_PART_HINT = 'автозапчасти';
-var kAUTO_PART_MARKER_COLOR = 'green';
+var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
+
+
+
 
 var r_auto_parts_by_id_ = resource(api_refs.kAUTO_PART_BY_ID_API);
 

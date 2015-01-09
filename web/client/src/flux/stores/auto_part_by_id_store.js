@@ -13,6 +13,12 @@ var init_state = require('utils/init_state.js');
 
 var immutable = require('immutable');
 
+var sass_vars = require('sass/common_vars.json')['yandex-map'];
+
+var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
+var kAUTO_PART_MARKER_COLOR_HILITE_MAIN = sass_vars['auto-part-marker-color-hilite-main'];
+var kAUTO_PART_MARKER_COLOR_HILITE_SECONDARY = sass_vars['auto-part-marker-color-hilite-secondary'];
+
 var kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY =  sc.kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), {
