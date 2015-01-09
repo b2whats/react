@@ -2,13 +2,16 @@ ymaps[class*='balloon__content']
   > ymaps
     overflow: visible !important
 
+ymaps[class*='cluster-carousel__content'] 
+  overflow-x: visible !important
+  overflow-y: visible !important
+
 .yandex-map-holder
   height: 100%
 .yandex-map
   height: 100%
 
-.yandex-map-balloon
-  
+.yandex-map-balloon  
   box-sizing: border-box
   position: relative
   padding: 10px
@@ -34,12 +37,14 @@ ymaps[class*='balloon__content']
 
   .yandex-map-balloon-title
     min-width: 220px
+    min-height: 32px
     font-weight: bold
     color: black
     font-size: 14px
     margin-bottom: 10px
   .yandex-map-balloon-address
     font-size: 12px
+    min-height: 32px
     margin-bottom: 10px
   .yandex-map-balloon-phone-button
     height: 24px    

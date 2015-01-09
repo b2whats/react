@@ -5,7 +5,7 @@ var dom_helper = require('utils/dom_helper.js');
 module.exports = (ymaps, on_balloon_event) => {
     var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
     '<div class="yandex-map-balloon">' +
-        '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button">X</div> ' +
+        '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button"></div> ' + //пока оставлю вдруг пригадица
         '<div class="yandex-map-balloon-title">{{properties.company_name}}</div> ' +
         '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
         '{% if properties.show_phone %}' +
@@ -30,11 +30,13 @@ module.exports = (ymaps, on_balloon_event) => {
     },
 
     close_click(e) {
-      on_balloon_event('CLOSE_CLICK', this.getData().object.id, this.getData().properties.getAll());
+      console.log(this.getData());
+      on_balloon_event('CLOSE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 
     click(e) {
-      on_balloon_event('SHOW_PHONE_CLICK', this.getData().object.id, this.getData().properties.getAll());
+      console.log(this.getData());
+      on_balloon_event('SHOW_PHONE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 
     clear () {      

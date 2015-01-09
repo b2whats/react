@@ -30,6 +30,7 @@ var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] ); //js
 var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] ); //jshint ignore:line
 
 var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
+var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
 
 /* ДОБАВИТЬ
   auto_part_data: auto_part_by_id_store.get_auto_part_data (),
@@ -110,6 +111,7 @@ var SearchPageYandexMap = React.createClass({
             width={this.state.width}
             header_height={kMAP_HEADER_HEIGHT}
             baloon_template={ymap_baloon_template}
+            cluster_baloon_template={ymap_cluster_baloon_template}
             on_marker_click={this.on_marker_click}
             on_marker_hover={this.on_marker_hover}
             on_close_ballon_click={this.on_close_ballon_click} 

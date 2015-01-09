@@ -46,6 +46,8 @@ var kOBJECT_MANAGER_OPTIONS = {
     geoObjectZIndexHover: 1500,
     geoObjectZIndexActive: 1700,
     //geoObjectInteractiveZIndex: false
+    clusterBalloonContentLayoutWidth: null,
+    clusterBalloonContentLayoutHeight: 140,
   };
 
 var YandexMap = React.createClass({  
@@ -164,10 +166,12 @@ var YandexMap = React.createClass({
           //yamap.events.add('balloonclose', this.balloonclose);
 
           var baloon_template = this.props.baloon_template(ymaps, this.on_balloon_event);
+          var cluster_baloon_template = this.props.cluster_baloon_template(ymaps, this.on_balloon_event);
 
           var object_manager = new ymaps.ObjectManager(
             _.extend({}, kOBJECT_MANAGER_OPTIONS, 
-                        {geoObjectBalloonContentLayout: baloon_template}));
+                        {geoObjectBalloonContentLayout: baloon_template,
+                         clusterBalloonItemContentLayout: cluster_baloon_template}));
 
           object_manager.objects.options.set('preset', kMARKER_DEFAULT_PRESET);
 
