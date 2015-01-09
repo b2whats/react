@@ -25,7 +25,7 @@ var kOBJECT_MANAGER_OPTIONS = {
     clusterDisableClickZoom: true,
     clusterBalloonContentLayout: 'cluster#balloonCarousel', //карусулька самое то
     
-    geoObjectBalloonCloseButton: false,
+    //geoObjectBalloonCloseButton: false,
     
     geoObjectHideIconOnBalloonOpen: false,
     clusterHideIconOnBalloonOpen: false,
