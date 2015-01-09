@@ -22,6 +22,7 @@ var test_store = require('stores/test_store.js');
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
+var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
@@ -56,16 +57,19 @@ var SearchPageYandexMap = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
   on_marker_click(id) {
-    test_action.test_action_toggle_balloon(id);  
+    //test_action.test_action_toggle_balloon(id);
+    auto_part_by_id_actions.auto_part_toggle_balloon(id);
   },
 
   on_close_ballon_click(id) {
-    test_action.test_action_close_balloon(id);
+    //test_action.test_action_close_balloon(id);
+    auto_part_by_id_actions.auto_part_close_balloon(id);
   },
 
   on_balloon_event(event_name, id) {
     if(event_name === 'SHOW_PHONE_CLICK') {
-      test_action.test_action_show_phone(id);
+      //test_action.test_action_show_phone(id);
+      auto_part_by_id_actions.auto_part_show_phone(id);      
     }
   },
 

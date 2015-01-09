@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
-var q = require('third_party/es6_promise.js');
+//var q = require('third_party/es6_promise.js');
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 
@@ -16,12 +16,12 @@ var memoize = require('utils/promise_memoizer.js');
 
 var serializer = promise_serializer.create_serializer();
 
-var text_util = require('utils/text.js');
+//var text_util = require('utils/text.js');
 
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
-var kAUTO_PART_ID_PREFIX = 'ap::'; //на карте одновременно могут быть и сервисы и запчасти и не факт что id не пересекаются
+//var kAUTO_PART_ID_PREFIX = 'ap::'; //на карте одновременно могут быть и сервисы и запчасти и не факт что id не пересекаются
 var kAUTO_PART_MARKER_TYPE = 0;
 var kAUTO_PART_HINT = 'автозапчасти';
 var kAUTO_PART_MARKER_COLOR = 'green';
@@ -29,7 +29,11 @@ var kAUTO_PART_MARKER_COLOR = 'green';
 var r_auto_parts_by_id_ = resource(api_refs.kAUTO_PART_BY_ID_API);
 
 var actions_ = [
-  ['reset_auto_part_data', event_names.kON_AUTO_PART_BY_ID_RESET_DATA]
+  ['reset_auto_part_data', event_names.kON_AUTO_PART_BY_ID_RESET_DATA],
+
+  ['auto_part_toggle_balloon', event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON],
+  ['auto_part_close_balloon', event_names.kON_AUTO_PART_BY_ID_CLOSE_BALLOON],
+  ['auto_part_show_phone', event_names.kON_AUTO_PART_BY_ID_SHOW_PHONE]
 ];
 
 var query_auto_part_by_id = (region_text, id) => {
@@ -39,12 +43,12 @@ var query_auto_part_by_id = (region_text, id) => {
       //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 
-        return memo
+        return memo;
       }, {});
       
       var res_user_id = _.reduce(res.results, (memo,marker) => {
         memo[marker.user_id] = true; 
-        return memo
+        return memo;
       }, {});      
       
       var markers = _.filter(res.map, m => m.user_id in res_user_id);

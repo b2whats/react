@@ -28,7 +28,8 @@ var cncl_ = [
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
-
+  
+  //---------------------------------------------------------------------
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_RESET_DATA, () => {  
 
@@ -39,6 +40,60 @@ var cncl_ = [
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
 
+  //---------------------------------------------------------------------  
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON, id => { 
+    if(!state_.auto_part_data) return;
+
+    var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
+    if (index < 0) {
+      //console.error('auto_part_data.findIndex returns -1 with id=', id);
+      return;
+    }
+
+    state_.auto_part_data_cursor
+    .cursor(['markers'])
+    .update(markers => 
+      markers.map(marker => 
+        marker.get('id') === id ? 
+          marker.set('is_open', !marker.get('is_open')) : 
+          marker.set('is_open', false) ));
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
+  
+  //---------------------------------------------------------------------
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_CLOSE_BALLOON, id => {
+    if(!state_.auto_part_data) return;
+    var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
+    if (index < 0) {
+      //console.error('auto_part_data.findIndex returns -1 with id=', id);
+      return;
+    }
+
+    state_.auto_part_data_cursor    
+      .cursor(['markers', index])
+      .update(marker => marker.set('is_open', false));
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
+  //---------------------------------------------------------------------
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_SHOW_PHONE, id => { 
+    if(!state_.auto_part_data) return;
+    var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
+    if (index < 0) {
+      //console.error('auto_part_data.findIndex returns -1 with id=', id);
+      return;
+    }
+
+    state_.auto_part_data_cursor
+      .cursor(['markers', index])
+      .update(marker => marker.set('show_phone', true));
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY)
 ];
 
 var auto_part_by_id_store = merge(Emitter.prototype, {
