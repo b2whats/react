@@ -27,6 +27,7 @@ var sass_vars = require('sass/common_vars.json')['yandex-map'];
 var kAUTO_PART_MARKER_TYPE = 0;
 var kAUTO_PART_HINT = 'автозапчасти: ';
 var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
+var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 
 
 
@@ -62,6 +63,7 @@ var query_auto_part_by_id = (region_text, id) => {
       markers = _.map(markers, (m, m_index) => 
         _.extend( {is_open: false, show_phone: false}, //system
                   {marker_color: kAUTO_PART_MARKER_COLOR, marker_z_index: m.rank, marker_base_z_index: m.rank , marker_type: kAUTO_PART_MARKER_TYPE, hint: kAUTO_PART_HINT + m.company_name}, //брать потом из базы
+                  {cluster_color: kAUTO_PART_CLUSTER_COLOR},
                   m,
                   {server_id:m.id, id: m.id, icon_number:m.rank } ));
 

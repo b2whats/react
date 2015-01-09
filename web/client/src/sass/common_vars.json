@@ -21,6 +21,9 @@
     "auto-part-marker-color-hilite-main": "#9d7de6",
     "auto-part-marker-color-hilite-secondary": "#8e71d0",
 
+    "cluster-marker-color": "#34a179",
+    "cluster-marker-color-hilite-main": "#44d09d",
+
     "autoservice-marker-color": "#f6d600",
     "autoservice-marker-color-hilite-main": "#f6e98f",
     "autoservice-marker-color-hilite-secondary": "#f6e361"

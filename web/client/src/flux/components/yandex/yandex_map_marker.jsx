@@ -14,7 +14,7 @@ var YandexMapMarker = React.createClass({
   },
 
   get_nonsystem_props (props) {
-    var {object_manager, is_open, coordinates, ...clear_props} = props; //jshint ignore:line
+    var {object_manager, coordinates, ...clear_props} = props; //jshint ignore:line
     
     return _.extend(clear_props, 
       { hintContent: clear_props.hint,
@@ -24,71 +24,100 @@ var YandexMapMarker = React.createClass({
   get_options(props) {
     var opts =  {
       iconColor: props.marker_color,
-      /*
-      zIndex: props.marker_z_index,
-      zIndexHover: props.marker_z_index,
-      zIndexActive: props.marker_z_index,
-      interactiveZIndex: false
-      */
+      clusterIconColor: props.cluster_color
     };
-
-    if(props.marker_z_index) {
-      opts.zIndex = props.marker_z_index;
-    }
-
     return opts;
   },
 
+
   componentWillReceiveProps(next_props) {
-    
+
+    if(_.isEqual(next_props, this.props)) return;
+
     var next_properties = this.get_nonsystem_props (next_props);
 
     var curr_propertis = this.get_nonsystem_props (this.props);
 
+
     _.extend(this.props.object_manager.objects.getById(next_props.id).properties, next_properties);
+    
+
+    var obj_state = this.props.object_manager.getObjectState(next_props.id);
+    
+    var cluster_id = obj_state.isClustered && obj_state.cluster.id;
     
     if(!_.isEqual(next_properties, curr_propertis)) { //вот эта строчка форсит перечитать не только options но и остальные данные
       var opts = this.get_options(next_props);
-      //if(opts.zIndex) {
-        //console.log('n=',this.props.icon_number, '  z=',opts.zIndex);
-        //console.log(this.props.object_manager.objects.getById(next_props.id));
-      //}
-      //this.props.object_manager.objects.getById(next_props.id).options = opts;
       this.props.object_manager.objects.setObjectOptions(next_props.id, opts);
-
-      if(next_props.rank === 1) {
-        console.log(next_props.id, this.props.object_manager.objects.getById(next_props.id).options);
+            
+      if(cluster_id) {
+        this.props.object_manager.clusters.setClusterOptions(cluster_id, this.get_options(next_props));
       }
-
     }
 
-    var balloon_data = this.props.object_manager.objects.balloon.getData();
+
+    var balloon_data = cluster_id ? this.props.object_manager.clusters.balloon.getData(): this.props.object_manager.objects.balloon.getData();
+    //console.log(balloon_data);
+    var balloon_id_eq = balloon_data && (cluster_id ? _.some(balloon_data.properties.geoObjects, g => g.id === next_props.id ) : (balloon_data.id === next_props.id));
+
+    if(cluster_id) {
+      //console.log(next_props.id, next_props.is_open, balloon_data);
+    }
+
     if(balloon_data) {
-      if(balloon_data.id === next_props.id) {
+      if(balloon_id_eq) {
         //переоткрыть так как данные балуна изменились находу
         if(next_props.is_open === true) {          
           if(this.props.is_open !== next_props.is_open || !_.isEqual(next_properties, curr_propertis)) {
             //вызовет close метод балуна
             if(this.props.is_open) { //уже открыт надо только обновить данные
-              var obj_data = this.props.object_manager.objects.balloon.getData();
-              _.extend(obj_data.properties, next_properties);
-              this.props.object_manager.objects.balloon.setData(obj_data);                            
+              if(cluster_id) {
+                var obj_data = this.props.object_manager.clusters.balloon.getData();
+                
+              } else {
+                var obj_data = this.props.object_manager.objects.balloon.getData();
+                _.extend(obj_data.properties, next_properties);
+                this.props.object_manager.objects.balloon.setData(obj_data);
+              }
+
             } else {
-              this.props.object_manager.objects.balloon.open(next_props.id);
+              if(cluster_id) {
+                this.props.object_manager.clusters.balloon.open(cluster_id);
+              } else {
+                this.props.object_manager.objects.balloon.open(next_props.id);
+              }            
             }
           }        
         } else {
-          this.props.object_manager.objects.balloon.close(next_props.id);
+          if(cluster_id) {
+            
+            if(this.props.is_open === true) {
+              this.props.object_manager.clusters.balloon.close(cluster_id);
+            }
+          
+          } else {
+            this.props.object_manager.objects.balloon.close(next_props.id);
+          }
         }
       } else {
         if(next_props.is_open === true) {
-          this.props.object_manager.objects.balloon.close(balloon_data.id);
-          this.props.object_manager.objects.balloon.open(next_props.id);
+          if(cluster_id) {
+            //this.props.object_manager.clusters.balloon.close(cluster_id);
+            this.props.object_manager.clusters.balloon.open(cluster_id);
+          } else {
+            this.props.object_manager.objects.balloon.close(balloon_data.id);
+            this.props.object_manager.objects.balloon.open(next_props.id);
+          }
         }
       }
     } else {
       if(next_props.is_open === true && this.props.is_open !== next_props.is_open) {
-        this.props.object_manager.objects.balloon.open(next_props.id);
+        if(cluster_id) {
+          this.props.object_manager.clusters.balloon.open(cluster_id);
+        } else {
+          this.props.object_manager.objects.balloon.open(next_props.id);
+        }
+      
       }
     }
   },

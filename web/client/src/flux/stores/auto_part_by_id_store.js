@@ -19,6 +19,10 @@ var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
 var kAUTO_PART_MARKER_COLOR_HILITE_MAIN = sass_vars['auto-part-marker-color-hilite-main'];
 var kAUTO_PART_MARKER_COLOR_HILITE_SECONDARY = 'red';//sass_vars['auto-part-marker-color-hilite-secondary'];
 
+var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
+var kAUTO_PART_CLUSTER_COLOR_HILITE_MAIN = sass_vars['cluster-marker-color-hilite-main'];
+
+
 var kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY =  sc.kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), {
@@ -53,6 +57,11 @@ var cncl_ = [
   .on(event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON, id => { 
     if(!state_.auto_part_data) return;
 
+    if(_.isArray(id)) { //кликнули в кластер - потом разрулю что с этим делать
+      var ids = id;
+      id = id[0];
+    }
+
     var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
 
@@ -72,6 +81,12 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_CLOSE_BALLOON, id => {
     if(!state_.auto_part_data) return;
+
+    if(_.isArray(id)) { //закрыли кластер
+      var ids = id;
+      id = id[0];
+    }
+
 
     var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
@@ -104,34 +119,31 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER, (id, hover_state) => { 
     if(!state_.auto_part_data) return;
+
+    if(_.isArray(id)) {
+      var ids = id;
+      id = id[0];
+    }
+
+    
+
     var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
     
     var color = kAUTO_PART_MARKER_COLOR;
-    var secondary_color = kAUTO_PART_MARKER_COLOR;
-    var marker_main = state_.auto_part_data.get('markers').get(index);
-    var rank = marker_main.get('rank');
-    var z_index = null;
+    var cluster_color = kAUTO_PART_CLUSTER_COLOR;
+
 
     if(hover_state) {
       color = kAUTO_PART_MARKER_COLOR_HILITE_MAIN;
-      secondary_color = kAUTO_PART_MARKER_COLOR_HILITE_SECONDARY;
-      z_index = 500;
+      cluster_color = kAUTO_PART_CLUSTER_COLOR_HILITE_MAIN;
     }
 
     state_.auto_part_data_cursor
-      .cursor(['markers'])
-      .update( markers => 
-        markers.map( (marker, m_index) => 
-          marker.get('rank') === rank ? 
-            marker.set('marker_color', secondary_color).set('marker_z_index', z_index>0 ? z_index : marker.get('marker_base_z_index') ) : 
-            marker ));
-
-    state_.auto_part_data_cursor
       .cursor(['markers', index])
-      .update(marker => marker.set('marker_color', color));
-    //rank: 1
-
+        .update(marker => marker.set('marker_color', color).set('cluster_color', cluster_color));
+  
+  
     
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY)

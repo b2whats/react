@@ -14,17 +14,38 @@ var YandexMapMap = require('./yandex_map_map.jsx');
 
 var ymap_loader = require('third_party/yandex_maps.js');
 
+var sass_vars = require('sass/common_vars.json')['yandex-map'];
+
+var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 var kANIM_MOVE_DUARATION = 500;
 var kMARKER_DEFAULT_PRESET = 'islands#icon';
 var kOBJECT_MANAGER_OPTIONS = {
-    clusterize: false,
+    clusterize: true,
+    
+    clusterDisableClickZoom: true,
+    clusterBalloonContentLayout: 'cluster#balloonCarousel', //карусулька самое то
+    
     geoObjectBalloonCloseButton: false,
+    
     geoObjectHideIconOnBalloonOpen: false,
+    clusterHideIconOnBalloonOpen: false,
+
     geoObjectBalloonPanelMaxMapArea: 0,
+    clusterBalloonPanelMaxMapArea: 0,
+    
     geoObjectBalloonOffset:[3,-40],
+    clusterBalloonOffset:[0,-24],
+
     geoObjectBalloonAutoPanMargin: 70,
+    clusterBalloonAutoPanMargin: 70,
+
     geoObjectOpenBalloonOnClick: false,
-    geoObjectZIndex: 1
+    clusterOpenBalloonOnClick: false,
+
+    geoObjectZIndex: 1,
+    geoObjectZIndexHover: 1500,
+    geoObjectZIndexActive: 1700,
+    //geoObjectInteractiveZIndex: false
   };
 
 var YandexMap = React.createClass({  
@@ -80,6 +101,56 @@ var YandexMap = React.createClass({
     }
   },
 
+  on_cluster_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен
+    var object_id = e.get('objectId');
+    var cluster = this.state.object_manager.clusters.getById(object_id);
+    if(cluster) {
+      var objs = _.filter(cluster.properties.geoObjects, g => g.properties.is_open);
+    
+      if(objs) {
+        _.each(objs, o => {
+          this.props.on_close_ballon_click && this.props.on_close_ballon_click(o.id)
+        });
+      }
+    }
+  },
+  
+  on_cluster_remove (e) {
+    var object_id = e.get('objectId');
+    var cluster = e.get('child');
+    
+    var objs = _.filter(cluster.properties.geoObjects, g => g.properties.is_open);
+    if(objs) {
+      _.each(objs, o => {
+        this.props.on_close_ballon_click && this.props.on_close_ballon_click(o.id)
+      });
+    }
+  },
+
+  on_cluster_click(e) {
+    var object_id = e.get('objectId');
+    var cluster = this.state.object_manager.clusters.getById(object_id);
+    var object_ids = _.map(cluster.properties.geoObjects, geo => geo.id);
+    var idx=0;
+    //console.log('cl click', object_ids[idx]);
+    this.props.on_marker_click && this.props.on_marker_click(object_ids[idx]);
+  },
+
+  on_cluster_hover (e) {
+    var object_id = e.get('objectId');
+    if (e.get('type') === 'mouseenter') {
+      var cluster = this.state.object_manager.clusters.getById(object_id);
+      var object_ids = _.map(cluster.properties.geoObjects, geo => geo.id);      
+      //для подсветить кластер достаточно чтобы один айтем в нем был подсвечен
+      this.props.on_marker_hover && this.props.on_marker_hover(object_ids, true);
+    } else {
+      var cluster = this.state.object_manager.clusters.getById(object_id);
+      var object_ids = _.map(cluster.properties.geoObjects, geo => geo.id);      
+      //для подсветить кластер достаточно чтобы один айтем в нем был подсвечен
+      this.props.on_marker_hover && this.props.on_marker_hover(object_ids, false);
+    }
+  },
+
   componentDidMount() {    
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
@@ -90,6 +161,8 @@ var YandexMap = React.createClass({
                 controls: ['zoomControl']
           }));
 
+          //yamap.events.add('balloonclose', this.balloonclose);
+
           var baloon_template = this.props.baloon_template(ymaps, this.on_balloon_event);
 
           var object_manager = new ymaps.ObjectManager(
@@ -98,12 +171,22 @@ var YandexMap = React.createClass({
 
           object_manager.objects.options.set('preset', kMARKER_DEFAULT_PRESET);
 
+
+          object_manager.clusters.options.set({
+            clusterIconColor: kAUTO_PART_CLUSTER_COLOR //'red'
+          });
+          
+          object_manager.clusters.events.add(['mouseenter', 'mouseleave'], this.on_cluster_hover);
+          object_manager.clusters.events.add('click', this.on_cluster_click);
+
           object_manager.objects.events.add('click', this.on_marker_click);
           object_manager.objects.events.add(['mouseenter', 'mouseleave'], this.on_marker_hover);
-
-          object_manager.objects.events.add('on_balloon_button_click', this.on_balloon_button_click);
-          object_manager.objects.balloon.events.add('close', this.on_balloon_closed);//яндекс порой сам закрывает балун       
           
+          object_manager.objects.balloon.events.add('close', this.on_balloon_closed);//яндекс порой сам закрывает балун       
+          object_manager.clusters.balloon.events.add('close', this.on_cluster_balloon_closed);//яндекс порой сам закрывает балун
+
+          object_manager.clusters.events.add('remove', this.on_cluster_remove);
+
           yamap.geoObjects.add(object_manager);
 
           this.setState({
