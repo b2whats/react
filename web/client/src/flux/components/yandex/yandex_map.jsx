@@ -15,7 +15,7 @@ var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_loader = require('third_party/yandex_maps.js');
 
 var kANIM_MOVE_DUARATION = 500;
-var kMARKER_DEFAULT_PRESET = 'islands#blueIcon';
+var kMARKER_DEFAULT_PRESET = 'islands#icon';
 var kOBJECT_MANAGER_OPTIONS = {
     clusterize: false,
     geoObjectBalloonCloseButton: false,
@@ -84,7 +84,7 @@ var YandexMap = React.createClass({
             _.extend({}, kOBJECT_MANAGER_OPTIONS, 
                         {geoObjectBalloonContentLayout: baloon_template}));
 
-          object_manager.objects.options.set('preset', this.props.marker_preset || kMARKER_DEFAULT_PRESET);
+          object_manager.objects.options.set('preset', kMARKER_DEFAULT_PRESET);
 
           object_manager.objects.events.add('click', this.on_marker_click);
           object_manager.objects.events.add('on_balloon_button_click', this.on_balloon_button_click);

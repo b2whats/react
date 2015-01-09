@@ -21,6 +21,11 @@ var text_util = require('utils/text.js');
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
+var kAUTO_PART_ID_PREFIX = 'ap::'; //на карте одновременно могут быть и сервисы и запчасти и не факт что id не пересекаются
+var kAUTO_PART_MARKER_TYPE = 0;
+var kAUTO_PART_HINT = 'автозапчасти';
+var kAUTO_PART_MARKER_COLOR = 'green';
+
 var r_auto_parts_by_id_ = resource(api_refs.kAUTO_PART_BY_ID_API);
 
 var actions_ = [
@@ -30,10 +35,35 @@ var actions_ = [
 var query_auto_part_by_id = (region_text, id) => {
   return r_auto_parts_by_id_
     .get({id:id, region_text:region_text})
-    .then(res => {
-      // обработка результата
-      console.log('apart res::: ',res);
-      return res;
+    .then(res => {      
+      //чистим данные с сервера
+      var map_user_id = _.reduce(res.map, (memo,marker) => {
+        memo[marker.user_id] = true; 
+        return memo
+      }, {});
+      
+      var res_user_id = _.reduce(res.results, (memo,marker) => {
+        memo[marker.user_id] = true; 
+        return memo
+      }, {});      
+      
+      var markers = _.filter(res.map, m => m.user_id in res_user_id);
+      
+      markers = _.map(markers, m => 
+        _.extend( {is_open: false, show_phone: false}, //system
+                  {marker_color: kAUTO_PART_MARKER_COLOR, marker_type: kAUTO_PART_MARKER_TYPE, hint: kAUTO_PART_HINT}, //брать потом из базы
+                  m,
+                  {server_id:m.id, id: m.id, icon_number:m.rank } ));
+
+
+      //поле не забыть доставка 1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"
+      var results = _.filter(res.results, m => m.user_id in map_user_id);
+
+      var res_converted = {header:res.header, markers:markers, results:results};
+
+      //console.log('apart res::: ',res);
+      console.log('apart res 2::: ', res_converted);
+      return res_converted;
     });
 };
 

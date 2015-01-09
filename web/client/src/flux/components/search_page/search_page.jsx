@@ -28,8 +28,8 @@ var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: search_page_store.get_search_page_width (),
-  auto_part_data: auto_part_by_id_store.get_auto_part_data (),
-  autoservice_data: autoservice_by_id_store.get_autoservice_data (),
+  auto_part_data: auto_part_by_id_store.get_auto_part_data_header (),
+  autoservice_data: autoservice_by_id_store.get_autoservice_data_header (),
 }),
 search_page_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
 
@@ -77,8 +77,8 @@ var SearchPage = React.createClass({
   },
 
   render() {
-    var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('header').get('name') : '';
-    var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('header').get('service') : '';
+    var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('name') : '';
+    var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('service') : '';
 
     /*flexbox  класс пока не использую чтобы работало везде*/
     /* jshint ignore:start */

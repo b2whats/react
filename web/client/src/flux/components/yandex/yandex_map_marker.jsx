@@ -15,16 +15,28 @@ var YandexMapMarker = React.createClass({
 
   get_nonsystem_props (props) {
     var {object_manager, is_open, coordinates, ...clear_props} = props; //jshint ignore:line
-    return clear_props;
+    
+    return _.extend(clear_props, 
+      { hintContent: clear_props.hint,
+        iconContent: clear_props.icon_number });
+  },
+
+  get_options(props) {
+    return {iconColor: props.marker_color};
   },
 
   componentWillReceiveProps(next_props) {
     
     var next_properties = this.get_nonsystem_props (next_props);
+
     var curr_propertis = this.get_nonsystem_props (this.props);
 
     _.extend(this.props.object_manager.objects.getById(next_props.id).properties, next_properties);
     
+    if(!_.isEqual(next_properties, curr_propertis)) { //вот эта строчка форсит перечитать не только options но и остальные данные
+      this.props.object_manager.objects.setObjectOptions(next_props.id, this.get_options(next_props));
+    }
+
     var balloon_data = this.props.object_manager.objects.balloon.getData();
     if(balloon_data) {
       if(balloon_data.id === next_props.id) {
@@ -57,6 +69,9 @@ var YandexMapMarker = React.createClass({
   },
 
   componentDidMount() {
+    var properties = this.get_nonsystem_props (this.props);
+    var options = this.get_options(this.props);
+
     var pt = {
       id: this.props.id,
       'type': 'Feature',
@@ -64,15 +79,10 @@ var YandexMapMarker = React.createClass({
         'type': 'Point',
          coordinates: this.props.coordinates
       },
-      properties: {
-        iconContent: this.props.icon_number,
-        title: this.props.title,
-        address: this.props.address,
-        phone: this.props.phone,
-        show_phone: this.props.show_phone //if потестить
-      }
+      properties: properties,
+      options: options
     };
-    
+
     this.props.object_manager.add(pt);
   },
 

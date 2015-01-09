@@ -6,7 +6,7 @@ module.exports = (ymaps, on_balloon_event) => {
     var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
     '<div class="yandex-map-balloon">' +
         '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button">X</div> ' +
-        '<div class="yandex-map-balloon-title">{{properties.title}}</div> ' +
+        '<div class="yandex-map-balloon-title">{{properties.company_name}}</div> ' +
         '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
         '{% if properties.show_phone %}' +
           '<div class="yandex-map-balloon-phone-text">{{properties.phone}}</div>' +

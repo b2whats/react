@@ -42,9 +42,14 @@ var cncl_ = [
 ];
 
 var auto_part_by_id_store = merge(Emitter.prototype, {
-  get_auto_part_data () {
-    return state_.auto_part_data;
+  get_auto_part_data_header () {
+    return state_.auto_part_data && state_.auto_part_data.get('header');
   },
+
+  get_auto_part_markers () {
+    return state_.auto_part_data && state_.auto_part_data.get('markers');
+  },
+
 
   dispose () {
     if(cncl_) {

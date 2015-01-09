@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('underscore');
+//var _ = require('underscore');
 
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
@@ -18,15 +18,15 @@ var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
 
 var search_page_store = require('stores/search_page_store.js');
 var region_store = require('stores/region_store.js');
-
 var test_store = require('stores/test_store.js');
+var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
-var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] );
-var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] );
+var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] ); //jshint ignore:line
+var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] ); //jshint ignore:line
 
 
 /* ДОБАВИТЬ
@@ -40,11 +40,12 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   map_display: search_page_store.get_search_page_map_display (),
   width: search_page_store.get_search_page_width (),
   region_current:           region_store.get_region_current (), 
-  test_value: test_store.get_test_value()
+  test_value: test_store.get_test_value(),
+  auto_part_markers: auto_part_by_id_store.get_auto_part_markers()
 }),
-search_page_store, region_store, test_store /*observable store list*/);
+search_page_store, region_store, test_store, auto_part_by_id_store /*observable store list*/);
 
-var search_page_actions = require('actions/search_page_actions.js');
+//var search_page_actions = require('actions/search_page_actions.js');
 
 
 var SearchPageYandexMap = React.createClass({
@@ -54,22 +55,6 @@ var SearchPageYandexMap = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
-  componentWillMount() {
-    
-    /*    
-    setTimeout(() => {    
-      
-      test_action.test_action(
-          [{id:1, show_phone: true, icon_number: 4, coordinates: [55.32, 38.1], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
-           {id:2, icon_number: 5, coordinates: [55.863338, 37.165466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'},
-           {id:3, icon_number: 3, coordinates: [55.763338, 37.265466], title:'hi', address: 'улиза Зажопинского', phone: '+7 926 367 21 00'}]);
-
-    } , 7000);
-    */
-    
-
-  },
-
   on_marker_click(id) {
     test_action.test_action_toggle_balloon(id);  
   },
@@ -85,32 +70,24 @@ var SearchPageYandexMap = React.createClass({
   },
 
   render () {
-
-    var YandexMarkers  = this.state.test_value.map(m => 
-        <YandexMapMarker 
-          key={m.get('id')} 
-          id={m.get('id')}
-          coordinates={m.get('coordinates').toJS()}
-          title={m.get('title')}
-          address={m.get('address')}
-          icon_number={m.get('icon_number')}
-          show_phone={m.get('show_phone')}
-          is_open={m.get('is_open')}
-          phone={m.get('phone')} />).toJS();
-
-    var bounds = null;
+    var bounds = null; //меняется при переключении региона, юзерские не отслеживаются
     if(this.state.region_current) {
       bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
     }
-
+    
     //для не загрузки скриптов яндекс карт YandexMap элемент показываем только когда его первый раз попросят показаться
-    //потом тупо играем стилями, отсюда у карты по хорошему два свойства висибл и дисплей
+    //потом тупо играем стилями, отсюда у карты два свойства висибл и дисплей
     var class_name_search_page_yandex_map = cx('search-page-yandex-map-block');
 
     class_name_search_page_yandex_map = this.state.map_visible ? 
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-visible') : 
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-hidden');
 
+    /* jshint ignore:start */
+    var YandexMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => //this.state.test_value.map(m => //
+        <YandexMapMarker 
+          key={m.get('id')} 
+          {...m.toJS()} />).toJS();
 
     return (
       <div className={this.props.className}>
@@ -126,11 +103,14 @@ var SearchPageYandexMap = React.createClass({
             on_marker_click={this.on_marker_click}
             on_close_ballon_click={this.on_close_ballon_click} 
             on_balloon_event={this.on_balloon_event}>
+              
               {YandexMarkers}
+          
           </YandexMap>}
         </div>
       </div>
     );
+    /* jshint ignore:end */
   }
 });
 

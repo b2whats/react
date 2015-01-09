@@ -43,8 +43,8 @@ var cncl_ = [
 ];
 
 var autoservice_by_id_store = merge(Emitter.prototype, {
-  get_autoservice_data () {
-    return state_.autoservice_data;
+  get_autoservice_data_header () {
+    return state_.autoservice_data && state_.autoservice_data.get('header');
   },
 
   dispose () {

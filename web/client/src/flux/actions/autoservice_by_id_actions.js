@@ -32,8 +32,24 @@ var query_autoservice_by_id = (region_text, id) => {
     .get({id:id, region_text:region_text})
     .then(function(res) {
       // обработка результата
+      var map_user_id = _.reduce(res.map, (memo,marker) => {
+        memo[marker.user_id] = true; 
+        return memo
+      }, {});
+      
+      var res_user_id = _.reduce(res.results, (memo,marker) => {
+        memo[marker.user_id] = true; 
+        return memo
+      }, {});      
+      
+      var markers = _.filter(res.map, m => m.user_id in res_user_id);
+      var results = _.filter(res.results, m => m.user_id in map_user_id);
+
+      var res_converted = {header:res.header, markers:markers, results:results};
+
       console.log('service res::: ',res);
-      return res;
+      console.log('service res 2::: ',res);
+      return res_converted;
     });
 };
 

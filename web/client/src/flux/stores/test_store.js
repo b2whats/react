@@ -15,9 +15,9 @@ var immutable = require('immutable');
 var kON_TEST_VALUE__TEST_STORE_PRIORITY =  sc.kON_TEST_VALUE__TEST_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
-  poi_list: [ {id:1, is_open:false, show_phone:false, icon_number: 1, coordinates: [55.82, 38.9], title:'фирма "Веников не вяжет"', address: 'г.Москва, улица Пржевальского', phone: '+7 926 367 21 00'},
-              {id:2, is_open:false, show_phone:false, icon_number: 2, coordinates: [55.863338, 37.565466], title:'Доставка автозапчастей за три часа', address: 'г.Москва, ул. Красноармейского ополчения, дом 4 корпус 1 комната 124', phone: '+7 926 367 21 00'},
-              {id:3, is_open:false, show_phone:false, icon_number: 3, coordinates: [55.763338, 37.265466], title:'Лучшие кони на дороге', address: 'г.Москва, Кремль', phone: '+7 926 367 21 00'}]
+  poi_list: [ {id:1, is_open:false, show_phone:false, marker_color:'red', hint: 'автозапчасть 1', icon_number: 1, coordinates: [55.82, 38.9], company_name:'фирма "Веников не вяжет"', address: 'г.Москва, улица Пржевальского', phone: '+7 926 367 21 00'},
+              {id:2, is_open:false, show_phone:false, marker_color:'red', hint: 'автозапчасть 2', icon_number: 2, coordinates: [55.863338, 37.565466], company_name:'Доставка автозапчастей за три часа', address: 'г.Москва, ул. Красноармейского ополчения, дом 4 корпус 1 комната 124', phone: '+7 926 367 21 00'},
+              {id:3, is_open:false, show_phone:false, marker_color:'green', hint: 'автозапчасть 3', icon_number: 3, coordinates: [55.763338, 37.265466], company_name:'Лучшие кони на дороге', address: 'г.Москва, Кремль', phone: '+7 926 367 21 00'}]
 });
 
 
