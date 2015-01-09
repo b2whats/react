@@ -47,7 +47,12 @@ var kOBJECT_MANAGER_OPTIONS = {
     geoObjectZIndexActive: 1700,
     //geoObjectInteractiveZIndex: false
     clusterBalloonContentLayoutWidth: null,
-    clusterBalloonContentLayoutHeight: 140,
+    clusterBalloonContentLayoutHeight: null,
+    
+    //geoObjectBalloonContentLayoutWidth: 280,
+    //geoObjectBalloonContentLayoutHeight: 140,
+
+    clusterBalloonPagerSize: 5
   };
 
 var YandexMap = React.createClass({  

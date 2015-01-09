@@ -72,7 +72,13 @@ var YandexMapMarker = React.createClass({
             //вызовет close метод балуна
             if(this.props.is_open) { //уже открыт надо только обновить данные
               if(cluster_id) {
-                var obj_data = this.props.object_manager.clusters.balloon.getData();
+                //var obj_data = this.props.object_manager.clusters.balloon.getData();
+                //console.log('odata',obj_data);
+                var obj_data = this.props.object_manager.objects.getById(next_props.id);            
+                _.extend(obj_data.properties, next_properties);
+                this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.clusters.state.get('activeObject'));
+
+                //objectManager.clusters.state.set('activeObject', objectManager.objects.getById(2));
                 
               } else {
                 var obj_data = this.props.object_manager.objects.balloon.getData();
@@ -93,6 +99,11 @@ var YandexMapMarker = React.createClass({
             
             if(this.props.is_open === true) {
               this.props.object_manager.clusters.balloon.close(cluster_id);
+            } else {
+              //если кластер открыт а он открыт тут то тоже обновить данные
+                var obj_data = this.props.object_manager.objects.getById(next_props.id);            
+                _.extend(obj_data.properties, next_properties);
+                this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.clusters.state.get('activeObject'));
             }
           
           } else {

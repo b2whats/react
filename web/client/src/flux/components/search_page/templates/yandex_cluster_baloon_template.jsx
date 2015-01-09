@@ -30,12 +30,10 @@ module.exports = (ymaps, on_balloon_event) => {
     },
 
     close_click(e) {
-      console.log(this.getData());
       on_balloon_event('CLOSE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 
     click(e) {
-      console.log(this.getData());
       on_balloon_event('SHOW_PHONE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 

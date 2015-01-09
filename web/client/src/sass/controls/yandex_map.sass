@@ -15,8 +15,9 @@ ymaps[class*='cluster-carousel__content']
   box-sizing: border-box
   position: relative
   padding: 10px
-  max-width: 300px
-  
+  //max-width: 300px
+  //min-width: 280px
+  width: 260px
   *
     box-sizing: border-box !important
   .yandex-map-balloon-close-button
@@ -36,12 +37,13 @@ ymaps[class*='cluster-carousel__content']
       color: black
 
   .yandex-map-balloon-title
-    min-width: 220px
-    min-height: 32px
+    height: 32px
     font-weight: bold
     color: black
     font-size: 14px
     margin-bottom: 10px
+    overflow: hidden
+
   .yandex-map-balloon-address
     font-size: 12px
     min-height: 32px
@@ -51,6 +53,7 @@ ymaps[class*='cluster-carousel__content']
     color: black
     width: 100%
   .yandex-map-balloon-phone-text
+    padding-top: 5px
     color: blue
     height: 24px
     text-align: center
