@@ -14,7 +14,7 @@
     "input-right-padding" : "20px",
     "map-height": "384px",
     "map-header-height": "50px",
-    "left-block-width": "40%"
+    "left-block-width": "33%"
   },
 
   "yandex-map": {
