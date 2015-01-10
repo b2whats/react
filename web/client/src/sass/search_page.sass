@@ -1,4 +1,36 @@
+
+
 //.search-page
+.search-page-main-fixed
+  position: fixed
+  left: 0
+  top: 160px
+  right: 0
+  bottom: 0
+  background: white
+  z-index: 1
+  //overflow-y: scroll 
+
+.search-page-left-block
+  position: absolute
+  top: 0
+  left: 20px
+  bottom: 20px
+  right: 100% - $search-page-left-block-width
+.search-page-right-block  
+  position: absolute
+  padding-left: 10px
+  top: 0
+  left: $search-page-left-block-width
+  bottom: 0
+  right: 0
+  //padding-right: 20px
+  margin-right: 20px
+  overflow-y: auto
+  overflow-x: hidden
+
+
+
 
 //заглавный элемент каждого блока на страничке
 .search-page-container
@@ -7,7 +39,7 @@
   //min-height: 48px
   //overflow-x: hidden
   &.search-page-logo-margin
-    margin: 0 0 45px 0
+    margin: 0 0 5px 0
 
   .autoparts
     .search-page-typeahed-border
@@ -27,7 +59,7 @@
   width: 100%
   margin: 0
   height: 48px
-  top: -26px
+  top: -46px
   line-height: 50px
   
   font-family: "HelveticaNeueCyr"
@@ -47,10 +79,10 @@
   -webkit-border-radius: 8px
   border-radius: 8px      
   text-align: left
-  background-size: 45px 45px
+  background-size: 35px 35px
   background-repeat: no-repeat
   background-position: 15px center
-  padding: 17px $search-page-input-right-padding 17px $search-page-input-left-padding
+  padding: 10px $search-page-input-right-padding 10px $search-page-input-left-padding
 
 
 .search-page-typeahed-helper-text
@@ -71,7 +103,7 @@
   position: relative
 
   &.search-page-yandex-map-map-visible
-    height: $search-page-map-height
+    height: 100%
     background-color: #ffffee
     .search-page-yandex-map-header
       position: absolute //разместить над картой если она видима
@@ -94,6 +126,10 @@
 
 .search-page-yandex-map-header
   padding: 0 15px
+  border: 1px solid #eee
+  border-radius: 8px
+  margin-bottom: 20px
+  //border-bottom: 1px solid #eee
   .wrap
     > *
       font-size: 13px //так задавать размер фонта (почему то flexiblegs переопределяет его тут)

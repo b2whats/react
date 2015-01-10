@@ -9,11 +9,12 @@
   },
 
   "search-page" : {
-    "border-width": "5px",
-    "input-left-padding" : "75px",
+    "border-width": "3px",
+    "input-left-padding" : "65px",
     "input-right-padding" : "20px",
     "map-height": "384px",
-    "map-header-height": "50px"
+    "map-header-height": "50px",
+    "left-block-width": "40%"
   },
 
   "yandex-map": {

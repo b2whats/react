@@ -16,8 +16,9 @@ var kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY =  sc.kON_SEARCH_PA
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
   width: 0,
-  map_visible: false, //видно карту или нет
-  map_display: false, //подгружена вообще карта или нет
+  height: 0,
+  map_visible: true, //видно карту или нет
+  map_display: true, //подгружена вообще карта или нет
 
   star_hover_value: -1,
   star_click_value: 1
@@ -26,15 +27,18 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
 var cncl_ = [
   main_dispatcher
-  .on(event_names.kON_SEARCH_PAGE_SIZE_CHANGED, width => {  
+  .on(event_names.kON_SEARCH_PAGE_SIZE_CHANGED, (width, height) => {  
     var im_width = immutable.fromJS(width);
+    var im_height = immutable.fromJS(height);
 
-    if(!immutable.is(state_.width, width)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
-      state_.width_cursor
-        .update(() => im_width);
+    state_.width_cursor
+      .update(() => im_width);
       
-      default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
-    }
+    state_.height_cursor
+      .update(() => im_height);
+
+
+    default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
   }, kON_SEARCH_PAGE_SIZE_CHANGED__SEARCH_PAGE_STORE_PRIORITY),
 
   main_dispatcher
@@ -73,6 +77,10 @@ var cncl_ = [
 var default_page_size_store = merge(Emitter.prototype, {
   get_search_page_width () {
     return state_.width;
+  },
+
+  get_search_page_height () {
+    return state_.height;
   },
 
   get_search_page_map_visible () {

@@ -13,7 +13,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var YandexMap = require('components/yandex/yandex_map.jsx');
 var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
-var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
+
 /* jshint ignore:end */
 
 var search_page_store = require('stores/search_page_store.js');
@@ -30,8 +30,10 @@ var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
-var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] ); //jshint ignore:line
-var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-height'] ); //jshint ignore:line
+//var kMAP_HEIGHT = style_utils.from_px_to_number( sass_vars['map-height'] ); //jshint ignore:line
+var kMAP_HEADER_HEIGHT = 0;//style_utils.from_px_to_number( sass_vars['map-header-height'] ); //jshint ignore:line
+var kMAP_PERCENT_WIDTH = style_utils.from_percent_to_number( sass_vars['left-block-width'] );
+
 
 var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
@@ -40,6 +42,7 @@ var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_te
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
   map_display: search_page_store.get_search_page_map_display (),
+  height: search_page_store.get_search_page_height (),
   width: search_page_store.get_search_page_width (),
   region_current:           region_store.get_region_current (), 
   test_value: test_store.get_test_value(),
@@ -112,14 +115,12 @@ var SearchPageYandexMap = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <div className={class_name_search_page_yandex_map}>          
-          <SearchPageMapHeaderBlock />
-        
+        <div className={class_name_search_page_yandex_map}>                  
           {this.state.map_display && this.state.width>0 && bounds!==null &&
           <YandexMap  
             bounds={bounds}
-            height={kMAP_HEIGHT} 
-            width={this.state.width}
+            height={this.state.height} 
+            width={this.state.width * kMAP_PERCENT_WIDTH/100}
             header_height={kMAP_HEADER_HEIGHT}
             baloon_template={ymap_baloon_template}
             cluster_baloon_template={ymap_cluster_baloon_template}

@@ -15,6 +15,9 @@ var SearchPageAutoPartTable = require('./search_page_auto_part_table.jsx');
 
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
+
+var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
+
 /* jshint ignore:end */
 
 var search_page_actions = require('actions/search_page_actions.js');
@@ -50,8 +53,9 @@ var SearchPage = React.createClass({
 
   fire_change() {      
     if(this.refs && this.refs.default_page_content) {
-      var node = this.refs.default_page_content.getDOMNode();     
-      search_page_actions.search_page_size_chaged (node.clientWidth);
+      var node = this.refs.default_page_content.getDOMNode();
+      var node_h = this.refs.main_content.getDOMNode();
+      search_page_actions.search_page_size_chaged (node.clientWidth, node_h.clientHeight);
     }  
   },
 
@@ -124,41 +128,48 @@ var SearchPage = React.createClass({
           </div>          
         </div>
         
-        {/*карта с заголовком*/}
-        <div className="search-page-container">
-          <div className="wrap gutter-5-xs">
-            <SearchPageYandexMap className="md-12-12">
-            </SearchPageYandexMap>
-          </div>
-        </div>
         
-        {/*результаты поиска заголовок*/}
-        <div className="search-page-container">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-6 left-md search-page-info-header">              
-                <span>Найдено</span>&nbsp;
-                <strong>123</strong>&nbsp;
-                <span>предложений</span>              
-            </div>
+        {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}
+        <div ref='main_content' className="search-page-main-fixed">
+                    
+          {/*карта с заголовком*/}
+          
             
-            <div className="md-12-6 right-md search-page-info-header">              
-                <span>Показывать по</span>
-                <span className="pager-buttons">
-                  <a href="">1</a>
-                  <a href="">2</a>
-                  <a href="">...</a>
-                  <a href="">30</a>
-                </span>              
+          <SearchPageYandexMap className="search-page-left-block">
+          </SearchPageYandexMap>
+
+
+          <div className="search-page-right-block">
+            {/*результаты поиска заголовок*/}
+            <SearchPageMapHeaderBlock />
+            <div className="search-page-container">
+              <div className="wrap gutter-5-xs">
+                <div className="md-12-6 left-md search-page-info-header">              
+                    <span>Найдено</span>&nbsp;
+                    <strong>123</strong>&nbsp;
+                    <span>предложений</span>              
+                </div>
+                
+                <div className="md-12-6 right-md search-page-info-header">              
+                    <span>Показывать по</span>
+                    <span className="pager-buttons">
+                      <a href="">1</a>
+                      <a href="">2</a>
+                      <a href="">...</a>
+                      <a href="">30</a>
+                    </span>              
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/*результаты поиска таблички*/}
+            {/*результаты поиска таблички*/}
 
-        <div className="search-page-container">
-          <div className="wrap gutter-5-xs">
-            <SearchPageAutoPartTable className="md-12-12" />
-          </div>
+            <div className="search-page-container">
+              <div className="wrap gutter-5-xs">
+                <SearchPageAutoPartTable className="md-12-12" />
+              </div>
+            </div>
+          </div>  
         </div>
       </div>
     );

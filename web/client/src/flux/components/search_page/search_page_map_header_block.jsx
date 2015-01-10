@@ -78,14 +78,14 @@ var SearchPageMapHeaderBlock = React.createClass({
       <div className="search-page-yandex-map-header">
         <div className="wrap gutter-5-xs">
           {/*левая часть заголовка*/}
-          <div className="md-12-3 left-md search-page-map-header">
+          <div className="md-12-6 left-md search-page-map-header">
             <strong>Рейтинг</strong>
             <div onMouseLeave={this.on_star_mouse_leave} className="search-page-yandex-map-header-rating">
               {StarList}
             </div>
           </div>              
           {/*центральная часть заголовка (селект потом уйдет в свой контрол)*/}
-          <div className="md-12-5 left-md search-page-map-header">
+          <div className="md-12-6 right-md search-page-map-header">
             <strong>Время работы</strong>
             <div className="search-page-yandex-map-header-select-holder">
               <select defaultValue={4} className="search-page-yandex-map-header-select">
@@ -99,7 +99,8 @@ var SearchPageMapHeaderBlock = React.createClass({
               </select>
             </div>              
           </div>              
-          {/*правая часть заголовка*/}
+          
+          {/*правая часть заголовка
           <div className="md-12-4 right-md search-page-map-header">
             <button className="search-page-yandex-map-header-button 
                                search-page-yandex-map-header-button-switch">^</button>
@@ -107,6 +108,7 @@ var SearchPageMapHeaderBlock = React.createClass({
                     className="search-page-yandex-map-header-button 
                                search-page-yandex-map-header-button-hide">{btn_show_map_button_text}</button>
           </div>
+          */}
         </div>        
       </div>        
     );
