@@ -11,6 +11,7 @@ var route_definitions = require('shared_constants/route_names.js');
 var Link = require('components/link.jsx');
 var SearchPageSearchBlock = require('./search_page_search_block.jsx');
 var SearchPageYandexMap = require('./search_page_yandex_map.jsx');
+var SearchPageAutoPartTable = require('./search_page_auto_part_table.jsx');
 
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
@@ -156,43 +157,7 @@ var SearchPage = React.createClass({
 
         <div className="search-page-container">
           <div className="wrap gutter-5-xs">
-            <div className="md-12-12">
-              <div className="search-page-table-border">
-                <table cellSpacing="0" className="pure-table pure-table-striped search-page-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Make</th>
-                            <th>Model</th>
-                            <th>Year</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Honda</td>
-                            <td>Accord</td>
-                            <td>2009</td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Toyota</td>
-                            <td>Camry</td>
-                            <td>2012</td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>Hyundai</td>
-                            <td>Elantra</td>
-                            <td>2010</td>
-                        </tr>
-                    </tbody>
-                </table>
-              </div>
-            </div>
+            <SearchPageAutoPartTable className="md-12-12" />
           </div>
         </div>
       </div>

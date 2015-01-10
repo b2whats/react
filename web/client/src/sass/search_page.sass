@@ -201,10 +201,15 @@
 .search-page-table
   width: 100%
   border: 0  
-  td
-    &:last-child //судя по дизайну всегда едем по последнему столбцу
-      width: 100%
+  th
+    &:nth-child(1)
+      min-width: 20%
 
+    &:nth-child(2)
+      min-width: 300px
+
+    &:last-child //судя по дизайну всегда едем по последнему столбцу
+      width: 99%
 
 
 

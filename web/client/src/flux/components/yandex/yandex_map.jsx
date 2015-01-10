@@ -21,7 +21,7 @@ var kANIM_MOVE_DUARATION = 500;
 var kMARKER_DEFAULT_PRESET = 'islands#icon';
 var kOBJECT_MANAGER_OPTIONS = {
     clusterize: true,
-    
+    //gridSize: 64,
     clusterDisableClickZoom: true,
     clusterBalloonContentLayout: 'cluster#balloonCarousel', //карусулька самое то
     
@@ -108,7 +108,7 @@ var YandexMap = React.createClass({
     }
   },
 
-  on_cluster_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен
+  on_cluster_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен    
     var object_id = e.get('objectId');
     var cluster = this.state.object_manager.clusters.getById(object_id);
     if(cluster) {
@@ -255,7 +255,7 @@ var YandexMap = React.createClass({
   },
 
 
-  render () {    
+  render () {
     var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => //jshint ignore:line
       React.addons.cloneWithProps(child, {object_manager: this.state.object_manager, key: child.key})) : null;
     /* jshint ignore:start */

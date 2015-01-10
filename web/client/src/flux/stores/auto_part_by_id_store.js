@@ -51,6 +51,16 @@ var cncl_ = [
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON, id => { 
+    if(!state_.auto_part_data) return;
+    
+    state_.auto_part_data_cursor
+    .cursor(['markers'])
+    .update(markers => markers.map(marker => marker.set('is_open', false)));
+  
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
   //---------------------------------------------------------------------  
   main_dispatcher

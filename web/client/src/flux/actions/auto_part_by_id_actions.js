@@ -43,6 +43,13 @@ var actions_ = [
   ['auto_part_marker_hover', event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER]  
 ];
 
+module.exports.close_all_and_open_balloon = (id) => {
+  main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON);
+  setTimeout( () => {
+    main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON, id);
+  }, 200);
+};
+
 var query_auto_part_by_id = (region_text, id) => {
   return r_auto_parts_by_id_
     .get({id:id, region_text:region_text})
