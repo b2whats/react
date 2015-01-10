@@ -107,12 +107,14 @@ var SearchPageYandexMap = React.createClass({
     var YandexAutoPartsMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => //this.state.test_value.map(m => //
         <YandexMapMarker 
           key={m.get('id')} 
-          {...m.toJS()} />).toJS();
+          {...m.toJS()} />).toJS() || [];
 
     var YandexAutoServiceMarkers  = this.state.autoservice_markers && this.state.autoservice_markers.map(m => //this.state.test_value.map(m => //
         <YandexMapMarker 
           key={m.get('id')} 
-          {...m.toJS()} />).toJS();
+          {...m.toJS()} />).toJS() || [];
+
+    
 
     return (
       <div className={this.props.className}>
