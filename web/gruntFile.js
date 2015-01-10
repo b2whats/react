@@ -36,7 +36,7 @@ grunt.registerTask('watchify_task',  ['set_config:build.dev_build_dir:client/bui
                                  'copy:index',
                                  'cachebreaker:css', 'cachebreaker:css_flaticon', 
                                  'cachebreaker:css_0','cachebreaker:css_1','cachebreaker:css_2','cachebreaker:css_3','cachebreaker:css_4','cachebreaker:css_5',
-                                 //'cachebreaker:js_vendor', 'cachebreaker:js', //В ДЕВ ВЕРСИИ ТУТ КЕШ БРЕК УБРАН ЧТОБЫ МОЖНО БЫЛО КОД НА ЛЕТУ МЕНЯТЬ
+                                 'cachebreaker:js_vendor', 'cachebreaker:js', //В ДЕВ ВЕРСИИ ТУТ КЕШ БРЕК УБРАН ЧТОБЫ МОЖНО БЫЛО КОД НА ЛЕТУ МЕНЯТЬ
                                  'markdown:all', 'copy:markdown']);
 /*
 grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/dev/','clean:build_tmp', 
