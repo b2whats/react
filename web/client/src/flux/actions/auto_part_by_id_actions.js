@@ -53,7 +53,7 @@ module.exports.close_all_and_open_balloon = (id) => {
 var query_auto_part_by_id = (region_text, id) => {
   return r_auto_parts_by_id_
     .get({id:id, region_text:region_text})
-    .then(res => {      
+    .then(res => {
       //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 

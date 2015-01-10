@@ -21,34 +21,71 @@ var text_util = require('utils/text.js');
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
+var kFAKE_RESULT = require('./test/auto_service_fake_result.json');
+var sass_vars = require('sass/common_vars.json')['yandex-map'];
+
+var kAUTOSERVICE_MARKER_TYPE = 1;
+var kAUTOSERVICE_HINT = 'автосервис: ';
+var kAUTOSERVICE_MARKER_COLOR = sass_vars['autoservice-marker-color'];
+var kAUTOSERVICE_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
+
+var kAUTOSERVICE_DELTA_ID = 10000000;
+
 var r_auto_service_by_id_ = resource(api_refs.kAUTO_SERVICE_BY_ID_API);
 
 var actions_ = [
-  ['reset_autoservice_data', event_names.kON_AUTO_SERVICE_BY_ID_RESET_DATA]
+  ['reset_autoservice_data', event_names.kON_AUTO_SERVICE_BY_ID_RESET_DATA],
+
+  ['autoservice_toggle_balloon', event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON],
+  ['autoservice_close_balloon', event_names.kON_AUTOSERVICE_BY_ID_CLOSE_BALLOON],
+  ['autoservice_show_phone', event_names.kON_AUTOSERVICE_BY_ID_SHOW_PHONE],
+  ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER]
 ];
+
+module.exports.close_all_and_open_balloon = (id) => {
+  main_dispatcher.fire(event_names.kON_AUTOSERVICE_BY_ID_CLOSE_ALL_BALLOON);
+  setTimeout( () => {
+    main_dispatcher.fire(event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON, id);
+  }, 200);
+};
+
 
 var query_autoservice_by_id = (region_text, id) => {
   return r_auto_service_by_id_
     .get({id:id, region_text:region_text})
     .then(function(res) {
-      // обработка результата
+      res  = kFAKE_RESULT;
+
+      //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 
-        return memo
+        return memo;
       }, {});
       
       var res_user_id = _.reduce(res.results, (memo,marker) => {
         memo[marker.user_id] = true; 
-        return memo
+        return memo;
       }, {});      
       
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
+      
+      markers = _.map(markers, (m, m_index) => 
+        _.extend( {is_open: false, show_phone: false}, //system
+                  {marker_color: kAUTOSERVICE_MARKER_COLOR, marker_z_index: m.rank, marker_base_z_index: m.rank , marker_type: kAUTOSERVICE_MARKER_TYPE, hint: kAUTOSERVICE_HINT + m.company_name}, //брать потом из базы
+                  {cluster_color: kAUTOSERVICE_CLUSTER_COLOR},
+                  m,
+                  {server_id:m.id, id: m.id + kAUTOSERVICE_DELTA_ID, icon_number:m.rank } ));
+
+
+      markers = _.sortBy(markers, m => m.rank);
+
+
+      //поле не забыть доставка 1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"
       var results = _.filter(res.results, m => m.user_id in map_user_id);
 
       var res_converted = {header:res.header, markers:markers, results:results};
-
-      console.log('service res::: ',res);
-      console.log('service res 2::: ',res);
+      
+      console.log('service res 2::: ', res_converted);
       return res_converted;
     });
 };

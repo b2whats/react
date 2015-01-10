@@ -19,10 +19,14 @@ var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
 var search_page_store = require('stores/search_page_store.js');
 var region_store = require('stores/region_store.js');
 var test_store = require('stores/test_store.js');
+
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
+var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
+
 
 var style_utils = require('utils/style_utils.js');
 var sass_vars = require('sass/common_vars.json')['search-page'];
@@ -44,9 +48,11 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   width: search_page_store.get_search_page_width (),
   region_current:           region_store.get_region_current (), 
   test_value: test_store.get_test_value(),
-  auto_part_markers: auto_part_by_id_store.get_auto_part_markers()
+  auto_part_markers: auto_part_by_id_store.get_auto_part_markers(),
+  autoservice_markers: autoservice_by_id_store.get_autoservice_markers()
+  
 }),
-search_page_store, region_store, test_store, auto_part_by_id_store /*observable store list*/);
+search_page_store, region_store, test_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
 
@@ -61,21 +67,25 @@ var SearchPageYandexMap = React.createClass({
   on_marker_click(id) {
     //test_action.test_action_toggle_balloon(id);
     auto_part_by_id_actions.auto_part_toggle_balloon(id);
+    autoservice_by_id_actions.autoservice_toggle_balloon(id);
   },
   
   on_marker_hover(id, hover_state) {
     auto_part_by_id_actions.auto_part_marker_hover(id, hover_state);
+    autoservice_by_id_actions.autoservice_marker_hover(id, hover_state);
   },
 
   on_close_ballon_click(id) {
     //test_action.test_action_close_balloon(id);
     auto_part_by_id_actions.auto_part_close_balloon(id);
+    autoservice_by_id_actions.autoservice_close_balloon(id);
   },
 
   on_balloon_event(event_name, id) {
     if(event_name === 'SHOW_PHONE_CLICK') {
       //test_action.test_action_show_phone(id);
-      auto_part_by_id_actions.auto_part_show_phone(id);      
+      auto_part_by_id_actions.auto_part_show_phone(id);
+      autoservice_by_id_actions.autoservice_show_phone(id);
     }
   },
 
@@ -94,7 +104,12 @@ var SearchPageYandexMap = React.createClass({
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-hidden');
 
     /* jshint ignore:start */
-    var YandexMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => //this.state.test_value.map(m => //
+    var YandexAutoPartsMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => //this.state.test_value.map(m => //
+        <YandexMapMarker 
+          key={m.get('id')} 
+          {...m.toJS()} />).toJS();
+
+    var YandexAutoServiceMarkers  = this.state.autoservice_markers && this.state.autoservice_markers.map(m => //this.state.test_value.map(m => //
         <YandexMapMarker 
           key={m.get('id')} 
           {...m.toJS()} />).toJS();
@@ -117,7 +132,8 @@ var SearchPageYandexMap = React.createClass({
             on_close_ballon_click={this.on_close_ballon_click} 
             on_balloon_event={this.on_balloon_event}>
               
-              {YandexMarkers}
+              {YandexAutoServiceMarkers}
+              {YandexAutoPartsMarkers}
           
           </YandexMap>}
         </div>
