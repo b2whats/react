@@ -24,7 +24,7 @@ var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_pe
 var kFAKE_RESULT = require('./test/auto_service_fake_result.json');
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
-var kAUTOSERVICE_MARKER_TYPE = 1;
+var kAUTOSERVICE_MARKER_TYPE = 'autoservice-marker-type';
 var kAUTOSERVICE_HINT = 'автосервис: ';
 var kAUTOSERVICE_MARKER_COLOR = sass_vars['autoservice-marker-color'];
 var kAUTOSERVICE_CLUSTER_COLOR = sass_vars['cluster-marker-color'];

@@ -4,7 +4,7 @@ var dom_helper = require('utils/dom_helper.js');
 
 module.exports = (ymaps, on_balloon_event) => {
     var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
-    '<div class="yandex-map-balloon">' +
+    '<div class="yandex-map-balloon {{properties.marker_type}}">' +
         '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button"></div> ' +
         '<div class="yandex-map-balloon-title">{{properties.company_name}}</div> ' +
         '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +

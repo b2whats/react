@@ -36,11 +36,6 @@ var kMAP_HEADER_HEIGHT = style_utils.from_px_to_number( sass_vars['map-header-he
 var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
 
-/* ДОБАВИТЬ
-  auto_part_data: auto_part_by_id_store.get_auto_part_data (),
-  autoservice_data: autoservice_by_id_store.get_autoservice_data (),
-*/
-
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
@@ -114,7 +109,6 @@ var SearchPageYandexMap = React.createClass({
           key={m.get('id')} 
           {...m.toJS()} />).toJS() || [];
 
-    
 
     return (
       <div className={this.props.className}>
