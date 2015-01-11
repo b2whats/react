@@ -94,6 +94,10 @@ var SearchPageYandexMap = React.createClass({
     }
   },
 
+  on_bounds_change (center, zoom) {
+    console.log('AA:on_bounds_change', center, zoom);
+  },
+
   render () {
     var bounds = null; //меняется при переключении региона, юзерские не отслеживаются
     if(this.state.region_current) {
@@ -134,7 +138,8 @@ var SearchPageYandexMap = React.createClass({
             on_marker_click={this.on_marker_click}
             on_marker_hover={this.on_marker_hover}
             on_close_ballon_click={this.on_close_ballon_click} 
-            on_balloon_event={this.on_balloon_event}>
+            on_balloon_event={this.on_balloon_event}
+            on_bounds_change={this.on_bounds_change}>
               
               {YandexAutoServiceMarkers}
               {YandexAutoPartsMarkers}

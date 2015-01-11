@@ -68,7 +68,8 @@ var YandexMap = React.createClass({
     on_marker_click: PropTypes.func,
     on_marker_hover: PropTypes.func,
     on_close_ballon_click: PropTypes.func,
-    on_balloon_event: PropTypes.func
+    on_balloon_event: PropTypes.func,
+    on_bounds_change: PropTypes.func,
   },
 
   getInitialState() {
@@ -79,6 +80,8 @@ var YandexMap = React.createClass({
   
   componentWillMount() {
     this.yamap = null;
+    this.move_after_down_timer = 0;
+    this.mouse_is_down = false;
   },
   
   on_marker_click(e) {
@@ -158,6 +161,37 @@ var YandexMap = React.createClass({
     }
   },
 
+
+  //В этом методе я отлавливаю именно юзерские изменения границ карты
+  //и так как меня волнуют изменения только центра то я не отлавливаю юзерские клики по кнопкам зума
+  on_boundschange (e) {
+    var kTIME_USER_BOUND_CHANGED_EPSILON = 1000; //секунда
+    //тут надо отделить юзерские события от неюзерских
+    if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {
+      //console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'));    
+      this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'));
+    }
+  
+  },
+
+  mouse_up () {
+  },
+  
+  mouse_down () {
+    this.mouse_is_down = true;
+    this.move_after_down_timer = 0;
+  },
+  
+  mouse_move () {    
+    if(this.mouse_is_down) {
+      this.move_after_down_timer = (new Date()).getTime();
+    }
+  },
+  
+  mouse_wheel () {
+    this.move_after_down_timer = (new Date()).getTime();
+  },
+
   componentDidMount() {    
     ymap_loader.get_ymaps_promise()
       .then(ymaps => {
@@ -168,7 +202,16 @@ var YandexMap = React.createClass({
                 controls: ['zoomControl']
           }));
 
-          //yamap.events.add('balloonclose', this.balloonclose);
+          this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom);
+
+          yamap.events.add('boundschange', this.on_boundschange);
+                    
+          //пиздец яндекс даже простые евенты не работают в разных случаях
+          //yamap.events.add('wheel', () => this.mouse_wheel);
+          //yamap.events.add('mousedown', () => console.log('mousedown'));
+          //yamap.events.add('mouseup', () => console.log('mouseup'));
+          //yamap.events.add('mousemove', () => console.log('mousemove'));
+          
 
           var baloon_template = this.props.baloon_template(ymaps, this.on_balloon_event);
           var cluster_baloon_template = this.props.cluster_baloon_template(ymaps, this.on_balloon_event);
@@ -229,6 +272,9 @@ var YandexMap = React.createClass({
             yamap.setCenter(pos_w_delta.center, pos_w_delta.zoom, {
               duration: kANIM_MOVE_DUARATION
             });
+
+            this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom);
+
           })
           .catch(e => {
             console.error(e.stack);
@@ -260,7 +306,7 @@ var YandexMap = React.createClass({
       React.addons.cloneWithProps(child, {object_manager: this.state.object_manager, key: child.key})) : null;
     /* jshint ignore:start */
     return (
-      <div className="yandex-map-holder">
+      <div onWheel={this.mouse_wheel} onMouseMove={this.mouse_move} onMouseDown={this.mouse_down} onMouseUp={this.mouse_up} className="yandex-map-holder">
         {fake_children}
         <YandexMapMap ref="yamap_dom"/>      
       </div>
