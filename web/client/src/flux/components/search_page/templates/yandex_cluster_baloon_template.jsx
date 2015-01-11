@@ -1,6 +1,7 @@
 'use strict';
 var _ = require('underscore');
 var dom_helper = require('utils/dom_helper.js');
+var yandex_templates_events = require('./yandex_templates_events.js');
 
 module.exports = (ymaps, on_balloon_event) => {
     var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
@@ -16,6 +17,8 @@ module.exports = (ymaps, on_balloon_event) => {
     '</div>', {
 
     build () {
+      on_balloon_event(yandex_templates_events.kON_BALLOON_VISIBLE, this.getData().geoObject.id, this.getData().geoObject.properties);
+
       BalloonContentLayout.superclass.build.call(this);      
       var button_phone = dom_helper.query_selector('#yandex-map-balloon-phone-button', this.getParentElement());
 
@@ -30,14 +33,16 @@ module.exports = (ymaps, on_balloon_event) => {
     },
 
     close_click(e) {
-      on_balloon_event('CLOSE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
+      on_balloon_event(yandex_templates_events.kON_CLOSE_CLICK, this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 
     click(e) {
-      on_balloon_event('SHOW_PHONE_CLICK', this.getData().geoObject.id, this.getData().geoObject.properties);
+      on_balloon_event(yandex_templates_events.kON_SHOW_PHONE_CLICK, this.getData().geoObject.id, this.getData().geoObject.properties);
     },
 
-    clear () {      
+    clear () {
+      on_balloon_event(yandex_templates_events.kON_BALLOON_HIDDEN, this.getData().geoObject.id, this.getData().geoObject.properties);
+
       var button_phone = dom_helper.query_selector('#yandex-map-balloon-phone-button');      
       if(button_phone)
         dom_helper.unsubscribe(button_phone, 'click', this.click_fn);

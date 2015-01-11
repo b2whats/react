@@ -37,7 +37,7 @@ var kMAP_PERCENT_WIDTH = style_utils.from_percent_to_number( sass_vars['left-blo
 
 var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
-
+var yandex_templates_events = require('./templates/yandex_templates_events.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
@@ -80,10 +80,17 @@ var SearchPageYandexMap = React.createClass({
   },
 
   on_balloon_event(event_name, id) {
-    if(event_name === 'SHOW_PHONE_CLICK') {
-      //test_action.test_action_show_phone(id);
+    if(event_name === yandex_templates_events.kON_SHOW_PHONE_CLICK) {
       auto_part_by_id_actions.auto_part_show_phone(id);
       autoservice_by_id_actions.autoservice_show_phone(id);
+    } else 
+    if (event_name === yandex_templates_events.kON_BALLOON_VISIBLE) {      
+      auto_part_by_id_actions.auto_part_balloon_visible(id, true);
+      autoservice_by_id_actions.autoservice_balloon_visible(id, true);      
+    } else
+    if (event_name === yandex_templates_events.kON_BALLOON_HIDDEN) {      
+      auto_part_by_id_actions.auto_part_balloon_visible(id, false);
+      autoservice_by_id_actions.autoservice_balloon_visible(id, false);
     }
   },
 

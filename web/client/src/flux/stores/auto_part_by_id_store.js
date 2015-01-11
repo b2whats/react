@@ -17,7 +17,6 @@ var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
 var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
 var kAUTO_PART_MARKER_COLOR_HILITE_MAIN = sass_vars['auto-part-marker-color-hilite-main'];
-var kAUTO_PART_MARKER_COLOR_HILITE_SECONDARY = 'red';//sass_vars['auto-part-marker-color-hilite-secondary'];
 
 var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 var kAUTO_PART_CLUSTER_COLOR_HILITE_MAIN = sass_vars['cluster-marker-color-hilite-main'];
@@ -28,8 +27,6 @@ var kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY =  sc.kON_AUTO_PART_BY_I
 var state_ =  init_state(_.last(__filename.split('/')), {
   auto_part_data: null
 });
-
-var z_index_ = 2000;
 
 var cncl_ = [
   main_dispatcher
@@ -52,7 +49,7 @@ var cncl_ = [
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON, id => { 
+  .on(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON, () => { 
     if(!state_.auto_part_data) return;
     
     state_.auto_part_data_cursor
@@ -124,6 +121,21 @@ var cncl_ = [
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
+
+  //---------------------------------------------------------------------
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_BALLOON_VISIBLE, (id, visible) => { 
+    if(!state_.auto_part_data) return;
+
+    var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
+    if (index < 0) return;
+
+    state_.auto_part_data_cursor
+      .cursor(['markers', index])
+      .update(marker => marker.set('balloon_visible', visible));
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
   
   //---------------------------------------------------------------------
   main_dispatcher
@@ -143,17 +155,21 @@ var cncl_ = [
     var color = kAUTO_PART_MARKER_COLOR;
     var cluster_color = kAUTO_PART_CLUSTER_COLOR;
 
-
+    var marker_rank = state_.auto_part_data.get('markers').get(index).get('rank');
+    
     if(hover_state) {
       color = kAUTO_PART_MARKER_COLOR_HILITE_MAIN;
       cluster_color = kAUTO_PART_CLUSTER_COLOR_HILITE_MAIN;
     }
 
     state_.auto_part_data_cursor
-      .cursor(['markers', index])
-        .update(marker => marker.set('marker_color', color).set('cluster_color', cluster_color));
-  
-  
+      .cursor(['markers'])
+        .update(markers => 
+          markers.map( marker => 
+            marker.get('rank') === marker_rank ?
+              marker.set('marker_color', color).set('cluster_color', cluster_color) :
+              marker             
+          ));
     
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY)
@@ -166,6 +182,10 @@ var auto_part_by_id_store = merge(Emitter.prototype, {
 
   get_auto_part_markers () {
     return state_.auto_part_data && state_.auto_part_data.get('markers');
+  },
+
+  get_auto_part_results () {
+    return state_.auto_part_data && state_.auto_part_data.get('results');
   },
 
 

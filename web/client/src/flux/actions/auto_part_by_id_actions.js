@@ -40,7 +40,9 @@ var actions_ = [
   ['auto_part_toggle_balloon', event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON],
   ['auto_part_close_balloon', event_names.kON_AUTO_PART_BY_ID_CLOSE_BALLOON],
   ['auto_part_show_phone', event_names.kON_AUTO_PART_BY_ID_SHOW_PHONE],
-  ['auto_part_marker_hover', event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER]  
+  ['auto_part_marker_hover', event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER],
+
+  ['auto_part_balloon_visible', event_names.kON_AUTO_PART_BY_ID_BALLOON_VISIBLE],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {
@@ -68,23 +70,61 @@ var query_auto_part_by_id = (region_text, id) => {
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
       
       markers = _.map(markers, (m, m_index) => 
-        _.extend( {is_open: false, show_phone: false}, //system
-                  {marker_color: kAUTO_PART_MARKER_COLOR, marker_z_index: m.rank, marker_base_z_index: m.rank , marker_type: kAUTO_PART_MARKER_TYPE, hint: kAUTO_PART_HINT + m.company_name}, //брать потом из базы
-                  {cluster_color: kAUTO_PART_CLUSTER_COLOR},
+        _.extend( { //описание этих полей тут actions/autoservice_by_id_actions.js
+                    is_open: false,
+                    show_phone: false,
+                    balloon_visible: false
+                  }, //system
+                  {
+                    marker_color: kAUTO_PART_MARKER_COLOR,
+                    marker_type: kAUTO_PART_MARKER_TYPE, 
+                    hint: kAUTO_PART_HINT + m.company_name
+                  }, //брать потом из базы
+                  {
+                    cluster_color: kAUTO_PART_CLUSTER_COLOR
+                  },
                   m,
-                  {server_id:m.id, id: m.id, icon_number:m.rank } ));
+                  {
+                    server_id:m.id,
+                    id: m.id,
+                    icon_number:m.rank 
+                  } ));
 
 
       markers = _.sortBy(markers, m => m.rank);
 
 
-      //поле не забыть доставка 1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"
       var results = _.filter(res.results, m => m.user_id in map_user_id);
 
       var res_converted = {header:res.header, markers:markers, results:results};
 
       //console.log('apart res::: ',res);
       console.log('apart res 2::: ', res_converted);
+
+      //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
+
+      /*
+        code: "5c5845011qnvb"
+        id: 2751411
+        manufacturer: "vag"
+        name: "стекло ветровое"
+        rank: 1
+        retail_price: "12750"
+        stock: 1 //поле не забыть доставка 1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"
+        used: true
+        user_id: 16405
+        wholesale_price: null
+        
+      //на экране видим
+        rank
+        ближайший продавец
+        manufacturer + code
+        name
+        stock + used
+        retail_price
+        телефон-заявка
+      */
+
       return res_converted;
     });
 };

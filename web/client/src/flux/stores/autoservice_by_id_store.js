@@ -121,6 +121,21 @@ var cncl_ = [
     autoservice_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_SERVICE_BY_ID__AUTO_SERVICE_BY_ID_STORE_PRIORITY),
 
+  //---------------------------------------------------------------------
+  main_dispatcher
+  .on(event_names.kON_AUTOSERVICE_BY_ID_BALLOON_VISIBLE, (id, visible) => { 
+    if(!state_.autoservice_data) return;
+
+    var index  = state_.autoservice_data.get('markers').findIndex(marker => marker.get('id') === id );
+    if (index < 0) return;
+
+    state_.autoservice_data_cursor
+      .cursor(['markers', index])
+      .update(marker => marker.set('balloon_visible', visible));
+
+    autoservice_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_SERVICE_BY_ID__AUTO_SERVICE_BY_ID_STORE_PRIORITY),
+
   
   //---------------------------------------------------------------------
   main_dispatcher
@@ -140,16 +155,23 @@ var cncl_ = [
     var color = kAUTOSERVICE_MARKER_COLOR;
     var cluster_color = kAUTOSERVICE_CLUSTER_COLOR;
 
+    var marker_rank = state_.autoservice_data.get('markers').get(index).get('rank');
+
 
     if(hover_state) {
       color = kAUTOSERVICE_MARKER_COLOR_HILITE_MAIN;
       cluster_color = kAUTOSERVICE_CLUSTER_COLOR_HILITE_MAIN;
     }
 
-    state_.autoservice_data_cursor
-      .cursor(['markers', index])
-        .update(marker => marker.set('marker_color', color).set('cluster_color', cluster_color));
   
+    state_.autoservice_data_cursor
+      .cursor(['markers'])
+        .update(markers => 
+          markers.map( marker => 
+            marker.get('rank') === marker_rank ?
+              marker.set('marker_color', color).set('cluster_color', cluster_color) :
+              marker             
+          ));
   
     
     autoservice_by_id_store.fire(event_names.kON_CHANGE);

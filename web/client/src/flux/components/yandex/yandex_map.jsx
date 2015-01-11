@@ -87,7 +87,7 @@ var YandexMap = React.createClass({
   },
 
   on_balloon_event (event_source, marker_id, marker_properties) {
-    if(event_source === 'CLOSE_CLICK') {
+    if(event_source === 'kON_CLOSE_CLICK') {
       this.props.on_close_ballon_click && this.props.on_close_ballon_click(marker_id); //jshint ignore:line
     } else { //например SHOW_PHONE_CLICK
       this.props.on_balloon_event && this.props.on_balloon_event(event_source, marker_id, marker_properties); //jshint ignore:line

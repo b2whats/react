@@ -38,11 +38,24 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.close_all_and_open_balloon(id);
   },
 
+  on_hover(id, hover_state) {
+    auto_part_by_id_actions.auto_part_marker_hover(id, hover_state);  
+  },
+
+  on_hover_out() {
+  },
+
+  
+
   render () {
     /* jshint ignore:start */
     
+    
     var TrMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => (
-      <tr key={m.get('id')}>
+      <tr 
+          onMouseEnter={_.bind(this.on_hover, this, m.get('id'), true)} 
+          onMouseLeave={_.bind(this.on_hover, this, m.get('id'), false)} 
+          key={m.get('id')}>
         <td>
           {m.get('company_name')}
         </td>
@@ -50,9 +63,9 @@ var SearchPageAutoPartTable = React.createClass({
           <button onClick={_.bind(this.on_marker_click, this, m.get('id'))}>{m.get('address')}</button>
         </td>
         <td>
-          {m.get('is_open').toString()}
+          {m.get('rank')}
         </td>
-        <td></td>
+        <td>{m.get('balloon_visible').toString()}</td>
       </tr>)
     ).toJS();
     

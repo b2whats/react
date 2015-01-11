@@ -39,7 +39,9 @@ var actions_ = [
   ['autoservice_toggle_balloon', event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON],
   ['autoservice_close_balloon', event_names.kON_AUTOSERVICE_BY_ID_CLOSE_BALLOON],
   ['autoservice_show_phone', event_names.kON_AUTOSERVICE_BY_ID_SHOW_PHONE],
-  ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER]
+  ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER],
+  
+  ['autoservice_balloon_visible', event_names.kON_AUTOSERVICE_BY_ID_BALLOON_VISIBLE],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {
@@ -70,11 +72,28 @@ var query_autoservice_by_id = (region_text, id) => {
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
       
       markers = _.map(markers, (m, m_index) => 
-        _.extend( {is_open: false, show_phone: false}, //system
-                  {marker_color: kAUTOSERVICE_MARKER_COLOR, marker_z_index: m.rank, marker_base_z_index: m.rank , marker_type: kAUTOSERVICE_MARKER_TYPE, hint: kAUTOSERVICE_HINT + m.company_name}, //брать потом из базы
-                  {cluster_color: kAUTOSERVICE_CLUSTER_COLOR},
+        _.extend( {
+                    is_open: false,        //true если с этой метки открыт balloon или надо открыть-закрыть балун
+                    show_phone: false,     //показывать ли телефон
+                    balloon_visible: false //конкретно именно этот balloon открыт на экране, 
+                                           //в случае кластера может отличаться от is_open, 
+                                           //например открыли балун по одной метке и переместились стрелками в карусели кластер балуна на другой
+                                           //наличие этого поля объясняется неимоверной хреновостью yandex map api
+                  },
+                  {
+                    marker_color: kAUTOSERVICE_MARKER_COLOR, //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css                    
+                    marker_type: kAUTOSERVICE_MARKER_TYPE,   //пока не используется, а так это тип метки - автосервис или запчасть
+                    hint: kAUTOSERVICE_HINT + m.company_name //что показывать на метке
+                  },
+                  {
+                    cluster_color: kAUTOSERVICE_CLUSTER_COLOR //цвет иконки кластера
+                  },
                   m,
-                  {server_id:m.id, id: m.id + kAUTOSERVICE_DELTA_ID, icon_number:m.rank } ));
+                  {
+                    server_id:m.id,                   //настоящий id
+                    id: m.id + kAUTOSERVICE_DELTA_ID, //смещенный id
+                    icon_number: m.rank               //циферка на иконке
+                  } ));
 
 
       markers = _.sortBy(markers, m => m.rank);
@@ -85,7 +104,7 @@ var query_autoservice_by_id = (region_text, id) => {
 
       var res_converted = {header:res.header, markers:markers, results:results};
       
-      console.log('service res 2::: ', res_converted);
+      //console.log('service res 2::: ', res_converted);
       return res_converted;
     });
 };
