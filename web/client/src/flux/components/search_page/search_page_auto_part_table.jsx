@@ -43,9 +43,9 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.auto_part_marker_hover(id, hover_state, {update_same_address: false});
   },
 
-  on_hover_out() {
-  },
-  
+  on_show_phone (id) {
+    auto_part_by_id_actions.auto_part_show_phone(id);
+  },  
   //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
 
   render () {
@@ -128,7 +128,11 @@ var SearchPageAutoPartTable = React.createClass({
             
           </td>
           <td className="search-page-autopart-table-td-phone">
-            <button className="search-page-autopart-table-phone">Телефон</button>
+            { part.get('main_marker').get('show_phone') ? 
+            <div className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div> :
+            <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
+                    className="search-page-autopart-table-phone-button">Телефон</button> }
+          
           </td>
         </tr>
         )

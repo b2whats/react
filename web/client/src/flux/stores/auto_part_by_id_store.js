@@ -151,6 +151,17 @@ var cncl_ = [
       .cursor(['markers', index])
       .update(marker => marker.set('show_phone', true));
 
+
+    state_.results_sorted_cursor
+      .update( results => 
+        results.map( result => {
+          if(result.get('main_marker').get('id') === id) {            
+            result = result.updateIn(['main_marker'], marker =>  marker.set('show_phone', true));          
+          }          
+          return result;
+        } ) );
+
+
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
