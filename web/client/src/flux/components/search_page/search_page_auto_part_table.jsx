@@ -45,36 +45,51 @@ var SearchPageAutoPartTable = React.createClass({
 
   on_hover_out() {
   },
-
   
+  //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
 
   render () {
     /* jshint ignore:start */
     //is_hovered
     
-    var TrMarkers  = this.state.auto_part_results && this.state.auto_part_results.map(part => {
+    var TrMarkers  = this.state.auto_part_results && this.state.auto_part_results.map((part, part_index) => {
       
       var hover_class = cx({
         hovered_same_rank: part.get('is_hovered_same_rank'), //это значит кто то в табличке или на карте навелся на ранк X
         hovered_same_address: part.get('is_hovered_same_address')
       });
 
+      var stock_class_name = {};
+      stock_class_name['stock-num-'+part.get('stock')] = true;
+
+
+      /*m.get('balloon_visible').toString()*/
       return (
-        <tr key={part.get('id')}>
-          <td onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
-              onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)} 
-              onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
+        <tr onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
+            onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)}
+            key={part.get('id')}>
+          <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
               className={cx('search-page-autopart-table-td-rank', hover_class) }>
             <span className="search-page-autopart-table-rank">{part.get('rank')}</span>
           </td>
 
-          <td onMouseEnter={_.bind(this.on_hover, this, part.get('main_marker').get('id'), true)}
-              onMouseLeave={_.bind(this.on_hover, this, part.get('main_marker').get('id'), false)}
-              onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
-              className={cx('search-page-autopart-table-td-seller', hover_class)}>
+          <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
+              className={cx('search-page-autopart-table-td-seller', 'tooltip', hover_class)}>
 
             <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            <div className="search-page-autopart-table-company-address">{part.get('main_marker').get('address')}</div>
+            <div className="search-page-autopart-table-company-address">
+              {part.get('main_marker').get('address')}
+              { part_index == 0 ? (
+              <span className="tooltip-content">
+                <strong>От программиста</strong><br />
+                если наводимся на row то метка подсвечивается на карте, 
+                если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, 
+                а адрес если совпадает выделяем зеленым, наиболее хорошо это видно в Питере если искать volkswagen 5c5845011qnvb,
+                там у одной пятерки совпадает номер а у другой и номер и адрес 
+              </span> ) : ''}
+
+            </div>
+
           </td>
 
           <td className="search-page-autopart-table-td-manufacturer-code">
@@ -82,7 +97,39 @@ var SearchPageAutoPartTable = React.createClass({
             <div className="search-page-autopart-table-code">{part.get('code')}</div> 
           </td>
 
-          <td>{/*m.get('balloon_visible').toString()*/}</td>
+          <td className="search-page-autopart-table-td-part-description tooltip">
+            <div className="search-page-autopart-table-part-description">
+              {part.get('name')}
+              { part_index == 0 ? (
+              <span className="tooltip-content">
+                <strong>От программиста</strong><br />
+                Что то я не очень соображаю<br/> куда эта ссылка
+              </span>) : ''}
+            
+            </div>
+          </td>
+          <td className="search-page-autopart-table-td-info tooltip">
+            <span className={cx('search-page-autopart-table-info-used', cx({is_used: part.get('used')}))}></span>
+            <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
+              { part_index == 0 ? (
+              <span className="tooltip-content" style={ {width: '200px', 'margin-top': '7px', 'margin-left':'20px'} }>
+                <strong>От программиста</strong><br />
+                u - used, цифра - сток, все задано в css, надо иконки
+              </span>) : ''}
+          </td>
+          <td className="search-page-autopart-table-td-price tooltip">
+            <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
+            <div className="search-page-autopart-table-price-link">условия оплаты</div>
+              { part_index == 0 ? (
+              <span className="tooltip-content" style={ {width: '160px', 'margin-top': '-16px', 'margin-left':'100px'} }>
+                <strong>От программиста</strong><br />
+                условия куда ведут?
+              </span>) : ''}
+            
+          </td>
+          <td className="search-page-autopart-table-td-phone">
+            <button className="search-page-autopart-table-phone">Телефон</button>
+          </td>
         </tr>
         )
       }
@@ -98,7 +145,10 @@ var SearchPageAutoPartTable = React.createClass({
                       <th>#</th>
                       <th>Продавец</th>
                       <th>Производитель / Артикул</th>
-                      <th>Year</th>
+                      <th>Описание детали</th>
+                      <th>Инфо</th>
+                      <th>Цена</th>
+                      <th>Телефоны</th>
                   </tr>
               </thead>
 

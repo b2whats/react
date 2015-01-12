@@ -241,16 +241,32 @@
   th
     font-size: 12px
     vertical-align: middle
+    text-align: center
     &:nth-child(1)
       min-width: 20%
     &:nth-child(2)
       min-width: 200px
     &:nth-child(3)
-      min-width: 150px
+      min-width: 140px
+    &:nth-child(4)
+      min-width: 140px
+
+    &:nth-child(5)
+      min-width: 50px
+
+    &:nth-child(6)
+      background-color: #987DDA
+      color: white
+      min-width: 120px    
 
     &:last-child //судя по дизайну всегда едем по последнему столбцу
       width: 99%
   
+  &.pure-table-striped
+    tr:nth-child(2n) .search-page-autopart-table-td-price
+      background-color: #d3c1ff
+
+
   .search-page-autopart-table-td-rank
     .search-page-autopart-table-rank
       border: 1px solid #eee
@@ -289,7 +305,54 @@
       font-size: 12px
       color: #666    
 
+  .search-page-autopart-table-td-part-description
+    .search-page-autopart-table-part-description
+      font-size: 12px
+      color: #5F42A4
+  .search-page-autopart-table-td-price
+    background-color: #ded2fa
+    .search-page-autopart-table-price
+      text-align: center
+      font-weight: bold
+    
+    .search-page-autopart-table-price-link
+      text-align: center
+      font-size: 10px
+      color: #5F42A4
 
+  .search-page-autopart-table-td-phone
+    .search-page-autopart-table-phone
+      padding: 5px
+      font-size: 12px
+      width: 100%
+  .search-page-autopart-table-td-info
+    text-align: center
+    .search-page-autopart-table-info-used
+      display: none
+      &.is_used
+        display: inline
+        &:after
+          content: 'u'
+
+    .search-page-autopart-table-info-stock
+      &.stock-num-0
+        &:after
+          content: '0'
+      &.stock-num-1
+        &:after
+          content: '1'
+      &.stock-num-2
+        &:after
+          content: '2'
+      &.stock-num-3
+        &:after
+          content: '3'
+      &.stock-num-4
+        &:after
+          content: '4'
+      &.stock-num-5
+        &:after
+          content: '5'
 
 
 
