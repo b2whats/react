@@ -234,18 +234,62 @@
   //хак хрома
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC)
 
-.search-page-table
+.search-page-autopart-table
   width: 100%
-  border: 0  
+  border: 0
+  text-align: left  
   th
+    font-size: 12px
+    vertical-align: middle
     &:nth-child(1)
       min-width: 20%
-
     &:nth-child(2)
-      min-width: 300px
+      min-width: 200px
+    &:nth-child(3)
+      min-width: 150px
 
     &:last-child //судя по дизайну всегда едем по последнему столбцу
       width: 99%
+  
+  .search-page-autopart-table-td-rank
+    .search-page-autopart-table-rank
+      border: 1px solid #eee
+      padding: 2px 6px
+    &.hovered_same_rank
+      .search-page-autopart-table-rank
+        border-color: green
+        
+    &:hover
+      cursor: pointer
+      color: #666
+      .search-page-autopart-table-rank
+        color: #999
+
+  .search-page-autopart-table-td-seller
+    .search-page-autopart-table-company-name
+      //пусто
+    .search-page-autopart-table-company-address
+      font-size: 12px
+      color: #666
+    &.hovered_same_address
+      .search-page-autopart-table-company-address
+        color: green
+
+    &:hover
+      cursor: pointer
+      .search-page-autopart-table-company-name
+        color: #666
+      .search-page-autopart-table-company-address
+        color: #999
+
+  .search-page-autopart-table-td-manufacturer-code
+    .search-page-autopart-table-manufacturer
+      font-weight: bold
+    .search-page-autopart-table-code
+      font-size: 12px
+      color: #666    
+
+
 
 
 

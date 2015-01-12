@@ -42,6 +42,8 @@ var actions_ = [
   ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER],
   
   ['autoservice_balloon_visible', event_names.kON_AUTOSERVICE_BY_ID_BALLOON_VISIBLE],
+
+  ['autoservice_map_bounds_changed_by_user', event_names.kON_AUTOSERVICE_BY_ID_MAP_BOUNDS_CHANGED_BY_USER],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {

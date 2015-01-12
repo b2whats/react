@@ -43,6 +43,8 @@ var actions_ = [
   ['auto_part_marker_hover', event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER],
 
   ['auto_part_balloon_visible', event_names.kON_AUTO_PART_BY_ID_BALLOON_VISIBLE],
+
+  ['auto_part_map_bounds_changed_by_user', event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {
@@ -95,6 +97,14 @@ var query_auto_part_by_id = (region_text, id) => {
 
 
       var results = _.filter(res.results, m => m.user_id in map_user_id);
+      
+      results = _.map(results, res => _.extend({}, 
+        res, 
+        {
+          is_hovered_same_rank: false, //наведено на результат на карте или так
+          is_hovered_same_address: false
+        }));
+      
 
       var res_converted = {header:res.header, markers:markers, results:results};
 

@@ -24,7 +24,7 @@ var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_pe
 var r_regions_ = resource(api_refs.kREGIONS_QUERY_API);
 
 var actions_ = [
-  ['change_region_selection_visibility', event_names.kON_CHANGE_REGION_SELECTION]
+  ['change_region_selection_visibility', event_names.kON_CHANGE_REGION_SELECTION],
 ];
 
 
