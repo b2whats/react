@@ -56,7 +56,9 @@ var SearchPageAutoPartTable = React.createClass({
       
       var hover_class = cx({
         hovered_same_rank: part.get('is_hovered_same_rank'), //это значит кто то в табличке или на карте навелся на ранк X
-        hovered_same_address: part.get('is_hovered_same_address')
+        hovered_same_address: part.get('is_hovered_same_address'),
+        balloon_visible_same_rank: part.get('is_balloon_visible_same_rank'),
+        balloon_visible_same_address: part.get('is_balloon_visible_same_address')
       });
 
       var stock_class_name = {};
@@ -82,8 +84,8 @@ var SearchPageAutoPartTable = React.createClass({
               { part_index == 0 ? (
               <span className="tooltip-content">
                 <strong>От программиста</strong><br />
-                если наводимся на row то метка подсвечивается на карте, 
-                если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, 
+                если наводимся на row то метка подсвечивается на карте,
+                если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, если кликаем то по другому подсвечиваем,
                 а адрес если совпадает выделяем зеленым, наиболее хорошо это видно в Питере если искать volkswagen 5c5845011qnvb,
                 там у одной пятерки совпадает номер а у другой и номер и адрес 
               </span> ) : ''}
@@ -112,7 +114,7 @@ var SearchPageAutoPartTable = React.createClass({
             <span className={cx('search-page-autopart-table-info-used', cx({is_used: part.get('used')}))}></span>
             <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
               { part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '200px', 'margin-top': '7px', 'margin-left':'20px'} }>
+              <span className="tooltip-content" style={ {width: '200px', 'marginTop': '7px', 'marginLeft':'20px'} }>
                 <strong>От программиста</strong><br />
                 u - used, цифра - сток, все задано в css, надо иконки
               </span>) : ''}
@@ -121,7 +123,7 @@ var SearchPageAutoPartTable = React.createClass({
             <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
             <div className="search-page-autopart-table-price-link">условия оплаты</div>
               { part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '160px', 'margin-top': '-16px', 'margin-left':'100px'} }>
+              <span className="tooltip-content" style={ {width: '160px', 'marginTop': '-16px', 'marginLeft':'100px'} }>
                 <strong>От программиста</strong><br />
                 условия куда ведут?
               </span>) : ''}

@@ -102,7 +102,9 @@ var query_auto_part_by_id = (region_text, id) => {
         res, 
         {
           is_hovered_same_rank: false, //наведено на результат на карте или так
-          is_hovered_same_address: false
+          is_hovered_same_address: false,
+          is_balloon_visible_same_rank: false,
+          is_balloon_visible_same_address: false
         }));
       
 

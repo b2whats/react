@@ -274,7 +274,13 @@
     &.hovered_same_rank
       .search-page-autopart-table-rank
         border-color: green
-        
+    &.balloon_visible_same_rank
+      .search-page-autopart-table-rank
+        background-color: green
+        border-color: green
+        color: white
+
+
     &:hover
       cursor: pointer
       color: #666
@@ -288,6 +294,9 @@
       font-size: 12px
       color: #666
     &.hovered_same_address
+      .search-page-autopart-table-company-address
+        color: green
+    &.balloon_visible_same_address
       .search-page-autopart-table-company-address
         color: green
 

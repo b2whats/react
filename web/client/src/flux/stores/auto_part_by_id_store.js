@@ -174,9 +174,31 @@ var cncl_ = [
     var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
 
+    var marker_rank = state_.auto_part_data.get('markers').get(index).get('rank');
+
     state_.auto_part_data_cursor
       .cursor(['markers', index])
       .update(marker => marker.set('balloon_visible', visible));
+
+    
+    state_.results_sorted_cursor
+      .update( results => 
+        results.map( result => {
+          
+          if(result.get('rank') === marker_rank) {
+            result = result.set('is_balloon_visible_same_rank', visible);
+          }
+          
+          
+          if(result.get('main_marker').get('id') === id) {
+            result = result.set('is_balloon_visible_same_address', visible);
+          }
+        
+
+          return result;
+        } ) );
+    
+      
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
