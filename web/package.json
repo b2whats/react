@@ -39,6 +39,7 @@
     "yargs": "^1.2.6"
   },
   "devDependencies": {
+    "browserify": "^7.0.2",
     "exorcist": "^0.1.6",
     "fb-flo": "^0.4.0",
     "grunt": "~0.4.1",
@@ -55,7 +56,16 @@
     "grunt-markdown": "^0.6.1",
     "grunt-nodemon": "~0.1.1",
     "grunt-recess": "~0.4.0",
-    "reactify": "^0.16.0"
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.3",
+    "gulp-connect": "^2.2.0",
+    "gulp-html-replace": "^1.4.1",
+    "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-symlink": "^2.1.0",
+    "reactify": "^0.17.1",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.2.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
