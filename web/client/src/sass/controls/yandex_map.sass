@@ -17,15 +17,16 @@ ymaps[class*='cluster-carousel__content']
 .yandex-map-balloon  
   box-sizing: border-box
   position: relative
-  padding: 10px
+  //padding: 10px
   padding-left: 20px
   //max-width: 300px
   //min-width: 280px
-  width: 220px
+  width: 260px
+  height: 206px
   *
     box-sizing: border-box !important
   &.yandex-map-balloon-cluster
-    padding-left: 10px
+    padding-left: 0px
   .yandex-map-balloon-close-button
     position: absolute
     right: -12px
@@ -44,18 +45,63 @@ ymaps[class*='cluster-carousel__content']
 
 
   .yandex-map-balloon-title
+    @include valign-middle()
     height: 32px
     font-weight: bold
     color: black
     font-size: 14px
     margin-bottom: 10px
     overflow: hidden
-    text-shadow: 1px 1px 1px black
+    i
+      width: 20px
+      height: 30px
+      display: inline-block
+      margin-right: 5px
+
+  .yandex-map-balloon-company-name
+    font-weight: bold
+    color: black
+    font-size: 14px
+    height: 20px
 
   .yandex-map-balloon-address
     font-size: 12px
     min-height: 32px
     margin-bottom: 10px
+    color: #878787
+
+  .yandex-map-balloon-footer
+    border-top: 1px solid #eee
+    padding-top: 8px
+    font-size: 12px
+    .yandex-map-balloon-footer-left
+      width: 50%
+      text-align: left
+      display: inline-block
+      vertical-align: top
+      .yandex-map-balloon-footer-time-header
+        margin-bottom: 8px
+      .yandex-map-balloon-footer-time-line
+        .yandex-map-balloon-footer-time-line-date
+          font-weight: bold
+          width: 45px
+          display: inline-block
+        .yandex-map-balloon-footer-time-line-value
+          display: inline-block
+
+
+    .yandex-map-balloon-footer-right
+      .yandex-map-balloon-footer-time-header
+        margin-bottom: 8px
+      width: 50%
+      text-align: left
+      display: inline-block
+      vertical-align: top
+      padding-left: 10px
+      .yandex-map-balloon-footer-phone-line
+
+
+
   .yandex-map-balloon-phone-button
     height: 24px    
     color: black
@@ -67,10 +113,9 @@ ymaps[class*='cluster-carousel__content']
     text-align: center
     vertical-align: middle
 
-.autoservice-marker-type
-  .yandex-map-balloon-title
-    color: #F6D600
-
-.auto-part-marker-type
-  .yandex-map-balloon-title
-    color: #B7A6DE
+//.autoservice-marker-type
+//  .yandex-map-balloon-title
+//    color: #F6D600
+//.auto-part-marker-type
+//  .yandex-map-balloon-title
+//    color: #B7A6DE

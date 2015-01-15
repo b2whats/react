@@ -6,6 +6,37 @@ var yandex_templates_events = require('./yandex_templates_events.js');
 module.exports = (ymaps, on_balloon_event) => {
     var BalloonContentLayout = ymaps.templateLayoutFactory.createClass(
     '<div class="yandex-map-balloon yandex-map-balloon-cluster {{properties.marker_type}}">' +
+        '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button"></div> ' +
+        '<div class="yandex-map-balloon-title">' +         
+          '<i class="svg-icon_placemark-{{properties.marker_type}}"></i>' +         
+          '<span>Метка №{{properties.rank}}</span>' +
+        '</div> ' +        
+        '<div class="yandex-map-balloon-company-name">{{properties.company_name}}</div>' + 
+        '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
+        '<div class="yandex-map-balloon-footer">' +
+          '<div class="yandex-map-balloon-footer-left">' +
+            '<div class="yandex-map-balloon-footer-time-header">' +
+              'Время работы:'+
+            '</div>' +
+
+            '{% for operation_time in properties.operation_time %}' +
+              '<div class="yandex-map-balloon-footer-time-line">' + 
+                '<div class="yandex-map-balloon-footer-time-line-date">{{operation_time.date}}</div>'+
+                '<div class="yandex-map-balloon-footer-time-line-value">{{operation_time.value}}</div>'+
+              '</div>' +
+            '{% endfor %}' +
+
+          '</div>' +
+          '<div class="yandex-map-balloon-footer-right">' +
+            '<div class="yandex-map-balloon-footer-time-header">' +
+              'Телефоны:'+
+            '</div>' +
+            '<div class="yandex-map-balloon-footer-phone-line">' +
+              '{{properties.phone}}' +
+            '</div>' +
+          '</div>' +
+        '</div>' +        
+        /*
         '<div id="yandex-map-balloon-close-button" class="yandex-map-balloon-close-button"></div> ' + //пока оставлю вдруг пригадица
         '<div class="yandex-map-balloon-title">{{properties.company_name}}</div> ' +
         '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
@@ -13,7 +44,8 @@ module.exports = (ymaps, on_balloon_event) => {
           '<div class="yandex-map-balloon-phone-text">{{properties.phone}}</div>' +
         '{% else %}' + 
           '<div><button id="yandex-map-balloon-phone-button" class="yandex-map-balloon-phone-button">Показать телефон</button></div>' + 
-        '{% endif %}' +        
+        '{% endif %}' + 
+        */
     '</div>', {
 
     build () {

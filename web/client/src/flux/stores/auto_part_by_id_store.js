@@ -240,6 +240,7 @@ var cncl_ = [
   //---------------------------------------------------------------------
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_MARKER_HOVER, (id, hover_state, options) => { 
+
     if(!state_.auto_part_data) return;
 
     if(_.isArray(id)) {
