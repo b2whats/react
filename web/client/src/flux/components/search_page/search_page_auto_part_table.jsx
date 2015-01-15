@@ -8,7 +8,7 @@ var cx        = React.addons.classSet;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
-
+var PointerEventDisablerMixin = require('mixins/pointer_event_disabler_mixin.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 /* jshint ignore:end */
@@ -17,6 +17,7 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -33,7 +34,8 @@ var SearchPageAutoPartTable = React.createClass({
     className: PropTypes.string
   },
 
-  mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
+  mixins: [PureRenderMixin, RafBatchStateUpdateMixin, PointerEventDisablerMixin],
+
   
   on_marker_click(id) {
     auto_part_by_id_actions.close_all_and_open_balloon(id);
@@ -47,6 +49,7 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.auto_part_show_phone(id);
   },  
   //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
+
 
   render () {
     /* jshint ignore:start */
@@ -160,7 +163,7 @@ var SearchPageAutoPartTable = React.createClass({
     return (
       <div className={this.props.className}>
         <div className="search-page-table-border">
-          <table cellSpacing="0" className="pure-table pure-table-striped search-page-autopart-table">
+          <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autopart-table">
               <thead>
                   <tr>
                       <th>#</th>

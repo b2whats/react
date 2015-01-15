@@ -21,9 +21,7 @@ module.exports.unsubscribe = function(elt, event, fn) {
 };
 
 module.exports.subscribe_w_capture = function(elt, event, fn) {
-  elt.addEventListener(event, function(evt) {
-    fn(evt);
-  }, true);
+  elt.addEventListener(event, fn, true);
 };
 
 module.exports.add_class = function(elt, class_name) {
