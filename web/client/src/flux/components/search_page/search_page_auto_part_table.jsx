@@ -81,14 +81,14 @@ var SearchPageAutoPartTable = React.createClass({
             <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
             <div className="search-page-autopart-table-company-address">
               {part.get('main_marker').get('address')}
-              { part_index == 0 ? (
+              {/* part_index == 0 ? (
               <span className="tooltip-content">
                 <strong>От программиста</strong><br />
                 если наводимся на row то метка подсвечивается на карте,
                 если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, если кликаем то по другому подсвечиваем,
                 а адрес если совпадает выделяем зеленым, наиболее хорошо это видно в Питере если искать volkswagen 5c5845011qnvb,
                 там у одной пятерки совпадает номер а у другой и номер и адрес 
-              </span> ) : ''}
+              </span> ) : '' */}
 
             </div>
 

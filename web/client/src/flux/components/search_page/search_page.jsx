@@ -141,7 +141,7 @@ var SearchPage = React.createClass({
 
           <div className="search-page-right-block">
             {/*результаты поиска заголовок*/}
-            <SearchPageMapHeaderBlock />
+            
             <div className="search-page-container">
               <div className="wrap gutter-5-xs">
                 <div className="md-12-6 left-md search-page-info-header">              
@@ -169,6 +169,8 @@ var SearchPage = React.createClass({
                 <SearchPageAutoPartTable className="md-12-12" />
               </div>
             </div>
+
+            <SearchPageMapHeaderBlock />
           </div>  
         </div>
       </div>
