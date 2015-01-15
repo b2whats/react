@@ -36,8 +36,8 @@ var kOBJECT_MANAGER_OPTIONS = {
     geoObjectBalloonOffset:[3,-40],
     clusterBalloonOffset:[0,-24],
 
-    geoObjectBalloonAutoPanMargin: 50,
-    clusterBalloonAutoPanMargin: 50,
+    geoObjectBalloonAutoPanMargin: 10,
+    clusterBalloonAutoPanMargin: 10,
 
     geoObjectOpenBalloonOnClick: false,
     clusterOpenBalloonOnClick: false,
