@@ -137,14 +137,14 @@ var SearchPageAutoPartTable = React.createClass({
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                       className="search-page-autopart-table-phone-button btn-with-icon">
                   <i className="svg-icon_phone btn-svg-icon"></i>              
-                  Телефон
+                  <span>Телефон</span>
                 </button>
               </div>
               <div className="md-12-6">
               <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                     className="search-page-autopart-table-phone-button btn-with-icon">
                 <i className="svg-icon_mail btn-svg-icon"></i>              
-                Заявка
+                <span>Заявка</span>
               </button>
               </div>
             </div>
