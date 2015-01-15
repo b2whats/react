@@ -101,12 +101,12 @@ var SearchPageAutoPartTable = React.createClass({
 
           <td className="search-page-autopart-table-td-part-description tooltip">
             <div className="search-page-autopart-table-part-description">
-              {part.get('name')}
-              { part_index == 0 ? (
+              {part.get('name')} &nbsp;
+              {/* part_index == 0 ? (
               <span className="tooltip-content">
                 <strong>От программиста</strong><br />
                 Что то я не очень соображаю<br/> куда эта ссылка
-              </span>) : ''}
+              </span>) : '' */}
             
             </div>
           </td>
