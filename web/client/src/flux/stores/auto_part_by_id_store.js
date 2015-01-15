@@ -39,6 +39,8 @@ var sort_results_ = (results, center) => {
     return dx*dx + dy*dy;
   };
 
+  var marker_visible = state_.auto_part_data.get('markers').find(marker => marker.get('balloon_visible') === true );
+  var marker_visible_id = marker_visible && marker_visible.get('id');
   //сортировка результата по ближайшему маркеру в результате к центру
   return results
     .sortBy(result =>  result.get('markers') //отсортировать по ближайшему маркеру
@@ -46,11 +48,18 @@ var sort_results_ = (results, center) => {
           distance_to_center(marker.get('coordinates')))
         .min())
     .map(result =>  //поменять main_marker на ближайший
-      result.set('main_marker', 
-        result.get('markers')
-          .minBy( marker => 
-            distance_to_center(marker.get('coordinates')))));
+      result
+        .set('main_marker', 
+          result.get('markers')
+            .minBy( marker => 
+              distance_to_center(marker.get('coordinates')))))
 
+    .map(result =>  //выставить правильную видимость если открыт балун
+      result
+        .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')));
+
+
+    //is_balloon_visible_same_rank
 };
 
 
