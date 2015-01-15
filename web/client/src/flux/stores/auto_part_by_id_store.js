@@ -30,10 +30,27 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   map_center: null
 });
 
+
 var sort_results_ = (results, center) => {
   //пока затычка 
-  console.log('resort'); 
-  return results;  
+  var distance_to_center = (coordinates) => {
+    var dx = center.get(0) - coordinates.get(0);
+    var dy = center.get(1) - coordinates.get(1);
+    return dx*dx + dy*dy;
+  };
+
+  //сортировка результата по ближайшему маркеру в результате к центру
+  return results
+    .sortBy(result =>  result.get('markers') //отсортировать по ближайшему маркеру
+        .map(marker => 
+          distance_to_center(marker.get('coordinates')))
+        .min())
+    .map(result =>  //поменять main_marker на ближайший
+      result.set('main_marker', 
+        result.get('markers')
+          .minBy( marker => 
+            distance_to_center(marker.get('coordinates')))));
+
 };
 
 
@@ -62,7 +79,7 @@ var cncl_ = [
 
     if(state_.map_center !== null) {
       state_.results_sorted_cursor
-        .update( () => sort_results_(state_.results_sorted, state_.map_center));
+        .update( results_sorted => sort_results_(results_sorted, state_.map_center));
     }
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
@@ -147,17 +164,25 @@ var cncl_ = [
     var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
 
+    var marker_rank = state_.auto_part_data.get('markers').get(index).get('rank');
+
     state_.auto_part_data_cursor
-      .cursor(['markers', index])
-      .update(marker => marker.set('show_phone', true));
-
-
+      .cursor(['markers'])
+      .update(markers => 
+        markers.map(marker => 
+          marker.get('rank') === marker_rank ? marker.set('show_phone', true) : marker));
+    
     state_.results_sorted_cursor
       .update( results => 
         results.map( result => {
-          if(result.get('main_marker').get('id') === id) {            
-            result = result.updateIn(['main_marker'], marker =>  marker.set('show_phone', true));          
-          }          
+          //if(result.get('main_marker').get('id') === id) {
+          if(result.get('rank') === marker_rank) {
+            result = result.updateIn(['main_marker'], marker =>  marker.set('show_phone', true));
+
+            result = result.updateIn(['markers'], markers => 
+              markers.map(marker => 
+                marker.set('show_phone', true)));
+          }
           return result;
         } ) );
 
@@ -265,14 +290,13 @@ var cncl_ = [
   .on(event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom) => { 
     
     state_.map_center_cursor
-      .update(() => center);
+      .update(() => immutable.fromJS(center));
     
     if(!state_.results_sorted) return;
 
     state_.results_sorted_cursor
-      .update( () => sort_results_(state_.results_sorted, state_.map_center));
-    
-  
+      .update( results_sorted => sort_results_(results_sorted, state_.map_center));
+      
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
 
