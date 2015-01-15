@@ -16,6 +16,7 @@ grunt.loadNpmTasks('grunt-contrib-sass');
 grunt.loadNpmTasks('grunt-cache-breaker');
 grunt.loadNpmTasks('grunt-exec');
 grunt.loadNpmTasks('grunt-markdown');
+grunt.loadNpmTasks('grunt-grunticon');
 //grunt.loadNpmTasks('grunt-autoprefixer');
 
 
@@ -49,7 +50,7 @@ grunt.registerTask('production',['set_config:build.dev_build_dir:client/build/de
 
 //grunt.registerTask('test2',['exec:browserify_app_exorcist']);
 
-grunt.registerTask('default',['exec:browserify_vendor', 'exec:browserify_app_exorcist', 'execute_fb_flo', 'watchify_task', 'watch:touch_sass_html_md']);
+grunt.registerTask('default',['grunticon:svg_icons', 'exec:browserify_vendor', 'exec:browserify_app_exorcist', 'execute_fb_flo', 'watchify_task', 'watch:touch_sass_html_md']);
 
 grunt.registerTask('server', ['devscripts', 'execute_fb_flo', 'watchify_task', 'watch:all']);
 
@@ -96,7 +97,9 @@ grunt.initConfig({
      
      md_files: '<%= src.dev_src %>/docs/', //документация
      md_files_tmp: '<%= build.dev_build_dir %>/tmp/docs',
-     md_files_out: '<%= build.dev_build_dir %>/docs'
+     md_files_out: '<%= build.dev_build_dir %>/docs',
+
+     svg_icons: '<%= src.g_assets_dir %>/icons/svg/'
   },
 
   build:{
@@ -105,6 +108,7 @@ grunt.initConfig({
     js_dir: '<%= build.dev_build_dir %>js/',    
     vendor_js: '<%= build.js_dir %>vendor.js',
     app_js: '<%= build.js_dir %>app.js',
+    svg_icons: '<%= build.dev_build_dir %>icons/'
   },
 
 
@@ -210,6 +214,20 @@ grunt.initConfig({
           gfm: true,
           highlight: 'manual'
         }
+      }
+    }
+  },
+
+  grunticon: {
+    svg_icons: {
+      files: [{
+          expand: true,
+          cwd: '<%= src.svg_icons %>',
+          src: ['*.svg', '*.png'],
+          dest: "<%= build.svg_icons %>"
+      }],
+      options: {
+        cssprefix: ".svg-"
       }
     }
   },

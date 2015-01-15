@@ -129,11 +129,26 @@ var SearchPageAutoPartTable = React.createClass({
               </span>) : ''}
             
           </td>
-          <td className="search-page-autopart-table-td-phone">
+          <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
             { part.get('main_marker').get('show_phone') ? 
             <div className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div> :
-            <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                    className="search-page-autopart-table-phone-button">Телефон</button> }
+           (<div className="wrap gutter-2-xs">
+              <div className="md-12-6">
+                <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
+                      className="search-page-autopart-table-phone-button btn-with-icon">
+                  <i className="svg-icon_phone btn-svg-icon"></i>              
+                  Телефон
+                </button>
+              </div>
+              <div className="md-12-6">
+              <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
+                    className="search-page-autopart-table-phone-button btn-with-icon">
+                <i className="svg-icon_mail btn-svg-icon"></i>              
+                Заявка
+              </button>
+              </div>
+            </div>
+            ) }
           
           </td>
         </tr>

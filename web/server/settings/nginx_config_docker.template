@@ -50,7 +50,7 @@ server {
     }
 
     #standart build
-    location ~ ^/(js/|lcss/|docs/) {
+    location ~ ^/(js/|lcss/|docs/|icons/) {
       #gzip_static on;
       root {DIR}/build/dev;
       access_log off;
