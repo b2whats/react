@@ -27,7 +27,10 @@ var kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY =  sc.kON_AUTO_PART_BY_I
 var state_ =  init_state(_.last(__filename.split('/')), {
   auto_part_data: null,
   results_sorted: null,
-  map_center: null
+  map_center: null,
+  
+  page_num: 0,
+  items_per_page: 5
 });
 
 
@@ -57,18 +60,45 @@ var sort_results_ = (results, center) => {
     .map(result =>  //выставить правильную видимость если открыт балун
       result
         .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')));
-
-
-    //is_balloon_visible_same_rank
 };
 
 
 var cncl_ = [
+
+
+  
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_CHANGE_PAGE, page_num => {
+
+    state_.page_num_cursor
+      .update( () => page_num);
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
+  
+
+  main_dispatcher
+  .on(event_names.kON_AUTO_PART_BY_ID_CHANGE_ITEMS_PER_PAGE, items_per_page => {  
+
+    state_.items_per_page_cursor
+      .update( () => items_per_page);
+
+    state_.page_num_cursor
+      .update( () => 0);
+
+    auto_part_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
+  //-------------------------------------------------------------------------------
+
+
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_DATA_LOADED, (auto_part_data) => {  
 
     state_.auto_part_data_cursor
       .update(() => immutable.fromJS(auto_part_data));
+
+    state_.page_num_cursor //выставлять при загрузке 0 страничку
+      .update( () => 0);
 
 
     var user_id_2_markers_list = state_.auto_part_data.get('markers').reduce( (r, m) => {
@@ -340,6 +370,19 @@ var auto_part_by_id_store = merge(Emitter.prototype, {
   get_auto_part_results () {
     return state_.results_sorted;
   },
+
+  get_page_num () {
+    return state_.page_num
+  },
+
+  get_items_per_page () {
+    return state_.items_per_page
+  },
+
+  get_results_count () {
+    return state_.results_sorted && state_.results_sorted.size
+  },
+
 
   dispose () {
     if(cncl_) {

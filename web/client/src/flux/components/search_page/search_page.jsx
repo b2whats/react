@@ -131,47 +131,14 @@ var SearchPage = React.createClass({
         
         {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}
         <div ref='main_content' className="search-page-main-fixed">
-                    
-          {/*карта с заголовком*/}
-          
-            
+                                
           <SearchPageYandexMap className="search-page-left-block">
           </SearchPageYandexMap>
 
-
-          <div className="search-page-right-block">
-            {/*результаты поиска заголовок*/}
-            
-            <div className="search-page-container">
-              <div className="wrap gutter-5-xs">
-                <div className="md-12-6 left-md search-page-info-header">              
-                    <span>Найдено</span>&nbsp;
-                    <strong>123</strong>&nbsp;
-                    <span>предложений</span>              
-                </div>
-                
-                <div className="md-12-6 right-md search-page-info-header">              
-                    <span>Показывать по</span>
-                    <span className="pager-buttons">
-                      <a href="">1</a>
-                      <a href="">2</a>
-                      <a href="">...</a>
-                      <a href="">30</a>
-                    </span>              
-                </div>
-              </div>
-            </div>
-
-            {/*результаты поиска таблички*/}
-
-            <div className="search-page-container">
-              <div className="wrap gutter-5-xs">
-                <SearchPageAutoPartTable className="md-12-12" />
-              </div>
-            </div>
-
-            <SearchPageMapHeaderBlock />
-          </div>  
+          <div className="search-page-right-block">            
+            <SearchPageAutoPartTable />            
+            {/*<SearchPageMapHeaderBlock />*/}
+          </div>
         </div>
       </div>
     );

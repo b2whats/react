@@ -224,7 +224,19 @@
   .pager-buttons
     margin-left: 10px
 
-
+.search-page-info-pager
+  margin-top: 15px
+  font-size: 13px !important
+  height: 28px //запас карман не тянет
+  @include valign-middle()
+  .pager-buttons
+    margin-left: 10px
+    a
+      border: none
+      &:first-child
+        border-radius: 0
+      &:last-child
+        border-radius: 0
 
 //---------таблички-----------------------------------------------------------------------------------------------
 //из за колапседов и бага хрома когда контент выежает за уголки сделать бордер у вышестоящего

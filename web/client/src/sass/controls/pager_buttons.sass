@@ -2,9 +2,13 @@
 
 .pager-buttons
   a
-    //display: inline-block
+    display: inline-block
+    width: 30px
     color: #2A2A2A
-    padding: 5px 10px
+    padding: 5px 0
+    text-align: center
+    background-color: white
+
     @-moz-document url-prefix()        
       padding-top: 7px
 
@@ -21,3 +25,11 @@
     &:hover
       background-color: #eee
 
+    &.active, &.active:hover
+      background-color: #999
+      color: white
+    &.disabled
+      color: #eee
+      cursor: not-allowed
+      &:hover
+        background-color: white

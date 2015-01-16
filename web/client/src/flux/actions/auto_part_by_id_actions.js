@@ -45,6 +45,10 @@ var actions_ = [
   ['auto_part_balloon_visible', event_names.kON_AUTO_PART_BY_ID_BALLOON_VISIBLE],
 
   ['auto_part_map_bounds_changed_by_user', event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER],
+  
+  ['auto_part_change_items_per_page', event_names.kON_AUTO_PART_BY_ID_CHANGE_ITEMS_PER_PAGE],
+  ['auto_part_change_page', event_names.kON_AUTO_PART_BY_ID_CHANGE_PAGE],
+  
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {

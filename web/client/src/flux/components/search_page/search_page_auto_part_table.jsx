@@ -11,6 +11,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var PointerEventDisablerMixin = require('mixins/pointer_event_disabler_mixin.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
+var Pager = require('components/pager/pager.jsx');
 /* jshint ignore:end */
 
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
@@ -18,15 +19,20 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 
+var text_utils = require('utils/text.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  //auto_part_markers: auto_part_by_id_store.get_auto_part_markers(),
-  auto_part_results: auto_part_by_id_store.get_auto_part_results()
+  auto_part_results: auto_part_by_id_store.get_auto_part_results(),
+  page_num:          auto_part_by_id_store.get_page_num(),
+  items_per_page:    auto_part_by_id_store.get_items_per_page(),
+  results_count:     auto_part_by_id_store.get_results_count()
 }),
 auto_part_by_id_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
+var kITEMS_PER_PAGE = [1,2,5,10,11,20];
+var kPAGES_ON_SCREEN = 3; //сколько циферок показывать прежде чем показать ...
 
 
 var SearchPageAutoPartTable = React.createClass({
@@ -49,13 +55,34 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.auto_part_show_phone(id);
   },  
   //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
+  on_change_items_per_page (items_num, e) {
+    auto_part_by_id_actions.auto_part_change_items_per_page(items_num);
+    event.preventDefault();
+    event.stopPropagation();
+  },
+
+  on_page_click (page_num) {
+    auto_part_by_id_actions.auto_part_change_page(page_num);
+  },
+
 
 
   render () {
     /* jshint ignore:start */
     //is_hovered
     
-    var TrMarkers  = this.state.auto_part_results && this.state.auto_part_results.map((part, part_index) => {
+    var page_num = this.state.page_num;
+    var results_count = this.state.results_count;
+    var items_per_page = this.state.items_per_page;
+
+    var items_from = items_per_page*page_num;
+    var items_to =   items_per_page*(page_num + 1);
+
+
+    var TrMarkers  = this.state.auto_part_results && 
+    this.state.auto_part_results
+    .filter((part, part_index) => part_index >= items_from && part_index < items_to)
+    .map((part, part_index) => {
       
       var hover_class = cx({
         hovered_same_rank: part.get('is_hovered_same_rank'), //это значит кто то в табличке или на карте навелся на ранк X
@@ -116,20 +143,20 @@ var SearchPageAutoPartTable = React.createClass({
           <td className="search-page-autopart-table-td-info tooltip">
             <span className={cx('search-page-autopart-table-info-used', cx({is_used: part.get('used')}))}></span>
             <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
-              { part_index == 0 ? (
+              {/* part_index == 0 ? (
               <span className="tooltip-content" style={ {width: '200px', 'marginTop': '7px', 'marginLeft':'20px'} }>
                 <strong>От программиста</strong><br />
                 u - used, цифра - сток, все задано в css, надо иконки
-              </span>) : ''}
+              </span>) : ''*/}
           </td>
           <td className="search-page-autopart-table-td-price tooltip">
             <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
             <div className="search-page-autopart-table-price-link">условия оплаты</div>
-              { part_index == 0 ? (
+              {/* part_index == 0 ? (
               <span className="tooltip-content" style={ {width: '160px', 'marginTop': '-16px', 'marginLeft':'100px'} }>
                 <strong>От программиста</strong><br />
                 условия куда ведут?
-              </span>) : ''}
+              </span>) : ''*/}
             
           </td>
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
@@ -159,9 +186,37 @@ var SearchPageAutoPartTable = React.createClass({
       }
     ).toJS();
     
-    
+    //page_num
+    //items_per_page
+    //results_count
+    var ItemsPerPage = _.map(kITEMS_PER_PAGE, item_per_page => 
+      <a  key={item_per_page} 
+          href=""
+          className={item_per_page===this.state.items_per_page ? 'active' : null}
+          onClick={_.bind(this.on_change_items_per_page, this, item_per_page)} >
+            {item_per_page}
+      </a>);
+
+
     return (
       <div className={this.props.className}>
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <div className="md-12-6 left-md search-page-info-header">              
+                <span>Найдено</span>&nbsp;
+                <strong>{this.state.results_count}</strong>&nbsp;
+                <span>{['предложение', 'предложения', 'предложений'][text_utils.decl_num(this.state.results_count)]}</span>
+            </div>
+            
+            <div className="md-12-6 right-md search-page-info-header">              
+                <span>Показывать по</span>
+                <span className="pager-buttons">
+                  {ItemsPerPage}
+                </span>              
+            </div>
+          </div>
+        </div>
+
         <div className="search-page-table-border">
           <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autopart-table">
               <thead>
@@ -180,7 +235,25 @@ var SearchPageAutoPartTable = React.createClass({
                 {TrMarkers}
               </tbody>
           </table>
+        </div>      
+      
+        <div className="search-page-container">
+          <div className="wrap gutter-5-xs">
+            <div className="md-12-12 right-md search-page-info-pager noselect">
+              <span>Страница</span>
+              <Pager  className="pager-buttons"
+                      page_num={this.state.page_num}
+                      items_per_page={this.state.items_per_page}
+                      results_count={this.state.results_count} 
+                      pages_on_screen={kPAGES_ON_SCREEN} 
+                      on_click={this.on_page_click}/>
+            </div>
+          </div>
         </div>
+      
+
+
+
       </div>
     );
     /* jshint ignore:end */
