@@ -71,7 +71,7 @@ var cncl_ = [
 
     var index  = state_.autoservice_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) {
-      if(state_.autoservice_data.get('markers').findIndex(marker => marker.get('is_open') === true )) {
+      if(state_.autoservice_data.get('markers').findIndex(marker => marker.get('is_open') === true ) > -1) {
         state_.autoservice_data_cursor
         .cursor(['markers'])
         .update(markers => 

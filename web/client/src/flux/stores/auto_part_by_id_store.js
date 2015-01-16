@@ -131,9 +131,10 @@ var cncl_ = [
     var index  = state_.auto_part_data.get('markers').findIndex(marker => {
       return marker.get('id') === id;
     });
+
     if (index < 0) {
-    
-      if(state_.auto_part_data.get('markers').findIndex(marker => marker.get('is_open') === true )) {
+      
+      if(state_.auto_part_data.get('markers').findIndex(marker => marker.get('is_open') === true ) > -1) {
         state_.auto_part_data_cursor
         .cursor(['markers'])
         .update(markers => 
@@ -152,6 +153,7 @@ var cncl_ = [
             (marker.get('is_open') === false ? marker : marker.set('is_open', false)) ));
 
     }
+
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
