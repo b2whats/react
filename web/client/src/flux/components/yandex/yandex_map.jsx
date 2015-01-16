@@ -194,7 +194,7 @@ var YandexMap = React.createClass({
     var kTIME_USER_BOUND_CHANGED_EPSILON = 1000; //секунда
     //тут надо отделить юзерские события от неюзерских
     if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {
-      //console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'));    
+      console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'));    
       this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'));
     }
   
@@ -204,17 +204,20 @@ var YandexMap = React.createClass({
   },
   
   mouse_down () {
+    console.log('mdown');
     this.mouse_is_down = true;
     this.move_after_down_timer = 0;
   },
   
   mouse_move () {    
     if(this.mouse_is_down) {
+      console.log('move');
       this.move_after_down_timer = (new Date()).getTime();
     }
   },
   
   mouse_wheel () {
+    console.log('wheel');
     this.move_after_down_timer = (new Date()).getTime();
   },
 
