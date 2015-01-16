@@ -125,8 +125,8 @@ gulp.task('init', ['create-symlink','dev-js', 'vendor-js','sass'], function() {
 
 
 
-gulp.task('s', function () {
-    return gulp.src('./client/assets/images/svg/*.svg')
+gulp.task('svg-convert', function () {
+    return gulp.src('./client/assets/icons/svg/*.svg')
         .pipe(svgSymbols({
             templates: ['default-css']
         }))
