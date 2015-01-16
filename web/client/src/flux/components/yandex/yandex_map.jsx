@@ -85,8 +85,10 @@ var YandexMap = React.createClass({
   
   componentWillMount() {
     this.yamap = null;
+    this.move_position = null;
     this.move_after_down_timer = 0;
-    this.mouse_is_down = false;
+    this.mouse_is_down = null;
+    this.mouse_move_delta = 0;
 
     this.event_freezed = false;
   },
@@ -192,26 +194,37 @@ var YandexMap = React.createClass({
   //и так как меня волнуют изменения только центра то я не отлавливаю юзерские клики по кнопкам зума
   on_boundschange (e) {
     var kTIME_USER_BOUND_CHANGED_EPSILON = 1000; //секунда
-    //тут надо отделить юзерские события от неюзерских
-    if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {
-      console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'));    
-      this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'));
+    var kMOUSE_MOVE_EPS = 20;
+    //тут надо отделить юзерские события от неюзерских    
+    if(this.move_position && this.mouse_is_down) {
+      this.mouse_move_delta = Math.sqrt(Math.pow(this.move_position[0] - this.mouse_is_down[0], 2) + Math.pow(this.move_position[1] - this.mouse_is_down[1], 2));
     }
-  
+
+    if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {      
+      if(this.mouse_move_delta > kMOUSE_MOVE_EPS) {
+        console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), 'md', this.mouse_move_delta); 
+        this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'));
+      }
+    }  
   },
 
   mouse_up () {
+    if(this.move_position) {
+      this.mouse_move_delta = Math.sqrt(Math.pow(this.move_position[0] - this.mouse_is_down[0], 2) + Math.pow(this.move_position[1] - this.mouse_is_down[1], 2));
+    }    
+    this.mouse_is_down = null;
   },
   
-  mouse_down () {
-    console.log('mdown');
-    this.mouse_is_down = true;
+  mouse_down (e) {
+    this.mouse_move_delta = 0;
+    this.mouse_is_down = [e.pageX, e.pageY];
+    this.move_position = null;
     this.move_after_down_timer = 0;
   },
   
-  mouse_move () {    
+  mouse_move (e) {
     if(this.mouse_is_down) {
-      console.log('move');
+      this.move_position = [e.pageX, e.pageY];
       this.move_after_down_timer = (new Date()).getTime();
     }
   },
