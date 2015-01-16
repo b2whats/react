@@ -12,11 +12,12 @@ var symlink = require('gulp-symlink');
 var rename = require("gulp-rename");
 var sass = require('gulp-ruby-sass');
 var connect = require('gulp-connect');
-
-
+var svgmin = require('gulp-svgmin');
+var svgSymbols = require('gulp-svg-symbols');
 var destination = './client/dist/',
     destination_js = destination + 'js',
-    destination_css = destination + 'css';
+    destination_css = destination + 'css',
+    destination_svg = destination + 'svg';
 
 var libs = [
     'react/addons',
@@ -122,3 +123,13 @@ gulp.task('init', ['create-symlink','dev-js', 'vendor-js','sass'], function() {
         .pipe(gulp.dest(destination));
 });
 
+
+
+gulp.task('s', function () {
+    return gulp.src('./client/assets/images/svg/*.svg')
+        .pipe(svgSymbols({
+            templates: ['default-css']
+        }))
+        .pipe(rename('svg.css'))
+        .pipe(gulp.dest(destination_css));
+});
