@@ -5,6 +5,13 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
+
+var trace = () => {
+  if(false) {  
+    console.log.apply(console, [].slice.call(arguments))
+  }
+};
+
 var YandexMapMarker = React.createClass({
   propTypes: {
     object_manager: PropTypes.object.isRequired,
@@ -34,6 +41,7 @@ var YandexMapMarker = React.createClass({
 
     if(_.isEqual(next_props, this.props)) return;
 
+
     var next_properties = this.get_nonsystem_props (next_props);
 
     var curr_propertis = this.get_nonsystem_props (this.props);
@@ -46,12 +54,16 @@ var YandexMapMarker = React.createClass({
     
     var cluster_id = obj_state.isClustered && obj_state.cluster.id;
     
+
     if(!_.isEqual(next_properties, curr_propertis)) { //вот эта строчка форсит перечитать не только options но и остальные данные
       var opts = this.get_options(next_props);
-      this.props.object_manager.objects.setObjectOptions(next_props.id, opts);
-            
+
       if(cluster_id) {
-        this.props.object_manager.clusters.setClusterOptions(cluster_id, this.get_options(next_props));
+        //trace('cluster set options ', next_props.id, JSON.stringify(opts));
+        this.props.object_manager.clusters.setClusterOptions(cluster_id, opts);
+      } else {
+        //trace('marker set options ', next_props.id, JSON.stringify(opts));
+        this.props.object_manager.objects.setObjectOptions(next_props.id, opts);
       }
     }
 
@@ -60,7 +72,7 @@ var YandexMapMarker = React.createClass({
     //console.log(balloon_data);
     var balloon_id_eq = balloon_data && (cluster_id ? _.some(balloon_data.properties.geoObjects, g => g.id === next_props.id ) : (balloon_data.id === next_props.id));
 
-    
+    //console.log('next_props.id', next_props.id, balloon_data, balloon_id_eq, ', next_props.is_open', next_props.is_open, ', this.props.is_open',this.props.is_open);
     if(balloon_data) {
       if(balloon_id_eq) {
         //переоткрыть так как данные балуна изменились находу
@@ -72,17 +84,21 @@ var YandexMapMarker = React.createClass({
                 var obj_data = this.props.object_manager.objects.getById(next_props.id);            
                 _.extend(obj_data.properties, next_properties);
                 this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.clusters.state.get('activeObject'));
+                trace('0 cluster set active object ', next_props.id, next_props.is_open);
               } else {
                 var obj_data = this.props.object_manager.objects.balloon.getData();
                 _.extend(obj_data.properties, next_properties);
                 this.props.object_manager.objects.balloon.setData(obj_data);
+                trace('0 balloon.setData ', next_props.id, next_props.is_open);
               }
 
             } else {
               if(cluster_id) {                
                 this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.objects.getById(next_props.id));
                 this.props.object_manager.clusters.balloon.open(cluster_id);
+                trace('1 cluster balloon open ', next_props.id, next_props.is_open);
               } else {
+                trace('1 balloon open ', next_props.id, next_props.is_open);
                 this.props.object_manager.objects.balloon.open(next_props.id);
               }            
             }
@@ -91,26 +107,39 @@ var YandexMapMarker = React.createClass({
           if(cluster_id) {
             
             if(this.props.is_open === true) {
+              trace('2 cluster balloon close ', next_props.id, next_props.is_open);
               this.props.object_manager.clusters.balloon.close(cluster_id);
             } else {
-              //если кластер открыт а он открыт тут то тоже обновить данные
+              //если кластер открыт а он открыт тут то тоже обновить данные при условии чт балун в кластере
                 var obj_data = this.props.object_manager.objects.getById(next_props.id);            
                 _.extend(obj_data.properties, next_properties);
                 this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.clusters.state.get('activeObject'));
+                trace('2 cluster set activeObject ', next_props.id, next_props.is_open);
             }
           
           } else {
+            trace('2 balloon close ', next_props.id, next_props.is_open);
             this.props.object_manager.objects.balloon.close(next_props.id);
           }
         }
       } else {
         if(next_props.is_open === true) {
           if(cluster_id) {
+            this.props.event_freezer();
+            this.props.object_manager.objects.balloon.close(next_props.id, true);
+
             this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.objects.getById(next_props.id));
             this.props.object_manager.clusters.balloon.open(cluster_id);
+            trace('4 cluster open ', next_props.id, next_props.is_open);
+
+            setTimeout(() => {
+              this.props.event_unfreezer();
+            }, 100);
+
           } else {
             this.props.object_manager.objects.balloon.close(balloon_data.id);
             this.props.object_manager.objects.balloon.open(next_props.id);
+            trace('4 close open ballonn', next_props.id, next_props.is_open);
           }
         }
       }
@@ -119,8 +148,10 @@ var YandexMapMarker = React.createClass({
         if(cluster_id) {
           this.props.object_manager.clusters.state.set('activeObject', this.props.object_manager.objects.getById(next_props.id));
           this.props.object_manager.clusters.balloon.open(cluster_id);
+          trace('5 cluster setActiveObject and open ballonn', next_props.id, next_props.is_open);
         } else {
-          this.props.object_manager.objects.balloon.open(next_props.id);
+          trace('5 open ballonn', next_props.id);
+          this.props.object_manager.objects.balloon.open(next_props.id, next_props.is_open);
         }
       
       }

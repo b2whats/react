@@ -48,7 +48,7 @@ var actions_ = [
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {
-  main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON);
+  main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON);  
   setTimeout( () => {
     main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_TOGGLE_BALLOON, id);
   }, 200);

@@ -11,6 +11,11 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var YandexMapMap = require('./yandex_map_map.jsx');
 /* jshint ignore:end */
 
+var trace = () => {
+  if(false) {  
+    console.log.apply(console, [].slice.call(arguments))
+  }
+};
 
 var ymap_loader = require('third_party/yandex_maps.js');
 
@@ -36,7 +41,7 @@ var kOBJECT_MANAGER_OPTIONS = {
     geoObjectBalloonOffset:[3,-40],
     clusterBalloonOffset:[0,-24],
 
-    geoObjectBalloonAutoPanMargin: 10,
+    geoObjectBalloonAutoPanMargin: 40,
     clusterBalloonAutoPanMargin: 10,
 
     geoObjectOpenBalloonOnClick: false,
@@ -82,6 +87,8 @@ var YandexMap = React.createClass({
     this.yamap = null;
     this.move_after_down_timer = 0;
     this.mouse_is_down = false;
+
+    this.event_freezed = false;
   },
   
   on_marker_click(e) {
@@ -97,8 +104,18 @@ var YandexMap = React.createClass({
     }    
   },
 
+  event_freezer () {
+    this.event_freezed = true;
+  },
+  
+  event_unfreezer () {
+    this.event_freezed = false;
+  },
+
   on_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен
+    if (this.event_freezed) return;
     var object_id = e.get('objectId');
+    trace('balloon closed ', object_id);
     this.props.on_close_ballon_click && this.props.on_close_ballon_click(object_id); //jshint ignore:line
   },
 
@@ -112,16 +129,24 @@ var YandexMap = React.createClass({
   },
 
   on_cluster_balloon_closed (e) { //яндекс порой сам закрывает балун  например при муве карты сильном поэтому метод нужен    
-    var object_id = e.get('objectId');
-    var cluster = this.state.object_manager.clusters.getById(object_id);
-    if(cluster) {
-      var objs = _.filter(cluster.properties.geoObjects, g => g.properties.is_open);
-    
-      if(objs) {
-        _.each(objs, o => {
-          this.props.on_close_ballon_click && this.props.on_close_ballon_click(o.id)
-        });
+    //if (this.event_freezed) return;
+    try {
+
+      var object_id = e.get('objectId');
+      var cluster = this.state.object_manager.clusters.getById(object_id);
+      if(cluster) {
+        var objs = _.filter(cluster.properties.geoObjects, g => g.properties.is_open);
+      
+        if(objs) {
+          _.each(objs, o => {
+            this.props.on_close_ballon_click && this.props.on_close_ballon_click(o.id);
+            trace('cluster balloon closed closed', o.id);
+          });
+        }
       }
+    } catch(e) {
+      console.error(e);
+      console.error(e.stack());
     }
   },
   
@@ -133,6 +158,7 @@ var YandexMap = React.createClass({
     if(objs) {
       _.each(objs, o => {
         this.props.on_close_ballon_click && this.props.on_close_ballon_click(o.id)
+        trace('cluster balloon closed ', o.id);
       });
     }
   },
@@ -303,7 +329,12 @@ var YandexMap = React.createClass({
 
   render () {
     var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => //jshint ignore:line
-      React.addons.cloneWithProps(child, {object_manager: this.state.object_manager, key: child.key})) : null;
+      React.addons.cloneWithProps(child, 
+        {
+          object_manager: this.state.object_manager,
+          key: child.key,
+          event_freezer: this.event_freezer,
+          event_unfreezer: this.event_unfreezer})) : null;
     /* jshint ignore:start */
     return (
       <div onWheel={this.mouse_wheel} onMouseMove={this.mouse_move} onMouseDown={this.mouse_down} onMouseUp={this.mouse_up} className="yandex-map-holder">

@@ -128,16 +128,30 @@ var cncl_ = [
       id = id[0];
     }
 
-    var index  = state_.auto_part_data.get('markers').findIndex(marker => marker.get('id') === id );
-    if (index < 0) return;
+    var index  = state_.auto_part_data.get('markers').findIndex(marker => {
+      return marker.get('id') === id;
+    });
+    if (index < 0) {
+    
+      if(state_.auto_part_data.get('markers').findIndex(marker => marker.get('is_open') === true )) {
+        state_.auto_part_data_cursor
+        .cursor(['markers'])
+        .update(markers => 
+          markers.map(marker => 
+            marker.get('is_open') === false ? marker : marker.set('is_open', false)));      
+      }
 
-    state_.auto_part_data_cursor
-    .cursor(['markers'])
-    .update(markers => 
-      markers.map(marker => 
-        marker.get('id') === id ? 
-          marker.set('is_open', !marker.get('is_open')) : 
-          (marker.get('is_open') === false ? marker : marker.set('is_open', false)) ));
+    } else {
+
+      state_.auto_part_data_cursor
+      .cursor(['markers'])
+      .update(markers => 
+        markers.map(marker => 
+          marker.get('id') === id ? 
+            marker.set('is_open', !marker.get('is_open')) : 
+            (marker.get('is_open') === false ? marker : marker.set('is_open', false)) ));
+
+    }
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
