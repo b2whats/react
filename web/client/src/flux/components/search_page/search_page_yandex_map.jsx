@@ -99,10 +99,10 @@ var SearchPageYandexMap = React.createClass({
     }
   },
 
-  on_bounds_change (center, zoom) { //это событие по крайней мере старается вызываться только когда реально идут юзерские изменения
+  on_bounds_change (center, zoom, bounds) { //это событие по крайней мере старается вызываться только когда реально идут юзерские изменения
     //console.log('AA:on_bounds_change', center, zoom);
-    auto_part_by_id_actions.auto_part_map_bounds_changed_by_user(center, zoom);
-    autoservice_by_id_actions.autoservice_map_bounds_changed_by_user(center, zoom);
+    auto_part_by_id_actions.auto_part_map_bounds_changed_by_user(center, zoom, bounds);
+    autoservice_by_id_actions.autoservice_map_bounds_changed_by_user(center, zoom, bounds);
   },
 
   render () {

@@ -202,8 +202,8 @@ var YandexMap = React.createClass({
 
     if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {      
       if(this.mouse_move_delta > kMOUSE_MOVE_EPS) {
-        console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), 'md', this.mouse_move_delta); 
-        this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'));
+        console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), e.get('newBounds'), 'md', this.mouse_move_delta); 
+        this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'), e.get('newBounds'));
       }
     }  
   },
@@ -243,8 +243,8 @@ var YandexMap = React.createClass({
           var yamap = new ymaps.Map(this.refs.yamap_dom.getDOMNode(), _.extend({}, pos_w_delta, {
                 controls: ['zoomControl']
           }));
-
-          this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom);
+          
+          this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom, yamap.getBounds());
 
           yamap.events.add('boundschange', this.on_boundschange);
                     
@@ -315,7 +315,7 @@ var YandexMap = React.createClass({
               duration: kANIM_MOVE_DUARATION
             });
 
-            this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom);
+            this.props.on_bounds_change && this.props.on_bounds_change(pos_w_delta.center, pos_w_delta.zoom, yamap.getBounds());
 
           })
           .catch(e => {

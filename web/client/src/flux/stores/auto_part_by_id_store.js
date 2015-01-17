@@ -28,13 +28,14 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   auto_part_data: null,
   results_sorted: null,
   map_center: null,
+  map_bounds: null,
   
   page_num: 0,
   items_per_page: 5
 });
 
 
-var sort_results_ = (results, center) => {
+var sort_results_ = (results, center, bounds) => {
   //пока затычка 
   var distance_to_center = (coordinates) => {
     var dx = center.get(0) - coordinates.get(0);
@@ -118,7 +119,7 @@ var cncl_ = [
 
     if(state_.map_center !== null) {
       state_.results_sorted_cursor
-        .update( results_sorted => sort_results_(results_sorted, state_.map_center));
+        .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
     }
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
@@ -343,15 +344,18 @@ var cncl_ = [
   //------------------RESULTS PART------------------------------------------------------
   //------------------------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom) => { 
-    
+  .on(event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom, bounds) => { 
+    console.log('bounds', bounds);
     state_.map_center_cursor
       .update(() => immutable.fromJS(center));
     
+    state_.map_bounds_cursor
+      .update(() => immutable.fromJS(bounds));
+
     if(!state_.results_sorted) return;
 
     state_.results_sorted_cursor
-      .update( results_sorted => sort_results_(results_sorted, state_.map_center));
+      .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
       
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
