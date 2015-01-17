@@ -9,6 +9,8 @@ var cx        = React.addons.classSet;
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 
+//var point_utils = require('utils/point_utils.js');
+
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var YandexMap = require('components/yandex/yandex_map.jsx');
@@ -39,6 +41,8 @@ var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
 var yandex_templates_events = require('./templates/yandex_templates_events.js');
 
+
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   map_visible: search_page_store.get_search_page_map_visible (),
   map_display: search_page_store.get_search_page_map_display (),
@@ -47,7 +51,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   region_current:           region_store.get_region_current (), 
   test_value: test_store.get_test_value(),
   auto_part_markers: auto_part_by_id_store.get_auto_part_markers(),
-  autoservice_markers: autoservice_by_id_store.get_autoservice_markers()
+  autoservice_markers: autoservice_by_id_store.get_autoservice_markers(),
+  
+  //auto_part_map_bounds: auto_part_by_id_store.get_map_bounds (),
+  //auto_service_map_bounds: auto_part_by_id_store.get_map_bounds () //TODO не забыть изменить
   
 }),
 search_page_store, region_store, test_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
@@ -110,6 +117,8 @@ var SearchPageYandexMap = React.createClass({
     if(this.state.region_current) {
       bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
     }
+
+    //var map_bounds = this.state.auto_part_map_bounds && this.state.auto_part_map_bounds.toJS();
     
     //для не загрузки скриптов яндекс карт YandexMap элемент показываем только когда его первый раз попросят показаться
     //потом тупо играем стилями, отсюда у карты два свойства висибл и дисплей
@@ -120,12 +129,19 @@ var SearchPageYandexMap = React.createClass({
       cx(class_name_search_page_yandex_map,'search-page-yandex-map-map-hidden');
 
     /* jshint ignore:start */
-    var YandexAutoPartsMarkers  = this.state.auto_part_markers && this.state.auto_part_markers.map(m => //this.state.test_value.map(m => //
+    var YandexAutoPartsMarkers  = this.state.auto_part_markers && 
+      this.state.auto_part_markers
+      //.filter( m => map_bounds && point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds))
+      .filter( m => m.get('on_current_page') )
+      .map(m => 
         <YandexMapMarker 
           key={m.get('id')} 
           {...m.toJS()} />).toJS() || [];
 
-    var YandexAutoServiceMarkers  = this.state.autoservice_markers && this.state.autoservice_markers.map(m => //this.state.test_value.map(m => //
+    var YandexAutoServiceMarkers  = this.state.autoservice_markers &&
+      this.state.autoservice_markers
+      //.filter( m => map_bounds && point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds))
+      .map(m => 
         <YandexMapMarker 
           key={m.get('id')} 
           {...m.toJS()} />).toJS() || [];

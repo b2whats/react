@@ -9,6 +9,10 @@ var cx        = React.addons.classSet;
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var PointerEventDisablerMixin = require('mixins/pointer_event_disabler_mixin.js');
+
+var point_utils = require('utils/point_utils.js');
+var text_utils = require('utils/text.js');
+
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var Pager = require('components/pager/pager.jsx');
@@ -19,7 +23,7 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 
-var text_utils = require('utils/text.js');
+
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -81,7 +85,8 @@ var SearchPageAutoPartTable = React.createClass({
 
     var TrMarkers  = this.state.auto_part_results && 
     this.state.auto_part_results
-    .filter((part, part_index) => part_index >= items_from && part_index < items_to)
+    //.filter((part, part_index) => part_index >= items_from && part_index < items_to)
+    .filter(part => part.get('on_current_page'))
     .map((part, part_index) => {
       
       var hover_class = cx({

@@ -21,6 +21,9 @@ var ymap_loader = require('third_party/yandex_maps.js');
 
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
+var kTIME_USER_BOUND_CHANGED_EPSILON = 1000; //секунда
+var kMOUSE_MOVE_EPS = 20;
+
 var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 var kANIM_MOVE_DUARATION = 500;
 var kMARKER_DEFAULT_PRESET = 'islands#icon';
@@ -193,8 +196,6 @@ var YandexMap = React.createClass({
   //В этом методе я отлавливаю именно юзерские изменения границ карты
   //и так как меня волнуют изменения только центра то я не отлавливаю юзерские клики по кнопкам зума
   on_boundschange (e) {
-    var kTIME_USER_BOUND_CHANGED_EPSILON = 1000; //секунда
-    var kMOUSE_MOVE_EPS = 20;
     //тут надо отделить юзерские события от неюзерских    
     if(this.move_position && this.mouse_is_down) {
       this.mouse_move_delta = Math.sqrt(Math.pow(this.move_position[0] - this.mouse_is_down[0], 2) + Math.pow(this.move_position[1] - this.mouse_is_down[1], 2));
@@ -204,6 +205,7 @@ var YandexMap = React.createClass({
       if(this.mouse_move_delta > kMOUSE_MOVE_EPS) {
         console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), e.get('newBounds'), 'md', this.mouse_move_delta); 
         this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'), e.get('newBounds'));
+        this.mouse_move_delta = 0;
       }
     }  
   },
@@ -232,6 +234,7 @@ var YandexMap = React.createClass({
   mouse_wheel () {
     console.log('wheel');
     this.move_after_down_timer = (new Date()).getTime();
+    this.mouse_move_delta = kMOUSE_MOVE_EPS + 1;
   },
 
   componentDidMount() {    

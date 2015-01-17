@@ -80,7 +80,8 @@ var query_auto_part_by_id = (region_text, id) => {
         _.extend( { //описание этих полей тут actions/autoservice_by_id_actions.js
                     is_open: false,
                     show_phone: false,
-                    balloon_visible: false
+                    balloon_visible: false,
+                    on_current_page: false, //есть ли иконка на текущей старничке в табличке
                   }, //system
                   {
                     marker_color: kAUTO_PART_MARKER_COLOR,

@@ -6,6 +6,7 @@ var main_dispatcher = require('dispatchers/main_dispatcher.js').create_proxy();
 var event_names = require('shared_constants/event_names.js');
 var sc = require('shared_constants');
 //var route_names = require('shared_constants/route_names.js');
+var point_utils = require('utils/point_utils.js');
 
 var Emitter = require('utils/emitter.js');
 var merge = require('utils/merge.js');
@@ -31,10 +32,13 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   map_bounds: null,
   
   page_num: 0,
-  items_per_page: 5
+  items_per_page: 5,
+  results_count: 0
 });
 
 
+//пересортировывает результаты в зависимости от удаленности от центра,
+//выставляет правильные маркеры
 var sort_results_ = (results, center, bounds) => {
   //пока затычка 
   var distance_to_center = (coordinates) => {
@@ -42,6 +46,7 @@ var sort_results_ = (results, center, bounds) => {
     var dy = center.get(1) - coordinates.get(1);
     return dx*dx + dy*dy;
   };
+
 
   var marker_visible = state_.auto_part_data.get('markers').find(marker => marker.get('balloon_visible') === true );
   var marker_visible_id = marker_visible && marker_visible.get('id');
@@ -61,6 +66,61 @@ var sort_results_ = (results, center, bounds) => {
     .map(result =>  //выставить правильную видимость если открыт балун
       result
         .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')));
+
+};
+
+
+//на основании page_num items_per_page и map_bounds выставить видимые точки
+var set_results_and_markers_visibility_ = () => {
+  if(!state_.map_bounds) return;
+  if(!state_.auto_part_data) return;
+
+  var items_from = state_.items_per_page*state_.page_num;
+  var items_to =   state_.items_per_page*(state_.page_num + 1);
+  var map_bounds = state_.map_bounds.toJS();
+  
+  state_.results_sorted_cursor
+  .update( results => 
+    results
+      .map( r => 
+        r.set('visible', 
+          point_utils.pt_in_rect(r.get('main_marker').get('coordinates').toJS(), map_bounds)))
+      .reduce( (memo, r) => (
+        {
+          list: memo.list.push(r.set('on_current_page', r.get('visible') && memo.index >= items_from && memo.index < items_to )),
+          index: memo.index + (r.get('visible') ? 1 : 0) 
+        } ), {index:0, list:immutable.List()}).list );
+
+  
+  state_.results_count_cursor
+    .update( () => state_.results_sorted.count( r => r.get('visible')));
+
+
+  var id_2_on_page = state_.results_sorted
+    .reduce( (memo, r) => {
+      if(r.get('on_current_page') === true) {
+        memo[r.get('main_marker').get('id')] = 1;
+      }      
+      return memo;
+    }, {});
+
+  //console.log('id_2_on_page', id_2_on_page);
+
+  state_.auto_part_data_cursor
+    .cursor(['markers'])
+    .update( markers => 
+      markers.map( m => {
+        if(m.get('id') in id_2_on_page) {
+          if (m.get('on_current_page') !== true) {
+            return m.set('on_current_page', true);
+          }
+        } else {
+          if (m.get('on_current_page') !== false) {
+            return m.set('on_current_page', false);
+          }
+        }
+        return m;
+      }  ));
 };
 
 
@@ -74,6 +134,8 @@ var cncl_ = [
     state_.page_num_cursor
       .update( () => page_num);
 
+    set_results_and_markers_visibility_();  
+
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
   
@@ -86,6 +148,8 @@ var cncl_ = [
 
     state_.page_num_cursor
       .update( () => 0);
+
+    set_results_and_markers_visibility_();
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
@@ -118,8 +182,12 @@ var cncl_ = [
            .set('main_marker', user_id_2_markers_list.get(r.get('user_id')).get(0)) ));
 
     if(state_.map_center !== null) {
+      
       state_.results_sorted_cursor
         .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
+
+      set_results_and_markers_visibility_();
+    
     }
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
@@ -345,7 +413,7 @@ var cncl_ = [
   //------------------------------------------------------------------------------------
   main_dispatcher
   .on(event_names.kON_AUTO_PART_BY_ID_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom, bounds) => { 
-    console.log('bounds', bounds);
+    //console.log('bounds', bounds);
     state_.map_center_cursor
       .update(() => immutable.fromJS(center));
     
@@ -356,6 +424,8 @@ var cncl_ = [
 
     state_.results_sorted_cursor
       .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
+
+    set_results_and_markers_visibility_();  
       
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTO_PART_BY_ID__AUTO_PART_BY_ID_STORE_PRIORITY),
@@ -384,7 +454,12 @@ var auto_part_by_id_store = merge(Emitter.prototype, {
   },
 
   get_results_count () {
-    return state_.results_sorted && state_.results_sorted.size
+    //return state_.results_sorted && state_.results_sorted.size
+    return state_.results_count;
+  },
+
+  get_map_bounds () {
+    return state_.map_bounds;
   },
 
 
