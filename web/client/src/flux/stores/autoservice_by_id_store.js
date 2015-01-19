@@ -31,7 +31,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
 var cncl_ = [
   main_dispatcher
-  .on(event_names.kON_AUTO_SERVICE_BY_ID_DATA_LOADED, (autoservice_data) => {  
+  .on(event_names.kON_AUTOSERVICE_BY_ID_DATA_LOADED, (autoservice_data) => {  
 
     state_.autoservice_data_cursor
       .update(() => immutable.fromJS(autoservice_data));
@@ -40,7 +40,7 @@ var cncl_ = [
   }, kON_AUTO_SERVICE_BY_ID__AUTO_SERVICE_BY_ID_STORE_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_AUTO_SERVICE_BY_ID_RESET_DATA, () => {  
+  .on(event_names.kON_AUTOSERVICE_BY_ID_RESET_DATA, () => {  
 
     state_.autoservice_data_cursor
       .update(() => immutable.fromJS(null));

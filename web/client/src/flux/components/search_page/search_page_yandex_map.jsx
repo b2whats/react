@@ -97,7 +97,7 @@ var SearchPageYandexMap = React.createClass({
       auto_part_by_id_actions.auto_part_show_phone(id)
       
       autoservice_by_id_actions.autoservice_balloon_visible(id, true);      
-      //autoservice_by_id_actions.autoservice_show_phone(id);
+      autoservice_by_id_actions.autoservice_show_phone(id);
     
     } else
     if (event_name === yandex_templates_events.kON_BALLOON_HIDDEN) {      
