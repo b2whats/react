@@ -186,8 +186,10 @@ var cncl_ = [
       state_.results_sorted_cursor
         .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
 
+      state_.page_num_cursor
+        .update( () => 0);    
+
       set_results_and_markers_visibility_();
-    
     }
 
     auto_part_by_id_store.fire(event_names.kON_CHANGE);
@@ -424,6 +426,9 @@ var cncl_ = [
 
     state_.results_sorted_cursor
       .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
+
+    state_.page_num_cursor
+      .update( () => 0);    
 
     set_results_and_markers_visibility_();  
       
