@@ -63,7 +63,7 @@ var query_autoservice_by_id = (region_text, id) => {
     .get({id:id, region_text:region_text})
     .then(res => {
 
-      res = kFAKE_RESULT;
+      //res = kFAKE_RESULT;
       //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 
