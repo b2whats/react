@@ -130,7 +130,6 @@ var SearchPageYandexMap = React.createClass({
     /* jshint ignore:start */
     var YandexAutoPartsMarkers  = this.state.auto_part_markers && 
       this.state.auto_part_markers
-      //.filter( m => map_bounds && point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds))
       .filter( m => m.get('on_current_page') )
       .map(m => 
         <YandexMapMarker 
@@ -139,7 +138,7 @@ var SearchPageYandexMap = React.createClass({
 
     var YandexAutoServiceMarkers  = this.state.autoservice_markers &&
       this.state.autoservice_markers
-      //.filter( m => map_bounds && point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds))
+      .filter( m => m.get('on_current_page') )
       .map(m => 
         <YandexMapMarker 
           key={m.get('id')} 
