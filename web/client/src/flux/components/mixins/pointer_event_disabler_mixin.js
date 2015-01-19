@@ -16,7 +16,6 @@ module.exports = {
   },
 
   componentDidMount() {
-    console.log(this);
     this._dom_node_mixin_ = this.getDOMNode(); //dom_helper.query_selector('body');
     dom_helper.subscribe_w_capture(this._dom_node_mixin_, 'wheel', this.on_wheel);
   },

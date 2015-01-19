@@ -99,6 +99,8 @@ var SearchPageAutoServiceTable = React.createClass({
       var stock_class_name = {};
       stock_class_name['stock-num-'+part.get('stock')] = true;
 
+      var brands = part.get('brands') && part.get('brands').keySeq().toJS().join(', ');
+      //console.log('brands',brands);
 
       /*m.get('balloon_visible').toString()*/
       return (
@@ -121,7 +123,7 @@ var SearchPageAutoServiceTable = React.createClass({
           </td>
 
           <td className="search-page-autoservice-table-td-auto-marks">            
-            <div className="search-page-autoservice-table-auto-marks">Иж, Лада, Газ, Ваз, Заз, Германия, Япония, США </div> 
+            <div className="search-page-autoservice-table-auto-marks">{brands}</div> 
           </td>
 
           <td className="search-page-autoservice-table-td-body-work">
@@ -146,8 +148,8 @@ var SearchPageAutoServiceTable = React.createClass({
 
 
           <td className="search-page-autoservice-table-td-price tooltip">
-            <div className="search-page-autoservice-table-price">Сергей</div>
-            <div className="search-page-autoservice-table-price-link">blablabla.ru</div>
+            <div className="search-page-autoservice-table-price">{part.get('master')}</div>
+            <div className="search-page-autoservice-table-price-link">{part.get('site')}</div>
           </td>
 
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">

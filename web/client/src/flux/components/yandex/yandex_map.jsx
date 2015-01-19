@@ -204,7 +204,7 @@ var YandexMap = React.createClass({
 
     if((new Date()).getTime() - this.move_after_down_timer < kTIME_USER_BOUND_CHANGED_EPSILON) {      
       if(this.mouse_move_delta > kMOUSE_MOVE_EPS) {
-        console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), e.get('newBounds'), 'md', this.mouse_move_delta); 
+        //console.log('USER CHANGED MAP', e.get('newCenter'), e.get('newZoom'), e.get('newBounds'), 'md', this.mouse_move_delta); 
         this.props.on_bounds_change && this.props.on_bounds_change(e.get('newCenter'), e.get('newZoom'), e.get('newBounds'));
         this.mouse_move_delta = 0;
       }
