@@ -190,7 +190,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <div className="search-page-container">
+        <div className="search-page-container search-page-container-side-margin">
           <div className="wrap gutter-5-xs">
             <div className="md-12-6 left-md search-page-info-header">              
                 <span>Найдено</span>&nbsp;
@@ -231,7 +231,7 @@ var SearchPageAutoServiceTable = React.createClass({
           </table>
         </div>      
       
-        <div className="search-page-container">
+        <div className="search-page-container search-page-container-side-margin">
           <div className="wrap gutter-5-xs">
             <div className="md-12-12 right-md search-page-info-pager noselect">
               <span>Страница</span>

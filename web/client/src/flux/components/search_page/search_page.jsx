@@ -106,25 +106,25 @@ var SearchPage = React.createClass({
         
         {/*поисковые формочки*/}
         <div ref='default_page_content' className="search-page-container">
-          <div className="wrap gutter-5-xs">
+          <div className="wrap gutter-15-xs">
             <SearchPageSearchBlock 
               sample="* Введите название, производителя или код"
               className="md-12-6 autoparts">
               <AutoPartsSearchWrapper
                 initial_value={autoparts_initial_value}
-                list_width={this.state.width - kSASS_INPUT_PADDING}
                 placeholder="Поиск автозапчатей *"
                 on_value_changed={this.on_auto_parts_value_changed} />
+                {/*list_width={this.state.width - kSASS_INPUT_PADDING}*/}
             </SearchPageSearchBlock>
-
+            
             <SearchPageSearchBlock 
               sample="** Введите марку автомобиля и название работ"
               className="md-12-6 autoservices">
                   <AutoServiceSearchWrapper
-                    initial_value={autoservice_initial_value} 
-                    list_width={this.state.width - kSASS_INPUT_PADDING} 
+                    initial_value={autoservice_initial_value}                     
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />
+                    {/*list_width={this.state.width - kSASS_INPUT_PADDING} */}
             </SearchPageSearchBlock>
           </div>          
         </div>
@@ -138,7 +138,7 @@ var SearchPage = React.createClass({
 
           <div className="search-page-right-block">            
             <SearchPageAutoPartTable />
-            <hr style={ {margin:'30px 0'} }/>
+            <hr className="search-page-hr" />
             <SearchPageAutoServiceTable />            
             {/*<SearchPageMapHeaderBlock />*/}
           </div>

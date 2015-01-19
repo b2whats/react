@@ -9,9 +9,9 @@
   },
 
   "search-page" : {
-    "border-width": "3px",
-    "input-left-padding" : "65px",
-    "input-right-padding" : "20px",
+    "border-width": "0",
+    "input-left-padding" : "45px",
+    "input-right-padding" : "0",
     "map-height": "384px",
     "map-header-height": "50px",
     "left-block-width": "33%"
