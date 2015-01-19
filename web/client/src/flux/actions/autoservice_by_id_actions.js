@@ -22,14 +22,14 @@ var text_util = require('utils/text.js');
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
 var kFAKE_RESULT = require('./test/auto_service_fake_result.json');
+var kAUTOSERVICE_DELTA_ID = 10000000;
+
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
 var kAUTOSERVICE_MARKER_TYPE = 'autoservice-marker-type';
 var kAUTOSERVICE_HINT = 'автосервис: ';
 var kAUTOSERVICE_MARKER_COLOR = sass_vars['autoservice-marker-color'];
 var kAUTOSERVICE_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
-
-var kAUTOSERVICE_DELTA_ID = 10000000;
 
 var r_auto_service_by_id_ = resource(api_refs.kAUTO_SERVICE_BY_ID_API);
 
@@ -58,6 +58,9 @@ var query_autoservice_by_id = (region_text, id) => {
   return r_auto_service_by_id_
     .get({id:id, region_text:region_text})
     .then(function(res) {
+      var xxx = res;
+      console.log('xxx', xxx);
+
       res  = kFAKE_RESULT;
 
       //чистим данные с сервера
@@ -83,7 +86,7 @@ var query_autoservice_by_id = (region_text, id) => {
                                            //наличие этого поля объясняется неимоверной хреновостью yandex map api
                   },
                   {
-                    marker_color: kAUTOSERVICE_MARKER_COLOR, //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css                    
+                    marker_color: kAUTOSERVICE_MARKER_COLOR, //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
                     marker_type: kAUTOSERVICE_MARKER_TYPE,   //пока не используется, а так это тип метки - автосервис или запчасть
                     hint: kAUTOSERVICE_HINT + m.company_name //что показывать на метке
                   },

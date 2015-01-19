@@ -29,9 +29,6 @@ var kAUTO_PART_HINT = 'автозапчасти: ';
 var kAUTO_PART_MARKER_COLOR = sass_vars['auto-part-marker-color'];
 var kAUTO_PART_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 
-
-
-
 var r_auto_parts_by_id_ = resource(api_refs.kAUTO_PART_BY_ID_API);
 
 var actions_ = [
@@ -77,25 +74,28 @@ var query_auto_part_by_id = (region_text, id) => {
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
       
       markers = _.map(markers, (m, m_index) => 
-        _.extend( { //описание этих полей тут actions/autoservice_by_id_actions.js
-                    is_open: false,
-                    show_phone: false,
-                    balloon_visible: false,
+        _.extend( { 
+                    is_open: false,         //true если с этой метки открыт balloon или надо открыть-закрыть балун
+                    show_phone: false,      //показывать ли телефон
+                    balloon_visible: false, //конкретно именно этот balloon открыт на экране, 
+                                            //в случае кластера может отличаться от is_open, 
+                                            //например открыли балун по одной метке и переместились стрелками в карусели кластер балуна на другой
+                                            //наличие этого поля объясняется неимоверной хреновостью yandex map api
                     on_current_page: false, //есть ли иконка на текущей старничке в табличке
                   }, //system
                   {
-                    marker_color: kAUTO_PART_MARKER_COLOR,
-                    marker_type: kAUTO_PART_MARKER_TYPE, 
-                    hint: kAUTO_PART_HINT + m.company_name
+                    marker_color: kAUTO_PART_MARKER_COLOR, //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
+                    marker_type: kAUTO_PART_MARKER_TYPE,   //тип метки - автосервис или запчасть
+                    hint: kAUTO_PART_HINT + m.company_name //хинт что показывать на метке
                   }, //брать потом из базы
                   {
-                    cluster_color: kAUTO_PART_CLUSTER_COLOR
+                    cluster_color: kAUTO_PART_CLUSTER_COLOR //цвет иконки кластера
                   },
                   m,
                   {
-                    server_id:m.id,
-                    id: m.id,
-                    icon_number:m.rank 
+                    server_id:m.id,    //настоящий id
+                    id: m.id,          //смещенный id
+                    icon_number:m.rank //циферка на иконке
                   } ));
 
 
@@ -107,18 +107,16 @@ var query_auto_part_by_id = (region_text, id) => {
       results = _.map(results, res => _.extend({}, 
         res, 
         {
-          is_hovered_same_rank: false, //наведено на результат на карте или так
-          is_hovered_same_address: false,
-          is_balloon_visible_same_rank: false,
-          is_balloon_visible_same_address: false
+          is_hovered_same_rank: false,            //наведено на результат на карте или так
+          is_hovered_same_address: false,         //наведено на результат и адрес совпадает с основным на карте или так
+          is_balloon_visible_same_rank: false,    //открыт балун с таким же ранком
+          is_balloon_visible_same_address: false  //открыт балун с такимже ранком и на том же адресе что и соновной
         }));
       
 
       var res_converted = {header:res.header, markers:markers, results:results};
 
-      //console.log('apart res::: ',res);
       console.log('apart res 2::: ', res_converted);
-
       //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
 
       /*
