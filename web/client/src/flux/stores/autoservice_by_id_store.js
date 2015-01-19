@@ -214,6 +214,9 @@ var cncl_ = [
     state_.results_sorted_cursor
       .update(() => immutable.fromJS(null));
 
+    state_.results_count_cursor
+    .update(() => 0);
+
     autoservice_by_id_store.fire(event_names.kON_CHANGE);
   }, kON_AUTOSERVICE_BY_ID__AUTO_SERVICE_BY_ID_STORE_PRIORITY),
 
