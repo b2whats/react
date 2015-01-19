@@ -30,7 +30,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   autoservice_results: autoservice_by_id_store.get_autoservice_results(),
   page_num:          autoservice_by_id_store.get_page_num(),
   items_per_page:    autoservice_by_id_store.get_items_per_page(),
-  results_count:     autoservice_by_id_store.get_results_count()
+  results_count:     autoservice_by_id_store.get_results_count(),
+  show_all_phones:   autoservice_by_id_store.get_show_all_phones(),
 }),
 autoservice_by_id_store /*observable store list*/);
 
@@ -69,6 +70,9 @@ var SearchPageAutoServiceTable = React.createClass({
     autoservice_by_id_actions.autoservice_change_page(page_num);
   },
 
+  on_show_all_phones_on_current_page (e) {
+    autoservice_by_id_actions.autoservice_show_all_phones_on_current_page(e.target.checked);
+  },
 
 
   render () {
@@ -214,7 +218,10 @@ var SearchPageAutoServiceTable = React.createClass({
                       <th>Слесарные работы</th>
                       <th>ТО</th>
                       <th>Имя мастера</th>
-                      <th>Телефоны</th>
+                      <th>
+                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_autoservice_phones_checkbox" type="checkbox" />
+                        <label htmlFor="show_autoservice_phones_checkbox">Показать телефоны</label>
+                      </th>
                   </tr>
               </thead>
 

@@ -34,7 +34,8 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   
   page_num: 0,
   items_per_page: 5,
-  results_count: 0
+  results_count: 0,
+  show_all_phones: false
 });
 
 
@@ -136,6 +137,42 @@ var set_results_and_markers_visibility_ = () => {
 
 var cncl_ = [
 
+  main_dispatcher
+  .on(event_names.kON_AUTOSERVICE_BY_ID_SHOW_ALL_PHONES_ON_CURRENT_PAGE, value => {
+
+    state_.show_all_phones_cursor
+      .update( () => value);
+
+    if(value) {
+      //пробежать по видимым результатам - маркерам показать телефоны
+      var rank_dict = {};
+      state_.results_sorted_cursor
+        .update( results => 
+          results.map( r => {
+            if (r.get('on_current_page')) {
+              r = r.updateIn(['main_marker'], marker =>  {
+                rank_dict[marker.get('rank')] = 1;
+                return marker.set('show_phone', true)
+              });
+
+              r = r.updateIn(['markers'], markers => 
+                markers.map(marker => {
+                  rank_dict[marker.get('rank')] = 1;
+                  return marker.set('show_phone', true)
+                }));
+            }
+            return r;
+          }));
+
+      state_.autoservice_data_cursor
+      .cursor(['markers'])
+      .update(markers => markers.map(marker => 
+        (marker.get('rank') in rank_dict) ? marker.set('show_phone', true) : marker ));
+
+    }
+
+    autoservice_by_id_store.fire(event_names.kON_CHANGE);
+  }, kON_AUTOSERVICE_BY_ID__AUTO_SERVICE_BY_ID_STORE_PRIORITY),
 
   
   main_dispatcher
@@ -143,6 +180,10 @@ var cncl_ = [
 
     state_.page_num_cursor
       .update( () => page_num);
+
+    state_.show_all_phones_cursor
+      .update( () => false);    
+
 
     set_results_and_markers_visibility_();  
 
@@ -158,6 +199,10 @@ var cncl_ = [
 
     state_.page_num_cursor
       .update( () => 0);
+
+    state_.show_all_phones_cursor
+      .update( () => false);
+
 
     set_results_and_markers_visibility_();
 
@@ -175,6 +220,8 @@ var cncl_ = [
     state_.page_num_cursor //выставлять при загрузке 0 страничку
       .update( () => 0);
 
+    state_.show_all_phones_cursor
+      .update( () => false);
 
     var user_id_2_markers_list = state_.autoservice_data.get('markers').reduce( (r, m) => {
       var marker_user_id = m.get('user_id');
@@ -197,7 +244,10 @@ var cncl_ = [
         .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
 
       state_.page_num_cursor
-        .update( () => 0);    
+        .update( () => 0);
+
+      state_.show_all_phones_cursor
+        .update( () => false);    
 
       set_results_and_markers_visibility_();
     }
@@ -446,7 +496,10 @@ var cncl_ = [
       .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
 
     state_.page_num_cursor
-      .update( () => 0);    
+      .update( () => 0);
+
+    state_.show_all_phones_cursor
+      .update( () => false);    
 
     set_results_and_markers_visibility_();  
       
@@ -485,6 +538,9 @@ var autoservice_by_id_store = merge(Emitter.prototype, {
     return state_.map_bounds;
   },
 
+  get_show_all_phones () {
+    return state_.show_all_phones;
+  },
 
   dispose () {
     if(cncl_) {

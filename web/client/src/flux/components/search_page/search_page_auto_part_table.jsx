@@ -71,10 +71,7 @@ var SearchPageAutoPartTable = React.createClass({
   },
 
   on_show_all_phones_on_current_page (e) {
-    //console.log('on_show_all_phones_on_current_page', _.extend({},e), e.target.checked);
-
     auto_part_by_id_actions.auto_part_show_all_phones_on_current_page(e.target.checked);
-
   },
 
   render () {
@@ -239,8 +236,8 @@ var SearchPageAutoPartTable = React.createClass({
                       <th>Инфо</th>
                       <th>Цена</th>
                       <th>
-                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_phones_checkbox" type="checkbox" />
-                        <label htmlFor="show_phones_checkbox">Показать телефоны</label>
+                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_auto_part_phones_checkbox" type="checkbox" />
+                        <label htmlFor="show_auto_part_phones_checkbox">Показать телефоны</label>
                       </th>
                   </tr>
               </thead>
