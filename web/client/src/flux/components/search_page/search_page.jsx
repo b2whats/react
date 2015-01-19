@@ -12,6 +12,7 @@ var Link = require('components/link.jsx');
 var SearchPageSearchBlock = require('./search_page_search_block.jsx');
 var SearchPageYandexMap = require('./search_page_yandex_map.jsx');
 var SearchPageAutoPartTable = require('./search_page_auto_part_table.jsx');
+var SearchPageAutoServiceTable = require('./search_page_autoservice_table.jsx');
 
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
@@ -136,7 +137,9 @@ var SearchPage = React.createClass({
           </SearchPageYandexMap>
 
           <div className="search-page-right-block">            
-            <SearchPageAutoPartTable />            
+            <SearchPageAutoPartTable />
+            <hr style={ {margin:'30px 0'} }/>
+            <SearchPageAutoServiceTable />            
             {/*<SearchPageMapHeaderBlock />*/}
           </div>
         </div>

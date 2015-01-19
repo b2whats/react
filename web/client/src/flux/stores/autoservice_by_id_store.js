@@ -32,7 +32,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   map_bounds: null,
   
   page_num: 0,
-  items_per_page: 2,
+  items_per_page: 5,
   results_count: 0
 });
 

@@ -18,28 +18,28 @@ var Link = require('components/link.jsx');
 var Pager = require('components/pager/pager.jsx');
 /* jshint ignore:end */
 
-var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
+var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
-var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 
 
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  auto_part_results: auto_part_by_id_store.get_auto_part_results(),
-  page_num:          auto_part_by_id_store.get_page_num(),
-  items_per_page:    auto_part_by_id_store.get_items_per_page(),
-  results_count:     auto_part_by_id_store.get_results_count()
+  autoservice_results: autoservice_by_id_store.get_autoservice_results(),
+  page_num:          autoservice_by_id_store.get_page_num(),
+  items_per_page:    autoservice_by_id_store.get_items_per_page(),
+  results_count:     autoservice_by_id_store.get_results_count()
 }),
-auto_part_by_id_store /*observable store list*/);
+autoservice_by_id_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
 var kITEMS_PER_PAGE = [1,2,5,10,15,20];
 var kPAGES_ON_SCREEN = 3; //сколько циферок показывать прежде чем показать ...
 
 
-var SearchPageAutoPartTable = React.createClass({
+var SearchPageAutoServiceTable = React.createClass({
   propTypes: {
     className: PropTypes.string
   },
@@ -48,25 +48,25 @@ var SearchPageAutoPartTable = React.createClass({
 
   
   on_marker_click(id) {
-    auto_part_by_id_actions.close_all_and_open_balloon(id);
+    autoservice_by_id_actions.close_all_and_open_balloon(id);
   },
 
   on_hover(id, hover_state) {
-    auto_part_by_id_actions.auto_part_marker_hover(id, hover_state, {update_same_address: false});
+    autoservice_by_id_actions.autoservice_marker_hover(id, hover_state, {update_same_address: false});
   },
 
   on_show_phone (id) {
-    auto_part_by_id_actions.auto_part_show_phone(id);
+    autoservice_by_id_actions.autoservice_show_phone(id);
   },  
   //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
   on_change_items_per_page (items_num, e) {
-    auto_part_by_id_actions.auto_part_change_items_per_page(items_num);
+    autoservice_by_id_actions.autoservice_change_items_per_page(items_num);
     event.preventDefault();
     event.stopPropagation();
   },
 
   on_page_click (page_num) {
-    auto_part_by_id_actions.auto_part_change_page(page_num);
+    autoservice_by_id_actions.autoservice_change_page(page_num);
   },
 
 
@@ -83,8 +83,8 @@ var SearchPageAutoPartTable = React.createClass({
     var items_to =   items_per_page*(page_num + 1);
 
 
-    var TrMarkers  = this.state.auto_part_results && 
-    this.state.auto_part_results
+    var TrMarkers  = this.state.autoservice_results && 
+    this.state.autoservice_results
     //.filter((part, part_index) => part_index >= items_from && part_index < items_to)
     .filter(part => part.get('on_current_page'))
     .map((part, part_index) => {
@@ -265,4 +265,4 @@ var SearchPageAutoPartTable = React.createClass({
   }
 });
 
-module.exports = SearchPageAutoPartTable;
+module.exports = SearchPageAutoServiceTable;
