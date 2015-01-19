@@ -100,7 +100,16 @@ var set_results_and_markers_visibility_ = () => {
     .reduce( (memo, r) => {
       if(r.get('on_current_page') === true) {
         memo[r.get('main_marker').get('id')] = 1;
-      }      
+      
+        r.get('markers').forEach( m => {
+          if(point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds)) {
+            memo[m.get('id')] = 1;      
+          }
+        });
+      }
+
+
+
       return memo;
     }, {});
 
