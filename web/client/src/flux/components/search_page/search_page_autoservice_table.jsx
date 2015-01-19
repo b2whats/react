@@ -106,81 +106,60 @@ var SearchPageAutoServiceTable = React.createClass({
             onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)}
             key={part.get('id')}>
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
-              className={cx('search-page-autopart-table-td-rank', hover_class) }>
-            <span className="search-page-autopart-table-rank">{part.get('rank')}</span>
+              className={cx('search-page-autoservice-table-td-rank', hover_class) }>
+            <span className="search-page-autoservice-table-rank">{part.get('rank')}</span>
           </td>
 
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
-              className={cx('search-page-autopart-table-td-seller', 'tooltip', hover_class)}>
+              className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
 
-            <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            <div className="search-page-autopart-table-company-address">
+            <div className="search-page-autoservice-table-company-name">{part.get('main_marker').get('company_name')}</div>
+            <div className="search-page-autoservice-table-company-address">
               {part.get('main_marker').get('address')}
-              {/* part_index == 0 ? (
-              <span className="tooltip-content">
-                <strong>От программиста</strong><br />
-                если наводимся на row то метка подсвечивается на карте,
-                если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, если кликаем то по другому подсвечиваем,
-                а адрес если совпадает выделяем зеленым, наиболее хорошо это видно в Питере если искать volkswagen 5c5845011qnvb,
-                там у одной пятерки совпадает номер а у другой и номер и адрес 
-              </span> ) : '' */}
-
             </div>
 
           </td>
 
-          <td className="search-page-autopart-table-td-manufacturer-code">
-            <div className="search-page-autopart-table-manufacturer">{part.get('manufacturer')}</div> 
-            <div className="search-page-autopart-table-code">{part.get('code')}</div> 
+          <td className="search-page-autoservice-table-td-auto-marks">            
+            <div className="search-page-autoservice-table-auto-marks">Иж, Лада, Газ, Ваз, Заз, Германия, Япония, США </div> 
           </td>
 
-          <td className="search-page-autopart-table-td-part-description tooltip">
-            <div className="search-page-autopart-table-part-description">
-              {part.get('name')} &nbsp;
-              {/* part_index == 0 ? (
-              <span className="tooltip-content">
-                <strong>От программиста</strong><br />
-                Что то я не очень соображаю<br/> куда эта ссылка
-              </span>) : '' */}
-            
+          <td className="search-page-autoservice-table-td-body-work">
+            <div className="search-page-autoservice-table-body-work">
+            1/10
             </div>
           </td>
-          <td className="search-page-autopart-table-td-info tooltip">
-            <span className={cx('search-page-autopart-table-info-used', cx({is_used: part.get('used')}))}></span>
-            <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
-              {/* part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '200px', 'marginTop': '7px', 'marginLeft':'20px'} }>
-                <strong>От программиста</strong><br />
-                u - used, цифра - сток, все задано в css, надо иконки
-              </span>) : ''*/}
+
+          <td className="search-page-autoservice-table-td-metal-work">
+            <div className="search-page-autoservice-table-metal-work">
+            2/10
+            </div>
           </td>
-          <td className="search-page-autopart-table-td-price tooltip">
-            <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
-            <div className="search-page-autopart-table-price-link">условия оплаты</div>
-              {/* part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '160px', 'marginTop': '-16px', 'marginLeft':'100px'} }>
-                <strong>От программиста</strong><br />
-                условия куда ведут?
-              </span>) : ''*/}
-            
+
+          <td className="search-page-autoservice-table-td-to-work">
+            <div className="search-page-autoservice-table-td-to-work">
+            1/10
+            </div>
           </td>
-          <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
+
+          
+
+
+          <td className="search-page-autoservice-table-td-price tooltip">
+            <div className="search-page-autoservice-table-price">Сергей</div>
+            <div className="search-page-autoservice-table-price-link">blablabla.ru</div>
+          </td>
+
+          <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
             { part.get('main_marker').get('show_phone') ? 
-            <div className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div> :
+            <div className="search-page-autoservice-table-phone">{part.get('main_marker').get('phone')}</div> :
            (<div className="wrap gutter-2-xs">
-              <div className="md-12-6">
+              <div className="md-12-12">
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                      className="search-page-autopart-table-phone-button btn-with-icon">
+                      className="search-page-autoservice-table-phone-button btn-with-icon">
                   <i className="svg-icon_phone btn-svg-icon"></i>              
                   <span>Телефон</span>
                 </button>
-              </div>
-              <div className="md-12-6">
-              <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                    className="search-page-autopart-table-phone-button btn-with-icon">
-                <i className="svg-icon_mail btn-svg-icon"></i>              
-                <span>Заявка</span>
-              </button>
               </div>
             </div>
             ) }
@@ -223,15 +202,16 @@ var SearchPageAutoServiceTable = React.createClass({
         </div>
 
         <div className="search-page-table-border">
-          <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autopart-table">
+          <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autoservice-table">
               <thead>
                   <tr>
                       <th>#</th>
-                      <th>Продавец</th>
-                      <th>Производитель / Артикул</th>
-                      <th>Описание детали</th>
-                      <th>Инфо</th>
-                      <th>Цена</th>
+                      <th>Компания</th>
+                      <th>Марки</th>
+                      <th>Кузовные работы</th>
+                      <th>Слесарные работы</th>
+                      <th>ТО</th>
+                      <th>Имя мастера</th>
                       <th>Телефоны</th>
                   </tr>
               </thead>
