@@ -96,8 +96,8 @@ var SearchPage = React.createClass({
             <div className="md-12-6">
               <div className="search-page-logo">
                 <Link href={route_definitions.kROUTE_DEF_W_REGION}>
-                  <span className="search-page-logo-first">Auto</span>
-                  <span className="search-page-logo-second">Giper</span>
+                  <span className="search-page-logo-icon svg-logo"></span>
+                  {/*<span className="search-page-logo-second">Giper</span>*/}
                 </Link>
               </div>
             </div>

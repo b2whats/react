@@ -78,7 +78,7 @@ var DefaultPage = React.createClass({
         <div className="hfm-wrapper default-page-search-height">
           <div className="default-page-wrapper default-page-search-height">
             <div ref='default_page_content' className="default-page-content big-search-block">
-              <div className="default-page-logo big-logo"><span className="ap-color fl">Auto</span><span className="as-color fb">Giper</span></div>
+              <div className="default-page-logo"><span className="svg-logo default-page-logo-icon"></span></div>
               
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
