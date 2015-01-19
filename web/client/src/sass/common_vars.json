@@ -20,13 +20,13 @@
   "yandex-map": {
     "auto-part-marker-color": "#6d57a0",
     "auto-part-marker-color-hilite-main": "#9d7de6",
-    "auto-part-marker-color-hilite-secondary": "#8e71d0",
+    "auto-part-marker-color-hilite-secondary": "#5c63b9",
 
     "cluster-marker-color": "#34a179",
     "cluster-marker-color-hilite-main": "#44d09d",
 
-    "autoservice-marker-color": "#f6d600",
-    "autoservice-marker-color-hilite-main": "#f6e98f",
-    "autoservice-marker-color-hilite-secondary": "#f6e361"
+    "autoservice-marker-color": "#f7cd00",
+    "autoservice-marker-color-hilite-main": "#f7f400",
+    "autoservice-marker-color-hilite-secondary": "#f6da8f"
   }
 }

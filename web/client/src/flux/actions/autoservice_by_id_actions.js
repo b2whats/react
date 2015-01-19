@@ -35,19 +35,15 @@ var r_auto_service_by_id_ = resource(api_refs.kAUTO_SERVICE_BY_ID_API);
 
 var actions_ = [
   ['reset_autoservice_data', event_names.kON_AUTOSERVICE_BY_ID_RESET_DATA],
-
   ['autoservice_toggle_balloon', event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON],
   ['autoservice_close_balloon', event_names.kON_AUTOSERVICE_BY_ID_CLOSE_BALLOON],
   ['autoservice_show_phone', event_names.kON_AUTOSERVICE_BY_ID_SHOW_PHONE],
   ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER],
-
   ['autoservice_balloon_visible', event_names.kON_AUTOSERVICE_BY_ID_BALLOON_VISIBLE],
-
   ['autoservice_map_bounds_changed_by_user', event_names.kON_AUTOSERVICE_BY_ID_MAP_BOUNDS_CHANGED_BY_USER],
-  
   ['autoservice_change_items_per_page', event_names.kON_AUTOSERVICE_BY_ID_CHANGE_ITEMS_PER_PAGE],
   ['autoservice_change_page', event_names.kON_AUTOSERVICE_BY_ID_CHANGE_PAGE],
-  
+  ['autoservice_show_all_phones_on_current_page', event_names.kON_AUTOSERVICE_BY_ID_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {

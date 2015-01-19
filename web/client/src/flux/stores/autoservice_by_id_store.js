@@ -18,6 +18,7 @@ var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
 var kAUTOSERVICE_MARKER_COLOR = sass_vars['autoservice-marker-color'];
 var kAUTOSERVICE_MARKER_COLOR_HILITE_MAIN = sass_vars['autoservice-marker-color-hilite-main'];
+var kAUTOSERVICE_MARKER_COLOR_HILITE_SECONDARY = sass_vars['autoservice-marker-color-hilite-secondary'];
 
 var kAUTOSERVICE_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
 var kAUTOSERVICE_CLUSTER_COLOR_HILITE_MAIN = sass_vars['cluster-marker-color-hilite-main'];
@@ -384,11 +385,14 @@ var cncl_ = [
     
     var color = kAUTOSERVICE_MARKER_COLOR;
     var cluster_color = kAUTOSERVICE_CLUSTER_COLOR;
+    var color_sec = kAUTOSERVICE_MARKER_COLOR;
 
     var marker_rank = state_.autoservice_data.get('markers').get(index).get('rank');
+
     
     if(hover_state) {
       color = kAUTOSERVICE_MARKER_COLOR_HILITE_MAIN;
+      color_sec = kAUTOSERVICE_MARKER_COLOR_HILITE_SECONDARY;
       cluster_color = kAUTOSERVICE_CLUSTER_COLOR_HILITE_MAIN;
     }
 
@@ -397,7 +401,9 @@ var cncl_ = [
         .update(markers => 
           markers.map( marker => 
             marker.get('rank') === marker_rank ?
-              marker.set('marker_color', color).set('cluster_color', cluster_color) :
+              ( marker.get('id') === id ? 
+                  marker.set('marker_color', color).set('cluster_color', cluster_color) : 
+                  marker.set('marker_color', color_sec).set('cluster_color', cluster_color)) :
               marker             
           ));
 

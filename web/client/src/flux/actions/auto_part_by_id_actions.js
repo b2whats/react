@@ -45,6 +45,9 @@ var actions_ = [
   
   ['auto_part_change_items_per_page', event_names.kON_AUTO_PART_BY_ID_CHANGE_ITEMS_PER_PAGE],
   ['auto_part_change_page', event_names.kON_AUTO_PART_BY_ID_CHANGE_PAGE],
+
+  ['auto_part_show_all_phones_on_current_page', event_names.kON_AUTO_PART_BY_ID_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
+  
   
 ];
 

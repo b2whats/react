@@ -30,7 +30,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   auto_part_results: auto_part_by_id_store.get_auto_part_results(),
   page_num:          auto_part_by_id_store.get_page_num(),
   items_per_page:    auto_part_by_id_store.get_items_per_page(),
-  results_count:     auto_part_by_id_store.get_results_count()
+  results_count:     auto_part_by_id_store.get_results_count(),
+  show_all_phones:   auto_part_by_id_store.get_show_all_phones(),
 }),
 auto_part_by_id_store /*observable store list*/);
 
@@ -69,7 +70,12 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.auto_part_change_page(page_num);
   },
 
+  on_show_all_phones_on_current_page (e) {
+    //console.log('on_show_all_phones_on_current_page', _.extend({},e), e.target.checked);
 
+    auto_part_by_id_actions.auto_part_show_all_phones_on_current_page(e.target.checked);
+
+  },
 
   render () {
     /* jshint ignore:start */
@@ -232,7 +238,10 @@ var SearchPageAutoPartTable = React.createClass({
                       <th>Описание детали</th>
                       <th>Инфо</th>
                       <th>Цена</th>
-                      <th>Телефоны</th>
+                      <th>
+                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_phones_checkbox" type="checkbox" />
+                        <label htmlFor="show_phones_checkbox">Показать телефоны</label>
+                      </th>
                   </tr>
               </thead>
 
