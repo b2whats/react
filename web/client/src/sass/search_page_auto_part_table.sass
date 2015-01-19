@@ -30,8 +30,8 @@
       width: 20%
 
     &:nth-child(5)
-      min-width: 70px
-      width: 70px
+      min-width: 80px
+      width: 80px
 
     &:nth-child(6)
       background-color: #987DDA
@@ -152,32 +152,75 @@
 
   .search-page-autopart-table-td-info
     text-align: center
+    white-space: nowrap
+    @include valign-middle()
     .search-page-autopart-table-info-used
-      display: none
-      &.is_used
-        display: inline
-        &:after
-          content: 'u'
+      width: 20px
+      height: 20px
+      display: inline-block
+      background-position: center
+      margin-right: 2px
+      margin-left: 2px
+      //display: none
+      //&.is_used
+      //  display: inline
+      //  &:after
+      //    content: 'u'
 
     .search-page-autopart-table-info-stock
-      &.stock-num-0
+      width: 24px
+      height: 24px
+      display: inline-block
+      background-position: center
+      margin-right: 2px
+      margin-left: 2px
+      &.stock-2-7
+        font-size: 10px
         &:after
-          content: '0'
-      &.stock-num-1
-        &:after
-          content: '1'
-      &.stock-num-2
-        &:after
+          color: #666
+          position: absolute          
           content: '2'
-      &.stock-num-3
+          margin-left: -6px
+          margin-top: 5px
+          @-moz-document url-prefix()        
+            margin-top: 6px
+
+      &.stock-7-14
+        font-size: 10px
         &:after
-          content: '3'
-      &.stock-num-4
+          color: #666
+          position: absolute          
+          content: '7'
+          margin-left: -6px
+          margin-top: 5px
+          @-moz-document url-prefix()        
+            margin-top: 6px
+
+      &.stock-14-21
+        font-size: 10px
         &:after
-          content: '4'
-      &.stock-num-5
+          color: #666
+          position: absolute          
+          content: '14'
+          margin-left: -9px
+          margin-top: 5px
+          @-moz-document url-prefix()        
+            margin-top: 6px
+
+      &.stock-31
+        font-size: 10px
         &:after
-          content: '5'
+          color: #666
+          position: absolute          
+          content: '31'
+          margin-left: -9px
+          margin-top: 5px
+          @-moz-document url-prefix()        
+            margin-top: 6px
+
+
+
+
 
 @media (max-width: 1324px)
   .search-page-autopart-table-phone-button

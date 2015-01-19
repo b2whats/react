@@ -97,7 +97,11 @@ var SearchPageAutoPartTable = React.createClass({
       });
 
       var stock_class_name = {};
-      stock_class_name['stock-num-'+part.get('stock')] = true;
+      /*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/
+      var kSTOCK_ICONS     = ['', 'svg-icon_box-check',     'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car'];
+      var kSTOCK_ICONS_ADD = ['stock_empty', 'stock_empty', 'stock-2-7',    'stock-7-14',   'stock-14-21',  'stock-31',     'stock_empty',  'stock_empty'];
+      stock_class_name[kSTOCK_ICONS[part.get('stock')]] = true;
+      stock_class_name[kSTOCK_ICONS_ADD[part.get('stock')]] = true;
 
 
       /*m.get('balloon_visible').toString()*/
@@ -146,13 +150,9 @@ var SearchPageAutoPartTable = React.createClass({
             </div>
           </td>
           <td className="search-page-autopart-table-td-info tooltip">
-            <span className={cx('search-page-autopart-table-info-used', cx({is_used: part.get('used')}))}></span>
+            <span className={cx('search-page-autopart-table-info-used', cx(part.get('used') ? 'svg-icon_use' : 'svg-icon_no-use' ))}></span>
             <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
-              {/* part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '200px', 'marginTop': '7px', 'marginLeft':'20px'} }>
-                <strong>От программиста</strong><br />
-                u - used, цифра - сток, все задано в css, надо иконки
-              </span>) : ''*/}
+            {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
           <td className="search-page-autopart-table-td-price tooltip">
             <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
