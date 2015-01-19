@@ -233,7 +233,6 @@ var YandexMap = React.createClass({
   },
   
   mouse_wheel () {
-    console.log('wheel');
     this.move_after_down_timer = (new Date()).getTime();
     this.mouse_move_delta = kMOUSE_MOVE_EPS + 1;
   },
