@@ -17,7 +17,7 @@ var svgSymbols = require('gulp-svg-symbols');
 var destination = './client/dist/',
     destination_js = destination + 'js',
     destination_css = destination + 'css',
-    destination_svg = destination + 'svg';
+    destination_svg = destination + 'icons';
 
 var libs = [
     'react/addons',
@@ -130,6 +130,6 @@ gulp.task('svg-convert', function () {
         .pipe(svgSymbols({
             templates: ['default-css']
         }))
-        .pipe(rename('svg.css'))
-        .pipe(gulp.dest(destination_css));
+        .pipe(rename('icons.data.svg.css'))
+        .pipe(gulp.dest(destination_svg));
 });
