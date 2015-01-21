@@ -74,6 +74,8 @@ var event_names = {
 
   kON_TOOLTIP_SHOW: 'kON_TOOLTIP_SHOW',
 
+  kON_MODAL_SHOW: 'kON_MODAL_SHOW',
+  kON_MODAL_HIDE: 'kON_MODAL_HIDE',
 
 };
 

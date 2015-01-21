@@ -128,6 +128,7 @@ gulp.task('init', ['create-symlink','dev-js', 'vendor-js','sass'], function() {
 gulp.task('svg-convert', function () {
     return gulp.src('./client/assets/icons/svg/*.svg')
         .pipe(svgSymbols({
+            className:  '.svg-%f',
             templates: ['default-css']
         }))
         .pipe(rename('icons.data.svg.css'))

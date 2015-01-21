@@ -61,7 +61,7 @@ var DefaultPage = React.createClass({
     window.removeEventListener('resize', this.handle_resize);
   },
 
-  on_auto_parts_value_changed(id, articul, producer, sentence) {    
+  on_auto_parts_value_changed(id, articul, producer, sentence) {
     var region_id = region_store.get_region_current().get('translit_name');
     default_page_actions.goto_auto_parts_page(region_id, id, articul, producer, sentence);
   },
