@@ -1,4 +1,4 @@
-input[type=text] {
+input[type=text],input[type=password] {
     padding: 10px 4px 8px 8px;
     /*font-size: 14px;*/
     border-radius: 2px;
@@ -7,9 +7,11 @@ input[type=text] {
     box-sizing: border-box;
     height: 35px;
     color: #2a2a2a;
+    background-color: white;
 }
 input:focus {
     outline: none;
+    border: 1px solid #b7a6de;
 }
 button {
     

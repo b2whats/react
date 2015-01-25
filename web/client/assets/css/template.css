@@ -2,6 +2,66 @@ html, body {
     height: 100%;
 }
 
+.fs11 {
+    font-size: 11px;
+}
+.fs12 {
+    font-size: 12px;
+}
+.fs13 {
+    font-size: 13px;
+}
+.fs24 {
+    font-size: 24px;
+}
+.fs26 {
+    font-size: 26px;
+}
+.f-r {
+    float: right;
+}
+.f-l {
+    float: left;
+}
+
+.bbd {
+    border-bottom: 1px dotted;
+}
+
+.m4-0 {
+    margin:4px 0;
+}
+.m15-0 {
+    margin:15px 0;
+}
+.fc-g {
+    color: #8c8c8c;
+}
+.h14 {
+    height: 14px;
+}
+/* метод Ильи Стрельцына */
+.new_context {
+    -height: 1%!important;
+    *zoom: 1!important;
+
+    /* display: table */
+    display: table!important;
+}
+/* Очень важное дополнение! */
+.new_context:after {
+    content: '. . . . . . . . . . .'; /* Решение проблемы в Opera 12.00 */
+    display: block;
+    word-spacing: 99in;
+    height: 0;
+    overflow: hidden;
+
+    /* Лекарство бага с отступом в Opera */
+    font-size: 0.05em;
+    line-height: 0.05em;
+}
+
+
 
 .ap-color {
     color: #b7a6de;
@@ -31,6 +91,8 @@ html .wrapper {
 h2 {
     font-size: 26px;
     text-transform: uppercase;
+    font-weight: normal;
+    margin: 0;
 }
 
 a.h_link,
@@ -63,7 +125,6 @@ a.h_link:hover,
 a.ap-link:hover,
 a.as-link:hover{
     color: #7948f1;
-    border-bottom: 1px dotted #7948f1;
 }
 .no-href {
     font-size: 16px;
@@ -194,4 +255,9 @@ a.icon-link {
 }
 .copyright {
     color: #737373;
+}
+
+.sign-in {
+    width: 290px;
+    text-align: center;
 }
