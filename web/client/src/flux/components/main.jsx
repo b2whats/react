@@ -39,7 +39,8 @@ var ice_main = React.createClass({
 
 	render () {
 
-		var main = (function(router_state) { 
+		var main = (function(router_state) {
+			console.log(router_state);
 			switch(router_state) {
 				case route_names.kROUTE_DEF:
 				case route_names.kROUTE_DEF_W_REGION:
@@ -55,11 +56,13 @@ var ice_main = React.createClass({
 					);
 				break;
 
+
 				case route_names.kROUTE_CATALOG:
 					return (
 						<SearchPage route_names={route_names.kROUTE_CATALOG} />
 					);
 				break;
+
 
 			}
 		}) (this.state.router_state);

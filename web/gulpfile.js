@@ -11,14 +11,13 @@ var concat = require('gulp-concat');
 var symlink = require('gulp-symlink');
 var rename = require("gulp-rename");
 var sass = require('gulp-ruby-sass');
-var connect = require('gulp-connect');
 var svgmin = require('gulp-svgmin');
 var svgSymbols = require('gulp-svg-symbols');
 var destination = './client/dist/',
     destination_js = destination + 'js',
     destination_css = destination + 'css',
     destination_svg = destination + 'icons';
-
+var webserver = require('gulp-webserver');
 var libs = [
     'react/addons',
     'underscore',
@@ -111,11 +110,7 @@ gulp.task('create-symlink', function() {
         .pipe(symlink('./client/dist/assets', { force: true }));
 });
 
-gulp.task('connect', function() {
-    connect.server({
-        root: './client/dist/'
-    });
-});
+
 
 gulp.task('init', ['create-symlink','dev-js', 'vendor-js','sass'], function() {
     gulp.src('./client/src/templates/index-w.html')
@@ -133,4 +128,14 @@ gulp.task('svg-convert', function () {
         }))
         .pipe(rename('icons.data.svg.css'))
         .pipe(gulp.dest(destination_svg));
+});
+
+gulp.task('server', function() {
+    gulp.src('./client/dist')
+        .pipe(webserver({
+            livereload: true,
+            directoryListing: false,
+            open: true,
+            fallback: 'index.html'
+        }));
 });

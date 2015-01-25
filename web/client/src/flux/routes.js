@@ -39,7 +39,10 @@ routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS
         autoservice_by_id_actions.query_autoservice_by_id(route_context_params.region_id, route_context_params.service_id),
     
     route_actions.default_route];
-  
+
+routes[route_definitions.kROUTE_ACCOUNT_URI] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE,
+    () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
+    route_actions.default_route];
 
 routes[route_definitions.kROUTE_CATALOG] = [
   (route_name, route_context, route_context_params, route_defaults) => 
