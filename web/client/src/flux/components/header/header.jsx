@@ -25,7 +25,6 @@ var Header = React.createClass({
   mixins: [PureRenderMixin,RafBatchStateUpdateMixin],
 
   openModal: function() {
-    console.log('hendler');
     modal_actions.open_modal();
   },
 
@@ -36,7 +35,6 @@ var Header = React.createClass({
     modal_actions.close_modal();
   },
   render () {
-    console.log('render_header');
 
     return (
       <div className="hfm-wrapper main-header header entire-width">

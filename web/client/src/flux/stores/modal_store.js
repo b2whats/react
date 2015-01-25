@@ -14,13 +14,12 @@ var immutable = require('immutable');
 
 
 var state_ =  init_state(_.last(__filename.split('/')), {
-    modalIsOpen: true
+    modalIsOpen: false
 });
 console.log(state_);
 var cncl_ = [
     main_dispatcher
         .on(event_names.kON_MODAL_SHOW, ()  => {
-            console.log('store');
 
             state_.modalIsOpen_cursor
                 .update(() => true);
