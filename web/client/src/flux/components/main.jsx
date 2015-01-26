@@ -14,7 +14,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
-var SearchPage = require('components/search_page/search_page.jsx');
+var SearchBlockHeader = require('components/search_page/search_page.jsx');
 
 var Link = require('components/link.jsx');
 
@@ -97,7 +97,7 @@ var ice_main = React.createClass({
 					{RouteMainPage.contains(this.state.router_state) ?
 						{MainContent}
 						:
-						<SearchPage>{MainContent}</SearchPage>
+						<SearchBlockHeader>{MainContent}</SearchBlockHeader>
 					}
 				</div>
 				<Footer />
