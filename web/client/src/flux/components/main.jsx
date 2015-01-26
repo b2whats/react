@@ -41,15 +41,15 @@ var ice_main = React.createClass({
 
 		var main = (function(router_state) { 
 			switch(router_state) {
-
-				case route_names.kDEFAULT_ROUTE:
+				case route_names.kROUTE_DEF:
+				case route_names.kROUTE_DEF_W_REGION:
 					/* jshint ignore:start */
 					return (
 						<DefaultPage />
 					);
 					/* jshint ignore:end */
 				break;
-				case route_names.kFIND_ROUTE:
+				case route_names.kROUTE_PARTS_FIND:
 					return (
 						<SearchPage />
 					);

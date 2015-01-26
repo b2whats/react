@@ -11,18 +11,23 @@ var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 //дефолтный регион
 var kDEFAULT_REGION_ID = 3;
 
-var routes = [
-  [route_definitions.kROUTE_DEF,          route_names.kDEFAULT_ROUTE, 
-    () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
-    route_actions.default_route],
-  
-  ['/help',       route_names.kHELP_ROUTE,    route_actions.default_route],
-  
-  [route_definitions.kROUTE_DEF_W_REGION, route_names.kDEFAULT_ROUTE, //при смене роута можно указать несколько подряд методов которые надо выполнить
-    (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
-    route_actions.default_route ],
+var routes = {};
 
-  [route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
+  
+routes[route_definitions.kROUTE_DEF] = [
+    () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
+    route_actions.default_route];
+  
+  
+  
+routes[route_definitions.kROUTE_DEF_W_REGION] = [ //при смене роута можно указать несколько подряд методов которые надо выполнить
+    (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
+    route_actions.default_route ];
+
+  
+
+
+routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
     
     (route_name, route_context, route_context_params, route_defaults) => 
       region_actions.region_changed(route_context_params.region_id),
@@ -35,10 +40,10 @@ var routes = [
       route_context_params.service_id === '_' ? autoservice_by_id_actions.reset_autoservice_data() : 
         autoservice_by_id_actions.query_autoservice_by_id(route_context_params.region_id, route_context_params.service_id),
     
-    route_actions.default_route]
+    route_actions.default_route];
   
 
   //['/sphere/:sphere_id', route_names.kSPHERE_ROUTE, route_actions.data_preload_route(recommender_actions.recommender_load)],
-];
+
 
 module.exports = routes;

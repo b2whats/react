@@ -3,27 +3,25 @@
 var _ = require('underscore');
 var page = require('page');
 
-var kROUTE_PATH_IDX = 0;
-var kROUTE_OBJECT_IDX = 1;
-var kROUTE_HANDLER_IDX = 2;
+var kROUTE_HANDLER_IDX = 0;
 
 module.exports = function(routes) {
   var initialize_guard = false;
   return {
-    componentDidMount () {
+    componentWillMount () {
       if(!initialize_guard) {
         initialize_guard = true;
-        _.each(routes, function(route) {          
-          if(typeof(route[kROUTE_PATH_IDX])==='string' && typeof(route[kROUTE_HANDLER_IDX]) === 'function') {            
-            page(route[kROUTE_PATH_IDX], function(route_context) {
+        _.each(routes, function(route, route_path) {
+          if(typeof(route_path)==='string' && typeof(route[kROUTE_HANDLER_IDX]) === 'function') {            
+            page(route_path, route_context => {
               
               for(var i=kROUTE_HANDLER_IDX; i<route.length;++i) {
-                route[i](route[kROUTE_OBJECT_IDX], route_context, _.extend({},route_context.params), route[kROUTE_PATH_IDX]);
+                route[i](route_path, route_context, _.extend({},route_context.params));
               }
             
             });          
           } else {
-            console.error('bad types for route ', route[kROUTE_PATH_IDX]);
+            console.error('bad types for route ', route);
           }
         });
       }
