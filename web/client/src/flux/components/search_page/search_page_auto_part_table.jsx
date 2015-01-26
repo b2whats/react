@@ -145,7 +145,10 @@ var SearchPageAutoPartTable = React.createClass({
             <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
             
             <div 
-              onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses')}
+              onClick={part.get('markers').size>1 ? 
+                _.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses') :
+                _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
+              }
               className="search-page-autopart-table-company-address">              
               
               {part.get('main_marker').get('address')}

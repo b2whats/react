@@ -162,7 +162,10 @@ var SearchPageAutoServiceTable = React.createClass({
             
 
             <div 
-              onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses')}
+              onClick={ part.get('markers').size > 1 ?
+                _.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses') :
+                _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
+              }
               className="search-page-autoservice-table-company-address">
               {part.get('main_marker').get('address')}
             </div>
