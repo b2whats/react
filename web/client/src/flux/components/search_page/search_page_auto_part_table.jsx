@@ -51,8 +51,10 @@ var SearchPageAutoPartTable = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin, PointerEventDisablerMixin],
 
   
-  on_marker_click(id) {
+  on_marker_click(id, e) {
     auto_part_by_id_actions.close_all_and_open_balloon(id);
+    e.preventDefault();
+    e.stopPropagation();
   },
 
   on_hover(id, hover_state) {
@@ -77,9 +79,11 @@ var SearchPageAutoPartTable = React.createClass({
     auto_part_by_id_actions.auto_part_show_all_phones_on_current_page(e.target.checked);
   },
 
-  on_show_price_tootip(id, tooltip_type) {
-    //console.log('on_show_price_tootip', id);
+  on_show_price_tootip(id, tooltip_type, e) {
+    console.log('on_show_price_tootip', id);
     fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
+    e.preventDefault();
+    e.stopPropagation();
   },
 
   
@@ -136,22 +140,42 @@ var SearchPageAutoPartTable = React.createClass({
           </td>
 
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
-              className={cx('search-page-autopart-table-td-seller', 'tooltip', hover_class)}>
+              className={cx('search-page-autopart-table-td-seller', hover_class)}>
 
             <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            <div className="search-page-autopart-table-company-address">
+            
+            <div 
+              onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses')}
+              className="search-page-autopart-table-company-address">              
+              
               {part.get('main_marker').get('address')}
-              {/* part_index == 0 ? (
-              <span className="tooltip-content">
-                <strong>От программиста</strong><br />
-                если наводимся на row то метка подсвечивается на карте,
-                если наводимся на метку на карте то подсвечиваем всех с таким же номером в первой колонке, если кликаем то по другому подсвечиваем,
-                а адрес если совпадает выделяем зеленым, наиболее хорошо это видно в Питере если искать volkswagen 5c5845011qnvb,
-                там у одной пятерки совпадает номер а у другой и номер и адрес 
-              </span> ) : '' */}
-
+            
             </div>
+            <FixedTooltip 
+              open_id={part.get('id')}
+              open_type={'autopart-tooltip-adresses'} 
+              className="search-page-auto-part-table-body-work-tooltip">
+                
+              <strong>Все адреса</strong>
+              
+              <div className="search-page-auto-part-table-body-work-tooltip-list">
+                {part.get('markers').map( (m, index) => 
+                  <div 
+                    onMouseEnter={_.bind(this.on_hover, this,  m.get('id'), true)}
+                    onMouseLeave={_.bind(this.on_hover, this,  m.get('id'), false)}
+                    onClick={_.bind(this.on_marker_click, this, m.get('id'))}
+                    className="search-page-auto-part-table-body-work-tooltip-list-address" key={index} >
+                    {m.get('address')}
+                  </div> ).toJS()}
+              </div>
 
+              <hr/>
+                
+                <div className="search-page-auto-part-table-body-work-tooltip-address-message">
+                  <div>Ищете место рядом?</div>
+                  <div>Используйте карту чтобы найти</div>
+                </div>              
+            </FixedTooltip>
           </td>
 
           <td className="search-page-autopart-table-td-manufacturer-code">

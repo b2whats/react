@@ -53,8 +53,10 @@ var SearchPageAutoServiceTable = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin, PointerEventDisablerMixin],
 
   
-  on_marker_click(id) {
+  on_marker_click(id, e) {
     autoservice_by_id_actions.close_all_and_open_balloon(id);
+    e.preventDefault();
+    e.stopPropagation();
   },
 
   on_hover(id, hover_state) {
@@ -79,12 +81,16 @@ var SearchPageAutoServiceTable = React.createClass({
     autoservice_by_id_actions.autoservice_show_all_phones_on_current_page(e.target.checked);
   },
   
-  on_show_price_tootip(id, tooltip_type) {
+  on_show_price_tootip(id, tooltip_type, e) {
     fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
+    e.preventDefault();
+    e.stopPropagation();
   },
 
-  on_goto_find(id, autoservice_initial_value) {
-    autoservices_search_actions.show_value_changed(autoservice_initial_value);    
+  on_goto_find(id, autoservice_initial_value, e) {
+    autoservices_search_actions.show_value_changed(autoservice_initial_value);
+    e.preventDefault();
+    e.stopPropagation();  
   },
 
   render () {
@@ -153,9 +159,40 @@ var SearchPageAutoServiceTable = React.createClass({
               className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
 
             <div className="search-page-autoservice-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            <div className="search-page-autoservice-table-company-address">
+            
+
+            <div 
+              onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses')}
+              className="search-page-autoservice-table-company-address">
               {part.get('main_marker').get('address')}
             </div>
+
+            <FixedTooltip 
+              open_id={part.get('id')}
+              open_type={'autoservice-tooltip-adresses'} 
+              className="search-page-autoservice-table-body-work-tooltip">
+                
+              <strong>Все адреса</strong>
+              
+              <div className="search-page-autoservice-table-body-work-tooltip-list">
+                {part.get('markers').map( (m, index) => 
+                  <div 
+                    onMouseEnter={_.bind(this.on_hover, this,  m.get('id'), true)}
+                    onMouseLeave={_.bind(this.on_hover, this,  m.get('id'), false)}
+                    onClick={_.bind(this.on_marker_click, this, m.get('id'))}
+                    className="search-page-autoservice-table-body-work-tooltip-list-address" key={index} >
+                    {m.get('address')}
+                  </div> ).toJS()}
+              </div>
+
+              <hr/>
+                
+                <div className="search-page-autoservice-table-body-work-tooltip-address-message">
+                  <div>Ищете место рядом?</div>
+                  <div>Используйте карту чтобы найти</div>
+                </div>              
+            </FixedTooltip>
+
 
           </td>
 

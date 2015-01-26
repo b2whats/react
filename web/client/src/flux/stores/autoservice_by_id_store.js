@@ -67,8 +67,10 @@ var sort_results_ = (results, center, bounds) => {
 
     .map(result =>  //выставить правильную видимость если открыт балун
       result
-        .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')));
-
+        .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')))
+    .map(result =>  
+      result
+        .set('markers', result.get('markers').sortBy(m => distance_to_center(m.get('coordinates')))));
 };
 
 
