@@ -23,12 +23,14 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+var auto_part_search_actions = require('actions/auto_part_search_actions.js');
 
 var fixed_tooltip_actions = require('actions/fixed_tooltip_actions.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   auto_part_results: auto_part_by_id_store.get_auto_part_results(),
+  auto_part_data:    auto_part_by_id_store.get_auto_part_data_header (),
   page_num:          auto_part_by_id_store.get_page_num(),
   items_per_page:    auto_part_by_id_store.get_items_per_page(),
   results_count:     auto_part_by_id_store.get_results_count(),
@@ -80,10 +82,18 @@ var SearchPageAutoPartTable = React.createClass({
     fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
   },
 
+  
+
+  on_goto_find(id, auto_part_initial_value) {
+    auto_part_search_actions.show_value_changed(auto_part_initial_value);    
+  },
+
   render () {
     /* jshint ignore:start */
     //is_hovered
     
+    var auto_part_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('name') : '';
+
     var page_num = this.state.page_num;
     var results_count = this.state.results_count;
     var items_per_page = this.state.items_per_page;
@@ -152,10 +162,29 @@ var SearchPageAutoPartTable = React.createClass({
                  className="search-page-autopart-table-part-description">
               {part.get('name')} &nbsp;
             </div>
-            <FixedTooltip className="search-page-autopart-table-part-description-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-part-description'}>
-              <div><strong>Наименование запчасти</strong></div>
-              <div>{part.get('name')}</div>
+            
+
+            <FixedTooltip 
+                open_id={part.get('id')}
+                open_type={'autopart-tooltip-part-description'} 
+                className="search-page-auto-part-table-body-work-tooltip">
+                
+                <strong>Описание детали</strong>
+                <div className="search-page-auto-part-table-body-work-tooltip-list">
+                  {part.get('name')}<br/>
+                  {part.get('code')}<br/>
+                  {part.get('manufacturer')}
+                </div>
+                
+                <hr/>
+                
+                <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
+                  <div>Ищете конкретную деталь?</div>
+                  <div>Наберите ее в поиске</div>
+                </div>
             </FixedTooltip>
+
+
           </td>
           <td className="search-page-autopart-table-td-info tooltip">
             <span className={cx('search-page-autopart-table-info-used', cx(part.get('used') ? 'svg-icon_use' : 'svg-icon_no-use' ))}></span>
