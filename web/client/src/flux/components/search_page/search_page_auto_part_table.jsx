@@ -176,9 +176,11 @@ var SearchPageAutoPartTable = React.createClass({
             
           </td>
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
-            { part.get('main_marker').get('show_phone') ? 
-            <div className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div> :
-           (<div className="wrap gutter-2-xs">
+            
+            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } } 
+              className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div>
+            
+            <div style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'block' } } className="wrap gutter-2-xs">
               <div className="md-12-6">
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                       className="search-page-autopart-table-phone-button btn-with-icon">
@@ -194,8 +196,7 @@ var SearchPageAutoPartTable = React.createClass({
               </button>
               </div>
             </div>
-            ) }
-          
+
           </td>
         </tr>
         )

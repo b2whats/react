@@ -157,9 +157,13 @@ var SearchPageAutoServiceTable = React.createClass({
           </td>
 
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
-            { part.get('main_marker').get('show_phone') ? 
-            <div className="search-page-autoservice-table-phone">{part.get('main_marker').get('phone')}</div> :
-           (<div className="wrap gutter-2-xs">
+            
+            
+            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } } 
+                 className="search-page-autoservice-table-phone">{part.get('main_marker').get('phone')}</div>
+            
+            <div style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'block' } } 
+                  className="wrap gutter-2-xs">
               <div className="md-12-12">
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                       className="search-page-autoservice-table-phone-button btn-with-icon">
@@ -168,7 +172,7 @@ var SearchPageAutoServiceTable = React.createClass({
                 </button>
               </div>
             </div>
-            ) }
+           
           
           </td>
         </tr>
