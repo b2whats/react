@@ -68,8 +68,6 @@ var Typeahead = React.createClass({
           onKeyDown={this.onQueryKeyDown}
           value={this.state.searchTerm} />
 
-        <div style={ {width:0, height: '100%', display: 'inline-block'} } />
-
         
         <TypeaheadResults          
           onSelect={this.onValueChange}
@@ -154,11 +152,15 @@ var Typeahead = React.createClass({
           searchTerm: next_props.show_value.search_term,
           showResults: false
         });
-        raf(() => {
-          if(!this.isMounted()) return;
-          this.onFocus();
-          this.showAllResults();
-        }, null);
+        if(next_props.show_value.index > 0) {
+          raf(() => {
+            if(!this.isMounted()) return;
+            
+            this.onFocus();
+            this.showAllResults();
+
+          }, null);
+        }
       }
     }
 

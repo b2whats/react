@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
@@ -19,6 +20,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   brands: catalog_suggestion_store.get_brands(),
   brand_tags: catalog_suggestion_store.get_brand_tags(),
   services: catalog_suggestion_store.get_services(),
+  show_value_hack: catalog_suggestion_store.get_show_value(),
 }),
 catalog_suggestion_store /*observable store list*/);
 
@@ -32,7 +34,6 @@ var CatalogSearch = React.createClass({
   
 
   typeahead_changed (v) {    
-    console.log('typeahead_changed', v);
     catalog_actions.append_brand_tag(v);
   },
 
@@ -40,6 +41,12 @@ var CatalogSearch = React.createClass({
     console.log('typeahead lost focus');
   },
 
+  on_remove_tag(id, e) {
+    catalog_actions.remove_brand_tag(id);
+
+    e.preventDefault();
+    e.stopPropagation();
+  },
 
   render () {
     var region_name = this.state.region_current && this.state.region_current.get('title');
@@ -60,15 +67,18 @@ var CatalogSearch = React.createClass({
               
                 <Typeahead
                   //show_value={this.state.show_value_hack.toJS()}
+                  show_value={this.state.show_value_hack.toJS()}
                   placeholder="Выберите марку ..." 
                   has_custom_scroll={true} 
                   onChange={this.typeahead_changed} 
                   on_blur={this.typeahead_lost_focus}
                   options={this.state.brands && this.state.brands.toJS()}>
 
-                  {this.state.brand_tags.map(bt => 
-                    <div className="catalog-page-tag">
-                      <span className="catalog-page-tag-close"></span>
+                  {this.state.brand_tags.map( (bt,index) => 
+                    <div key={index} className="catalog-page-tag">
+                      <span onMouseDownCapture={_.bind(this.on_remove_tag, this, bt.get('id') )} className="catalog-page-tag-close">
+                        <span className="svg-icon_close"></span>
+                      </span>
                       <span className="catalog-page-tag-text">{bt.get('title')}</span>
                     </div>).toJS()}
 

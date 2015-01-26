@@ -23,6 +23,8 @@ var r_data_ = resource(api_refs.kCATALOG_DATA);
 
 var actions_ = [
   ['append_brand_tag', event_names.kON_CATALOG_APPEND_BRAND_TAG],
+  ['remove_brand_tag', event_names.kON_CATALOG_REMOVE_BRAND_TAG],
+  
 ];
 
 
