@@ -132,11 +132,12 @@ var SearchPage = React.createClass({
         
         {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}
         <div ref='main_content' className="search-page-main-fixed">
-                                
+          
+          
           <SearchPageYandexMap className="search-page-left-block">
           </SearchPageYandexMap>
 
-          <div className="search-page-right-block">            
+          <div className="search-page-right-block">
             <SearchPageAutoPartTable />
             <hr className="search-page-hr" />
             <SearchPageAutoServiceTable />            

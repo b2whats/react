@@ -1,12 +1,21 @@
 $tooltip-border-color: #eee
 $tooltip-background-color: white
 
+.fixed-tooltip-backdrop
+  z-index: 999
+  position: absolute
+  background-color: rgba(0,0,0,0.5)
+  left: 0px
+  right: 0px
+  top: 0px
+  bottom: 0px
+
 .fixed-tooltip-content
   cursor: default
   position: absolute  
   white-space: initial
   font-size: 10px
-  z-index: 10
+  z-index: 1000
   //display: none
   padding: 10px 20px
   margin-top: 5px

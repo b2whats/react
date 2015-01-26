@@ -163,31 +163,26 @@ var SearchPageAutoPartTable = React.createClass({
             <div onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')} 
                  className="search-page-autopart-table-part-description">
               {part.get('name')} &nbsp;
-              <FixedTooltip 
-                  open_id={part.get('id')}
-                  open_type={'autopart-tooltip-part-description'} 
-                  className="search-page-auto-part-table-body-work-tooltip">
-                  
-                  <strong>Описание детали</strong>
-                  <div className="search-page-auto-part-table-body-work-tooltip-list">
-                    {part.get('name')}<br/>
-                    {part.get('code')}<br/>
-                    {part.get('manufacturer')}
-                  </div>
-                  
-                  <hr/>
-                  
-                  <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
-                    <div>Ищете конкретную деталь?</div>
-                    <div>Наберите ее в поиске</div>
-                  </div>
-              </FixedTooltip>
-            </div>
-            
-
-
-
-
+            </div>  
+            <FixedTooltip 
+                open_id={part.get('id')}
+                open_type={'autopart-tooltip-part-description'} 
+                className="search-page-auto-part-table-body-work-tooltip">
+                
+                <strong>Описание детали</strong>
+                <div className="search-page-auto-part-table-body-work-tooltip-list">
+                  {part.get('name')}<br/>
+                  {part.get('code')}<br/>
+                  {part.get('manufacturer')}
+                </div>
+                
+                <hr/>
+                
+                <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
+                  <div>Ищете конкретную деталь?</div>
+                  <div>Наберите ее в поиске</div>
+                </div>
+            </FixedTooltip>
           </td>
           <td className="search-page-autopart-table-td-info tooltip">
             <span className={cx('search-page-autopart-table-info-used', cx(part.get('used') ? 'svg-icon_use' : 'svg-icon_no-use' ))}></span>
