@@ -72,10 +72,6 @@ var cncl_ = [
 ];
 
 
-
-
-
-
 var suggestion_store = merge(Emitter.prototype, {
   get_suggestion_list () {
     return state_.suggestion_list;
@@ -104,3 +100,4 @@ var suggestion_store = merge(Emitter.prototype, {
 
 
 module.exports = suggestion_store;
+

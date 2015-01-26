@@ -8,8 +8,9 @@ var region_actions = require('actions/region_actions.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 
+var catalog_actions = require('actions/catalog_actions.js');
 //дефолтный регион
-var kDEFAULT_REGION_ID = 3;
+var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
 var routes = {};
 
@@ -40,7 +41,16 @@ routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS
     route_actions.default_route];
   
 
-  //['/sphere/:sphere_id', route_names.kSPHERE_ROUTE, route_actions.data_preload_route(recommender_actions.recommender_load)],
+routes[route_definitions.kROUTE_CATALOG] = [
+  (route_name, route_context, route_context_params, route_defaults) => 
+    region_actions.region_changed(route_context_params.region_id),
+
+  () => catalog_actions.get_services_and_brands(),
+
+  () => auto_part_by_id_actions.reset_auto_part_data(),
+  () => autoservice_by_id_actions.reset_autoservice_data(),
+
+  route_actions.default_route];  
 
 
 module.exports = routes;

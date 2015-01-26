@@ -53,7 +53,13 @@ var ice_main = React.createClass({
 					return (
 						<SearchPage />
 					);
-				break;	
+				break;
+
+				case route_names.kROUTE_CATALOG:
+					return (
+						<SearchPage route_names={route_names.kROUTE_CATALOG} />
+					);
+				break;
 
 			}
 		}) (this.state.router_state);

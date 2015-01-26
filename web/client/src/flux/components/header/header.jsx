@@ -1,9 +1,11 @@
 'use strict';
 
+
 var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
+var route_names = require('shared_constants/route_names.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var RegionSelector = require('./region_selector.jsx');
@@ -21,6 +23,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
       modalIsOpen: modal_store.get_modal_visible()
     }),
     modal_store /*observable store list*/);
+
+var kDEFAULT_REGION_ID = 'sankt-peterburg';
+
+
 var Header = React.createClass({
   mixins: [PureRenderMixin,RafBatchStateUpdateMixin],
 
@@ -42,7 +48,7 @@ var Header = React.createClass({
         <RegionSelector />
 
         <div className="top-navbar">
-          <Link className="h_link" href="/">Каталог компаний</Link>
+          <Link className="h_link" href={route_names.kROUTE_CATALOG} params={ {region_id: kDEFAULT_REGION_ID} }>Каталог компаний</Link>
           <Link className="no-href">|</Link>
           <Link className="ap-link" href="/">Регистрация</Link>
           <Link className="ap-link" onClick={this.openModal}>Вход</Link>

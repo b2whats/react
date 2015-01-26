@@ -53,6 +53,8 @@ var Typeahead = React.createClass({
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         style={style}>
+        {this.props.children}
+        
         <input
           ref="search"
           type="text"
@@ -65,6 +67,8 @@ var Typeahead = React.createClass({
           onBlur={this.onQueryBlur}
           onKeyDown={this.onQueryKeyDown}
           value={this.state.searchTerm} />
+
+        <div style={ {width:0, height: '100%', display: 'inline-block'} } />
 
         
         <TypeaheadResults          

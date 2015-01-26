@@ -1,0 +1,46 @@
+.catalog
+
+.catalog-page-container
+  margin: 0 0 15px 0
+  &.catalog-page-container-side-margin
+    margin-left: 20px
+    margin-right: 20px
+    margin-top: 10px
+    margin-bottom: 10px
+
+
+.catalog-page-info-header  
+  border-radius: 2px
+  border: 1px solid #c1c1c1
+  box-shadow: inset 1px 1px 3px -1px rgba(0,0,0,0.2)
+  padding: 1px 0
+  &:after
+    content: ""
+    display: table
+    clear: both
+  
+
+
+  .typeahead-holder
+    input[type=text]
+      float: left
+      height: 32px
+      border: none
+      box-shadow: none
+      padding: 0 10px
+      border-radius: 0
+      width: 200px
+
+    height: 32px
+    .catalog-page-tag
+      //display: table-cell
+      margin: 0 4px
+      float: left
+      height: 32px
+      @include valign-middle()
+      > span
+        display: inline-block
+    
+  
+
+

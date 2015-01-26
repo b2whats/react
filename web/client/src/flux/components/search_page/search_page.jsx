@@ -18,9 +18,13 @@ var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_searc
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 
 var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
+var CatalogSearch = require('components/catalog_page/catalog_search.jsx');
+
+
 
 /* jshint ignore:end */
 
+var route_names = require('shared_constants/route_names.js');
 var search_page_actions = require('actions/search_page_actions.js');
 
 var auto_part_search_actions = require('actions/auto_part_search_actions.js');
@@ -132,17 +136,24 @@ var SearchPage = React.createClass({
         
         {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}
         <div ref='main_content' className="search-page-main-fixed">
-          
-          
           <SearchPageYandexMap className="search-page-left-block">
           </SearchPageYandexMap>
 
-          <div className="search-page-right-block">
-            <SearchPageAutoPartTable />
-            <hr className="search-page-hr" />
-            <SearchPageAutoServiceTable />            
-            {/*<SearchPageMapHeaderBlock />*/}
-          </div>
+          {this.props.route_names === route_names.kROUTE_CATALOG ? 
+            <div className="search-page-right-block">
+              <CatalogSearch />
+            </div> :
+            
+            <div>
+              <div className="search-page-right-block">
+                <SearchPageAutoPartTable />
+                <hr className="search-page-hr" />
+                <SearchPageAutoServiceTable />            
+                {/*<SearchPageMapHeaderBlock />*/}
+              </div>
+            </div>
+          }
+
         </div>
       </div>
     );
