@@ -68,7 +68,7 @@ var Header = React.createClass({
               onRequestClose={this.handleModalCloseRequest}
           >
             <div className='sign-in autoparts'>
-              <div className='ReactModal__Content-close' onClick={this.closeModal}></div>
+              <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
               <h2>Вход</h2>
               <label className='new_context'>
                 E-mail

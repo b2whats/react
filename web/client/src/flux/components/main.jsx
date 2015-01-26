@@ -24,7 +24,7 @@ var SearchPageRightBlockContent = require('components/search_page/search_page_ri
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 /* jshint ignore:end */
 
-
+var immutable = require('immutable');
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 	router_state: routes_store.get_route_state_ro()
@@ -33,7 +33,7 @@ routes_store /*observable store list*/);
 
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
-
+var RouteMainPage  = immutable.List.of(route_names.kROUTE_DEF,route_names.kROUTE_DEF_W_REGION);
 
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
@@ -54,14 +54,14 @@ var ice_main = React.createClass({
 					);
 					/* jshint ignore:end */
 				break;
-				
+
 				//ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
 				//ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
 				case route_names.kROUTE_PARTS_FIND:
 				case route_names.kROUTE_CATALOG:
 				//ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
 			    var RightBlockContent = (function(router_state) {
-			      switch(router_state) {        
+			      switch(router_state) {
 			        case route_names.kROUTE_PARTS_FIND:
 			          return <SearchPageRightBlockContent />;
 			        break;
@@ -73,14 +73,16 @@ var ice_main = React.createClass({
 
 
 					return (
-						<SearchPage>
-			        {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-----ДЛЯ АДМИН ЧАСТИ ВСЯ ПОДМЕНЯЕТСЯ------*/}        
-			        <div ref='main_content' className="search-page-main-fixed">			          
-			          <SearchPageYandexMap className="search-page-left-block" />
-			          
-			          {RightBlockContent}
-			        </div>
-						</SearchPage>
+						<div ref='main_content' className="search-page-main-fixed">
+						  <SearchPageYandexMap className="search-page-left-block" />
+						  {RightBlockContent}
+						</div>
+					);
+				break;
+
+				case route_names.kROUTE_ACCOUNT_INFO:
+					return (
+						<span>1</span>
 					);
 				break;
 
@@ -89,9 +91,14 @@ var ice_main = React.createClass({
 
 		return (
 			<div className="main-wrapper">
-				<Header />	
-				<div className="hfm-wrapper main-body">					
-					{MainContent}
+				<Header />
+				<div className="hfm-wrapper main-body">
+
+					{RouteMainPage.contains(this.state.router_state) ?
+						{MainContent}
+						:
+						<SearchPage>{MainContent}</SearchPage>
+					}
 				</div>
 				<Footer />
 			</div>

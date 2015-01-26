@@ -86,8 +86,7 @@ var FixedTooltip = React.createClass({
           <div>
           {this.props.children}
           </div>
-          <div onClick={this.on_close_tootip} className="fixed-tooltip-content-close">
-            <div className="svg-icon_close"></div>
+          <div onClick={this.on_close_tootip} className="fixed-tooltip-content-close btn-close">
           </div>
 
         </span>
