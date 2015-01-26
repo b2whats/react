@@ -19,12 +19,9 @@ routes[route_definitions.kROUTE_DEF] = [
     route_actions.default_route];
   
   
-  
 routes[route_definitions.kROUTE_DEF_W_REGION] = [ //при смене роута можно указать несколько подряд методов которые надо выполнить
     (route_name, route_context, route_context_params, route_defaults) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route ];
-
-  
 
 
 routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 

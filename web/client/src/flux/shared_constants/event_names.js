@@ -72,6 +72,9 @@ var event_names = {
   kON_TEST_SHOW_PHONE: 'kON_TEST_SHOW_PHONE',
 
 
+  kON_TOOLTIP_SHOW: 'kON_TOOLTIP_SHOW',
+
+
 };
 
 module.exports = event_names;

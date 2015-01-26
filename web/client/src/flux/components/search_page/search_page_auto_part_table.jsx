@@ -16,6 +16,7 @@ var text_utils = require('utils/text.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var Pager = require('components/pager/pager.jsx');
+var FixedTooltip = require('components/tooltip/fixed_tooltip.jsx');
 /* jshint ignore:end */
 
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
@@ -23,7 +24,7 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var test_action = require('actions/test_action.js');
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 
-
+var fixed_tooltip_actions = require('actions/fixed_tooltip_actions.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
@@ -72,6 +73,11 @@ var SearchPageAutoPartTable = React.createClass({
 
   on_show_all_phones_on_current_page (e) {
     auto_part_by_id_actions.auto_part_show_all_phones_on_current_page(e.target.checked);
+  },
+
+  on_show_price_tootip(id, tooltip_type) {
+    //console.log('on_show_price_tootip', id);
+    fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
   },
 
   render () {
@@ -141,30 +147,32 @@ var SearchPageAutoPartTable = React.createClass({
             <div className="search-page-autopart-table-code">{part.get('code')}</div> 
           </td>
 
-          <td className="search-page-autopart-table-td-part-description tooltip">
-            <div className="search-page-autopart-table-part-description">
+          <td className="search-page-autopart-table-td-part-description">
+            <div onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')} 
+                 className="search-page-autopart-table-part-description">
               {part.get('name')} &nbsp;
-              {/* part_index == 0 ? (
-              <span className="tooltip-content">
-                <strong>От программиста</strong><br />
-                Что то я не очень соображаю<br/> куда эта ссылка
-              </span>) : '' */}
-            
             </div>
+            <FixedTooltip className="search-page-autopart-table-part-description-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-part-description'}>
+              <div><strong>Наименование запчасти</strong></div>
+              <div>{part.get('name')}</div>
+            </FixedTooltip>
           </td>
           <td className="search-page-autopart-table-td-info tooltip">
             <span className={cx('search-page-autopart-table-info-used', cx(part.get('used') ? 'svg-icon_use' : 'svg-icon_no-use' ))}></span>
             <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
-          <td className="search-page-autopart-table-td-price tooltip">
+          <td className="search-page-autopart-table-td-price">
             <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
-            <div className="search-page-autopart-table-price-link">условия оплаты</div>
-              {/* part_index == 0 ? (
-              <span className="tooltip-content" style={ {width: '160px', 'marginTop': '-16px', 'marginLeft':'100px'} }>
-                <strong>От программиста</strong><br />
-                условия куда ведут?
-              </span>) : ''*/}
+            <div className="search-page-autopart-table-price-link">
+              <span onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
+                условия оплаты
+              </span>
+              <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
+                <div><strong>Условия оплаты</strong></div>
+                <div>что тут? {part.get('retail_price')}</div>
+              </FixedTooltip>
+            </div>
             
           </td>
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">

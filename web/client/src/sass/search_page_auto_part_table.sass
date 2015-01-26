@@ -111,7 +111,9 @@
       color: #666    
 
   .search-page-autopart-table-td-part-description
+    position: relative
     .search-page-autopart-table-part-description
+      cursor: pointer
       display: -webkit-box
       max-height: 24px
       line-height: 12px
@@ -124,6 +126,11 @@
       box-sizing: content-box
       &:before, &:after
         box-sizing: content-box
+    .search-page-autopart-table-part-description-tooltip
+      font-size: 12px
+      width: 200px      
+      top: 17px
+      left: calc(100% - 30px)
 
 
 
@@ -135,9 +142,16 @@
       font-weight: bold
     
     .search-page-autopart-table-price-link
+      cursor: pointer
       text-align: center
       font-size: 10px
       color: #5F42A4
+      .search-page-autopart-table-price-link-tooltip
+        color: #333
+        width: 160px
+        font-size: 12px
+
+        
 
   .search-page-autopart-table-td-phone
     .search-page-autopart-table-phone
