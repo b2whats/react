@@ -6,7 +6,8 @@ var route_names = {
   
   kROUTE_CATALOG: '/catalog/:region_id',
   kROUTE_PARTS_FIND: '/find/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id',
-  
+  kROUTE_ACC: '/account/:region_id',
+
   kHELP_ROUTE: 'kHELP_ROUTE'
 };
 
