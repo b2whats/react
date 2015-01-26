@@ -84,8 +84,10 @@ var SearchPageAutoPartTable = React.createClass({
 
   
 
-  on_goto_find(id, auto_part_initial_value) {
-    auto_part_search_actions.show_value_changed(auto_part_initial_value);    
+  on_goto_find(id, auto_part_initial_value, e) {
+    auto_part_search_actions.show_value_changed(auto_part_initial_value);
+    e.preventDefault();
+    e.stopPropagation();    
   },
 
   render () {
@@ -161,28 +163,29 @@ var SearchPageAutoPartTable = React.createClass({
             <div onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')} 
                  className="search-page-autopart-table-part-description">
               {part.get('name')} &nbsp;
+              <FixedTooltip 
+                  open_id={part.get('id')}
+                  open_type={'autopart-tooltip-part-description'} 
+                  className="search-page-auto-part-table-body-work-tooltip">
+                  
+                  <strong>Описание детали</strong>
+                  <div className="search-page-auto-part-table-body-work-tooltip-list">
+                    {part.get('name')}<br/>
+                    {part.get('code')}<br/>
+                    {part.get('manufacturer')}
+                  </div>
+                  
+                  <hr/>
+                  
+                  <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
+                    <div>Ищете конкретную деталь?</div>
+                    <div>Наберите ее в поиске</div>
+                  </div>
+              </FixedTooltip>
             </div>
             
 
-            <FixedTooltip 
-                open_id={part.get('id')}
-                open_type={'autopart-tooltip-part-description'} 
-                className="search-page-auto-part-table-body-work-tooltip">
-                
-                <strong>Описание детали</strong>
-                <div className="search-page-auto-part-table-body-work-tooltip-list">
-                  {part.get('name')}<br/>
-                  {part.get('code')}<br/>
-                  {part.get('manufacturer')}
-                </div>
-                
-                <hr/>
-                
-                <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
-                  <div>Ищете конкретную деталь?</div>
-                  <div>Наберите ее в поиске</div>
-                </div>
-            </FixedTooltip>
+
 
 
           </td>

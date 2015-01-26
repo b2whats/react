@@ -24,8 +24,10 @@ fixed_tooltip_store /*observable store list*/);
 var FixedTooltip = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-  on_close_tootip() {
+  on_close_tootip(e) {
     fixed_tooltip_actions.show_fixed_tooltip(-1, '');
+    e.preventDefault();
+    e.stopPropagation();
   },
 
   render () {
