@@ -10,16 +10,13 @@ var route_definitions = require('shared_constants/route_names.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var SearchPageSearchBlock = require('./search_page_search_block.jsx');
-var SearchPageYandexMap = require('./search_page_yandex_map.jsx');
-var SearchPageAutoPartTable = require('./search_page_auto_part_table.jsx');
-var SearchPageAutoServiceTable = require('./search_page_autoservice_table.jsx');
 
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 
 var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
-var CatalogSearch = require('components/catalog_page/catalog_search.jsx');
 
+var dom_helper = require('utils/dom_helper.js');
 
 
 /* jshint ignore:end */
@@ -48,7 +45,7 @@ var kSASS_INPUT_PADDING = style_utils.from_px_to_number( sass_vars['input-right-
                          style_utils.from_px_to_number( sass_vars['input-left-padding'] ) +
                          2*style_utils.from_px_to_number( sass_vars['border-width'] );
 
-
+var kSEARCH_PAGE_TOP =  style_utils.from_px_to_number(sass_vars["search-page-main-fixed-top"]);
 
 
 var kRECALC_WIDTH_TIMEOUT = 200;
@@ -57,11 +54,13 @@ var SearchPage = React.createClass({
   mixins: [PureRenderMixin , RafBatchStateUpdateMixin],
 
   fire_change() {      
-    if(this.refs && this.refs.default_page_content) {
-      var node = this.refs.default_page_content.getDOMNode();
-      var node_h = this.refs.main_content.getDOMNode();
-      search_page_actions.search_page_size_chaged (node.clientWidth, node_h.clientHeight);
-    }  
+    var node = dom_helper.query_selector('body');
+    //if(this.refs && this.refs.default_page_content) {
+    //var node = this.refs.default_page_content.getDOMNode();
+    //var node_h = this.refs.main_content.getDOMNode();
+    search_page_actions.search_page_size_chaged (node.clientWidth, node.clientHeight - kSEARCH_PAGE_TOP);
+    //}
+
   },
 
   handle_resize() {
@@ -90,7 +89,8 @@ var SearchPage = React.createClass({
     var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('name') : '';
     var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('service') : '';
 
-    /*flexbox  класс пока не использую чтобы работало везде*/
+
+
     /* jshint ignore:start */
     return (
       <div className="search-page">
@@ -134,27 +134,8 @@ var SearchPage = React.createClass({
         </div>
         
         
-        {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}
-        <div ref='main_content' className="search-page-main-fixed">
-          <SearchPageYandexMap className="search-page-left-block">
-          </SearchPageYandexMap>
-
-          {this.props.route_names === route_names.kROUTE_CATALOG ? 
-            <div className="search-page-right-block">
-              <CatalogSearch />
-            </div> :
-            
-            <div>
-              <div className="search-page-right-block">
-                <SearchPageAutoPartTable />
-                <hr className="search-page-hr" />
-                <SearchPageAutoServiceTable />            
-                {/*<SearchPageMapHeaderBlock />*/}
-              </div>
-            </div>
-          }
-
-        </div>
+        {this.props.children}
+        
       </div>
     );
     /* jshint ignore:end */    
