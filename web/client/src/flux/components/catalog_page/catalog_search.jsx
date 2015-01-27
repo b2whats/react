@@ -15,9 +15,10 @@ var Pager = require('components/pager/pager.jsx');
 /* jshint ignore:end */
 
 var catalog_actions = require('actions/catalog_actions.js');
-
+var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 var catalog_suggestion_store = require('stores/catalog_suggestion_store.js');
+var catalog_data_store = require('stores/catalog_data_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   brands: catalog_suggestion_store.get_brands(),
@@ -25,8 +26,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   services: catalog_suggestion_store.get_services(),
   service_tags: catalog_suggestion_store.get_service_tags(),
   show_value_hack: catalog_suggestion_store.get_show_value(),
+
+  items_per_page: catalog_data_store.get_items_per_page(),
 }),
-catalog_suggestion_store /*observable store list*/);
+catalog_suggestion_store, catalog_data_store /*observable store list*/);
 
 
 var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
@@ -69,8 +72,7 @@ var CatalogSearch = React.createClass({
   },
 
   on_change_items_per_page (items_num, e) {
-    //auto_part_by_id_actions.auto_part_change_items_per_page(items_num);
-    console.error('not working');
+    catalog_data_actions.catalog_change_items_per_page(items_num);
     event.preventDefault();
     event.stopPropagation();
   },

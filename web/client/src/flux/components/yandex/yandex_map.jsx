@@ -270,7 +270,8 @@ var YandexMap = React.createClass({
 
 
           object_manager.clusters.options.set({
-            clusterIconColor: kAUTO_PART_CLUSTER_COLOR //'red'
+            clusterIconColor: kAUTO_PART_CLUSTER_COLOR, //'red'
+            preset: 'islands#clusterIcons'
           });
           
           object_manager.clusters.events.add(['mouseenter', 'mouseleave'], this.on_cluster_hover);
@@ -349,9 +350,11 @@ var YandexMap = React.createClass({
 
 
   render () {
+    var helper_yandex_bug_object = {__index__:0};
     var fake_children  = this.state.object_manager ? React.Children.map(this.props.children, child => //jshint ignore:line
       React.addons.cloneWithProps(child, 
-        {
+        { 
+          helper_yandex_bug_object: helper_yandex_bug_object,
           object_manager: this.state.object_manager,
           key: child.key,
           event_freezer: this.event_freezer,

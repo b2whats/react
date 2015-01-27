@@ -60,7 +60,13 @@ var YandexMapMarker = React.createClass({
 
       if(cluster_id) {
         //trace('cluster set options ', next_props.id, JSON.stringify(opts));
-        this.props.object_manager.clusters.setClusterOptions(cluster_id, opts);
+        
+        var popts = this.props.object_manager.clusters.getById(cluster_id).options;
+        if(popts.clusterIconColor!==opts.clusterIconColor) {
+          this.props.object_manager.clusters.setClusterOptions(cluster_id, opts);            
+        }
+        
+
       } else {
         //trace('marker set options ', next_props.id, JSON.stringify(opts));
         this.props.object_manager.objects.setObjectOptions(next_props.id, opts);
