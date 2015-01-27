@@ -14,7 +14,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
-var SearchBlockHeader = require('components/search_page/search_page.jsx');
+var SearchBlockHeader = require('components/search_page/search_block_header.jsx');
 
 var Link = require('components/link.jsx');
 
@@ -23,11 +23,13 @@ var SearchPageRightBlockContent = require('components/search_page/search_page_ri
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 /* jshint ignore:end */
+var Menu = require('components/menu/menu.jsx');
 
 var immutable = require('immutable');
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-	router_state: routes_store.get_route_state_ro()
+	router_state: routes_store.get_route_state_ro(),
+	router_context_params: routes_store.get_route_context_params()
 }),
 routes_store /*observable store list*/);
 
@@ -82,7 +84,7 @@ var ice_main = React.createClass({
 				break;
 
 				//ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
-				case route_names.kROUTE_ACCOUNT_INFO:
+				case route_names.kROUTE_ACCOUNT:
 				//У тебя тут возможно будут другие кейсы	и по итогам будет что то вроде как в блоке выше
 				//по итогам смотри блок case стал таким же по структуре что и блок выше
 				//код стал читаемей
@@ -96,6 +98,7 @@ var ice_main = React.createClass({
 						</SearchBlockHeader>
 					);
 				break;
+
 			}
 		}) (this.state.router_state);
 

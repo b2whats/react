@@ -50,7 +50,7 @@ var kSEARCH_PAGE_TOP =  style_utils.from_px_to_number(sass_vars["search-page-mai
 
 var kRECALC_WIDTH_TIMEOUT = 200;
 
-var SearchPage = React.createClass({
+var SearchBlockHeader = React.createClass({
   mixins: [PureRenderMixin , RafBatchStateUpdateMixin],
 
   fire_change() {      
@@ -142,5 +142,5 @@ var SearchPage = React.createClass({
   }
 });
 
-module.exports = SearchPage;
+module.exports = SearchBlockHeader;
 

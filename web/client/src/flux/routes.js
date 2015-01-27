@@ -60,10 +60,10 @@ routes[route_definitions.kROUTE_CATALOG] = [
       route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v)
     ),
 
-  (route_name, route_context, route_context_params) => 
+  (route_name, route_context, route_context_params) =>
     auto_part_by_id_actions.reset_auto_part_data(),
-  
-  (route_name, route_context, route_context_params) => 
+
+  (route_name, route_context, route_context_params) =>
     autoservice_by_id_actions.reset_autoservice_data(),
   
   (route_name, route_context, route_context_params) => 
@@ -74,7 +74,7 @@ routes[route_definitions.kROUTE_CATALOG] = [
   
   route_actions.default_route];
 
-routes[route_definitions.kROUTE_ACCOUNT_INFO] = [
+routes[route_definitions.kROUTE_ACCOUNT] = [
     (route_name, route_context, route_context_params) =>
         region_actions.region_changed(route_context_params.region_id),
 

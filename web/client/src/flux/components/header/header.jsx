@@ -54,7 +54,7 @@ var Header = React.createClass({
             params={ {
               region_id: kDEFAULT_REGION_ID, 
               type: '_',
-              brands: '_',
+              brands: '55',
               services: '_'} }>Каталог компаний</Link>
 
           <Link className="no-href">|</Link>
