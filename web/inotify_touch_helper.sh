@@ -3,6 +3,8 @@
 #you need to install watchman tool from facebook
 #brew install watchman
 
+#лучше проставить крыжики для git иначе глюки на rebase
+#git config --global core.trustctime false
 set -e
 
 export LC_NUMERIC=C

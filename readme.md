@@ -34,6 +34,11 @@ cd ./web
 #под линукс рестартануть левое нижнее окно с параметрами grun server
 ```
 
+В системе сборки под watchman на маке лучше проставить крыжик
+```shell
+git config --global core.trustctime false
+```
+иначе глючит watchman
 
 Ссылки для тестов
 
