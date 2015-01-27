@@ -2,7 +2,13 @@
 
 var kDEFAULT_STORE_PRIORITY = 100000;
 
-var consts = {  
+var consts = {
+  kITEMS_PER_PAGE: [5,10,15,20],
+  kPAGES_ON_SCREEN: 3,
+  kORGANIZATION_TYPES: [{id:0, title:'Автосервисы'}, {id:1, title:'Автозапчасти'}, {id:2, title:'Все'}],
+
+
+
   kON_ROUTE_DID_CHANGE__ROUTES_STORE_PRIORITY: kDEFAULT_STORE_PRIORITY,
 
   kON_DATA_CHANGED__WORK_VIEW_STORE_PRIORITY: kDEFAULT_STORE_PRIORITY,

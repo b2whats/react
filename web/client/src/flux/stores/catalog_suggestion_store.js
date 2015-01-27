@@ -17,8 +17,11 @@ var kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY =  sc.kON_CATALOG_SUGGEST
 
 var state_ =  init_state(_.last(__filename.split('/')), {
   brands: [],
-  services: [],
   brand_tags: [],
+
+  services: [],
+  service_tags: [],
+
   show_value: {index:-1, search_term:''}
 
   //list_state: null,
@@ -45,11 +48,14 @@ var cncl_ = [
     catalog_suggestion_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
 
+
   main_dispatcher
   .on(event_names.kON_CATALOG_APPEND_BRAND_TAG, brand_object => {  
     
-    state_.brand_tags_cursor
-      .update( brand_tags => brand_tags.push(immutable.fromJS(brand_object)));
+    if(!state_.brand_tags.some(bt => bt.get('id') === brand_object.id)) {
+      state_.brand_tags_cursor
+        .update( brand_tags => brand_tags.push(immutable.fromJS(brand_object)));
+    }
 
     state_.show_value_cursor
       .update(v => v.set('index', v.get('index') - 1));
@@ -69,6 +75,28 @@ var cncl_ = [
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
 
 
+  main_dispatcher
+  .on(event_names.kON_CATALOG_APPEND_SERVICE_TAG, service_object => {  
+    
+    if(!state_.service_tags.some(st => st.get('id') === service_object.id)) {
+      state_.service_tags_cursor
+        .update( service_tags => service_tags.push(immutable.fromJS(service_object)));
+    }
+
+    state_.show_value_cursor
+      .update(v => v.set('index', v.get('index') - 1));
+    
+    catalog_suggestion_store.fire(event_names.kON_CHANGE);
+  }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_CATALOG_REMOVE_SERVICE_TAG, id => {  
+
+    state_.service_tags_cursor
+      .update( service_tags => service_tags.filter(bt => bt.get('id')!==id));
+
+    catalog_suggestion_store.fire(event_names.kON_CHANGE);
+  }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
 
 ];
 
@@ -80,6 +108,11 @@ var catalog_suggestion_store = merge(Emitter.prototype, {
 
   get_services () {
     return state_.services;
+  },
+
+
+  get_service_tags () {
+    return state_.service_tags;
   },
 
   get_brand_tags() {

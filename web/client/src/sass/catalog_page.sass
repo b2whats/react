@@ -1,4 +1,5 @@
 .catalog
+  font-size: 12px
 
 .catalog-page-container
   margin: 0 0 15px 0
@@ -8,12 +9,41 @@
     margin-top: 10px
     margin-bottom: 10px
 
+  .wrap
+    > *
+      font-size: 13px
+  
 
-.catalog-page-info-header  
+
+
+
+
+.catalog-page-ta-r
+  text-align: right
+
+.catalog-page-midddle
+  @include valign-middle()
+  height: 36px
+
+.catalog-page-left
+  text-align: left
+
+.catalog-page-mr-10
+  margin-right: 10px
+
+.catalog-page-mb-15
+  margin-bottom: 15px
+
+.catalog-page-w100
+  width: 100%
+
+
+.catalog-page-typeaged-input-emulator  
   border-radius: 2px
   border: 1px solid #c1c1c1
   box-shadow: inset 1px 1px 3px -1px rgba(0,0,0,0.2)
   padding: 1px 0
+  text-align: left
   
 
   .typeahead-holder
@@ -53,6 +83,7 @@
         display: inline-block
       .catalog-page-tag-text 
         margin: 0 10px
+        font-size: 12px
       
       .catalog-page-tag-close
         cursor: pointer

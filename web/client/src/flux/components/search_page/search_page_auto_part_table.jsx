@@ -6,6 +6,8 @@ var React = require('react/addons');
 var PropTypes = React.PropTypes;
 var cx        = React.addons.classSet;
 
+var sc = require('shared_constants');
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var PointerEventDisablerMixin = require('mixins/pointer_event_disabler_mixin.js');
@@ -39,8 +41,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 auto_part_by_id_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = [1,2,5,10,15,20];
-var kPAGES_ON_SCREEN = 3; //сколько циферок показывать прежде чем показать ...
+var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
+var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 
 var SearchPageAutoPartTable = React.createClass({

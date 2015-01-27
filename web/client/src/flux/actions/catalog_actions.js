@@ -25,6 +25,8 @@ var actions_ = [
   ['append_brand_tag', event_names.kON_CATALOG_APPEND_BRAND_TAG],
   ['remove_brand_tag', event_names.kON_CATALOG_REMOVE_BRAND_TAG],
   
+  ['append_service_tag', event_names.kON_CATALOG_APPEND_SERVICE_TAG],
+  ['remove_service_tag', event_names.kON_CATALOG_REMOVE_SERVICE_TAG]
 ];
 
 
@@ -35,8 +37,10 @@ var convert_lat_lng_string_2_array = (str) => {
 var get_services_memoized = memoize(() => 
   r_services_.get()
   .then(services => {
-    console.log('services', services);
-    return services;
+    return _.map(services, s => _.extend(
+      {title: s.name},
+      s
+    ));
   })
 , kMEMOIZE_OPTIONS);
 
