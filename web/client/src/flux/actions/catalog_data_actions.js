@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
-var q = require('third_party/es6_promise.js');
+//var q = require('third_party/es6_promise.js');
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 
@@ -16,50 +16,55 @@ var memoize = require('utils/promise_memoizer.js');
 
 var serializer = promise_serializer.create_serializer();
 
-var text_util = require('utils/text.js');
+//var text_util = require('utils/text.js');
 
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
-//var kFAKE_RESULT = require('./test/auto_service_fake_result.json');
-var kAUTOSERVICE_DELTA_ID = 10000000;
-
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
-var kAUTOSERVICE_MARKER_TYPE = 'autoservice-marker-type';
-var kAUTOSERVICE_HINT = 'автосервис: ';
-var kAUTOSERVICE_MARKER_COLOR = sass_vars['autoservice-marker-color'];
-var kAUTOSERVICE_CLUSTER_COLOR = sass_vars['cluster-marker-color'];
+var kCATALOG_DELTA_ID = [0, 10000000];
+var kCATALOG_MARKER_TYPE = ['auto-part-marker-type', 'autoservice-marker-type'];
+var kCATALOG_HINT = ['автозапчасти', 'автосервис'];
+var kCATALOG_MARKER_COLOR = [sass_vars['auto-part-marker-color'], sass_vars['autoservice-marker-color']];
+var kCATALOG_CLUSTER_COLOR = [sass_vars['cluster-marker-color'], sass_vars['cluster-marker-color']];
 
-var r_auto_service_by_id_ = resource(api_refs.kAUTO_SERVICE_BY_ID_API);
+var r_catalog_data_ = resource(api_refs.kCATALOG_DATA);
 
 var actions_ = [
-  ['reset_autoservice_data', event_names.kON_AUTOSERVICE_BY_ID_RESET_DATA],
-  ['autoservice_toggle_balloon', event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON],
-  ['autoservice_close_balloon', event_names.kON_AUTOSERVICE_BY_ID_CLOSE_BALLOON],
-  ['autoservice_show_phone', event_names.kON_AUTOSERVICE_BY_ID_SHOW_PHONE],
-  ['autoservice_marker_hover', event_names.kON_AUTOSERVICE_BY_ID_MARKER_HOVER],
-  ['autoservice_balloon_visible', event_names.kON_AUTOSERVICE_BY_ID_BALLOON_VISIBLE],
-  ['autoservice_map_bounds_changed_by_user', event_names.kON_AUTOSERVICE_BY_ID_MAP_BOUNDS_CHANGED_BY_USER],
-  ['autoservice_change_items_per_page', event_names.kON_AUTOSERVICE_BY_ID_CHANGE_ITEMS_PER_PAGE],
-  ['autoservice_change_page', event_names.kON_AUTOSERVICE_BY_ID_CHANGE_PAGE],
-  ['autoservice_show_all_phones_on_current_page', event_names.kON_AUTOSERVICE_BY_ID_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
+  ['reset_catalog_data', event_names.kON_CATALOG_RESET_DATA],
+
+  ['catalog_toggle_balloon', event_names.kON_CATALOG_TOGGLE_BALLOON],
+  ['catalog_close_balloon', event_names.kON_CATALOG_CLOSE_BALLOON],
+  ['catalog_show_phone', event_names.kON_CATALOG_SHOW_PHONE],
+  ['catalog_marker_hover', event_names.kON_CATALOG_MARKER_HOVER],
+
+  ['catalog_balloon_visible', event_names.kON_CATALOG_BALLOON_VISIBLE],
+
+  ['catalog_map_bounds_changed_by_user', event_names.kON_CATALOG_MAP_BOUNDS_CHANGED_BY_USER],
+  
+  ['catalog_change_items_per_page', event_names.kON_CATALOG_CHANGE_ITEMS_PER_PAGE],
+  ['catalog_change_page', event_names.kON_CATALOG_CHANGE_PAGE],
+
+  ['catalog_show_all_phones_on_current_page', event_names.kON_CATALOG_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
 ];
 
 module.exports.close_all_and_open_balloon = (id) => {
-  main_dispatcher.fire(event_names.kON_AUTO_PART_BY_ID_CLOSE_ALL_BALLOON);
-  main_dispatcher.fire(event_names.kON_AUTOSERVICE_BY_ID_CLOSE_ALL_BALLOON);
+  //main_dispatcher.fire(event_names.kON_AUTOSERVICE_BY_ID_CLOSE_ALL_BALLOON);
+  main_dispatcher.fire(event_names.kON_CATALOG_CLOSE_ALL_BALLOON);
   setTimeout( () => {
-    main_dispatcher.fire(event_names.kON_AUTOSERVICE_BY_ID_TOGGLE_BALLOON, id);
+    main_dispatcher.fire(event_names.kON_CATALOG_TOGGLE_BALLOON, id);
   }, 200);
 };
 
-var query_autoservice_by_id = (region_text, id) => {
-  return r_auto_service_by_id_
-    .get({id:id, region_text:region_text})
+var query_catalog_data = (type, brands, services, region_text) => {
+  return r_catalog_data_
+    .get({
+      type: type==='_' ? '' : type, 
+      brands: brands==='_' ? '' : brands.join(','), 
+      services: services==='_' ? '': services.join(','), 
+      region_text: region_text})
     .then(res => {
-
-      //res = kFAKE_RESULT;
       //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 
@@ -73,6 +78,8 @@ var query_autoservice_by_id = (region_text, id) => {
       
       var markers = _.filter(res.map, m => m.user_id in res_user_id);
       
+      //fillial_type_id
+
       markers = _.map(markers, (m, m_index) => 
         _.extend( { 
                     is_open: false,         //true если с этой метки открыт balloon или надо открыть-закрыть балун
@@ -84,17 +91,17 @@ var query_autoservice_by_id = (region_text, id) => {
                     on_current_page: false, //есть ли иконка на текущей старничке в табличке
                   }, //system
                   {
-                    marker_color: kAUTOSERVICE_MARKER_COLOR, //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
-                    marker_type: kAUTOSERVICE_MARKER_TYPE,   //тип метки - автосервис или запчасть
-                    hint: kAUTOSERVICE_HINT + m.company_name //хинт что показывать на метке
+                    marker_color: kCATALOG_MARKER_COLOR[m.fillial_type_id - 1], //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
+                    marker_type: kCATALOG_MARKER_TYPE[m.fillial_type_id - 1],   //тип метки - автосервис или запчасть
+                    hint: kCATALOG_HINT[m.fillial_type_id - 1] + m.company_name //хинт что показывать на метке
                   }, //брать потом из базы
                   {
-                    cluster_color: kAUTOSERVICE_CLUSTER_COLOR //цвет иконки кластера
+                    cluster_color: kCATALOG_CLUSTER_COLOR[m.fillial_type_id - 1] //цвет иконки кластера
                   },
                   m,
                   {
                     server_id:m.id,    //настоящий id
-                    id: m.id + kAUTOSERVICE_DELTA_ID,          //смещенный id
+                    id: m.id + kCATALOG_DELTA_ID[m.fillial_type_id - 1],          //смещенный id
                     icon_number:m.rank //циферка на иконке
                   } ));
 
@@ -116,7 +123,7 @@ var query_autoservice_by_id = (region_text, id) => {
 
       var res_converted = {header:res.header, markers:markers, results:results};
 
-      console.log('service res 2::: ', res_converted);
+      console.log('catalog res 2::: ', res_converted);
       //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
 
       /*
@@ -145,14 +152,13 @@ var query_autoservice_by_id = (region_text, id) => {
     });
 };
 
+var query_catalog_data_memoized = memoize(query_catalog_data, kMEMOIZE_OPTIONS);
 
-var query_autoservice_by_id_memoized = memoize(query_autoservice_by_id, kMEMOIZE_OPTIONS);
-
-module.exports.query_autoservice_by_id = (region_text, id) => {
-  return serializer( () => query_autoservice_by_id_memoized(region_text, id)
+module.exports.query_catalog_data = (type, brands, services, region_text) => {
+  return serializer( () => query_catalog_data_memoized(type, brands, services, region_text)
     .then(res => {
       
-      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_AUTOSERVICE_BY_ID_DATA_LOADED].concat([res]));
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_CATALOG_DATA_LOADED].concat([res]));
       return res;
     })
   )
@@ -167,4 +173,3 @@ module.exports.query_autoservice_by_id = (region_text, id) => {
 };
 
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
-

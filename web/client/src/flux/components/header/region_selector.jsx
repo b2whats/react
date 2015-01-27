@@ -61,7 +61,7 @@ var RegionSelector = React.createClass({
     var style = {
       display: this.state.region_selection_visible ? 'block' : 'none'
     };
-    console.log('select_region');
+
     return (
         <div className="header-region">
           <img src="/assets/images/templates/icon-map.png" alt="" />

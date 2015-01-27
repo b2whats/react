@@ -47,11 +47,22 @@ var Header = React.createClass({
 
         <RegionSelector />
 
-        <div className="top-navbar">
-          <Link className="h_link" href={route_names.kROUTE_CATALOG} params={ {region_id: kDEFAULT_REGION_ID} }>Каталог компаний</Link>
+        <div className="top-navbar">          
+          <Link
+            className="h_link" 
+            href={route_names.kROUTE_CATALOG} 
+            params={ {
+              region_id: kDEFAULT_REGION_ID, 
+              type: '_',
+              brands: '_',
+              services: '_'} }>Каталог компаний</Link>
+
           <Link className="no-href">|</Link>
+          
           <Link className="ap-link" href="/">Регистрация</Link>
+          
           <Link className="ap-link" onClick={this.openModal}>Вход</Link>
+          
           <Modal
               isOpen={this.state.modalIsOpen}
               onRequestClose={this.handleModalCloseRequest}

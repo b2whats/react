@@ -24,10 +24,13 @@ var test_store = require('stores/test_store.js');
 
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
+var catalog_data_store = require('stores/catalog_data_store.js');
 
 var test_action = require('actions/test_action.js');
+
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
+var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 
 var style_utils = require('utils/style_utils.js');
@@ -50,14 +53,15 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   width: search_page_store.get_search_page_width (),
   region_current:           region_store.get_region_current (), 
   test_value: test_store.get_test_value(),
+  
   auto_part_markers: auto_part_by_id_store.get_auto_part_markers(),
   autoservice_markers: autoservice_by_id_store.get_autoservice_markers(),
-  
+  catalog_markers: catalog_data_store.get_catalog_markers(),
   //auto_part_map_bounds: auto_part_by_id_store.get_map_bounds (),
   //auto_service_map_bounds: auto_part_by_id_store.get_map_bounds () //TODO не забыть изменить
   
 }),
-search_page_store, region_store, test_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
+search_page_store, region_store, test_store, auto_part_by_id_store, autoservice_by_id_store, catalog_data_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
 
@@ -73,42 +77,52 @@ var SearchPageYandexMap = React.createClass({
     //test_action.test_action_toggle_balloon(id);
     auto_part_by_id_actions.auto_part_toggle_balloon(id);
     autoservice_by_id_actions.autoservice_toggle_balloon(id);
+
+    catalog_data_actions.catalog_toggle_balloon(id);
   },
   
   on_marker_hover(id, hover_state) {
     auto_part_by_id_actions.auto_part_marker_hover(id, hover_state);
     autoservice_by_id_actions.autoservice_marker_hover(id, hover_state);
+    catalog_data_actions.catalog_marker_hover(id, hover_state);
   },
 
   on_close_ballon_click(id) {
     //test_action.test_action_close_balloon(id);
     auto_part_by_id_actions.auto_part_close_balloon(id);
     autoservice_by_id_actions.autoservice_close_balloon(id);
+    catalog_data_actions.catalog_close_balloon(id);
   },
 
   on_balloon_event(event_name, id) {
     if(event_name === yandex_templates_events.kON_SHOW_PHONE_CLICK) {
       auto_part_by_id_actions.auto_part_show_phone(id);
       autoservice_by_id_actions.autoservice_show_phone(id);
+      catalog_data_actions.catalog_show_phone(id);
     } else 
     if (event_name === yandex_templates_events.kON_BALLOON_VISIBLE) {      
       
       auto_part_by_id_actions.auto_part_balloon_visible(id, true);
       auto_part_by_id_actions.auto_part_show_phone(id)
       
-      autoservice_by_id_actions.autoservice_balloon_visible(id, true);      
+      autoservice_by_id_actions.autoservice_balloon_visible(id, true);
       autoservice_by_id_actions.autoservice_show_phone(id);
+
+      catalog_data_actions.catalog_balloon_visible(id, true);
+      catalog_data_actions.catalog_show_phone(id);
     
     } else
     if (event_name === yandex_templates_events.kON_BALLOON_HIDDEN) {      
       auto_part_by_id_actions.auto_part_balloon_visible(id, false);
       autoservice_by_id_actions.autoservice_balloon_visible(id, false);
+      catalog_data_actions.catalog_balloon_visible(id, false);
     }
   },
 
   on_bounds_change (center, zoom, bounds) { //это событие по крайней мере старается вызываться только когда реально идут юзерские изменения
     auto_part_by_id_actions.auto_part_map_bounds_changed_by_user(center, zoom, bounds);
     autoservice_by_id_actions.autoservice_map_bounds_changed_by_user(center, zoom, bounds);
+    catalog_data_actions.catalog_map_bounds_changed_by_user(center, zoom, bounds);
   },
 
   render () {
@@ -145,6 +159,14 @@ var SearchPageYandexMap = React.createClass({
           {...m.toJS()} />).toJS() || [];
 
 
+    var CatalogMarkers  = this.state.catalog_markers &&
+      this.state.catalog_markers
+      .filter( m => m.get('on_current_page') )
+      .map(m => 
+        <YandexMapMarker 
+          key={m.get('id')} 
+          {...m.toJS()} />).toJS() || [];
+      
     return (
       <div className={this.props.className}>
         <div className={class_name_search_page_yandex_map}>                  
@@ -164,6 +186,7 @@ var SearchPageYandexMap = React.createClass({
               
               {YandexAutoServiceMarkers}
               {YandexAutoPartsMarkers}
+              {CatalogMarkers}
           
           </YandexMap>}
         </div>
