@@ -19,10 +19,9 @@ var SearchPage = require('components/search_page/search_page.jsx');
 var Link = require('components/link.jsx');
 
 var SearchPageYandexMap = require('components/search_page/search_page_yandex_map.jsx');
-var SearchPageAutoPartTable = require('components/search_page/search_page_auto_part_table.jsx');
-var SearchPageAutoServiceTable = require('components/search_page/search_page_autoservice_table.jsx');
+var SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
 
-var CatalogSearch = require('components/catalog_page/catalog_search.jsx');
+var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 /* jshint ignore:end */
 
 
@@ -64,20 +63,10 @@ var ice_main = React.createClass({
 			    var RightBlockContent = (function(router_state) {
 			      switch(router_state) {        
 			        case route_names.kROUTE_PARTS_FIND:
-			          return (
-			            <div className="search-page-right-block">
-			              <SearchPageAutoPartTable />
-			              <hr className="search-page-hr" />
-			              <SearchPageAutoServiceTable />            
-			            </div>
-			          );
+			          return <SearchPageRightBlockContent />;
 			        break;
 			        case route_names.kROUTE_CATALOG:
-			          return (
-			            <div className="search-page-right-block">
-			              <CatalogSearch />
-			            </div>
-			          );
+			          return <CatalogPageRightBlockContent />;
 			        break;
 			      }
 			    }) (router_state);
@@ -85,9 +74,10 @@ var ice_main = React.createClass({
 
 					return (
 						<SearchPage>
-			        {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-------------------------------*/}        
-			        <div ref='main_content' className="search-page-main-fixed">
+			        {/*-----------ФИКСЕД ЧАСТЬ СТРАНИЧКИ-----ДЛЯ АДМИН ЧАСТИ ВСЯ ПОДМЕНЯЕТСЯ------*/}        
+			        <div ref='main_content' className="search-page-main-fixed">			          
 			          <SearchPageYandexMap className="search-page-left-block" />
+			          
 			          {RightBlockContent}
 			        </div>
 						</SearchPage>
