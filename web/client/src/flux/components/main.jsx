@@ -59,16 +59,16 @@ var ice_main = React.createClass({
 				case route_names.kROUTE_PARTS_FIND:
 				case route_names.kROUTE_CATALOG:
 				//ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
-			    var RightBlockContent = (function(router_state) {
-			      switch(router_state) {
-			        case route_names.kROUTE_PARTS_FIND:
-			          return <SearchPageRightBlockContent />;
-			        break;
-			        case route_names.kROUTE_CATALOG:
-			          return <CatalogPageRightBlockContent />;
-			        break;
-			      }
-			    }) (router_state);
+					var RightBlockContent = (function(router_state) {
+					  switch(router_state) {
+						case route_names.kROUTE_PARTS_FIND:
+						  return <SearchPageRightBlockContent />;
+						break;
+						case route_names.kROUTE_CATALOG:
+						  return <CatalogPageRightBlockContent />;
+						break;
+					  }
+					}) (router_state);
 
 
 					return (
