@@ -115,9 +115,10 @@ $typeahead-top-margin: 3px
   @-moz-document url-prefix()
     max-height: $max-typeahead-list-height + 4 //убрать мелкий баг с бордерами под файфокс
 
-//Ох еслиб у всех стоял хром
-//.typeahead-list::-webkit-scrollbar
-//  display: none
+
+//пусть на хроме не будет косяков связаных с системами где скролбар не показывается
+.typeahead-list::-webkit-scrollbar
+  display: none
 
   
 

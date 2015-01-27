@@ -11,6 +11,8 @@ var style_utils = require('utils/style_utils.js');
 var _ = require('underscore');
 var text_utils = require('utils/text.js');
 
+var kDEBUG_CSS = false; //отключает display none на выпадающем списке - когда надо стили потестить
+
 var Typeahead = React.createClass({
 
   focused_can_change: true,
@@ -395,7 +397,7 @@ var TypeaheadResults = React.createClass({
     
 
 
-    var style = {
+    var style = kDEBUG_CSS ? {listStyleType: 'none'} : {
       display: this.is_visible(this.props) ? 'block' : 'none',
       listStyleType: 'none'
     };
