@@ -12,11 +12,6 @@
   .wrap
     > *
       font-size: 13px
-  
-
-
-
-
 
 .catalog-page-ta-r
   text-align: right
@@ -36,7 +31,6 @@
 
 .catalog-page-w100
   width: 100%
-
 
 .catalog-page-typeaged-input-emulator  
   border-radius: 2px
@@ -68,7 +62,7 @@
 
     //height: 32px
     .catalog-page-tag
-      border: 1px solid #b7a6de
+      
       @include valign-middle()
       
       margin: 4px 4px
@@ -77,7 +71,15 @@
       border-radius: 2px
       display: inline-block
       
+      border: 1px solid #b7a6de
       background-color: #efeaf9
+      
+      &.catalog-page-tag-services
+        border: 1px solid #f6d600
+        background-color: #fdf5bf
+        .catalog-page-tag-close
+          border-right: 1px solid #f6d600
+          
       @include valign-middle()
       > span
         display: inline-block

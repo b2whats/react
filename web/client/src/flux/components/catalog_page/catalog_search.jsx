@@ -174,7 +174,7 @@ var CatalogSearch = React.createClass({
               <span>Виды услуг</span>
             </div>
             <div className="md-7-6">  
-              <div className="catalog-page-typeaged-input-emulator">                
+              <div className="catalog-page-typeaged-input-emulator">
                   <Typeahead
                     //show_value={this.state.show_value_hack.toJS()}
                     show_value={this.state.show_value_hack.toJS()}
@@ -185,7 +185,7 @@ var CatalogSearch = React.createClass({
                     options={this.state.services && this.state.services.toJS()}>
 
                     {this.state.service_tags.map( (bt,index) => 
-                      <div key={index} className="catalog-page-tag">
+                      <div key={index} className="catalog-page-tag catalog-page-tag-services">
                         <span onMouseDownCapture={_.bind(this.on_remove_service_tag, this, bt.get('id') )} className="catalog-page-tag-close">
                           <span className="svg-icon_close"></span>
                         </span>
