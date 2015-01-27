@@ -45,7 +45,7 @@ $scrollbar-thumb-width: 10px
   .arrow
     position: absolute
     height: $arrow-wh
-    font-size: $arrow-wh
+    font-size: $arrow-wh - 4px
     text-align: center
     left: 0
     right: 0
@@ -58,7 +58,7 @@ $scrollbar-thumb-width: 10px
     border-style: none 
     &:before,&:after
       font-family: Flaticon
-      font-size: $scrollbar-width
+      font-size: $arrow-wh - 4px
       font-style: normal
       line-height: $scrollbar-width
     &:hover

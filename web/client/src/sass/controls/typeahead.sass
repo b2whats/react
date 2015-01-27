@@ -8,6 +8,15 @@ $typeahead-scrollbar-move-delta: 30px //на сколько утащить ск�
 $typeahead-headers-height: 30px
 $typeahead-top-margin: 3px
 
+
+.scrollbar-measure
+  width: 100px
+  height: 100px
+  overflow: scroll
+  position: absolute
+  top: -9999px
+
+
 .typeahead-holder
   width: 100%
 
@@ -42,6 +51,15 @@ $typeahead-top-margin: 3px
 
   //position: absolute
   //z-index: $typeahead-z-index - 1
+
+.typeahead-list-holder-scroll-visible
+  .typeahead-list-item
+    margin: 0 $scrollbar-width 0 0 //отступы отличаются если есть скролбар и если нету (тут если есть)      
+    padding-right: 0 //паддинги для нивелировать скачок по маржину при появлении
+
+.typeahead-list-item
+  margin: 0 0 0 0 //отступы отличаются если есть скролбар и если нету (тут если нету)    
+  padding-right: $scrollbar-width  //паддинги для нивелировать скачок по маржину при появлении
 
 
 //нужен чтобы скрыть настоящий скроллбар у typeahead-list
