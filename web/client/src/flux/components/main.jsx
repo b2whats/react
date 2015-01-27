@@ -56,7 +56,7 @@ var ice_main = React.createClass({
 				break;
 				
 				//ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
-				//ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ
+				//ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
 				case route_names.kROUTE_PARTS_FIND:
 				case route_names.kROUTE_CATALOG:
 				//ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
