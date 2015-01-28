@@ -5,7 +5,7 @@ var kDEFAULT_STORE_PRIORITY = 100000;
 var consts = {
   kITEMS_PER_PAGE: [5,10,15,20],
   kPAGES_ON_SCREEN: 3,
-  kORGANIZATION_TYPES: [{id:0, title:'Автосервисы'}, {id:1, title:'Автозапчасти'}, {id:2, title:'Все'}],
+  kORGANIZATION_TYPES: [{id:0, title:'Автозапчасти'}, {id:1, title:'Автосервисы'}, {id:2, title:'Все'}],
 
 
 
