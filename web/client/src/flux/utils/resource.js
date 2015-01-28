@@ -15,6 +15,7 @@ function http(method, url, object) {
   if(url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0) {
     //не вызывает preflight запроса
     xhr.setRequestHeader("Content-Type","text/plain");
+    xhr.withCredentials = true; //чтобы кука
   }
 
   return {
