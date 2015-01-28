@@ -105,21 +105,21 @@ var CatalogPageTable = React.createClass({
 
       return (
         <div
+          className={cx(hover_class, 'catalog-page-table-item')}
           onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
           onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)}
           onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
           key={part_index}>
           
-          {part.get('rank')}
+          <div>N={part.get('rank')}</div>
+          <div>{part.get('company_name')}</div>
 
-          {part.get('company_name')}
+          <div>-{part.get('recommended').get('minus')}/
+          {part.get('recommended').get('plus')}-</div>
 
-          -{part.get('recommended').get('minus')}/
-          {part.get('recommended').get('plus')}-
+          <div>{part.get('description')}</div>
 
-          {part.get('description')}
-
-          {part.get('site')}
+          <div>{part.get('site')}</div>
           
         </div>
         )
