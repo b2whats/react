@@ -24,7 +24,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
   show_value: {index:-1, search_term:''},
 
-  company_type: {index:-1, search_term: _.find(sc.kORGANIZATION_TYPES, ot => ot.id === 2).title}
+  company_type: {index:-1, id: 2, search_term: _.find(sc.kORGANIZATION_TYPES, ot => ot.id === 2).title}
 
   //list_state: null,
   //search_term: '',
@@ -54,25 +54,38 @@ var cncl_ = [
   .on(event_names.kON_CATALOG_PARAMS_CHANGED, (company_type, brands, services) => {
     
     //console.log('company_type, brands, services', company_type, brands, services);
-    var company_object = _.find(sc.kORGANIZATION_TYPES, ot => ot.id === company_type);
+    var company_object = _.find(sc.kORGANIZATION_TYPES, ot => ot.id === (company_type - 1));
     state_.company_type_cursor
       .update(company => 
-        company.set('index', company.get('index')-1).set('search_term', company_object.title));
+        company
+          .set('index', company.get('index')-1)
+          .set('search_term', company_object.title)
+          .set('id', company_object.id));
 
     var im_brands = immutable.fromJS(brands);    
     state_.brand_tags_cursor
-      .update( () => state_.brands.filter(b => im_brands.some(brand_id => b.get('id')===brand_id)));
+      .update( () => 
+        im_brands
+          .map(brand_id => 
+            state_.brands.find(b => b.get('id') === brand_id))
+          .filter( b => !!b));
 
     var im_services = immutable.fromJS(services);    
     state_.service_tags_cursor
-      .update( () => state_.services.filter(s => im_services.some(service_id => s.get('id')===service_id)));
+      .update( () => 
+        im_services
+          .map(service_id => 
+            state_.services.find(s => s.get('id') === service_id))
+          .filter( s => !!s));
 
+    state_.show_value_cursor
+      .update(v => v.set('index', v.get('index') - 1));
 
     catalog_suggestion_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
 
 
-
+/*
 
   main_dispatcher
   .on(event_names.kON_CATALOG_APPEND_BRAND_TAG, brand_object => {  
@@ -122,6 +135,7 @@ var cncl_ = [
 
     catalog_suggestion_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
+*/
 
 ];
 

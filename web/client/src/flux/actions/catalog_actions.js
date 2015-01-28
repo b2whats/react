@@ -3,6 +3,10 @@ var _ = require('underscore');
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 
+var route_names = require('shared_constants/route_names.js');
+var route_actions = require('actions/route_actions.js');
+var routes_store = require('stores/routes_store.js');
+
 var event_names = require('shared_constants/event_names.js');
 var api_refs = require('shared_constants/api_refs.js');
 var resource = require('utils/resource.js');
@@ -22,11 +26,11 @@ var r_data_ = resource(api_refs.kCATALOG_DATA);
 
 
 var actions_ = [
-  ['append_brand_tag', event_names.kON_CATALOG_APPEND_BRAND_TAG],
-  ['remove_brand_tag', event_names.kON_CATALOG_REMOVE_BRAND_TAG],
+  //['append_brand_tag', event_names.kON_CATALOG_APPEND_BRAND_TAG],
+  //['remove_brand_tag', event_names.kON_CATALOG_REMOVE_BRAND_TAG],
   
-  ['append_service_tag', event_names.kON_CATALOG_APPEND_SERVICE_TAG],
-  ['remove_service_tag', event_names.kON_CATALOG_REMOVE_SERVICE_TAG]
+  //['append_service_tag', event_names.kON_CATALOG_APPEND_SERVICE_TAG],
+  //['remove_service_tag', event_names.kON_CATALOG_REMOVE_SERVICE_TAG]
 ];
 
 
@@ -76,7 +80,7 @@ module.exports.get_services_and_brands = (company_type, brands, services) => {  
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_SERVICES_DATA_LOADED].concat([list[0]]));
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_BRANDS_DATA_LOADED].concat([list[1]]));
       
-      company_type = (company_type === '_') ? 2 : +company_type;
+      company_type = (company_type === '_') ? 3 : +company_type;
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_PARAMS_CHANGED].concat([company_type, brands, services]));
       
 
@@ -91,5 +95,27 @@ module.exports.get_services_and_brands = (company_type, brands, services) => {  
       }
     });
 };
+
+
+module.exports.update_page = (company_type, brands, services) => {
+
+  //route_defaults = (route_defaults === route_definitions.kROUTE_DEF) ? route_definitions.kROUTE_DEF_W_REGION : route_defaults;
+  //route_actions.goto_link_w_params(route_defaults, _.extend({}, route_params, {region_id: region_id}));
+  var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
+
+  route_actions.goto_link_w_params(
+    route_names.kROUTE_CATALOG,
+    _.extend(
+      {},
+      route_params,
+      {
+        type: company_type===2 ? '_' : company_type + 1,
+        brands: brands.length===0 ? '_' : brands.join(','),
+        services: services.length===0 ? '_' : services.join(',')
+      }
+    ));
+};
+
+
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
 

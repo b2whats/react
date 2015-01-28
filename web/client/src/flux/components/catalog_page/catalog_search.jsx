@@ -4,6 +4,7 @@ var _ = require('underscore');
 var React = require('react/addons');
 
 var sc = require('shared_constants');
+var immutable = require('immutable');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
@@ -44,33 +45,56 @@ var CatalogSearch = React.createClass({
     
   },
   
-
   typeahead_brands_changed (v) {    
-    catalog_actions.append_brand_tag(v);
+    if(!this.state.brand_tags.find(b => b.get('id') === v.id)) {    
+      var brand_tag_ids = this.state.brand_tags.push(immutable.fromJS(v)).map(b => b.get('id')).toJS();
+      var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
+    
+      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+    }
   },
 
-  typeahead_service_changed (v) {    
-    catalog_actions.append_service_tag(v);
+  typeahead_service_changed (v) {
+    if(!this.state.service_tags.find(s => s.get('id') === v.id)) {    
+      var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
+      var service_tags_ids = this.state.service_tags.push(immutable.fromJS(v)).map(s => s.get('id')).toJS();
+    
+      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+    }
   },
-
 
   typeahead_lost_focus () { //означает что тайпахед закрылся
-    console.log('typeahead lost focus');
+    //console.log('typeahead lost focus');
   },
 
   on_remove_tag(id, e) {
-    catalog_actions.remove_brand_tag(id);
+    var brand_tag_ids = this.state.brand_tags.filter(b => b.get('id')!==id).map(b => b.get('id')).toJS();
+    var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
+    
+    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
 
     e.preventDefault();
     e.stopPropagation();
   },
 
-  on_remove_service_tag(id, e) {
-    catalog_actions.remove_service_tag(id);
+  on_remove_service_tag(id, e) {    
+    var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
+    var service_tags_ids = this.state.service_tags.filter(s => s.get('id')!==id).map(s => s.get('id')).toJS();
+    
+    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
 
     e.preventDefault();
     e.stopPropagation();
   },
+
+  on_organization_type_changed(v) {
+    var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
+    var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
+
+    catalog_actions.update_page(v.id, brand_tag_ids, service_tags_ids);  
+  },
+
+
 
   on_change_items_per_page (items_num, e) {
     catalog_data_actions.catalog_change_items_per_page(items_num);
@@ -79,12 +103,9 @@ var CatalogSearch = React.createClass({
   },
 
   on_company_type_focus () {
-    console.log('focus');
+    //console.log('focus');
   },
 
-  on_organization_type_changed(v) {
-    console.log('on_organization_type_changed', v);
-  },
 
   search_all(options, searchTerm, cb) {
     cb(null, options);

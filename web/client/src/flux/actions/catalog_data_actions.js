@@ -127,7 +127,7 @@ var query_catalog_data = (type, brands, services, region_text) => {
       //header:res.header, 
       var res_converted = {markers:markers, results:results};
 
-      console.log('catalog res 2::: ', res_converted);
+      //console.log('catalog res 2::: ', res_converted);
       //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
 
       /*
