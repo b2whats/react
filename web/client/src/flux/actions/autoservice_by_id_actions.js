@@ -157,7 +157,7 @@ module.exports.query_autoservice_by_id = (region_text, id) => {
     })
   )
   .catch(e => {
-    if(promise_serializer.is_skip_error) {
+    if(promise_serializer.is_skip_error(e)) {
       //console.log('SKIPPED')
     } else {
       console.error(e, e.stack);

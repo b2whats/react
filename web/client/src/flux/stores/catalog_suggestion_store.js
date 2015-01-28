@@ -22,7 +22,9 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   services: [],
   service_tags: [],
 
-  show_value: {index:-1, search_term:''}
+  show_value: {index:-1, search_term:''},
+
+  company_type: {index:-1, search_term: _.find(sc.kORGANIZATION_TYPES, ot => ot.id === 2).title}
 
   //list_state: null,
   //search_term: '',
@@ -47,6 +49,29 @@ var cncl_ = [
     
     catalog_suggestion_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_CATALOG_PARAMS_CHANGED, (company_type, brands, services) => {
+    
+    //console.log('company_type, brands, services', company_type, brands, services);
+    var company_object = _.find(sc.kORGANIZATION_TYPES, ot => ot.id === company_type);
+    state_.company_type_cursor
+      .update(company => 
+        company.set('index', company.get('index')-1).set('search_term', company_object.title));
+
+    var im_brands = immutable.fromJS(brands);    
+    state_.brand_tags_cursor
+      .update( () => state_.brands.filter(b => im_brands.some(brand_id => b.get('id')===brand_id)));
+
+    var im_services = immutable.fromJS(services);    
+    state_.service_tags_cursor
+      .update( () => state_.services.filter(s => im_services.some(service_id => s.get('id')===service_id)));
+
+
+    catalog_suggestion_store.fire(event_names.kON_CHANGE);
+  }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
+
+
 
 
   main_dispatcher
@@ -121,6 +146,10 @@ var catalog_suggestion_store = merge(Emitter.prototype, {
 
   get_show_value() {
     return state_.show_value;
+  },
+
+  get_company_type() {
+    return state_.company_type;
   },
 
   dispose () {

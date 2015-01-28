@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var route_names = require('shared_constants/route_names.js');
 var route_definitions = route_names; //пока полежат в одном месте
 var route_actions = require('actions/route_actions.js');
@@ -53,7 +54,11 @@ routes[route_definitions.kROUTE_CATALOG] = [
     region_actions.region_changed(route_context_params.region_id),
 
   (route_name, route_context, route_context_params) => 
-    catalog_actions.get_services_and_brands(),
+    catalog_actions.get_services_and_brands(
+      route_context_params.type, 
+      route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
+      route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v)
+    ),
 
   (route_name, route_context, route_context_params) => 
     auto_part_by_id_actions.reset_auto_part_data(),
@@ -62,7 +67,10 @@ routes[route_definitions.kROUTE_CATALOG] = [
     autoservice_by_id_actions.reset_autoservice_data(),
   
   (route_name, route_context, route_context_params) => 
-    catalog_data_actions.query_catalog_data(route_context_params.type, route_context_params.brands, route_context_params.services, route_context_params.region_text),
+    catalog_data_actions.query_catalog_data(route_context_params.type, 
+    route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
+    route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v),
+    route_context_params.region_id),
   
   route_actions.default_route];
 

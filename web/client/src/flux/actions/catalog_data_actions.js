@@ -65,6 +65,10 @@ var query_catalog_data = (type, brands, services, region_text) => {
       services: services==='_' ? '': services.join(','), 
       region_text: region_text})
     .then(res => {
+      //console.log('res',res);
+      if(_.isArray(res) && res.length === 0) {
+        return {markers:[], results:[]};
+      }
       //чистим данные с сервера
       var map_user_id = _.reduce(res.map, (memo,marker) => {
         memo[marker.user_id] = true; 
@@ -120,8 +124,8 @@ var query_catalog_data = (type, brands, services, region_text) => {
           is_balloon_visible_same_address: false  //открыт балун с такимже ранком и на том же адресе что и соновной
         }));
       
-
-      var res_converted = {header:res.header, markers:markers, results:results};
+      //header:res.header, 
+      var res_converted = {markers:markers, results:results};
 
       console.log('catalog res 2::: ', res_converted);
       //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
@@ -163,7 +167,7 @@ module.exports.query_catalog_data = (type, brands, services, region_text) => {
     })
   )
   .catch(e => {
-    if(promise_serializer.is_skip_error) {
+    if(promise_serializer.is_skip_error(e)) {
       //console.log('SKIPPED')
     } else {
       console.error(e, e.stack);

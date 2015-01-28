@@ -70,15 +70,20 @@ var get_catalog_data_memoized = memoize((type, brands, services, region_text) =>
 //----------------------------------------------------------------------------------------------------------
 //exports section
 //----------------------------------------------------------------------------------------------------------
-module.exports.get_services_and_brands = () => {  //подгружает список регионов если надо
+module.exports.get_services_and_brands = (company_type, brands, services) => {  //подгружает список регионов если надо
   return q.all([serializer( () => get_services_memoized()), serializer( () => get_brands_memoized())]) //для смены региона надо быть уверенным что они загружены
     .then(list => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_SERVICES_DATA_LOADED].concat([list[0]]));
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_BRANDS_DATA_LOADED].concat([list[1]]));
+      
+      company_type = (company_type === '_') ? 2 : +company_type;
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_PARAMS_CHANGED].concat([company_type, brands, services]));
+      
+
       return list;
     })
     .catch(e => {
-      if(promise_serializer.is_skip_error) {
+      if(promise_serializer.is_skip_error(e)) {
         //console.log('SKIPPED')
       } else {
         console.error(e, e.stack);

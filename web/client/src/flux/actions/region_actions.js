@@ -61,7 +61,7 @@ module.exports.region_changed = (region_id) => {  //подгружает спи�
     })
   )
   .catch(e => {
-    if(promise_serializer.is_skip_error) {
+    if(promise_serializer.is_skip_error(e)) {
       //console.log('SKIPPED')
     } else {
       console.error(e, e.stack);

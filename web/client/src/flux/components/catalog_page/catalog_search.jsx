@@ -26,6 +26,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   services: catalog_suggestion_store.get_services(),
   service_tags: catalog_suggestion_store.get_service_tags(),
   show_value_hack: catalog_suggestion_store.get_show_value(),
+  company_type: catalog_suggestion_store.get_company_type(),
 
   items_per_page: catalog_data_store.get_items_per_page(),
 }),
@@ -105,8 +106,6 @@ var CatalogSearch = React.createClass({
       </a>);    
 
     return (
-      
-
       <div className="catalog">
 
         <div className="catalog-page-container catalog-page-container-side-margin">
@@ -122,7 +121,8 @@ var CatalogSearch = React.createClass({
             </div>
 
             <div className="md-7-1 catalog-page-midddle">
-              <Typeahead 
+              <Typeahead
+                show_value={this.state.company_type.toJS()} 
                 search={this.search_all}               
                 placeholder="Тип организации" 
                 has_custom_scroll={true}
