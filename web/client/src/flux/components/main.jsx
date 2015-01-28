@@ -33,7 +33,6 @@ routes_store /*observable store list*/);
 
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
-var RouteMainPage  = immutable.List.of(route_names.kROUTE_DEF,route_names.kROUTE_DEF_W_REGION);
 
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
@@ -73,19 +72,30 @@ var ice_main = React.createClass({
 
 
 					return (
-						<div ref='main_content' className="search-page-main-fixed">
-						  <SearchPageYandexMap className="search-page-left-block" />
-						  {RightBlockContent}
-						</div>
+						<SearchBlockHeader>	
+							<div ref='main_content' className="search-page-main-fixed">
+							  <SearchPageYandexMap className="search-page-left-block" />
+							  {RightBlockContent}
+							</div>
+						</SearchBlockHeader>
 					);
 				break;
 
+				//ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
 				case route_names.kROUTE_ACCOUNT_INFO:
+				//У тебя тут возможно будут другие кейсы	и по итогам будет что то вроде как в блоке выше
+				//по итогам смотри блок case стал таким же по структуре что и блок выше
+				//код стал читаемей
+					var CentralBlockContent = (function(router_state) {
+					 return <span>Так приятней</span>;
+					}) (router_state);
+
 					return (
-						<span>1</span>
+						<SearchBlockHeader>
+							{CentralBlockContent}
+						</SearchBlockHeader>
 					);
 				break;
-
 			}
 		}) (this.state.router_state);
 
@@ -93,12 +103,7 @@ var ice_main = React.createClass({
 			<div className="main-wrapper">
 				<Header />
 				<div className="hfm-wrapper main-body">
-
-					{RouteMainPage.contains(this.state.router_state) ?
-						{MainContent}
-						:
-						<SearchBlockHeader>{MainContent}</SearchBlockHeader>
-					}
+					{MainContent}
 				</div>
 				<Footer />
 			</div>
