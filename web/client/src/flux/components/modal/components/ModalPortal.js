@@ -82,7 +82,7 @@ var ModalPortal = module.exports = React.createClass({
   },
 
   focusContent: function() {
-    this.refs.content.getDOMNode().focus();
+    //this.refs.content.getDOMNode().focus();
   },
 
   closeWithTimeout: function() {

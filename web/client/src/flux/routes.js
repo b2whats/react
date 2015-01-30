@@ -7,6 +7,7 @@ var route_actions = require('actions/route_actions.js');
 var region_actions = require('actions/region_actions.js');
 
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+var account_page_actions = require('actions/account_page_actions.js');
 var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 var catalog_data_actions = require('actions/catalog_data_actions.js');
 
@@ -47,6 +48,7 @@ routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS
 
 routes[route_definitions.kROUTE_ACCOUNT_URI] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE,
     () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
+
     route_actions.default_route];
 
 routes[route_definitions.kROUTE_CATALOG] = [
@@ -77,6 +79,8 @@ routes[route_definitions.kROUTE_CATALOG] = [
 routes[route_definitions.kROUTE_ACCOUNT] = [
     (route_name, route_context, route_context_params) =>
         region_actions.region_changed(route_context_params.region_id),
+    () =>
+        account_page_actions.get_company_information(11121),
 
     route_actions.default_route];
 module.exports = routes;

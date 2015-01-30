@@ -15,7 +15,7 @@ var appElement = document.getElementById('react_main');
 var rafBatchStateUpdateMixinCreate =require('../mixins/raf_state_update.js');
 Modal.setAppElement(appElement);
 
-var modal_actions = require('actions/modal_actions.js');
+
 
 var modal_store = require('stores/modal_store.js');
 //State update and stores for which we need intercept kON_CHANGE events
@@ -26,22 +26,14 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 
 var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
+var ModalMixin = require('../mixins/modal_mixin.js');
 
 var Header = React.createClass({
-  mixins: [PureRenderMixin,RafBatchStateUpdateMixin],
+  mixins: [PureRenderMixin,RafBatchStateUpdateMixin,ModalMixin],
 
-  openModal: function() {
-    modal_actions.open_modal();
-  },
 
-  closeModal: function() {
-    modal_actions.close_modal();
-  },
-  handleModalCloseRequest: function() {
-    modal_actions.close_modal();
-  },
   render () {
-
+    console.log('render_header');
     return (
       <div className="hfm-wrapper main-header header entire-width">
 
@@ -54,17 +46,17 @@ var Header = React.createClass({
             params={ {
               region_id: kDEFAULT_REGION_ID, 
               type: '_',
-              brands: '55',
+              brands: '_',
               services: '_'} }>Каталог компаний</Link>
 
           <Link className="no-href">|</Link>
           
           <Link className="ap-link" href="/">Регистрация</Link>
           
-          <Link className="ap-link" onClick={this.openModal}>Вход</Link>
-          
+          <Link className="ap-link" onClick={this.openModal('signin')}>Вход</Link>
+
           <Modal
-              isOpen={this.state.modalIsOpen}
+              isOpen={!!this.state.modalIsOpen.get('signin')}
               onRequestClose={this.handleModalCloseRequest}
           >
             <div className='sign-in autoparts'>
@@ -80,7 +72,7 @@ var Header = React.createClass({
                   <a className='fs12 f-r bbd m4-0'>Забыли пароль?</a>
               </label>
               <button className='m15-0' name='signin'>Войти</button>
-                <hr/>
+                <hr className='hr100'/>
                 <div className='h14'></div>
                 <p className='fc-g fs13'> Или войдите через вашу социальную сеть:</p>
                 <p>

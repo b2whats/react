@@ -11,5 +11,5 @@ module.exports = function(node, event) {
   if (!leavingFinalTabbable) return;
   event.preventDefault();
   var target = tabbable[event.shiftKey ? tabbable.length - 1 : 0];
-  target.focus();
+  //target.focus();
 };

@@ -11,6 +11,10 @@ module.exports = {
   kCATALOG_SERVICES: 'http://avtogiper.ru/api/get/services.php',
   kCATALOG_BRANDS: 'http://avtogiper.ru/api/get/brands.php',
   kCATALOG_DATA: 'http://autogiper.ru/api/catalog.php?type=:type&brand=:brands&service=:services&region_text=:region_text',
+
+  kACCOUNT_COMPANY_INFO: 'http://avtogiper.ru/api/get/company_info.php?id=:company_id',
+  kACCOUNT_COMPANY_INFO_UPDATE: 'http://avtogiper.ru/api/set/company_info.php',
+
 };
 
 //проверка ремот кук http://autogiper.com/api/test.php

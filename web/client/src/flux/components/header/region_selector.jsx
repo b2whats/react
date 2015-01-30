@@ -64,7 +64,7 @@ var RegionSelector = React.createClass({
 
     return (
         <div className="header-region">
-          <img src="/assets/images/templates/icon-map.png" alt="" />
+          <i className='svg-icon_map'/>
           <div className="stylized-select select-dotted">
             <span 
               className="stylized-select__select-text"

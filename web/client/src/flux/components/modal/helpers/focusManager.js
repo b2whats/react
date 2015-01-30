@@ -19,7 +19,7 @@ function handleFocus(event) {
       if (modalElement.contains(document.activeElement))
         return;
       var el = (findTabbable(modalElement)[0] || modalElement);
-      el.focus();
+      //el.focus();
     }, 0);
   }
 }
@@ -30,7 +30,7 @@ exports.markForFocusLater = function() {
 
 exports.returnFocus = function() {
   try {
-    focusLaterElement.focus();
+    //focusLaterElement.focus();
   }
   catch (e) {
     console.warn('You tried to return focus to '+focusLaterElement+' but it is not in the DOM anymore');

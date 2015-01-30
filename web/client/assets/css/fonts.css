@@ -52,7 +52,7 @@
 .icon-facebook-rect:before { content: '\21'; } /* '!' */
 .icon-vkontakte-rect:before { content: '\23'; } /* '#' */
 
-/*
+
 @font-face {
     font-family: 'helveticaneuecyrlight';
     src: url('/assets/fonts/helvetica/helveticaneuecyr-light.eot');
@@ -93,6 +93,5 @@
     url('/assets/fonts/helvetica/helveticaneuecyr-roman.svg#../fonts/helvetica/helveticaneuecyrroman') format('svg');
     font-weight: normal;
     font-style: normal;
-
 }
-*/
+

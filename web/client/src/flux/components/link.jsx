@@ -23,15 +23,16 @@ var route_templates_cache_ = {};
 var Link = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-  get_evaluated_link (link, params) {
+
+  get_evaluated_link (link, default_params) {
 
     if(this.state.route_context_params && link!==undefined && typeof link === 'string') {
       if(!(link in route_templates_cache_)) {
         route_templates_cache_[link] = route_template(link);
       }
       var link_template = route_templates_cache_[link];
-
-      var evaluated_link = link_template(_.extend({}, this.state.route_context_params.toJS(), params));
+      //console.log(default_params, this.state.route_context_params.toJS());
+      var evaluated_link = link_template(_.extend({},default_params, this.state.route_context_params.toJS()));
 
       return evaluated_link;
     }
@@ -46,11 +47,12 @@ var Link = React.createClass({
   },
 
   render () {
+  console.log('render_link');
     var { href, ...other_props } = this.props;
     var link = this.get_evaluated_link(href, this.props.params || {});
     /* jshint ignore:start */
     return (
-      <a onClick={this.on_click} href={link} {...other_props}>{this.props.children}</a>
+      <a onClick={this.on_click} title={this.props.children} href={link} {...other_props}>{this.props.children}</a>
     )
     /* jshint ignore:end */
   }

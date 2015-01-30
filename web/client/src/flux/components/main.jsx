@@ -35,6 +35,10 @@ routes_store /*observable store list*/);
 
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
+var AccountInfo = require('components/account/info.jsx');
+
+
+
 
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
@@ -45,7 +49,7 @@ var ice_main = React.createClass({
 
 	render () {
 
-		var MainContent = (function(router_state) {
+		var MainContent = (function(router_state, router_context_params) {
 			switch(router_state) {
 				case route_names.kROUTE_DEF:
 				case route_names.kROUTE_DEF_W_REGION:
@@ -74,7 +78,7 @@ var ice_main = React.createClass({
 
 
 					return (
-						<SearchBlockHeader>	
+						<SearchBlockHeader>
 							<div ref='main_content' className="search-page-main-fixed">
 							  <SearchPageYandexMap className="search-page-left-block" />
 							  {RightBlockContent}
@@ -88,19 +92,37 @@ var ice_main = React.createClass({
 				//У тебя тут возможно будут другие кейсы	и по итогам будет что то вроде как в блоке выше
 				//по итогам смотри блок case стал таким же по структуре что и блок выше
 				//код стал читаемей
-					var CentralBlockContent = (function(router_state) {
-					 return <span>Так приятней</span>;
-					}) (router_state);
+					var menu_list = [
+						{name: 'Компания', id:'company'},
+						{name: 'Услуги', id:'services'},
+						{name: 'Статистика', id:'statistics'},
+						{name: 'Управление товарами', id:'manage'},
+						{name: 'История оплат', id:'history'}
+					];
+
+
+					var CentralBlockContent = (function(router_state, router_context_params) {
+						return (
+							<AccountInfo />
+						);
+					}) (router_state, router_context_params);
 
 					return (
 						<SearchBlockHeader>
-							{CentralBlockContent}
+							<div className='account-container-wrapper'>
+								<h1>Личный кабинет</h1>
+								<Menu focused={router_context_params.section} className="account-menu" listClassName="ap-link bb-s bold-fixed" items={ menu_list } />
+								<hr className='hr100' />
+								<div className='account-container'>
+									{CentralBlockContent}
+								</div>
+							</div>
 						</SearchBlockHeader>
 					);
 				break;
 
 			}
-		}) (this.state.router_state);
+		}) (this.state.router_state,this.state.router_context_params.toJS());
 
 		return (
 			<div className="main-wrapper">

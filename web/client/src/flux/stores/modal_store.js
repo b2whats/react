@@ -14,15 +14,14 @@ var immutable = require('immutable');
 
 
 var state_ =  init_state(_.last(__filename.split('/')), {
-    modalIsOpen: false
+    modalIsOpen: {}
 });
 console.log(state_);
 var cncl_ = [
     main_dispatcher
-        .on(event_names.kON_MODAL_SHOW, ()  => {
-
+        .on(event_names.kON_MODAL_SHOW, (id)  => {
             state_.modalIsOpen_cursor
-                .update(() => true);
+                .update(m => m.set(id,true));
             modal_store.fire(event_names.kON_CHANGE);
             console.log(state_.modalIsOpen);
         },100000),
@@ -31,7 +30,7 @@ var cncl_ = [
             console.log('store');
 
             state_.modalIsOpen_cursor
-                .update(() => false);
+                .clear();
             modal_store.fire(event_names.kON_CHANGE);
             console.log(state_.modalIsOpen);
         },100000),

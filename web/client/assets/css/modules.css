@@ -12,7 +12,29 @@
 .btn-close:hover {
     background-image: url(data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2018.1.1%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22%26%23x421%3B%26%23x43B%3B%26%23x43E%3B%26%23x439%3B_1%22%0D%0A%09%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%2013.436%2013.435%22%0D%0A%09%20style%3D%22enable-background%3Anew%200%200%2013.436%2013.435%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpolygon%20style%3D%22fill%3A%23F92121%3B%22%20points%3D%2213.436%2C1.532%2011.903%2C0%206.718%2C5.186%201.532%2C0%200%2C1.533%205.186%2C6.718%200%2C11.903%201.532%2C13.435%20%0D%0A%096.718%2C8.25%2011.902%2C13.435%2013.436%2C11.903%208.25%2C6.718%20%22%2F%3E%0D%0A%3C%2Fsvg%3E%0D%0A);
 }
-
+.btn-question {
+    display: inline-block;
+    border-radius: 2px;
+    border: 1px solid #c8c8c8;
+    font-size: 12px;
+    font-family: 'Arial', serif;
+    font-style: normal;
+    font-weight: bold;
+    color: #4d4d4d;
+    vertical-align: middle;
+    padding: 1px 5px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+.btn-question::before {
+    content: '?';
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+.btn-question:hover {
+    color: #919191;
+}
 .ReactModal__Overlay {
     -webkit-perspective: 600;
     perspective: 600;
@@ -84,15 +106,35 @@
     display: block;
     margin: 6px 0;
 }
-.ReactModal__Content hr {
+
+
+.account-menu {
+    padding: 0;
+    margin: 0;
+}
+.account-menu li {
+    display: inline-block;
+    line-height: 3;
+    margin-right: 25px;
+    position: relative;
+}
+.account-menu .focused a{
+    border: none;
+    color: #3d3d3d;
+    font-weight: bold;
+}
+.account-menu li.focused:after {
+    height: 12px;
+    width: 12px;
+    content: "";
+    display: block;
     position: absolute;
-    width: 100%;
-    left: 0;
-    box-sizing: border-box;
-    border-color: #c8c8c8;
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
+    background: white;
+    transform: translate(-50%,-50%) rotate(45deg);
+    left: 50%;
+    border-top: 1px solid #c8c8c8;
+    border-left: 1px solid #c8c8c8;
+    z-index: 2;
 }
 @media (max-width: 768px) {
     .ReactModal__Content {
