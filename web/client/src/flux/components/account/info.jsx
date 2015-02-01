@@ -34,8 +34,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
         modalIsOpen: modal_store.get_modal_visible('info'),
         formsIsEdit: editable_forms_store.get_forms_editable(),
         company_information: account_page_store.get_company_information(),
-        company_filial: account_page_store.get_company_filial(),
-        //current_filial: account_page_store.get_current_filial(),
+        company_filials: account_page_store.get_company_filials(),
+        current_filial: account_page_store.get_current_filial(),
     })},
         modal_store, editable_forms_store,account_page_store/*observable store list*/);
 
@@ -51,7 +51,7 @@ var AccountInfo = React.createClass({
     },
     componentDidMount ()  { },
     componentWillMount () {
-        this.current_filial_id = '';
+
     },
     startEdit: function(id) {
         return () => editable_forms_actions.start_edit(id);
@@ -69,15 +69,15 @@ var AccountInfo = React.createClass({
     extOpenModal: function(id_modal,id_element) {
         var self = this;
         return () => {
-            self.current_filial_id = id_element;
-            //account_page_actions.update_current_filial(id_element);
+            account_page_actions.update_current_filial(id_element);
             self.openModal(id_modal)();
         }
     },
     deleteFilial: function(id_filial) {
         var self = this;
         return () => {
-
+            account_page_actions.delete_filial(id_filial);
+            console.log(id_filial);
         }
     },
     btnChange: function(name) {
@@ -87,11 +87,11 @@ var AccountInfo = React.createClass({
         var self = this;
 
         var edit = this.state.formsIsEdit.get('informations');
-        var Filial  = this.state.company_filial &&
-            this.state.company_filial
+        var Filial  = this.state.company_filials &&
+            this.state.company_filials
                 .map((part, part_index) => {
                     return (
-                        <div key={part_index} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
+                        <div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
                             <span>
                                 <span className='fw-b fs16 ta-r d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') +' '+ part.get('house')}
                                 {(part.get('filial_type_id') == 1) ?
@@ -101,15 +101,13 @@ var AccountInfo = React.createClass({
                                 }
                             </span>
                             <span>
-                                <i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial',part_index)}/>
+                                <i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial',part.get('id'))}/>
                                 <i className='svg-icon_close-red m0-5 va-m' onClick={this.deleteFilial(part.get('id'))}/>
                             </span>
                         </div>
                     )
                 })
                 .toJS();
-
-        var current_filial = this.state.company_filial.find((element,index) => index === self.current_filial_id);
 
         return (
             <div className='entire-width'>
@@ -197,7 +195,7 @@ var AccountInfo = React.createClass({
                             <h2>Вход</h2>
                             <label className='new_context'>
                                 E-mail
-                                <input type='text' name='email' value={current_filial.get('id')}/>
+                                <input type='text' name='email' value={this.state.current_filial.get('id')}/>
                             </label>
 
                             <button className='m15-0' name='signin'>Войти</button>

@@ -15,8 +15,8 @@ var immutable = require('immutable');
 
 var state_ =  init_state(_.last(__filename.split('/')), {
     company_information: {},
-    company_filial: {},
-    //current_filial: {}
+    company_filials: {},
+    current_filial: {}
 });
 
 var cncl_ = [
@@ -28,10 +28,10 @@ var cncl_ = [
             account_page_store.fire(event_names.kON_CHANGE);
         }, 100000),
     main_dispatcher
-        .on(event_names.kACCOUNT_COMPANY_FILIAL_LOADED, info => {
+        .on(event_names.kACCOUNT_COMPANY_FILIALS_LOADED, info => {
 
 
-            state_.company_filial_cursor
+            state_.company_filials_cursor
                 .update(() => immutable.fromJS(info));
             account_page_store.fire(event_names.kON_CHANGE);
         }, 100000),
@@ -45,9 +45,16 @@ var cncl_ = [
         .on(event_names.kON_CURRENT_FILIAL_UPDATE, (id_element)  => {
 
             state_.current_filial_cursor
-                .update(() => state_.company_filial.find(b => b.get('id') === id_element));
-
+                .update(() => state_.company_filials.find(b => b.get('id') === id_element));
+             //После него идет открытие модального окна, стейт могу не обновлять, он его сам обновит
             //account_page_store.fire(event_names.kON_CHANGE);
+        },100000),
+    main_dispatcher
+        .on(event_names.kON_FILIAL_DELETE, (id_filial)  => {
+
+            state_.company_filials_cursor
+                .update(company_filials => company_filials.filter(b => b.get('id') !== id_filial));
+            account_page_store.fire(event_names.kON_CHANGE);
         },100000),
 ];
 
@@ -57,13 +64,12 @@ var account_page_store = merge(Emitter.prototype, {
     get_company_information () {
         return state_.company_information;
     },
-    get_company_filial () {
-        return state_.company_filial;
+    get_company_filials () {
+        return state_.company_filials;
     },
-    //get_current_filial () {
-    //    console.log('get_cs');
-    //    return state_.current_filial;
-    //},
+    get_current_filial () {
+        return state_.current_filial;
+    },
     dispose () {
 
         if(cncl_) {

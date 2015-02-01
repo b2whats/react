@@ -28,12 +28,13 @@ var r_get_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL);
 module.exports.get_company_filial = (company_id) => {
     return r_get_company_filial.get({company_id: company_id})
         .then(response => {
-            main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIAL_LOADED].concat([response]));
+            main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIALS_LOADED].concat([response]));
         });
 };
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
     ['update_current_filial', event_names.kON_CURRENT_FILIAL_UPDATE],
+    ['delete_filial', event_names.kON_FILIAL_DELETE],
 ];
 
 
