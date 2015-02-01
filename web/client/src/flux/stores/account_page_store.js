@@ -22,14 +22,14 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 var cncl_ = [
     main_dispatcher
         .on(event_names.kACCOUNT_COMPANY_INFO_LOADED, info => {
-            console.log('cimpany_info_loaded');
+
             state_.company_information_cursor
                 .update(() => immutable.fromJS(info[0]));
             account_page_store.fire(event_names.kON_CHANGE);
         }, 100000),
     main_dispatcher
         .on(event_names.kACCOUNT_COMPANY_FILIAL_LOADED, info => {
-            console.log('cimpany_filial_loaded');
+
 
             state_.company_filial_cursor
                 .update(() => immutable.fromJS(info));
@@ -43,10 +43,10 @@ var cncl_ = [
         },100000),
     main_dispatcher
         .on(event_names.kON_CURRENT_FILIAL_UPDATE, (id_element)  => {
-            console.log(state_.company_filial.find(b => b.get('id') === id_element).toJS());
+
             state_.current_filial_cursor
                 .update(() => state_.company_filial.find(b => b.get('id') === id_element));
-            console.log(state_.current_filial);
+
             //account_page_store.fire(event_names.kON_CHANGE);
         },100000),
 ];
@@ -65,7 +65,7 @@ var account_page_store = merge(Emitter.prototype, {
     //    return state_.current_filial;
     //},
     dispose () {
-        console.log('dispose');
+
         if(cncl_) {
             _.each(cncl_, cncl => cncl());
         }

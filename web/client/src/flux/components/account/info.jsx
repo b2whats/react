@@ -46,12 +46,12 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 var AccountInfo = React.createClass({
     mixins: [PureRenderMixin,RafBatchStateUpdateMixin,ModalMixin],
     getInitialState () {
-        console.log('init_info');
+
         return null
     },
-    componentDidMount ()  {console.log('DID_mount')},
+    componentDidMount ()  { },
     componentWillMount () {
-        var current_filial_id = '';
+        this.current_filial_id = '';
     },
     startEdit: function(id) {
         return () => editable_forms_actions.start_edit(id);
@@ -74,12 +74,18 @@ var AccountInfo = React.createClass({
             self.openModal(id_modal)();
         }
     },
+    deleteFilial: function(id_filial) {
+        var self = this;
+        return () => {
+
+        }
+    },
     btnChange: function(name) {
-        return (el) => {console.log(name,el);};
+        return (el) => { };
     },
     render () {
         var self = this;
-        console.log('render_info');
+
         var edit = this.state.formsIsEdit.get('informations');
         var Filial  = this.state.company_filial &&
             this.state.company_filial
@@ -95,15 +101,16 @@ var AccountInfo = React.createClass({
                                 }
                             </span>
                             <span>
-                                <i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial',part_index)}/><i className='svg-icon_close-red m0-5 va-m'/>
+                                <i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial',part_index)}/>
+                                <i className='svg-icon_close-red m0-5 va-m' onClick={this.deleteFilial(part.get('id'))}/>
                             </span>
                         </div>
                     )
                 })
                 .toJS();
-        console.log(this.state.company_filial);
+
         var current_filial = this.state.company_filial.find((element,index) => index === self.current_filial_id);
-        console.log('current_filial', current_filial);
+
         return (
             <div className='entire-width'>
                 <div className='company-information w50pr '>

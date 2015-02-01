@@ -31,7 +31,6 @@ var Link = React.createClass({
         route_templates_cache_[link] = route_template(link);
       }
       var link_template = route_templates_cache_[link];
-      //console.log(default_params, this.state.route_context_params.toJS());
       var evaluated_link = link_template(_.extend({},default_params, this.state.route_context_params.toJS()));
 
       return evaluated_link;

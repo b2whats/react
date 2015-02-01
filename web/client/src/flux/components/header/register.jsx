@@ -19,7 +19,7 @@ var Register = React.createClass({
     }),
 
     registerSubmit: function()  {
-        console.log(this.state);
+
     },
     groupButton: function(value) {
         var self = this;

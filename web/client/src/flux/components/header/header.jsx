@@ -30,12 +30,13 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 var Register = require('./register.jsx');
 
+
 var Header = React.createClass({
   mixins: [PureRenderMixin,RafBatchStateUpdateMixin,ModalMixin],
 
 
   render () {
-	console.log('render_header');
+
 	return (
 	  <div className="hfm-wrapper main-header header entire-width">
 
@@ -53,7 +54,7 @@ var Header = React.createClass({
 
 		  <Link className="no-href">|</Link>
 
-		  <Link className="ap-link" href="/" onClick={this.openModal('register')}>Регистрация</Link>
+		  <Link className="ap-link" onClick={this.openModal('register')}>Регистрация</Link>
 
 		  <Link className="ap-link" onClick={this.openModal('signin')}>Вход</Link>
 

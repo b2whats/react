@@ -38,7 +38,7 @@ var modal_store = merge(Emitter.prototype, {
         return state_.modalIsOpen;
     },
     dispose () {
-        console.log('dispose');
+
         if(cncl_) {
             _.each(cncl_, cncl => cncl());
         }

@@ -11,7 +11,7 @@ var ButtonGroup = React.createClass({
             var classes = React.addons.classSet({
                 'selected' : this.props.select_element_value == item.props.value
             });
-            console.log(item.props.value);
+
             this.props.onChange(item.props.value);
             return React.addons.cloneWithProps(item, {
                 onClick: this.props.onChange(item.props.value),

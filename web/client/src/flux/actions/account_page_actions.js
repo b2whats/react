@@ -13,7 +13,7 @@ var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
 module.exports.get_company_information = (company_id) => {
     return r_get_company_info.get({company_id: company_id})
         .then(response => {
-            console.log('END - kACCOUNT_COMPANY_INFO_LOADED');
+
             main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_INFO_LOADED].concat([response]));
         });
 };

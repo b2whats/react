@@ -22,7 +22,7 @@ var EditableForms = React.createClass({
         this.props.onChange(e.target.value)
     },
     render () {
-        console.log('ed_f');
+
         var self = this;
         var classes = React.addons.classSet({
             'editable' : this.props.edit == true
