@@ -31,6 +31,11 @@ module.exports.get_company_filial = (company_id) => {
             main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIALS_LOADED].concat([response]));
         });
 };
+var r_delete_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL_DELETE);
+module.exports.delete_company_filial_async = (filial_id) => {
+    console.log('delete', filial_id);
+    //return r_delete_company_filial.get({filial_id: filial_id});
+};
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
     ['update_current_filial', event_names.kON_CURRENT_FILIAL_UPDATE],

@@ -12,6 +12,7 @@ var merge = require('utils/merge.js');
 var init_state = require('utils/init_state.js');
 var immutable = require('immutable');
 
+var account_page_actions = require('actions/account_page_actions.js');
 
 var state_ =  init_state(_.last(__filename.split('/')), {
     company_information: {},
@@ -54,6 +55,7 @@ var cncl_ = [
 
             state_.company_filials_cursor
                 .update(company_filials => company_filials.filter(b => b.get('id') !== id_filial));
+            account_page_actions.delete_company_filial_async(id_filial);
             account_page_store.fire(event_names.kON_CHANGE);
         },100000),
 ];

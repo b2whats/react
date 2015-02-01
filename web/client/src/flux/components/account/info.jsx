@@ -77,15 +77,12 @@ var AccountInfo = React.createClass({
         var self = this;
         return () => {
             account_page_actions.delete_filial(id_filial);
-            console.log(id_filial);
         }
     },
     btnChange: function(name) {
         return (el) => { };
     },
     render () {
-        var self = this;
-
         var edit = this.state.formsIsEdit.get('informations');
         var Filial  = this.state.company_filials &&
             this.state.company_filials
@@ -188,7 +185,6 @@ var AccountInfo = React.createClass({
                     isOpen={!!this.state.modalIsOpen.get('edit_company_filial')}
                     onRequestClose={this.handleModalCloseRequest}
                 >
-
                     {(!!this.state.modalIsOpen.get('edit_company_filial')) &&
                         <div className='sign-in autoparts'>
                             <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
@@ -202,7 +198,6 @@ var AccountInfo = React.createClass({
 
                         </div>
                     }
-
                 </Modal>
             </div>
         );

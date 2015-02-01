@@ -8,13 +8,14 @@ module.exports = {
   kAUTO_PART_BY_ID_API: 'http://autogiper.com/api/search.php?type=autoparts&id=:id&region_text=:region_text',
   kAUTO_SERVICE_BY_ID_API: 'http://autogiper.com/api/search.php?type=autoservices&id=:id&region_text=:region_text',
 
-  kCATALOG_SERVICES: 'http://autogiper.com/api/get/services.php',
-  kCATALOG_BRANDS: 'http://autogiper.com/api/get/brands.php',
-  kCATALOG_DATA: 'http://autogiper.com/api/catalog.php?type=:type&brand=:brands&service=:services&region_text=:region_text',
+  kCATALOG_SERVICES: 'http://avtogiper.ru/api/get/services.php',
+  kCATALOG_BRANDS: 'http://avtogiper.ru/api/get/brands.php',
+  kCATALOG_DATA: 'http://autogiper.ru/api/catalog.php?type=:type&brand=:brands&service=:services&region_text=:region_text',
 
   kACCOUNT_COMPANY_INFO: 'http://autogiper.com/api/get/company_info.php?id=:company_id',
-  kACCOUNT_COMPANY_INFO_UPDATE: 'http://autogiper.com/api/set/company_info.php',
-  kACCOUNT_COMPANY_FILIAL: 'http://autogiper.com/api/get/company_filial.php?company_id=:company_id',
+  kACCOUNT_COMPANY_INFO_UPDATE: 'http://avtogiper.ru/api/set/company_info.php',
+  kACCOUNT_COMPANY_FILIAL: 'http://avtogiper.ru/api/get/company_filial.php?company_id=:company_id',
+  kACCOUNT_COMPANY_FILIAL_DELETE: 'http://avtogiper.ru/api/del/company_filial.php?filial_id=:filial_id',
 
 };
 
