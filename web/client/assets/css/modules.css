@@ -22,7 +22,7 @@
     font-weight: bold;
     color: #4d4d4d;
     vertical-align: middle;
-    padding: 1px 5px;
+    padding: 1px 5px 0px 4px;
     line-height: 1.2;
     cursor: pointer;
 }
@@ -35,6 +35,8 @@
 .btn-question:hover {
     color: #919191;
 }
+
+
 .ReactModal__Overlay {
     -webkit-perspective: 600;
     perspective: 600;
@@ -89,7 +91,6 @@
 .ReactModal__Content h2 {
     text-transform: none;
     font-size: 24px;
-    margin: 10px 0;
 }
 .ReactModal__Content input {
     width: 100%;
@@ -99,7 +100,7 @@
     text-align: left;
     display: block;
     width: 100%;
-    margin: 10px 0;
+    margin: 15px 0;
 }
 .ReactModal__Content label span {
     font-size: 14px;

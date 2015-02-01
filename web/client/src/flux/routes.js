@@ -79,8 +79,12 @@ routes[route_definitions.kROUTE_CATALOG] = [
 routes[route_definitions.kROUTE_ACCOUNT] = [
     (route_name, route_context, route_context_params) =>
         region_actions.region_changed(route_context_params.region_id),
+    () => {
+        console.log('START - kACCOUNT_COMPANY_INFO_LOADED');
+        account_page_actions.get_company_information(17042);
+    },
     () =>
-        account_page_actions.get_company_information(11121),
+        account_page_actions.get_company_filial(17042),
 
     route_actions.default_route];
 module.exports = routes;

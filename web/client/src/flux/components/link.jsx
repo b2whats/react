@@ -47,7 +47,6 @@ var Link = React.createClass({
   },
 
   render () {
-  console.log('render_link');
     var { href, ...other_props } = this.props;
     var link = this.get_evaluated_link(href, this.props.params || {});
     /* jshint ignore:start */

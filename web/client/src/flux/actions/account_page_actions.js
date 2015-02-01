@@ -13,6 +13,7 @@ var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
 module.exports.get_company_information = (company_id) => {
     return r_get_company_info.get({company_id: company_id})
         .then(response => {
+            console.log('END - kACCOUNT_COMPANY_INFO_LOADED');
             main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_INFO_LOADED].concat([response]));
         });
 };
@@ -23,8 +24,16 @@ module.exports.update_company_information = (new_company_information) => {
             return data;
         });
 };
+var r_get_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL);
+module.exports.get_company_filial = (company_id) => {
+    return r_get_company_filial.get({company_id: company_id})
+        .then(response => {
+            main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIAL_LOADED].concat([response]));
+        });
+};
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
+    ['update_current_filial', event_names.kON_CURRENT_FILIAL_UPDATE],
 ];
 
 

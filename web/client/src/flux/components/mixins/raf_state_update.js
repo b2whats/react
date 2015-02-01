@@ -13,10 +13,10 @@ var rafBatchStateUpdateMixinCreate = function(get_state) {
 
   return {    
     __internal__counter__: {value:0}, //защита от подключения одного и того же миксина в два разных реакт класса - невозможная ситуация когда я код пишу
-
-    getInitialState () {
-      return get_state();
-    },  
+    /*Убрал двойную инициализацию*/
+    //getInitialState () {
+    //  return get_state();
+    //},
 
     on_change_handler () {      
       var state = get_state();
@@ -27,12 +27,14 @@ var rafBatchStateUpdateMixinCreate = function(get_state) {
       }, null, this.__internal__display_name__);
     },
     
-    componentWillMount () {      
+    componentWillMount () {
+      console.log('Will_mount');
       this.__internal__display_name__ = this.constructor.displayName + '__' + this.__internal__counter__.value++;
-      
+
       this.event_disablers = _.map(stores, function(store) {
         return store.on(event_names.kON_CHANGE, this.on_change_handler);
       }, this);
+
 
       var state = get_state();
       this.replaceState(state);

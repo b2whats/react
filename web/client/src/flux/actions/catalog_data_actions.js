@@ -95,17 +95,17 @@ var query_catalog_data = (type, brands, services, region_text) => {
                     on_current_page: false, //есть ли иконка на текущей старничке в табличке
                   }, //system
                   {
-                    marker_color: kCATALOG_MARKER_COLOR[m.fillial_type_id - 1], //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
-                    marker_type: kCATALOG_MARKER_TYPE[m.fillial_type_id - 1],   //тип метки - автосервис или запчасть
-                    hint: kCATALOG_HINT[m.fillial_type_id - 1] + m.company_name //хинт что показывать на метке
+                    marker_color: kCATALOG_MARKER_COLOR[m.filial_type_id - 1], //так как цвета маркера задаются в апи явно то вынужден писать их тут а не в css
+                    marker_type: kCATALOG_MARKER_TYPE[m.filial_type_id - 1],   //тип метки - автосервис или запчасть
+                    hint: kCATALOG_HINT[m.filial_type_id - 1] + m.company_name //хинт что показывать на метке
                   }, //брать потом из базы
                   {
-                    cluster_color: kCATALOG_CLUSTER_COLOR[m.fillial_type_id - 1] //цвет иконки кластера
+                    cluster_color: kCATALOG_CLUSTER_COLOR[m.filial_type_id - 1] //цвет иконки кластера
                   },
                   m,
                   {
                     server_id:m.id,    //настоящий id
-                    id: m.id + kCATALOG_DELTA_ID[m.fillial_type_id - 1],          //смещенный id
+                    id: m.id + kCATALOG_DELTA_ID[m.filial_type_id - 1],          //смещенный id
                     icon_number:m.rank //циферка на иконке
                   } ));
 

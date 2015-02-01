@@ -14,6 +14,7 @@ module.exports = {
 
   kACCOUNT_COMPANY_INFO: 'http://avtogiper.ru/api/get/company_info.php?id=:company_id',
   kACCOUNT_COMPANY_INFO_UPDATE: 'http://avtogiper.ru/api/set/company_info.php',
+  kACCOUNT_COMPANY_FILIAL: 'http://avtogiper.ru/api/get/company_filial.php?company_id=:company_id',
 
 };
 

@@ -30,6 +30,8 @@ exports.markForFocusLater = function() {
 
 exports.returnFocus = function() {
   try {
+    //TODO (Из за него появляется ошибка в модальном окне, разобраться зачем этот фокус нужен)
+
     //focusLaterElement.focus();
   }
   catch (e) {

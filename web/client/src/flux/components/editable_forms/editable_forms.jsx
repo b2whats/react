@@ -4,19 +4,25 @@ var React = require('react/addons');
 
 var EditableForms = React.createClass({
     displayName: 'EditableForms',
-
+    shouldComponentUpdate: function(nextProps){
+        return (
+            (nextProps.text !== this.props.text && nextProps.edit === this.props.edit) ||
+            (nextProps.text === this.props.text && nextProps.edit !== this.props.edit)
+        );
+    },
     getDefaultProps: function () {
         return {
             type: 'input',
             edit: false,
-            name: 'forms[]'
+            name: 'forms[]',
+            text: ''
         };
     },
     update: function(e) {
-        console.log(e.target.value);
         this.props.onChange(e.target.value)
     },
     render () {
+        console.log('ed_f');
         var self = this;
         var classes = React.addons.classSet({
             'editable' : this.props.edit == true
@@ -25,12 +31,12 @@ var EditableForms = React.createClass({
             switch(type) {
                 case 'input':
                     return (
-                        <input disabled={!self.props.edit} className={classes} type='text' onChange={self.update} value={self.props.text}/>
+                        <input ref='form' disabled={!self.props.edit} className={classes} type='text' onChange={self.update} value={self.props.text}/>
                     );
                     break;
                 case 'textarea':
                     return (
-                        <textarea disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
+                        <textarea ref='form' disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
                     );
                     break;
             }
