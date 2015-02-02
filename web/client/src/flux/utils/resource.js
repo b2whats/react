@@ -5,7 +5,7 @@ var q = require('third_party/es6_promise.js');
 var route_template = require('utils/route_template.js');
 var text_utils = require('utils/text.js');
 
-var kCONTENT_TYPE_APPLICATION_JSON = {'Content-Type': 'application/json;charset=utf-8', 'Accept': 'application/json, text/plain, */*'};
+var kCONTENT_TYPE_APPLICATION_JSON = {'Accept': 'application/json, text/plain, */*'};
 
 function http(method, url, object) {
   
