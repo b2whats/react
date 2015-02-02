@@ -129,7 +129,15 @@ gulp.task('svg-convert', function () {
         .pipe(rename('icons.data.svg.css'))
         .pipe(gulp.dest(destination_svg));
 });
-
+gulp.task('svg-convert-size', function () {
+    return gulp.src('./client/assets/icons/svg/*.svg')
+        .pipe(svgSymbols({
+            className:  '.svg-%f',
+            templates: ['default-css-size']
+        }))
+        .pipe(rename('icons.data.svg.size.css'))
+        .pipe(gulp.dest(destination_svg));
+});
 gulp.task('server', function() {
     gulp.src('./client/dist')
         .pipe(webserver({

@@ -1,6 +1,10 @@
 html, body {
     height: 100%;
 }
+i[class^='svg-'] {
+    width: 1em;
+    height: 1em;
+}
 i {
     -ms-user-select: none;
     -moz-user-select: none;
@@ -250,7 +254,24 @@ text-decoration: none;
 .br5 {
     border-radius: 5px;
 }
-
+.br6 {
+    border-radius: 6px;
+}
+.br7 {
+    border-radius: 7px;
+}
+.br8 {
+    border-radius: 8px;
+}
+.br9 {
+    border-radius: 9px;
+}
+.br10 {
+    border-radius: 10px;
+}
+.bs {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+}
 .m4-0 {
     margin:4px 0;
 }
@@ -310,6 +331,12 @@ text-decoration: none;
 }
 .p6-20-8 {
     padding: 6px 20px 8px;
+}
+.p15 {
+    padding: 15px;
+}
+.p20 {
+    padding: 20px;
 }
 .pb5 {
     padding-bottom: 5px;

@@ -45,14 +45,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 
 var AccountInfo = React.createClass({
     mixins: [PureRenderMixin,RafBatchStateUpdateMixin,ModalMixin],
-    getInitialState () {
 
-        return null
-    },
-    componentDidMount ()  { },
-    componentWillMount () {
-
-    },
     startEdit: function(id) {
         return () => editable_forms_actions.start_edit(id);
     },
@@ -80,7 +73,7 @@ var AccountInfo = React.createClass({
         }
     },
     btnChange: function(name) {
-        return (el) => { };
+        console.log(name);
     },
     render () {
         var edit = this.state.formsIsEdit.get('informations');
@@ -159,6 +152,9 @@ var AccountInfo = React.createClass({
                 </div>
                 <div className='your-manager w50pr'>
                     <h2 className='tt-n fs26'>Ваш личный менеджер</h2>
+                    <div className='p15 br10 bs'>
+                        <img />
+                    </div>
                 </div>
                 <Modal
                     isOpen={!!this.state.modalIsOpen.get('payment_information')}
@@ -166,9 +162,9 @@ var AccountInfo = React.createClass({
                 >
                     <div className='aa'>
                     {/*Для активной кнопки передать значение selected в класс кнопки*/}
-                        <ButtonGroup onChange={this.btnChange('change')}>
-                            <button className='btn-bg-group w160px selected' value='1'><i className='svg-icon_gear mr5 va-m fs16'/>Автозапчасти</button>
-                            <button className='btn-bg-group w160px' value='2'><i className='svg-icon_key mr5 va-m fs16'/>Сервис</button>
+                        <ButtonGroup onChange={this.btnChange}>
+                            <button className='btn-bg-group w160px' value={1}><i className='svg-icon_gear mr5 va-m fs16'/>Автозапчасти</button>
+                            <button className='btn-bg-group w160px' value={2}><i className='svg-icon_key mr5 va-m fs16'/>Сервис</button>
                         </ButtonGroup>
                         <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
                         <h2>Вход</h2>

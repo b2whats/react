@@ -22,15 +22,11 @@ var Register = React.createClass({
 
     },
     groupButton: function(value) {
-        var self = this;
-        return function() {
-            self.setState({
-                type: value
-            });
-        }
+        this.setState({
+            type: value
+        });
     },
     render () {
-
         return (
             <div className='ta-c'>
                 <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
