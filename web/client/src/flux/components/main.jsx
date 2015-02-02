@@ -112,8 +112,8 @@ var ice_main = React.createClass({
 					return (
 						<SearchBlockHeader>
 							<div className='account-container-wrapper'>
-								<h1>Личный кабинет</h1>
-								<Menu focused={router_context_params.section} className="account-menu" listClassName="ap-link bb-s bold-fixed" items={ menu_list } />
+								<h1 className='fs29 m5-0'>Личный кабинет</h1>
+								<Menu selected={router_context_params.section} className="account-menu" listClassName="ap-link bb-s bold-fixed" items={ menu_list } />
 								<hr className='hr100' />
 								<div className='account-container'>
 									{CentralBlockContent}

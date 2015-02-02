@@ -17,6 +17,8 @@ module.exports = {
   kACCOUNT_COMPANY_FILIAL: 'http://avtogiper.ru/api/get/company_filial.php?company_id=:company_id',
   kACCOUNT_COMPANY_FILIAL_DELETE: 'http://avtogiper.ru/api/del/company_filial.php?filial_id=:filial_id',
 
+  kSUBMIT_REGISTER_DATA: 'http://avtogiper.ru/api/register.php',
+
 };
 
 //проверка ремот кук http://autogiper.com/api/test.php

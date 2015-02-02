@@ -119,12 +119,14 @@
     margin-right: 25px;
     position: relative;
 }
-.account-menu .focused a{
+.account-menu .selected a{
     border: none;
     color: #3d3d3d;
     font-weight: bold;
+    position: relative;
+    left: -2px;
 }
-.account-menu li.focused:after {
+.account-menu li.selected:after {
     height: 12px;
     width: 12px;
     content: "";
@@ -137,6 +139,11 @@
     border-left: 1px solid #c8c8c8;
     z-index: 2;
 }
+
+.your-manager img {
+    width: 120px;
+    height: 145px;
+}
 @media (max-width: 768px) {
     .ReactModal__Content {
         top: 10px;
@@ -145,4 +152,41 @@
         bottom: 10px;
         padding: 10px;
     }
+}
+
+.mui-snackbar {
+    color: white;
+    background-color: #323232;
+    border-radius: 2px;
+    padding: 0 24px;
+    height: 48px;
+    line-height: 48px;
+    min-width: 288px;
+    max-width: 568px;
+    position: fixed;
+    z-index: 10;
+    bottom: 24px;
+    margin-left: 24px;
+    left: -10000px;
+    opacity: 0;
+    -webkit-transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0);
+    transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 400ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, -webkit-transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 400ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+}
+.mui-snackbar .mui-snackbar-action {
+    color: #ff4081;
+    float: right;
+    margin-top: 6px;
+    margin-right: -16px;
+    margin-left: 24px;
+    background-color: transparent;
+}
+.mui-snackbar.mui-is-open {
+    left: 0;
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, -webkit-transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }

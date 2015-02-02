@@ -31,7 +31,7 @@ var account_page_store = require('stores/account_page_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
     return ({ //state update lambda
-        modalIsOpen: modal_store.get_modal_visible('info'),
+        modalIsOpen: modal_store.get_modal_visible(),
         formsIsEdit: editable_forms_store.get_forms_editable(),
         company_information: account_page_store.get_company_information(),
         company_filials: account_page_store.get_company_filials(),
@@ -41,6 +41,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 
 
 
+var Snackbar =  require('components/snackbar/snackbar.jsx');
 
 
 var AccountInfo = React.createClass({
@@ -73,7 +74,7 @@ var AccountInfo = React.createClass({
         }
     },
     btnChange: function(name) {
-        console.log(name);
+        this.refs.snack.show();
     },
     render () {
         var edit = this.state.formsIsEdit.get('informations');
@@ -98,7 +99,6 @@ var AccountInfo = React.createClass({
                     )
                 })
                 .toJS();
-
         return (
             <div className='entire-width'>
                 <div className='company-information w50pr '>
@@ -152,8 +152,20 @@ var AccountInfo = React.createClass({
                 </div>
                 <div className='your-manager w50pr'>
                     <h2 className='tt-n fs26'>Ваш личный менеджер</h2>
-                    <div className='p15 br10 bs'>
-                        <img />
+                    <div className='p15 br10 bs  new_context m30-0'>
+                        <img className='va-t f-l mr20' src='/assets/images/templates/frank.jpg'/>
+                        <div className='fw-b fs18'>Фрэнк Галлагер</div>
+                        <div className='m15-0'>
+                            <strong>На связи с 10:00 до 10:30</strong>
+                            <span> в рабочие дни</span>
+                        </div>
+                        <div className='m15-0 lh1-8'>
+                            8 (812) 123-45-67 (доб 21)<br/>
+                            8 (812) 123-45-67 (доб 21)
+                        </div>
+                        <div className='td-u ap-link'>
+                            mail@mail.ru
+                        </div>
                     </div>
                 </div>
                 <Modal
@@ -195,6 +207,11 @@ var AccountInfo = React.createClass({
                         </div>
                     }
                 </Modal>
+                <Snackbar
+                    message="Event added to your calendar"
+                    action="undo"
+                    ref='snack'
+                    onActionTouchTap={this._handleAction}/>
             </div>
         );
     }

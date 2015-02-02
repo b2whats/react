@@ -7,7 +7,7 @@ var Menu = React.createClass({
     getDefaultProps: function() {
         return {
             listClassName: '',
-            focused: ''
+            selected: ''
         }
     },
 
@@ -17,7 +17,7 @@ var Menu = React.createClass({
                 <ul className={this.props.className}>
                     { this.props.items.map(function(element, index){
                         var classes = React.addons.classSet({
-                            'focused' : self.props.focused == element.id
+                            'selected' : self.props.selected == element.id
                         });
 
                         return (
