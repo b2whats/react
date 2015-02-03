@@ -4,20 +4,37 @@ var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
+var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var MaskedInput = require('components/forms_element/masked_input.jsx');
+var YandexMapAddressSelect = require('components/yandex/yandex_map_address_select.jsx');
 /* jshint ignore:end */
 
+var region_store = require('stores/region_store.js');
+
+var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
+  region_current:           region_store.get_region_current (), 
+}),
+region_store /*observable store list*/);
+
+
 var TestPage = React.createClass({
-  mixins: [PureRenderMixin],
+  mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
   on_change(e) {
     console.log('phone value', e.target.value);
   },
 
   render () {
+    var width = 400;
+    var height = 300;
+
+    var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
+    if(this.state.region_current) {
+      bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
+    }
 
     return (
       <div>
@@ -34,6 +51,15 @@ var TestPage = React.createClass({
           pattern={'+{{9}}({{999}}){{999}}-{{99}}-{{99}}'}
           value={'7(926)'}           
           onChange={this.on_change} />
+
+        <hr/> 
+        <h1>пример выбора адреса</h1>
+        <YandexMapAddressSelect
+          bounds={bounds}
+          width={width} //важно знать заранее
+          height={height} //важно знать заранее
+          style={ {width:`${width}px`, height: `${height}px`} }/>
+
       </div>
     );
   }
