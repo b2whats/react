@@ -12,6 +12,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var MaskedInput = require('components/forms_element/masked_input.jsx');
 var YandexMapAddressSelect = require('components/yandex/yandex_map_address_select.jsx');
+var ButtonGroup = require('components/forms_element/button_group.jsx');
 /* jshint ignore:end */
 
 var region_store = require('stores/region_store.js');
@@ -71,19 +72,10 @@ var TestPage = React.createClass({
     return (
       <div className="select-filial-modal width600px">
         <div className="txt-al-center">
-          <button 
-            onClick={_.bind(this.on_type_changed, this, 1)}
-            className={cx(cx({active: this.state.type===1}) ,'btn-with-icon pd-5px mn-5px mn-b-15px mn-r-0')}>
-            <i className="svg-icon_gear btn-svg-icon"></i> 
-            <span>Автозапчасти</span>
-          </button>
-
-          <button 
-            onClick={_.bind(this.on_type_changed, this, 2)}
-            className={cx(cx({active: this.state.type===2}) , 'btn-with-icon pd-5px mn-5px mn-b-15px mn-l-0')}>
-            <i className="svg-icon_key-gear btn-svg-icon"></i>              
-            <span>Автосервисы</span>
-          </button>
+          <ButtonGroup select_element_value={this.state.type} onChange={this.on_type_changed}>
+            <button className="btn-bg-group w160px" value={1}><i className='svg-icon_gear mr5 va-m fs16'/>Автозапчасти</button>
+            <button className="btn-bg-group w160px" value={2}><i className='svg-icon_key mr5 va-m fs16'/>Сервис</button>
+          </ButtonGroup>
         </div>
 
         <div style={ {display: 'inline-block', width: '200px', verticalAlign: 'top', paddingRight: '10px'} }>
