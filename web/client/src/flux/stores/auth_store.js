@@ -17,7 +17,7 @@ var modal_actions = require('actions/modal_actions.js');
 
 var state_ =  init_state(_.last(__filename.split('/')), {
     is_auth: false,
-    role: {},
+    role: null,
     auth_field_validation: {}
 });
 
@@ -53,6 +53,9 @@ var cncl_ = [
 var auth_store = merge(Emitter.prototype, {
     is_auth () {
         return state_.is_auth;
+    },
+    get_role () {
+        return state_.role;
     },
     get_auth_field_validation () {
         return state_.auth_field_validation;
