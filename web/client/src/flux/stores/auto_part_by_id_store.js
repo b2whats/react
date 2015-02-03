@@ -49,7 +49,8 @@ var sort_results_ = (results, center, bounds) => {
     var dy = center.get(1) - coordinates.get(1);
     return dx*dx + dy*dy;
   };
-
+  
+  var map_bounds = state_.map_bounds.toJS();
 
   var marker_visible = state_.auto_part_data.get('markers').find(marker => marker.get('balloon_visible') === true );
   var marker_visible_id = marker_visible && marker_visible.get('id');
@@ -71,7 +72,12 @@ var sort_results_ = (results, center, bounds) => {
         .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')))
     .map(result =>  
       result
-        .set('markers', result.get('markers').sortBy(m => distance_to_center(m.get('coordinates')))));
+        .set('markers', 
+          result.get('markers')
+          .sortBy(m => distance_to_center(m.get('coordinates')))
+          .map(m => 
+            m.set('visible', point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds))
+          )));
 
 };
 

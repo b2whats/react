@@ -162,7 +162,7 @@ var SearchPageAutoServiceTable = React.createClass({
             
 
             <div 
-              onClick={ part.get('markers').size > 1 ?
+              onClick={ part.get('markers').filter( m => m.get('visible') ).size > 1 ?
                 _.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses') :
                 _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
               }
@@ -178,7 +178,7 @@ var SearchPageAutoServiceTable = React.createClass({
               <strong>Все адреса</strong>
               
               <div className="search-page-autoservice-table-body-work-tooltip-list">
-                {part.get('markers').map( (m, index) => 
+                {part.get('markers').filter( m => m.get('visible') ).map( (m, index) => 
                   <div 
                     onMouseEnter={_.bind(this.on_hover, this,  m.get('id'), true)}
                     onMouseLeave={_.bind(this.on_hover, this,  m.get('id'), false)}
