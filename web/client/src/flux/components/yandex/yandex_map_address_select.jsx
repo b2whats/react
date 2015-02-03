@@ -11,17 +11,23 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var YandexMapMap = require('./yandex_map_map.jsx');
 /* jshint ignore:end */
 
-var trace = () => {
-  if(false) {  
-    console.log.apply(console, [].slice.call(arguments))
-  }
-};
 
 var ymap_loader = require('third_party/yandex_maps.js');
 
+var kMARKER_DEFAULT_PRESET = 'islands#icon';
 
 var YandexMapAddressSelect = React.createClass({  
   mixins: [PureRenderMixin],
+  
+  propTypes: {
+    width: PropTypes.number.isRequired, //размеры карты нужны чтобы считать проекции еще до появления карты
+    height: PropTypes.number.isRequired,
+    bounds: PropTypes.array.isRequired, //какой кусок карты показать
+    coordinates: PropTypes.array,
+    search: PropTypes.string,
+    icon_color: PropTypes.string,
+    onChange: PropTypes.func
+  },
 
   getInitialState() {
     return {
@@ -31,6 +37,11 @@ var YandexMapAddressSelect = React.createClass({
 
   componentWillMount() {
     this.yamap = null;
+    this.markers_collection = null;
+  },
+
+  onAddressChanged (address_string, coords) {
+    this.props.onChange && this.props.onChange(address_string, coords); //jshint ignore:line
   },
 
   componentDidMount() {    
@@ -43,21 +54,68 @@ var YandexMapAddressSelect = React.createClass({
             controls: ['zoomControl']
           }));
 
-          var searchControl = new ymaps.control.SearchControl({
+          var search_control = new ymaps.control.SearchControl({
             options: {
-              provider: 'yandex#search',
               position: {right: '10px', left: '10px', top: '10px'},
-              zoomMargin: [0,0,0,0]
-
+              zoomMargin: [0,0,0,0],
+              noPlacemark: true
             }
           });
           
-          yamap.controls.add(searchControl);
+          yamap.controls.add(search_control);
+          
 
+          var kMARKER_COLOR = 'green';
+          try{
 
+            this.markers_collection = new ymaps.GeoObjectCollection(null, {
+              'preset': kMARKER_DEFAULT_PRESET,
+              draggable: true
+            });
 
+            var initial_coords = _.clone(this.props.coordinates);
+            //console.log(initial_coords);
+            //this.markers_collection.options.set('preset', kMARKER_DEFAULT_PRESET);
+            this.markers_collection.options.set('iconColor', this.props.icon_color || kMARKER_COLOR);
+
+            yamap.geoObjects.add(this.markers_collection);
+            
+            search_control.events.add('resultselect', res => {
+              var index = res.get('index'); 
+              search_control.getResult(index).then( geo_object => {
+                
+                var search_string = search_control.getRequestString();
+                var coords;
+
+                if( this.props.search && this.props.search === search_string) {
+                  coords = initial_coords || geo_object.geometry.getCoordinates();
+                } else {
+                  coords = geo_object.geometry.getCoordinates();                  
+                }
+
+                this.onAddressChanged (search_string, coords);
+                
+                var placemark = new ymaps.Placemark(coords, {});
+                
+                placemark.events.add('dragend', () => {
+                  this.onAddressChanged (search_string, placemark.geometry.getCoordinates());
+                });
+
+                this.markers_collection.add(placemark);
+              });
+            });
+
+            search_control.events.add('submit', () => this.markers_collection.removeAll());
+
+            if(this.props.search) {
+              search_control.search(this.props.search);
+            }
+          
+          } catch(e) {
+            console.error(e);
+          }
         }
-      })
+      });
   },
 
   componentWillUnmount() {
@@ -67,6 +125,11 @@ var YandexMapAddressSelect = React.createClass({
   },
 
   componentWillReceiveProps(next_props) {
+    if(next_props.icon_color!==this.props.icon_color) {
+      if(this.markers_collection!==null) {
+        this.markers_collection.options.set('iconColor', next_props.icon_color);
+      }
+    }
   },
 
   get_center_and_zoom (ymaps, bounds) {
@@ -88,9 +151,11 @@ var YandexMapAddressSelect = React.createClass({
   render () {
 
     return (
+      /* jshint ignore:start */
       <div className={this.props.className} style={this.props.style}>
         <YandexMapMap ref="yamap_dom"/> 
       </div>
+      /* jshint ignore:end */
     );
   }
 });

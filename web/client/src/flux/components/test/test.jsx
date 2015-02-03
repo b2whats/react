@@ -27,9 +27,14 @@ var TestPage = React.createClass({
     console.log('phone value', e.target.value);
   },
 
+  on_address_changed(address, coords) {
+    console.log('on_address_changed(address, coords)', address, coords);
+  },
+
   render () {
-    var width = 400;
-    var height = 300;
+    var width = 400; //важно знать заранее как вариант подтянуть из sass
+    var height = 300; //важно знать заранее как вариант подтянуть из sass
+    var address = 'Москва, Россошанская ул. д.4';
 
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
     if(this.state.region_current) {
@@ -55,6 +60,10 @@ var TestPage = React.createClass({
         <hr/> 
         <h1>пример выбора адреса</h1>
         <YandexMapAddressSelect
+          onChange={this.on_address_changed}
+          coordinates = {[55.592203901644, 37.61599634924302]}
+          icon_color={'#ee3399'} //нужно менять взависимости от выбора меню
+          search={address}
           bounds={bounds}
           width={width} //важно знать заранее
           height={height} //важно знать заранее
