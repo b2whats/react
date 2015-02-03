@@ -17,7 +17,7 @@ var immutable = require('immutable');
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
 
 
-//based on fillial_type_id
+//based on filial_type_id
 var kCATALOG_MARKER_COLOR = [sass_vars['auto-part-marker-color'], sass_vars['autoservice-marker-color']];
 var kCATALOG_MARKER_COLOR_HILITE_MAIN = [sass_vars['auto-part-marker-color-hilite-main'], sass_vars['autoservice-marker-color-hilite-main']];
 var kCATALOG_MARKER_COLOR_HILITE_SECONDARY = [sass_vars['auto-part-marker-color-hilite-secondary'], sass_vars['autoservice-marker-color-hilite-secondary']];
@@ -438,7 +438,7 @@ var cncl_ = [
     if (index < 0) return;
     
     var marker_rank = state_.catalog_data.get('markers').get(index).get('rank');
-    //var marker_fillial_type_id = state_.catalog_data.get('markers').get(index).get('fillial_type_id');
+    //var marker_fillial_type_id = state_.catalog_data.get('markers').get(index).get('filial_type_id');
 
     var color = kCATALOG_MARKER_COLOR;                    //[marker_fillial_type_id - 1];
     var cluster_color = kCATALOG_CLUSTER_COLOR;           //[marker_fillial_type_id - 1];
@@ -456,8 +456,8 @@ var cncl_ = [
           markers.map( m => 
             m.get('rank') === marker_rank ?
               ( m.get('id') === id ? 
-                  m.set('marker_color', color[m.get('fillial_type_id') - 1]).set('cluster_color', cluster_color[m.get('fillial_type_id') - 1]) : 
-                  m.set('marker_color', color_sec[m.get('fillial_type_id') - 1]).set('cluster_color', cluster_color[m.get('fillial_type_id') - 1])) :
+                  m.set('marker_color', color[m.get('filial_type_id') - 1]).set('cluster_color', cluster_color[m.get('filial_type_id') - 1]) : 
+                  m.set('marker_color', color_sec[m.get('filial_type_id') - 1]).set('cluster_color', cluster_color[m.get('filial_type_id') - 1])) :
               m             
           ));
 
