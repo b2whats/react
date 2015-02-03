@@ -18,6 +18,7 @@ var kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY = sc
 var state_ =  init_state(_.last(__filename.split('/')), {
   address: null,
   coordinates: null,
+  metadata: null,
   work_time: [
     {is_holiday: false, from: '09:00', to:'21:00'},
     {is_holiday: false, from: '10:00', to:'18:00'},
@@ -69,6 +70,12 @@ var cncl_ = [
   .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_COORDS_CHANGED, coordinates => {  
     update_state_param('coordinates', coordinates);
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_METADATA_CHANGED, metadata => {  
+    update_state_param('metadata', metadata);
+  }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
+
 
   main_dispatcher
   .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_TYPE_CHANGED, type => {
@@ -125,6 +132,10 @@ var cncl_ = [
 var filial_address_and_work_time_store = merge(Emitter.prototype, {
   get_address () {
     return state_.address;
+  },
+
+  get_metadata() {
+    return state_.metadata;
   },
 
   get_coordinates () {

@@ -40,8 +40,8 @@ var YandexMapAddressSelect = React.createClass({
     this.markers_collection = null;
   },
 
-  onAddressChanged (address_string, coords) {
-    this.props.onChange && this.props.onChange(address_string, coords); //jshint ignore:line
+  onAddressChanged (address_string, coords, metadata) {
+    this.props.onChange && this.props.onChange(address_string, coords, metadata); //jshint ignore:line
   },
 
   componentDidMount() {    
@@ -93,12 +93,14 @@ var YandexMapAddressSelect = React.createClass({
                   coords = geo_object.geometry.getCoordinates();                  
                 }
 
-                this.onAddressChanged (search_string, coords);
+                //console.log('geo_object.parameters', geo_object.properties.get('metaDataProperty'));
+
+                this.onAddressChanged (search_string, coords, geo_object.properties.get('metaDataProperty'));
                 
                 var placemark = new ymaps.Placemark(coords, {});
                 
                 placemark.events.add('dragend', () => {
-                  this.onAddressChanged (search_string, placemark.geometry.getCoordinates());
+                  this.onAddressChanged (search_string, placemark.geometry.getCoordinates(), geo_object.properties.get('metaDataProperty'));
                 });
 
                 this.markers_collection.add(placemark);

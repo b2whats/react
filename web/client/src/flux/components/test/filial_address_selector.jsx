@@ -30,6 +30,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 
   address: filial_address_and_work_time_store.get_address(),
   coordinates: filial_address_and_work_time_store.get_coordinates(),
+  metadata: filial_address_and_work_time_store.get_metadata(),
+
   work_time: filial_address_and_work_time_store.get_work_time(),
   type: filial_address_and_work_time_store.get_type(),
   phones: filial_address_and_work_time_store.get_phones()
@@ -45,9 +47,10 @@ var FilialAddressSelector = React.createClass({
     filial_address_and_work_time_actions.f_phone_change(index, e.target.value);
   },
 
-  on_address_changed(address, coords) {
+  on_address_changed(address, coords, metadata) {
     filial_address_and_work_time_actions.f_address_change(address); 
     filial_address_and_work_time_actions.f_coords_change(coords); 
+    filial_address_and_work_time_actions.f_metadata_change(metadata); 
   },
 
   on_type_changed(type) {
@@ -77,9 +80,8 @@ var FilialAddressSelector = React.createClass({
     }
 
     //console.log('this.state.address, this.state.coordinates, this.state.phone', 
-    //             this.state.address, this.state.coordinates && this.state.coordinates.toJS(), this.state.phones.toJS());    
-    
-
+    //             this.state.address, this.state.coordinates && this.state.coordinates.toJS(), this.state.phones.toJS());        
+    //console.log('metadata', this.state.metadata && this.state.metadata.toJS());
 
     var marker_color = kMARKER_COLOR[this.state.type - 1];
 
