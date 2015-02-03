@@ -22,6 +22,8 @@ var SearchPageYandexMap = require('components/search_page/search_page_yandex_map
 var SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
+
+var TestPage = require('components/test/test.jsx');
 /* jshint ignore:end */
 var Menu = require('components/menu/menu.jsx');
 
@@ -119,6 +121,10 @@ var ice_main = React.createClass({
 							</div>
 						</SearchBlockHeader>
 					);
+				break;
+				
+				case route_names.kROUTE_TEST:
+					return (<TestPage />);
 				break;
 
 			}
