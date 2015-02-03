@@ -24,10 +24,12 @@ var MaskedInput = React.createClass({
   componentDidMount: function() {
     formatter.get_formatter_promise()
     .then( Formatter => {
-      new Formatter(this.refs.masked_input.getDOMNode(), {
-        'pattern': this.props.pattern,
-        'persistent': true
-      });
+      if(this.isMounted()) {
+        new Formatter(this.refs.masked_input.getDOMNode(), {
+          'pattern': this.props.pattern,
+          'persistent': true
+        });
+      }
     });
   },
 
