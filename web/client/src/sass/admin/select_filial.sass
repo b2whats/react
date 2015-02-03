@@ -1,21 +1,72 @@
 .select-filial-modal
+  font-size: 12px
+  
   &.width600px
-    width: 600px
+    width: 730px
+
+  input 
+    height: 28px  
+    font-size: 13px  
+    background-color: transparent !important
+    box-shadow: none
+    border: 1px solid #eee
+    border-radius: 0
+
+  button 
+    &:disabled
+      color: #eee
+
+  hr
+    border: none
+    border-top: 1px solid #eee
+
+    
+  .width50p
+    width: 50%
+
+  .displ-ib
+    display: inline-block
 
   .txt-al-center
     text-align: center
   
+  .txt-al-middle
+    @include valign-middle()
+    height: 28px  
+
+  .pt-2px
+    padding-top: 2px
+
+
   .pd-5px
     padding: 5px
-  
+
+  .pd-10px
+    padding: 10px
+
+  .pl-10px
+    padding-left: 10px
+
   .mn-5px
     margin: 5px
+  
   .mn-b-15px
     margin-bottom: 15px
+  .mn-t-15px
+    margin-top: 15px
+  .mn-t-30px
+    margin-top: 30px
+
+  .mn-t-10px
+    margin-top: 10px
+    
   .mn-r-0
     margin-right: 0
   .mn-l-0
     margin-left: 0
+
+  .mn-l-15px
+    margin-left: 15px
 
 
   .btn-with-icon
@@ -23,3 +74,38 @@
     background-color: #eee
     &.active
       background-color: white
+
+  .select-filial-modal-is-holiday
+    width: 116px
+    margin-left: 10px
+    margin-right: 10px
+    border: 1px solid #eee
+    text-align: center
+
+  .select-filial-modal-select-holder
+    overflow: hidden
+    width: 46px
+    height: 24px
+    border: 1px solid #eee
+    margin-left: 10px
+    margin-right: 10px
+    background-color: white
+
+    .select-filial-modal-select
+      height: 100%
+      width: 70px      
+      vertical-align: middle
+      padding: 0
+      margin: 0
+      padding-left: 6px
+      border-radius: 0
+      -webkit-appearance: none
+      background: transparent
+      border: none
+      outline: none
+      @-moz-document url-prefix()        
+        padding-left: 3px
+
+      &:-moz-focusring
+        color: transparent
+        text-shadow: 0 0 0 #000

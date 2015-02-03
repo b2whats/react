@@ -23,7 +23,7 @@ var SearchPageRightBlockContent = require('components/search_page/search_page_ri
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 
-var TestPage = require('components/test/test.jsx');
+var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 /* jshint ignore:end */
 var Menu = require('components/menu/menu.jsx');
 
@@ -124,7 +124,7 @@ var ice_main = React.createClass({
 				break;
 				
 				case route_names.kROUTE_TEST:
-					return (<TestPage />);
+					return (<FilialAddressSelector />);
 				break;
 
 			}

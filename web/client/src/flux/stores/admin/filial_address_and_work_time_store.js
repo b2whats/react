@@ -18,9 +18,12 @@ var kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY = sc
 var state_ =  init_state(_.last(__filename.split('/')), {
   address: null,
   coordinates: null,
-  work_time: [],
+  work_time: [
+    {is_holiday: false, from: '09:00', to:'21:00'},
+    {is_holiday: false, from: '10:00', to:'18:00'},
+    {is_holiday: false, from: '11:00', to:'17:00'}],
   type: 1,
-  phone: '+7'
+  phones: ['+7','+7', '+7']
 });
 
 function update_state_param(param_name, value) {
@@ -42,7 +45,7 @@ var cncl_ = [
       update_state_param('address', init_from.get('address'));
       update_state_param('coordinates', init_from.get('coordinates'));
       update_state_param('type', init_from.get('type'));
-      update_state_param('phone', init_from.get('phone'));
+      update_state_param('phones', init_from.get('phones'));
       update_state_param('work_time', init_from.get('work_time'));
 
     } else {
@@ -50,7 +53,7 @@ var cncl_ = [
       update_state_param('address', null);
       update_state_param('coordinates', null);
       update_state_param('type', 1);
-      update_state_param('phone', '+7');
+      update_state_param('phones', ['+7','+7', '+7']);
     }
 
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
@@ -73,8 +76,12 @@ var cncl_ = [
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_PHONE_CHANGED, phone => {  
-    update_state_param('phone', phone);
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_PHONE_CHANGED, (index, phone) => {        
+    state_.phones_cursor
+      .cursor([index])
+      .update(() => phone);
+
+    filial_address_and_work_time_store.fire(event_names.kON_CHANGE);
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
 
 
@@ -82,17 +89,34 @@ var cncl_ = [
 
 
   main_dispatcher
-  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_APPEND, region_list => {  
-
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_HOLIDAY_CHANGED, (index, value) => {  
+    state_.work_time_cursor
+      .cursor([index])
+      .update(wtime => wtime.set('is_holiday', value));
     filial_address_and_work_time_store.fire(event_names.kON_CHANGE);
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
-
 
   main_dispatcher
-  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_REMOVE, region_list => {  
-
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_FROM_CHANGED, (index, value) => {  
+    state_.work_time_cursor
+      .cursor([index])
+      .update(wtime => wtime.set('from', value));
     filial_address_and_work_time_store.fire(event_names.kON_CHANGE);
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_TO_CHANGED, (index, value) => {  
+    state_.work_time_cursor
+      .cursor([index])
+      .update(wtime => wtime.set('to', value));
+    filial_address_and_work_time_store.fire(event_names.kON_CHANGE);
+  }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
+
+
+
+
+
+
 
 
 ];
@@ -115,8 +139,8 @@ var filial_address_and_work_time_store = merge(Emitter.prototype, {
     return state_.type;
   },
 
-  get_phone() {
-    return state_.phone;
+  get_phones() {
+    return state_.phones;
   },
 
   dispose () {

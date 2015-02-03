@@ -31,8 +31,13 @@ var memoized_call_ = memoize(() => {
   });
 }, kMEMOIZE_OPTIONS);
 
+var formatter_promise_ = null;
+
 module.exports.get_formatter_promise = () => {
-  return serializer(memoized_call_);
+  if(formatter_promise_ === null) {
+    formatter_promise_ = memoized_call_();
+  }
+  return formatter_promise_;
 };
 
 
