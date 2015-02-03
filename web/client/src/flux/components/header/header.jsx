@@ -18,17 +18,19 @@ Modal.setAppElement(appElement);
 
 
 var modal_store = require('stores/modal_store.js');
+var auth_store = require('stores/auth_store.js');
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 		modalIsOpen: modal_store.get_modal_visible()
 	  }),
-	modal_store /*observable store list*/);
+	modal_store,auth_store /*observable store list*/);
 
 var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
 var ModalMixin = require('../mixins/modal_mixin.js');
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 var Register = require('./register.jsx');
+var SignIn = require('./signin.jsx');
 
 
 var Header = React.createClass({
@@ -62,27 +64,7 @@ var Header = React.createClass({
 			  isOpen={!!this.state.modalIsOpen.get('signin')}
 			  onRequestClose={this.handleModalCloseRequest}
 		  >
-			<div className='sign-in autoparts'>
-			  <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-			  <h2>Вход</h2>
-			  <label className='new_context'>
-				E-mail
-				<input type='text' name='email'/>
-			  </label>
-			  <label className='new_context'>
-					Пароль
-				<input type='password' name='password'/>
-				  <a className='fs12 f-r bbd m4-0'>Забыли пароль?</a>
-			  </label>
-			  <button className='m15-0' name='signin'>Войти</button>
-				<hr className='hr100'/>
-				<div className='h14'></div>
-				<p className='fc-g fs13'> Или войдите через вашу социальную сеть:</p>
-				<p>
-				  <i className="icon-facebook-rect fs24 fc-g"></i>
-				  <i className="icon-vkontakte-rect fs24 fc-g"></i>
-				</p>
-			</div>
+			  <SignIn />
 		  </Modal>
           <Modal
               isOpen={!!this.state.modalIsOpen.get('register')}

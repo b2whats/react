@@ -8,56 +8,54 @@ var sc = require('shared_constants');
 
 
 var Emitter = require('utils/emitter.js');
-var merge = require('utils/merge.js');
 var init_state = require('utils/init_state.js');
 var immutable = require('immutable');
+var merge = require('utils/merge.js');
 
-var register_actions = require('actions/register_actions.js');
+
 var modal_actions = require('actions/modal_actions.js');
 
 var state_ =  init_state(_.last(__filename.split('/')), {
-    register_field: {
-        type: 2
-    },
-    register_field_validation: {}
-
+    is_auth: false,
+    role: {},
+    auth_field_validation: {}
 });
 
 var cncl_ = [
+
     main_dispatcher
-        .on(event_names.kON_FORM_UPDATE, (name, value)  => {
-            state_.register_field_cursor
-                .update(m => m.set(name,value));
-            register_store.fire(event_names.kON_CHANGE);
-        },100000),
-    main_dispatcher
-        .on(event_names.kREGISTER_STATUS, (response)  => {
+        .on(event_names.kAUTH_STATUS, (response)  => {
             if (!response.valid) {
-                console.log(response);
                 var errors = immutable.fromJS(response.errors);
                 var map_error = errors
                     .reduce( (memo, error) =>
                         memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
-                state_.register_field_validation_cursor
+                state_.auth_field_validation_cursor
                     .update(() => map_error);
             } else {
-                state_.register_field_validation_cursor
+                state_.auth_field_validation_cursor
                     .clear();
+
+                state_.is_auth_cursor
+                    .update(m => true);
+
+                state_.role_cursor
+                    .update(m => response.info.role);
                 modal_actions.close_modal();
                 console.log('OK!!!!');
             }
-            register_store.fire(event_names.kON_CHANGE);
+            auth_store.fire(event_names.kON_CHANGE);
         },100000),
 ];
 
 
 
-var register_store = merge(Emitter.prototype, {
-    get_register_field () {
-        return state_.register_field;
+var auth_store = merge(Emitter.prototype, {
+    is_auth () {
+        return state_.is_auth;
     },
-    get_register_field_validation () {
-        return state_.register_field_validation;
+    get_auth_field_validation () {
+        return state_.auth_field_validation;
     },
     dispose () {
 
@@ -70,4 +68,4 @@ var register_store = merge(Emitter.prototype, {
 });
 
 
-module.exports = register_store;
+module.exports = auth_store;
