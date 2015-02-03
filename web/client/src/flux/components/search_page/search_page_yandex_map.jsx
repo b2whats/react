@@ -126,7 +126,7 @@ var SearchPageYandexMap = React.createClass({
   },
 
   render () {
-    var bounds = null; //меняется при переключении региона, юзерские не отслеживаются
+    var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
     if(this.state.region_current) {
       bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
     }
