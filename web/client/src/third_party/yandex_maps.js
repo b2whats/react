@@ -23,7 +23,7 @@ var memoized_call_ = memoize(() => {
     }
 
     //сначала ждем когда загружающий ya скрипт загрузится, потом когда он сам все подгрузит
-    $script('//api-maps.yandex.ru/2.1/?lang=ru-RU', function() {
+    $script('//api-maps.yandex.ru/2.1-dev/?lang=ru-RU', function() {
       if (typeof window.ymaps === 'undefined') {
         console.error('ymaps not loaded');
         reject(new Error('ymaps not loaded'));
