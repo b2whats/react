@@ -45,7 +45,10 @@ var YandexMapAddressSelect = React.createClass({
 
           var searchControl = new ymaps.control.SearchControl({
             options: {
-              provider: 'yandex#search'
+              provider: 'yandex#search',
+              position: {right: '10px', left: '10px', top: '10px'},
+              zoomMargin: [0,0,0,0]
+
             }
           });
           
