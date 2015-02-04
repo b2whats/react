@@ -23,7 +23,11 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 });
 
 var cncl_ = [
-
+    main_dispatcher
+        .on(event_names.kON_FORM_RESET_VALIDATE, ()  => {
+            state_.auth_field_validation_cursor
+                .clear();
+        },100000),
     main_dispatcher
         .on(event_names.kAUTH_STATUS, (response)  => {
             console.log('ssdfsdfsd', response);

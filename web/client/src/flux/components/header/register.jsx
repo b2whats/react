@@ -10,7 +10,9 @@ var ButtonGroup = require('components/forms_element/button_group.jsx');
 
 
 var register_store = require('stores/register_store.js');
+var auth_store = require('stores/auth_store.js');
 var register_actions = require('actions/register_actions.js');
+
 
 var rafBatchStateUpdateMixinCreate =require('../mixins/raf_state_update.js');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
@@ -32,6 +34,7 @@ var Register = React.createClass({
             register_actions.update_form(name, value);
         };
     },
+
     render () {
         return (
             <div className='ta-c'>

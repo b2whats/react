@@ -31,6 +31,11 @@ var cncl_ = [
             register_store.fire(event_names.kON_CHANGE);
         },100000),
     main_dispatcher
+        .on(event_names.kON_FORM_RESET_VALIDATE, ()  => {
+            state_.register_field_validation_cursor
+                .clear();
+        },100000),
+    main_dispatcher
         .on(event_names.kREGISTER_STATUS, (response)  => {
             if (!response.valid) {
                 console.log(response);

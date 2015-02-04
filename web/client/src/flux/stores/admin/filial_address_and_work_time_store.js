@@ -61,7 +61,7 @@ var cncl_ = [
 
 
   main_dispatcher
-  .on(event_names.kON_CURRENT_FILIAL_UPDATE, () => {  
+  .on(event_names.kON_CURRENT_FILIAL_CHANGE, () => {
 
     console.log('UPDATE 2');
 

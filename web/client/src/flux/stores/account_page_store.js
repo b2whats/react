@@ -27,25 +27,21 @@ var cncl_ = [
             state_.company_information_cursor
                 .update(() => immutable.fromJS(info[0]));
             account_page_store.fire(event_names.kON_CHANGE);
-        }, 100000),
+        }, 1),
     main_dispatcher
         .on(event_names.kACCOUNT_COMPANY_FILIALS_LOADED, info => {
-
-
             state_.company_filials_cursor
                 .update(() => immutable.fromJS(info));
             account_page_store.fire(event_names.kON_CHANGE);
-        }, 100000),
+        }, 1),
     main_dispatcher
         .on(event_names.kON_FORM_UPDATE, (name, value)  => {
             state_.company_information_cursor
                 .update(m => m.set(name,value));
             account_page_store.fire(event_names.kON_CHANGE);
-        },100000),
+        }, 1),
     main_dispatcher
-        .on(event_names.kON_CURRENT_FILIAL_UPDATE, (id_element)  => {
-
-            console.log('UPDATE 1');
+        .on(event_names.kON_CURRENT_FILIAL_CHANGE, (id_element)  => {
 
             state_.current_filial_cursor
                 .update(() => state_.company_filials.find(b => b.get('id') === id_element));

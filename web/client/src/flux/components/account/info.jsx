@@ -43,7 +43,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 
 var Snackbar =  require('components/snackbar/snackbar.jsx');
 
-
+var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 var AccountInfo = React.createClass({
     mixins: [PureRenderMixin,RafBatchStateUpdateMixin,ModalMixin],
 
@@ -194,17 +194,7 @@ var AccountInfo = React.createClass({
                     onRequestClose={this.handleModalCloseRequest}
                 >
                     {(!!this.state.modalIsOpen.get('edit_company_filial')) &&
-                        <div className='sign-in autoparts'>
-                            <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-                            <h2>Вход</h2>
-                            <label className='new_context'>
-                                E-mail
-                                <input type='text' name='email' value={this.state.current_filial.get('id')}/>
-                            </label>
-
-                            <button className='m15-0' name='signin'>Войти</button>
-
-                        </div>
+                        <FilialAddressSelector />
                     }
                 </Modal>
                 <Snackbar

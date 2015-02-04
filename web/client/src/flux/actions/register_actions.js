@@ -65,7 +65,7 @@ module.exports.submit_form = (register_data) => {
 };
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
-   // ['submit_form', event_names.kON_FORM_SUBMIT],
+    ['reset_form_validate', event_names.kON_FORM_RESET_VALIDATE],
 ];
 
 
