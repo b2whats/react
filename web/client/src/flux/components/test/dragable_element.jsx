@@ -5,11 +5,11 @@ var PropTypes = React.PropTypes;
 
 var cx = React.addons.classSet;
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-
+//var PureRenderMixin = React.addons.PureRenderMixin;
+var VeryPureRenderMixin = require('components/mixins/very_pure_mixin.js')
 
 var DragableElement = React.createClass({
-  mixins: [PureRenderMixin],
+  mixins: [VeryPureRenderMixin],
 
   propTypes: {
     
@@ -26,6 +26,7 @@ var DragableElement = React.createClass({
     this.relative_rect_width = null;
     this.mouse_start = null;
     this.current_pos = null;
+    this.prev_pos = null;
   },
 
   componentDidMount() {
@@ -53,6 +54,7 @@ var DragableElement = React.createClass({
 
     this.relative_rect_width = this.relative_node.getBoundingClientRect().width;
     this.current_pos = this.relative_rect_width*(this.props.value || this.state.value) / 100  ;
+    this.prev_pos = null;
   },
 
   on_document_mousemove (e) {
@@ -61,18 +63,25 @@ var DragableElement = React.createClass({
     var new_pos = this.current_pos + delta_x;
     new_pos = 100 * Math.min( Math.max(0, new_pos), this.relative_rect_width) / this.relative_rect_width;
 
-    if(this.props.value!==undefined) {
-      if(this.props.onChange === undefined) {
-        console.error('you must define onChange prop if value defined');
-      }
+    if(Math.abs(new_pos - this.prev_pos) > 0.01) {
+      
+      this.prev_pos = new_pos;
 
-      this.props.onChange(new_pos);
-    } else {
-      this.replaceState({value: new_pos});
-
-      if(this.props.onChange) {
+      if(this.props.value!==undefined) {
+        if(this.props.onChange === undefined) {
+          console.error('you must define onChange prop if value defined');
+        }
+        
         this.props.onChange(new_pos);
+
+      } else {
+        this.replaceState({value: new_pos});
+
+        if(this.props.onChange) {
+          this.props.onChange(new_pos);
+        }
       }
+    
     }
   },
 
@@ -82,10 +91,10 @@ var DragableElement = React.createClass({
     this.current_pos = null;
     this.mouse_start = null;
   },
+  
 
   render () {
     var value = this.props.value!==undefined ? this.props.value : this.state.value;
-
     return (
       <div 
         ref="draggable" 

@@ -13,8 +13,6 @@ var PriceListSelector = require('components/test/price_list_selector.jsx');
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 var price_list_selector_store = require('stores/admin/price_list_selector_store.js');
 
-var immutable = require('immutable');
-
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   price_list_values: price_list_selector_store.get_values (),
   first_value: price_list_selector_store.get_first_value(),
@@ -33,12 +31,16 @@ price_list_selector_actions.initialize([
     {price_from: 50000, delta_fix: 200, delta_percent: 1 },
     ], 0, 73000);
 
-var Test2 = React.createClass({
+var PriceListSelectionBlock = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
   on_price_list_selector_change(index, val) {
     price_list_selector_actions.update_position(index, val);
+  },
+
+  on_price_list_selector_add(val) {
+    price_list_selector_actions.add_position(val);
   },
 
   on_price_list_selector_price_change(index, price_from) {    
@@ -54,18 +56,12 @@ var Test2 = React.createClass({
     price_list_selector_actions.update_delta_percent(index, +delta_percent.target.value);
   },
 
-  one_way_binding_change(index, val) {
-    //console.log(index, val);
-  },
 
   render() {
-
     var values = this.state.price_list_values
       .map((v, index) => v.set('index', index))
       .push(this.state.first_value.set('percent', -1).set('index', -1))      
       .sortBy(v => v.get('percent'));
-
-    
 
 
     var TrPriceListRows =  _.map(_.range(0, values.size), index => {
@@ -78,7 +74,7 @@ var Test2 = React.createClass({
 
       return (
         <tr key={to_index}>
-          <td>{index}</td>
+          <td>{index + 1}</td>
           <td>
             <span style={{marginRight: '10px', textAlign: 'right', width: '70px', height: '22px', display: 'inline-block'}}>
               {Math.round(from)} руб.
@@ -123,7 +119,8 @@ var Test2 = React.createClass({
           value={this.state.price_list_values.toJS()} 
           from={this.state.range_from} 
           to={this.state.range_to} 
-          onChange={this.on_price_list_selector_change} />
+          onChange={this.on_price_list_selector_change} 
+          onAdd={this.on_price_list_selector_add}/>
         
         <div style={ {marginTop: '20px'} } className="wrap gutter-15-xs">
           <div className="md-12-6">
@@ -137,30 +134,17 @@ var Test2 = React.createClass({
               </thead>
               <tbody>
                 {TrPriceListRows}
-
               </tbody>
-
-
             </table>
-            
-
-          
-
           </div>
           <div className="md-12-6"></div>
         </div>
         <div style={{marginTop: '30px'}}>
         <button onClick={() => console.log(price_list_selector_store.get_result().toJS())}>вывести результат в консоль</button>
         </div>
-
-
-
-        
-
-
       </div>
     );
   }
 });
 
-module.exports = Test2;
+module.exports = PriceListSelectionBlock;

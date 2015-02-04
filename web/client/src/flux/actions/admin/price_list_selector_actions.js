@@ -12,6 +12,7 @@ var actions_ = [
 
   ['update_delta_fix', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_DELTA_FIX],
   ['update_delta_percent', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_DELTA_PERCENT],
+  ['add_position', event_names.kON_PRICE_LIST_SELECTOR_ADD_POSITION],
   
 
 
@@ -19,14 +20,6 @@ var actions_ = [
 
 
 module.exports.initialize = (values, price_range_from, price_range_to) => {
-  if(values === undefined) { //для примера чем инициализировать    
-    values = [
-    {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
-    {price_from: 30000, delta_fix: 200, delta_percent: 1 },
-    {price_from: 10000, delta_fix: 200, delta_percent: 1 },
-    {price_from: 50000, delta_fix: 200, delta_percent: 1 },
-    ];
-  }
   
   price_range_from = price_range_from || sc.kPRICE_LIST_SELECTOR_PRICES_FROM;
   price_range_to = price_range_to || sc.kPRICE_LIST_SELECTOR_PRICES_TO;

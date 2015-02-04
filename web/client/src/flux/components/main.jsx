@@ -25,7 +25,7 @@ var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page
 
 var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 
-var Test2 = require('components/test/test2.jsx');
+var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 /* jshint ignore:end */
 var Menu = require('components/menu/menu.jsx');
 
@@ -130,7 +130,7 @@ var ice_main = React.createClass({
 				break;
 				
 				case route_names.kROUTE_TEST_N:
-					return (<Test2/>);
+					return (<PriceListSelectionBlock/>);
 				break;
 
 

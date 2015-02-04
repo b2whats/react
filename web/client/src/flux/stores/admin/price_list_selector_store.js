@@ -49,27 +49,56 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION, (index, value) => {
-    state_.values_cursor
-      .cursor([index])
-      .update( v => 
-        v.set('percent', value)
-        .set('price_from', state_.price_range_from +  value*(state_.price_range_to - state_.price_range_from)/100 ) );
+
+    if(value >= 100) {
+      state_.values_cursor
+        .update(values => values.filter((v, i) => i!==index));
+
+    } else {
+      state_.values_cursor
+        .cursor([index])
+        .update( v => 
+          v.set('percent', value)
+          .set('price_from', state_.price_range_from +  value*(state_.price_range_to - state_.price_range_from)/100 ) );
+    }
 
     price_list_selector.fire(event_names.kON_CHANGE);
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION_BY_PRICE, (index, price_from) => {
-    state_.values_cursor
-      .cursor([index])
-      .update( v => 
-        v.set('percent', 100*(price_from - state_.price_range_from) / (state_.price_range_to - state_.price_range_from) )
-          .set('price_from', price_from ) );
+    
+    if(price_from >= state_.price_range_to) {
+
+      state_.values_cursor
+        .update(values => values.filter((v, i) => i!==index));
+        
+    } else {
+
+      state_.values_cursor
+        .cursor([index])
+        .update( v => 
+          v.set('percent', 100*(price_from - state_.price_range_from) / (state_.price_range_to - state_.price_range_from) )
+            .set('price_from', price_from ) );
+    }
 
     price_list_selector.fire(event_names.kON_CHANGE);
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
+  main_dispatcher
+  .on(event_names.kON_PRICE_LIST_SELECTOR_ADD_POSITION, (value) => {
+    state_.values_cursor
+      .update(values => 
+        values.push(immutable.fromJS({
+          price_from: state_.price_range_from +  value*(state_.price_range_to - state_.price_range_from)/100, 
+          delta_fix: state_.first_value.get('delta_fix'), 
+          delta_percent: state_.first_value.get('delta_percent'),
+          percent: value
+        })));
+  
 
+    price_list_selector.fire(event_names.kON_CHANGE);
+  }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_UPDATE_DELTA_FIX, (index, delta_fix) => {
