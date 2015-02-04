@@ -61,6 +61,16 @@ var cncl_ = [
 
 
   main_dispatcher
+  .on(event_names.kON_CURRENT_FILIAL_UPDATE, () => {  
+
+    console.log('UPDATE 2');
+
+  }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
+
+
+
+
+  main_dispatcher
   .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_ADDRESS_CHANGED, address => {
     update_state_param('address', address);
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),

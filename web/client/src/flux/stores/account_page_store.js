@@ -45,6 +45,8 @@ var cncl_ = [
     main_dispatcher
         .on(event_names.kON_CURRENT_FILIAL_UPDATE, (id_element)  => {
 
+            console.log('UPDATE 1');
+
             state_.current_filial_cursor
                 .update(() => state_.company_filials.find(b => b.get('id') === id_element));
              //После него идет открытие модального окна, стейт могу не обновлять, он его сам обновит
