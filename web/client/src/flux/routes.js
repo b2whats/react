@@ -25,6 +25,12 @@ routes[route_definitions.kROUTE_TEST] = [
     () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
     route_actions.default_route];
 
+routes[route_definitions.kROUTE_TEST_N] = [
+    () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
+    route_actions.default_route];
+
+
+
 routes[route_definitions.kROUTE_DEF] = [
     () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
     route_actions.default_route];
