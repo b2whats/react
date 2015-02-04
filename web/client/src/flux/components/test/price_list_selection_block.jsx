@@ -137,7 +137,11 @@ var PriceListSelectionBlock = React.createClass({
               </tbody>
             </table>
           </div>
-          <div className="md-12-6"></div>
+          <div className="md-12-6">
+          <br/>
+          добавить - двойной клик,<br/>
+          убрать - утянуть ползунок вправо или назначить цену больше максимальной
+          </div>
         </div>
         <div style={{marginTop: '30px'}}>
         <button onClick={() => console.log(price_list_selector_store.get_result().toJS())}>вывести результат в консоль</button>
