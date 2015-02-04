@@ -62,6 +62,10 @@ var DragableElement = React.createClass({
     new_pos = 100 * Math.min( Math.max(0, new_pos), this.relative_rect_width) / this.relative_rect_width;
 
     if(this.props.value!==undefined) {
+      if(this.props.onChange === undefined) {
+        console.error('you must define onChange prop if value defined');
+      }
+
       this.props.onChange(new_pos);
     } else {
       this.replaceState({value: new_pos});
@@ -86,7 +90,7 @@ var DragableElement = React.createClass({
       <div 
         ref="draggable" 
         onMouseDown={this.on_element_mouse_down} 
-        style={ {position:'absolute', left: `${value}%`} }
+        style={ _.extend({}, this.props.style, {position:'absolute', left: `${value}%`}) }
         className={this.props.className}>
         
         {this.props.children}  
