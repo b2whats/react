@@ -33,10 +33,23 @@ docker run --name "$DOCKER_HOST_NAME" -d -t \
 
 #Запустить внутри контейнера все что надо
 docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "script -q /dev/null -c 'cd /home/ice$CROSS_COMPAT_DIR/web && ./tmux_run'"
-#echo 'please wait'
-#sleep 10 #чуть подождать и отдетачить клиента от контейнера
-CLIENT_LIST=
+#sleep 1
 
+echo 'please wait ------------------- 0'
+docker exec -it "$DOCKER_HOST_NAME" su - ice -c "ps -aux | grep tmux" | grep "new-session"
+
+sleep 1
+
+echo 'please wait ------------------- 1'
+docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients"
+
+echo 'please wait ------------------- 2'
+#sleep 10 #чуть подождать и отдетачить клиента от контейнера
+
+
+
+
+CLIENT_LIST=
 #почему то без этого слипа дебиан иногда вылетает на docker exec без ошибок
 sleep 1
 
