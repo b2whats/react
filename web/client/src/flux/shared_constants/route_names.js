@@ -11,7 +11,11 @@ var route_names = {
 
   kHELP_ROUTE: 'kHELP_ROUTE',
   kROUTE_TEST: '/test',
-  kROUTE_TEST_N: '/test_n'
+  kROUTE_TEST_N: '/test_n',
+
+  kROUTE_R_A: '/r1',
+  kROUTE_R_B: '/r2',
+  kROUTE_R_C: '/r3',
 };
 
 module.exports = route_names;

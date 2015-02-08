@@ -55,6 +55,20 @@ var ice_main = React.createClass({
 
 		var MainContent = (function(router_state, router_context_params) {
 			switch(router_state) {
+				case route_names.kROUTE_R_A:
+				case route_names.kROUTE_R_B:
+				case route_names.kROUTE_R_C:
+					return (
+						<div>
+							<Link href={route_names.kROUTE_R_A}>{route_names.kROUTE_R_A}</Link><br/>
+							<Link href={route_names.kROUTE_R_B}>{route_names.kROUTE_R_B}</Link><br/>
+							<Link href={route_names.kROUTE_R_C}>{route_names.kROUTE_R_C}</Link><br/>
+						</div>
+					);
+
+				break;				
+
+
 				case route_names.kROUTE_DEF:
 				case route_names.kROUTE_DEF_W_REGION:
 					/* jshint ignore:start */

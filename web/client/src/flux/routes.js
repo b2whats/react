@@ -21,6 +21,20 @@ var routes = {};
 
 
 
+routes[route_definitions.kROUTE_R_A] = [
+  () => console.log('kROUTE_R_A'),
+  route_actions.default_route
+];
+routes[route_definitions.kROUTE_R_B] = [
+  () => console.log('kROUTE_R_B'),
+  route_actions.default_route
+];
+routes[route_definitions.kROUTE_R_C] = [
+  () => console.log('kROUTE_R_C'),
+  route_actions.default_route
+];
+
+
 routes[route_definitions.kROUTE_TEST] = [
     () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
     route_actions.default_route];
@@ -31,14 +45,20 @@ routes[route_definitions.kROUTE_TEST_N] = [
 
 
 
+
 routes[route_definitions.kROUTE_DEF] = [
     () => region_actions.region_changed(kDEFAULT_REGION_ID), //загрузить асинхронно регион оп умолчанию
     route_actions.default_route];
   
   
 routes[route_definitions.kROUTE_DEF_W_REGION] = [ //при смене роута можно указать несколько подряд методов которые надо выполнить
+    () => console.log('kroute_reg'),
     (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route ];
+
+
+
+
 
 
 routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE, 
