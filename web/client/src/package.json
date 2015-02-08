@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "base templates",
   "dependencies": {
-    "page": "^1.4.1"
+    "page": "^1.6.0"
   },
   "author": "istarkov@gmail.com",
   "license": "commerce"
