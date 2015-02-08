@@ -24,10 +24,12 @@ var SignIn = require('./signin.jsx');
 var form_actions = require('actions/form_actions.js');
 var auth_store = require('stores/auth_store.js');
 var modal_store = require('stores/modal_store.js');
+var auth_actions = require('actions/auth_actions.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 		modalIsOpen : modal_store.get_modal_visible(),
-		is_auth      : auth_store.is_auth()
+		is_auth      : auth_store.is_auth(),
+    email : auth_store.get_email(),
 	}),
 	modal_store, auth_store /*observable store list*/);
 var Header = React.createClass({
@@ -42,6 +44,10 @@ var Header = React.createClass({
 			this.openModal(id_modal)();
 		}
 	},
+  logOut () {
+    //console.log('control - logout');
+    auth_actions.log_out();
+  },
 	render() {
 		return (
 			<div className="hfm-wrapper main-header header entire-width">
@@ -66,7 +72,7 @@ var Header = React.createClass({
 							<Link className = "ap-link" onClick={this.extOpenModal('signin')}>Вход</Link>
 						</span>
 						:
-						<Link className = "ap-link">Выход</Link>
+						<Link className = "ap-link" onClick={this.logOut}>{this.state.email}</Link>
 						}
 
 

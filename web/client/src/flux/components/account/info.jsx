@@ -36,6 +36,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 	modal_store, editable_forms_store, account_page_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
+var route_actions = require('actions/route_actions.js');
 
 var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 var AccountInfo = React.createClass({
@@ -77,7 +78,6 @@ var AccountInfo = React.createClass({
 		this.refs.snack.show();
 	},
 	render() {
-		console.log(1233);
 		var edit = this.state.formsIsEdit.get('informations');
 		var Filial = this.state.company_filials &&
 			this.state.company_filials

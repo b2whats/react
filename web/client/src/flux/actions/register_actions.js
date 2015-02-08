@@ -12,6 +12,8 @@ var action_export_helper = require('utils/action_export_helper.js');
 var merge = require('utils/merge.js');
 var validator = require('revalidator');
 
+var route_actions = require('actions/route_actions.js');
+
 /*var r_register = resource(api_refs.kSUBMIT_REGISTER_DATA);
 module.exports.submit_register_data = (register_data) => {
 		r_register.post(register_data)
@@ -24,7 +26,7 @@ var user_shema = {
 		required : true,
 		format   : 'email',
 		messages : {
-			format : 'Не верный Email адрес'
+			      format : 'Не верный Email адрес'
 		}
 	},
 	password : {
@@ -63,6 +65,8 @@ module.exports.submit_form = (register_data) => {
 				else {
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_SUCCESS]);
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
+          console.log('goto_action_reg');
+          route_actions.goto_link_c_params('/account/:region_id/company');
 				}
 			});
 	}

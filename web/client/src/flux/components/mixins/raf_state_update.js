@@ -16,11 +16,11 @@ var rafBatchStateUpdateMixinCreate = function(get_state) {
 
     getInitialState () {
       return get_state();
-    },  
+    },
 
     on_change_handler () {      
-      var state = get_state();
       raf(() => {
+        var state = get_state();
         if(this.isMounted()) {
           this.replaceState(state);
         }

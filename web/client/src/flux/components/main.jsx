@@ -28,22 +28,23 @@ var FilialAddressSelector = require('components/test/filial_address_selector.jsx
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 /* jshint ignore:end */
 var Menu = require('components/menu/menu.jsx');
-
+var auth_store = require('stores/auth_store.js');
 var immutable = require('immutable');
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 	router_state: routes_store.get_route_state_ro(),
-	router_context_params: routes_store.get_route_context_params()
+	router_context_params: routes_store.get_route_context_params(),
+  check_done : auth_store.get_check_done()
 }),
-routes_store /*observable store list*/);
+routes_store,auth_store /*observable store list*/);
 
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
 var AccountInfo = require('components/account/info.jsx');
+var auth_actions = require('actions/auth_actions.js');
 
-
-
-
+auth_actions.check_auth();
+var cx = React.addons.classSet;
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
 
@@ -151,9 +152,13 @@ var ice_main = React.createClass({
 
 			}
 		}) (this.state.router_state,this.state.router_context_params.toJS());
-
 		return (
-			<div className="main-wrapper">
+			<div className={
+        cx({
+          'v-h' : !this.state.check_done,
+          'main-wrapper'   : true
+        })
+        }>
 				<Header />
 				<div className="hfm-wrapper main-body">
 					{MainContent}

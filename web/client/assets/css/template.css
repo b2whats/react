@@ -387,6 +387,9 @@ input.bs-error {
 .h40px {
     height: 40px;
 }
+.v-h {
+    visibility: hidden;
+}
 .va-m {
     vertical-align: middle;
 }

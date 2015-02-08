@@ -22,29 +22,22 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 });
 
 var routes_store_did_change_cncl = main_dispatcher
-.on(event_names.kON_ROUTE_DID_CHANGE, (route_name, route_context, route_params) => {
-  var route_context_params =  immutable.fromJS(route_params);
-
-  
-  state_.route_changed_cursor
-    .update(() => true);
-
-  if(state_.route_state!==route_name) {
-    state_.route_state_cursor
-      .update(() => route_name);
-
-    routes_store.fire(event_names.kON_CHANGE);
-  }
-
-  if( !immutable.is(route_context_params, state_.route_context_params) ) {
-    state_.route_context_params_cursor
-      .update(() => route_context_params);
-    
-    routes_store.fire(event_names.kON_CHANGE);
-  }
-
-
-}, kON_ROUTE_DID_CHANGE__ROUTES_STORE_PRIORITY);
+  .on(event_names.kON_ROUTE_DID_CHANGE, (route_name, route_context, route_params) => {
+    //console.log('did_change', route_name);
+    var route_context_params = immutable.fromJS(route_params);
+    state_.route_changed_cursor
+      .update(() => true);
+    if (state_.route_state !== route_name) {
+      state_.route_state_cursor
+        .update(() => route_name);
+      routes_store.fire(event_names.kON_CHANGE);
+    }
+    if (!immutable.is(route_context_params, state_.route_context_params)) {
+      state_.route_context_params_cursor
+        .update(() => route_context_params);
+      routes_store.fire(event_names.kON_CHANGE);
+    }
+  }, kON_ROUTE_DID_CHANGE__ROUTES_STORE_PRIORITY);
 
 
 //kON_ROUTE_WILL_CHANGE обработчик ненужен

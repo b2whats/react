@@ -10,8 +10,8 @@ var api_refs = require('shared_constants/api_refs.js');
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
 var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
-module.exports.get_company_information = (company_id) => {
-    return r_get_company_info.get({company_id: company_id})
+module.exports.get_company_information = () => {
+    return r_get_company_info.get()
         .then(response => {
 
             main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_INFO_LOADED].concat([response]));
@@ -25,8 +25,8 @@ module.exports.update_company_information = (new_company_information) => {
         });
 };
 var r_get_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL);
-module.exports.get_company_filial = (company_id) => {
-    return r_get_company_filial.get({company_id: company_id})
+module.exports.get_company_filial = () => {
+    return r_get_company_filial.get()
         .then(response => {
             main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIALS_LOADED].concat([response]));
         });

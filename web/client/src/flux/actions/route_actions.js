@@ -6,6 +6,7 @@ var evt = require('shared_constants/event_names.js');
 
 var page = require('page'); //router
 var route_template = require('utils/route_template.js');
+var routes_store = require('stores/routes_store.js');
 
 var route_templates_cache_ = {};
 
@@ -41,9 +42,18 @@ module.exports.goto_link = function (link) {
 
 //подставляет парамеры в линки типа /x/:id
 //по хорошему все переходы по линкам должны идти через именно эту функцию
-module.exports.goto_link_w_params = function (link, params) {  
+var goto_link_w_params = module.exports.goto_link_w_params = function (link, params) {
   if(!(link in route_templates_cache_)) route_templates_cache_[link] = route_template(link);
   var link_template = route_templates_cache_[link];  
   var evaluated_link = link_template(params);
   page(evaluated_link);
+};
+module.exports.goto_link_c_params = function (link) {
+  //console.log('goto_action_route');
+
+  var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
+  var route_p_new = _.extend(
+    {},
+    route_params);
+  goto_link_w_params(link, route_p_new);
 };
