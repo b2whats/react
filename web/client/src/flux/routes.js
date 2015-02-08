@@ -180,11 +180,13 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
       (route_name, route_context, route_context_params) => {
         region_actions.region_changed(route_context_params.region_id)
       },
-      () => {
-        account_page_actions.get_company_information();
-      },
-      () => {
-        account_page_actions.get_company_filial();
+      (route_name, route_context, route_context_params) => {
+        switch (route_context_params.section) {
+          case 'company':
+            account_page_actions.get_company_filial();
+            account_page_actions.get_company_information();
+            break;
+        }
       },
       route_actions.default_route
 ];

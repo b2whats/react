@@ -41,6 +41,7 @@ routes_store,auth_store /*observable store list*/);
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
 var AccountInfo = require('components/account/info.jsx');
+var AccountServices = require('components/account/services.jsx');
 var auth_actions = require('actions/auth_actions.js');
 
 auth_actions.check_auth();
@@ -121,9 +122,15 @@ var ice_main = React.createClass({
 
 
 					var CentralBlockContent = (function(router_state, router_context_params) {
-						return (
-							<AccountInfo />
-						);
+            console.log(router_context_params);
+            switch(router_context_params.section) {
+              case 'company':
+                return <AccountInfo />;
+                break;
+              case 'services':
+                return <AccountServices />;
+                break;
+            }
 					}) (router_state, router_context_params);
 
 					return (
