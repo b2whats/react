@@ -68,14 +68,14 @@ var SignIn = React.createClass({
                     <input
                         ref='email'
                         type='text'
-                        className={cx({'bs-error': !!this.state.auth_field_validation.has('email')})}/>
+                        className={cx({'bs-error': !!this.state.auth_field_validation.has('email'), 'w100pr' : true})}/>
                 </label>
                 <label className='new_context'>
                     Пароль
                     <input
                         ref='password'
                         type='password'
-                        className={cx({'bs-error': !!this.state.auth_field_validation.has('password')})}/>
+                        className={cx({'bs-error': !!this.state.auth_field_validation.has('password'), 'w100pr' : true})}/>
                     <a className='fs12 f-r bbd m4-0'>Забыли пароль?</a>
                 </label>
                 <button className='m15-0' onClick={this.authSubmit}>Войти</button>

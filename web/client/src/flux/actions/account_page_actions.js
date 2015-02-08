@@ -38,7 +38,7 @@ module.exports.delete_company_filial_async = (filial_id) => {
 };
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
-    ['update_current_filial', event_names.kON_CURRENT_FILIAL_UPDATE],
+    ['change_current_filial', event_names.kON_CURRENT_FILIAL_CHANGE],
     ['delete_filial', event_names.kON_FILIAL_DELETE],
 ];
 

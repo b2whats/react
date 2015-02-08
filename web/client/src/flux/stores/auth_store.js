@@ -23,44 +23,49 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 });
 
 var cncl_ = [
-    main_dispatcher
-        .on(event_names.kON_FORM_RESET_VALIDATE, ()  => {
-            state_.auth_field_validation_cursor
-                .clear();
-        },100000),
-    main_dispatcher
-        .on(event_names.kAUTH_STATUS, (response)  => {
-            console.log('ssdfsdfsd', response);
-            
-            if (!response.valid) {
-                var errors = immutable.fromJS(response.errors);
-                var map_error = errors
-                    .reduce( (memo, error) =>
-                        memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
-                state_.auth_field_validation_cursor
-                    .update(() => map_error);
-            } else {
-                state_.auth_field_validation_cursor
-                    .clear();
+	main_dispatcher
+		.on(event_names.kON_FORM_RESET_VALIDATE, ()  => {
+			state_.auth_field_validation_cursor
+				.clear();
+		}, 100000),
+	main_dispatcher
+		.on(event_names.kAUTH_STATUS_ERROR, (response)  => {
+			var errors = immutable.fromJS(response.errors);
+			var map_error = errors
+				.reduce((memo, error) =>
+					memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
+			state_.auth_field_validation_cursor
+				.update(() => map_error);
+			auth_store.fire(event_names.kON_CHANGE);
+		}, 100000),
+	main_dispatcher
+		.on(event_names.kAUTH_STATUS_SUCCESS, (response)  => {
+			console.log('auth_success', response);
+			state_.auth_field_validation_cursor
+				.clear();
+			state_.is_auth_cursor
+				.update(m => true);
+			state_.role_cursor
+				.update(m => response.role);
+			modal_actions.close_modal();
+			auth_store.fire(event_names.kON_CHANGE);
+		}, 100000),
+	main_dispatcher
+		.on(event_names.kAUTH_STATUS_RESET, ()  => {
+			state_.auth_field_validation_cursor
+				.clear();
+			state_.is_auth_cursor
+				.update(m => false);
+			state_.role_cursor
+				.update(m => null);
+			auth_store.fire(event_names.kON_CHANGE);
+		}, 100000),
+	main_dispatcher.on(event_names.kAUTH_SAVE_PATH, (path)  => {
+		state_.path_cursor
+			.update(() => path);
 
-                state_.is_auth_cursor
-                    .update(m => true);
-
-                state_.role_cursor
-                    .update(m => response.info.role);
-                modal_actions.close_modal();
-                console.log('OK!!!!');
-            }
-            auth_store.fire(event_names.kON_CHANGE);
-        },100000), //ВОТ ЭТО БЛЯТЬ ЧТО ТАКОЕ!!!
-
-
-    main_dispatcher.on(event_names.kAUTH_SAVE_PATH, (path)  => {
-        state_.path_cursor
-            .update(() => path);
-        
-        auth_store.fire(event_names.kON_CHANGE);
-    }, sc.kAUTH_STORE_PRIORITY),
+		auth_store.fire(event_names.kON_CHANGE);
+	}, sc.kAUTH_STORE_PRIORITY),
 ];
 
 

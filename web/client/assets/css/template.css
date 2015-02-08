@@ -148,6 +148,9 @@ i {
 .w300px {
     width: 300px;
 }
+.w700px {
+    width : 700px;
+}
 .w130px {
     width: 130px;
 }
@@ -298,7 +301,10 @@ input.bs-error {
     margin:15px 0;
 }
 .m20-0 {
-    margin:15px 0;
+    margin:20px 0;
+}
+.m25-0 {
+    margin:25px 0;
 }
 .m30-0 {
     margin:30px 0;
@@ -375,7 +381,12 @@ input.bs-error {
 .h14 {
     height: 14px;
 }
-
+.h20px {
+    height: 20px;
+}
+.h40px {
+    height: 40px;
+}
 .va-m {
     vertical-align: middle;
 }
@@ -458,7 +469,14 @@ input.bs-error {
     border-right: 0;
     margin: 0;
 }
-
+.hr {
+    width: 100%;
+    box-sizing: border-box;
+    border-color: #c8c8c8;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
 .ap-color {
     color: #b7a6de;
 }
@@ -716,4 +734,9 @@ a.icon-link {
 
 .ReactModal__Content {
     transition: all 1s linear;
+}
+
+
+.phone-mask {
+    width : 140px;
 }

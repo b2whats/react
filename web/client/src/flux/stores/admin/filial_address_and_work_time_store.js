@@ -12,6 +12,7 @@ var merge = require('utils/merge.js');
 var init_state = require('utils/init_state.js');
 
 var immutable = require('immutable');
+var account_page_store = require('stores/account_page_store.js');
 
 var kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY = sc.kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY;
 
@@ -24,7 +25,8 @@ var state_ =  init_state(_.last(__filename.split('/')), {
     {is_holiday: false, from: '10:00', to:'18:00'},
     {is_holiday: false, from: '11:00', to:'17:00'}],
   type: 1,
-  phones: ['+7','+7', '+7']
+  phones: ['+7','+7', '+7'],
+	filial_id: null
 });
 
 function update_state_param(param_name, value) {
@@ -62,9 +64,13 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_CURRENT_FILIAL_CHANGE, () => {
-
-    console.log('UPDATE 2');
-
+		  var current_fillial  = account_page_store.get_current_filial();
+		  update_state_param('address', current_fillial.get('city') + ' ' + current_fillial.get('street') + ' ' + current_fillial.get('house'));
+		  update_state_param('coordinates', current_fillial.get('coordinates'));
+		  update_state_param('type', current_fillial.get('filial_type_id'));
+		  update_state_param('phones', current_fillial.get('phones'));
+		  update_state_param('work_time', current_fillial.get('operation_time'));
+		  update_state_param('filial_id', current_fillial.get('id'));
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
 
 
@@ -114,7 +120,7 @@ var cncl_ = [
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_FROM_CHANGED, (index, value) => {  
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_FROM_CHANGED, (index, value) => {
     state_.work_time_cursor
       .cursor([index])
       .update(wtime => wtime.set('from', value));
@@ -122,8 +128,8 @@ var cncl_ = [
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_TO_CHANGED, (index, value) => {  
-    state_.work_time_cursor
+  .on(event_names.kON_FILIAL_ADDRESS_AND_WORK_TIME_WORK_TIME_TO_CHANGED, (index, value) => {
+		  state_.work_time_cursor
       .cursor([index])
       .update(wtime => wtime.set('to', value));
     filial_address_and_work_time_store.fire(event_names.kON_CHANGE);
@@ -143,6 +149,9 @@ var filial_address_and_work_time_store = merge(Emitter.prototype, {
   get_address () {
     return state_.address;
   },
+	get_filial_id () {
+		return state_.filial_id;
+	},
 
   get_metadata() {
     return state_.metadata;

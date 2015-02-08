@@ -141,7 +141,7 @@ gulp.task('svg-convert-size', function () {
 gulp.task('server', function() {
     gulp.src('./client/dist')
         .pipe(webserver({
-            livereload: true,
+            livereload: false,
             directoryListing: false,
             open: true,
             fallback: 'index.html'

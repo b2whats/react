@@ -74,7 +74,7 @@ var YandexMapAddressSelect = React.createClass({
             });
 
             var initial_coords = _.clone(this.props.coordinates);
-            //console.log(initial_coords);
+
             //this.markers_collection.options.set('preset', kMARKER_DEFAULT_PRESET);
             this.markers_collection.options.set('iconColor', this.props.icon_color || kMARKER_COLOR);
 
@@ -96,7 +96,7 @@ var YandexMapAddressSelect = React.createClass({
                 //console.log('geo_object.parameters', geo_object.properties.get('metaDataProperty'));
 
                 this.onAddressChanged (search_string, coords, geo_object.properties.get('metaDataProperty'));
-                
+
                 var placemark = new ymaps.Placemark(coords, {});
                 
                 placemark.events.add('dragend', () => {

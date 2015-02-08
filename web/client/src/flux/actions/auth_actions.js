@@ -39,10 +39,10 @@ module.exports.submit_form = (auth_data) => {
     if (validation.valid) {
         r_register.post(auth_data)
             .then(response => {
-                main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS].concat([response]));
+                main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
             });
     } else {
-        main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS].concat([validation]));
+        main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_ERROR].concat([validation]));
     }
 };
 var actions_ = [

@@ -22,7 +22,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 price_list_selector_store /*observable store list*/);
 
 
-console.error('Этот код для примера потом удалить');
+
 price_list_selector_actions.initialize([
     {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
     {price_from: 30000, delta_fix: 200, delta_percent: 1 },

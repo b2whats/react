@@ -20,7 +20,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
             register_field: register_store.get_register_field(),
             register_field_validation: register_store.get_register_field_validation(),
         })},
-    register_store);
+    register_store,auth_store);
 var cx = React.addons.classSet;
 var Register = React.createClass({
     mixins: [ModalMixin,RafBatchStateUpdateMixin],
@@ -36,6 +36,7 @@ var Register = React.createClass({
     },
 
     render () {
+	    console.log('reg_modal');
         return (
             <div className='ta-c'>
                 <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
@@ -50,14 +51,14 @@ var Register = React.createClass({
                         <label>
                             Название компании
                             <input type='text'
-                                className={cx({'bs-error': !!this.state.register_field_validation.has('company_name')})}
+                                className={cx({'bs-error': !!this.state.register_field_validation.has('company_name'), 'w100pr' : true})}
                                 defaultValue={this.state.register_field.get('company_name')}
                                 onChange={this.updateFormElement('company_name')}/>
                         </label>
                         <label>
                             Телефон
                             <input type='text'
-                                className={cx({'bs-error': !!this.state.register_field_validation.has('phone')})}
+                                className={cx({'bs-error': !!this.state.register_field_validation.has('phone'), 'w100pr' : true})}
                                 defaultValue={this.state.register_field.get('phone')}
                                 onChange={this.updateFormElement('phone')}/>
                         </label>
@@ -67,14 +68,14 @@ var Register = React.createClass({
                 <label>
                     E-mail
                     <input type='text'
-                        className={cx({'bs-error': !!this.state.register_field_validation.has('email')})}
+                        className={cx({'bs-error': !!this.state.register_field_validation.has('email'), 'w100pr' : true})}
                         defaultValue={this.state.register_field.get('email')}
                         onChange={this.updateFormElement('email')}/>
                 </label>
                 <label>
                     Пароль
                     <input type='password'
-                        className={cx({'bs-error': !!this.state.register_field_validation.has('password')})}
+                        className={cx({'bs-error': !!this.state.register_field_validation.has('password'), 'w100pr' : true})}
                         defaultValue={this.state.register_field.get('password')}
                         onChange={this.updateFormElement('password')}/>
                 </label>
