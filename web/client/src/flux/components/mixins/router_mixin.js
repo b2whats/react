@@ -13,19 +13,25 @@ module.exports = function(routes) {
         initialize_guard = true;
         _.each(routes, function(route, route_path) {
           if(typeof(route_path)==='string' && typeof(route[kROUTE_HANDLER_IDX]) === 'function') {            
-            page(route_path, route_context => {
-              
+            page(route_path, (route_context, next) => {
+              var r;
               for(var i=kROUTE_HANDLER_IDX; i<route.length;++i) {
-                route[i](route_path, route_context, _.extend({},route_context.params));
+                r = route[i](route_path, route_context, _.extend({},route_context.params));
+                
+                if(r && ('$__security__need_login__' in r)) {
+                  route_context.handled = false;
+                  break;
+                }
               }
-            
-            });          
+              
+              //route_context.handled = false;
+            });
           } else {
             console.error('bad types for route ', route);
           }
         });
       }
-      page.start({dispatch:true});
+      page.start({dispatch:true, click: false});
     }
   };
 };

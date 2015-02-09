@@ -18,13 +18,16 @@ var modal_actions = require('actions/modal_actions.js');
 var state_ =  init_state(_.last(__filename.split('/')), {
     is_auth: false,
     role: null,
-    auth_field_validation: {}
+    auth_field_validation: {},
+    path: null
 });
 
 var cncl_ = [
 
     main_dispatcher
         .on(event_names.kAUTH_STATUS, (response)  => {
+            console.log('ssdfsdfsd', response);
+            
             if (!response.valid) {
                 var errors = immutable.fromJS(response.errors);
                 var map_error = errors
@@ -45,7 +48,15 @@ var cncl_ = [
                 console.log('OK!!!!');
             }
             auth_store.fire(event_names.kON_CHANGE);
-        },100000),
+        },100000), //ВОТ ЭТО БЛЯТЬ ЧТО ТАКОЕ!!!
+
+
+    main_dispatcher.on(event_names.kAUTH_SAVE_PATH, (path)  => {
+        state_.path_cursor
+            .update(() => path);
+        
+        auth_store.fire(event_names.kON_CHANGE);
+    }, sc.kAUTH_STORE_PRIORITY),
 ];
 
 
@@ -59,6 +70,9 @@ var auth_store = merge(Emitter.prototype, {
     },
     get_auth_field_validation () {
         return state_.auth_field_validation;
+    },
+    get_path() {
+        return state_.path;
     },
     dispose () {
 

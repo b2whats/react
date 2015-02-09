@@ -60,18 +60,14 @@ var Header = React.createClass({
 
 		  <Link className="ap-link" onClick={this.openModal('signin')}>Вход</Link>
 
-		  <Modal
-			  isOpen={!!this.state.modalIsOpen.get('signin')}
-			  onRequestClose={this.handleModalCloseRequest}
-		  >
-			  <SignIn />
-		  </Modal>
-          <Modal
-              isOpen={!!this.state.modalIsOpen.get('register')}
-              onRequestClose={this.handleModalCloseRequest}
-          >
-            <Register />
-          </Modal>
+
+			<SignIn />
+
+      <Modal
+          isOpen={!!this.state.modalIsOpen.get('register')}
+          onRequestClose={this.handleModalCloseRequest}>
+        <Register />
+      </Modal>
 		</div>
 	  </div>
 	);

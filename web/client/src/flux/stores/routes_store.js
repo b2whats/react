@@ -17,12 +17,17 @@ var kON_ROUTE_DID_CHANGE__ROUTES_STORE_PRIORITY =  sc.kON_ROUTE_DID_CHANGE__ROUT
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
   route_state: route_names.kROUTE_DEF,
-  route_context_params: {}
+  route_context_params: {},
+  route_changed: false,
 });
 
 var routes_store_did_change_cncl = main_dispatcher
 .on(event_names.kON_ROUTE_DID_CHANGE, (route_name, route_context, route_params) => {
   var route_context_params =  immutable.fromJS(route_params);
+
+  
+  state_.route_changed_cursor
+    .update(() => true);
 
   if(state_.route_state!==route_name) {
     state_.route_state_cursor
@@ -44,6 +49,10 @@ var routes_store_did_change_cncl = main_dispatcher
 
 //kON_ROUTE_WILL_CHANGE обработчик ненужен
 var routes_store = merge(Emitter.prototype, {
+  get_route_changed() {
+    return state_.route_changed;
+  },
+  
   get_route_state_ro () {
     return state_.route_state;
   },

@@ -137,6 +137,7 @@ var event_names = {
 
   kREGISTER_STATUS: 'kREGISTER_STATUS',
   kAUTH_STATUS: 'kAUTH_STATUS',
+  kAUTH_SAVE_PATH: 'kAUTH_SAVE_PATH'
 
 };
 

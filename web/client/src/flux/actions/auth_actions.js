@@ -13,6 +13,9 @@ var action_export_helper = require('utils/action_export_helper.js');
 var merge = require('utils/merge.js');
 var validator = require('revalidator');
 
+var actions_ = [
+    ['save_path', event_names.kAUTH_SAVE_PATH]
+];
 
 var auth_shema =  {
     email: {
@@ -45,6 +48,7 @@ module.exports.submit_form = (auth_data) => {
         main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS].concat([validation]));
     }
 };
-var actions_ = [];
+
+
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
 
