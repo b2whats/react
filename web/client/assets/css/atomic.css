@@ -17,7 +17,7 @@
 .br10 { border-radius : 10px; }
 
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
-
+.bw4 { border-width : 4px;}
 .d-b { display : block; }
 .d-ib { display : inline-block; }
 
@@ -55,7 +55,9 @@
 
 .lh1-4 { line-height : 1.4; }
 .lh1-8 { line-height : 1.8; }
-
+.m0 { margin : 0; }
+.m20 { margin : 20px; }
+.m25 { margin : 25px; }
 .m0-5 { margin : 0 5px; }
 .m0-10 { margin : 0 10px; }
 .m0-15 { margin : 0 15px; }
@@ -70,6 +72,7 @@
 .m20-0 { margin : 20px 0; }
 .m25-0 { margin : 25px 0; }
 .m30-0 { margin : 30px 0; }
+
 
 .mb50 { margin-bottom : 50px; }
 
@@ -126,3 +129,5 @@
 .w30pr { width : 30%; }
 .w50pr { width : 50%; }
 .w100pr { width : 100%; }
+
+.qeqe {color: darkseagreen; }
