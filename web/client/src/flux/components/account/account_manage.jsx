@@ -21,7 +21,7 @@ var AccountManage = React.createClass({
   render () {
 
     return (
-      <div>
+      <div className="account-manage">
         <h3>upload file</h3>
       </div>
     );
