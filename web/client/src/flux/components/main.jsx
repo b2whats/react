@@ -26,10 +26,20 @@ var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page
 var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
-/* jshint ignore:end */
+
+var AccountInfo = require('components/account/info.jsx');
+var AccountServices = require('components/account/services.jsx');
+var AccountManage = require('components/account/account_manage.jsx');
+
 var Menu = require('components/menu/menu.jsx');
+/* jshint ignore:end */
+
+
+
 var auth_store = require('stores/auth_store.js');
 var immutable = require('immutable');
+
+
 //State update and stores for which we need intercept kON_CHANGE events
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 	router_state: routes_store.get_route_state_ro(),
@@ -40,8 +50,7 @@ routes_store,auth_store /*observable store list*/);
 
 //var TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
-var AccountInfo = require('components/account/info.jsx');
-var AccountServices = require('components/account/services.jsx');
+
 var auth_actions = require('actions/auth_actions.js');
 
 auth_actions.check_auth();
@@ -130,6 +139,10 @@ var ice_main = React.createClass({
               case 'services':
                 return <AccountServices />;
                 break;
+              case 'manage':
+              	return <AccountManage />;
+              break;
+
             }
 					}) (router_state, router_context_params);
 
