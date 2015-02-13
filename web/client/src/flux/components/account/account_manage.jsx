@@ -22,7 +22,14 @@ var AccountManage = React.createClass({
 
     return (
       <div className="account-manage">
-        <h3>upload file</h3>
+        <div className="vm h-30px">
+          <span className="-header">Добавить прайс лист</span>
+          <span className="-button-group">
+            <button className="-left">Розничный прайс</button>
+            <button className="-right">Оптовый прайс</button>
+          </span>
+
+        </div>
       </div>
     );
   }
