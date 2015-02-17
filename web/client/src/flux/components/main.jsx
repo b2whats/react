@@ -53,7 +53,7 @@ routes_store,auth_store /*observable store list*/);
 
 var auth_actions = require('actions/auth_actions.js');
 
-auth_actions.check_auth();
+//auth_actions.check_auth();
 var cx = React.addons.classSet;
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
