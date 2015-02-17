@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 CONTAINER_NAME=whats/react
 DOCKER_HOST_NAME=react
 
