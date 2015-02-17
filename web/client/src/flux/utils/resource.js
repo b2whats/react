@@ -36,7 +36,11 @@ function http(method, url, object) {
         });
         
         if(object!==null && object!==undefined) {
-          xhr.send(JSON.stringify(object));
+          if(object && object.constructor && object.constructor.toString().indexOf('FormData')>-1) {
+            xhr.send(object);
+          } else {          
+            xhr.send(JSON.stringify(object));
+          }        
         } else {
           xhr.send();
         }

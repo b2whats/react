@@ -52,7 +52,6 @@ var Dropzone = React.createClass({
   },
 
   onClick: function () {
-    console.log('clik');
     this.refs.fileInput.getDOMNode().click();
   },
 

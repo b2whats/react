@@ -8,11 +8,33 @@
     button
       font-size: 14px
       padding: 10px !important
-      
+  
+  .-upload-sucseed
+    border: 1px solid green
+    height: 50px
+    display: inline-block    
+    margin-left: 20px
+    width: 300px
+    overflow: hidden
+    text-align: center
+    span
+      vertical-align: middle
+
+  .-upload-error
+    border: 1px solid red
+    height: 50px
+    display: inline-block    
+    margin-left: 20px
+    width: 300px
+    overflow: hidden
+    text-align: center
+    span
+      vertical-align: middle
 
   .dropzone
     @include valign-middle()
     text-align: center
+    display: inline-block
 
   .m-top-20px
     margin-top: 20px
@@ -41,6 +63,9 @@
 
   .h-30px
     height: 30px
+  .h-50px
+    height: 50px
+
   .vm
     @include valign-middle()
 
