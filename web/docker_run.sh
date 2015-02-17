@@ -31,34 +31,34 @@ docker run --name "$DOCKER_HOST_NAME" -d -t \
 "$CONTAINER_NAME"
 
 
-#Запустить внутри контейнера все что надо
-docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "script -q /dev/null -c 'cd /home/ice$CROSS_COMPAT_DIR/web && ./tmux_run'"
-#sleep 1
-
-echo 'please wait ------------------- 0'
-docker exec -it "$DOCKER_HOST_NAME" su - ice -c "ps -aux | grep tmux" | grep "new-session"
-
+#подождать запуска runit и тп
+sleep 1
+sleep 1
 sleep 1
 
-echo 'please wait ------------------- 1'
+#Запустить внутри контейнера все что надо
+docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "script -q /dev/null -c 'cd /home/ice$CROSS_COMPAT_DIR/web && ./tmux_run'"
+#echo 'please wait'
+#sleep 10 #чуть подождать и отдетачить клиента от контейнера
+CLIENT_LIST=
+sleep 1
 docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients"
 
-echo 'please wait ------------------- 2'
-#sleep 10 #чуть подождать и отдетачить клиента от контейнера
+sleep 1
+docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients"
 
+sleep 1
+docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients"
 
-
-
-CLIENT_LIST=
 #почему то без этого слипа дебиан иногда вылетает на docker exec без ошибок
 sleep 1
 
 while [[ -z "$CLIENT_LIST" ]]; do
-  CLIENT_LIST=$(docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients")
-  echo 'please wait ...'
+  CLIENT_LIST=$(docker exec -it "$DOCKER_HOST_NAME" su - ice -c "tmux list-clients" | grep -v 'failed')
+  echo 'please wait ...' $CLIENT_LIST
   sleep 2
 done
-
+echo 'start exit'
 #если где то окажется что не /dev/pts/0 то отловить
 docker exec -it -d "$DOCKER_HOST_NAME" su - ice -c "tmux detach-client -t /dev/pts/0"
 
