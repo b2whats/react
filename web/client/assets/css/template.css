@@ -17,6 +17,15 @@ i {
     user-select: none;
 }
 
+.bg-c-ap {
+  background-color: #9a73d3;
+}
+.bg-c-as {
+  background-color: #ffd700;
+}
+.bg-c-g {
+  background-color: #dddddd;
+}
 .grad-g {
     background: #fcfcfc;
     background: -moz-linear-gradient(top,  #fcfcfc 0%, #f7f7f7 100%);

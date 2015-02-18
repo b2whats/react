@@ -27,6 +27,7 @@ var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
 var AccountInfo = require('components/account/info.jsx');
+var CompanyInfo = require('components/company/company.jsx');
 var AccountServices = require('components/account/services.jsx');
 var AccountManage = require('components/account/account_manage.jsx');
 
@@ -64,6 +65,7 @@ var ice_main = React.createClass({
 	render () {
 
 		var MainContent = (function(router_state, router_context_params) {
+      console.log(router_state, router_context_params);
 			switch(router_state) {
 				case route_names.kROUTE_R_A:
 				case route_names.kROUTE_R_B:
@@ -158,7 +160,18 @@ var ice_main = React.createClass({
 						</SearchBlockHeader>
 					);
 				break;
-				
+        case route_names.kROUTE_COMPANY:
+
+          return (
+            <SearchBlockHeader>
+              <div className='account-container-wrapper'>
+                <div className='account-container'>
+                  <CompanyInfo />
+                </div>
+              </div>
+            </SearchBlockHeader>
+          );
+          break;
 				case route_names.kROUTE_TEST:
 					return (<FilialAddressSelector />);
 				break;

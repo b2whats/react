@@ -150,7 +150,6 @@ routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS
 
 
 routes[route_definitions.kROUTE_CATALOG] = [
-	kSECURITY_NEED_AUTH,
   (route_name, route_context, route_context_params) =>
     region_actions.region_changed(route_context_params.region_id),
 
@@ -189,5 +188,16 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
         }
       },
       route_actions.default_route
+];
+routes[route_definitions.kROUTE_COMPANY] = [
+  (route_name, route_context, route_context_params) => {
+    region_actions.region_changed(route_context_params.region_id)
+  },
+  (route_name, route_context, route_context_params) => {
+        account_page_actions.get_company_filial();
+        account_page_actions.get_company_information();
+
+  },
+  route_actions.default_route
 ];
 module.exports = routes;
