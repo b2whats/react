@@ -10,6 +10,7 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var Dropzone = require('components/forms_element/dropzone.js');
+var Selector = require('./selector.jsx');
 /* jshint ignore:end */
 
 var account_manage_actions = require('actions/admin/account_manage_actions.js');
@@ -57,19 +58,25 @@ var AccountManage = React.createClass({
             <button className="-right">Оптовый прайс</button>
           </span>
         </div>
-        <div className="m-top-20px vm h-50px">
-          <Dropzone onDrop={this.on_drop}>
-            <span className="-button-load">Загрузить файл</span>
-          </Dropzone>
-          {this.state.loaded &&
-            <span className="-upload-sucseed vm">
-              <span>Файл {this.state.file_name} успешно загружен</span>
-            </span>
-          }
 
-          {Errors}
-        
-        </div>
+        <Selector className="m-top-20px">
+          <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" className="vm h-50px m-20px">
+            <Dropzone onDrop={this.on_drop}>
+              <span className="-button-load">Загрузить файл</span>
+            </Dropzone>
+            {this.state.loaded &&
+              <span className="-upload-sucseed vm">
+                <span>Файл {this.state.file_name} успешно загружен</span>
+              </span>
+            }
+            {Errors}        
+          </div>
+          <div title="kjhjksdhfkjhsd" itemBodyClassName="-item_2" className="vm m-20px">
+            <h3>dfsfsdf</h3>
+          </div>
+        </Selector>
+
+
       </div>
     );
   }
