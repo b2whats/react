@@ -59,6 +59,36 @@ var AccountManage = React.createClass({
           </span>
         </div>
 
+        <div className='m20-0'>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Действительна при установке на нашем сервис центре.
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Розничная цена
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Бесплатная доставка по МСК
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Бесплатная доставка по СПб
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Только для юр лиц
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Цена на покупку от 20 000 р
+          </label>
+          <label className="label--checkbox d-b m5-0">
+            <input type="checkbox" className="checkbox" />
+            Цена на покупку от 40 000 р.
+          </label>
+        </div>
         <Selector className="m-top-20px">
           <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" className="vm h-50px m-20px">
             <Dropzone onDrop={this.on_drop}>
