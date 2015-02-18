@@ -109,26 +109,37 @@ var AccountManage = React.createClass({
           
           <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" className="m-20px">
             <textarea placeholder="Код детали  |  Аналоги детали  |  Производитель детали  |  Марки авто  |  Наименование детали  |  Количество  |  Цена в рублях  |  Условия продажи"></textarea>
-            <div className="-item2-menu">
-              <span className="vm h-30px">
-                <span>Состояние товара</span>
+            <div className="-item2-menu justify flex">
+              <div className="ib">
+                <span className="vm h-30px ib">
+                  <span>Состояние товара</span>
 
-                <div className="-select-holder">
-                  <select defaultValue={10} className="-select">
-                    <option value={10}>10</option>
-                    <option value={11}>11</option>
-                  </select>
-                </div>
+                  <div className="ib -select-holder">
+                    <select defaultValue={0} className="-select">
+                      <option value={0}>Новые</option>
+                      <option value={1}>Контрактные(БУ)</option>
+                    </select>
+                  </div>
 
-                <span className="m-left-40px">Срок доставки</span>
+                  <span className="ib m-left-40px">Срок доставки</span>
 
-                <div className="-select-holder">
-                  <select defaultValue={10} className="-select">
-                    <option value={10}>10</option>
-                    <option value={11}>11</option>
-                  </select>
-                </div>
-              </span>
+                  <div className="ib -select-holder">
+                    <select defaultValue={10} className="-select">
+                      <option value={0}>В наличии</option>
+                      <option value={1}>2-7 дней</option>
+                      <option value={2}>7-14 дней</option>
+                      <option value={3}>14-21 дня</option>
+                      <option value={4}>до 31 дня</option>
+                    </select>
+                  </div>
+                </span>
+              </div>
+
+              <div className="ib">
+                <span className="vm h-30px">
+                  <button className="-button-load">Загрузить строки</button>
+                </span>
+              </div>
             </div>
           </div>
           

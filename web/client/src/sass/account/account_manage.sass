@@ -48,17 +48,23 @@
       height: 140px
       resize: none
   .-item2-menu
-    div
-      display: inline-block
 
   .-item_3
     max-height: 50px
   
+  .justify
+    text-align: justify
+    justify-content: space-between
 
+  .ib
+    display: inline-block
+  .flex
+    display: flex
+    
 
   .-select-holder
     overflow: hidden
-    width: 46px
+    width: 140px
     height: 24px
     border: 1px solid #eee
     margin-left: 10px
@@ -74,7 +80,7 @@
 
     .-select
       height: 100%
-      width: 70px      
+      width: 170px      
       vertical-align: middle
       padding: 0
       margin: 0
@@ -91,11 +97,16 @@
         color: transparent
         text-shadow: 0 0 0 #000
 
+  .-justify
+    @include justify()
+
+  .-justified
+    @include justified()
+    font-size: 14px
 
 
 
-
-
+  
 
 
   .m-top-20px
@@ -107,15 +118,12 @@
     margin: 20px  
 
   .-button-load
+    border: 0
     cursor: pointer
     padding: 10px
     color: white
     background-color: #FFF
     @include linear-gradient(top, #A087DB 0%, #876BC7 100%)
-    //background-image: -moz-linear-gradient(top, #A087DB 0%, #876BC7 100%)
-    //background-image: -o-linear-gradient(top, #A087DB 0%, #876BC7 100%)
-    //background-image: -webkit-linear-gradient(top, #A087DB 0%, #876BC7 100%)
-    //background-image: linear-gradient(to bottom, #A087DB 0%, #876BC7 100%)
     -moz-border-radius: 2px
     -webkit-border-radius: 2px
     border-radius: 2px
