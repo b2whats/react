@@ -71,9 +71,37 @@ var AccountManage = React.createClass({
             }
             {Errors}        
           </div>
-          <div title="kjhjksdhfkjhsd" itemBodyClassName="-item_2" className="vm m-20px">
+          
+          <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" className="m-20px">
+            <textarea placeholder="Код детали  |  Аналоги детали  |  Производитель детали  |  Марки авто  |  Наименование детали  |  Количество  |  Цена в рублях  |  Условия продажи"></textarea>
+            <div className="-item2-menu">
+              <span className="vm h-30px">
+                <span>Состояние товара</span>
+
+                <div className="-select-holder">
+                  <select defaultValue={10} className="-select">
+                    <option value={10}>10</option>
+                    <option value={11}>11</option>
+                  </select>
+                </div>
+
+                <span className="m-left-40px">Срок доставки</span>
+
+                <div className="-select-holder">
+                  <select defaultValue={10} className="-select">
+                    <option value={10}>10</option>
+                    <option value={11}>11</option>
+                  </select>
+                </div>
+              </span>
+            </div>
+          </div>
+          
+          <div title="Создание прайс-листа на основе прайс-листа оптового поставщика" itemBodyClassName="-item_3" className="vm m-20px">
             <h3>dfsfsdf</h3>
           </div>
+
+
         </Selector>
 
 

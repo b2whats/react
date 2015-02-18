@@ -42,13 +42,66 @@
   .-item_1
     max-height: 90px  
   .-item_2
-    max-height: 50px
+    max-height: 200px
+    textarea
+      width: 100%
+      height: 140px
+      resize: none
+  .-item2-menu
+    div
+      display: inline-block
+
   .-item_3
     max-height: 50px
+  
+
+
+  .-select-holder
+    overflow: hidden
+    width: 46px
+    height: 24px
+    border: 1px solid #eee
+    margin-left: 10px
+    margin-right: 10px
+    background-color: white
+    position: relative
+    &:after
+      content: '^'
+      position: absolute
+      right: 3px
+      top: 1px
+      transform: rotate(180deg)
+
+    .-select
+      height: 100%
+      width: 70px      
+      vertical-align: middle
+      padding: 0
+      margin: 0
+      padding-left: 6px
+      border-radius: 0
+      -webkit-appearance: none
+      background: transparent
+      border: none
+      outline: none
+      @-moz-document url-prefix()        
+        padding-left: 3px
+
+      &:-moz-focusring
+        color: transparent
+        text-shadow: 0 0 0 #000
+
+
+
+
+
+
 
 
   .m-top-20px
     margin-top: 20px
+  .m-left-40px
+    margin-left: 40px
 
   .m-20px
     margin: 20px  
