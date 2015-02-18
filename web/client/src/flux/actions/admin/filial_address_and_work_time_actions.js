@@ -15,7 +15,7 @@ var r_set_filial_info_update = resource(api_refs.kACCOUNT_COMPANY_FILIAL_UPDATE)
 module.exports.submit_form = (value) => {
 	r_set_filial_info_update.post(value)
 		.then(data => {
-			return data;
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIALS_UPDATE].concat([data.data]))
 		});
 };
 

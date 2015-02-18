@@ -23,7 +23,6 @@ var SearchPageRightBlockContent = require('components/search_page/search_page_ri
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 
-var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
 
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 

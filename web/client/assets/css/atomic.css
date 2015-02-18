@@ -1,9 +1,40 @@
-.bc-g { border-color : #c8c8c8; }
-.c-g { color : #8c8c8c; }
+/*Общие свойства должны идти в начале файла, так как они будут перекрывать точные селекторы*/
+.bright1 { border-right : 1px solid ; }
 
 .b0 { border : 0; }
 .bb-d { border-bottom : 1px dotted; }
 .bb-s { border-bottom : 1px solid; }
+
+.bc-g { border-color : #c8c8c8; }
+.c-g { color : #8c8c8c; }
+.c-p { color : #987dda; }
+
+
+.c-bl {
+  color: #2A2A2A;
+}
+.c-r {
+  color: rgba(255, 0, 0, 0.78);
+}
+.c-wh {
+  color: #fff;
+}
+.c-ap {
+  color: #7948EE;
+}
+.c-as {
+  color: #EE6B01;
+}
+/*Display: FLEX*/
+.flex-ai-c {
+  -ms-flex-align      : center;
+  -webkit-align-items : center;
+  -webkit-box-align   : center;
+  align-items         : center;
+}
+
+
+
 
 .br1 { border-radius : 1px; }
 .br2 { border-radius : 2px; }
@@ -15,6 +46,12 @@
 .br8 { border-radius : 8px; }
 .br9 { border-radius : 9px; }
 .br10 { border-radius : 10px; }
+
+.brtl-n { border-top-left-radius : 0; }
+.brtr-n { border-top-right-radius : 0; }
+.brbl-n { border-bottom-left-radius : 0; }
+.brbr-n { border-bottom-right-radius : 0; }
+
 
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .bw4 { border-width : 4px;}
@@ -55,9 +92,16 @@
 
 .lh1-4 { line-height : 1.4; }
 .lh1-8 { line-height : 1.8; }
+
+.lst-s { list-style-type: square; }
+.lst-c { list-style-type: circle; }
+.lst-d { list-style-type: disc; }
+.lst-n { list-style-type: none; }
 .m0 { margin : 0; }
 .m20 { margin : 20px; }
 .m25 { margin : 25px; }
+.m30 { margin : 30px; }
+
 .m0-5 { margin : 0 5px; }
 .m0-10 { margin : 0 10px; }
 .m0-15 { margin : 0 15px; }
@@ -73,6 +117,9 @@
 .m25-0 { margin : 25px 0; }
 .m30-0 { margin : 30px 0; }
 
+.m20-20 { margin : 20px 20px; }
+.m30-20 { margin : 30px 20px; }
+.m30-25 { margin : 30px 25px; }
 
 .mb50 { margin-bottom : 50px; }
 
@@ -80,11 +127,33 @@
 .ml10 { margin-left : 10px; }
 .ml15 { margin-left : 15px; }
 .ml20 { margin-left : 20px; }
+.ml25 { margin-left : 25px; }
+.ml30 { margin-left : 30px; }
+.ml35 { margin-left : 35px; }
+.ml40 { margin-left : 40px; }
 
 .mr5 { margin-right : 5px; }
 .mr10 { margin-right : 10px; }
 .mr15 { margin-right : 15px; }
 .mr20 { margin-right : 20px; }
+.mr25 { margin-right : 25px; }
+.mr30 { margin-right : 30px; }
+.mr35 { margin-right : 35px; }
+.mr40 { margin-right : 40px; }
+
+.mt5 { margin-top : 5px; }
+.mt10 { margin-top : 10px; }
+.mt15 { margin-top : 15px; }
+.mt20 { margin-top : 20px; }
+.mt25 { margin-top : 25px; }
+.mt30 { margin-top : 30px; }
+.mt35 { margin-top : 35px; }
+.mt40 { margin-top : 40px; }
+
+
+.o-h { overflow: hidden; }
+.o-v { overflow: visible; }
+.o-a { overflow: auto; }
 
 .p0 { padding : 0; }
 .p5 { padding : 5px; }
@@ -93,10 +162,22 @@
 .p15 { padding : 15px; }
 .p20 { padding : 20px; }
 
+.p10-0 { padding : 10px 0; }
+.p10-5 { padding : 10px 5px; }
+
+.p20-5 { padding : 20px 5px; }
+.p20-15 { padding : 20px 15px; }
+
+.p8-2 { padding : 8px 2px; }
+.p8-5 { padding : 8px 5px; }
+.p8-10 { padding : 8px 10px; }
 .p8-15 { padding : 8px 15px; }
 .p8-20 { padding : 8px 20px; }
 .p8-25 { padding : 8px 25px; }
 .p8-30 { padding : 8px 30px; }
+
+.p6-20-8 { padding : 6px 20px 8px; }
+
 
 .pb5 { padding-bottom : 5px; }
 
@@ -124,6 +205,7 @@
 .w160px { width : 160px; }
 .w25px { width : 25px; }
 .w300px { width : 300px; }
+.w170px { width : 170px; }
 .w700px { width : 700px; }
 
 .w30pr { width : 30%; }

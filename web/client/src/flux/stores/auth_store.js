@@ -36,6 +36,7 @@ var cncl_ = [
           memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
       state_.auth_field_validation_cursor
         .update(() => map_error);
+
       auth_store.fire(event_names.kON_CHANGE);
     }, 100000),
   main_dispatcher

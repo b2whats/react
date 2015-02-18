@@ -47,7 +47,6 @@ var cncl_ = [
     }, 100000),
   main_dispatcher
     .on(event_names.kREGISTER_STATUS_SUCCESS, ()  => {
-      console.log('reg_success');
       state_.register_field_validation_cursor.clear();
     }, 100000),
 ];

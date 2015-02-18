@@ -38,7 +38,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
 
-var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
+var FilialAddressSelector = require('components/account/filial_address_selector.jsx');
 var AccountInfo = React.createClass({
 	mixins : [
 		PureRenderMixin,
@@ -63,9 +63,13 @@ var AccountInfo = React.createClass({
 	},
 	extOpenModal(id_modal, id_element) {
 		return () => {
-			account_page_actions.change_current_filial(id_element);
-			this.openModal(id_modal)();
-		}
+      if (id_element !== 'new') {
+        account_page_actions.change_current_filial(id_element);
+      } else {
+        account_page_actions.new_filial();
+      }
+      this.openModal(id_modal)();
+    }
 	},
 
 	deleteFilial : function (id_filial) {
@@ -150,7 +154,7 @@ var AccountInfo = React.createClass({
 							<i className='btn-question m0-10'/>
 						</h3>
                         {Filial}
-						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0'>Новый филиал</button>
+						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
 					</div>
 				</div>
 				<div className='your-manager w50pr'>
@@ -201,21 +205,10 @@ var AccountInfo = React.createClass({
 					isOpen={!!this.state.modalIsOpen.get('edit_company_filial')}
 					onRequestClose={this.handleModalCloseRequest}
 				>
-                    {(!!this.state.modalIsOpen.get('edit_company_filial')) &&
+
                     <FilialAddressSelector />
-	                    }
-                {/*                {console.log(this.state.current_filial)}
-	                <div className='sign-in autoparts'>
-		                <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-		                <h2>Вход</h2>
-		                <label className='new_context'>
-			                E-mail
-			                <input type='text' name='email' value={this.state.current_filial.get('street')}/>
-		                </label>
 
-		                <button className='m15-0' name='signin'>Войти</button>
 
-	                </div>*/ }
 
 				</Modal>
 				<Snackbar

@@ -73,7 +73,16 @@ var cncl_ = [
 		  update_state_param('filial_id', current_fillial.get('id'));
   }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
 
+  main_dispatcher
+    .on(event_names.kON_NEW_FILIAL, () => {
+      update_state_param('address', null);
+      update_state_param('coordinates', null);
+      update_state_param('type', 1);
+      update_state_param('phones', ['']);
+      update_state_param('filial_id', null);
 
+
+    }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
 
 
   main_dispatcher

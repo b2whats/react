@@ -35,6 +35,18 @@ var cncl_ = [
             account_page_store.fire(event_names.kON_CHANGE);
         }, 1),
     main_dispatcher
+      .on(event_names.kACCOUNT_COMPANY_FILIALS_UPDATE, filial => {
+        state_.company_filials_cursor
+          .update(m => {
+            if (!!state_.company_filials.find(el => el.get('id') === filial.id)) {
+              return m.map(el => (el.get('id') === filial.id) ? immutable.fromJS(filial) : el);
+            } else {
+              return m.push(immutable.fromJS(filial));
+            }
+          });
+        account_page_store.fire(event_names.kON_CHANGE);
+      }, 1),
+    main_dispatcher
         .on(event_names.kON_FORM_UPDATE, (name, value)  => {
             state_.company_information_cursor
                 .update(m => m.set(name,value));

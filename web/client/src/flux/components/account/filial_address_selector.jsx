@@ -22,7 +22,7 @@ var filial_address_and_work_time_store = require('stores/admin/filial_address_an
 var filial_address_and_work_time_actions = require('actions/admin/filial_address_and_work_time_actions.js');
 
 var sass_vars = require('sass/common_vars.json')['yandex-map'];
-var ModalMixin = require('../mixins/modal_mixin.js');
+var ModalMixin = require('mixins/modal_mixin.js');
 
 var kMARKER_COLOR = [
 	sass_vars['auto-part-marker-color'],

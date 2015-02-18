@@ -176,13 +176,16 @@ var CatalogSearch = React.createClass({
                     on_blur={this.typeahead_lost_focus}
                     options={this.state.brands && this.state.brands.toJS()}>
 
-                    {this.state.brand_tags.map( (bt,index) => 
-                      <div key={index} className="catalog-page-tag">
-                        <span onMouseDownCapture={_.bind(this.on_remove_tag, this, bt.get('id') )} className="catalog-page-tag-close">
-                          <span className="svg-icon_close"></span>
-                        </span>
-                        <span className="catalog-page-tag-text">{bt.get('title')}</span>
-                      </div>).toJS()}
+                    {this.state.brand_tags.map(
+                      (bt, index) =>
+                        <div key={index} className="catalog-page-tag">
+                          <span onMouseDownCapture={_.bind(this.on_remove_tag, this, bt.get('id'))} className="catalog-page-tag-close">
+                            <span className="svg-icon_close"></span>
+                          </span>
+                          <span className="catalog-page-tag-text">{bt.get('title')}</span>
+                        </div>
+                    ).toJS()
+                    }
 
                   </Typeahead>                
               </div>

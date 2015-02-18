@@ -42,7 +42,12 @@ module.exports.submit_form = (auth_data) => {
     if (validation.valid) {
       r_auth.post(auth_data)
             .then(response => {
+              if (response.valid) {
                 main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
+              } else {
+                main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_ERROR].concat([response]));
+              }
+
             });
     } else {
         main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_ERROR].concat([validation]));

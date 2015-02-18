@@ -65,7 +65,7 @@ var SignIn = React.createClass({
           <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
           <h2>Вход</h2>
           <label className='new_context'>
-            E-mail {this.state.is_auth.toString()}
+            E-mail
             <input
               ref='email'
               type='text'

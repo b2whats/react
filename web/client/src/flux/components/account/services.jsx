@@ -38,7 +38,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
 
-var FilialAddressSelector = require('components/test/filial_address_selector.jsx');
+
 var AccountInfo = React.createClass({
 	mixins : [
 		PureRenderMixin,
