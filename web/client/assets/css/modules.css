@@ -14,40 +14,47 @@
 }
 
 .btn-icon {
-  display        : inline-block;
+  display : inline-block;
+  vertical-align: middle;
   border-radius  : 3px;
   border         : 1px solid #c8c8c8;
-  font-size      : 13px;
   font-family    : 'Arial', serif;
   font-style     : normal;
   color          : #4d4d4d;
-  vertical-align : middle;
-  width: 1.0em;
-  height: 1em;
+  width: 18px;
+  height: 18px;
   cursor         : pointer;
   background     : #ffffff;
-  padding: 0 2px 3px 2px;
   box-sizing: content-box;
 }
 .btn-icon::before {
   width: 100%;
-  text-align: center;
-  display: inline-block;
+  height: 100%;
+  align-items         : center;
+  justify-content: center;
+  display: flex;
 }
 .btn-icon:hover {
   color: #919191;
 }
 .btn-question::before {
 content: '?';
+  font-size: 14px;
 }
 .btn-plus-minus::before {
-  content: '+';
+  font-size: 16px;
+  font-family: 'Flaticon';
+  content: '\e000';
+
 }
 .btn-plus-minus.active::before {
   font-family: 'Flaticon';
   content: "\e005";
 }
-
+.btn-plus-minus:hover::before {
+  font-family: 'Flaticon';
+  content: "\e005";
+}
 .ReactModal__Overlay {
     -webkit-perspective: 600;
     perspective: 600;

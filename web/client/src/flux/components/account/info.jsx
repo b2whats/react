@@ -23,7 +23,7 @@ var ButtonGroup = require('components/forms_element/button_group.jsx');
 
 var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
-
+var Select = require('react-select');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 		return ({ //state update lambda
 			modalIsOpen         : modal_store.get_modal_visible(),
@@ -81,6 +81,9 @@ var AccountInfo = React.createClass({
 	btnChange    : function (name) {
 		this.refs.snack.show();
 	},
+  updateValue: function(newValue) {
+    console.log(newValue);
+  },
 	render() {
 		var edit = this.state.formsIsEdit.get('informations');
 		var Filial = this.state.company_filials &&
@@ -104,6 +107,34 @@ var AccountInfo = React.createClass({
 					)
 				})
 				.toJS();
+    var rtn =
+          [
+            {value  : 'australian-capital-territory',
+              label : 'Australian Capital Territory'
+            },
+            {value  : 'new-south-wales',
+              label : 'New South Wales'
+            },
+            {value  : 'victoria',
+              label : 'Victoria'
+            },
+            {value  : 'queensland',
+              label : 'Queensland'
+            },
+            {value  : 'western-australia',
+              label : 'Western Australia'
+            },
+            {value  : 'south-australia',
+              label : 'South Australia'
+            },
+            {value  : 'tasmania',
+              label : 'Tasmania'
+            },
+            {value  : 'northern-territory',
+              label : 'Northern Territory'
+            }
+          ]
+      ;
 		return (
 			<div className='entire-width'>
 				<div className='company-information w50pr '>
@@ -133,6 +164,15 @@ var AccountInfo = React.createClass({
 									text={this.state.company_information.get('site')} />
 							</td>
 						</tr>
+            <tr>
+              <td>Телефон</td>
+              <td>
+                <EditableForms
+                  onChange={this.updateFormElement('phone')}
+                  edit={edit}
+                  text={this.state.company_information.get('phone')} />
+              </td>
+            </tr>
 						<tr>
 							<td>Комментарии об услугах</td>
 							<td className='lh1-4'>
@@ -175,6 +215,8 @@ var AccountInfo = React.createClass({
 							mail@mail.ru
 						</div>
 					</div>
+
+          <Select options={rtn} readonly={true} value={'dwdw'}  onChange={this.updateValue} />
 				</div>
 				<Modal
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}

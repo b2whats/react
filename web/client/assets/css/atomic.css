@@ -67,6 +67,7 @@
 .d-b { display : block; }
 .d-ib { display : inline-block; }
 .d-i { display : inline; }
+.d-if { display : inline-flex; }
 .d-f {
   display: -webkit-box;
   display: -moz-box;
@@ -186,6 +187,8 @@
 .p10 { padding : 10px; }
 .p15 { padding : 15px; }
 .p20 { padding : 20px; }
+
+.p0-10 { padding : 0 10px; }
 
 .p5-10 { padding : 5px 10px; }
 
