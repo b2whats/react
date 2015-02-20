@@ -51,10 +51,7 @@ content: '?';
   font-family: 'Flaticon';
   content: "\e005";
 }
-.btn-plus-minus:hover::before {
-  font-family: 'Flaticon';
-  content: "\e005";
-}
+
 .ReactModal__Overlay {
     -webkit-perspective: 600;
     perspective: 600;

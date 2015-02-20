@@ -89,7 +89,7 @@ var AccountInfo = React.createClass({
 		var Filial = this.state.company_filials &&
 			this.state.company_filials
 				.map((part, part_index) => {
-					return (
+          return (
 						<div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
 							<span>
 								<span className='fw-b fs16 ta-r d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}

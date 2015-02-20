@@ -65,6 +65,7 @@
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .bw4 { border-width : 4px;}
 .d-b { display : block; }
+.d-n { display : none; }
 .d-ib { display : inline-block; }
 .d-i { display : inline; }
 .d-if { display : inline-flex; }

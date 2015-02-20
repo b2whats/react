@@ -13,6 +13,7 @@ var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 var catalog_actions = require('actions/catalog_actions.js');
 
+var account_services_actions = require('actions/admin/services_actions.js');
 
 
 //дефолтный регион
@@ -185,19 +186,12 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
             account_page_actions.get_company_filial();
             account_page_actions.get_company_information();
             break;
+          case 'services':
+            account_services_actions.get_services_information();
+            break;
         }
       },
       route_actions.default_route
 ];
-routes[route_definitions.kROUTE_COMPANY] = [
-  (route_name, route_context, route_context_params) => {
-    region_actions.region_changed(route_context_params.region_id)
-  },
-  (route_name, route_context, route_context_params) => {
-        account_page_actions.get_company_filial();
-        account_page_actions.get_company_information();
 
-  },
-  route_actions.default_route
-];
 module.exports = routes;

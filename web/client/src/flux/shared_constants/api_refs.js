@@ -20,6 +20,9 @@ module.exports = {
   kACCOUNT_COMPANY_FILIAL_UPDATE: kAPI_HOST + '/api/set/company_filial.php?filial_id=:filial_id',
   kACCOUNT_COMPANY_FILIAL_DELETE: kAPI_HOST + '/api/del/company_filial.php?filial_id=:filial_id',
 
+  kACCOUNT_SERVICES_INFO: kAPI_HOST + '/api/services/services.php?type=:type',
+  kACCOUNT_SERVICES_PAYMENT: kAPI_HOST + '/api/services/payment.php',
+
   kSUBMIT_REGISTER_DATA: kAPI_HOST + '/api/register.php',
   kAUTH: kAPI_HOST + '/api/auth.php',  //Передавать с параметрами
   kAUTH_CHECK: kAPI_HOST + '/api/auth.php', //Чек идет без параметров
