@@ -65,7 +65,8 @@ var SignIn = React.createClass({
           <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
           <h2>Вход</h2>
           <label className='new_context'>
-            E-mail
+            <span className='d-b m5-0 fs14'>E-mail</span>
+
             <input
               ref='email'
               type='text'
@@ -75,7 +76,7 @@ var SignIn = React.createClass({
               })}/>
           </label>
           <label className='new_context'>
-            Пароль
+            <span className='d-b m5-0 fs14'>Пароль</span>
             <input
               ref='password'
               type='password'

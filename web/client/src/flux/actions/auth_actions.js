@@ -68,11 +68,9 @@ module.exports.check_auth = () => {
 };
 var r_auth_log_out = resource(api_refs.kAUTH_LOG_OUT);
 module.exports.log_out = () => {
-  console.log('logout');
   r_auth_log_out.post()
     .then(() => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_RESET]);
-      route_actions.goto_link_c_params('/:region_id');
     });
 };
 var actions_ = [

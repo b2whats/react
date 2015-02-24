@@ -890,3 +890,32 @@ a.icon-link {
     -webkit-transform: rotate(1turn);
   }
 }
+#select-regions .Select-item {
+  margin: 1px;
+}
+#select-regions .Select-control {
+  border: 1px solid #c8c8c8;
+}
+#select-regions .Select-item-icon {
+  border-right: 1px solid #c8c8c8;
+  padding: 4px;
+  vertical-align: middle;
+  font-size: 22px;
+  line-height: 0.8;
+  color: #987dda;
+}
+#select-regions .Select-item-label {
+  cursor: default;
+  padding: 0 8px;
+}
+#select-regions .Select-item-icon:hover,
+#select-regions .Select-item-icon:focus {
+  background-color: initial;
+  color: #2A2A2A;
+}
+#select-regions .Select-clear {
+  padding: 0;
+  right: 24px;
+  top: 6px;
+  font-size: 18px;
+}

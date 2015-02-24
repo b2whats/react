@@ -9,11 +9,11 @@ var immutable = require('immutable');
 var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
 Modal.setAppElement(appElement);
+var modal_store = require('stores/modal_store.js');
+var ModalMixin = require('../mixins/modal_mixin.js');
 
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
-var modal_store = require('stores/modal_store.js');
-var ModalMixin = require('../mixins/modal_mixin.js');
 
 var EditableForms = require('components/editable_forms/editable_forms.jsx');
 var editable_forms_actions = require('actions/editable_forms_actions.js');
@@ -86,8 +86,7 @@ var AccountInfo = React.createClass({
   },
 	render() {
 		var edit = this.state.formsIsEdit.get('informations');
-		var Filial = this.state.company_filials &&
-			this.state.company_filials
+		var Filial = this.state.company_filials
 				.map((part, part_index) => {
           return (
 						<div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>

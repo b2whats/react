@@ -101,7 +101,7 @@ var AccountManage = React.createClass({
             </Dropzone>
             {this.state.loaded &&
               <span className="-upload-sucseed vm">
-                <span>Файл {this.state.file_name} успешно загружен</span>
+                <span>Файл {this.state.file_name} добавлен в очередь</span>
               </span>
             }
             {Errors}        

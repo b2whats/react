@@ -15,6 +15,12 @@ module.exports.get_services_information = () => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_INFO_LOADED].concat([response]));
     });
 };
+module.exports.submit_checkbox = (field,selected) => {
+  return resource(api_refs.kACCOUNT_SERVICES_INFO)
+    .post({type : 'set', field : field,selected : selected})
+    .then(response => {
+    });
+};
 module.exports.make_payment = (payment_info) => {
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
     .post(payment_info)
@@ -25,7 +31,9 @@ module.exports.make_payment = (payment_info) => {
 var actions_ = [
   ['change_step', event_names.kACCOUNT_SERVICES_CHANGE_STEP],
   ['toggle', event_names.kACCOUNT_SERVICES_TOGGLE],
-  ['change_tarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF]
+  ['change_tarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
+  ['change_brands', event_names.kACCOUNT_SERVICES_CHANGE_BRANDS],
+  ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES]
 ];
 
 

@@ -6,16 +6,15 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Link = require('components/link.jsx');
 var immutable = require('immutable');
-var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
-Modal.setAppElement(appElement);
-
-var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
-
+Modal.setAppElement(document.getElementById('react_main'));
 var modal_store = require('stores/modal_store.js');
 var ModalMixin = require('../mixins/modal_mixin.js');
 
 
+var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
+
+var decOfNum = require('utils/decline_of_number.js');
 
 var account_services_actions = require('actions/admin/services_actions.js');
 var account_services_store = require('stores/admin/services_store.js');
@@ -25,16 +24,25 @@ var Select = require('react-select');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
     return ({
-      payment : account_services_store.get_services_info(),
-      step : account_services_store.get_step(),
-      regions : region_store.get_region_list(),
-      toggle : account_services_store.get_toggle(),
+      payment           : account_services_store.get_services_info(),
+      step              : account_services_store.get_step(),
+      regions           : region_store.get_region_list(),
+      toggle            : account_services_store.get_toggle(),
       selected_services : account_services_store.get_selected_services(),
-      tarifs : account_services_store.get_tarifs()
+      tarifs            : account_services_store.get_tarifs(),
+      modalIsOpen       : modal_store.get_modal_visible(),
+      brands_by_region  : account_services_store.get_brands_by_region(),
+      services_by_type  : account_services_store.get_services_by_type(),
+      select_brands  : account_services_store.get_select_brands(),
+      select_services  : account_services_store.get_select_services(),
     })
-	},
+  },
 	modal_store, account_services_store);
 
+function decOfNumMonth(val) {
+  return decOfNum(val, ['Месяц', 'Месяца', 'Месяцев'])
+}
+var account_page_store = require('stores/account_page_store.js');
 
 
 var AccountInfo = React.createClass({
@@ -47,6 +55,7 @@ var AccountInfo = React.createClass({
     account_services_actions.change_step();
   },
   selectRegion(val) {
+    console.log(val);
     //Запоминать регионы в стейте
     if (this.state.step < 2) {
       account_services_actions.change_step();
@@ -60,85 +69,170 @@ var AccountInfo = React.createClass({
       account_services_actions.toggle(val);
     }
   },
+  generateTarifs(type) {
+    return this.state.tarifs.get(type)
+        .map((part, part_index) => {
+          return (
+
+            <label key={part.get('month')} className="label-radio">
+              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif(type)} className="radio m0-10" name="autoservices"/>
+              <span className="d-ib va-m lh1-4 fs17">
+                {(part_index == 0) ?
+                  'Бесплатно'
+                  :
+                  <span>
+                    <span>{decOfNumMonth(part.get('month'))} {part.get('price')} руб.</span>
+                    <br/>
+                    <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                  </span>
+                  }
+              </span>
+            </label>
+          )
+        })
+        .toArray();
+  },
+  generatePaymentBlock(type, css, title) {
+    return (
+      <div className="br8 b1s bc-g grad-g d-ib w300px mr20">
+        <div className={`bg-c-${css} p8-10 fs14 fw-b br6 brbl-n brbr-n entire-width flex-ai-c o1${css}`}>
+          <div dangerouslySetInnerHTML={{__html: title}}>
+
+          </div>
+          <i className="btn-question btn-icon"></i>
+        </div>
+        <div className="m15 d-f h40px flex-ai-c fs15">
+            {
+              (!!this.state.payment.get(type))?
+                <span>Оплачено до <strong>{this.state.payment.get(type)}</strong> <i className="flaticon-calendar fs15 ml5 c-g"></i> </span>
+                :
+                <span>Бесплатное размещение</span>
+              }
+        </div>
+      </div>
+    )
+  },
+  changeBrands(e) {
+    //Стэйт не меняем после каждого изменения
+    account_services_actions.change_brands(e.target.value,e.target.checked);
+  },
+  changeServices(e) {
+    //Стэйт не меняем после каждого изменения
+    account_services_actions.change_services(e.target.value,e.target.checked);
+  },
+  generatedBrandsCheckbox() {
+
+    var brands = {};
+    this.state.select_brands.forEach((v) => {
+      brands[v] = v;
+    });
+    return this.state.brands_by_region
+      .map((part, part_index) => {
+        return (
+          <div key={part_index}>
+            {part.get('region_name')}
+            <hr className='hr'/>
+            {part.get('brands').map((brand) => {
+              return (
+                <label key={brand.get('id')} className="label--checkbox">
+                  <input value={brand.get('id')} defaultChecked={!!(brands[brand.get('id')])} type="checkbox" onChange={this.changeBrands} className="checkbox"/>
+                  {brand.get('name')}
+                </label>
+              )
+            }).toArray()}
+          </div>
+        )
+      })
+      .toArray();
+  },
+  generatedBrandsList() {
+    var brands = {};
+    this.state.select_brands.forEach((v) => {
+      brands[v] = v;
+    });
+    return this.state.brands_by_region
+      .map((part, part_index) => {
+        return (
+            part.get('brands').map((brand) => {
+              if (brands[brand.get('id')]) {
+                return (
+                  <li className='mr15' key={brand.get('id')}>
+                    {brand.get('name')}
+                  </li>
+                )
+              }
+            }).toArray())
+      })
+      .toArray();
+  },
+  generatedServicesCheckbox() {
+
+    var services = {};
+    this.state.select_services.forEach((v) => {
+      services[v] = v;
+    });
+
+    return this.state.services_by_type
+      .map((part, part_index) => {
+        return (
+          <div key={part_index}>
+            {part.get('service_name')}
+            <hr className='hr'/>
+            {part.get('services').map((service) => {
+              return (
+                <label key={service.get('id')} className="label--checkbox">
+                  <input value={service.get('id')} defaultChecked={!!(services[service.get('id')])} type="checkbox" onChange={this.changeServices} className="checkbox"/>
+                  {service.get('name')}
+                </label>
+              )
+            }).toArray()}
+          </div>
+        )
+      })
+      .toArray();
+  },
+  generatedServicesList() {
+    var services = {};
+    this.state.select_services.forEach((v) => {
+      services[v] = v;
+    });
+    return this.state.services_by_type
+      .map((part, part_index) => {
+        return (
+          part.get('services').map((service) => {
+            if (services[service.get('id')]) {
+              return (
+                <li className='mr15' key={service.get('id')}>
+                    {service.get('name')}
+                </li>
+              )
+            }
+          }).toArray())
+      })
+      .toArray();
+  },
   change_tarif(id) {
     return (val) => {
       account_services_actions.change_tarif(id,val.target.value);
     }
   },
-
+  submitSelectBrands() {
+    //Так как не меняем стетй. Берем из сторы новый набор данных
+    account_services_actions.submit_checkbox('brands',account_services_store.get_select_brands().toJS().toString());
+  },
+  submitSelectServices() {
+    //Так как не меняем стетй. Берем из сторы новый набор данных
+    account_services_actions.submit_checkbox('services',account_services_store.get_select_services().toJS().toString());
+  },
 	render() {
+    console.log(this.generatedServicesCheckbox());
     var regions = [];
     this.state.regions.forEach((region) => {
       regions.push({
-        value : region.get('translit_name'),
+        value : region.get('id') + '',
         label : region.get('title')
       });
     });
-    var AutoServicesTarif = this.state.tarifs.get('autoservices') &&
-      this.state.tarifs.get('autoservices')
-        .map((part, part_index) => {
-          console.log(typeof (part.get('month')));
-          return (
-
-            <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif('autoservices')} className="radio m0-10" name="autoservices"/>
-              <span className="d-ib va-m lh1-4 fs17">
-                {(part_index == 0) ?
-                  'Бесплатно'
-                  :
-                  <span>
-                    <span>{part.get('month')} Месяца - {part.get('price')} руб.</span>
-                    <br/>
-                    <span className="fs15 c-r">скидка - 11%</span>
-                  </span>
-                }
-              </span>
-            </label>
-          )
-        })
-        .toJS();
-    var AutoPartsTarif = this.state.tarifs.get('autoparts') &&
-      this.state.tarifs.get('autoparts')
-        .map((part, part_index) => {
-          return (
-            <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif('autoparts')} className="radio m0-10" name="autoparts"/>
-              <span className="d-ib va-m lh1-4 fs17">
-                {(part_index == 0) ?
-                  'Бесплатно'
-                  :
-                  <span>
-                    <span>{part.get('month')} Месяца - {part.get('price')} руб.</span>
-                    <br/>
-                    <span className="fs15 c-r">скидка - 11%</span>
-                  </span>
-                  }
-              </span>
-            </label>
-          )
-        })
-        .toJS();
-    var CatalogTarif = this.state.tarifs.get('catalog') &&
-      this.state.tarifs.get('catalog')
-        .map((part, part_index) => {
-          return (
-            <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif('catalog')} className="radio m0-10" name="catalog"/>
-              <span className="d-ib va-m lh1-4 fs17">
-                {(part_index == 0) ?
-                  'Бесплатно'
-                  :
-                  <span>
-                    <span>{part.get('month')} Месяца - {part.get('price')} руб.</span>
-                    <br/>
-                    <span className="fs15 c-r">скидка - 11%</span>
-                  </span>
-                  }
-              </span>
-            </label>
-          )
-        })
-        .toJS();
     var summ = this.state.selected_services.get('catalog').get('price') +
       this.state.selected_services.get('autoservices').get('price') +
       this.state.selected_services.get('autoparts').get('price');
@@ -146,56 +240,9 @@ var AccountInfo = React.createClass({
 			<div>
         <h3 className='fw-b fs20 m20-0'>Действующие услуги</h3>
 
-        <div className="br8 b1s bc-g grad-g d-ib w300px mr20">
-          <div className="bg-c-as p8-10 fs14 fw-b br6 brbl-n brbr-n entire-width flex-ai-c o1as">
-            <div>
-              Отображение компании в разделе<br/> "Консультация мастера"
-            </div>
-            <i className="btn-question btn-icon"></i>
-          </div>
-          <div className="m15 d-f h40px flex-ai-c fs15">
-            {
-              (!!this.state.payment.get('autoservices'))?
-                <span>Оплачено до <strong>{this.state.payment.get('autoservices')}</strong> <i className="flaticon-calendar fs15 ml5 c-g"></i> </span>
-                :
-                <span>Бесплатное размещение</span>
-            }
-          </div>
-        </div>
-
-        <div className="br8 b1s bc-g grad-g d-ib w300px mr20">
-          <div className="bg-c-ap p8-10 fs14 fw-b br6 brbl-n brbr-n entire-width flex-ai-c o1ap">
-            <div className="c-wh">
-              Функция<br/> "Размещение запчастей"
-            </div>
-            <i className="btn-question btn-icon"></i>
-          </div>
-          <div className="m15 d-f h40px flex-ai-c fs15">
-            {
-              (!!this.state.payment.get('autoparts'))?
-                <span>Оплачено до <strong>{this.state.payment.get('autoparts')}</strong> <i className="flaticon-calendar fs15 ml5 c-g"></i> </span>
-                :
-                <span>Бесплатное размещение</span>
-              }
-          </div>
-        </div>
-
-        <div className="br8 b1s bc-g grad-g d-ib w300px mr20">
-          <div className="bg-c-g p8-10 fs14 fw-b br6 brbl-n brbr-n entire-width flex-ai-c o1g">
-            <div>
-              Отображение компании в <br/> "Каталоге компаний"
-            </div>
-            <i className="btn-question btn-icon"></i>
-          </div>
-          <div className="m15 d-f h40px flex-ai-c fs15">
-            {
-              (!!this.state.payment.get('catalog'))?
-                <span>Оплачено до <strong>{this.state.payment.get('catalog')}</strong> <i className="flaticon-calendar fs15 ml5 c-g"></i> </span>
-                :
-                <span>Бесплатное размещение</span>
-              }
-          </div>
-        </div>
+        {this.generatePaymentBlock('autoservices','as','Отображение компании в разделе<br/>"Консультация мастера"')}
+        {this.generatePaymentBlock('autoparts','ap','Функция<br/>"Размещение запчастей"')}
+        {this.generatePaymentBlock('catalog','g','Отображение компании в<br/>"Каталоге компаний"')}
 
         <hr className="hr bw4 m25-0"/>
         <h3 className='fw-b fs20 m20-0'>Подключение услуг</h3>
@@ -207,7 +254,9 @@ var AccountInfo = React.createClass({
           <div>
             <strong>Шаг 1 </strong> из 3 .
             <h4 className="d-ib fs20 m0 fw-n">Выбор региона(ов)</h4>
-            <Select className='m20-0' placeholder='Выберите регион' multi={true} options={regions} onChange={this.selectRegion} />
+            <div id='select-regions'>
+              <Select  className='m20-0' placeholder='Выберите регион' multi={true} options={regions} onChange={this.selectRegion} />
+            </div>
           </div>
         }
         {(this.state.step >= 2) &&
@@ -215,8 +264,7 @@ var AccountInfo = React.createClass({
           <div className='m30-0'>
             <hr className="hr-arrow m20-0"/>
             <div className='m30-0'>
-              <strong>Шаг 2 </strong>
-              из 3 .
+              <strong>Шаг 2 </strong> из 3.
               <h4 className="d-ib fs20 m0 fw-n">Выбор услуги и тарифа:</h4>
             </div>
           </div>
@@ -232,7 +280,7 @@ var AccountInfo = React.createClass({
                     (this.state.selected_services.get('autoservices').get('price') == 0)?
                       <span className="fw-n fs14">Бесплатно</span>
                       :
-                      <span className="fw-n fs14">{this.state.selected_services.get('autoservices').get('month')} Месяц - <strong>{this.state.selected_services.get('autoservices').get('price')} руб.</strong></span>
+                      <span className="fw-n fs14">{decOfNumMonth(this.state.selected_services.get('autoservices').get('month'))} - <strong>{this.state.selected_services.get('autoservices').get('price')} руб.</strong></span>
                   }
                 <i onClick={this.toggle('autoservices')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoservices')) ? "active" : "")}></i>
               </div>
@@ -240,18 +288,18 @@ var AccountInfo = React.createClass({
             <div className={"p20-15 " + ((!!this.state.toggle.get('autoservices')) ? "" : "d-n")}>
               Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
               <div>
-                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px">Марки автомобилей</button>
+                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px" onClick={this.openModal('account_services-brands')}>Марки автомобилей</button>
                 <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
-                  <li className="mr15 fw-b">Вся Америка</li>
+                  {this.generatedBrandsList()}
                 </ul>
 
-                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px">Виды услуг</button>
+                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px" onClick={this.openModal('account_services-services')}>Виды услуг</button>
                 <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
-                  <li className="mr15 fw-b">Вся Америка</li>
+                  {this.generatedServicesList()}
                 </ul>
               </div>
               <div className="entire-width flex-ai-c">
-                 {AutoServicesTarif}
+                 {this.generateTarifs('autoservices')}
               </div>
             </div>
           </div>
@@ -267,7 +315,7 @@ var AccountInfo = React.createClass({
                     (this.state.selected_services.get('autoparts').get('price') == 0)?
                       <span className="fw-n fs14">Бесплатно</span>
                       :
-                      <span className="fw-n fs14">{this.state.selected_services.get('autoparts').get('month')} Месяц - <strong>{this.state.selected_services.get('autoparts').get('price')} руб.</strong></span>
+                      <span className="fw-n fs14">{decOfNumMonth(this.state.selected_services.get('autoparts').get('month'))} - <strong>{this.state.selected_services.get('autoparts').get('price')} руб.</strong></span>
                     }
                 <i onClick={this.toggle('autoparts')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoparts')) ? "active" : "")}></i>
               </div>
@@ -275,7 +323,7 @@ var AccountInfo = React.createClass({
             <div className={"p20-15 " + ((!!this.state.toggle.get('autoparts')) ? "" : "d-n")}>
               Возможность размещения на сайте ваших товаров в течении определенного срока:
               <div className="entire-width mt20  flex-ai-c">
-                {AutoPartsTarif}
+                {this.generateTarifs('autoparts')}
               </div>
             </div>
           </div>
@@ -291,7 +339,10 @@ var AccountInfo = React.createClass({
                     (this.state.selected_services.get('catalog').get('price') == 0)?
                       <span className="fw-n fs14">Бесплатно</span>
                       :
-                      <span className="fw-n fs14">{this.state.selected_services.get('catalog').get('month')} Месяц - <strong>{this.state.selected_services.get('catalog').get('price')} руб.</strong></span>
+                      <span className="fw-n fs14">
+                        {decOfNumMonth(this.state.selected_services.get('catalog').get('month'))} -
+                        <strong>{this.state.selected_services.get('catalog').get('price')} руб.</strong>
+                      </span>
                     }
                 <i onClick={this.toggle('catalog')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('catalog')) ? "active" : "")}></i>
               </div>
@@ -299,7 +350,7 @@ var AccountInfo = React.createClass({
             <div className={"p20-15 " + ((!!this.state.toggle.get('catalog')) ? "" : "d-n")}>
               Выберите срок отображения вашей компании в разделе "Каталог компаний":
               <div className="entire-width mt20  flex-ai-c">
-                {CatalogTarif}
+                {this.generateTarifs('catalog')}
               </div>
             </div>
           </div>
@@ -312,6 +363,26 @@ var AccountInfo = React.createClass({
           </div>
         </div>
         }
+        <Modal
+          isOpen={!!this.state.modalIsOpen.get('account_services-brands')}
+          onRequestClose={this.handleModalCloseRequest}
+        >
+          <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
+          <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
+            {this.generatedBrandsCheckbox()}
+          </div>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.submitSelectBrands}>Сохранить</button>
+        </Modal>
+        <Modal
+          isOpen={!!this.state.modalIsOpen.get('account_services-services')}
+          onRequestClose={this.handleModalCloseRequest}
+        >
+          <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
+          <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
+            {this.generatedServicesCheckbox()}
+          </div>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.submitSelectServices}>Сохранить</button>
+        </Modal>
 			</div>
 		);
 	}

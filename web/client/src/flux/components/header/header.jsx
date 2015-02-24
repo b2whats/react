@@ -23,8 +23,12 @@ var Register = require('./register.jsx');
 var SignIn = require('./signin.jsx');
 var form_actions = require('actions/form_actions.js');
 var auth_store = require('stores/auth_store.js');
+var region_store = require('stores/region_store.js');
+var route_actions = require('actions/route_actions.js');
 var modal_store = require('stores/modal_store.js');
 var auth_actions = require('actions/auth_actions.js');
+
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
 		modalIsOpen : modal_store.get_modal_visible(),
@@ -44,10 +48,14 @@ var Header = React.createClass({
 			this.openModal(id_modal)();
 		}
 	},
-  logOut () {
+  logOut() {
     //console.log('control - logout');
     auth_actions.log_out();
+    route_actions.goto_link_w_params('/:region_id',
+      {region_id: region_store.get_region_current()}
+    );
   },
+
 	render() {
 		return (
 			<div className="hfm-wrapper main-header header entire-width">
@@ -77,7 +85,6 @@ var Header = React.createClass({
 
 
 			<SignIn />
-
       <Modal
           isOpen={!!this.state.modalIsOpen.get('register')}
           onRequestClose={this.handleModalCloseRequest}>

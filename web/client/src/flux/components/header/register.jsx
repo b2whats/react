@@ -48,14 +48,14 @@ var Register = React.createClass({
                 {(this.state.register_field.get('type') == 2) &&
                     <div>
                         <label>
-                            Название компании
+                          <span className='d-b m5-0 fs14'>Название компании</span>
                             <input type='text'
                                 className={cx({'bs-error': !!this.state.register_field_validation.has('company_name'), 'w100pr' : true})}
                                 defaultValue={this.state.register_field.get('company_name')}
                                 onChange={this.updateFormElement('company_name')}/>
                         </label>
                         <label>
-                            Телефон
+                          <span className='d-b m5-0 fs14'>Телефон</span>
                             <input type='text'
                                 className={cx({'bs-error': !!this.state.register_field_validation.has('phone'), 'w100pr' : true})}
                                 defaultValue={this.state.register_field.get('phone')}
@@ -65,14 +65,14 @@ var Register = React.createClass({
                 }
 
                 <label>
-                    E-mail
+                    <span className='d-b m5-0 fs14'>E-mail</span>
                     <input type='text'
                         className={cx({'bs-error': !!this.state.register_field_validation.has('email'), 'w100pr' : true})}
                         defaultValue={this.state.register_field.get('email')}
                         onChange={this.updateFormElement('email')}/>
                 </label>
                 <label>
-                    Пароль
+                    <span className='d-b m5-0 fs14'>Пароль</span>
                     <input type='password'
                         className={cx({'bs-error': !!this.state.register_field_validation.has('password'), 'w100pr' : true})}
                         defaultValue={this.state.register_field.get('password')}
