@@ -27,7 +27,7 @@ var routes = {};
 
 //ЧАСТЬ ОТВЕЧАЮЩАЯ ЗА ЛОГИН
 var auth_options = {
-  pre_auth(path_auth, path_role, route_name, route_context, route_context_params) {
+  pre_auth(path_role, route_name, route_context, route_context_params) {
     auth_actions.save_path(route_context.path);
     modal_actions.open_modal('signin');
   },
@@ -38,38 +38,30 @@ var auth_actions = require('actions/auth_actions.js');
 var auth_store = require('stores/auth_store.js');
 var routes_store = require('stores/routes_store.js');
 
-var security = (path_auth, path_role, security_options) => {
+var security = (path_role, security_options) => {
   return (route_name, route_context, route_context_params) => {
-
-    if(path_auth) {
-      if(!auth_store.is_auth()) {
-        
-        var promise = auth_actions.check_auth();
-
-        security_options.pre_auth(path_auth, path_role, route_name, route_context, route_context_params);
-
-        //если первый логин переотправить на основную
-        if(!routes_store.get_route_changed()) {
-          promise.then(() => {
-            if(!auth_store.is_auth()) {
-              route_actions.goto_link(route_definitions.kROUTE_DEF);
-            } else {
-              route_actions.goto_link(route_context.path);
-            }
-          });
+    if(!auth_store.is_auth()) {
+      
+      security_options.pre_auth(path_role, route_name, route_context, route_context_params);
+      
+      var promise = auth_actions.check_auth(); //первоначальная проверка может быть все еще не закончена, подождать
+      promise.then(() => {
+        if(!routes_store.get_route_changed()) { //если это первый заход то бросить на основную
+          if(!auth_store.is_auth()) {
+            route_actions.goto_link(route_definitions.kROUTE_DEF);
+          } else {
+            route_actions.goto_link(route_context.path);
+          }          
         }
+      });
 
-        return {'$__security__need_login__': true};
-      }
+      return {'$__security__need_login__': true}; //остановить переход
     }
   }
 };
 
 
-var kNEED_AUTH = true;
-var kNO_NEED_AUTH = false;
-
-var kSECURITY_NEED_AUTH = security(kNEED_AUTH, null, auth_options);
+var kSECURITY_NEED_AUTH = security(null, auth_options);
 
 routes[route_definitions.kROUTE_R_A] = [
   (route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
