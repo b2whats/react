@@ -55,7 +55,7 @@ var AccountManage = React.createClass({
   on_drop(files) {
     if(files.length > 0) {
       var form_data = new FormData();
-      form_data.append('price[]', files[0], files[0].name);            
+      form_data.append('price', files[0], files[0].name);
       this.state.price_properties.forEach((v, k) => form_data.append(k, v));
       account_manage_actions.upload_price_list(form_data, 0, files[0].name);
     }

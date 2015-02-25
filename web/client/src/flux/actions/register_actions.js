@@ -65,10 +65,8 @@ module.exports.submit_form = (register_data) => {
 				else {
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_SUCCESS]);
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
-          console.log(2312);
-          console.log(region_store.get_region_current());
-          route_actions.goto_link_w_params('/account/:region_id/company',
-            {region_id: region_store.get_region_current()}
+          route_actions.goto_link_with_default_params('/account/:region_id/company',
+            {region_id: region_store.get_region_current().get('translit_name')}
           );
 				}
 			});

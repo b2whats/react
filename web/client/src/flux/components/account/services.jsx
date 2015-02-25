@@ -5,7 +5,7 @@ var React = require('react/addons');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Link = require('components/link.jsx');
-var immutable = require('immutable');
+var immutable = window.imm = require('immutable');
 var Modal = require('components/modal/index');
 Modal.setAppElement(document.getElementById('react_main'));
 var modal_store = require('stores/modal_store.js');
@@ -75,7 +75,7 @@ var AccountInfo = React.createClass({
           return (
 
             <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif(type)} className="radio m0-10" name="autoservices"/>
+              <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif(type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-m lh1-4 fs17">
                 {(part_index == 0) ?
                   'Бесплатно'
@@ -166,11 +166,11 @@ var AccountInfo = React.createClass({
       .toArray();
   },
   generatedServicesCheckbox() {
-
-    var services = {};
-    this.state.select_services.forEach((v) => {
+    console.log(this.state.select_services);
+    var services = this.state.select_services;
+/*    this.state.select_services.forEach((v) => {
       services[v] = v;
-    });
+    });*/
 
     return this.state.services_by_type
       .map((part, part_index) => {
@@ -181,7 +181,7 @@ var AccountInfo = React.createClass({
             {part.get('services').map((service) => {
               return (
                 <label key={service.get('id')} className="label--checkbox">
-                  <input value={service.get('id')} defaultChecked={!!(services[service.get('id')])} type="checkbox" onChange={this.changeServices} className="checkbox"/>
+                  <input value={service.get('id')} defaultChecked={services.contains(service.get('id'))} type="checkbox" onChange={this.changeServices} className="checkbox"/>
                   {service.get('name')}
                 </label>
               )
@@ -379,7 +379,9 @@ var AccountInfo = React.createClass({
         >
           <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
           <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
+          {console.time('test')}
             {this.generatedServicesCheckbox()}
+          {console.timeEnd('test')}
           </div>
           <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.submitSelectServices}>Сохранить</button>
         </Modal>

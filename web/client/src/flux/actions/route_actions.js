@@ -48,12 +48,12 @@ var goto_link_w_params = module.exports.goto_link_w_params = function (link, par
   var evaluated_link = link_template(params);
   page(evaluated_link);
 };
-module.exports.goto_link_c_params = function (link) {
-  //console.log('goto_action_route');
-
-  var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
-  var route_p_new = _.extend(
+module.exports.goto_link_with_default_params = function (link,params) {
+  var params = params || {};
+  var current_route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
+  var new_route_params = _.extend(
     {},
-    route_params);
-  goto_link_w_params(link, route_p_new);
+    params,
+    current_route_params);
+  goto_link_w_params(link, new_route_params);
 };

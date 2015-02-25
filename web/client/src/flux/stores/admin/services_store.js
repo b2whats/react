@@ -112,17 +112,21 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
     .on(event_names.kACCOUNT_SERVICES_INFO_LOADED, info => {
-      state_.payment_cursor
-        .update(() => immutable.fromJS(info.payment));
-      state_.brands_by_region_cursor
-        .update(() => immutable.fromJS(info.brand_region));
-      state_.select_brands_cursor
-        .update(() => immutable.fromJS(info.brand_id));
+      if (info.payment) {
+        state_.payment_cursor
+          .update(() => immutable.fromJS(info.payment));
+      }
+      if (info.brand_region) {
+        state_.brands_by_region_cursor
+          .update(() => immutable.fromJS(info.brand_region));
+        state_.select_brands_cursor
+          .update(() => immutable.fromJS(info.brand_id));
 
-      state_.services_by_type_cursor
-        .update(() => immutable.fromJS(info.services_type));
-      state_.select_services_cursor
-        .update(() => immutable.fromJS(info.service_id));
+        state_.services_by_type_cursor
+          .update(() => immutable.fromJS(info.services_type));
+        state_.select_services_cursor
+          .update(() => immutable.fromJS(info.service_id));
+      }
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
 

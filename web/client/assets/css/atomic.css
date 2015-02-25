@@ -64,6 +64,9 @@
 
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .bw4 { border-width : 4px;}
+
+.cur-p {cursor: pointer; }
+
 .d-b { display : block; }
 .d-n { display : none; }
 .d-ib { display : inline-block; }
@@ -182,6 +185,13 @@
 .o-v { overflow: visible; }
 .o-a { overflow: auto; }
 
+.o-n { outline: none;}
+
+.p-r { position: relative; }
+.p-a { position : absolute; }
+.p-f { position : fixed; }
+
+
 .p0 { padding : 0; }
 .p5 { padding : 5px; }
 .p8 { padding : 8px; }
@@ -232,11 +242,12 @@
 .va-m { vertical-align : middle; }
 .va-t { vertical-align : top; }
 
+.w25px { width : 25px; }
 .w130px { width : 130px; }
 .w160px { width : 160px; }
-.w25px { width : 25px; }
-.w300px { width : 300px; }
 .w170px { width : 170px; }
+.w210px { width : 210px; }
+.w300px { width : 300px; }
 .w700px { width : 700px; }
 
 .w30pr { width : 30%; }

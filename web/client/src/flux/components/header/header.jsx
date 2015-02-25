@@ -15,6 +15,7 @@ var appElement = document.getElementById('react_main');
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 Modal.setAppElement(appElement);
 
+var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
 var ModalMixin = require('../mixins/modal_mixin.js');
 var ButtonGroup = require('components/forms_element/button_group.jsx');
@@ -33,9 +34,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 		modalIsOpen : modal_store.get_modal_visible(),
 		is_auth      : auth_store.is_auth(),
     email : auth_store.get_email(),
-    current_region: region_store.get_region_current()
 	}),
-	modal_store, auth_store, region_store /*observable store list*/);
+	modal_store, auth_store /*observable store list*/);
 var Header = React.createClass({
 	mixins       : [
 		PureRenderMixin,
@@ -49,40 +49,40 @@ var Header = React.createClass({
 		}
 	},
   logOut() {
-    //console.log('control - logout');
     auth_actions.log_out();
-    route_actions.goto_link_w_params('/:region_id',
-      {region_id: region_store.get_region_current()}
-    );
   },
-
 	render() {
-    var region_current =  this.state.current_region && this.state.current_region.get('translit_name');
-
 		return (
 			<div className="hfm-wrapper main-header header entire-width">
 
 				<RegionSelector />
 
 				<div className="top-navbar">
-					<Link
-						className="h_link"
-						href={route_names.kROUTE_CATALOG}
-						params={ {
-							region_id : region_current,
-							type      : '_',
-							brands    : '_',
-							services  : '_'
-						} }>Каталог компаний</Link>
+          <Link
+            className="h_link"
+            href={route_names.kROUTE_CATALOG}
+            params={ {
+              region_id : kDEFAULT_REGION_ID,
+              type      : '_',
+              brands    : '_',
+              services  : '_'
+            } }>Каталог компаний</Link>
 
-					<Link className="no-href">|</Link>
+					<Link className="no-href ml20">|</Link>
 					{(!this.state.is_auth) ?
 						<span>
 							<Link className="ap-link" onClick={this.extOpenModal('register')}>Регистрация</Link>
 							<Link className = "ap-link" onClick={this.extOpenModal('signin')}>Вход</Link>
 						</span>
 						:
-						<Link className = "ap-link" onClick={this.logOut}>{this.state.email}</Link>
+            <div className='d-ib p-r drop-down ml20'>
+						  <span className="ap-link bb-d">{this.state.email}</span>
+              <ul className='drop-down-list lst-n w210px'>
+                <li><Link className = "h_link" href='/account/:region_id/company'>Мой аккаунт</Link></li>
+                <li><Link className = "h_link" href='/account/:region_id/history'>История оплат</Link></li>
+                <li><Link className = "cur-p h_link" onClick={this.logOut}>Выход</Link></li>
+              </ul>
+            </div>
 						}
 
 

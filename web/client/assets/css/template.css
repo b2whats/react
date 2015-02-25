@@ -395,9 +395,7 @@ a.icon-link {
 .top-navbar {
     line-height: 1.5;
 }
-.top-navbar a {
-    margin-left: 20px;
-}
+
 
 .big-logo {
     font-size: 96px;
@@ -918,4 +916,14 @@ a.icon-link {
   right: 24px;
   top: 6px;
   font-size: 18px;
+}
+
+.drop-down {
+  position : relative;
+}
+.drop-down-list {
+  position : absolute;
+  right : 0;
+}
+.drop-down:focus .drop-down-list{
 }
