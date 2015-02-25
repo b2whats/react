@@ -14,11 +14,13 @@ var routes = require('./routes.js');
 require('./utils/router.js')(routes); //инициализация роутера
 
 auth_actions.check_auth()
-.then(() => 
-  
+.then(() =>   
   React.render(
       <IceMain/>, //ice_main(null)
       document.getElementById('react_main')
   )
-
-);
+)
+.catch(e => {
+  console.error(e.stack);
+  throw e;
+});
