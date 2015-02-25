@@ -49,9 +49,11 @@ var Dropzone = React.createClass({
     if (this.props.onDrop) {
       this.props.onDrop(files);
     }
+    this.refs.fileInput.getDOMNode().value = null;
   },
 
   onClick: function () {
+    
     this.refs.fileInput.getDOMNode().click();
   },
 
