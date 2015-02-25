@@ -12,11 +12,7 @@ function http(method, url, object) {
   var xhr = new XMLHttpRequest();        
   xhr.open(method, url, true);
   //если запрос cors то проставить хедер который не вызывает preflight запроса
-  if(url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0) {
-    //не вызывает preflight запроса
-    xhr.setRequestHeader("Content-Type","text/plain");
-    xhr.withCredentials = true; //чтобы кука
-  }
+  
 
   return {
     promise: new q(function(resolve, reject) {                
@@ -34,9 +30,19 @@ function http(method, url, object) {
         _.each(kCONTENT_TYPE_APPLICATION_JSON, function(v, k) {
           xhr.setRequestHeader(k, v);
         });
-        
+  
+        if(url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0) {
+          //не вызывает preflight запроса
+          if(!(object && object.constructor && object.constructor.toString().indexOf('FormData')>-1)) {
+            xhr.setRequestHeader("Content-Type","text/plain");
+          }
+          
+          xhr.withCredentials = true; //чтобы кука
+        }
+
         if(object!==null && object!==undefined) {
           if(object && object.constructor && object.constructor.toString().indexOf('FormData')>-1) {
+            
             xhr.send(object);
           } else {          
             xhr.send(JSON.stringify(object));
