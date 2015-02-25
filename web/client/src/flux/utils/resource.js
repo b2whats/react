@@ -5,7 +5,6 @@ var q = require('third_party/es6_promise.js');
 var route_template = require('utils/route_template.js');
 var text_utils = require('utils/text.js');
 
-var kCONTENT_TYPE_APPLICATION_JSON = {'Accept': 'application/json, text/plain, */*'};
 
 function http(method, url, object) {
   
@@ -27,18 +26,7 @@ function http(method, url, object) {
         };
 
         xhr.responseType = 'json';
-        _.each(kCONTENT_TYPE_APPLICATION_JSON, function(v, k) {
-          xhr.setRequestHeader(k, v);
-        });
-  
-        if(url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0) {
-          //не вызывает preflight запроса
-          if(!(object && object.constructor && object.constructor.toString().indexOf('FormData')>-1)) {
-            xhr.setRequestHeader("Content-Type","text/plain");
-          }
-          
-          xhr.withCredentials = true; //чтобы кука
-        }
+        xhr.withCredentials = true; //чтобы кука
 
         if(object!==null && object!==undefined) {
           if(object && object.constructor && object.constructor.toString().indexOf('FormData')>-1) {
