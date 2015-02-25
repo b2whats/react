@@ -15,6 +15,8 @@ var r_upload_file = resource(api_refs.kACCOUNT_MANAGE_UPLOAD_FILE);
 
 var actions_ = [
   ['am_reset', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_RESET],
+  ['change_price_property', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED],
+  ['change_price_list_content', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_CONTENT_CHANGED],
 ];
 
 module.exports.upload_price_list = (form_data, operation_id, file_name) => {

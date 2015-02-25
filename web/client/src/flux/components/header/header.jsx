@@ -15,7 +15,6 @@ var appElement = document.getElementById('react_main');
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 Modal.setAppElement(appElement);
 
-var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
 var ModalMixin = require('../mixins/modal_mixin.js');
 var ButtonGroup = require('components/forms_element/button_group.jsx');
@@ -34,8 +33,9 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 		modalIsOpen : modal_store.get_modal_visible(),
 		is_auth      : auth_store.is_auth(),
     email : auth_store.get_email(),
+    current_region: region_store.get_region_current()
 	}),
-	modal_store, auth_store /*observable store list*/);
+	modal_store, auth_store, region_store /*observable store list*/);
 var Header = React.createClass({
 	mixins       : [
 		PureRenderMixin,
@@ -57,6 +57,8 @@ var Header = React.createClass({
   },
 
 	render() {
+    var region_current =  this.state.current_region && this.state.current_region.get('translit_name');
+
 		return (
 			<div className="hfm-wrapper main-header header entire-width">
 
@@ -67,7 +69,7 @@ var Header = React.createClass({
 						className="h_link"
 						href={route_names.kROUTE_CATALOG}
 						params={ {
-							region_id : kDEFAULT_REGION_ID,
+							region_id : region_current,
 							type      : '_',
 							brands    : '_',
 							services  : '_'

@@ -27,6 +27,7 @@ var routes_store_did_change_cncl = main_dispatcher
     var route_context_params = immutable.fromJS(route_params);
     state_.route_changed_cursor
       .update(() => true);
+    
     if (state_.route_state !== route_name) {
       state_.route_state_cursor
         .update(() => route_name);

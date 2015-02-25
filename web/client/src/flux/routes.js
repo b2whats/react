@@ -43,22 +43,20 @@ var security = (path_auth, path_role, security_options) => {
 
     if(path_auth) {
       if(!auth_store.is_auth()) {
+        
         var promise = auth_actions.check_auth();
 
         security_options.pre_auth(path_auth, path_role, route_name, route_context, route_context_params);
-        if (promise != undefined) {
-          //если первый логин переотправить на основную
-          if(!routes_store.get_route_changed()) {
-            promise.then(() => {
-              //console.log(auth_store.is_auth());
-              if(!auth_store.is_auth()) {
-                //console.log('route_actions.goto_link');
 
-                route_actions.goto_link(route_definitions.kROUTE_DEF);
-              }
-            });
-
-          }
+        //если первый логин переотправить на основную
+        if(!routes_store.get_route_changed()) {
+          promise.then(() => {
+            if(!auth_store.is_auth()) {
+              route_actions.goto_link(route_definitions.kROUTE_DEF);
+            } else {
+              route_actions.goto_link(route_context.path);
+            }
+          });
         }
 
         return {'$__security__need_login__': true};
@@ -66,7 +64,6 @@ var security = (path_auth, path_role, security_options) => {
     }
   }
 };
-//ЧАСТЬ ОТВЕЧАЮЩАЯ ЗА ЛОГИН
 
 
 var kNEED_AUTH = true;

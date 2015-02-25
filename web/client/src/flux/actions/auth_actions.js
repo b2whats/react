@@ -55,17 +55,18 @@ module.exports.submit_form = (auth_data) => {
 };
 
 var r_auth_check = resource(api_refs.kAUTH_CHECK);
-module.exports.check_auth = () => {
-  if (!routes_store.get_route_changed()) {
-    return r_auth_check.post()
-      .then(response => {
-        if (response.valid) {
-          main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
-        }
-        main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_CHECK_DONE]);
-      });
+var r_auth_check_guard_ = r_auth_check.post()
+.then(response => {
+  if (response.valid) {
+    main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
   }
+  main_dispatcher.fire.apply (main_dispatcher, [event_names.kAUTH_STATUS_CHECK_DONE]);
+});
+      
+module.exports.check_auth = () => {  
+  return r_auth_check_guard_;
 };
+
 var r_auth_log_out = resource(api_refs.kAUTH_LOG_OUT);
 module.exports.log_out = () => {
   r_auth_log_out.post()

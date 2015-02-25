@@ -34,8 +34,8 @@ var rafBatchStateUpdateMixinCreate = function(get_state) {
         return store.on(event_names.kON_CHANGE, this.on_change_handler);
       }, this);
 
-      var state = get_state();
-      this.replaceState(state);
+      //var state = get_state();
+      //this.replaceState(state); //на случай миксинов которые вызывают события меняющие state в componentWillMount убрать после замены router_mixin
     },
 
     componentWillUnmount() {

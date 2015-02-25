@@ -6,7 +6,7 @@ var routes = require('../routes.js');
 var route_names = require('shared_constants/route_names.js');
 var routes_store = require('stores/routes_store.js');
 
-var RouterMixin = require('mixins/router_mixin.js')(routes);
+
 var rafBatchStateUpdateMixinCreate =require('./mixins/raf_state_update.js');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -53,14 +53,13 @@ routes_store,auth_store /*observable store list*/);
 
 var auth_actions = require('actions/auth_actions.js');
 
+
+
 //auth_actions.check_auth();
 var cx = React.addons.classSet;
 var ice_main = React.createClass({
-	mixins: [PureRenderMixin, RouterMixin, RafBatchStateUpdateMixin],
+	mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-	on_feature_changed: function(v) {
-		console.log('on_feature_changed', v);
-	},
 
 	render () {
 
@@ -185,12 +184,7 @@ var ice_main = React.createClass({
 			}
 		}) (this.state.router_state,this.state.router_context_params.toJS());
 		return (
-			<div className={
-        cx({
-          'v-h' : !this.state.check_done,
-          'main-wrapper'   : true
-        })
-        }>
+			<div className="main-wrapper">
 				<Header />
 				<div className="hfm-wrapper main-body">
 					{MainContent}

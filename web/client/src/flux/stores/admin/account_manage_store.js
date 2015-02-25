@@ -17,9 +17,13 @@ var account_page_store = require('stores/account_page_store.js');
 var kDEFAULT_STORE_PRIORITY = sc.kDEFAULT_STORE_PRIORITY;
 
 var state_ =  init_state(_.last(__filename.split('/')), {
+  
+  price_properties: {},
+  price_list_content: '',
   loaded: false,
   file_name: null,
   errors: [],
+
 });
 
 function update_state_param(param_name, value) {
@@ -52,6 +56,26 @@ var cncl_ = [
     update_state_param('file_name', null);
   }, kDEFAULT_STORE_PRIORITY),
 
+
+
+  main_dispatcher
+  .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_CONTENT_CHANGED, content => {
+    update_state_param('price_list_content', content);
+  }, kDEFAULT_STORE_PRIORITY),
+
+
+  main_dispatcher
+  .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED, (name, value) => {
+    if(state_.price_properties.get(name) !==value) {
+      state_.price_properties_cursor
+        .cursor([name])
+        .update(() => value);
+      account_manage_store.fire(event_names.kON_CHANGE);
+    }
+  }, kDEFAULT_STORE_PRIORITY),
+
+
+
 ];
 
 
@@ -65,6 +89,14 @@ var account_manage_store = merge(Emitter.prototype, {
 
   get_errors() {
     return state_.errors;
+  },
+
+  get_price_properties() {
+    return state_.price_properties;
+  },
+
+  get_price_list_content() {
+    return state_.price_list_content;
   },
 
   dispose () {
