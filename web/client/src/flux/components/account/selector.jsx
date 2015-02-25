@@ -38,6 +38,10 @@ var Selector = React.createClass({
     var v = {};
     v[key] = true;
     this.setState({values: v});
+    
+    if(this.props.onChange) {
+      this.props.onChange();
+    }
   },
 
 

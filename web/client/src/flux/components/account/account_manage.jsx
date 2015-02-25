@@ -83,12 +83,13 @@ var AccountManage = React.createClass({
     account_manage_actions.change_price_list_content(e.target.value);
   },
 
+  on_selector_changed() {
+    account_manage_actions.am_reset();
+  },
+
   render () {
     //var kCHECKBOX_PRICE_IF_OUR_SERVICE = 'price_if_our_service';
     //var kCHECKBOX_PRICE_RETAIL = 'price_retail';
-    
-
-    
     
     var Errors = this.state.errors.map((e,index) => 
       <span key={index} className="-upload-error vm">
@@ -167,7 +168,7 @@ var AccountManage = React.createClass({
 
 
 
-        <Selector className="m-top-20px">
+        <Selector onChange={this.on_selector_changed} className="m-top-20px">
           <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" className="vm h-50px m-20px">
             <Dropzone onDrop={this.on_drop}>
               <span className="-button-load">Загрузить файл</span>
@@ -190,10 +191,17 @@ var AccountManage = React.createClass({
             <div className="-item2-menu justify flex">
 
               <div className="ib">
-                <span className="vm h-30px">
+                <div className="vm h-50px">
                   <button onClick={this.on_string_load} className="-button-load">Загрузить строки</button>
+
+                  {this.state.loaded &&
+                    <span className="-upload-sucseed vm">
+                      <span>Контент добавлен в очередь</span>
+                    </span>
+                  }
+                  
                   {Errors}
-                </span>
+                </div>
               </div>
             </div>
           </div>
