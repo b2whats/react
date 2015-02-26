@@ -3,6 +3,7 @@
 var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
+var cx = React.addons.classSet;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
@@ -27,6 +28,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   file_name: account_manage_store.get_file_name(),
   price_properties: account_manage_store.get_price_properties(),
   price_list_content: account_manage_store.get_price_list_content(),
+  price_type: account_manage_store.get_price_type(),
   suppliers: price_list_selector_store.get_suppliers(),
   current_supplier_id: price_list_selector_store.get_current_supplier_id(),
 }),
@@ -64,7 +66,7 @@ var AccountManage = React.createClass({
       var form_data = new FormData();
       form_data.append('price', files[0], files[0].name);
       this.state.price_properties.forEach((v, k) => form_data.append(k, v));
-      account_manage_actions.upload_price_list(form_data, 0, files[0].name);
+      account_manage_actions.upload_price_list(form_data, 0, files[0].name, this.state.price_type);
     }
   },
 
@@ -83,7 +85,7 @@ var AccountManage = React.createClass({
     var form_data = new FormData();
     form_data.append('price[]', blob, kFILE_NAME);
     this.state.price_properties.forEach((v, k) => form_data.append(k, v));    
-    account_manage_actions.upload_price_list(form_data, 1, kFILE_NAME);
+    account_manage_actions.upload_price_list(form_data, 1, kFILE_NAME, this.state.price_type);
   },
 
 
@@ -102,7 +104,11 @@ var AccountManage = React.createClass({
 
   save_price_list_selection_result() {
     //console.error(price_list_selector_store.get_result().toJS());
-    price_list_selector_actions.save_result(this.state.current_supplier_id, price_list_selector_store.get_result().toJS());
+    price_list_selector_actions.save_result(this.state.current_supplier_id, price_list_selector_store.get_result().toJS(), this.state.price_type);
+  },
+
+  on_change_price_type(type) {
+    account_manage_actions.change_price_type(type);
   },
 
   render () {
@@ -121,8 +127,8 @@ var AccountManage = React.createClass({
         <div className="vm h-30px">
           <span className="-header mr-20px">Добавить прайс лист</span>
           <span className="-button-group">
-            <button className="-left">Розничный прайс</button>
-            <button className="-right">Оптовый прайс</button>
+            <button onClick={_.bind(this.on_change_price_type, null, 1)} className={cx({'-left':true, 'active': this.state.price_type===1})}>Розничный прайс</button>
+            <button onClick={_.bind(this.on_change_price_type, null, 2)} className={cx({'-right':true, 'active': this.state.price_type===2})}>Оптовый прайс</button>
           </span>
         </div>
 

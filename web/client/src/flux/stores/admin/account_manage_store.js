@@ -23,6 +23,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   loaded: false,
   file_name: null,
   errors: [],
+  price_type: 1
 
 });
 
@@ -37,6 +38,14 @@ function update_state_param(param_name, value) {
 }
 
 var cncl_ = [  
+
+
+
+  main_dispatcher
+  .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_TYPE_CHANGED, price_type => {
+    update_state_param("price_type", price_type);      
+  }, kDEFAULT_STORE_PRIORITY),
+
   main_dispatcher
   .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED, (file_name) => {
     update_state_param('loaded', true);
@@ -98,6 +107,11 @@ var account_manage_store = merge(Emitter.prototype, {
   get_price_list_content() {
     return state_.price_list_content;
   },
+
+  get_price_type() {
+    return state_.price_type;
+  },
+
 
   dispose () {
     if(cncl_) {

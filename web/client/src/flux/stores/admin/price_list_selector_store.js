@@ -54,8 +54,6 @@ var cncl_ = [
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
 
-
-
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_RESET, (values, first_value, price_range_from, price_range_to) => {
     update_state_param("values", values);

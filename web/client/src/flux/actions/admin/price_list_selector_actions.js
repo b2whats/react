@@ -16,6 +16,7 @@ var actions_ = [
   ['init_suppliers', event_names.kON_PRICE_LIST_SELECTOR_INIT_SUPPLIERS],
   ['change_current_supplier_id', event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED],
   
+  
 ];
 
 
@@ -44,8 +45,8 @@ module.exports.load_price_list_data = () => {
 };
 
 
-module.exports.save_result = (current_supplier_id, price_list_data) => {
-  console.error('Надо сохранить', current_supplier_id, price_list_data);
+module.exports.save_result = (current_supplier_id, price_list_data, price_type) => {
+  console.error('Надо сохранить', current_supplier_id, price_list_data, price_type);
 };
 
 
