@@ -71,6 +71,8 @@ var cncl_ = [
     }, kDEFAULT_STORE_PRIORITY),
 
 
+
+
   main_dispatcher
   .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS, (errors, file_name) => {
     update_state_param('errors', errors);
