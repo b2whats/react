@@ -5,6 +5,7 @@ var route_names = require('shared_constants/route_names.js');
 var route_definitions = route_names; //пока полежат в одном месте
 var route_actions = require('actions/route_actions.js');
 var region_actions = require('actions/region_actions.js');
+var security = require('./security.js');
 
 var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 var account_page_actions = require('actions/account_page_actions.js');
@@ -14,16 +15,20 @@ var catalog_data_actions = require('actions/catalog_data_actions.js');
 var catalog_actions = require('actions/catalog_actions.js');
 
 var account_services_actions = require('actions/admin/services_actions.js');
+var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
+
+var modal_actions = require('actions/modal_actions.js');
+var auth_actions = require('actions/auth_actions.js');
 
 
 //дефолтный регион
 var kDEFAULT_REGION_ID = 'sankt-peterburg';
 
-var routes = {};
+//получать с сервера
 
-//как работает авторизация
-//если не авторизован то либо показывает окно логина либо показывает окно логина
-//сохраняет путь и параметры
+
+
+var routes = {};
 
 //ЧАСТЬ ОТВЕЧАЮЩАЯ ЗА ЛОГИН
 var auth_options = {
@@ -33,35 +38,8 @@ var auth_options = {
   },
 };
 
-var modal_actions = require('actions/modal_actions.js');
-var auth_actions = require('actions/auth_actions.js');
-var auth_store = require('stores/auth_store.js');
-var routes_store = require('stores/routes_store.js');
-
-var security = (path_role, security_options) => {
-  return (route_name, route_context, route_context_params) => {
-    if(!auth_store.is_auth()) {
-      
-      security_options.pre_auth(path_role, route_name, route_context, route_context_params);
-      
-      var promise = auth_actions.check_auth(); //первоначальная проверка может быть все еще не закончена, подождать
-      promise.then(() => {
-        if(!routes_store.get_route_changed()) { //если это первый заход то бросить на основную
-          if(!auth_store.is_auth()) {
-            route_actions.goto_link(route_definitions.kROUTE_DEF);
-          } else {
-            route_actions.goto_link(route_context.path);
-          }          
-        }
-      });
-
-      return {'$__security__need_login__': true}; //остановить переход
-    }
-  }
-};
-
-
 var kSECURITY_NEED_AUTH = security(null, auth_options);
+
 
 routes[route_definitions.kROUTE_R_A] = [
   (route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
@@ -113,11 +91,6 @@ routes[route_definitions.kROUTE_DEF] = [
 routes[route_definitions.kROUTE_DEF_W_REGION] = [ //при смене роута можно указать несколько подряд методов которые надо выполнить
     (route_name, route_context, route_context_params) => region_actions.region_changed(route_context_params.region_id),
     route_actions.default_route ];
-
-
-
-
-
 
 routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE,
     //(route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
@@ -174,10 +147,15 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
           case 'company':
             account_page_actions.get_company_filial();
             account_page_actions.get_company_information();
-            break;
+          break;
+          
           case 'services':
             account_services_actions.get_services_information();
-            break;
+          break;
+          
+          case 'manage':
+            price_list_selector_actions.load_price_list_data();
+          break;
         }
       },
       route_actions.default_route

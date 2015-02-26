@@ -22,15 +22,6 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 price_list_selector_store /*observable store list*/);
 
 
-
-price_list_selector_actions.initialize([
-    {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
-    {price_from: 30000, delta_fix: 200, delta_percent: 1 },
-    {price_from: 10000, delta_fix: 200, delta_percent: 1 }, //сортировка пофигу
-    {price_from: 40000, delta_fix: 100, delta_percent: 1 },
-    {price_from: 50000, delta_fix: 200, delta_percent: 1 },
-    ], 0, 73000);
-
 var PriceListSelectionBlock = React.createClass({
 
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
@@ -114,7 +105,6 @@ var PriceListSelectionBlock = React.createClass({
 
     return (
       <div>
-        <h3 className="noselect">test</h3>
         <PriceListSelector 
           value={this.state.price_list_values.toJS()} 
           from={this.state.range_from} 
@@ -138,14 +128,17 @@ var PriceListSelectionBlock = React.createClass({
             </table>
           </div>
           <div className="md-12-6">
-          <br/>
-          добавить - двойной клик,<br/>
-          убрать - утянуть ползунок вправо или назначить цену больше максимальной
+            <h3>Инструкция</h3>
+            <br/>
+            добавить - двойной клик,<br/>
+            убрать - утянуть ползунок вправо или назначить цену больше максимальной
           </div>
         </div>
-        <div style={{marginTop: '30px'}}>
-        <button onClick={() => console.log(price_list_selector_store.get_result().toJS())}>вывести результат в консоль</button>
-        </div>
+        {/*
+          <div style={{marginTop: '30px'}}>
+            <button onClick={() => console.log(price_list_selector_store.get_result().toJS())}>вывести результат в консоль</button>
+          </div>
+        */}
       </div>
     );
   }

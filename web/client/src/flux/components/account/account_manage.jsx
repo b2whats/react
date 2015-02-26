@@ -11,10 +11,15 @@ var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
 var Link = require('components/link.jsx');
 var Dropzone = require('components/forms_element/dropzone.js');
 var Selector = require('./selector.jsx');
+var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 /* jshint ignore:end */
 
 var account_manage_actions = require('actions/admin/account_manage_actions.js');
 var account_manage_store = require('stores/admin/account_manage_store.js');
+
+var price_list_selector_store = require('stores/admin/price_list_selector_store.js');
+
+var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   loaded: account_manage_store.get_loaded(),
@@ -22,8 +27,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
   file_name: account_manage_store.get_file_name(),
   price_properties: account_manage_store.get_price_properties(),
   price_list_content: account_manage_store.get_price_list_content(),
+  suppliers: price_list_selector_store.get_suppliers(),
+  current_supplier_id: price_list_selector_store.get_current_supplier_id(),
 }),
-account_manage_store /*observable store list*/);
+account_manage_store, price_list_selector_store /*observable store list*/);
 
 
 var kNAME = 0;
@@ -79,12 +86,23 @@ var AccountManage = React.createClass({
     account_manage_actions.upload_price_list(form_data, 1, kFILE_NAME);
   },
 
+
+
   on_price_list_content_changed(e) {
     account_manage_actions.change_price_list_content(e.target.value);
   },
 
   on_selector_changed() {
     account_manage_actions.am_reset();
+  },
+
+  on_price_list_supplier_select_changed(e) {
+    price_list_selector_actions.change_current_supplier_id(e.target.value);
+  },
+
+  save_price_list_selection_result() {
+    //console.error(price_list_selector_store.get_result().toJS());
+    price_list_selector_actions.save_result(this.state.current_supplier_id, price_list_selector_store.get_result().toJS());
   },
 
   render () {
@@ -207,7 +225,32 @@ var AccountManage = React.createClass({
           </div>
           
           <div title="Создание прайс-листа на основе прайс-листа оптового поставщика" itemBodyClassName="-item_3" className="vm m-20px">
-            <h3>dfsfsdf</h3>
+            
+            <div className="m20-0">
+              <span className="vm h-30px ib">
+                <span>Выберите поставщика</span>
+
+                <div className="ib -select-holder">
+                  <select 
+                    value={this.state.current_supplier_id}
+                    onChange={this.on_price_list_supplier_select_changed} 
+                    className="-select">
+                    {
+                      this.state.suppliers.map((s,index) => 
+                        <option key={index} value={s.get('id')}>{s.get('title')}</option>).toJS()                    
+                    }
+                  </select>
+                </div>
+              </span>
+            </div>
+
+
+            <div>
+              <PriceListSelectionBlock />
+              
+              <button onClick={this.save_price_list_selection_result} className="-button-load">Сохранить результат</button>
+            </div>
+
           </div>
         </Selector>
 

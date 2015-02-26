@@ -22,7 +22,10 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   values: [],
   first_value: {delta_fix: 0, delta_percent:0},
   price_range_from: 0,
-  price_range_to: 100000
+  price_range_to: 100000,
+
+  suppliers: [],
+  current_supplier_id: -1,
 });
 
 function update_state_param(param_name, value) {
@@ -36,6 +39,20 @@ function update_state_param(param_name, value) {
 }
 
 var cncl_ = [
+
+  main_dispatcher
+  .on(event_names.kON_PRICE_LIST_SELECTOR_INIT_SUPPLIERS, suppliers => {
+    update_state_param("suppliers", suppliers);
+    if(suppliers.length > 0) {
+      update_state_param("current_supplier_id", suppliers[0].id);      
+    }
+  }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+
+  main_dispatcher
+  .on(event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED, current_supplier_id => {
+    update_state_param("current_supplier_id", current_supplier_id);      
+  }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+
 
 
 
@@ -163,6 +180,13 @@ var price_list_selector = merge(Emitter.prototype, {
       .map(v => v.remove('percent'));
   },
 
+  get_suppliers() {
+    return state_.suppliers;
+  },
+
+  get_current_supplier_id() {
+    return state_.current_supplier_id;
+  },
 
   dispose () {
     if(cncl_) {
