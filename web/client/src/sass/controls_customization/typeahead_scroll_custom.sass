@@ -3,11 +3,14 @@
 .scrollbar
   background-color : transparent
   width: $scrollbar-custom-width
-  right: 1px
+  right: 0px
   .arrow
     background-color : transparent
     text-decoration: none !important
     border-style: none !important
+    &:before,&:after
+      position: absolute
+      left: -1px
 
   .thumb
     background-color: #FFF
