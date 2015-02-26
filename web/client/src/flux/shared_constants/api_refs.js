@@ -21,6 +21,8 @@ module.exports = {
   kACCOUNT_COMPANY_FILIAL_DELETE: kAPI_HOST + '/api/del/company_filial.php?filial_id=:filial_id',
 
   kACCOUNT_SERVICES_INFO: kAPI_HOST + '/api/services/services.php?type=:type',
+  kACCOUNT_PRICES_HISTORY_INFO: kAPI_HOST + '/api/manage/history.php?type=:type',
+  kACCOUNT_PRICES_DELETE: kAPI_HOST + '/api/manage/history.php?type=:type',
   kACCOUNT_SERVICES_PAYMENT: kAPI_HOST + '/api/services/payment.php',
 
   kSUBMIT_REGISTER_DATA: kAPI_HOST + '/api/register.php',

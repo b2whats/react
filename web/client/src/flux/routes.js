@@ -15,6 +15,7 @@ var catalog_data_actions = require('actions/catalog_data_actions.js');
 var catalog_actions = require('actions/catalog_actions.js');
 
 var account_services_actions = require('actions/admin/services_actions.js');
+var account_manage_actions = require('actions/admin/account_manage_actions.js');
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
 var modal_actions = require('actions/modal_actions.js');
@@ -156,6 +157,9 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
           case 'manage':
             price_list_selector_actions.load_price_list_data();
           break;
+          case 'manage-history':
+            account_manage_actions.get_price_history_information();
+            break;
         }
       },
       route_actions.default_route

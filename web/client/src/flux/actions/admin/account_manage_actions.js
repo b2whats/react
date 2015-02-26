@@ -36,7 +36,20 @@ module.exports.upload_price_list = (form_data, operation_id, file_name, price_ty
     main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS].concat([errors, file_name]));
   })
 };
-
-
+module.exports.get_price_history_information = () => {
+  return resource(api_refs.kACCOUNT_PRICES_HISTORY_INFO)
+    .get({type : 'get'})
+    .then(response => {
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_INFO_LOADED].concat([response]));
+    });
+};
+module.exports.delete_price = (id) => {
+  return resource(api_refs.kACCOUNT_PRICES_DELETE)
+    .post({type : 'delete', price_id : id})
+    .then(response => {
+      console.log(response);
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_DELETE].concat([id]));
+    });
+};
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
 

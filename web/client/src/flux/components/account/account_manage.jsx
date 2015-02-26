@@ -131,7 +131,10 @@ var AccountManage = React.createClass({
             <button onClick={_.bind(this.on_change_price_type, null, 2)} className={cx({'-right':true, 'active': this.state.price_type===2})}>Оптовый прайс</button>
           </span>
         </div>
-
+        <Link
+          className="h_link m0-10"
+          href='/account/:region_id/manage-history'
+        >Итория</Link>
         <div className="m20-0">
           <span className="vm h-30px ib">
             <span>Состояние товара</span>
@@ -141,8 +144,8 @@ var AccountManage = React.createClass({
                 value={this.state.price_properties.get(kGOODS_QUALITY)}
                 onChange={_.bind(this.on_select_changed, null, kGOODS_QUALITY)} 
                 className="-select">
-                <option value={0}>Новые</option>
-                <option value={1}>Контрактные(БУ)</option>
+                <option value={1}>Новые</option>
+                <option value={2}>Контрактные(БУ)</option>
               </select>
             </div>
 
@@ -153,11 +156,11 @@ var AccountManage = React.createClass({
                 value={this.state.price_properties.get(kDELIVERY_TIME)} 
                 onChange={_.bind(this.on_select_changed, null, kDELIVERY_TIME)}
                 className="-select">
-                <option value={0}>В наличии</option>
-                <option value={1}>2-7 дней</option>
-                <option value={2}>7-14 дней</option>
-                <option value={3}>14-21 дня</option>
-                <option value={4}>до 31 дня</option>
+                <option value={1}>В наличии</option>
+                <option value={2}>2-7 дней</option>
+                <option value={3}>7-14 дней</option>
+                <option value={4}>14-21 дня</option>
+                <option value={5}>до 31 дня</option>
               </select>
             </div>
           </span>

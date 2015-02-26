@@ -18,7 +18,11 @@ var kDEFAULT_STORE_PRIORITY = sc.kDEFAULT_STORE_PRIORITY;
 
 var state_ =  init_state(_.last(__filename.split('/')), {
   
-  price_properties: {},
+  price_properties: {
+    'goods_quality' : '1',
+    'delivery_time' : '1'
+  },
+  history : {},
   price_list_content: '',
   loaded: false,
   file_name: null,
@@ -51,6 +55,21 @@ var cncl_ = [
     update_state_param('loaded', true);
     update_state_param('file_name', file_name);
   }, kDEFAULT_STORE_PRIORITY),
+
+  main_dispatcher
+    .on(event_names.kACCOUNT_PRICE_INFO_LOADED, (data) => {
+      state_.history_cursor
+        .update(() => immutable.fromJS(data.data));
+      account_manage_store.fire(event_names.kON_CHANGE);
+    }, kDEFAULT_STORE_PRIORITY),
+  main_dispatcher
+    .on(event_names.kACCOUNT_PRICE_DELETE, (id) => {
+        console.log(id);
+      state_.history_cursor
+        .update((l) => l.filter(b => b.get('id') !== id));
+      account_manage_store.fire(event_names.kON_CHANGE);
+    }, kDEFAULT_STORE_PRIORITY),
+
 
   main_dispatcher
   .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS, (errors, file_name) => {
@@ -106,6 +125,9 @@ var account_manage_store = merge(Emitter.prototype, {
 
   get_price_list_content() {
     return state_.price_list_content;
+  },
+  get_history() {
+    return state_.history;
   },
 
   get_price_type() {
