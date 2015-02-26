@@ -2,7 +2,7 @@
 
 //var _ = require('underscore');
 var React = require('react/addons');
-//var PropTypes = React.PropTypes;
+var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var UniqueNameMixin = require('components/mixins/unique_name_mixin.jsx');
@@ -26,6 +26,11 @@ var immutable = require('immutable');
 var Chart = React.createClass({
 
   mixins: [PureRenderMixin, UniqueNameMixin],
+
+  propTypes: {
+    plot_dx: PropTypes.number.isRequired,
+    margin_top_bottom: PropTypes.number,
+  },
 
   getInitialState() {
     return {

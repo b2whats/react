@@ -53,7 +53,7 @@ var AccountStatistics = React.createClass({
     return (
       <div className="account-statistics">
         <h3>графики</h3>
-        <Chart plots_data={plots_data} plot_dx={kPLOT_DX} />
+        <Chart plots_data={plots_data} plot_dx={kPLOT_DX} margin_top_bottom={kPLOT_MARGIN_TB} />
         <div className="chart">
           <ChartControlsSlider />
         </div>
