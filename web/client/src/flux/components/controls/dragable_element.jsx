@@ -53,7 +53,9 @@ var DragableElement = React.createClass({
     
 
     this.relative_rect_width = this.relative_node.getBoundingClientRect().width;
-    this.current_pos = this.relative_rect_width*(this.props.value || this.state.value) / 100  ;
+    var v = this.props.value!==undefined ? this.props.value : this.state.value;
+
+    this.current_pos = this.relative_rect_width*v / 100  ;
     this.prev_pos = null;
   },
 

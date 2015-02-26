@@ -30,6 +30,7 @@ var AccountInfo = require('components/account/info.jsx');
 var CompanyInfo = require('components/company/company.jsx');
 var AccountServices = require('components/account/services.jsx');
 var AccountManage = require('components/account/account_manage.jsx');
+var AccountStatistics = require('components/account/account_statistics.jsx');
 
 var Menu = require('components/menu/menu.jsx');
 /* jshint ignore:end */
@@ -141,7 +142,9 @@ var ice_main = React.createClass({
               case 'manage':
               	return <AccountManage />;
               break;
-
+              case 'statistics':
+                return <AccountStatistics />;
+              break;
             }
 					}) (router_state, router_context_params);
 

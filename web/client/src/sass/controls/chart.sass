@@ -1,0 +1,47 @@
+$chart-controls-height: 60px
+$chart-controls-thumb-width: 10px
+
+.chart
+
+
+.chart-controls-slider
+  overflow: hidden
+  height: $chart-controls-height
+.chart-controls-slider-line
+  position: relative
+  margin-left: $chart-controls-thumb-width //компенсировать ширину thumb
+  margin-right: $chart-controls-thumb-width //компенсировать ширину thumb
+
+  .chart-controls-slider-left
+    position: relative
+    width: 0
+    height: $chart-controls-height
+    .chart-controls-slider-thumb
+      right: 0 //-$chart-controls-thumb-width
+    .chart-controls-slider-thumb-line
+      right: 0 //-$chart-controls-thumb-width
+
+  .chart-controls-slider-right
+    position: relative
+    width: 0
+    height: $chart-controls-height
+    .chart-controls-slider-thumb
+      left: 0 //-$chart-controls-thumb-width
+    .chart-controls-slider-thumb-line
+      left: 0 //-$chart-controls-thumb-width
+
+  .chart-controls-slider-thumb
+    position: absolute
+    top: 0
+    height: 100%
+    width: $chart-controls-thumb-width
+    background-color: red
+    cursor: pointer
+  
+  .chart-controls-slider-thumb-line
+    pointer-events: none
+    position: absolute
+    top: 0
+    width: 2000px
+    height: 100%
+    background-color: rgba(255,0,0,0.2)

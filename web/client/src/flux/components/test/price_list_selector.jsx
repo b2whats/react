@@ -7,7 +7,7 @@ var cx = React.addons.classSet;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
-var DragableElement = require('./dragable_element.jsx');
+var DragableElement = require('components/controls/dragable_element.jsx');
 
 var indexed_bind = require('utils/indexed_bind.js')
 
