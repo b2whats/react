@@ -19,6 +19,8 @@ $custom-hint-hover-helper-size: 20px
   line-height: 12px
 
 
+
+
 .hint, [data-hint]
 
   .hint-content
@@ -179,8 +181,21 @@ $custom-hint-hover-helper-size: 20px
   @include ice-hint-type($successColor)
 
 
+.#{$prefix}always
+  .hint-content
+    opacity: 1
+    visibility: visible  
 
+  &.#{$prefix}top
+    @include ice-set-margin('translateY', -1)
 
+  &.#{$prefix}bottom
+    @include ice-set-margin('translateY', 1)
+
+  &.#{$prefix}left
+    @include set-margin('translateX', -1)
+
+  &.#{$prefix}right
+    @include set-margin('translateX', 1)
 
   
-
