@@ -21,7 +21,7 @@ var ChartMarkerTemplateDefault = require('components/controls/charts/chart_marke
 
 var immutable = require('immutable');
 
-var kPLOT_DX = 150;//style_utils.from_px_to_number( sass_vars['footer-panel-width'] );
+var kPLOT_DX = 100;//style_utils.from_px_to_number( sass_vars['footer-panel-width'] );
 var kPLOT_HEIGHT = 200;    //;style_utils.from_px_to_number( sass_vars['footer-svg-plot-height'] );
 var kPLOT_MARGIN_TB = 10;
 
@@ -29,21 +29,29 @@ var plots_data = immutable.fromJS([
   {
     id: 1,
     class_name: "my-line-classname",
-    data:[0.1, 0.5, 0.9, 0.9, 0.5, 0.9],
+    data:[0.1, 0.5, 0.9, 0.9, 0.5, 0.9, 0.1, 0.5, 0.9, 0.9, 0.5, 0.9],
     info:[
       {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
       {date: '2014-11-02', clicks: 3, information: 'bla bla bla 2'}, 
       {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
       {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
-      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'}
+      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'},
+      {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
+      {date: '2014-11-02', clicks: 3, information: 'bla bla bla 2'}, 
+      {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
+      {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
+      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
+      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'},
+
+
     ]
   },
 
   {
     id: 2,
     class_name: "my-line2-classname",
-    data:[0.5, 0.9, 0.9, 0.5, 0.9, 0.1],
+    data:[0.5, 0.9, 0.9, 0.5, 0.9, 0.1, 0.5, 0.9, 0.9, 0.5, 0.9, 0.1],
     
     info:[
       {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
@@ -51,7 +59,14 @@ var plots_data = immutable.fromJS([
       {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
       {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
+      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'},
+      {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
+      {date: '2014-11-02', clicks: 3, information: 'bla bla bla 2'}, 
+      {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
+      {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
+      {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'}
+      
     ]
 
   },

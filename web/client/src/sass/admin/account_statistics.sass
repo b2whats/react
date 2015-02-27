@@ -5,22 +5,34 @@
   .svg-plot
     background-color: #f5f5f5
 
-  .my-line-classname
-    stroke-opacity: 0.9
-    stroke-width: 1.4px
-    stroke: #ff00ff
-    &.hover
+  .svg-plot-path-line
+    &.my-line-classname
       stroke-opacity: 1
-      stroke-width: 2px
-  
-  .my-line2-classname
-    stroke-opacity: 0.9
-    stroke-width: 1.4px
-    stroke: #00ff00      
-    &.hover
+      stroke-width: 1.4px
+      stroke: #ff00ff
+      &.hover
+        stroke-opacity: 1
+        stroke-width: 2px
+    
+    &.my-line2-classname
       stroke-opacity: 1
-      stroke-width: 2px
+      stroke-width: 1.4px
+      stroke: #00ff00
+      &.hover
+        stroke-opacity: 1
+        stroke-width: 2px
       
+  .svg-plot-marker
+    &.my-line-classname
+      border-color: #ff00ff
+      &:hover
+        border-color: red
+    &.my-line2-classname
+      border-color: #00ff00
+      &:hover
+        border-color: green
+
+
 
   .hint-content      
     font-weight: normal

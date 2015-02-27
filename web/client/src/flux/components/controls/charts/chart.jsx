@@ -150,7 +150,14 @@ var Chart = React.createClass({
               key={pd.get('id') + '_' + index} 
               className="svg-plot-marker-holder" 
               style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>              
-              {React.createElement(this.props.marker_template, {index: index, info: pd.get('info'), current_info: pd.get('info').get(index)})}
+              {React.createElement(this.props.marker_template, 
+                {
+                  id: pd.get('id'),
+                  index: index, 
+                  info: pd.get('info'), 
+                  current_info: pd.get('info').get(index),
+                  className: pd.get('class_name')
+                })}
             </div>)
       )
       .flatten()
