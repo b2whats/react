@@ -2,6 +2,8 @@
  * нормальные html хинты
  */
 
+$custom-hint-hover-helper-size: 20px
+
 //убираем hint дефолтный
 .hint-html
   &.hint
@@ -10,7 +12,7 @@
       opacity: 0
 
 .hint-content
-  background: #383838
+  background: $defaultColor
   color: white
   padding: 8px 10px
   font-size: 12px
@@ -64,6 +66,22 @@
     #{$propertyY}: 100%
     left: 50%
 
+  .hint-content
+    &:after //чтобы окно не дергалось
+      content: ' '
+      position: absolute
+      @if $transitionDirection == -1
+        top: 100%
+      @else
+        top: -$custom-hint-hover-helper-size
+      left: 0
+      height: $custom-hint-hover-helper-size
+      width: 100%
+      opacity: 0
+      background-color: red
+
+
+
   &:hover .hint-content, &:focus .hint-content
     @include ice-set-margin('translateY', $transitionDirection)
 
@@ -76,6 +94,20 @@
   .hint-content
     #{$propertyX}: 100%
     bottom: 50%
+  
+  .hint-content
+    &:after //чтобы окно не дергалось
+      content: ' '
+      position: absolute
+      @if $transitionDirection == -1
+        left: 100%
+      @else
+        left: -$custom-hint-hover-helper-size
+      top: 0
+      height: 100%
+      width: $custom-hint-hover-helper-size
+      opacity: 0
+      background-color: red
 
   &:hover .hint-content, &:focus .hint-content
     @include ice-set-margin('translateX', $transitionDirection)
@@ -107,6 +139,48 @@
  */
 .#{$prefix}left
   @include ice-horizontal-positioned-tooltip('right', -1)
+
+
+
+@mixin ice-hint-type($color)
+  .hint-content
+    background-color: $color
+    //text-shadow: 0 -1px 0px darken($color, $textShadowDarkenAmount)
+
+  // generate arrow color style
+  //@include arrow-border-color($color)
+
+
+/**
+ * Error
+ */
+.#{$prefix}error
+  @include ice-hint-type($errorColor)
+
+
+/**
+ * Warning
+ */
+.#{$prefix}warning
+  @include ice-hint-type($warningColor)
+
+
+/**
+ * Info
+ */
+.#{$prefix}info
+  @include ice-hint-type($infoColor)
+
+
+/**
+ * Success
+ */
+.#{$prefix}success
+  @include ice-hint-type($successColor)
+
+
+
+
 
   
 

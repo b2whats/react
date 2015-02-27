@@ -51,7 +51,7 @@ var AccountStatistics = React.createClass({
     /* jshint ignore:start */
     return (
       <div className="account-statistics">
-        <h3 className="hint hint--top hint-html"><span>графики</span><div className="hint-content"><h3>html hint</h3>привет мир</div></h3>
+        <h3 className="hint hint--top hint--info hint-html"><span>графики</span><div className="hint-content"><h3>html hint</h3>привет мир</div></h3>
         <Chart className="chart-main-chart" plots_data={plots_data} plot_dx={kPLOT_DX} margin_top_bottom={kPLOT_MARGIN_TB} />
         
         <div className="chart-control-holder">
