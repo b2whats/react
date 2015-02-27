@@ -3,6 +3,26 @@ $chart-controls-thumb-width: 10px
 
 .chart
 
+.chart-main-chart
+  height: 200px
+
+.svg-plot
+  height: 100%
+  width: 100%
+
+.chart-control-holder
+  position: relative
+  height: $chart-controls-height  
+  .chart-controls-slider, .chart-control-holder-chart
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+
+
+.chart-control-holder-chart
+  height: $chart-controls-height
 
 .chart-controls-slider
   overflow: hidden
@@ -44,4 +64,4 @@ $chart-controls-thumb-width: 10px
     top: 0
     width: 2000px
     height: 100%
-    background-color: rgba(255,0,0,0.2)
+    background-color: rgba(127,127,127,0.8)

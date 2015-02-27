@@ -34,7 +34,7 @@ var Chart = React.createClass({
 
   getInitialState() {
     return {
-      plot_height: 20,
+      plot_height: -1,
       plot_hover_id: null
 
     };
@@ -42,7 +42,7 @@ var Chart = React.createClass({
 
   componentDidMount() {
     setTimeout(()=> {
-      this.setState({plot_height: this.refs.svg_plot.getDOMNode().offsetHeight});
+      this.setState({plot_height: this.refs.svg_plot_holder.getDOMNode().offsetHeight});
     } , 1);
   },
 
@@ -132,24 +132,26 @@ var Chart = React.createClass({
 
     /* jshint ignore:start */
     return (
-      <span onMouseLeave={this.on_mouse_leave} onMouseMove={this.on_mouse_move}>
-        <SvgPlot
-          ref="svg_plot"
-          on_plot_hover_distance={this.on_plot_hover_distance}
+      <div ref="svg_plot_holder" className={this.props.className} onMouseLeave={this.on_mouse_leave} onMouseMove={this.on_mouse_move}>
+        {this.state.plot_height > 0 &&
+          <SvgPlot
+            ref="svg_plot"
+            on_plot_hover_distance={this.on_plot_hover_distance}
 
-          x_index_2_position={this.x_index_2_position}
-          x_position_2_index={this.x_position_2_index}
-          y_index_value_2_position={this.y_index_value_2_position}
+            x_index_2_position={this.x_index_2_position}
+            x_position_2_index={this.x_position_2_index}
+            y_index_value_2_position={this.y_index_value_2_position}
 
-          mouse_move_dispatcher={this.mouse_move_dispatcher}
-          data={plots_data}
+            mouse_move_dispatcher={this.mouse_move_dispatcher}
+            data={plots_data}
 
-          has_hover={true}
-          has_classname={true}       
+            has_hover={true}
+            has_classname={true}       
 
-          refresh={this.state.plot_height} 
-          className="svg-plot" />
-      </span>
+            refresh={this.state.plot_height} 
+            className="svg-plot" />
+          }
+      </div>
     );
     /* jshint ignore:end */  
   }

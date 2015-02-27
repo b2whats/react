@@ -25,6 +25,20 @@ var kPLOT_DX = 150;//style_utils.from_px_to_number( sass_vars['footer-panel-widt
 var kPLOT_HEIGHT = 200;    //;style_utils.from_px_to_number( sass_vars['footer-svg-plot-height'] );
 var kPLOT_MARGIN_TB = 10;
 
+var plots_data = immutable.fromJS([
+  {
+    id: 1,
+    class_name: "my-line-classname",
+    data:[0.1, 0.5, 0.9, 0.9, 0.5, 0.9]
+  },
+
+  {
+    id: 2,
+    class_name: "my-line2-classname",
+    data:[0.5, 0.9, 0.9, 0.5, 0.9, 0.1]
+  },
+]);
+
 
 var AccountStatistics = React.createClass({
 
@@ -32,29 +46,16 @@ var AccountStatistics = React.createClass({
 
 
   render () {
-    var plots_data = immutable.fromJS([
-      {
-        id: 1,
-        hover: false, 
-        class_name: "my-line-classname",
-        data:[0.1, 0.5, 0.9, 0.9, 0.5, 0.9]
-      },
-
-      {
-        id: 2,
-        hover: false, 
-        class_name: "my-line2-classname",
-        data:[0.5, 0.9, 0.9, 0.5, 0.9, 0.1]
-      },
-    ]);
 
 
     /* jshint ignore:start */
     return (
       <div className="account-statistics">
-        <h3>графики</h3>
-        <Chart plots_data={plots_data} plot_dx={kPLOT_DX} margin_top_bottom={kPLOT_MARGIN_TB} />
-        <div className="chart">
+        <h3 className="hint hint--top hint-html"><span>графики</span><div className="hint-content"><h3>html hint</h3>привет мир</div></h3>
+        <Chart className="chart-main-chart" plots_data={plots_data} plot_dx={kPLOT_DX} margin_top_bottom={kPLOT_MARGIN_TB} />
+        
+        <div className="chart-control-holder">
+          <Chart className="chart-control-holder-chart" plots_data={plots_data} plot_dx={kPLOT_DX} margin_top_bottom={0} />
           <ChartControlsSlider />
         </div>
       </div>
