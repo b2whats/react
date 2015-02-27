@@ -133,7 +133,7 @@ var Chart = React.createClass({
 
 
 
-    var Markers = plots_data
+    var Markers = this.props.marker_template && plots_data
       .map(pd => {    
         var positions = pd.get('data').map( (v, index) => {
           var x = this.x_index_2_position(index);
@@ -146,9 +146,11 @@ var Chart = React.createClass({
       .map(pd => 
         pd.get('positions')
           .map((pos, index) => 
-            <div key={pd.get('id') + '_' + index} className="svg-plot-marker-holder" style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>
-              <div className="svg-plot-marker-hint-emitter"></div>
-              <div className="svg-plot-marker"></div>              
+            <div 
+              key={pd.get('id') + '_' + index} 
+              className="svg-plot-marker-holder" 
+              style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>              
+              {React.createElement(this.props.marker_template, {index: index, info: pd.get('info'), current_info: pd.get('info').get(index)})}
             </div>)
       )
       .flatten()

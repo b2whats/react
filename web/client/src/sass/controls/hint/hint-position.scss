@@ -24,6 +24,7 @@
 	&:before, &:after {
 		#{$propertyY}: 100%;
 		left: 50%;
+		left: calc(50% - #{$arrowBorderWidth});
 	}
 
 	&:hover, &:focus {
