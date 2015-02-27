@@ -3,6 +3,7 @@
 //var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
+var cx = React.addons.classSet;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var UniqueNameMixin = require('components/mixins/unique_name_mixin.jsx');
@@ -130,9 +131,33 @@ var Chart = React.createClass({
       plots_data = plots_data.map(pd => pd.get('id') === this.state.plot_hover_id ? pd.set('hover', true) : pd);
     }
 
+
+
+    var Markers = plots_data
+      .map(pd => {    
+        var positions = pd.get('data').map( (v, index) => {
+          var x = this.x_index_2_position(index);
+          var y = this.y_index_value_2_position(index, v, pd.get('id'));
+          return immutable.Map({x: x, y:y});
+        });
+
+        return pd.set('positions', positions);
+      })
+      .map(pd => 
+        pd.get('positions')
+          .map((pos, index) => 
+            <div key={pd.get('id') + '_' + index} className="svg-plot-marker-holder" style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>
+              <div className="svg-plot-marker-hint-emitter"></div>
+              <div className="svg-plot-marker"></div>              
+            </div>)
+      )
+      .flatten()
+      .toJS();
+      
+
     /* jshint ignore:start */
     return (
-      <div ref="svg_plot_holder" className={this.props.className} onMouseLeave={this.on_mouse_leave} onMouseMove={this.on_mouse_move}>
+      <div ref="svg_plot_holder" className={cx(this.props.className, 'svg-plot-holder')} onMouseLeave={this.on_mouse_leave} onMouseMove={this.on_mouse_move}>
         {this.state.plot_height > 0 &&
           <SvgPlot
             ref="svg_plot"
@@ -151,6 +176,9 @@ var Chart = React.createClass({
             refresh={this.state.plot_height} 
             className="svg-plot" />
           }
+          <div className="svg-plot-markers-panel">
+            {Markers}
+          </div>
       </div>
     );
     /* jshint ignore:end */  
