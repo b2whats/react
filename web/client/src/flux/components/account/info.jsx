@@ -106,34 +106,7 @@ var AccountInfo = React.createClass({
 					)
 				})
 				.toJS();
-    var rtn =
-          [
-            {value  : 'australian-capital-territory',
-              label : 'Australian Capital Territory'
-            },
-            {value  : 'new-south-wales',
-              label : 'New South Wales'
-            },
-            {value  : 'victoria',
-              label : 'Victoria'
-            },
-            {value  : 'queensland',
-              label : 'Queensland'
-            },
-            {value  : 'western-australia',
-              label : 'Western Australia'
-            },
-            {value  : 'south-australia',
-              label : 'South Australia'
-            },
-            {value  : 'tasmania',
-              label : 'Tasmania'
-            },
-            {value  : 'northern-territory',
-              label : 'Northern Territory'
-            }
-          ]
-      ;
+
 		return (
 			<div className='entire-width'>
 				<div className='company-information w50pr '>
@@ -200,22 +173,24 @@ var AccountInfo = React.createClass({
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
 					<div className='p15 br10 bs  new_context m30-0'>
 						<img className='va-t f-l mr20' src='/assets/images/templates/frank.jpg'/>
-						<div className='fw-b fs18'>Фрэнк Галлагер</div>
-						<div className='m15-0'>
-							<strong>На связи с 10:00 до 10:30</strong>
-							<span> в рабочие дни</span>
-						</div>
-						<div className='m15-0 lh1-8'>
-							8 (812) 123-45-67 (доб 21)
-							<br/>
-							8 (812) 123-45-67 (доб 21)
-						</div>
-						<div className='td-u ap-link'>
-							mail@mail.ru
-						</div>
+            <div className='new-context'>
+              <div className='fw-b fs18'>Ваш менеджер</div>
+              <div className='m15-0'>
+                <strong>На связи с 10:30 до 17:30</strong>
+                <span> в рабочие дни</span>
+              </div>
+              <div className='m15-0 lh1-8'>
+                8 (499) 322-21-74
+                <br/>
+                8 (812) 407-26-09
+              </div>
+              <div className='td-u ap-link'>
+
+              </div>
+            </div>
 					</div>
 
-          <Select options={rtn} readonly={true} value={'dwdw'}  onChange={this.updateValue} />
+
 				</div>
 				<Modal
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}

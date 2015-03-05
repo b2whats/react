@@ -204,3 +204,44 @@ content: '?';
     transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, -webkit-transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
     transition: left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
 }
+.show-by {
+  display: inline-block;
+  border: 1px solid #d2d2d2;
+  border-radius: 2px;
+}
+.show-by > * {
+  display: inline-block;
+  color: #2a2a2a;
+  padding: 5px 0;
+  width: 32px;
+  text-align: center;
+}
+.show-by .active {
+  font-weight: bold;
+  background: #ececec;
+  box-shadow: 0 1px 3px -1px rgba(0,0,0,0.5) inset;
+}
+.show-by *:first-child.active {
+  box-shadow: 3px 3px 3px -3px rgba(0,0,0,0.5) inset;
+}
+.show-by *:last-child.active {
+  box-shadow: -3px 3px 3px -3px rgba(0,0,0,0.5) inset;
+}
+
+.search-table {
+  width : 100%;
+  table-layout: fixed;
+}
+.search-table th, .search-table td {
+  font-weight: normal;
+  font-size: 13px;
+  padding : 10px 5px;
+}
+.search-table th:first-child, .search-table td:first-child {
+  text-align: center;
+}
+.search-table td:first-child span {
+  color: #876bc7;
+  border-bottom: 1px dotted;
+  cursor: pointer;
+}

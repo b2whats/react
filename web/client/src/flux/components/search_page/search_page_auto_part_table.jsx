@@ -125,75 +125,71 @@ var SearchPageAutoPartTable = React.createClass({
 
       var stock_class_name = {};
       /*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/
-      var kSTOCK_ICONS     = ['', 'svg-icon_box-check',     'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car', 'svg-icon_car'];
-      var kSTOCK_ICONS_ADD = ['stock_empty', 'stock_empty', 'stock-2-7',    'stock-7-14',   'stock-14-21',  'stock-31',     'stock_empty',  'stock_empty'];
+      var kSTOCK_ICONS     = ['', 'icon_box-check',     'icon_car', 'icon_car', 'icon_car', 'icon_car', 'icon_car', 'icon_car'];
+      var kSTOCK_ICONS_ADD = ['stock_empty', 'stock_empty', 'stock-2',    'stock-7',   'stock-14',  'stock-31',     'stock_empty',  'stock_empty'];
       stock_class_name[kSTOCK_ICONS[part.get('stock')]] = true;
       stock_class_name[kSTOCK_ICONS_ADD[part.get('stock')]] = true;
 
 
       /*m.get('balloon_visible').toString()*/
       return (
-        <tr onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
+        <tr className={(part_index%2 > 0) && 't-bg-c-g'} onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
             onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)}
             key={part.get('id')}>
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
               className={cx('search-page-autopart-table-td-rank', hover_class) }>
-            <span className="search-page-autopart-table-rank">{part.get('rank')}</span>
+            <span>{part.get('rank')}</span>
           </td>
 
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
-              className={cx('search-page-autopart-table-td-seller', hover_class)}>
+              className=''>
 
-            <div className="search-page-autopart-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            
-            <div 
-              onClick={part.get('markers').filter( m => m.get('visible') ).size>1 ? 
-                _.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses') :
-                _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
-              }
-              className="search-page-autopart-table-company-address">              
-              
-              {part.get('main_marker').get('address')}
-            
+            <div className="lh1-4 ellipsis">{part.get('main_marker').get('company_name')}</div>
+            <div className='ellipsis'>
+              <span
+                onClick={part.get('markers').filter( m => m.get('visible') ).size>1 ?
+                  _.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses') :
+                  _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
+                }
+                className="bb-d c-g cur-p lh1-4">
+
+                {part.get('main_marker').get('address')}
+
+              </span>
             </div>
             <FixedTooltip 
               open_id={part.get('id')}
               open_type={'autopart-tooltip-adresses'} 
               className="search-page-auto-part-table-body-work-tooltip">
                 
-              <strong>Все адреса</strong>
+              <strong className='fs12'>Все адреса</strong>
               
-              <div className="search-page-auto-part-table-body-work-tooltip-list">
+              <div className="search-page-auto-part-table-body-work-tooltip-list fs12">
                 {part.get('markers').filter( m => m.get('visible') ).map( (m, index) => 
                   <div 
                     onMouseEnter={_.bind(this.on_hover, this,  m.get('id'), true)}
                     onMouseLeave={_.bind(this.on_hover, this,  m.get('id'), false)}
                     onClick={_.bind(this.on_marker_click, this, m.get('id'))}
                     className="search-page-auto-part-table-body-work-tooltip-list-address" key={index} >
-                    {m.get('address')}
+                    <span className='c-p bb-d cur-p'>{m.get('address')}</span>
                   </div> ).toJS()}
               </div>
-
-              <hr/>
-                
-                <div className="search-page-auto-part-table-body-work-tooltip-address-message">
-                  <div>Ищете место рядом?</div>
-                  <div>Используйте карту чтобы найти</div>
-                </div>              
             </FixedTooltip>
           </td>
 
           <td className="search-page-autopart-table-td-manufacturer-code">
-            <div className="search-page-autopart-table-manufacturer">{part.get('manufacturer')}</div> 
-            <div className="search-page-autopart-table-code">{part.get('code')}</div> 
+            <div className="lh1-4 fw-b ellipsis">{part.get('manufacturer')}</div>
+            <div className="c-g">{part.get('code')}</div>
           </td>
 
           <td className="search-page-autopart-table-td-part-description">
-            <div onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')} 
-                 className="search-page-autopart-table-part-description">
-              {part.get('name')} &nbsp;
-            </div>  
-            <FixedTooltip 
+            <div className='h35px o-h to-e'>
+              <span onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')}
+                className="fs13 c-p bb-d cur-p lh1-4">
+                {part.get('name')}
+              </span>
+            </div>
+            <FixedTooltip
                 open_id={part.get('id')}
                 open_type={'autopart-tooltip-part-description'} 
                 className="search-page-auto-part-table-body-work-tooltip">
@@ -213,16 +209,16 @@ var SearchPageAutoPartTable = React.createClass({
                 </div>
             </FixedTooltip>
           </td>
-          <td className="search-page-autopart-table-td-info tooltip">
-            <span className={cx('search-page-autopart-table-info-used', cx(part.get('used') ? 'svg-icon_use' : 'svg-icon_no-use' ))}></span>
-            <span className={cx('search-page-autopart-table-info-stock', cx(stock_class_name))}></span>
+          <td className='ta-c'>
+            <span className={cx('fs25 va-m m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
+            <span className={cx('fs23 va-m m0-5', cx(stock_class_name))}></span>
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
-          <td className="search-page-autopart-table-td-price">
-            <div className="search-page-autopart-table-price">{part.get('retail_price')}</div>
-            <div className="search-page-autopart-table-price-link">
-              <span onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
-                условия оплаты
+          <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
+            <div className="fs18 fw-b m0-5 lh1 M-fs14-1200">{part.get('retail_price')} <span className='M-d-n-1200'> р.</span></div>
+            <div className="">
+              <span className='fs11 c-p bb-d cur-p m0-5' onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
+                условия <span className='M-d-n-1200'> оплаты</span>
               </span>
               <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
                 <div><strong>Условия оплаты</strong></div>
@@ -233,24 +229,24 @@ var SearchPageAutoPartTable = React.createClass({
           </td>
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
             
-            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } } 
-              className="search-page-autopart-table-phone">{part.get('main_marker').get('phone')}</div>
+            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } }
+              className="ta-c fs20">{part.get('main_marker').get('main_phone')}</div>
             
-            <div style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'block' } } className="wrap gutter-2-xs">
-              <div className="md-12-6">
+            <div className='entire-width' style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
+
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                      className="search-page-autopart-table-phone-button btn-with-icon">
-                  <i className="svg-icon_phone btn-svg-icon"></i>              
-                  <span>Телефон</span>
+                      className="p8 br2 grad-w b0 btn-shad-b w48pr ta-c">
+                  <i className="flaticon-phone c-ap fs16"></i>
+                  <span className='M-d-n-1420'>Телефон</span>
                 </button>
-              </div>
-              <div className="md-12-6">
+
+
               <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                    className="search-page-autopart-table-phone-button btn-with-icon">
-                <i className="svg-icon_mail btn-svg-icon"></i>              
-                <span>Заявка</span>
+                    className="p8 br2 grad-w b0 btn-shad-b w48pr ta-c">
+                <i className="flaticon-mail c-ap fs16"></i>
+                <span  className='M-d-n-1420'>Заявка</span>
               </button>
-              </div>
+
             </div>
 
           </td>
@@ -265,7 +261,8 @@ var SearchPageAutoPartTable = React.createClass({
     var ItemsPerPage = _.map(kITEMS_PER_PAGE, item_per_page => 
       <a  key={item_per_page} 
           href=""
-          className={item_per_page===this.state.items_per_page ? 'active' : null}
+        className={cx('bc-g', cx(item_per_page===this.state.items_per_page ? 'active' : ''))}
+
           onClick={_.bind(this.on_change_items_per_page, this, item_per_page)} >
             {item_per_page}
       </a>);
@@ -273,36 +270,37 @@ var SearchPageAutoPartTable = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <div className="search-page-container search-page-container-side-margin">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-6 left-md search-page-info-header">              
-                <span>Найдено</span>&nbsp;
-                <strong>{this.state.results_count}</strong>&nbsp;
+        <div className="entire-width flex-ai-c m20-0 h30px">
+            <div className="m0-10 fs18">
+                <span>Найдено </span>
+                <strong className='c-ap'> {this.state.results_count} </strong>
                 <span>{['предложение', 'предложения', 'предложений'][text_utils.decl_num(this.state.results_count)]}</span>
             </div>
-            
-            <div className="md-12-6 right-md search-page-info-header">              
-                <span>Показывать по</span>
-                <span className="pager-buttons">
+            {(this.state.results_count > 0) &&
+              <div className="m0-20">
+                <span className='mR15'>Показывать по</span>
+                <span className="show-by border-between bc-g">
                   {ItemsPerPage}
-                </span>              
-            </div>
-          </div>
+                </span>
+              </div>
+            }
         </div>
 
-        <div className="search-page-table-border">
-          <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autopart-table">
+
+          <table cellSpacing="0" className='search-table'>
               <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Продавец</th>
-                      <th>Производитель / Артикул</th>
-                      <th>Описание детали</th>
-                      <th>Инфо</th>
-                      <th>Цена</th>
-                      <th>
-                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_auto_part_phones_checkbox" type="checkbox" />
-                        <label htmlFor="show_auto_part_phones_checkbox">Показать телефоны</label>
+                  <tr className='bg-c-gl ta-l'>
+                      <th className='w40px'><i className='icon_placemark-grey'></i></th>
+                      <th className=''>Продавец</th>
+                      <th className='w170px'>Производитель / Артикул</th>
+                      <th className=''>Описание детали</th>
+                      <th className='ta-c w90px'>Инфо</th>
+                      <th className='ta-c c-wh w110px t-bg-c-ap'>Цена</th>
+                      <th className='ta-c w210px'>
+                        <label className="label--checkbox">
+                          <input type="checkbox" checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} className="checkbox"/>
+                          <span className='m0-5'>Показать телефоны</span>
+                        </label>
                       </th>
                   </tr>
               </thead>
@@ -311,7 +309,7 @@ var SearchPageAutoPartTable = React.createClass({
                 {TrMarkers}
               </tbody>
           </table>
-        </div>      
+
       
         <div className="search-page-container search-page-container-side-margin">
           <div className="wrap gutter-5-xs">

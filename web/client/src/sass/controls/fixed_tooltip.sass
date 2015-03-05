@@ -14,7 +14,7 @@ $tooltip-background-color: white
   cursor: default
   position: absolute  
   white-space: initial
-  font-size: 10px
+  font-size: 12px
   z-index: 1000
   //display: none
   padding: 10px 20px
@@ -27,6 +27,7 @@ $tooltip-background-color: white
   transform: translate(0, -50%)
   background-color: $tooltip-background-color
   border: 1px solid $tooltip-border-color
+  -webkit-filter: blur(0px)
 
   &:after, &:before
     top: 50%
@@ -51,11 +52,7 @@ $tooltip-background-color: white
     margin-top: -11px
 
   .fixed-tooltip-content-close    
-    border: 1px solid #eee
-    border-radius: 2px
     cursor: pointer
-    width: 18px
-    height: 18px
     position: absolute
     top: 2px
     right: 2px

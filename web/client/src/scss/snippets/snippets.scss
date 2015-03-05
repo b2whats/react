@@ -1,0 +1,62 @@
+/*Троеточие если строка не поместилась*/
+.ellipsis {
+  overflow         : hidden;
+  white-space      : nowrap;
+  text-overflow    : ellipsis;
+  -o-text-overflow : ellipsis;
+}
+/*Фикс для ссылок при hover эффекте*/
+.bold-fixed:before {
+  content     : attr(title);
+  font-weight : bold;
+  display     : block;
+  overflow    : hidden;
+  height      : 1px;
+  visibility  : hidden;
+  color       : transparent;
+}
+/* метод Ильи Стрельцына */
+.new_context, .new-context {
+  -height : 1% !important;
+  *zoom   : 1 !important;
+  /* display: table */
+  display : table !important;
+}
+/* Очень важное дополнение! */
+.new_context:after, .new-context:after {
+  content      : '. . . . . . . . . . .'; /* Решение проблемы в Opera 12.00 */
+  display      : block;
+  word-spacing : 99in;
+  height       : 0;
+  overflow     : hidden;
+
+  /* Лекарство бага с отступом в Opera */
+  font-size    : 0.05em;
+  line-height  : 0.05em;
+}
+/*Блоки растянутые на всю ширину*/
+.entire-width {
+  font-family             : inherit;
+  display                 : -webkit-box; /* Android 4.3-, Safari без оптимизации */
+  -webkit-box-pack        : justify; /* Android 4.3-, Safari без оптимизации */
+  display                 : -webkit-flex; /* оптимизация для Safari */
+  -webkit-justify-content : space-between; /* оптимизация для Safari */
+  display                 : flex;
+  justify-content         : space-between;
+  text-align              : justify; /* IE10-, Firefox 12-22 */
+  text-align-last         : justify; /* IE10-, Firefox 12-22 */
+  /*text-justify: newspaper; /* IE7- */
+  /*zoom: 1; /* IE7- */
+}
+.entire-width > * {
+  display        : inline-block;
+  vertical-align : top;
+  text-align     : left;
+  /*display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  /*display: inline;  /* IE7- */
+  /*zoom: 1; /* IE7- */
+}
+/*Бордеры у списка только между элементами*/
+.border-between > * + * {
+  border-left: 1px solid;
+}

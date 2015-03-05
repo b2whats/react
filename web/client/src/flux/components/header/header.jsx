@@ -76,10 +76,10 @@ var Header = React.createClass({
               <span className="ap-link bb-d">{this.state.email}</span>
               <ul className='drop-down-list lst-n w210px'>
                 <li>
-                  <Link className = "h_link" href='/account/:region_id/company' params={{ region_id : kDEFAULT_REGION_ID}}>Мой аккаунт</Link>
+                  <Link className = "h_link" href='/account/:region_id/company' params={{region_id : kDEFAULT_REGION_ID}}>Мой аккаунт</Link>
                 </li>
                 <li>
-                  <Link className = "h_link" href='/account/:region_id/history' params={{ region_id : kDEFAULT_REGION_ID}}>История оплат</Link>
+                  <Link className = "h_link" href='/account/:region_id/history' params={{region_id : kDEFAULT_REGION_ID}}>История оплат</Link>
                 </li>
                 <li>
                   <Link className = "cur-p h_link" onClick={this.logOut}>Выход</Link>

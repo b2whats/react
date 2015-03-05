@@ -1,0 +1,7 @@
+// variables.json
+{
+  "font-sans": "Helvetica, sans-serif",
+  "colors": {
+    "red": "#c33"
+  }
+}

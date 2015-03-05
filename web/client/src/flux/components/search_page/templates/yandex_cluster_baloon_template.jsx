@@ -19,21 +19,42 @@ module.exports = (ymaps, on_balloon_event) => {
               'Время работы:'+
             '</div>' +
 
-            '{% for operation_time in properties.operation_time %}' +
-              '<div class="yandex-map-balloon-footer-time-line">' + 
-                '<div class="yandex-map-balloon-footer-time-line-date">{{operation_time.date}}</div>'+
-                '<div class="yandex-map-balloon-footer-time-line-value">{{operation_time.value}}</div>'+
+
+              '<div class="yandex-map-balloon-footer-time-line">' +
+                '<div class="yandex-map-balloon-footer-time-line-date">Пн-Пт</div>'+
+                '{% if properties.operation_time[0]["is_holiday"] %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">Выходной</div>'+
+                '{% else %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">{{properties.operation_time[0].from}} - {{properties.operation_time[0].to}}</div>'+
+                '{% endif %}' +
               '</div>' +
-            '{% endfor %}' +
+              '<div class="yandex-map-balloon-footer-time-line">' +
+                '<div class="yandex-map-balloon-footer-time-line-date">Сб</div>'+
+                '{% if properties.operation_time[1]["is_holiday"] %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">Выходной</div>'+
+                '{% else %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">{{properties.operation_time[1].from}} - {{properties.operation_time[1].to}}</div>'+
+                '{% endif %}' +
+              '</div>' +
+              '<div class="yandex-map-balloon-footer-time-line">' +
+                '<div class="yandex-map-balloon-footer-time-line-date">Вс</div>'+
+                '{% if properties.operation_time[2]["is_holiday"] %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">Выходной</div>'+
+                '{% else %}' +
+                  '<div class="yandex-map-balloon-footer-time-line-value">{{properties.operation_time[2].from}} - {{properties.operation_time[2].to}}</div>'+
+                '{% endif %}' +
+              '</div>' +
 
           '</div>' +
           '<div class="yandex-map-balloon-footer-right">' +
             '<div class="yandex-map-balloon-footer-time-header">' +
               'Телефоны:'+
             '</div>' +
-            '<div class="yandex-map-balloon-footer-phone-line">' +
-              '{{properties.phone}}' +
-            '</div>' +
+            '{% for phone in properties.filial_phones %}' +
+              '<div class="yandex-map-balloon-footer-phone-line">' +
+                '{{phone}}' +
+              '</div>' +
+            '{% endfor %}' +
           '</div>' +
         '</div>' +        
         /*

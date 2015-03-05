@@ -84,7 +84,7 @@ var AccountManage = React.createClass({
         "customComponent": LinkComponent
       },
     ];
-
+console.log(this.state.history.toJS());
     return (
       <div>
         <Griddle  columnMetadata={columnMeta} results={this.state.history.toJS()} showFilter={true}/>
