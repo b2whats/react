@@ -167,7 +167,7 @@ var AccountManage = React.createClass({
         </div>
 
         <div className='m20-0'>
-          <div className='d-ib va-t'>
+          <div className='d-ib va-T'>
             {_.map(kCHEKBOXES_LEFT, (v, index) => (
               <label key={index} className="label--checkbox d-b m5-0">
                 <input                   
@@ -179,7 +179,7 @@ var AccountManage = React.createClass({
               </label>))
             }
           </div>
-          <div className='d-ib va-t ml20'>
+          <div className='d-ib va-T mL20'>
             {_.map(kCHECKBOXES_RIGHT, (v, index) => (
               <label key={index} className="label--checkbox d-b m5-0">
                 <input                   

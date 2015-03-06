@@ -94,8 +94,8 @@ var AccountInfo = React.createClass({
   },
   generatePaymentBlock(type, css, title) {
     return (
-      <div className="br8 b1s bc-g grad-g d-ib w300px mr20">
-        <div className={`bg-c-${css} p8-10 fs14 fw-b br6 brbl-n brbr-n entire-width flex-ai-c o1${css}`}>
+      <div className="br8 b1s bc-g grad-g d-ib w300px mR20">
+        <div className={`bg-c-${css} p8-10 fs14 fw-b br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
           <div dangerouslySetInnerHTML={{__html: title}}>
 
           </div>
@@ -104,7 +104,7 @@ var AccountInfo = React.createClass({
         <div className="m15 d-f h40px flex-ai-c fs15">
             {
               (!!this.state.payment.get(type))?
-                <span>Оплачено до <strong>{this.state.payment.get(type)}</strong> <i className="flaticon-calendar fs15 ml5 c-g"></i> </span>
+                <span>Оплачено до <strong>{this.state.payment.get(type)}</strong> <i className="flaticon-calendar fs15 mL5 c-g"></i> </span>
                 :
                 <span>Бесплатное размещение</span>
               }
@@ -156,7 +156,7 @@ var AccountInfo = React.createClass({
             part.get('brands').map((brand) => {
               if (brands[brand.get('id')]) {
                 return (
-                  <li className='mr15' key={brand.get('id')}>
+                  <li className='mR15' key={brand.get('id')}>
                     {brand.get('name')}
                   </li>
                 )
@@ -202,7 +202,7 @@ var AccountInfo = React.createClass({
           part.get('services').map((service) => {
             if (services[service.get('id')]) {
               return (
-                <li className='mr15' key={service.get('id')}>
+                <li className='mR15' key={service.get('id')}>
                     {service.get('name')}
                 </li>
               )
@@ -270,7 +270,7 @@ var AccountInfo = React.createClass({
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-as-no-hover p15 fw-b fs16 br6 brbl-n brbr-n entire-width">
+            <div className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width">
               <div>
                 Отображение компании в разделе "Консультация мастера"
                 <i className="btn-question btn-icon m0-5"></i>
@@ -288,12 +288,12 @@ var AccountInfo = React.createClass({
             <div className={"p20-15 " + ((!!this.state.toggle.get('autoservices')) ? "" : "d-n")}>
               Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
               <div>
-                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px" onClick={this.openModal('account_services-brands')}>Марки автомобилей</button>
+                <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.openModal('account_services-brands')}>Марки автомобилей</button>
                 <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
                   {this.generatedBrandsList()}
                 </ul>
 
-                <button className="p8 br2 grad-w b0 btn-shad-b f-l mr25 w170px" onClick={this.openModal('account_services-services')}>Виды услуг</button>
+                <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.openModal('account_services-services')}>Виды услуг</button>
                 <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
                   {this.generatedServicesList()}
                 </ul>
@@ -305,7 +305,7 @@ var AccountInfo = React.createClass({
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-ap-no-hover p15 fw-b fs16 br6 brbl-n brbr-n entire-width c-wh">
+            <div className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh">
               <div>
                 Размещение и отображение прайсов автозапчастей
                 <i className="btn-question btn-icon m0-5"></i>
@@ -322,14 +322,14 @@ var AccountInfo = React.createClass({
             </div>
             <div className={"p20-15 " + ((!!this.state.toggle.get('autoparts')) ? "" : "d-n")}>
               Возможность размещения на сайте ваших товаров в течении определенного срока:
-              <div className="entire-width mt20  flex-ai-c">
+              <div className="entire-width mT20  flex-ai-c">
                 {this.generateTarifs('autoparts')}
               </div>
             </div>
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-w-no-hover p15 fw-b fs16 br6 brbl-n brbr-n entire-width bc-g">
+            <div className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g">
               <div>
                 Отображение компании в каталоге компаний
                 <i className="btn-question btn-icon m0-5"></i>
@@ -349,7 +349,7 @@ var AccountInfo = React.createClass({
             </div>
             <div className={"p20-15 " + ((!!this.state.toggle.get('catalog')) ? "" : "d-n")}>
               Выберите срок отображения вашей компании в разделе "Каталог компаний":
-              <div className="entire-width mt20  flex-ai-c">
+              <div className="entire-width mT20  flex-ai-c">
                 {this.generateTarifs('catalog')}
               </div>
             </div>

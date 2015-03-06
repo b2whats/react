@@ -41,9 +41,10 @@ var MaskedInput = React.createClass({
   render () {
     var { onChange, value, ...other_props } = this.props;
     var on_change_ext = onChange;
-
-    var re = /\D/ig;
+console.log(value);
+    var re = /\+7\D/ig;
     value = value && value.replace(re, '');
+console.log(value);
 
     return (
       <input 

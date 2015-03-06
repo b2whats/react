@@ -116,16 +116,17 @@ var FilialAddressSelector = React.createClass({
 		var marker_color = kMARKER_COLOR[this.state.type - 1];
 
 		/* jshint ignore:start */
+
 		return (
 			<div className="ta-c w700px">
 				<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
 				<h2 className='m15-0'>{(!!this.state.type) ? 'Редактирование филиала' : 'Новый филиал'}</h2>
 				<ButtonGroup className='m15-0' select_element_value={this.state.type} onChange={this.on_type_changed}>
 					<button className="btn-bg-group w160px" value={1}>
-						<i className='svg-icon_gear mr5 va-m fs16'/>
+						<i className='svg-icon_gear mR5 va-m fs16'/>
 						Автозапчасти</button>
 					<button className="btn-bg-group w160px" value={2}>
-						<i className='svg-icon_key mr5 va-m fs16'/>
+						<i className='svg-icon_key mR5 va-m fs16'/>
 						Сервис</button>
 				</ButtonGroup>
 
@@ -151,7 +152,7 @@ var FilialAddressSelector = React.createClass({
 								value={this.state.phones.get(index)}
 								onChange={_.bind(this.on_phone_change, null, index)} />
 
-							<span className="va-m fs12 ml10">{phone_name}</span>
+							<span className="va-m fs12 mL10">{phone_name}</span>
 						</div>)
 						}
 

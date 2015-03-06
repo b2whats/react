@@ -36,6 +36,7 @@ var cncl_ = [
         }, 1),
     main_dispatcher
       .on(event_names.kACCOUNT_COMPANY_FILIALS_UPDATE, filial => {
+
         state_.company_filials_cursor
           .update(m => {
             if (!!state_.company_filials.find(el => el.get('id') === filial.id)) {
@@ -44,6 +45,8 @@ var cncl_ = [
               return m.push(immutable.fromJS(filial));
             }
           });
+
+
         account_page_store.fire(event_names.kON_CHANGE);
       }, 1),
     main_dispatcher

@@ -39,8 +39,8 @@ var Register = React.createClass({
         return (
             <div className='ta-c'>
                 <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-                <h2 className='m15-0 mb50'>Регистрация</h2>
-                <span className='mr10 fs16'>Я</span>
+                <h2 className='m15-0 mB50'>Регистрация</h2>
+                <span className='mR10 fs16'>Я</span>
                     <ButtonGroup select_element_value={this.state.register_field.get('type')} onChange={this.updateFormElement('type')}>
                         <button disabled='true' name='type' className='btn-bg-group w130px' value='1'>Покупатель</button>
                         <button name='type' className='btn-bg-group w130px' value='2'>Поставщик</button>

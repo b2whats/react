@@ -71,7 +71,7 @@ var cncl_ = [
 		  update_state_param('phones', current_fillial.get('phones'));
 		  update_state_param('work_time', current_fillial.get('operation_time'));
 		  update_state_param('filial_id', current_fillial.get('id'));
-  }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
+    }, kON_FILIAL_ADDRESS_AND_WORK_TIME__FILIAL_ADDRESS_AND_WORK_TIME_PRIORITY + 1),
 
   main_dispatcher
     .on(event_names.kON_NEW_FILIAL, () => {

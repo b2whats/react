@@ -140,6 +140,7 @@ var AccountInfo = React.createClass({
               <td>Телефон</td>
               <td>
                 <EditableForms
+                  type='phone'
                   onChange={this.updateFormElement('phone')}
                   edit={edit}
                   text={this.state.company_information.get('phone')} />
@@ -172,7 +173,7 @@ var AccountInfo = React.createClass({
 				<div className='your-manager w50pr'>
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
 					<div className='p15 br10 bs  new_context m30-0'>
-						<img className='va-t f-l mr20' src='/assets/images/templates/frank.jpg'/>
+						<img className='va-T f-L mR20' src='/assets/images/templates/frank.jpg'/>
             <div className='new-context'>
               <div className='fw-b fs18'>Ваш менеджер</div>
               <div className='m15-0'>
@@ -200,10 +201,10 @@ var AccountInfo = React.createClass({
                     {/*Для активной кнопки передать значение selected в класс кнопки*/}
 						<ButtonGroup onChange={this.btnChange}>
 							<button className='btn-bg-group w160px' value={1}>
-								<i className='svg-icon_gear mr5 va-m fs16'/>
+								<i className='svg-icon_gear mR5 va-m fs16'/>
 								Автозапчасти</button>
 							<button className='btn-bg-group w160px' value={2}>
-								<i className='svg-icon_key mr5 va-m fs16'/>
+								<i className='svg-icon_key mR5 va-m fs16'/>
 								Сервис</button>
 						</ButtonGroup>
 						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>

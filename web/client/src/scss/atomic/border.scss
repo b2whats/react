@@ -1,0 +1,27 @@
+@for $i from 1 through 2 {
+  .bR#{$i}s { border-right : #{$i}px solid;}
+  .bR#{$i}d { border-right : #{$i}px dotted;}
+  .bL#{$i}s { border-left : #{$i}px solid;}
+  .bL#{$i}d { border-left : #{$i}px dotted;}
+  .bT#{$i}s { border-top : #{$i}px solid;}
+  .bT#{$i}d { border-top : #{$i}px dotted;}
+  .bB#{$i}s { border-bottom : #{$i}px solid;}
+  .bB#{$i}d { border-bottom : #{$i}px dotted;}
+}
+@for $i from 0 through 10 {
+  .br#{$i} { border-radius : #{$i}px;}
+}
+@for $i from 1 through 4 {
+  .bw#{$i} { border-width : #{$i}px;}
+}
+.bTLr0 { border-top-left-radius : 0; }
+.bTRr0 { border-top-right-radius : 0; }
+.bBLr0 { border-bottom-left-radius : 0; }
+.bBRr0 { border-bottom-right-radius : 0; }
+
+.bR0 { border-right : 0;}
+.bL0 { border-left :  0;}
+.bT0 { border-top :  0;}
+.bB0 { border-bottom :  0;}
+
+.b0 { border : 0; }

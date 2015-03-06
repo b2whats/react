@@ -1,0 +1,19 @@
+.w47pr { width : 47%; }
+.w48pr { width : 48%; }
+.w49pr { width : 49%; }
+@for $i from 0 through 20 {
+  $v: $i * 5;
+  .w#{$v}pr {width: percentage($v / 100);}
+}
+$width_size_list : (20,25,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,300,700);
+@each $size in $width_size_list {
+  .w#{$size}px {width: #{$size}px;}
+}
+$min_width_size_list : (40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210);
+@each $size in $min_width_size_list {
+  .minw#{$size}px {min-width: #{$size}px;}
+}
+$height_size_list : (14,25,30,40,50,60,70,80,90,100,110,120,125,130,140,150);
+@each $size in $height_size_list {
+  .h#{$size}px {height: #{$size}px;}
+}

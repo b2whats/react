@@ -84,7 +84,7 @@ var SignIn = React.createClass({
                 'bs-error' : !!this.state.auth_field_validation.has('password'),
                 'w100pr'   : true
               })}/>
-            <a className='fs12 f-r bbd m4-0'>Забыли пароль?</a>
+            <a className='fs12 f-R bbd m5-0'>Забыли пароль?</a>
           </label>
           <button className='m15-0' onClick={this.authSubmit}>Войти</button>
           <hr className='hr100'/>

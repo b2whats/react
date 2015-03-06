@@ -1,5 +1,6 @@
 'use strict';
 var React = require('react/addons');
+var MaskedInput = require('components/forms_element/masked_input.jsx');
 
 
 var EditableForms = React.createClass({
@@ -31,12 +32,27 @@ var EditableForms = React.createClass({
             switch(type) {
                 case 'input':
                     return (
-                        <input ref='form' disabled={!self.props.edit} className={classes} type='text' onChange={self.update} value={self.props.text}/>
+                        <input disabled={!self.props.edit} className={classes} type='text' onChange={self.update} value={self.props.text}/>
+                    );
+                    break;
+                case 'phone':
+                    return (
+                      <span>
+                      { (self.props.edit) ?
+                        <MaskedInput
+                          className={classes}
+                          pattern={'+7({{999}}){{999}}-{{99}}-{{99}}'}
+                          value={self.props.text}
+                          onChange={self.update} />
+                        :
+                        <input disabled='true' className={classes} type='text' value={self.props.text}/>
+                      }
+                      </span>
                     );
                     break;
                 case 'textarea':
                     return (
-                        <textarea ref='form' disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
+                        <textarea disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
                     );
                     break;
             }

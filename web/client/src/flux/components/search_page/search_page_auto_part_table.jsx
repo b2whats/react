@@ -131,6 +131,10 @@ var SearchPageAutoPartTable = React.createClass({
       stock_class_name[kSTOCK_ICONS_ADD[part.get('stock')]] = true;
 
 
+
+console.log(part.get('stock'));
+console.log(kSTOCK_ICONS[part.get('stock')]);
+console.log(stock_class_name);
       /*m.get('balloon_visible').toString()*/
       return (
         <tr className={(part_index%2 > 0) && 't-bg-c-g'} onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
