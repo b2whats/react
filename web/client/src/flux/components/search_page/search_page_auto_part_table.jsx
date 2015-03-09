@@ -199,7 +199,7 @@ console.log(stock_class_name);
                 open_type={'autopart-tooltip-part-description'}
                 className="search-page-auto-part-table-body-work-tooltip">
 
-                <div className='mB10  fw-b fs-14'>Описание детали</div>
+                <div className='mB10  fw-b fs14'>Описание детали</div>
                 <div className="search-page-auto-part-table-body-work-tooltip-list">
                       {part.get('code')}<br/>
                       {part.get('name')}<br/>
@@ -280,8 +280,7 @@ console.log(stock_class_name);
     //results_count
     var ItemsPerPage = _.map(kITEMS_PER_PAGE, item_per_page => 
       <a  key={item_per_page} 
-          href=""
-        className={cx('bc-g', cx(item_per_page===this.state.items_per_page ? 'active' : ''))}
+        className={cx('bc-g cur-p', cx(item_per_page===this.state.items_per_page ? 'active' : ''))}
 
           onClick={_.bind(this.on_change_items_per_page, this, item_per_page)} >
             {item_per_page}

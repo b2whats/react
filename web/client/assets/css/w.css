@@ -153,6 +153,7 @@
 Все свойства в которых нет указания сторон(left, right, top, bottom) пишутся с маленькой буквы (.d-b {display: block})
 Свойства в которых встречаются указания сторон пишем с маленькой буквы, стороны в них - большими (.mR5 {margin-right: 5px})
 У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
+Селекторы которые имеют свойства с приставкой max- min- записываются с большой и маленькой буквы соответственно (.Mw100px {max-width: 100px} .mh200px {min-height: 200px})
 */
 .m5 {
   margin: 5px; }
@@ -397,6 +398,9 @@
 .m0 {
   margin: 0; }
 
+.mR-8 {
+  margin-right: -8px; }
+
 .p5 {
   padding: 5px; }
 
@@ -604,6 +608,9 @@
 .w50px {
   width: 50px; }
 
+.w55px {
+  width: 55px; }
+
 .w60px {
   width: 60px; }
 
@@ -718,56 +725,125 @@
 .minw250px {
   min-width: 250px; }
 
+.h10px {
+  height: 10px; }
+
+.Mh10px {
+  max-height: 10px; }
+
 .h14px {
   height: 14px; }
+
+.Mh14px {
+  max-height: 14px; }
+
+.h15px {
+  height: 15px; }
+
+.Mh15px {
+  max-height: 15px; }
+
+.h20px {
+  height: 20px; }
+
+.Mh20px {
+  max-height: 20px; }
 
 .h25px {
   height: 25px; }
 
+.Mh25px {
+  max-height: 25px; }
+
 .h30px {
   height: 30px; }
+
+.Mh30px {
+  max-height: 30px; }
 
 .h35px {
   height: 35px; }
 
+.Mh35px {
+  max-height: 35px; }
+
 .h40px {
   height: 40px; }
+
+.Mh40px {
+  max-height: 40px; }
 
 .h50px {
   height: 50px; }
 
+.Mh50px {
+  max-height: 50px; }
+
 .h60px {
   height: 60px; }
+
+.Mh60px {
+  max-height: 60px; }
 
 .h70px {
   height: 70px; }
 
+.Mh70px {
+  max-height: 70px; }
+
 .h80px {
   height: 80px; }
+
+.Mh80px {
+  max-height: 80px; }
 
 .h90px {
   height: 90px; }
 
+.Mh90px {
+  max-height: 90px; }
+
 .h100px {
   height: 100px; }
+
+.Mh100px {
+  max-height: 100px; }
 
 .h110px {
   height: 110px; }
 
+.Mh110px {
+  max-height: 110px; }
+
 .h120px {
   height: 120px; }
+
+.Mh120px {
+  max-height: 120px; }
 
 .h125px {
   height: 125px; }
 
+.Mh125px {
+  max-height: 125px; }
+
 .h130px {
   height: 130px; }
+
+.Mh130px {
+  max-height: 130px; }
 
 .h140px {
   height: 140px; }
 
+.Mh140px {
+  max-height: 140px; }
+
 .h150px {
   height: 150px; }
+
+.Mh150px {
+  max-height: 150px; }
 
 .bR1s {
   border-right: 1px solid; }

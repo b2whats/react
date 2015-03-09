@@ -32,7 +32,7 @@ var Header = React.createClass({
     var start_page_num = pages_on_screen*Math.floor(page_num / pages_on_screen);
     var end_page_num = Math.min(start_page_num + pages_on_screen, total_pages);
     
-    var page_values_array = _.map(_.range(start_page_num, end_page_num), val => ({value: val, visual: val+1, class_name:{disabled: false}}));
+    var page_values_array = _.map(_.range(start_page_num, end_page_num), val => ({value: val, visual: val+1, class_name:{disabled: false, 'cur-p' : true}}));
     
 /*    page_values_array.splice(0,0, {value: start_page_num - 1, visual:'...', class_name:{disabled: true}});
     page_values_array.push({value:end_page_num, visual:'...', class_name:{disabled: true}})*/
@@ -52,7 +52,6 @@ var Header = React.createClass({
           className={cx(cx(v.class_name), v.value===page_num ? 'active' : null)}
           
           key={index}
-          href=""
         dangerouslySetInnerHTML={{__html: v.visual}}>
 
       </a>);
