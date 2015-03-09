@@ -57,6 +57,11 @@
   /*zoom: 1; /* IE7- */
 }
 /*Бордеры у списка только между элементами*/
-.border-between > * + * {
+.border-between-h > * + * {
   border-left: 1px solid;
+  border-color: inherit;
+}
+.border-between-v > * + * {
+  border-top: 1px solid;
+  border-color: inherit;
 }

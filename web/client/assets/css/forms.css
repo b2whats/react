@@ -7,7 +7,7 @@ input[type=text],input[type=password] {
     box-sizing: border-box;
     height: 35px;
     color: #2a2a2a;
-    background-color: white;
+
 }
 textarea {
     padding: 8px;
@@ -17,7 +17,6 @@ textarea {
     box-shadow: inset 1px 1px 3px -1px rgba(0,0,0,0.2);
     box-sizing: border-box;
     color: #2a2a2a;
-    background-color: white;
 }
 input[type=text]:focus, input[type=password]:focus, textarea:focus {
     outline: none;
@@ -25,9 +24,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     box-shadow: 0 0 5px rgba(183, 166, 222, 0.4);
 }
 input[type=text][disabled], textarea[disabled] {
-    border: 1px solid white;
-    box-shadow: none;
-    resize: none;
 }
 button {
     /*

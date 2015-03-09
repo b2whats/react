@@ -4,6 +4,14 @@
   -webkit-box-align   : center;
   align-items         : center;
 }
+.flex-ai-fe {
+  -ms-flex-align      : flex-end;
+  -webkit-align-items : flex-end;
+  -webkit-box-align   : flex-end;
+  align-items         : flex-end;
+}
+
+
 .flex-jc-fs {
   -webkit-justify-content : flex-start;
   justify-content         : flex-start;

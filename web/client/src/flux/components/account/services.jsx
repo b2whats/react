@@ -15,10 +15,14 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
 var decOfNum = require('utils/decline_of_number.js');
+var cx = require('classnames');
 
 var account_services_actions = require('actions/admin/services_actions.js');
 var account_services_store = require('stores/admin/services_store.js');
 var region_store = require('stores/region_store.js');
+
+var toggle_actions = require('actions/toggle_actions.js');
+var toggle_store = require('stores/toggle_store.js');
 
 var Select = require('react-select');
 
@@ -27,17 +31,18 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
       payment           : account_services_store.get_services_info(),
       step              : account_services_store.get_step(),
       regions           : region_store.get_region_list(),
-      toggle            : account_services_store.get_toggle(),
       selected_services : account_services_store.get_selected_services(),
+      masters_name : account_services_store.get_masters_name(),
       tarifs            : account_services_store.get_tarifs(),
       modalIsOpen       : modal_store.get_modal_visible(),
       brands_by_region  : account_services_store.get_brands_by_region(),
       services_by_type  : account_services_store.get_services_by_type(),
       select_brands  : account_services_store.get_select_brands(),
       select_services  : account_services_store.get_select_services(),
+      toggle  : toggle_store.get_toggle(),
     })
   },
-	modal_store, account_services_store);
+	modal_store, account_services_store, toggle_store);
 
 function decOfNumMonth(val) {
   return decOfNum(val, ['Месяц', 'Месяца', 'Месяцев'])
@@ -66,8 +71,20 @@ var AccountInfo = React.createClass({
   },
   toggle(val) {
     return () => {
-      account_services_actions.toggle(val);
+      toggle_actions.change(val);
     }
+  },
+  extToggleSave(val) {
+    return () => {
+      var save = !this.refs.master_name.getDOMNode().disabled;
+      this.toggle(val)();
+      if (save) {
+        account_services_actions.submit_masters_name(this.state.masters_name.first());
+      }
+    }
+  },
+  changeNameMaster(e) {
+    account_services_actions.change_masters_name(e.target.value);
   },
   generateTarifs(type) {
     return this.state.tarifs.get(type)
@@ -225,7 +242,7 @@ var AccountInfo = React.createClass({
     account_services_actions.submit_checkbox('services',account_services_store.get_select_services().toJS().toString());
   },
 	render() {
-    console.log(this.generatedServicesCheckbox());
+console.log(this.state.masters_name.first());
     var regions = [];
     this.state.regions.forEach((region) => {
       regions.push({
@@ -282,12 +299,21 @@ var AccountInfo = React.createClass({
                       :
                       <span className="fw-n fs14">{decOfNumMonth(this.state.selected_services.get('autoservices').get('month'))} - <strong>{this.state.selected_services.get('autoservices').get('price')} руб.</strong></span>
                   }
-                <i onClick={this.toggle('autoservices')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoservices')) ? "active" : "")}></i>
+                <i onClick={this.toggle('services_autoservices')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('services_autoservices')) ? "active" : "")}></i>
               </div>
             </div>
-            <div className={"p20-15 " + ((!!this.state.toggle.get('autoservices')) ? "" : "d-n")}>
+            <div className={cx("p20-15", {"d-n": !!!this.state.toggle.get('services_autoservices')} )}>
               Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
               <div>
+                <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.extToggleSave('master_name')}>{(!!this.state.toggle.get('master_name')) ? 'Сохранить' : 'Имя мастера'}</button>
+                <div className="new_context m30-0">
+                  <input ref='master_name'
+                    className={cx("bgc-t b1s bc-g", {"input-as-text" : !!!this.state.toggle.get('master_name')})}
+                    disabled={!!!this.state.toggle.get('master_name')} type='text'
+                    value={this.state.masters_name.first()}
+                    onChange={this.changeNameMaster}
+                    placeholder='Введите имя мастера'/>
+                </div>
                 <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.openModal('account_services-brands')}>Марки автомобилей</button>
                 <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
                   {this.generatedBrandsList()}

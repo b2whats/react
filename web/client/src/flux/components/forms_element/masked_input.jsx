@@ -35,10 +35,11 @@ var MaskedInput = React.createClass({
 
   on_change(on_change_ext, e) {
     var target = e.target;
-    setTimeout(() => on_change_ext({target: {value: target.value}}), 0);    
+    setTimeout(() => on_change_ext({target: {value: target.value}}), 0);
   },
 
   render () {
+  console.log( this.props);
     var { onChange, value, ...other_props } = this.props;
     var on_change_ext = onChange;
 console.log(value);
@@ -51,9 +52,8 @@ console.log(value);
         {...other_props}
         type="text" 
         ref="masked_input" 
-        value={value} 
-        onChange={this.on_change} //никогда не срабатывает просто убирает ошибку
-        onKeyDownCapture={_.bind(this.on_change, this, on_change_ext)} 
+        defaultValue={value}
+        onKeyDownCapture={_.bind(this.on_change, this, on_change_ext)}
         onKeyPressCapture={_.bind(this.on_change, this, on_change_ext)}
         onPasteCapture={_.bind(this.on_change, this, on_change_ext)} />
     );

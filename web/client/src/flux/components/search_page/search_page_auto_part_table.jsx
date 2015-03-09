@@ -132,7 +132,7 @@ var SearchPageAutoPartTable = React.createClass({
 
 
 
-console.log(part.get('stock'));
+console.log(part.toJS());
 console.log(kSTOCK_ICONS[part.get('stock')]);
 console.log(stock_class_name);
       /*m.get('balloon_visible').toString()*/
@@ -142,7 +142,7 @@ console.log(stock_class_name);
             key={part.get('id')}>
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
               className={cx('search-page-autopart-table-td-rank', hover_class) }>
-            <span>{part.get('rank')}</span>
+            <span className='nap'>{part.get('rank')}</span>
           </td>
 
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
@@ -193,25 +193,30 @@ console.log(stock_class_name);
                 {part.get('name')}
               </span>
             </div>
-            <FixedTooltip
+            <div className='f-R'>
+              <FixedTooltip
                 open_id={part.get('id')}
-                open_type={'autopart-tooltip-part-description'} 
+                open_type={'autopart-tooltip-part-description'}
                 className="search-page-auto-part-table-body-work-tooltip">
-                
-                <strong>Описание детали</strong>
+
+                <div className='mB10  fw-b fs-14'>Описание детали</div>
                 <div className="search-page-auto-part-table-body-work-tooltip-list">
-                  {part.get('name')}<br/>
-                  {part.get('code')}<br/>
-                  {part.get('manufacturer')}
+                      {part.get('code')}<br/>
+                      {part.get('name')}<br/>
                 </div>
-                
-                <hr/>
-                
-                <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)} className="search-page-auto-part-table-body-work-tooltip-message">
-                  <div>Ищете конкретную деталь?</div>
-                  <div>Наберите ее в поиске</div>
+
+                <hr className='hr'/>
+
+                <div onClick={_.bind(this.on_goto_find, this, part.get('id'), auto_part_initial_value)}
+                  className="c-p">
+                  <i className='svg-icon_gear fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретную деталь? <br/>
+                    Наберите ее в поиске
+                  </span>
                 </div>
-            </FixedTooltip>
+              </FixedTooltip>
+            </div>
           </td>
           <td className='ta-c'>
             <span className={cx('fs25 va-m m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
@@ -221,22 +226,33 @@ console.log(stock_class_name);
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1 M-fs14-1200">{part.get('retail_price')} <span className='M-d-n-1200'> р.</span></div>
             <div className="">
-              <span className='fs11 c-p bb-d cur-p m0-5' onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
+              <div className='fs11 c-p bb-d cur-p m0-5' onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
                 условия <span className='M-d-n-1200'> оплаты</span>
-              </span>
-              <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
-                <div><strong>Условия оплаты</strong></div>
-                <div>что тут? {part.get('retail_price')}</div>
-              </FixedTooltip>
+              </div>
+              <div className='f-R'>
+                <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
+                  <div className='fs14 mB10 mR20 fw-b'>Условия оплаты</div>
+                  <div>{part.has('retail_price') && 'Розничная цена.'}</div>
+                  <div>{part.has('price_if_our_service') && 'Действительна при установке на нашем сервис центре.'}</div>
+                  <div>{part.has('delivery_free_msk') && 'Бесплатная доставка по МСК.'}</div>
+                  <div>{part.has('delivery_free_spb') && 'Бесплатная доставка по СПб.'}</div>
+                  <div>{part.has('price_only_for_legal_person') && 'Только для юр.лиц'}</div>
+                  <div>{part.has('price_above_level_0') && 'Цена покупки от 20 000 р'}</div>
+                  <div>{part.has('price_above_level_1') && 'Цена покупки от 40 000 р'}</div>
+                </FixedTooltip>
+              </div>
             </div>
             
           </td>
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
             
-            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } }
-              className="ta-c fs20">{part.get('main_marker').get('main_phone')}</div>
+            <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
+              className="ta-c fs20">
+              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
+            {part.get('main_marker').get('main_phone').substr(7)}
+            </div>
             
-            <div className='entire-width' style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
+            <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
 
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                       className="p8 br2 grad-w b0 btn-shad-b w48pr ta-c">
@@ -271,7 +287,7 @@ console.log(stock_class_name);
             {item_per_page}
       </a>);
 
-
+console.log(this.state.show_all_phones);
     return (
       <div className={this.props.className}>
         <div className="entire-width flex-ai-c m20-0 h30px">
@@ -283,7 +299,7 @@ console.log(stock_class_name);
             {(this.state.results_count > 0) &&
               <div className="m0-20">
                 <span className='mR15'>Показывать по</span>
-                <span className="show-by border-between bc-g">
+                <span className="show-by border-between-h bc-g">
                   {ItemsPerPage}
                 </span>
               </div>
@@ -314,19 +330,14 @@ console.log(stock_class_name);
               </tbody>
           </table>
 
-      
-        <div className="search-page-container search-page-container-side-margin">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-12 right-md search-page-info-pager noselect">
-              <span>Страница</span>
-              <Pager  className="pager-buttons"
-                      page_num={this.state.page_num}
-                      items_per_page={this.state.items_per_page}
-                      results_count={this.state.results_count} 
-                      pages_on_screen={kPAGES_ON_SCREEN} 
-                      on_click={this.on_page_click}/>
-            </div>
-          </div>
+        <div className="ta-r m20">
+          <Pager  className="pagination fs14"
+            page_num={this.state.page_num}
+            items_per_page={this.state.items_per_page}
+            results_count={this.state.results_count}
+            pages_on_screen={kPAGES_ON_SCREEN}
+            on_click={this.on_page_click}/>
+
         </div>
       
 

@@ -34,16 +34,17 @@ var Header = React.createClass({
     
     var page_values_array = _.map(_.range(start_page_num, end_page_num), val => ({value: val, visual: val+1, class_name:{disabled: false}}));
     
-    page_values_array.splice(0,0, {value: start_page_num - 1, visual:'...', class_name:{disabled: true}});
-    page_values_array.push({value:end_page_num, visual:'...', class_name:{disabled: true}})
+/*    page_values_array.splice(0,0, {value: start_page_num - 1, visual:'...', class_name:{disabled: true}});
+    page_values_array.push({value:end_page_num, visual:'...', class_name:{disabled: true}})*/
 
-    if(start_page_num > 0) page_values_array[0].class_name.disabled = false;    
+    if(start_page_num > 0) page_values_array[0].class_name.disabled = false;
     if(end_page_num < total_pages) page_values_array[page_values_array.length-1].class_name.disabled = false;
 
-    page_values_array.splice(0,0, {value: page_num - 1, visual:'<', class_name:{disabled: true}});
-    page_values_array.push({value:page_num + 1, visual:'>', class_name:{disabled: true}})
+    //page_values_array.splice(0,0, {value: page_num - 1, visual:'<', class_name:{disabled: true}});
+    page_values_array.push({value:page_num - 1, visual:'<i class="flaticon-left"></i>', class_name:{disabled: true, 'arrow left grad-g' : true}})
+    page_values_array.push({value:page_num + 1, visual:'<i class="flaticon-right"></i>', class_name:{disabled: true, 'arrow right grad-g' : true}})
 
-    if(page_num > 0) page_values_array[0].class_name.disabled = false;
+    if(page_num > 0) page_values_array[page_values_array.length - 2].class_name.disabled = false;
     if(page_num < total_pages-1) page_values_array[page_values_array.length-1].class_name.disabled = false;
 
     var pagenums = _.map(page_values_array, (v, index) => 
@@ -51,12 +52,13 @@ var Header = React.createClass({
           className={cx(cx(v.class_name), v.value===page_num ? 'active' : null)}
           
           key={index}
-          href="">
-        {v.visual}
+          href=""
+        dangerouslySetInnerHTML={{__html: v.visual}}>
+
       </a>);
 
     return (
-      <span className={this.props.className || "pager-buttons"}>
+      <span className={this.props.className || "pagination"}>
         {pagenums}
       </span> 
     );

@@ -9,7 +9,6 @@
 Свойства в которых встречаются указания сторон пишем с маленькой буквы, стороны в них - большими (.mR5 {margin-right: 5px})
 У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 */
-@import 'color_palette';
 @import 'margin';
 @import 'padding';
 @import 'width_height';
@@ -17,7 +16,9 @@
 @import 'text';
 @import 'position';
 @import 'flex';
+@import 'color_palette'; //Должен находится ниже универсальных свойств
 
+.bs-n {box-shadow: none;}
 
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .cur-p { cursor : pointer; }
@@ -43,6 +44,13 @@
 .o-n { outline : none; }
 .v-h { visibility : hidden; }
 .v-v { visibility : visible; }
+
+.us-n {
+  -webkit-user-select: none; /* user-select -- это нестандартное свойство */
+  -moz-user-select: none;    /* поэтому нужны префиксы */
+  -ms-user-select: none;
+  -o-user-select: none; /* не поддерживается, просто на будущее */
+}
 
 @media (max-width : 1420px) {
   .M-d-n-1420 { display : none; }

@@ -7,17 +7,19 @@
   .bT#{$i}d { border-top : #{$i}px dotted;}
   .bB#{$i}s { border-bottom : #{$i}px solid;}
   .bB#{$i}d { border-bottom : #{$i}px dotted;}
+  .b#{$i}s { border : #{$i}px solid;}
+  .b#{$i}d { border : #{$i}px dotted;}
 }
 @for $i from 0 through 10 {
   .br#{$i} { border-radius : #{$i}px;}
+  .bTLr#{$i} { border-top-left-radius : #{$i}px; }
+  .bTRr#{$i} { border-top-right-radius : #{$i}px; }
+  .bBLr#{$i} { border-bottom-left-radius : #{$i}px; }
+  .bBRr#{$i} { border-bottom-right-radius : #{$i}px; }
 }
 @for $i from 1 through 4 {
   .bw#{$i} { border-width : #{$i}px;}
 }
-.bTLr0 { border-top-left-radius : 0; }
-.bTRr0 { border-top-right-radius : 0; }
-.bBLr0 { border-bottom-left-radius : 0; }
-.bBRr0 { border-bottom-right-radius : 0; }
 
 .bR0 { border-right : 0;}
 .bL0 { border-left :  0;}

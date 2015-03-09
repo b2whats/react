@@ -4,7 +4,8 @@ var _ = require('underscore');
 var main_dispatcher = require('dispatchers/main_dispatcher.js').create_proxy();
 
 var event_names = require('shared_constants/event_names.js');
-var sc = require('shared_constants');
+
+
 
 var Emitter = require('utils/emitter.js');
 var merge = require('utils/merge.js');
@@ -13,28 +14,23 @@ var immutable = require('immutable');
 
 
 var state_ =  init_state(_.last(__filename.split('/')), {
-    modalIsOpen: {}
+    toggle: {},
 });
+
 var cncl_ = [
-    main_dispatcher
-        .on(event_names.kON_MODAL_SHOW, (id)  => {
-            state_.modalIsOpen_cursor
-                .update(m => m.set(id,true));
-            modal_store.fire(event_names.kON_CHANGE);
-        },100000),
-    main_dispatcher
-        .on(event_names.kON_MODAL_HIDE, ()  => {
-            state_.modalIsOpen_cursor
-                .clear();
-            modal_store.fire(event_names.kON_CHANGE);
-        },100000),
+  main_dispatcher
+    .on(event_names.kCHANGE_GENERAL_TOGGLE, (id) => {
+      state_.toggle_cursor
+        .update((m) => m.set(id,!!!m.get(id)));
+      toggle.fire(event_names.kON_CHANGE);
+    }, 1)
 ];
 
 
 
-var modal_store = merge(Emitter.prototype, {
-    get_modal_visible () {
-        return state_.modalIsOpen;
+var toggle = merge(Emitter.prototype, {
+    get_toggle () {
+        return state_.toggle;
     },
     dispose () {
 
@@ -47,4 +43,4 @@ var modal_store = merge(Emitter.prototype, {
 });
 
 
-module.exports = modal_store;
+module.exports = toggle;

@@ -240,8 +240,13 @@ content: '?';
 .search-table th:first-child, .search-table td:first-child {
   text-align: center;
 }
-.search-table td:first-child span {
+.search-table td:first-child span.nap {
   color: #876bc7;
+  border-bottom: 1px dotted;
+  cursor: pointer;
+}
+.search-table td:first-child span.nas {
+  color: #ffba00;
   border-bottom: 1px dotted;
   cursor: pointer;
 }

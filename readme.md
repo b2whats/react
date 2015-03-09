@@ -1,6 +1,10 @@
 #Deps
 docker version >= 1.3.0
 
+Запускать от пользователя Ice
+После ребута -
+dkill -a
+и стартануть из папки веб docker_run
 #Install
 * Склонировать проект https://github.com/Whatss/deploy/tree/master/docker
 * склонировать сабмодули

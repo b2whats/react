@@ -25,6 +25,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   services_by_type: {},
   select_brands: {},
   select_services: {},
+  masters_name: {},
   tarifs: {
     autoparts : {
       '0' : {
@@ -126,6 +127,9 @@ var cncl_ = [
           .update(() => immutable.fromJS(info.services_type));
         state_.select_services_cursor
           .update(() => immutable.fromJS(info.service_id));
+
+        state_.masters_name_cursor
+          .update(() => immutable.fromJS(info.masters_name));
       }
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
@@ -147,6 +151,12 @@ var cncl_ = [
       state_.selected_services_cursor
         .cursor([id])
         .update(() => state_.tarifs.get(id).find((v,k) => k == val));
+      account_services_store.fire(event_names.kON_CHANGE);
+    }, 1),
+  main_dispatcher
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME, (names) => {
+      state_.masters_name_cursor
+        .update((m) => m.set(0,names));
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
@@ -203,6 +213,9 @@ var account_services_store = merge(Emitter.prototype, {
   },
   get_select_services() {
     return state_.select_services;
+  },
+  get_masters_name() {
+    return state_.masters_name;
   },
   dispose() {
 

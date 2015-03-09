@@ -190,8 +190,8 @@ var cncl_ = [
     state_.page_num_cursor
       .update( () => page_num);
 
-    state_.show_all_phones_cursor
-      .update( () => false);    
+/*    state_.show_all_phones_cursor
+      .update( () => false); */
 
     set_results_and_markers_visibility_();  
 
@@ -208,8 +208,8 @@ var cncl_ = [
     state_.page_num_cursor
       .update( () => 0);
     
-    state_.show_all_phones_cursor
-      .update( () => false);
+/*    state_.show_all_phones_cursor
+      .update( () => false);*/
 
     set_results_and_markers_visibility_();
 
@@ -227,8 +227,8 @@ var cncl_ = [
     state_.page_num_cursor //выставлять при загрузке 0 страничку
       .update( () => 0);
     
-    state_.show_all_phones_cursor
-      .update( () => false);
+    //state_.show_all_phones_cursor
+    //  .update( () => false);
 
     var user_id_2_markers_list = state_.auto_part_data.get('markers').reduce( (r, m) => {
       var marker_user_id = m.get('user_id');
@@ -253,8 +253,8 @@ var cncl_ = [
       state_.page_num_cursor
         .update( () => 0);    
       
-      state_.show_all_phones_cursor
-        .update( () => false);
+      //state_.show_all_phones_cursor
+      //  .update( () => false);
 
       set_results_and_markers_visibility_();
     }
@@ -505,8 +505,8 @@ var cncl_ = [
     state_.page_num_cursor
       .update( () => 0);
     
-    state_.show_all_phones_cursor
-      .update( () => false);    
+/*    state_.show_all_phones_cursor
+      .update( () => false); */
 
     set_results_and_markers_visibility_();  
       

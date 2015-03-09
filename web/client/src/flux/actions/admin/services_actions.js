@@ -21,6 +21,12 @@ module.exports.submit_checkbox = (field,selected) => {
     .then(response => {
     });
 };
+module.exports.submit_masters_name = (names) => {
+  return resource(api_refs.kACCOUNT_SERVICES_INFO)
+    .post({type : 'set', field : 'masters_name',names : names})
+    .then(response => {
+    });
+};
 module.exports.make_payment = (payment_info) => {
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
     .post(payment_info)
@@ -33,7 +39,9 @@ var actions_ = [
   ['toggle', event_names.kACCOUNT_SERVICES_TOGGLE],
   ['change_tarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
   ['change_brands', event_names.kACCOUNT_SERVICES_CHANGE_BRANDS],
-  ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES]
+  ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES],
+  ['change_masters_name', event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME]
+
 ];
 
 

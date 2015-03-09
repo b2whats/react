@@ -152,22 +152,24 @@ var SearchPageAutoServiceTable = React.createClass({
             key={part.get('id')}>
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
               className={cx('search-page-autoservice-table-td-rank', hover_class) }>
-            <span className="search-page-autoservice-table-rank">{part.get('rank')}</span>
+            <span className='nas'>{part.get('rank')}</span>
           </td>
 
           <td onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
               className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
 
-            <div className="search-page-autoservice-table-company-name">{part.get('main_marker').get('company_name')}</div>
-            
+            <div className="lh1-4 ellipsis">{part.get('main_marker').get('company_name')}</div>
+            <div className='ellipsis'>
+              <span
+                onClick={part.get('markers').filter( m => m.get('visible') ).size>1 ?
+                  _.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses') :
+                  _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
+                  }
+                className="bb-d c-g cur-p lh1-4">
 
-            <div 
-              onClick={ part.get('markers').filter( m => m.get('visible') ).size > 1 ?
-                _.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses') :
-                _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
-              }
-              className="search-page-autoservice-table-company-address">
-              {part.get('main_marker').get('address')}
+                {part.get('main_marker').get('address')}
+
+              </span>
             </div>
 
             <FixedTooltip 
@@ -313,26 +315,25 @@ var SearchPageAutoServiceTable = React.createClass({
           
 
 
-          <td className="search-page-autoservice-table-td-price tooltip">
-            <div className="search-page-autoservice-table-price">{part.get('master')}</div>
-            <div className="search-page-autoservice-table-price-link">{part.get('site')}</div>
+          <td className={cx('', cx((part_index%2 > 0) ? 'bgc-yellow-200' : 'bgc-yellow-100'))}>
+            <div className="fw-b fs14">{part.get('master')}</div>
+            <div className="c-yellow-800 d-ib bB1s">{part.get('site')}</div>
           </td>
 
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
-            
-            
-            <div style={ { display: part.get('main_marker').get('show_phone') ? 'block': 'none' } } 
-                 className="search-page-autoservice-table-phone">{part.get('main_marker').get('phone')}</div>
-            
-            <div style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'block' } } 
-                  className="wrap gutter-2-xs">
-              <div className="md-12-12">
-                <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                      className="search-page-autoservice-table-phone-button btn-with-icon">
-                  <i className="svg-icon_phone btn-svg-icon"></i>              
-                  <span>Телефон</span>
-                </button>
-              </div>
+            <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
+              className="ta-c fs20">
+              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
+            {part.get('main_marker').get('main_phone').substr(7)}
+            </div>
+
+            <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
+
+              <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
+                className="p8 br2 grad-w b0 btn-shad-b w100pr ta-c">
+                <i className="flaticon-phone c-as fs16"></i>
+                <span className='M-d-n-1420'>Телефон</span>
+              </button>
             </div>
            
           
@@ -356,38 +357,39 @@ var SearchPageAutoServiceTable = React.createClass({
 
     return (
       <div className={this.props.className}>
-        <div className="search-page-container search-page-container-side-margin">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-6 left-md search-page-info-header">              
-                <span>Найдено</span>&nbsp;
-                <strong>{this.state.results_count}</strong>&nbsp;
-                <span>{['предложение', 'предложения', 'предложений'][text_utils.decl_num(this.state.results_count)]}</span>
-            </div>
-            
-            <div className="md-12-6 right-md search-page-info-header">              
-                <span>Показывать по</span>
-                <span className="pager-buttons">
-                  {ItemsPerPage}
-                </span>              
-            </div>
+        <div className="entire-width flex-ai-fe">
+          <div className='fs14 bgc-yellow-600 d-ib p5-15 bTRr8'>Не нашли деталь ? <strong>Позвоните мастеру</strong>
+            <i className='icon_free fs22 va-m mL10'></i>
           </div>
+            {(this.state.results_count > 0) &&
+            <div className="m20">
+              <span className='mR15'>Показывать по</span>
+              <span className="show-by border-between-h bc-g">
+                  {ItemsPerPage}
+              </span>
+            </div>
+              }
         </div>
 
-        <div className="search-page-table-border">
-          <table cellSpacing="0" className="stop-events pure-table pure-table-striped search-page-autoservice-table">
+
+          <table cellSpacing="0" className="search-table">
               <thead>
-                  <tr>
-                      <th>#</th>
-                      <th>Компания</th>
-                      <th>Марки</th>
-                      <th>Кузовные работы</th>
-                      <th>Слесарные работы</th>
-                      <th>ТО</th>
-                      <th>Имя мастера</th>
-                      <th>
-                        <input checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} id="show_autoservice_phones_checkbox" type="checkbox" />
-                        <label htmlFor="show_autoservice_phones_checkbox">Показать телефоны</label>
-                      </th>
+                <tr className='bg-c-gl ta-l'>
+                  <th className='w40px'>
+                    <i className='icon_placemark-grey'></i>
+                  </th>
+                  <th>Компания</th>
+                  <th>Марки</th>
+                  <th><i className='svg-icon_door'></i></th>
+                  <th>Слесарные работы</th>
+                  <th>ТО</th>
+                  <th  className='ta-c w110px bgc-yellow-600'>Имя мастера</th>
+                  <th className='ta-c w210px'>
+                    <label className="label--checkbox">
+                      <input type="checkbox" checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} className="checkbox"/>
+                      <span className='m0-5'>Показать телефоны</span>
+                    </label>
+                  </th>
                   </tr>
               </thead>
 
@@ -395,22 +397,19 @@ var SearchPageAutoServiceTable = React.createClass({
                 {TrMarkers}
               </tbody>
           </table>
-        </div>      
-      
-        <div className="search-page-container search-page-container-side-margin">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-12 right-md search-page-info-pager noselect">
-              <span>Страница</span>
-              <Pager  className="pager-buttons"
-                      page_num={this.state.page_num}
-                      items_per_page={this.state.items_per_page}
-                      results_count={this.state.results_count} 
-                      pages_on_screen={kPAGES_ON_SCREEN} 
-                      on_click={this.on_page_click}/>
-            </div>
-          </div>
+
+
+        <div className="ta-r m20">
+          <Pager  className="pagination fs14"
+            page_num={this.state.page_num}
+            items_per_page={this.state.items_per_page}
+            results_count={this.state.results_count}
+            pages_on_screen={kPAGES_ON_SCREEN}
+            on_click={this.on_page_click}/>
+
         </div>
-      
+
+
 
 
 

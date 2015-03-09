@@ -1,4 +1,75 @@
 @charset "UTF-8";
+.drop-down {
+  position: relative; }
+
+.drop-down-list {
+  position: absolute;
+  right: 0;
+  padding: 0;
+  border-radius: 0 0 6px 6px;
+  border: 1px solid #b8b8b8;
+  box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  z-index: 2;
+  outline: none; }
+
+.drop-down-list li + li {
+  border-top: 1px solid #e0e0e0; }
+
+.drop-down-list:before {
+  position: absolute;
+  top: -7px;
+  right: 30px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  content: '';
+  transform: rotate(45deg);
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-color: #b8b8b8; }
+
+.drop-down-list a {
+  text-decoration: none;
+  border-bottom: 0;
+  padding: 5px 10px;
+  display: inline-block;
+  width: 100%; }
+
+.pagination > * {
+  display: inline-block;
+  color: #2a2a2a;
+  padding: 5px 0;
+  width: 30px;
+  text-align: center;
+  vertical-align: middle; }
+
+.pagination .arrow {
+  padding: 8px 0;
+  font-size: 10px;
+  border: 1px solid #C3C2C2;
+  box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.4); }
+
+.pagination .arrow.right {
+  border-radius: 0 3px 3px 0;
+  border-left: 0; }
+
+.pagination .arrow.disabled {
+  box-shadow: none;
+  color: #d2d2d2;
+  border-color: #E0E0E0; }
+
+.pagination .arrow.left {
+  border-radius: 3px 0 0 3px;
+  margin-left: 20px; }
+
+.pagination .active {
+  padding: 4px 0;
+  border: 1px solid #C3C2C2;
+  box-shadow: inset 3px 3px 5px -3px rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  background: #ececec; }
+
 /*Троеточие если строка не поместилась*/
 .ellipsis {
   overflow: hidden;
@@ -64,8 +135,13 @@
   /*zoom: 1; /* IE7- */ }
 
 /*Бордеры у списка только между элементами*/
-.border-between > * + * {
-  border-left: 1px solid; }
+.border-between-h > * + * {
+  border-left: 1px solid;
+  border-color: inherit; }
+
+.border-between-v > * + * {
+  border-top: 1px solid;
+  border-color: inherit; }
 
 /*
 Правила моего Atomic'a
@@ -78,277 +154,6 @@
 Свойства в которых встречаются указания сторон пишем с маленькой буквы, стороны в них - большими (.mR5 {margin-right: 5px})
 У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 */
-/*Цвет текста, фона, бордеров*/
-.bc-deep-purple-50 {
-  border-color: #EDE7F6; }
-
-.bgc-deep-purple-50 {
-  background-color: #EDE7F6; }
-
-.c-deep-purple-50 {
-  color: #EDE7F6; }
-
-.bc-deep-purple-100 {
-  border-color: #D1C4E9; }
-
-.bgc-deep-purple-100 {
-  background-color: #D1C4E9; }
-
-.c-deep-purple-100 {
-  color: #D1C4E9; }
-
-.bc-deep-purple-200 {
-  border-color: #B39DDB; }
-
-.bgc-deep-purple-200 {
-  background-color: #B39DDB; }
-
-.c-deep-purple-200 {
-  color: #B39DDB; }
-
-.bc-deep-purple-300 {
-  border-color: #9575CD; }
-
-.bgc-deep-purple-300 {
-  background-color: #9575CD; }
-
-.c-deep-purple-300 {
-  color: #9575CD; }
-
-.bc-deep-purple-400 {
-  border-color: #7E57C2; }
-
-.bgc-deep-purple-400 {
-  background-color: #7E57C2; }
-
-.c-deep-purple-400 {
-  color: #7E57C2; }
-
-.bc-deep-purple-500 {
-  border-color: #673AB7; }
-
-.bgc-deep-purple-500 {
-  background-color: #673AB7; }
-
-.c-deep-purple-500 {
-  color: #673AB7; }
-
-.bc-deep-purple-600 {
-  border-color: #5E35B1; }
-
-.bgc-deep-purple-600 {
-  background-color: #5E35B1; }
-
-.c-deep-purple-600 {
-  color: #5E35B1; }
-
-.bc-deep-purple-700 {
-  border-color: #512DA8; }
-
-.bgc-deep-purple-700 {
-  background-color: #512DA8; }
-
-.c-deep-purple-700 {
-  color: #512DA8; }
-
-.bc-deep-purple-800 {
-  border-color: #4527A0; }
-
-.bgc-deep-purple-800 {
-  background-color: #4527A0; }
-
-.c-deep-purple-800 {
-  color: #4527A0; }
-
-.bc-deep-purple-900 {
-  border-color: #311B92; }
-
-.bgc-deep-purple-900 {
-  background-color: #311B92; }
-
-.c-deep-purple-900 {
-  color: #311B92; }
-
-.bc-yellow-50 {
-  border-color: #FFFDE7; }
-
-.bgc-yellow-50 {
-  background-color: #FFFDE7; }
-
-.c-yellow-50 {
-  color: #FFFDE7; }
-
-.bc-yellow-100 {
-  border-color: #FFF9C4; }
-
-.bgc-yellow-100 {
-  background-color: #FFF9C4; }
-
-.c-yellow-100 {
-  color: #FFF9C4; }
-
-.bc-yellow-200 {
-  border-color: #FFF59D; }
-
-.bgc-yellow-200 {
-  background-color: #FFF59D; }
-
-.c-yellow-200 {
-  color: #FFF59D; }
-
-.bc-yellow-300 {
-  border-color: #FFF176; }
-
-.bgc-yellow-300 {
-  background-color: #FFF176; }
-
-.c-yellow-300 {
-  color: #FFF176; }
-
-.bc-yellow-400 {
-  border-color: #FFEE58; }
-
-.bgc-yellow-400 {
-  background-color: #FFEE58; }
-
-.c-yellow-400 {
-  color: #FFEE58; }
-
-.bc-yellow-500 {
-  border-color: #FFEB3B; }
-
-.bgc-yellow-500 {
-  background-color: #FFEB3B; }
-
-.c-yellow-500 {
-  color: #FFEB3B; }
-
-.bc-yellow-600 {
-  border-color: #FDD835; }
-
-.bgc-yellow-600 {
-  background-color: #FDD835; }
-
-.c-yellow-600 {
-  color: #FDD835; }
-
-.bc-yellow-700 {
-  border-color: #FBC02D; }
-
-.bgc-yellow-700 {
-  background-color: #FBC02D; }
-
-.c-yellow-700 {
-  color: #FBC02D; }
-
-.bc-yellow-800 {
-  border-color: #F9A825; }
-
-.bgc-yellow-800 {
-  background-color: #F9A825; }
-
-.c-yellow-800 {
-  color: #F9A825; }
-
-.bc-yellow-900 {
-  border-color: #F57F17; }
-
-.bgc-yellow-900 {
-  background-color: #F57F17; }
-
-.c-yellow-900 {
-  color: #F57F17; }
-
-.bc-grey-50 {
-  border-color: #FAFAFA; }
-
-.bgc-grey-50 {
-  background-color: #FAFAFA; }
-
-.c-grey-50 {
-  color: #FAFAFA; }
-
-.bc-grey-100 {
-  border-color: #F5F5F5; }
-
-.bgc-grey-100 {
-  background-color: #F5F5F5; }
-
-.c-grey-100 {
-  color: #F5F5F5; }
-
-.bc-grey-200 {
-  border-color: #EEEEEE; }
-
-.bgc-grey-200 {
-  background-color: #EEEEEE; }
-
-.c-grey-200 {
-  color: #EEEEEE; }
-
-.bc-grey-300 {
-  border-color: #E0E0E0; }
-
-.bgc-grey-300 {
-  background-color: #E0E0E0; }
-
-.c-grey-300 {
-  color: #E0E0E0; }
-
-.bc-grey-400 {
-  border-color: #BDBDBD; }
-
-.bgc-grey-400 {
-  background-color: #BDBDBD; }
-
-.c-grey-400 {
-  color: #BDBDBD; }
-
-.bc-grey-500 {
-  border-color: #9E9E9E; }
-
-.bgc-grey-500 {
-  background-color: #9E9E9E; }
-
-.c-grey-500 {
-  color: #9E9E9E; }
-
-.bc-grey-600 {
-  border-color: #757575; }
-
-.bgc-grey-600 {
-  background-color: #757575; }
-
-.c-grey-600 {
-  color: #757575; }
-
-.bc-grey-700 {
-  border-color: #616161; }
-
-.bgc-grey-700 {
-  background-color: #616161; }
-
-.c-grey-700 {
-  color: #616161; }
-
-.bc-grey-800 {
-  border-color: #424242; }
-
-.bgc-grey-800 {
-  background-color: #424242; }
-
-.c-grey-800 {
-  color: #424242; }
-
-.bc-grey-900 {
-  border-color: #212121; }
-
-.bgc-grey-900 {
-  background-color: #212121; }
-
-.c-grey-900 {
-  color: #212121; }
-
 .m5 {
   margin: 5px; }
 
@@ -661,11 +466,20 @@
 .p5-10 {
   padding: 5px 10px; }
 
+.p5-15 {
+  padding: 5px 15px; }
+
 .p10-0 {
   padding: 10px 0; }
 
 .p10-5 {
   padding: 10px 5px; }
+
+.p10-15 {
+  padding: 10px 15px; }
+
+.p20-0 {
+  padding: 20px 0; }
 
 .p20-5 {
   padding: 20px 5px; }
@@ -705,6 +519,12 @@
 
 .w49pr {
   width: 49%; }
+
+.w98pr {
+  width: 98%; }
+
+.w99pr {
+  width: 99%; }
 
 .w0pr {
   width: 0%; }
@@ -832,6 +652,9 @@
 .w210px {
   width: 210px; }
 
+.w250px {
+  width: 250px; }
+
 .w300px {
   width: 300px; }
 
@@ -892,6 +715,9 @@
 .minw210px {
   min-width: 210px; }
 
+.minw250px {
+  min-width: 250px; }
+
 .h14px {
   height: 14px; }
 
@@ -900,6 +726,9 @@
 
 .h30px {
   height: 30px; }
+
+.h35px {
+  height: 35px; }
 
 .h40px {
   height: 40px; }
@@ -964,6 +793,12 @@
 .bB1d {
   border-bottom: 1px dotted; }
 
+.b1s {
+  border: 1px solid; }
+
+.b1d {
+  border: 1px dotted; }
+
 .bR2s {
   border-right: 2px solid; }
 
@@ -988,38 +823,176 @@
 .bB2d {
   border-bottom: 2px dotted; }
 
+.b2s {
+  border: 2px solid; }
+
+.b2d {
+  border: 2px dotted; }
+
 .br0 {
   border-radius: 0px; }
+
+.bTLr0 {
+  border-top-left-radius: 0px; }
+
+.bTRr0 {
+  border-top-right-radius: 0px; }
+
+.bBLr0 {
+  border-bottom-left-radius: 0px; }
+
+.bBRr0 {
+  border-bottom-right-radius: 0px; }
 
 .br1 {
   border-radius: 1px; }
 
+.bTLr1 {
+  border-top-left-radius: 1px; }
+
+.bTRr1 {
+  border-top-right-radius: 1px; }
+
+.bBLr1 {
+  border-bottom-left-radius: 1px; }
+
+.bBRr1 {
+  border-bottom-right-radius: 1px; }
+
 .br2 {
   border-radius: 2px; }
+
+.bTLr2 {
+  border-top-left-radius: 2px; }
+
+.bTRr2 {
+  border-top-right-radius: 2px; }
+
+.bBLr2 {
+  border-bottom-left-radius: 2px; }
+
+.bBRr2 {
+  border-bottom-right-radius: 2px; }
 
 .br3 {
   border-radius: 3px; }
 
+.bTLr3 {
+  border-top-left-radius: 3px; }
+
+.bTRr3 {
+  border-top-right-radius: 3px; }
+
+.bBLr3 {
+  border-bottom-left-radius: 3px; }
+
+.bBRr3 {
+  border-bottom-right-radius: 3px; }
+
 .br4 {
   border-radius: 4px; }
+
+.bTLr4 {
+  border-top-left-radius: 4px; }
+
+.bTRr4 {
+  border-top-right-radius: 4px; }
+
+.bBLr4 {
+  border-bottom-left-radius: 4px; }
+
+.bBRr4 {
+  border-bottom-right-radius: 4px; }
 
 .br5 {
   border-radius: 5px; }
 
+.bTLr5 {
+  border-top-left-radius: 5px; }
+
+.bTRr5 {
+  border-top-right-radius: 5px; }
+
+.bBLr5 {
+  border-bottom-left-radius: 5px; }
+
+.bBRr5 {
+  border-bottom-right-radius: 5px; }
+
 .br6 {
   border-radius: 6px; }
+
+.bTLr6 {
+  border-top-left-radius: 6px; }
+
+.bTRr6 {
+  border-top-right-radius: 6px; }
+
+.bBLr6 {
+  border-bottom-left-radius: 6px; }
+
+.bBRr6 {
+  border-bottom-right-radius: 6px; }
 
 .br7 {
   border-radius: 7px; }
 
+.bTLr7 {
+  border-top-left-radius: 7px; }
+
+.bTRr7 {
+  border-top-right-radius: 7px; }
+
+.bBLr7 {
+  border-bottom-left-radius: 7px; }
+
+.bBRr7 {
+  border-bottom-right-radius: 7px; }
+
 .br8 {
   border-radius: 8px; }
+
+.bTLr8 {
+  border-top-left-radius: 8px; }
+
+.bTRr8 {
+  border-top-right-radius: 8px; }
+
+.bBLr8 {
+  border-bottom-left-radius: 8px; }
+
+.bBRr8 {
+  border-bottom-right-radius: 8px; }
 
 .br9 {
   border-radius: 9px; }
 
+.bTLr9 {
+  border-top-left-radius: 9px; }
+
+.bTRr9 {
+  border-top-right-radius: 9px; }
+
+.bBLr9 {
+  border-bottom-left-radius: 9px; }
+
+.bBRr9 {
+  border-bottom-right-radius: 9px; }
+
 .br10 {
   border-radius: 10px; }
+
+.bTLr10 {
+  border-top-left-radius: 10px; }
+
+.bTRr10 {
+  border-top-right-radius: 10px; }
+
+.bBLr10 {
+  border-bottom-left-radius: 10px; }
+
+.bBRr10 {
+  border-bottom-right-radius: 10px; }
 
 .bw1 {
   border-width: 1px; }
@@ -1032,18 +1005,6 @@
 
 .bw4 {
   border-width: 4px; }
-
-.bTLr0 {
-  border-top-left-radius: 0; }
-
-.bTRr0 {
-  border-top-right-radius: 0; }
-
-.bBLr0 {
-  border-bottom-left-radius: 0; }
-
-.bBRr0 {
-  border-bottom-right-radius: 0; }
 
 .bR0 {
   border-right: 0; }
@@ -1128,6 +1089,24 @@
 
 .fs30 {
   font-size: 30px; }
+
+.fs31 {
+  font-size: 31px; }
+
+.fs32 {
+  font-size: 32px; }
+
+.fs33 {
+  font-size: 33px; }
+
+.fs34 {
+  font-size: 34px; }
+
+.fs35 {
+  font-size: 35px; }
+
+.fs36 {
+  font-size: 36px; }
 
 .lh0-8 {
   line-height: 0.8; }
@@ -1240,6 +1219,12 @@
   -webkit-box-align: center;
   align-items: center; }
 
+.flex-ai-fe {
+  -ms-flex-align: flex-end;
+  -webkit-align-items: flex-end;
+  -webkit-box-align: flex-end;
+  align-items: flex-end; }
+
 .flex-jc-fs {
   -webkit-justify-content: flex-start;
   justify-content: flex-start; }
@@ -1251,6 +1236,289 @@
 .flex-jc-sa {
   -webkit-justify-content: space-around;
   justify-content: space-around; }
+
+/*Цвет текста, фона, бордеров*/
+.bc-deep-purple-50 {
+  border-color: #EDE7F6; }
+
+.bgc-deep-purple-50 {
+  background-color: #EDE7F6; }
+
+.c-deep-purple-50 {
+  color: #EDE7F6; }
+
+.bc-deep-purple-100 {
+  border-color: #D1C4E9; }
+
+.bgc-deep-purple-100 {
+  background-color: #D1C4E9; }
+
+.c-deep-purple-100 {
+  color: #D1C4E9; }
+
+.bc-deep-purple-200 {
+  border-color: #B39DDB; }
+
+.bgc-deep-purple-200 {
+  background-color: #B39DDB; }
+
+.c-deep-purple-200 {
+  color: #B39DDB; }
+
+.bc-deep-purple-300 {
+  border-color: #9575CD; }
+
+.bgc-deep-purple-300 {
+  background-color: #9575CD; }
+
+.c-deep-purple-300 {
+  color: #9575CD; }
+
+.bc-deep-purple-400 {
+  border-color: #7E57C2; }
+
+.bgc-deep-purple-400 {
+  background-color: #7E57C2; }
+
+.c-deep-purple-400 {
+  color: #7E57C2; }
+
+.bc-deep-purple-500 {
+  border-color: #673AB7; }
+
+.bgc-deep-purple-500 {
+  background-color: #673AB7; }
+
+.c-deep-purple-500 {
+  color: #673AB7; }
+
+.bc-deep-purple-600 {
+  border-color: #5E35B1; }
+
+.bgc-deep-purple-600 {
+  background-color: #5E35B1; }
+
+.c-deep-purple-600 {
+  color: #5E35B1; }
+
+.bc-deep-purple-700 {
+  border-color: #512DA8; }
+
+.bgc-deep-purple-700 {
+  background-color: #512DA8; }
+
+.c-deep-purple-700 {
+  color: #512DA8; }
+
+.bc-deep-purple-800 {
+  border-color: #4527A0; }
+
+.bgc-deep-purple-800 {
+  background-color: #4527A0; }
+
+.c-deep-purple-800 {
+  color: #4527A0; }
+
+.bc-deep-purple-900 {
+  border-color: #311B92; }
+
+.bgc-deep-purple-900 {
+  background-color: #311B92; }
+
+.c-deep-purple-900 {
+  color: #311B92; }
+
+.bc-yellow-50 {
+  border-color: #FFFDE7; }
+
+.bgc-yellow-50 {
+  background-color: #FFFDE7; }
+
+.c-yellow-50 {
+  color: #FFFDE7; }
+
+.bc-yellow-100 {
+  border-color: #FFF9C4; }
+
+.bgc-yellow-100 {
+  background-color: #FFF9C4; }
+
+.c-yellow-100 {
+  color: #FFF9C4; }
+
+.bc-yellow-200 {
+  border-color: #FFF59D; }
+
+.bgc-yellow-200 {
+  background-color: #FFF59D; }
+
+.c-yellow-200 {
+  color: #FFF59D; }
+
+.bc-yellow-300 {
+  border-color: #FFF176; }
+
+.bgc-yellow-300 {
+  background-color: #FFF176; }
+
+.c-yellow-300 {
+  color: #FFF176; }
+
+.bc-yellow-400 {
+  border-color: #FFEE58; }
+
+.bgc-yellow-400 {
+  background-color: #FFEE58; }
+
+.c-yellow-400 {
+  color: #FFEE58; }
+
+.bc-yellow-500 {
+  border-color: #FFEB3B; }
+
+.bgc-yellow-500 {
+  background-color: #FFEB3B; }
+
+.c-yellow-500 {
+  color: #FFEB3B; }
+
+.bc-yellow-600 {
+  border-color: #FDD835; }
+
+.bgc-yellow-600 {
+  background-color: #FDD835; }
+
+.c-yellow-600 {
+  color: #FDD835; }
+
+.bc-yellow-700 {
+  border-color: #FBC02D; }
+
+.bgc-yellow-700 {
+  background-color: #FBC02D; }
+
+.c-yellow-700 {
+  color: #FBC02D; }
+
+.bc-yellow-800 {
+  border-color: #F9A825; }
+
+.bgc-yellow-800 {
+  background-color: #F9A825; }
+
+.c-yellow-800 {
+  color: #F9A825; }
+
+.bc-yellow-900 {
+  border-color: #F57F17; }
+
+.bgc-yellow-900 {
+  background-color: #F57F17; }
+
+.c-yellow-900 {
+  color: #F57F17; }
+
+.bc-grey-50 {
+  border-color: #FAFAFA; }
+
+.bgc-grey-50 {
+  background-color: #FAFAFA; }
+
+.c-grey-50 {
+  color: #FAFAFA; }
+
+.bc-grey-100 {
+  border-color: #F5F5F5; }
+
+.bgc-grey-100 {
+  background-color: #F5F5F5; }
+
+.c-grey-100 {
+  color: #F5F5F5; }
+
+.bc-grey-200 {
+  border-color: #EEEEEE; }
+
+.bgc-grey-200 {
+  background-color: #EEEEEE; }
+
+.c-grey-200 {
+  color: #EEEEEE; }
+
+.bc-grey-300 {
+  border-color: #E0E0E0; }
+
+.bgc-grey-300 {
+  background-color: #E0E0E0; }
+
+.c-grey-300 {
+  color: #E0E0E0; }
+
+.bc-grey-400 {
+  border-color: #BDBDBD; }
+
+.bgc-grey-400 {
+  background-color: #BDBDBD; }
+
+.c-grey-400 {
+  color: #BDBDBD; }
+
+.bc-grey-500 {
+  border-color: #9E9E9E; }
+
+.bgc-grey-500 {
+  background-color: #9E9E9E; }
+
+.c-grey-500 {
+  color: #9E9E9E; }
+
+.bc-grey-600 {
+  border-color: #757575; }
+
+.bgc-grey-600 {
+  background-color: #757575; }
+
+.c-grey-600 {
+  color: #757575; }
+
+.bc-grey-700 {
+  border-color: #616161; }
+
+.bgc-grey-700 {
+  background-color: #616161; }
+
+.c-grey-700 {
+  color: #616161; }
+
+.bc-grey-800 {
+  border-color: #424242; }
+
+.bgc-grey-800 {
+  background-color: #424242; }
+
+.c-grey-800 {
+  color: #424242; }
+
+.bc-grey-900 {
+  border-color: #212121; }
+
+.bgc-grey-900 {
+  background-color: #212121; }
+
+.c-grey-900 {
+  color: #212121; }
+
+.bc-t {
+  border-color: transparent; }
+
+.bgc-t {
+  background-color: transparent; }
+
+.c-t {
+  color: transparent; }
+
+.bs-n {
+  box-shadow: none; }
 
 .bs {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); }
@@ -1310,6 +1578,15 @@
 .v-v {
   visibility: visible; }
 
+.us-n {
+  -webkit-user-select: none;
+  /* user-select -- это нестандартное свойство */
+  -moz-user-select: none;
+  /* поэтому нужны префиксы */
+  -ms-user-select: none;
+  -o-user-select: none;
+  /* не поддерживается, просто на будущее */ }
+
 @media (max-width: 1420px) {
   .M-d-n-1420 {
     display: none; } }
@@ -1341,7 +1618,7 @@
   color: #A17FE0; }
 
 .c-as {
-  color: #EE6B01; }
+  color: #FDD835; }
 
 .bg-c-ap {
   background-color: #9a73d3; }
@@ -1475,5 +1752,14 @@
   background: -ms-linear-gradient(top, #f3a100 0%, #f7d620 100%);
   background: linear-gradient(to bottom, #f3a100 0%, #f7d620 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3a100', endColorstr='#f7d620',GradientType=0 ); }
+
+.bs-c {
+  box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.5); }
+
+input.input-as-text, textarea.input-as-text {
+  border: 1px solid transparent;
+  box-shadow: none;
+  resize: none;
+  background-color: transparent; }
 
 /*# sourceMappingURL=w.css.map */

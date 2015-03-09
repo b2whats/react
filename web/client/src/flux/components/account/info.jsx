@@ -3,6 +3,7 @@
 var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
+var cx = require('classnames');
 
 var Link = require('components/link.jsx');
 var immutable = require('immutable');
@@ -84,7 +85,18 @@ var AccountInfo = React.createClass({
   updateValue: function(newValue) {
     console.log(newValue);
   },
+  updateCompanyDetails(field) {
+    return (e) => {
+      console.log(field);
+      console.log(e.target.value);
+    }
+  },
+  submitCompanyDetails(e) {
+    console.log(e.target);
+    e.preventDefault();
+  },
 	render() {
+    console.log('update-info');
 		var edit = this.state.formsIsEdit.get('informations');
 		var Filial = this.state.company_filials
 				.map((part, part_index) => {
@@ -116,22 +128,24 @@ var AccountInfo = React.createClass({
 						<a className='fs13 m0-15  td-u ap-link d-ib' onClick={this.openModal('payment_information')} >Платежные реквизиты</a>
 					</span>
 					<table className='company-information__view-edit m10-0 w100pr'>
-						<tr>
-							<td>Название</td>
-							<td>
-								<strong>
-									<EditableForms
-										onChange={this.updateFormElement('name')}
-										edit={edit}
-										text={this.state.company_information.get('name')} />
-								</strong>
-							</td>
-						</tr>
+            <tr>
+              <td>Название</td>
+              <td>
+                <strong>
+                  <EditableForms
+                    className={cx({'input-as-text' : !edit})}
+                    onChange={this.updateFormElement('name')}
+                    edit={edit}
+                    text={this.state.company_information.get('name')} />
+                </strong>
+              </td>
+            </tr>
 						<tr>
 							<td>Сайт</td>
 							<td>
 								<EditableForms
-									onChange={this.updateFormElement('site')}
+                  className={cx({'input-as-text' : !edit})}
+                  onChange={this.updateFormElement('site')}
 									edit={edit}
 									text={this.state.company_information.get('site')} />
 							</td>
@@ -141,6 +155,7 @@ var AccountInfo = React.createClass({
               <td>
                 <EditableForms
                   type='phone'
+                  className={cx({'input-as-text' : !edit})}
                   onChange={this.updateFormElement('phone')}
                   edit={edit}
                   text={this.state.company_information.get('phone')} />
@@ -150,6 +165,7 @@ var AccountInfo = React.createClass({
 							<td>Комментарии об услугах</td>
 							<td className='lh1-4'>
 								<EditableForms
+                  className={cx({'input-as-text' : !edit})}
 									onChange={this.updateFormElement('description')}
 									edit={edit}
 									type='textarea'
@@ -197,24 +213,28 @@ var AccountInfo = React.createClass({
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}
 					onRequestClose={this.handleModalCloseRequest}
 				>
-					<div className='aa'>
-                    {/*Для активной кнопки передать значение selected в класс кнопки*/}
-						<ButtonGroup onChange={this.btnChange}>
-							<button className='btn-bg-group w160px' value={1}>
-								<i className='svg-icon_gear mR5 va-m fs16'/>
-								Автозапчасти</button>
-							<button className='btn-bg-group w160px' value={2}>
-								<i className='svg-icon_key mR5 va-m fs16'/>
-								Сервис</button>
-						</ButtonGroup>
+					<div className='ta-c'>
 						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-						<h2>Вход</h2>
-						<label className='new_context'>
-							E-mail
-							<input type='text' name='email' value={this.state.current_filial}/>
-						</label>
-
-						<button className='m15-0' name='signin'>Войти</button>
+            <h2 className='m15-0 mB25'>Реквизиты компании</h2>
+            <form onSubmit={this.submitCompanyDetails} encType="application/x-www-form-urlencoded">
+              <label>
+                <span className='d-b m5-0 fs14'>Полное наименование компании</span>
+                <input type='text'
+                  className='w100pr'
+                  defaultValue='123'
+                  name='a'
+                  onChange={this.updateCompanyDetails('email')}/>
+              </label>
+              <label>
+                <span className='d-b m5-0 fs14'>Юридический адрес</span>
+                <input type='text'
+                  className='w100pr'
+                  defaultValue='123'
+                  name='b'
+                  onChange={this.updateCompanyDetails('email')}/>
+              </label>
+              <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0'>Сохранить</button>
+            </form>
 
 					</div>
 				</Modal>
