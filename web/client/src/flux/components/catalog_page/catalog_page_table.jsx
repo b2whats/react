@@ -120,17 +120,19 @@ var CatalogPageTable = React.createClass({
             </div>
           </td>
           <td className='va-m p10-0'>
-            <div className='entire-width mB15 flex-ai-c'>
-              <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{part.get('company_name')}</span>
-              <span className='fs11 bB1s'> Отзывы:
-                <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
-                <span className='c-r'> -{part.get('recommended').get('minus')}</span>
-              </span>
-              <Link href="" className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r'>{part.get('site')}</Link>
-            </div>
-            <div className='fs12'>
-              <div className='c-grey-600 m5-0'>Описание компании:</div>
-              {part.get('description')}
+            <div className='bR1s bc-grey-300 pR15'>
+              <div className='entire-width mB15 flex-ai-c'>
+                <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{part.get('company_name')}</span>
+                <span className='fs11 bB1s'> Отзывы:
+                  <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
+                  <span className='c-r'> -{part.get('recommended').get('minus')}</span>
+                </span>
+                <Link href="" className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r'>{part.get('site')}</Link>
+              </div>
+              <div className='fs12'>
+                <div className='c-grey-600 m5-0'>Описание компании:</div>
+                {part.get('description')}
+              </div>
             </div>
           </td>
           <td className='ta-c va-m w200px'>

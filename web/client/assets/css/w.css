@@ -483,6 +483,30 @@
 .pT10 {
   padding-top: 10px; }
 
+.pB15 {
+  padding-bottom: 15px; }
+
+.pL15 {
+  padding-left: 15px; }
+
+.pR15 {
+  padding-right: 15px; }
+
+.pT15 {
+  padding-top: 15px; }
+
+.pB20 {
+  padding-bottom: 20px; }
+
+.pL20 {
+  padding-left: 20px; }
+
+.pR20 {
+  padding-right: 20px; }
+
+.pT20 {
+  padding-top: 20px; }
+
 .p0 {
   padding: 0; }
 

@@ -4,7 +4,7 @@ $padding_list : (5,8,10,15,20,25,30);
     padding: #{$size}px;
   }
 }
-$one_side_padding_list : (5,8,10);
+$one_side_padding_list : (5,8,10,15,20);
 @each $size in $one_side_padding_list {
   .pB#{$size} {
     padding-bottom: #{$size}px;
