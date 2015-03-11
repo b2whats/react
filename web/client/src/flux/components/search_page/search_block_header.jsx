@@ -49,7 +49,7 @@ var kSEARCH_PAGE_TOP =  style_utils.from_px_to_number(sass_vars["search-page-mai
 
 
 var kRECALC_WIDTH_TIMEOUT = 200;
-
+var kDEFAULT_REGION_ID = 'sankt-peterburg';
 var SearchBlockHeader = React.createClass({
   mixins: [PureRenderMixin , RafBatchStateUpdateMixin],
 
@@ -90,7 +90,6 @@ var SearchBlockHeader = React.createClass({
     var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('service') : '';
 
 
-
     /* jshint ignore:start */
     return (
       <div className="search-page">
@@ -99,7 +98,9 @@ var SearchBlockHeader = React.createClass({
           <div className="wrap gutter-5-xs">
             <div className="md-12-6">
               <div className="search-page-logo">
-                <Link href={route_definitions.kROUTE_DEF_W_REGION}>
+                <Link href={route_definitions.kROUTE_DEF_W_REGION}             params={ {
+                  region_id : kDEFAULT_REGION_ID
+                } }>
                   <span className="search-page-logo-icon svg-logo"></span>
                   {/*<span className="search-page-logo-second">Giper</span>*/}
                 </Link>

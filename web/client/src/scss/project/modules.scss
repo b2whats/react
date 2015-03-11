@@ -1,4 +1,4 @@
-.drop-down {
+.drop-down, .drop-up {
   position : relative;
 }
 .drop-down-list {
@@ -12,7 +12,7 @@
   z-index: 2;
   outline: none;
 }
-.drop-down-list li + li {
+.drop-down-list li + li, .drop-up-list li + li {
   border-top: 1px solid #e0e0e0;
 }
 .drop-down-list:before {
@@ -28,13 +28,43 @@
   border-left: 1px solid;
   border-color: #b8b8b8;
 }
-.drop-down-list a{
+.drop-down-list a, .drop-up-list li{
   text-decoration: none;
   border-bottom: 0;
   padding: 5px 10px;
   display : inline-block;
   width: 100%;
 }
+
+
+.drop-up-list {
+  position: absolute;
+  bottom: 15px;
+  left: -20px;
+  padding: 0;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid #b8b8b8;
+  box-shadow: 0 0 6px -1px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  z-index: 2;
+  outline: none;
+}
+
+.drop-up-list:before {
+  position: absolute;
+  bottom: -7px;
+  left: 30px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  content: '';
+  transform: rotate(-135deg);
+  border-top: 1px solid;
+  border-left: 1px solid;
+  border-color: #b8b8b8;
+}
+
+
 .pagination > * {
   display: inline-block;
   color: #2a2a2a;

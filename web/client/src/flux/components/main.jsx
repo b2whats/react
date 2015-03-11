@@ -14,6 +14,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
+var Agreement = require('components/static/agreement.jsx');
 var SearchBlockHeader = require('components/search_page/search_block_header.jsx');
 
 var Link = require('components/link.jsx');
@@ -78,9 +79,21 @@ var ice_main = React.createClass({
 						</div>
 					);
 
-				break;				
+				break;
 
 
+        case route_names.kROUTE_AGREEMENT:
+
+          return (
+            <SearchBlockHeader>
+              <div className='account-container-wrapper'>
+                <div className='account-container'>
+                  <Agreement />
+                </div>
+              </div>
+            </SearchBlockHeader>
+          );
+          break;
 				case route_names.kROUTE_DEF:
 				case route_names.kROUTE_DEF_W_REGION:
 					/* jshint ignore:start */
@@ -177,10 +190,9 @@ var ice_main = React.createClass({
             </SearchBlockHeader>
           );
           break;
-				case route_names.kROUTE_TEST:
-					return (<FilialAddressSelector />);
-				break;
-				
+
+
+
 				case route_names.kROUTE_TEST_N:
 					return (<PriceListSelectionBlock/>);
 				break;

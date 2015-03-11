@@ -153,10 +153,14 @@ var CatalogSearch = React.createClass({
 
 
             <div className="md-7-2 catalog-page-midddle catalog-page-midddle catalog-page-show-pages catalog-page-ta-r">
-              <span className="catalog-page-mr-10">Показывать по</span>
-              <span className="pager-buttons">
-                {ItemsPerPage}
-              </span>   
+
+            <div className="">
+              <span className='mR15'>Показывать по</span>
+              <span className="show-by border-between-h bc-g">
+                  {ItemsPerPage}
+              </span>
+            </div>
+
             </div>
 
           </div>

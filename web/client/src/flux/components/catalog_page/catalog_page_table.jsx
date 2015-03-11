@@ -36,7 +36,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 }),
 catalog_data_store /*observable store list*/);
 
-var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN;; //сколько циферок показывать прежде чем показать ...
+var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 
 var CatalogPageTable = React.createClass({
@@ -104,24 +104,50 @@ var CatalogPageTable = React.createClass({
 
 
       return (
-        <div
-          className={cx(hover_class, 'catalog-page-table-item')}
+        <tr
+          className={cx(hover_class, (part_index%2 > 0) && 'bgc-grey-50', 'bT1s bc-grey-400')}
           onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
           onMouseLeave={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), false)}
           onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
           key={part_index}>
+
+          <td className='ta-c va-m w50px p0-10'>
+            <i className={cx((part.get('filial_type_id') == 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
+            <div>
+              <span  className={cx('fs12 bB1d',(part.get('filial_type_id') == 1) ? 'c-deep-purple-500' : 'c-yellow-800')}>
+                {part.get('rank')}
+              </span>
+            </div>
+          </td>
+          <td className='va-m p10-0'>
+            <div className='entire-width mB15 flex-ai-c'>
+              <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{part.get('company_name')}</span>
+              <span className='fs11 bB1s'> Отзывы:
+                <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
+                <span className='c-r'> -{part.get('recommended').get('minus')}</span>
+              </span>
+              <Link href="" className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r'>{part.get('site')}</Link>
+            </div>
+            <div className='fs12'>
+              <div className='c-grey-600 m5-0'>Описание компании:</div>
+              {part.get('description')}
+            </div>
+          </td>
+          <td className='ta-c va-m w200px'>
+            <div style={ { display:  part.get('main_marker').get('show_phone') ? 'block': 'none' } }
+              className="ta-c fs20">
+              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
+            {part.get('main_marker').get('main_phone').substr(7)}
+            </div>
+            <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
+              style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'inline-block' } }
+              className="p8 br2 grad-w b0 btn-shad-b ta-c">
+              <i className="flaticon-phone c-deep-purple-500 fs16"></i>
+              <span className=''>Показать телефон</span>
+            </button>
+          </td>
           
-          <div>N={part.get('rank')}</div>
-          <div>{part.get('company_name')}</div>
-
-          <div>-{part.get('recommended').get('minus')}/
-          {part.get('recommended').get('plus')}-</div>
-
-          <div>{part.get('description')}</div>
-
-          <div>{part.get('site')}</div>
-          
-        </div>
+        </tr>
         )
       }
     ).toJS();
@@ -130,23 +156,21 @@ var CatalogPageTable = React.createClass({
 
     return (
       <div className="catalog-page-table">
-        <div className="catalog-page-container catalog-page-container-side-margin">  
+        <table className="">
           {Companies}
-        </div>
+        </table>
       
-        <div className="catalog-page-container catalog-page-container-side-margin">
-          <div className="wrap gutter-5-xs">
-            <div className="md-12-12 right-md catalog-page-midddle noselect">
-              <span>Страница</span>
-              <Pager  className="pager-buttons"
-                      page_num={this.state.page_num}
-                      items_per_page={this.state.items_per_page}
-                      results_count={this.state.results_count} 
-                      pages_on_screen={kPAGES_ON_SCREEN} 
-                      on_click={this.on_page_click}/>
-            </div>
+
+          <div className="ta-r m20">
+            <Pager  className="pagination fs14"
+              page_num={this.state.page_num}
+              items_per_page={this.state.items_per_page}
+              results_count={this.state.results_count}
+              pages_on_screen={kPAGES_ON_SCREEN}
+              on_click={this.on_page_click}/>
+
           </div>
-        </div>
+
 
       </div>
     );

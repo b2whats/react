@@ -434,7 +434,7 @@ var SearchPageAutoServiceTable = React.createClass({
                   <th className='w55px ta-c'><i className='icon_door fs22' title='Кузовные работы'></i></th>
                   <th className='w55px ta-c'><i className='icon_axis fs22' title='Слесарные работы'></i></th>
                   <th className='w55px ta-c'><i className='icon_to fs22' title='ТО'></i></th>
-                  <th className='w70px ta-c'><i className='icon_more fs22 va-m' title='Тюнинг и прочее'></i></th>
+                  <th className='w55px ta-c'><i className='icon_more fs22 va-m' title='Тюнинг и прочее'></i></th>
                   <th  className='ta-c w110px bgc-yellow-600'>Имя мастера</th>
                   <th className='ta-c w210px'>
                     <label className="label--checkbox">

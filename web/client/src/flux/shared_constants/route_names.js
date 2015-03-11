@@ -17,6 +17,7 @@ var route_names = {
   kROUTE_R_A: '/r1',
   kROUTE_R_B: '/r2',
   kROUTE_R_C: '/r3',
+  kROUTE_AGREEMENT: '/agreement',
 };
 
 module.exports = route_names;

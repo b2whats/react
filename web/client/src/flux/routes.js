@@ -41,6 +41,12 @@ var auth_options = {
 
 var kSECURITY_NEED_AUTH = security(null, auth_options);
 
+routes[route_definitions.kROUTE_AGREEMENT] = [
+
+  () => region_actions.region_changed(kDEFAULT_REGION_ID),
+
+  route_actions.default_route
+];
 
 routes[route_definitions.kROUTE_R_A] = [
   (route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
