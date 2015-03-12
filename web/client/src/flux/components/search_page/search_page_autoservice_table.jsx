@@ -144,7 +144,7 @@ var SearchPageAutoServiceTable = React.createClass({
           return <div key={index}>{l}</div>;
         }).toArray();
 
-        var tuning_list = part.get('services').get(kTUNING) && part.get('services').get(kTO_WORK_KEY).get('list') &&
+        var tuning_list = part.get('services').get(kTUNING) && part.get('services').get(kTUNING).get('list') &&
           part.get('services').get(kTUNING).get('list').map( (l, index) => {
             return <div key={index}>{l}</div>;
           }).toArray();

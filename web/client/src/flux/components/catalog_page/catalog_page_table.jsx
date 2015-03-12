@@ -158,7 +158,7 @@ var CatalogPageTable = React.createClass({
 
     return (
       <div className="catalog-page-table">
-        <table className="">
+        <table className="w100pr">
           {Companies}
         </table>
       

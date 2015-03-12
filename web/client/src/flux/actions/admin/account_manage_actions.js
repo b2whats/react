@@ -18,9 +18,11 @@ var actions_ = [
   ['change_price_property', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED],
   ['change_price_list_content', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_CONTENT_CHANGED],
   ['change_price_type', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_TYPE_CHANGED],
+  ['upload_error', event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS],
 ];
 
 module.exports.upload_price_list = (form_data, operation_id, file_name, price_type) => {
+
   r_upload_file
   .save({operation_id: operation_id, price_type:price_type}, form_data)
   .then((r) => {

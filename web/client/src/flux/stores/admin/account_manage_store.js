@@ -77,6 +77,7 @@ var cncl_ = [
   .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS, (errors, file_name) => {
     update_state_param('errors', errors);
     update_state_param('file_name', file_name);
+      account_manage_store.fire(event_names.kON_CHANGE);
   }, kDEFAULT_STORE_PRIORITY),
 
   main_dispatcher

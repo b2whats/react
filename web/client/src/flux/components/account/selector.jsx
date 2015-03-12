@@ -54,17 +54,18 @@ var Selector = React.createClass({
       
       return (
         <div className="selector-item">
-          
           <div className="selector-item-header">
-            <input 
-              onChange={_.bind(this.on_change, null, key)} 
-              type="radio" 
+          <label htmlFor={c_uid + '_' + key} className="label-radio">
+            <input
+              onChange={_.bind(this.on_change, null, key)}
+              type="radio"
               name={c_uid}
               id={c_uid + '_' + key}
-              checked={!!this.state.values[key]} />
-            <label htmlFor={c_uid + '_' + key}>
-              {child.props.title}
-            </label>
+              checked={!!this.state.values[key]}
+              className="radio m0-10"/>
+            {child.props.title}
+          </label>
+
           </div>
           
           <div className={cx(cx({'selector-item-body-invisible': !this.state.values[key]}), cx('selector-item-body'), cx(child.props.itemBodyClassName))}>
