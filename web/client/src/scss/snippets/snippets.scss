@@ -65,3 +65,9 @@
   border-top: 1px solid;
   border-color: inherit;
 }
+
+/*Перенос строки без <br>*/
+.br:after {
+  content: '\A';
+  white-space: pre;
+}

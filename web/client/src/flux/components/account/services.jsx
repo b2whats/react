@@ -183,11 +183,10 @@ var AccountInfo = React.createClass({
       .toArray();
   },
   generatedServicesCheckbox() {
-    console.log(this.state.select_services);
+    console.log(this.state.select_services.toString());
     var services = this.state.select_services;
-/*    this.state.select_services.forEach((v) => {
-      services[v] = v;
-    });*/
+
+
 
     return this.state.services_by_type
       .map((part, part_index) => {
@@ -198,15 +197,15 @@ var AccountInfo = React.createClass({
             {part.get('services').map((service) => {
               return (
                 <label key={service.get('id')} className="label--checkbox">
-                  <input value={service.get('id')} defaultChecked={services.contains(service.get('id'))} type="checkbox" onChange={this.changeServices} className="checkbox"/>
+                  <input value={service.get('id')} defaultChecked={services.find(v => v=== service.get('id'))} type="checkbox" onChange={this.changeServices} className="checkbox"/>
                   {service.get('name')}
                 </label>
               )
-            }).toArray()}
+            })}
           </div>
         )
       })
-      .toArray();
+
   },
   generatedServicesList() {
     var services = {};

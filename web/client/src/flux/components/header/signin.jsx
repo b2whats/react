@@ -34,7 +34,8 @@ var SignIn = React.createClass({
     RafBatchStateUpdateMixin
   ],
 
-  authSubmit : function () {
+  authSubmit : function (e) {
+    e.preventDefault();
     auth_actions.submit_form({
       email    : this.refs.email.getDOMNode().value,
       password : this.refs.password.getDOMNode().value
@@ -61,7 +62,7 @@ var SignIn = React.createClass({
         isOpen={!!this.state.modalIsOpen.get('signin')}
         onRequestClose={this.handleModalCloseRequest}>
 
-        <div className='sign-in autoparts'>
+        <form onSumbit={this.authSubmit} className='sign-in autoparts'>
           <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
           <h2>Вход</h2>
           <label className='new_context'>
@@ -94,7 +95,7 @@ var SignIn = React.createClass({
             <i className="icon-facebook-rect fs24 fc-g"></i>
             <i className="icon-vkontakte-rect fs24 fc-g"></i>
           </p>
-        </div>
+        </form>
       </Modal>
     );
   }

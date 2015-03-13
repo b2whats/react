@@ -461,6 +461,7 @@ a.icon-link {
   margin: 0 5px;
   cursor: pointer;
   vertical-align: middle;
+  outline: none;
 }
 .radio:before {
   transition: background 0.3s ease-in-out;

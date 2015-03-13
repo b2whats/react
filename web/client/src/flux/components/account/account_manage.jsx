@@ -134,8 +134,8 @@ var AccountManage = React.createClass({
         <div>
           <span className="mR20 fs24">Добавить прайс лист</span>
           <ButtonGroup select_element_value={this.state.price_type} onChange={this.on_change_price_type}>
-            <button name='type' className='btn-bg-group w130px' value='1'>Покупатель</button>
-            <button name='type' className='btn-bg-group w130px' value='2'>Поставщик</button>
+            <button name='type' className='btn-bg-group w130px' value='1'>Розничный</button>
+            <button name='type' className='btn-bg-group w130px' value='2'>Оптовый</button>
           </ButtonGroup>
         </div>
         <Link
@@ -221,7 +221,7 @@ var AccountManage = React.createClass({
             <textarea 
               value={this.state.price_list_content}
               onChange={this.on_price_list_content_changed}
-              placeholder="Код детали  |  Аналоги детали  |  Производитель детали  |  Марки авто  |  Наименование детали  |  Количество  |  Цена в рублях  |  Условия продажи" />
+              placeholder="Код детали  |  Производитель детали  |  Наименование детали  |  Количество  |  Цена в рублях" />
 
             
             <div className="-item2-menu justify flex">

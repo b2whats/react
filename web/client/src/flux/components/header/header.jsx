@@ -51,22 +51,34 @@ var Header = React.createClass({
   extToggle(val) {
     return () => {
       toggle_actions.change(val);
+      //Тут таймер нужен для установки фокуса на список. В данный момент его еще нет в ДОМе
+      //поэтому еще нечего устанавливать
       setTimeout(() => {
         if (!!this.state.toggle.get('drop_down_menu')) {
-          this.refs.menu.getDOMNode().focus()
+          this.refs.menu.getDOMNode().focus();
         }
       }, 200);
     }
   },
-  closeMenu() {
-    console.log('blur');
-    toggle_actions.change('drop_down_menu');
+  closeMenu(e) {
+    var current = e.currentTarget;
+    var target = e.target;
+    setTimeout(() => {
+      if (current === target) {
+        //Не успевает произойти onClick как элемент исчезает, поэтому
+        //нужен таймер который будет учитывать все действия
+        setTimeout(() => {
+          toggle_actions.change('drop_down_menu');
+        }, 200);
+      }
+    }, 0);
+
   },
   logOut() {
     auth_actions.log_out();
   },
   render() {
-
+console.log('render' + this.state.toggle.get('drop_down_menu'));
     return (
       <div className="hfm-wrapper main-header header entire-width">
 
@@ -103,7 +115,7 @@ var Header = React.createClass({
                   <Link className = "h_link" href='/account/:region_id/manage' params={{region_id : kDEFAULT_REGION_ID}}>Управление товарами</Link>
                 </li>
                 <li>
-                  <Link className = "h_link" href='/account/:region_id/statistics' params={{region_id : kDEFAULT_REGION_ID}}>Статистика</Link>
+                  <Link  className = "h_link" href='/account/:region_id/statistics' params={{region_id : kDEFAULT_REGION_ID}}>Статистика</Link>
                 </li>
                 <li>
                   <Link className = "h_link" href='/account/:region_id/history' params={{region_id : kDEFAULT_REGION_ID}}>История оплат</Link>
