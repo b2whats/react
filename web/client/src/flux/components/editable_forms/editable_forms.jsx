@@ -13,12 +13,13 @@ var EditableForms = React.createClass({
         );
     },
     getDefaultProps: function () {
-        return {
-            type: 'input',
-            edit: false,
-            name: 'forms[]',
-            text: ''
-        };
+      return {
+        type        : 'input',
+        edit        : false,
+        name        : 'forms[]',
+        text        : '',
+        placeholder : ''
+      };
     },
     update: function(e) {
         this.props.onChange(e.target.value)
@@ -31,7 +32,7 @@ var EditableForms = React.createClass({
             switch(type) {
                 case 'input':
                     return (
-                        <input disabled={!self.props.edit} className={classes} type='text' onChange={self.update} value={self.props.text}/>
+                        <input disabled={!self.props.edit} placeholder={self.props.placeholder} className={classes} type='text' onChange={self.update} value={self.props.text}/>
                     );
                     break;
                 case 'phone':
@@ -45,14 +46,14 @@ var EditableForms = React.createClass({
                           value={self.props.text}
                           onChange={self.update} />
                         :
-                        <input disabled='true' className={classes} type='text' value={self.props.text}/>
+                        <input disabled='true' placeholder={self.props.placeholder} className={classes} type='text' value={self.props.text}/>
                       }
                       </span>
                     );
                     break;
                 case 'textarea':
                     return (
-                        <textarea disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
+                        <textarea placeholder={self.props.placeholder} disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
                     );
                     break;
             }

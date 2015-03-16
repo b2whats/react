@@ -144,6 +144,7 @@ var AccountInfo = React.createClass({
 							<td>Сайт</td>
 							<td>
 								<EditableForms
+                  placeholder='Введите название вашего сайта'
                   className={cx({'input-as-text' : !edit})}
                   onChange={this.updateFormElement('site')}
 									edit={edit}
@@ -155,6 +156,7 @@ var AccountInfo = React.createClass({
               <td>
                 <EditableForms
                   type='phone'
+                  placeholder='Контактный телефон'
                   className={cx({'input-as-text' : !edit})}
                   onChange={this.updateFormElement('phone')}
                   edit={edit}
@@ -166,6 +168,7 @@ var AccountInfo = React.createClass({
 							<td className='lh1-4'>
 								<EditableForms
                   className={cx({'input-as-text' : !edit})}
+                  placeholder='Описание компании'
 									onChange={this.updateFormElement('description')}
 									edit={edit}
 									type='textarea'

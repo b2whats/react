@@ -54,13 +54,7 @@ var Register = React.createClass({
                                 defaultValue={this.state.register_field.get('company_name')}
                                 onChange={this.updateFormElement('company_name')}/>
                         </label>
-                        <label>
-                          <span className='d-b m5-0 fs14'>Телефон</span>
-                            <input type='text'
-                                className={cx({'bs-error': !!this.state.register_field_validation.has('phone'), 'w100pr' : true})}
-                                defaultValue={this.state.register_field.get('phone')}
-                                onChange={this.updateFormElement('phone')}/>
-                        </label>
+
                     </div>
                 }
 

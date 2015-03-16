@@ -39,10 +39,6 @@ var user_shema = {
 	},
 };
 var company_shema = {
-	phone        : {
-		required   : true,
-		allowEmpty : false
-	},
 	company_name : {
 		required   : true,
 		allowEmpty : false
@@ -73,7 +69,7 @@ module.exports.submit_form = (register_data) => {
 	}
 	else {
 		main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_ERROR].concat([validation]));
-	}
+	} 
 };
 var actions_ = [
 	[
