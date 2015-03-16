@@ -26,7 +26,9 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
   suppliers: [],
   current_supplier_id: -1,
+  price_range: {},
 });
+
 
 function update_state_param(param_name, value) {
   var im_value = immutable.fromJS(value);
@@ -47,19 +49,51 @@ var cncl_ = [
       update_state_param("current_supplier_id", suppliers[0].id);      
     }
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+  main_dispatcher
+    .on(event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE, range => {
+      update_state_param("price_range", range);
+    }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+  main_dispatcher
+    .on(event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE, (id, range) => {
 
+
+      state_.price_range_cursor
+        .update(l => l.set(id + '', immutable.fromJS(range)));
+
+    }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED, current_supplier_id => {
-    update_state_param("current_supplier_id", current_supplier_id);      
+    update_state_param("current_supplier_id", current_supplier_id);
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
 
   main_dispatcher
-  .on(event_names.kON_PRICE_LIST_SELECTOR_RESET, (values, first_value, price_range_from, price_range_to) => {
+  .on(event_names.kON_PRICE_LIST_SELECTOR_RESET, (id) => {
+      console.log(state_.price_range.toJS());
+      console.log(state_.price_range);
+
+      var id = id + '';
+      if (state_.price_range.has(id)) {
+        var values =  state_.price_range.get(id).toJS();
+      } else {
+        var values = [
+          {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
+        ];
+      }
+console.log(values);
+      var first_value = _.find(values, v => v.price_from === undefined);
+      values = _.filter(values, v => v.price_from > state_.price_range_from && v.price_from < state_.price_range_to);
+
+      values = _.map(values, v => {
+        return _.extend({percent:  100*(v.price_from - state_.price_range_from)/(state_.price_range_to - state_.price_range_from) }, v);
+      });
+
+
+
     update_state_param("values", values);
     update_state_param("first_value", first_value);
-    update_state_param("price_range_from", price_range_from);
-    update_state_param("price_range_to", price_range_to);
+/*    update_state_param("price_range_from", price_range_from);
+    update_state_param("price_range_to", price_range_to);*/
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
   main_dispatcher

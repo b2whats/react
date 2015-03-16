@@ -49,7 +49,7 @@ var kSEARCH_PAGE_TOP =  style_utils.from_px_to_number(sass_vars["search-page-mai
 
 
 var kRECALC_WIDTH_TIMEOUT = 200;
-var kDEFAULT_REGION_ID = 'sankt-peterburg';
+var kDEFAULT_REGION_ID = 'moskva';
 var SearchBlockHeader = React.createClass({
   mixins: [PureRenderMixin , RafBatchStateUpdateMixin],
 

@@ -5,7 +5,8 @@ var event_names = require('shared_constants/event_names.js');
 var action_export_helper = require('utils/action_export_helper.js');
 var sc = require('shared_constants');
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
-
+var resource = require('utils/resource.js');
+var api_refs = require('shared_constants/api_refs.js');
 var actions_ = [
   ['update_position', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION],
   ['update_position_by_price', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION_BY_PRICE],
@@ -14,8 +15,8 @@ var actions_ = [
   ['update_delta_percent', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_DELTA_PERCENT],
   ['add_position', event_names.kON_PRICE_LIST_SELECTOR_ADD_POSITION],
   ['init_suppliers', event_names.kON_PRICE_LIST_SELECTOR_INIT_SUPPLIERS],
-  ['change_current_supplier_id', event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED],
-  
+  ['init_price_range', event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE],
+
   
 ];
 
@@ -26,46 +27,46 @@ var kTMP_SUPPLIERS = [
   {id:3, title:'АвтоМаг'},
 ];
 
-var kTMP_PRICE_LIST_SELECTOR_FROM_SERVER = [
-  {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
-  {price_from: 30000, delta_fix: 200, delta_percent: 1 },
-  {price_from: 10000, delta_fix: 200, delta_percent: 1 }, //сортировка пофигу
-  {price_from: 40000, delta_fix: 100, delta_percent: 1 },
-  {price_from: 50000, delta_fix: 200, delta_percent: 1 },
-];
 
-var kPRICE_MIN = 0;
-var kPRICE_MAX = 73000;
+module.exports.change_current_supplier_id = (id) => {
+  main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED].concat([id]));
+  main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET].concat([id]));
+};
+
 
 
 module.exports.load_price_list_data = () => {
-  console.error('Надо взять данные с сервера а не из TMP переменных');
-  module.exports.init_suppliers(kTMP_SUPPLIERS);
-  module.exports.initialize(kTMP_PRICE_LIST_SELECTOR_FROM_SERVER, kPRICE_MIN, kPRICE_MAX);
+  resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
+    .get({type : 'get'})
+    .then(response => {
+      module.exports.init_suppliers(response.data.wholesale_list);
+      module.exports.init_price_range(response.data.price_range);
+      var id = 0;
+      if (response.data.wholesale_list.length > 0) {
+        id = response.data.wholesale_list[0].id;
+        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED].concat([id]));
+      }
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
+        .concat([id]));
+    });
+
+
+
 };
 
 
 module.exports.save_result = (current_supplier_id, price_list_data, price_type) => {
-  console.error('Надо сохранить', current_supplier_id, price_list_data, price_type);
+    resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
+    .post({type : 'set', subscription_price : current_supplier_id, range: price_list_data })
+    .then(response => {
+      console.log(response);
+        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE].concat([current_supplier_id,price_list_data]));
+    });
 };
 
 
 
-module.exports.initialize = (values, price_range_from, price_range_to) => {
-  
-  price_range_from = price_range_from || sc.kPRICE_LIST_SELECTOR_PRICES_FROM;
-  price_range_to = price_range_to || sc.kPRICE_LIST_SELECTOR_PRICES_TO;
 
-  var first_value = _.find(values, v => v.price_from === undefined);
-  values = _.filter(values, v => v.price_from > price_range_from && v.price_from < price_range_to);
-
-  values = _.map(values, v => {    
-    return _.extend({percent:  100*(v.price_from - price_range_from)/(price_range_to - price_range_from) }, v);
-  });
-
-  main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET].concat([values, first_value, price_range_from, price_range_to]));
-
-};
 
 
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));

@@ -32,6 +32,7 @@ module.exports = {
 
 
   kACCOUNT_MANAGE_UPLOAD_FILE: kAPI_HOST + '/api/upload_file.php?operation_id=:operation_id&price_type=:price_type',
+  kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO: kAPI_HOST + '/api/manage/wholesale.php?type=:type',
 
 };
 

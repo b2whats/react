@@ -15,7 +15,7 @@ var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 Modal.setAppElement(appElement);
 var cx = require('classnames');
 
-var kDEFAULT_REGION_ID = 'sankt-peterburg';
+var kDEFAULT_REGION_ID = 'moskva';
 
 var ModalMixin = require('../mixins/modal_mixin.js');
 var ButtonGroup = require('components/forms_element/button_group.jsx');

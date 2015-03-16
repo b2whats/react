@@ -171,6 +171,21 @@ var AccountManage = React.createClass({
                 <option value={5}>до 31 дня</option>
               </select>
             </div>
+
+
+
+            { this.state.price_type == 2 &&
+              <label className="label--checkbox d-ib m5-0">
+                <input
+                  checked={!!this.state.price_properties.get('show_wholesale_price')}
+                  onChange = {_.bind(this.on_checkbox_checked, null, 'show_wholesale_price')}
+                  type="checkbox"
+                  className="checkbox" />
+                Отображать в поиске
+              </label>
+
+              }
+
           </span>
         </div>
 
@@ -255,7 +270,7 @@ var AccountManage = React.createClass({
                     className="-select">
                     {
                       this.state.suppliers.map((s,index) => 
-                        <option key={index} value={s.get('id')}>{s.get('title')}</option>).toJS()                    
+                        <option key={index} value={s.get('id')}>{s.get('name')}</option>).toJS()
                     }
                   </select>
                 </div>
