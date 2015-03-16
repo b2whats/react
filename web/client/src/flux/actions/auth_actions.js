@@ -74,7 +74,9 @@ module.exports.log_out = () => {
   r_auth_log_out.post()
     .then(() => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_RESET]);
-
+      route_actions.goto_link_with_default_params('/:region_id',
+        {region_id: region_store.get_region_current().get('translit_name')}
+      );
     });
 };
 var actions_ = [

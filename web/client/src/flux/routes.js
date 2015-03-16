@@ -23,7 +23,7 @@ var auth_actions = require('actions/auth_actions.js');
 
 
 //дефолтный регион
-var kDEFAULT_REGION_ID = 'sankt-peterburg';
+var kDEFAULT_REGION_ID = 'moskva';
 
 //получать с сервера
 
