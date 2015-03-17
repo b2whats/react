@@ -12,6 +12,8 @@
 }
 @for $i from 0 through 10 {
   .br#{$i} { border-radius : #{$i}px;}
+}
+@for $i from 0 through 10 {
   .bTLr#{$i} { border-top-left-radius : #{$i}px; }
   .bTRr#{$i} { border-top-right-radius : #{$i}px; }
   .bBLr#{$i} { border-bottom-left-radius : #{$i}px; }
@@ -27,3 +29,4 @@
 .bB0 { border-bottom :  0;}
 
 .b0 { border : 0; }
+

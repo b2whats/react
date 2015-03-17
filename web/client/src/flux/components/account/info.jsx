@@ -15,7 +15,7 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
-
+var CTG = React.addons.CSSTransitionGroup;
 var EditableForms = require('components/editable_forms/editable_forms.jsx');
 var editable_forms_actions = require('actions/editable_forms_actions.js');
 var editable_forms_store = require('stores/editable_forms_store.js');
@@ -209,8 +209,9 @@ var AccountInfo = React.createClass({
               </div>
             </div>
 					</div>
-
-
+<CTG transitionName='slide'>
+        <div>gfwef</div>
+</CTG>
 				</div>
 				<Modal
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}

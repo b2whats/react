@@ -55,15 +55,21 @@ module.exports.load_price_list_data = () => {
 };
 
 
-module.exports.save_result = (current_supplier_id, price_list_data, price_type) => {
+module.exports.save_result = (current_supplier_id, price_list_data, price_type, price_info) => {
     resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
-    .post({type : 'set', subscription_price : current_supplier_id, range: price_list_data })
+    .post({type : 'set', subscription_user : current_supplier_id, range: price_list_data, price_info : price_info })
     .then(response => {
-      console.log(response);
-        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE].concat([current_supplier_id,price_list_data]));
+        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE]
+          .concat([current_supplier_id,price_list_data]));
     });
 };
-
+module.exports.delete_result = (current_supplier_id) => {
+  console.log(current_supplier_id);
+  main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
+    .concat([0]));
+  main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_DELETE]
+    .concat([current_supplier_id]));
+};
 
 
 

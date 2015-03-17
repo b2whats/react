@@ -962,6 +962,36 @@
 .br0 {
   border-radius: 0px; }
 
+.br1 {
+  border-radius: 1px; }
+
+.br2 {
+  border-radius: 2px; }
+
+.br3 {
+  border-radius: 3px; }
+
+.br4 {
+  border-radius: 4px; }
+
+.br5 {
+  border-radius: 5px; }
+
+.br6 {
+  border-radius: 6px; }
+
+.br7 {
+  border-radius: 7px; }
+
+.br8 {
+  border-radius: 8px; }
+
+.br9 {
+  border-radius: 9px; }
+
+.br10 {
+  border-radius: 10px; }
+
 .bTLr0 {
   border-top-left-radius: 0px; }
 
@@ -973,9 +1003,6 @@
 
 .bBRr0 {
   border-bottom-right-radius: 0px; }
-
-.br1 {
-  border-radius: 1px; }
 
 .bTLr1 {
   border-top-left-radius: 1px; }
@@ -989,9 +1016,6 @@
 .bBRr1 {
   border-bottom-right-radius: 1px; }
 
-.br2 {
-  border-radius: 2px; }
-
 .bTLr2 {
   border-top-left-radius: 2px; }
 
@@ -1003,9 +1027,6 @@
 
 .bBRr2 {
   border-bottom-right-radius: 2px; }
-
-.br3 {
-  border-radius: 3px; }
 
 .bTLr3 {
   border-top-left-radius: 3px; }
@@ -1019,9 +1040,6 @@
 .bBRr3 {
   border-bottom-right-radius: 3px; }
 
-.br4 {
-  border-radius: 4px; }
-
 .bTLr4 {
   border-top-left-radius: 4px; }
 
@@ -1033,9 +1051,6 @@
 
 .bBRr4 {
   border-bottom-right-radius: 4px; }
-
-.br5 {
-  border-radius: 5px; }
 
 .bTLr5 {
   border-top-left-radius: 5px; }
@@ -1049,9 +1064,6 @@
 .bBRr5 {
   border-bottom-right-radius: 5px; }
 
-.br6 {
-  border-radius: 6px; }
-
 .bTLr6 {
   border-top-left-radius: 6px; }
 
@@ -1063,9 +1075,6 @@
 
 .bBRr6 {
   border-bottom-right-radius: 6px; }
-
-.br7 {
-  border-radius: 7px; }
 
 .bTLr7 {
   border-top-left-radius: 7px; }
@@ -1079,9 +1088,6 @@
 .bBRr7 {
   border-bottom-right-radius: 7px; }
 
-.br8 {
-  border-radius: 8px; }
-
 .bTLr8 {
   border-top-left-radius: 8px; }
 
@@ -1094,9 +1100,6 @@
 .bBRr8 {
   border-bottom-right-radius: 8px; }
 
-.br9 {
-  border-radius: 9px; }
-
 .bTLr9 {
   border-top-left-radius: 9px; }
 
@@ -1108,9 +1111,6 @@
 
 .bBRr9 {
   border-bottom-right-radius: 9px; }
-
-.br10 {
-  border-radius: 10px; }
 
 .bTLr10 {
   border-top-left-radius: 10px; }
@@ -1899,5 +1899,25 @@ input.input-as-text, textarea.input-as-text {
   box-shadow: none;
   resize: none;
   background-color: transparent; }
+
+.show-leave {
+  opacity: 1;
+  max-height: 156px;
+  overflow: hidden;
+  transition: all .2s linear; }
+
+.show-leave.show-leave-active {
+  max-height: 0px;
+  opacity: 0.00; }
+
+.show-enter {
+  max-height: 0px;
+  opacity: 0.00;
+  overflow: hidden;
+  transition: all .2s linear; }
+
+.show-enter.show-enter-active {
+  max-height: 156px;
+  opacity: 1; }
 
 /*# sourceMappingURL=w.css.map */

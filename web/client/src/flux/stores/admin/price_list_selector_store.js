@@ -62,6 +62,12 @@ var cncl_ = [
 
     }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
+    .on(event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_DELETE, (id) => {
+      state_.price_range_cursor
+        .delete(id+'');
+
+    }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+  main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED, current_supplier_id => {
     update_state_param("current_supplier_id", current_supplier_id);
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
@@ -196,7 +202,9 @@ var price_list_selector = merge(Emitter.prototype, {
   get_first_value () {
     return state_.first_value;
   },
-
+  get_price_range() {
+    return state_.price_range;
+  },
   get_price_range_to() {
     return state_.price_range_to;
   },

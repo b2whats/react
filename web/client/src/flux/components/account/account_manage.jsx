@@ -23,14 +23,15 @@ var price_list_selector_store = require('stores/admin/price_list_selector_store.
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  loaded: account_manage_store.get_loaded(),
-  errors: account_manage_store.get_errors(),
-  file_name: account_manage_store.get_file_name(),
-  price_properties: account_manage_store.get_price_properties(),
-  price_list_content: account_manage_store.get_price_list_content(),
-  price_type: account_manage_store.get_price_type(),
-  suppliers: price_list_selector_store.get_suppliers(),
-  current_supplier_id: price_list_selector_store.get_current_supplier_id(),
+    loaded              : account_manage_store.get_loaded(),
+    errors              : account_manage_store.get_errors(),
+    file_name           : account_manage_store.get_file_name(),
+    price_properties    : account_manage_store.get_price_properties(),
+    price_list_content  : account_manage_store.get_price_list_content(),
+    price_type          : account_manage_store.get_price_type(),
+    suppliers           : price_list_selector_store.get_suppliers(),
+    current_supplier_id : price_list_selector_store.get_current_supplier_id(),
+    price_range         : price_list_selector_store.get_price_range(),
 }),
 account_manage_store, price_list_selector_store /*observable store list*/);
 
@@ -38,10 +39,10 @@ account_manage_store, price_list_selector_store /*observable store list*/);
 var kNAME = 0;
 var kVALUE = 1;
 var kCHEKBOXES_LEFT = [
-  ['price_if_our_service', 'Действительна при установке на нашем сервис центре.'], 
-  ['price_retail', 'Розничная цена.'], 
-  ['delivery_free_msk', 'Бесплатная доставка по МСК.'], 
-  ['delivery_free_spb', 'Бесплатная доставка по СПб.'], 
+  ['price_if_our_service', 'Действительна при установке на нашем сервис центре.'],
+  ['price_retail', 'Розничная цена.'],
+  ['delivery_free_msk', 'Бесплатная доставка по МСК.'],
+  ['delivery_free_spb', 'Бесплатная доставка по СПб.'],
 ];
 var kCHECKBOXES_RIGHT = [
   ['price_only_for_legal_person', 'Только для юр.лиц'],
@@ -110,9 +111,11 @@ var AccountManage = React.createClass({
 
   save_price_list_selection_result() {
     //console.error(price_list_selector_store.get_result().toJS());
-    price_list_selector_actions.save_result(this.state.current_supplier_id, price_list_selector_store.get_result().toJS(), this.state.price_type);
+    price_list_selector_actions.save_result(this.state.current_supplier_id, price_list_selector_store.get_result().toJS(), this.state.price_type, this.state.price_properties.toJS());
   },
-
+  delete_price_list_selection_result() {
+    price_list_selector_actions.delete_result(this.state.current_supplier_id);
+  },
   on_change_price_type(type) {
     console.log(type);
     account_manage_actions.change_price_type(type);
@@ -274,6 +277,9 @@ var AccountManage = React.createClass({
                     }
                   </select>
                 </div>
+                {this.state.price_range.has(this.state.current_supplier_id+'') &&
+                  <span className='cur-p c-deep-purple-500' onClick={this.delete_price_list_selection_result}>Отписаться</span>
+                }
               </span>
             </div>
 
