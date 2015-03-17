@@ -277,7 +277,7 @@ var AccountManage = React.createClass({
                     }
                   </select>
                 </div>
-                {this.state.price_range.has(this.state.current_supplier_id+'') &&
+                {this.state.price_range && this.state.price_range.has(this.state.current_supplier_id+'') &&
                   <span className='cur-p c-deep-purple-500' onClick={this.delete_price_list_selection_result}>Отписаться</span>
                 }
               </span>
