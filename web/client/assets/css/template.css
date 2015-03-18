@@ -427,7 +427,7 @@ a.icon-link {
   z-index: 1;
   width: 16px;
   height: 16px;
-  border: 2px solid #f2f2f2;
+  border: 2px solid #e8e8e8;
 }
 .checkbox:checked:before {
   -webkit-transform: rotate(-45deg);

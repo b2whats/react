@@ -177,7 +177,7 @@ var AccountManage = React.createClass({
 
 
 
-            { this.state.price_type == 2 &&
+            {/* this.state.price_type == 2 &&
               <label className="label--checkbox d-ib m5-0">
                 <input
                   checked={!!this.state.price_properties.get('show_wholesale_price')}
@@ -187,39 +187,39 @@ var AccountManage = React.createClass({
                 Отображать в поиске
               </label>
 
-              }
+              */}
 
           </span>
         </div>
-
-        <div className='m20-0'>
-          <div className='d-ib va-T'>
+      {(this.state.price_type == 1) &&
+      <div className='m20-0'>
+        <div className='d-ib va-T'>
             {_.map(kCHEKBOXES_LEFT, (v, index) => (
               <label key={index} className="label--checkbox d-b m5-0">
-                <input                   
-                  checked={!!this.state.price_properties.get(v[kNAME])}  
+                <input
+                  checked={!!this.state.price_properties.get(v[kNAME])}
                   onChange = {_.bind(this.on_checkbox_checked, null, v[kNAME])}
-                  type="checkbox" 
+                  type="checkbox"
                   className="checkbox" />
                 {v[kVALUE]}
               </label>))
-            }
-          </div>
-          <div className='d-ib va-T mL20'>
+              }
+        </div>
+        <div className='d-ib va-T mL20'>
             {_.map(kCHECKBOXES_RIGHT, (v, index) => (
 
               <label key={index} className="label--checkbox d-b m5-0">
-                <input                   
-                  checked={!!this.state.price_properties.get(v[kNAME])}  
+                <input
+                  checked={!!this.state.price_properties.get(v[kNAME])}
                   onChange = {_.bind(this.on_checkbox_checked, null, v[kNAME])}
-                  type="checkbox" 
+                  type="checkbox"
                   className="checkbox" />
                 {v[kVALUE]}
               </label>))
-            }
-          </div>
+              }
         </div>
-
+      </div>
+      }
 
 
         <Selector onChange={this.on_selector_changed} className="m-top-20px">

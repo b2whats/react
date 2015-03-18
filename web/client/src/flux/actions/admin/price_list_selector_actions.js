@@ -64,11 +64,15 @@ module.exports.save_result = (current_supplier_id, price_list_data, price_type, 
     });
 };
 module.exports.delete_result = (current_supplier_id) => {
-  console.log(current_supplier_id);
-  main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
-    .concat([0]));
-  main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_DELETE]
-    .concat([current_supplier_id]));
+  resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
+    .post({type : 'del', subscription_user : current_supplier_id})
+    .then(response => {
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
+        .concat([0]));
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_DELETE]
+        .concat([current_supplier_id]));
+    });
+
 };
 
 

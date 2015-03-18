@@ -25,7 +25,7 @@ var LinkComponent = React.createClass({
     }
   },
   render: function(){
-    return <span onClick={this.deletePrice(this.props.rowData.id)}>Удалить</span>
+    return <span className='cur-p' onClick={this.deletePrice(this.props.rowData.id)}>Удалить</span>
   }
 });
 

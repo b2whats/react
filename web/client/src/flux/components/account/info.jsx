@@ -209,9 +209,7 @@ var AccountInfo = React.createClass({
               </div>
             </div>
 					</div>
-<CTG transitionName='slide'>
-        <div>gfwef</div>
-</CTG>
+
 				</div>
 				<Modal
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}

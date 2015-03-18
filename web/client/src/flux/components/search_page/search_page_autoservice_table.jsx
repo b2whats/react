@@ -168,7 +168,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <div className='ellipsis'>
               <span
                 onClick={part.get('markers').filter( m => m.get('visible') ).size>1 ?
-                  _.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-adresses') :
+                  _.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-adresses') :
                   _.bind(this.on_marker_click, this, part.get('main_marker').get('id'))
                   }
                 className="bb-d c-g cur-p lh1-4">
@@ -177,11 +177,11 @@ var SearchPageAutoServiceTable = React.createClass({
 
               </span>
             </div>
-
-            <FixedTooltip 
+            <div className="f-R">
+            <FixedTooltip
               open_id={part.get('id')}
               open_type={'autoservice-tooltip-adresses'} 
-              className="search-page-autoservice-table-body-work-tooltip">
+              >
                 
               <strong>Все адреса</strong>
               
@@ -191,25 +191,19 @@ var SearchPageAutoServiceTable = React.createClass({
                     onMouseEnter={_.bind(this.on_hover, this,  m.get('id'), true)}
                     onMouseLeave={_.bind(this.on_hover, this,  m.get('id'), false)}
                     onClick={_.bind(this.on_marker_click, this, m.get('id'))}
-                    className="search-page-autoservice-table-body-work-tooltip-list-address" key={index} >
+                    className="c-yellow-700 cur-p" key={index} >
                     {m.get('address')}
                   </div> ).toJS()}
               </div>
 
-              <hr/>
-                
-                <div className="search-page-autoservice-table-body-work-tooltip-address-message">
-                  <div>Ищете место рядом?</div>
-                  <div>Используйте карту чтобы найти</div>
-                </div>              
             </FixedTooltip>
-
+            </div>
 
           </td>
 
           <td className="search-page-autoservice-table-td-auto-marks">            
             <div 
-              className="cur-p c-yellow-800"
+              className="cur-p c-yellow-800 h35px to-e o-h lh1-4"
               onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-auto-marks')} >
               {brands}
             </div> 

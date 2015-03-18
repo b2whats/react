@@ -132,9 +132,7 @@ var SearchPageAutoPartTable = React.createClass({
 
 
 
-console.log(part.toJS());
-console.log(kSTOCK_ICONS[part.get('stock')]);
-console.log(stock_class_name);
+
       /*m.get('balloon_visible').toString()*/
       return (
         <tr className={(part_index%2 > 0) && 't-bg-c-g'} onMouseEnter={_.bind(this.on_hover,   this, part.get('main_marker').get('id'), true)}
@@ -161,10 +159,11 @@ console.log(stock_class_name);
 
               </span>
             </div>
+            <div className="f-R">
             <FixedTooltip 
               open_id={part.get('id')}
               open_type={'autopart-tooltip-adresses'} 
-              className="search-page-auto-part-table-body-work-tooltip">
+              >
                 
               <strong className='fs12'>Все адреса</strong>
               
@@ -179,6 +178,7 @@ console.log(stock_class_name);
                   </div> ).toJS()}
               </div>
             </FixedTooltip>
+            </div>
           </td>
 
           <td className="search-page-autopart-table-td-manufacturer-code">
