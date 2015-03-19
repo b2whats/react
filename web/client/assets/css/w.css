@@ -95,6 +95,33 @@
   border-radius: 2px;
   background: #ececec; }
 
+.slider-table-marker {
+  background: #f6d000;
+  background: -moz-linear-gradient(top, #f6d000 0%, #ffba00 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f6d000), color-stop(100%, #ffba00));
+  background: -webkit-linear-gradient(top, #f6d000 0%, #ffba00 100%);
+  background: -o-linear-gradient(top, #f6d000 0%, #ffba00 100%);
+  background: -ms-linear-gradient(top, #f6d000 0%, #ffba00 100%);
+  background: linear-gradient(to bottom, #f6d000 0%, #ffba00 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6d000', endColorstr='#ffba00',GradientType=0 );
+  width: 9px;
+  height: 18px;
+  border-radius: 2px;
+  display: inline-block;
+  position: relative;
+  vertical-align: bottom; }
+
+.slider-table-marker:after {
+  position: absolute;
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: #FFC600;
+  display: inline-block;
+  transform: rotate(45deg);
+  bottom: -2px;
+  left: 2px; }
+
 /*Троеточие если строка не поместилась*/
 .ellipsis {
   overflow: hidden;
@@ -129,7 +156,9 @@
   overflow: hidden;
   /* Лекарство бага с отступом в Opera */
   font-size: 0.05em;
-  line-height: 0.05em; }
+  line-height: 0.05em;
+  /*Оно тут нужно лишь для связки с entire-width*/
+  white-space: normal; }
 
 /*Блоки растянутые на всю ширину*/
 .entire-width {
@@ -147,17 +176,18 @@
   /* IE10-, Firefox 12-22 */
   text-align-last: justify;
   /* IE10-, Firefox 12-22 */
-  /*text-justify: newspaper; /* IE7- */
-  /*zoom: 1; /* IE7- */ }
+  /*Необходимо когда теги не разделены пробелом и не работает флекс бокс - для IE*/
+  text-justify: newspaper;
+  zoom: 1; }
 
 .entire-width > * {
   display: inline-block;
-  background: #E76D13;
-  vertical-align: top;
-  display: -webkit-box;
-  /* !хак! для Android 4.3-, должен идти после inline-block */
-  /*display: inline;  /* IE7- */
-  /*zoom: 1; /* IE7- */ }
+  /*Для IE, там где работает флекс бокс это правило не отработает*/
+  vertical-align: middle;
+  /* display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  /*Добавил для того что бы строка не растягивалась на всю ширину из-за justify*/
+  white-space: pre-wrap;
+  text-align: left; }
 
 /*Бордеры у списка только между элементами*/
 .border-between-h > * + * {
@@ -515,6 +545,9 @@
 .p0 {
   padding: 0; }
 
+.p2-5 {
+  padding: 2px 5px; }
+
 .p0-5 {
   padding: 0 5px; }
 
@@ -535,6 +568,9 @@
 
 .p10-15 {
   padding: 10px 15px; }
+
+.p15-10 {
+  padding: 15px 10px; }
 
 .p20-0 {
   padding: 20px 0; }
@@ -1151,6 +1187,9 @@
 .b0 {
   border: 0; }
 
+.bcol-s {
+  border-collapse: separate; }
+
 .fs8 {
   font-size: 8px; }
 
@@ -1349,6 +1388,12 @@
   -webkit-box-align: center;
   align-items: center; }
 
+.flex-ai-fs {
+  -ms-flex-align: flex-start;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  align-items: flex-start; }
+
 .flex-ai-fe {
   -ms-flex-align: flex-end;
   -webkit-align-items: flex-end;
@@ -1366,6 +1411,9 @@
 .flex-jc-sa {
   -webkit-justify-content: space-around;
   justify-content: space-around; }
+
+.z-depth-1 {
+  box-shadow: 0 1px 6px -1px rgba(0, 0, 0, 0.3); }
 
 /*Цвет текста, фона, бордеров*/
 .bc-deep-purple-50 {
@@ -1649,6 +1697,12 @@
 
 .bs-n {
   box-shadow: none; }
+
+.tl-f {
+  table-layout: fixed; }
+
+.ws-p {
+  white-space: pre; }
 
 .bs {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); }

@@ -100,3 +100,34 @@
   border-radius: 2px;
   background: #ececec;
 }
+
+.slider-table {
+
+}
+.slider-table-marker {
+  background: #f6d000;
+  background: -moz-linear-gradient(top,  #f6d000 0%, #ffba00 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6d000), color-stop(100%,#ffba00));
+  background: -webkit-linear-gradient(top,  #f6d000 0%,#ffba00 100%);
+  background: -o-linear-gradient(top,  #f6d000 0%,#ffba00 100%);
+  background: -ms-linear-gradient(top,  #f6d000 0%,#ffba00 100%);
+  background: linear-gradient(to bottom,  #f6d000 0%,#ffba00 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6d000', endColorstr='#ffba00',GradientType=0 );
+  width: 9px;
+  height: 18px;
+  border-radius: 2px;
+  display: inline-block;
+  position : relative;
+  vertical-align: bottom;
+}
+.slider-table-marker:after {
+  position: absolute;
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: #FFC600;
+  display: inline-block;
+  transform: rotate(45deg);
+  bottom: -2px;
+  left: 2px;
+}

@@ -17,9 +17,12 @@
 @import 'text';
 @import 'position';
 @import 'flex';
+@import 'shadow';
 @import 'color_palette'; //Должен находится ниже универсальных свойств
 
 .bs-n {box-shadow: none;}
+.tl-f {table-layout: fixed;}
+.ws-p {white-space: pre;}
 
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .cur-p { cursor : pointer; }

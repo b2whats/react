@@ -32,14 +32,14 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
       step              : account_services_store.get_step(),
       regions           : region_store.get_region_list(),
       selected_services : account_services_store.get_selected_services(),
-      masters_name : account_services_store.get_masters_name(),
+      masters_name      : account_services_store.get_masters_name(),
       tarifs            : account_services_store.get_tarifs(),
       modalIsOpen       : modal_store.get_modal_visible(),
       brands_by_region  : account_services_store.get_brands_by_region(),
       services_by_type  : account_services_store.get_services_by_type(),
-      select_brands  : account_services_store.get_select_brands(),
-      select_services  : account_services_store.get_select_services(),
-      toggle  : toggle_store.get_toggle(),
+      select_brands     : account_services_store.get_select_brands(),
+      select_services   : account_services_store.get_select_services(),
+      toggle            : toggle_store.get_toggle(),
     })
   },
 	modal_store, account_services_store, toggle_store);
@@ -183,10 +183,9 @@ var AccountInfo = React.createClass({
       .toArray();
   },
   generatedServicesCheckbox() {
-    console.log(this.state.select_services.toString());
     var services = this.state.select_services;
 
-
+console.log(services.toJS());
 
     return this.state.services_by_type
       .map((part, part_index) => {
@@ -197,14 +196,14 @@ var AccountInfo = React.createClass({
             {part.get('services').map((service) => {
               return (
                 <label key={service.get('id')} className="label--checkbox">
-                  <input value={service.get('id')} defaultChecked={services.find(v => v=== service.get('id'))} type="checkbox" onChange={this.changeServices} className="checkbox"/>
+                  <input value={service.get('id')} defaultChecked={services.find(v => v == service.get('id'))} type="checkbox" onChange={this.changeServices} className="checkbox"/>
                   {service.get('name')}
                 </label>
               )
-            })}
+            }).toArray()}
           </div>
         )
-      })
+      }).toArray()
 
   },
   generatedServicesList() {
@@ -404,9 +403,9 @@ console.log(this.state.masters_name.first());
         >
           <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
           <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
-          {console.time('test')}
+
             {this.generatedServicesCheckbox()}
-          {console.timeEnd('test')}
+
           </div>
           <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.submitSelectServices}>Сохранить</button>
         </Modal>

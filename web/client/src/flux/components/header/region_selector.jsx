@@ -56,7 +56,6 @@ var RegionSelector = React.createClass({
 
 
   render () {
-    console.log(this.state.region_current);
     var region_name = this.state.region_current && this.state.region_current.get('title');
 
     var style = {

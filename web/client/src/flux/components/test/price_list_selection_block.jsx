@@ -3,7 +3,7 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
@@ -47,7 +47,10 @@ var PriceListSelectionBlock = React.createClass({
     price_list_selector_actions.update_delta_percent(index, +delta_percent.target.value);
   },
 
-
+  reverse(val) {
+    var val = (val | 0) + '';
+    return val.split("").reverse().join("").replace(/([0-9]{1,3})/g, '$1 ').trim().split("").reverse().join("");
+  },
   render() {
     var values = this.state.price_list_values
       .map((v, index) => v.set('index', index))
@@ -65,35 +68,36 @@ var PriceListSelectionBlock = React.createClass({
 
       return (
         <tr key={to_index}>
-          <td>{index + 1}</td>
-          <td>
-            <span style={{marginRight: '10px', textAlign: 'right', width: '70px', height: '22px', display: 'inline-block'}}>
-              {Math.round(from)} руб.
+          <td className={cx('ta-c p20-0 bR1s bc-grey-300 w30px', {'bgc-grey-50' : index%2 == 0})}>{index + 1} <span className='slider-table-marker'></span></td>
+          <td  className={cx('ta-c w250px', {'bgc-grey-50' : index%2 == 0})}>
+            <span className='d-ib mR10 ta-r w90px va-m'>
+              {this.reverse(from)} руб.
             </span>
             <span>-</span>
             { to === 'inf' ? 
-              <span style={{marginLeft: '10px', width: '70px', height: '22px', display: 'inline-block'}}>доупора</span> :
-              <input 
+              <span className='fs22 mR10 va-m w100px ta-c d-ib'  dangerouslySetInnerHTML={{__html: '&#8734;'}}></span> :
+              <span><input
                 type="number"
                 value={Math.round(to)}
                 onChange={_.bind(this.on_price_list_selector_price_change, null, to_index)}
-                style={{marginLeft: '10px', width: '70px', height: '22px', display: 'inline-block'}}/>
+                className='mL10 w80px d-ib br2 b1s bc-grey-300 p2-5'/>
+              <span> руб.</span></span>
             }
           </td>
-          <td>
+          <td  className={cx('ta-c w250px', (index%2 == 0)? 'bgc-grey-200' : 'bgc-grey-50')}>
             <input 
               value={delta_fix}
               onChange = {_.bind(this.on_price_list_selector_delta_fix_change, null, curr_index)} 
-              type="number" 
-              style={{marginRight: '5px', width: '70px', height: '22px', display: 'inline-block'}}/>
-            <span>руб.</span>
+              type="search"
+              className='w50px d-ib br2 b1s bc-grey-300 p2-5'/>
+            <span> руб.</span>
             <span style={{marginLeft:'5px', marginRight: '15px'}}>+</span>
             <input 
               value={delta_percent} 
               onChange = {_.bind(this.on_price_list_selector_delta_percent_change, null, curr_index)}
-              type="number" 
-              style={{marginRight: '5px', width: '70px', height: '22px', display: 'inline-block'}}/>
-            <span>%</span>
+              type="search"
+              className='w30px d-ib br2 b1s bc-grey-300 p2-5'/>
+            <span> %</span>
           </td>
         </tr>
 
@@ -111,26 +115,23 @@ var PriceListSelectionBlock = React.createClass({
           to={this.state.range_to} 
           onChange={this.on_price_list_selector_change} 
           onAdd={this.on_price_list_selector_add}/>
-        
-        <div style={ {marginTop: '20px'} } className="wrap gutter-15-xs">
-          <div className="md-12-6">
-            <table style={ {fontSize: '13px', width: '100%', tableLayout: 'fixed'} } cellSpacing="0" className="pure-table pure-table-striped">
-              <thead>
-                <tr>
-                  <th style={{width: '40px'}}>N</th>
-                  <th>Диапазон</th>
-                  <th>Наценка</th>
-                </tr>
-              </thead>
+
+        <div>
+          <div className='d-ib va-t'>
+            <span className='w30px p5-0 pB10 ta-c d-ib'>№</span>
+            <span className='w250px p5-0 pB10 ta-c d-ib'>Диапазон</span>
+            <span className='w250px p5-0 pB10 ta-c d-ib'>Наценка</span>
+            <table cellSpacing="0" className="slider-table va-T br7 o-h b1s bc-grey-300 tl-f bcol-s">
               <tbody>
-                {TrPriceListRows}
+                  {TrPriceListRows}
               </tbody>
             </table>
           </div>
-          <div className="md-12-6">
+          <div className="va-T br6 d-ib m25 w40pr z-depth-1 p20-15">
             <h3>Инструкция</h3>
             <br/>
-            добавить - двойной клик,<br/>
+            добавить - двойной клик,
+            <br/>
             убрать - утянуть ползунок вправо или назначить цену больше максимальной
           </div>
         </div>

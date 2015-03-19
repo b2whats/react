@@ -33,6 +33,8 @@
   /* Лекарство бага с отступом в Opera */
   font-size    : 0.05em;
   line-height  : 0.05em;
+  /*Оно тут нужно лишь для связки с entire-width*/
+  white-space: normal;
 }
 /*Блоки растянутые на всю ширину*/
 .entire-width {
@@ -44,18 +46,20 @@
   justify-content: space-between;
   text-align: justify; /* IE10-, Firefox 12-22 */
   text-align-last: justify; /* IE10-, Firefox 12-22 */
-
-  /*text-justify: newspaper; /* IE7- */
-  /*zoom: 1; /* IE7- */
+/*Необходимо когда теги не разделены пробелом и не работает флекс бокс - для IE*/
+  text-justify: newspaper;
+  zoom: 1;
 }
 .entire-width > * {
   display : inline-block;
-  background: #E76D13;
-  vertical-align: top;
-  display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
-  /*display: inline;  /* IE7- */
-  /*zoom: 1; /* IE7- */
+  /*Для IE, там где работает флекс бокс это правило не отработает*/
+  vertical-align: middle;
+  /* display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  /*Добавил для того что бы строка не растягивалась на всю ширину из-за justify*/
+  white-space: pre-wrap;
+  text-align: left;
 }
+
 /*Бордеры у списка только между элементами*/
 .border-between-h > * + * {
   border-left: 1px solid;

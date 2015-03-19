@@ -83,7 +83,6 @@ console.log('render' + this.state.toggle.get('drop_down_menu'));
       <div className="hfm-wrapper main-header header entire-width">
 
         <RegionSelector />
-
         <div className="top-navbar">
           <Link
             className="h_link m0-10"

@@ -21,6 +21,8 @@ $one_side_padding_list : (5,8,10,15,20);
 }
 .p0 { padding : 0; }
 
+.p2-5 { padding : 2px 5px; }
+
 .p0-5 { padding : 0 5px; }
 .p0-10 { padding : 0 10px; }
 
@@ -30,6 +32,8 @@ $one_side_padding_list : (5,8,10,15,20);
 .p10-0 { padding : 10px 0; }
 .p10-5 { padding : 10px 5px; }
 .p10-15 { padding : 10px 15px; }
+
+.p15-10 {padding: 15px 10px;}
 
 .p20-0 { padding : 20px 0; }
 .p20-5 { padding : 20px 5px; }

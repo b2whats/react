@@ -286,8 +286,7 @@ var AccountManage = React.createClass({
 
             <div>
               <PriceListSelectionBlock />
-              
-              <button onClick={this.save_price_list_selection_result} className="-button-load">Сохранить результат</button>
+              <button onClick={this.save_price_list_selection_result} className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0">Сохранить результат</button>
             </div>
 
           </div>

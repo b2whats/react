@@ -41,7 +41,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
 autoservice_by_id_store /*observable store list*/);
 
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = [1,2,5,10,15,20];
+var kITEMS_PER_PAGE = [5,10,15,20];
 var kPAGES_ON_SCREEN = 3; //сколько циферок показывать прежде чем показать ...
 
 
@@ -369,8 +369,8 @@ var SearchPageAutoServiceTable = React.createClass({
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
             <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
               className="ta-c fs20">
-              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
-            {part.get('main_marker').get('main_phone').substr(7)}
+              <span className='fs14'>{part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
+              {part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(7)}
             </div>
 
             <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>

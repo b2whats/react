@@ -248,8 +248,8 @@ var SearchPageAutoPartTable = React.createClass({
             
             <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
               className="ta-c fs20">
-              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
-            {part.get('main_marker').get('main_phone').substr(7)}
+              <span className='fs14'>{part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
+            {part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(7)}
             </div>
             
             <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>

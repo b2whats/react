@@ -22,7 +22,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   values: [],
   first_value: {delta_fix: 0, delta_percent:0},
   price_range_from: 0,
-  price_range_to: 100000,
+  price_range_to:  150000,
 
   suppliers: [],
   current_supplier_id: -1,

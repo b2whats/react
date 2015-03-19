@@ -33,7 +33,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   map_bounds: null,
   
   page_num: 0,
-  items_per_page: 5,
+  items_per_page: 10,
   results_count: 0,
   show_all_phones: false
 });
