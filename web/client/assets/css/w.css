@@ -133,7 +133,6 @@
 
 /*Блоки растянутые на всю ширину*/
 .entire-width {
-  font-family: inherit;
   display: -webkit-box;
   /* Android 4.3-, Safari без оптимизации */
   -webkit-box-pack: justify;
@@ -153,9 +152,10 @@
 
 .entire-width > * {
   display: inline-block;
+  background: #E76D13;
   vertical-align: top;
-  text-align: left;
-  /*display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  display: -webkit-box;
+  /* !хак! для Android 4.3-, должен идти после inline-block */
   /*display: inline;  /* IE7- */
   /*zoom: 1; /* IE7- */ }
 

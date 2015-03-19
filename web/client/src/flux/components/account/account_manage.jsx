@@ -2,7 +2,7 @@
 
 var _ = require('underscore');
 var React = require('react/addons');
-var cx = React.addons.classSet;
+var cx = require('classnames');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
@@ -223,7 +223,7 @@ var AccountManage = React.createClass({
 
 
         <Selector onChange={this.on_selector_changed} className="m-top-20px">
-          <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" className="vm h-50px m-20px">
+          <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" classBlock='' className="vm h-50px m-20px">
             <Dropzone onDrop={this.on_drop}>
               <span className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0">Загрузить файл</span>
             </Dropzone>
@@ -234,8 +234,8 @@ var AccountManage = React.createClass({
             }
             {Errors}        
           </div>
-          
-          <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" className="m-20px">
+
+          <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" classBlock={cx({"d-n":this.state.price_type == 2})}  className="m-20px">
             <textarea 
               value={this.state.price_list_content}
               onChange={this.on_price_list_content_changed}
@@ -259,8 +259,8 @@ var AccountManage = React.createClass({
               </div>
             </div>
           </div>
-          
-          <div title="Создание прайс-листа на основе прайс-листа оптового поставщика" itemBodyClassName="-item_3" className="vm m-20px">
+
+          <div title="Создание прайс-листа на основе прайс-листа оптового поставщика" itemBodyClassName="-item_3" classBlock={cx({"d-n":this.state.price_type == 2})}  className="vm m-20px">
             
             <div className="m20-0">
               <span className="vm h-30px ib">
@@ -291,6 +291,7 @@ var AccountManage = React.createClass({
             </div>
 
           </div>
+
         </Selector>
 
 

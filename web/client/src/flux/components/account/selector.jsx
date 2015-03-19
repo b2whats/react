@@ -53,7 +53,7 @@ var Selector = React.createClass({
       var key  = child.key === undefined || child.key === null ? child_index : child.key;
       
       return (
-        <div className="selector-item">
+        <div className={cx("selector-item", cx(child.props.classBlock))}>
           <div className="selector-item-header">
           <label htmlFor={c_uid + '_' + key} className="label-radio">
             <input

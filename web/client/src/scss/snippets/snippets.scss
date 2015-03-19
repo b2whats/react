@@ -36,23 +36,23 @@
 }
 /*Блоки растянутые на всю ширину*/
 .entire-width {
-  font-family             : inherit;
-  display                 : -webkit-box; /* Android 4.3-, Safari без оптимизации */
-  -webkit-box-pack        : justify; /* Android 4.3-, Safari без оптимизации */
-  display                 : -webkit-flex; /* оптимизация для Safari */
-  -webkit-justify-content : space-between; /* оптимизация для Safari */
-  display                 : flex;
-  justify-content         : space-between;
-  text-align              : justify; /* IE10-, Firefox 12-22 */
-  text-align-last         : justify; /* IE10-, Firefox 12-22 */
+  display: -webkit-box; /* Android 4.3-, Safari без оптимизации */
+  -webkit-box-pack: justify; /* Android 4.3-, Safari без оптимизации */
+  display: -webkit-flex; /* оптимизация для Safari */
+  -webkit-justify-content: space-between; /* оптимизация для Safari */
+  display: flex;
+  justify-content: space-between;
+  text-align: justify; /* IE10-, Firefox 12-22 */
+  text-align-last: justify; /* IE10-, Firefox 12-22 */
+
   /*text-justify: newspaper; /* IE7- */
   /*zoom: 1; /* IE7- */
 }
 .entire-width > * {
-  display        : inline-block;
-  vertical-align : top;
-  text-align     : left;
-  /*display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  display : inline-block;
+  background: #E76D13;
+  vertical-align: top;
+  display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
   /*display: inline;  /* IE7- */
   /*zoom: 1; /* IE7- */
 }
