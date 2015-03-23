@@ -5,9 +5,9 @@ var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var cx        = React.addons.classSet;
+var cx = require('classnames');
 
-var sc = require('shared_constants');
+
 var raf = require('utils/raf.js');
 var event_names = require('shared_constants/event_names.js');
 
@@ -23,6 +23,8 @@ var Path = require('paths-js/path');
 
 var component_idx_ = 0;
 
+var kCURVATURE = 3;
+
 var SvgPlot = React.createClass({
   mixins: [PureRenderMixin],
   
@@ -35,6 +37,8 @@ var SvgPlot = React.createClass({
     x_index_2_position: PropTypes.func.isRequired,
     x_position_2_index: PropTypes.func.isRequired,
     y_index_value_2_position: PropTypes.func.isRequired,
+
+    curvature: PropTypes.number,
   },
 
   componentWillMount() {
@@ -90,6 +94,8 @@ var SvgPlot = React.createClass({
   },
 
   get_distance_2_curve(m_x, m_y, data, id) {
+    var curvature = this.props.curvature || kCURVATURE;
+
     var index = this.x_position_2_index(m_x);
     if(index < 0) {
       var y_val = this.y_index_value_2_position(0, data.get(0), id );
@@ -107,8 +113,8 @@ var SvgPlot = React.createClass({
     var end_x = this.x_index_2_position(index+1);
     var end_y = this.y_index_value_2_position(index+1, data.get(index+1), id);
     
-    var curve_x0 = start_x + (end_x - start_x)/3;
-    var curve_x1 = start_x + 2*(end_x - start_x)/3;
+    var curve_x0 = start_x + (end_x - start_x)/curvature;
+    var curve_x1 = end_x - (end_x - start_x)/curvature;
 
     var b = new Bezier(start_x,start_y, curve_x0, start_y, curve_x1, end_y, end_x, end_y);
     
@@ -118,6 +124,7 @@ var SvgPlot = React.createClass({
   },
 
   data_2_d (data, id) {
+    var curvature = this.props.curvature || kCURVATURE;
     //var b = new Bezier(0,0, 70,0, 140,50, 200,50);
     //console.log('b.solveYValueFromXValue',b.solveYValueFromXValue(190));
     var start_x = this.x_index_2_position(0);
@@ -128,8 +135,8 @@ var SvgPlot = React.createClass({
 
       var end_x = this.x_index_2_position(index);
       var end_y = this.y_index_value_2_position(index, y_val, id);
-      var curve_x0 = memo.prev_x + (end_x - memo.prev_x)/3;
-      var curve_x1 = memo.prev_x + 2*(end_x - memo.prev_x)/3;
+      var curve_x0 = memo.prev_x + (end_x - memo.prev_x)/curvature;
+      var curve_x1 = end_x - (end_x - memo.prev_x)/curvature;
 
       //memo.path = memo.path.lineto(end_x, end_y);
       memo.path = memo.path.curveto(curve_x0, memo.prev_y, curve_x1, end_y, end_x, end_y);
@@ -154,6 +161,11 @@ var SvgPlot = React.createClass({
         className={this.props.has_classname && d.get('class_name')}
         id={d.get('id')}
         refresh={this.props.refresh}
+
+        plot_dx={this.props.plot_dx}
+        from={this.props.from}
+        to={this.props.to}
+
         data_2_d={this.data_2_d} />).toJS();
 
     return (

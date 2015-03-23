@@ -13,8 +13,11 @@ var IceMain = require('./components/main.jsx');
 var routes = require('./routes.js');
 require('./utils/router.js')(routes); //инициализация роутера
 
+console.log('dfdfdf');  
+
 auth_actions.check_auth()
-.then(() =>   
+.then(() => 
+  
   React.render(
       <IceMain/>, //ice_main(null)
       document.getElementById('react_main')

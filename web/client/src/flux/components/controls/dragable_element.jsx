@@ -3,13 +3,13 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
-//var PureRenderMixin = React.addons.PureRenderMixin;
-var VeryPureRenderMixin = require('components/mixins/very_pure_mixin.js')
+var PureRenderMixin = React.addons.PureRenderMixin;
+//var VeryPureRenderMixin = require('components/mixins/very_pure_mixin.js')
 
 var DragableElement = React.createClass({
-  mixins: [VeryPureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     
@@ -30,17 +30,21 @@ var DragableElement = React.createClass({
   },
 
   componentDidMount() {
-    var node = this.refs.draggable.getDOMNode();
-    var parent = node.parentNode;
     
-    while(parent && window.getComputedStyle(parent).position!=='relative') {
-      parent = parent.parentNode;
-    }
+    setTimeout(() => {
+      var node = this.refs.draggable.getDOMNode();
+      var parent = node.parentNode;
+      
+      while(parent && window.getComputedStyle(parent).position!=='relative') {
+        parent = parent.parentNode;
+      }
 
-    this.relative_node = parent;
+      this.relative_node = parent;
 
-    document.addEventListener('mousemove', this.on_document_mousemove);
-    document.addEventListener('mouseup', this.on_document_mouseup);
+      document.addEventListener('mousemove', this.on_document_mousemove);
+      document.addEventListener('mouseup', this.on_document_mouseup);
+    }, 0);
+
   },
 
   componentWillUnmount() {
@@ -61,6 +65,9 @@ var DragableElement = React.createClass({
 
   on_document_mousemove (e) {
     if(this.mouse_start===null) return;
+
+    e.preventDefault();
+
     var delta_x = e.clientX - this.mouse_start;
     var new_pos = this.current_pos + delta_x;
     new_pos = 100 * Math.min( Math.max(0, new_pos), this.relative_rect_width) / this.relative_rect_width;

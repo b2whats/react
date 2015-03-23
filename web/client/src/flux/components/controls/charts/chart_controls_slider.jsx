@@ -17,10 +17,28 @@ var ChartControlsSlider = React.createClass({
 
   mixins: [PureRenderMixin, UniqueNameMixin],
   
+
+  propTypes: {
+    /**
+    * начальное положение левого ползунка контрола
+    */
+    defaultFrom: PropTypes.number,
+
+    /**
+    * начальное положение правого ползунка контрола
+    */
+    defaultTo: PropTypes.number,
+
+    /**
+    * событие при изменении положения
+    */
+    onChange: PropTypes.func,
+  },
+
   getInitialState() {
     return {
-      from: this.props.from!==undefined ? +this.props.from : 10,
-      to: this.props.to!==undefined ? +this.props.to : 20,
+      from: this.props.defaultFrom!==undefined ? +this.props.defaultFrom : 10,
+      to: this.props.defaultTo!==undefined ? +this.props.defaultTo : 20,
     };
   },
   
@@ -38,8 +56,16 @@ var ChartControlsSlider = React.createClass({
           state.to = this.state.from;
         }
 
+        if(this.props.onChange) {
+          var to = state.to !== undefined ? state.to : this.state.to;
+          var from = state.from !== undefined ? state.from : this.state.from;
+          
+          if(to!==this.state.to || from!==this.state.from) {
+            this.props.onChange(from ,  to);
+          }
+        }
+
         this.setState(state);
-      
       }
     }, null, this.getUniqueName());
   },

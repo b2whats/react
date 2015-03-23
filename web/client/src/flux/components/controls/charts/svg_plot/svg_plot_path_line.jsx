@@ -5,7 +5,7 @@ var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var cx        = React.addons.classSet;
+var cx = require('classnames');
 
 /* jshint ignore:start */
 

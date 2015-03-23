@@ -3,7 +3,7 @@
 var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 
@@ -23,7 +23,7 @@ var ChartMarkerTemplateDefault = React.createClass({
     return (
       <div className={cx(this.props.className, 'hint hint--top hint--info hint-html svg-plot-marker')}>
         <div className="svg-plot-marker-hint-emitter"></div>
-        <div className="hint-content">
+        <div className="hint-content noevents">
           <h3>{this.props.current_info.get('date')}</h3>
           <div>
             clicks:

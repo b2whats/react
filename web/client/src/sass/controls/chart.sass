@@ -2,10 +2,13 @@ $chart-controls-height: 60px
 $chart-controls-thumb-width: 10px
 
 $chart-marker-size: 12px
-$chart-marker-emitter-size: 60px
+
+//прозрачный слой под маркером чтобы мышку ловить чуть раньше чем наведут на маркер
+$chart-marker-emitter-size: 30px
 
 
 .chart
+
 
 .chart-main-chart
   height: 200px
@@ -13,7 +16,19 @@ $chart-marker-emitter-size: 60px
 
 .svg-plot-holder
   position: relative
-  .svg-plot, .svg-plot-markers-panel
+  .svg-plot
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    transform: translate3d(0,0,0)
+    -moz-transform: translateZ(0)
+    backface-visibility: hidden
+    -webkit-transform: translate3d(0,0,0)
+    -webkit-backface-visibility: hidden
+
+  .svg-plot-markers-panel
     position: absolute
     left: 0
     top: 0
@@ -23,8 +38,13 @@ $chart-marker-emitter-size: 60px
 .svg-plot-marker-holder
   width: $chart-marker-size
   height: $chart-marker-size
+  line-height: $chart-marker-size
   margin-left: -$chart-marker-size/2
   margin-top: -$chart-marker-size/2
+
+  &.-hidden
+    display: none
+
   
   .svg-plot-marker
     background-color: white

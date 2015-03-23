@@ -67,6 +67,7 @@ $custom-hint-hover-helper-size: 20px
   .hint-content
     #{$propertyY}: 100%
     left: 50%
+    left: calc(50% - #{$arrowBorderWidth})
 
   .hint-content
     &:after //чтобы окно не дергалось
@@ -147,7 +148,7 @@ $custom-hint-hover-helper-size: 20px
 @mixin ice-hint-type($color)
   .hint-content
     background-color: $color
-    text-shadow: 0 -1px 0px darken($color, $textShadowDarkenAmount)
+    //text-shadow: 0 -1px 0px darken($color, $textShadowDarkenAmount)
 
   // generate arrow color style
   //@include arrow-border-color($color)
@@ -186,16 +187,21 @@ $custom-hint-hover-helper-size: 20px
     opacity: 1
     visibility: visible  
 
+  
   &.#{$prefix}top
-    @include ice-set-margin('translateY', -1)
+    .hint-content
+      @include ice-set-margin('translateY', -1)
 
   &.#{$prefix}bottom
-    @include ice-set-margin('translateY', 1)
+    .hint-content
+      @include ice-set-margin('translateY', 1)
 
   &.#{$prefix}left
-    @include set-margin('translateX', -1)
+    .hint-content
+      @include ice-set-margin('translateX', -1)
 
   &.#{$prefix}right
-    @include set-margin('translateX', 1)
+    .hint-content
+      @include ice-set-margin('translateX', 1)
 
   

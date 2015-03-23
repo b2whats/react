@@ -3,7 +3,7 @@
 //var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var UniqueNameMixin = require('components/mixins/unique_name_mixin.jsx');
@@ -29,8 +29,56 @@ var Chart = React.createClass({
   mixins: [PureRenderMixin, UniqueNameMixin],
 
   propTypes: {
+    /**
+    * immutable array of data points
+    * вида
+    * ```
+    * [
+    *   {
+    *     id: 2,
+    *     class_name: "my-line2-classname",
+    *     data:[0.5, 0.9, 0.9, 0.5, 0.9, 0.1, 0.5, 0.9, 0.9, 0.5, 0.9, 0.1],    
+    *     info:[
+    *       {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
+    *       {date: '2014-11-02', clicks: 3, information: 'bla bla bla 2'}, 
+    *       {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
+    *       {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
+    *       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
+    *       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'},
+    *       {date: '2014-11-01', clicks: 1, information: 'bla bla bla 1'}, 
+    *       {date: '2014-11-02', clicks: 3, information: 'bla bla bla 2'}, 
+    *       {date: '2014-11-03', clicks: 6, information: 'bla bla bla 3'}, 
+    *       {date: '2014-11-04', clicks: 3, information: 'bla bla bla 4'}, 
+    *       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 5'},
+    *       {date: '2014-11-05', clicks: 4, information: 'bla bla bla 6'}      
+    *     ]
+    *   }
+    * ]
+    * ```
+    */
+    plots_data: PropTypes.object,
+
+    /**
+    * ширина шага графика
+    */
     plot_dx: PropTypes.number.isRequired,
+
+    plot_dx_offset: PropTypes.number.isRequired,
+    
+    /**
+    * отступы графиков от верха низа
+    */
     margin_top_bottom: PropTypes.number,
+    
+    /**
+    * marker_template шаблон кружочка - маркера при наведении на который надо что то показывать
+    */
+    marker_template: PropTypes.func,
+
+    /**
+    * curvature скругленность чем больше тем острее углы
+    */
+    curvature: PropTypes.number    
   },
 
   getInitialState() {
@@ -62,11 +110,11 @@ var Chart = React.createClass({
 
   //для графика надо
   x_index_2_position(index) {
-    return this.props.plot_dx/2.0 + this.props.plot_dx*index;
+    return this.props.plot_dx_offset + this.props.plot_dx/2.0 + this.props.plot_dx*index;
   },
   
   x_position_2_index(x_pos) {
-    var base = (x_pos - this.props.plot_dx/2.0)/this.props.plot_dx;
+    var base = (x_pos - this.props.plot_dx/2.0 - this.props.plot_dx_offset)/this.props.plot_dx;
     return Math.floor(base);
   },
 
@@ -78,7 +126,9 @@ var Chart = React.createClass({
     return (this.props.margin_top_bottom === undefined ? 0 : this.props.margin_top_bottom) + scale * ( 1 - v);
   },
 
-  on_mouse_move(e) {    
+  on_mouse_move(e) {
+    if(!this.isMounted()) return;
+    if(this.refs.svg_plot===undefined) return;
     var cx = e.clientX;
     var cy = e.clientY;
 
@@ -148,7 +198,7 @@ var Chart = React.createClass({
           .map((pos, index) => 
             <div 
               key={pd.get('id') + '_' + index} 
-              className="svg-plot-marker-holder" 
+              className={cx('svg-plot-marker-holder', index >= this.props.index_from && index<=this.props.index_to ? '-visible':'-hidden')}
               style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>              
               {React.createElement(this.props.marker_template, 
                 {
@@ -156,7 +206,8 @@ var Chart = React.createClass({
                   index: index, 
                   info: pd.get('info'), 
                   current_info: pd.get('info').get(index),
-                  className: pd.get('class_name')
+                  className: pd.get('class_name'),
+                  visible: index >= this.props.index_from && index<=this.props.index_to
                 })}
             </div>)
       )
@@ -182,12 +233,23 @@ var Chart = React.createClass({
             has_hover={true}
             has_classname={true}       
 
+            curvature={this.props.curvature}
+
             refresh={this.state.plot_height} 
+
+            plot_dx={this.props.plot_dx}
+            from = {this.props.from}
+            to  =  {this.props.to}
+
             className="svg-plot" />
           }
-          <div className="svg-plot-markers-panel">
-            {Markers}
-          </div>
+
+          {this.state.plot_height > 0 &&
+            <div className="svg-plot-markers-panel">
+              {Markers}
+            </div>
+          }
+      
       </div>
     );
     /* jshint ignore:end */  
