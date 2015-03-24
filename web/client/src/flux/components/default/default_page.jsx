@@ -72,6 +72,14 @@ var DefaultPage = React.createClass({
   },
 
   render () {
+    var ap_initial_value = '';
+    var as_initial_value = '';
+    if (this.props.route_context.service == 'autoparts') {
+      ap_initial_value = this.props.route_context.search_text.replace(/[_]/g,' ');
+    }
+    if (this.props.route_context.service == 'autoservices') {
+      as_initial_value = this.props.route_context.search_text.replace(/[_]/g,' ');;
+    }
     return (
     <div className="default-page">
       <div className="default-page-abs">
@@ -88,7 +96,9 @@ var DefaultPage = React.createClass({
                   <AutoPartsSearchWrapper 
                     list_width={this.state.width}
                     placeholder="Введите название, производителя или код*"
-                    on_value_changed={this.on_auto_parts_value_changed} />
+                    on_value_changed={this.on_auto_parts_value_changed}
+                    initial_value={ap_initial_value}/>
+
               </DefaultPageSearchBlock>
               <div style={{width:'1%', display: 'table-cell'}}></div>
               <DefaultPageSearchBlock className="big-search-block-block autoservices" 
@@ -99,7 +109,9 @@ var DefaultPage = React.createClass({
                   <AutoServiceSearchWrapper 
                     list_width={this.state.width} 
                     placeholder="Введите марку автомобиля и название работ**" 
-                    on_value_changed={this.on_auto_service_value_changed} />
+                    on_value_changed={this.on_auto_service_value_changed}
+                    initial_value={as_initial_value}/>
+
               </DefaultPageSearchBlock>
             </div>
           </div>
