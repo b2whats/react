@@ -100,7 +100,7 @@ app.get('/userinfo', function(req, res) {
 
 
 _.each([
-  '/', '/account/:region_id/:id', '/test', '/page/:id', '/catalog/:region_id/:type/:brands/:services', '/help', '/typeahead', '/sphere/:sphere_id', '/:id', '/find/:region_id/:sentence/:producer/:articul/:id', '/find/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id'
+  '/', '/account/:region_id/:id', '/test', '/page/:id', '/catalog/:region_id/:type/:brands/:services', '/help', '/typeahead', '/sphere/:sphere_id', '/:id', '/find/:region_id/:sentence/:producer/:articul/:id', '/adv/:region_id/:service/:search_text', '/find/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id'
   ],  function(route) {
   app.get(route, ice_middlewares.cache_middleware(config.kCACHE_MAIN_PAGE_SECONDS), function (req, res){
 
