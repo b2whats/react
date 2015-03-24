@@ -75,6 +75,10 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED, current_supplier_id => {
     update_state_param("current_supplier_id", current_supplier_id);
+    if (state_.price_range_info.has(current_supplier_id + '')) {
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED].concat(['discount', state_.price_range_info.get(current_supplier_id + '').get('discount')]));
+    }
+
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
 
 
@@ -84,6 +88,7 @@ var cncl_ = [
       var id = id + '';
       if (state_.price_range.has(id)) {
         var values =  state_.price_range.get(id).toJS();
+
       } else {
         var values = [
           {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены

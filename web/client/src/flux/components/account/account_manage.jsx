@@ -6,7 +6,7 @@ var cx = require('classnames');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
+var rafBatchStateUpdateMixinCreate = require('mixins/raf_state_update.js');
 
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
@@ -32,22 +32,42 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
     suppliers           : price_list_selector_store.get_suppliers(),
     current_supplier_id : price_list_selector_store.get_current_supplier_id(),
     price_range         : price_list_selector_store.get_price_range(),
-}),
-account_manage_store, price_list_selector_store /*observable store list*/);
-
+  }),
+  account_manage_store, price_list_selector_store /*observable store list*/);
 
 var kNAME = 0;
 var kVALUE = 1;
 var kCHEKBOXES_LEFT = [
-  ['price_if_our_service', 'Действительна при установке на нашем сервис центре.'],
-  ['price_retail', 'Розничная цена.'],
-  ['delivery_free_msk', 'Бесплатная доставка по МСК.'],
-  ['delivery_free_spb', 'Бесплатная доставка по СПб.'],
+  [
+    'price_if_our_service',
+    'Действительна при установке на нашем сервис центре.'
+  ],
+  [
+    'price_retail',
+    'Розничная цена.'
+  ],
+  [
+    'delivery_free_msk',
+    'Бесплатная доставка по МСК.'
+  ],
+  [
+    'delivery_free_spb',
+    'Бесплатная доставка по СПб.'
+  ],
 ];
 var kCHECKBOXES_RIGHT = [
-  ['price_only_for_legal_person', 'Только для юр.лиц'],
-  ['price_above_level_0', 'Цена покупки от 20 000 р'],
-  ['price_above_level_1', 'Цена покупки от 40 000 р'],
+  [
+    'price_only_for_legal_person',
+    'Только для юр.лиц'
+  ],
+  [
+    'price_above_level_0',
+    'Цена покупки от 20 000 р'
+  ],
+  [
+    'price_above_level_1',
+    'Цена покупки от 40 000 р'
+  ],
 ];
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 
@@ -61,10 +81,13 @@ var AccountManage = React.createClass({
     sample: PropTypes.string.isRequired
   },
   */
-  mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
+  mixins : [
+    PureRenderMixin,
+    RafBatchStateUpdateMixin
+  ],
 
   on_drop(files) {
-    if(files.length > 0) {
+    if (files.length > 0) {
       var form_data = new FormData();
 
       form_data.append('price', files[0], files[0].name);
@@ -93,12 +116,11 @@ var AccountManage = React.createClass({
       form_data.append('price', blob, kFILE_NAME);
       this.state.price_properties.forEach((v, k) => form_data.append(k, v));
       account_manage_actions.upload_price_list(form_data, 1, kFILE_NAME, this.state.price_type);
-    } else {
+    }
+    else {
       account_manage_actions.upload_error([{'message' : 'Проблема с количеством столбцов'}], kFILE_NAME);
     }
   },
-
-
 
   on_price_list_content_changed(e) {
     account_manage_actions.change_price_list_content(e.target.value);
@@ -124,10 +146,10 @@ var AccountManage = React.createClass({
     account_manage_actions.change_price_type(type);
   },
 
-  render () {
+  render() {
     //var kCHECKBOX_PRICE_IF_OUR_SERVICE = 'price_if_our_service';
     //var kCHECKBOX_PRICE_RETAIL = 'price_retail';
-    var Errors = this.state.errors.map((e,index) =>
+    var Errors = this.state.errors.map((e, index) =>
       <span key={index} className="-upload-error vm">
         <span>
            {e.get('message')}
@@ -137,26 +159,26 @@ var AccountManage = React.createClass({
     return (
       <div className="account-manage">
         <div className='entire-width flex-ai-c'>
-        <div>
-          <span className="mR20 fs24">Добавить прайс лист</span>
-          <ButtonGroup select_element_value={this.state.price_type} onChange={this.on_change_price_type}>
-            <button name='type' className='btn-bg-group w130px' value='1'>Розничный</button>
-            <button name='type' className='btn-bg-group w130px' value='2'>Оптовый</button>
-          </ButtonGroup>
-        </div>
-        <Link
-          className="h_link"
-          href='/account/:region_id/manage-history'
-        >Итория загрузок</Link>
+          <div>
+            <span className="mR20 fs24">Добавить прайс лист</span>
+            <ButtonGroup select_element_value={this.state.price_type} onChange={this.on_change_price_type}>
+              <button name='type' className='btn-bg-group w130px' value='1'>Розничный</button>
+              <button name='type' className='btn-bg-group w130px' value='2'>Оптовый</button>
+            </ButtonGroup>
+          </div>
+          <Link
+            className="h_link"
+            href='/account/:region_id/manage-history'
+          >Итория загрузок</Link>
         </div>
         <div className="m20-0">
           <span className="vm h-30px ib">
             <span>Состояние товара</span>
 
             <div className="ib -select-holder">
-              <select 
+              <select
                 value={this.state.price_properties.get(kGOODS_QUALITY)}
-                onChange={_.bind(this.on_select_changed, null, kGOODS_QUALITY)} 
+                onChange={_.bind(this.on_select_changed, null, kGOODS_QUALITY)}
                 className="-select">
                 <option value={1}>Новые</option>
                 <option value={2}>Контрактные(БУ)</option>
@@ -166,8 +188,8 @@ var AccountManage = React.createClass({
             <span className="ib m-left-40px">Срок доставки</span>
 
             <div className="ib -select-holder">
-              <select 
-                value={this.state.price_properties.get(kDELIVERY_TIME)} 
+              <select
+                value={this.state.price_properties.get(kDELIVERY_TIME)}
                 onChange={_.bind(this.on_select_changed, null, kDELIVERY_TIME)}
                 className="-select">
                 <option value={1}>В наличии</option>
@@ -222,30 +244,29 @@ var AccountManage = React.createClass({
               }
         </div>
       </div>
-      }
+        }
 
-      {(this.state.price_type == 1)?
+      {(this.state.price_type == 1) ?
         <Selector onChange={this.on_selector_changed} className="m-top-20px">
           <div title={'Загрузить файл XLSX или CSV'} itemBodyClassName="-item_1" classBlock='' className="vm h-50px m-20px" classTitle='fs16'>
             <Dropzone onDrop={this.on_drop}>
               <span className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0">Загрузить файл</span>
             </Dropzone>
             {this.state.loaded &&
-              <span className="-upload-sucseed vm">
-                <span>Файл {this.state.file_name} добавлен в очередь</span>
-              </span>
-            }
+            <span className="-upload-sucseed vm">
+              <span>Файл {this.state.file_name} добавлен в очередь</span>
+            </span>
+              }
             {Errors}
           </div>
 
-          <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" classBlock={cx({"d-N":this.state.price_type == 2})}
+          <div title="Загрузить текстовую таблицу (Ctrl C + Ctrl V)" itemBodyClassName="-item_2" classBlock={cx({"d-N" : this.state.price_type == 2})}
             className="m-20px"
             classTitle='fs16'>
             <textarea
               value={this.state.price_list_content}
               onChange={this.on_price_list_content_changed}
               placeholder="Код детали  |  Производитель детали  |  Наименование детали  |  Количество  |  Цена в рублях" />
-
 
             <div className="-item2-menu justify flex">
 
@@ -254,10 +275,10 @@ var AccountManage = React.createClass({
                   <button onClick={this.on_string_load} className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0">Загрузить строки</button>
 
                   {this.state.loaded &&
-                    <span className="-upload-sucseed vm">
-                      <span>Контент добавлен в очередь</span>
-                    </span>
-                  }
+                  <span className="-upload-sucseed vm">
+                    <span>Контент добавлен в очередь</span>
+                  </span>
+                    }
 
                   {Errors}
                 </div>
@@ -266,7 +287,7 @@ var AccountManage = React.createClass({
           </div>
 
           <div title="Создание прайс-листа на основе прайс-листа оптового поставщика" itemBodyClassName="-item_3"
-            classBlock={cx({"d-N":this.state.price_type == 2})}
+            classBlock={cx({"d-N" : this.state.price_type == 2})}
             className="vm m-20px"
             classTitle='fs16'>
 
@@ -280,9 +301,9 @@ var AccountManage = React.createClass({
                     onChange={this.on_price_list_supplier_select_changed}
                     className="-select">
                     {
-                      this.state.suppliers.map((s,index) =>
+                      this.state.suppliers.map((s, index) =>
                         <option key={index} value={s.get('id')}>{s.get('name')}</option>).toJS()
-                    }
+                      }
                   </select>
                 </div>
                 <span className='va-m'>Общая скидка </span>
@@ -290,13 +311,13 @@ var AccountManage = React.createClass({
                   type="search"
                   onChange={_.bind(this.on_select_changed, null, 'discount')}
                   value={this.state.price_properties.get('discount')}
-                  className="va-m w30px" /> %
-                {this.state.price_range && this.state.price_range.has(this.state.current_supplier_id+'') &&
-                  <span className='cur-p c-deep-purple-500' onClick={this.delete_price_list_selection_result}> Отписаться</span>
-                }
+                  className="va-m w30px" />
+                %
+                {this.state.price_range && this.state.price_range.has(this.state.current_supplier_id + '') &&
+                <span className='cur-p c-deep-purple-500' onClick={this.delete_price_list_selection_result}> Отписаться</span>
+                  }
               </span>
             </div>
-
 
             <div>
               <PriceListSelectionBlock />
