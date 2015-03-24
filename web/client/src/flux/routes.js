@@ -21,7 +21,7 @@ var price_list_selector_actions = require('actions/admin/price_list_selector_act
 var modal_actions = require('actions/modal_actions.js');
 var auth_actions = require('actions/auth_actions.js');
 
-
+var ap_search_actions = require('actions/auto_part_search_actions.js');
 //дефолтный регион
 var kDEFAULT_REGION_ID = 'moskva';
 
@@ -170,5 +170,10 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
       },
       route_actions.default_route
 ];
+
+routes[route_definitions.kROUTE_ADV] = [
+  (route_name, route_context, route_context_params) =>
+    region_actions.region_changed(route_context_params.region_id),
+  route_actions.default_route];
 
 module.exports = routes;

@@ -62,7 +62,6 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_AUTO_PART_SUGGESTION_SHOW_VALUE_CHANGED, (show_value) => {
-    
       state_.show_value_cursor
         .update(v => v.set('index', v.get('index') + 1).set('search_term', show_value));
 

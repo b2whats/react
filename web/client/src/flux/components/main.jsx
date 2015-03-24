@@ -14,6 +14,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Header = require('components/header/header.jsx');
 var Footer = require('components/footer.jsx');
 var DefaultPage = require('components/default/default_page.jsx');
+var AdvPage = require('components/adv_page.jsx');
 var Agreement = require('components/static/agreement.jsx');
 var SearchBlockHeader = require('components/search_page/search_block_header.jsx');
 
@@ -66,7 +67,7 @@ var ice_main = React.createClass({
 
 	render () {
 		var MainContent = (function(router_state, router_context_params) {
-      console.log(router_state, router_context_params);
+
 			switch(router_state) {
 				case route_names.kROUTE_R_A:
 				case route_names.kROUTE_R_B:
@@ -102,7 +103,11 @@ var ice_main = React.createClass({
 					);
 					/* jshint ignore:end */
 				break;
-
+        case route_names.kROUTE_ADV:
+          return (
+            <AdvPage route_context={router_context_params}/>
+          );
+        break;
 				//ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
 				//ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
 				case route_names.kROUTE_PARTS_FIND:

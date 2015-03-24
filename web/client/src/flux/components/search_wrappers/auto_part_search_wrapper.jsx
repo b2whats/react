@@ -52,7 +52,7 @@ var AutoPartsSearchWrapper = React.createClass({
   },
 
 
-  typeahead_search (options, search_term, cb) { //вариант без      
+  typeahead_search (options, search_term, cb) { //вариант без
     search_actions.suggest(search_term, {cb: cb, search_term: search_term});
     search_actions.search_term_changed(search_term);
     this.last_st = search_term;
@@ -73,14 +73,15 @@ var AutoPartsSearchWrapper = React.createClass({
   },
 
   render () {
-    
+
     if(this.last_st!==null && this.state.suggestion_list_state) {
       var suggeset_st = this.state.suggestion_list_state.get('search_term');
       if( suggeset_st === this.last_st) { //нет смысла показывать промежуточные списки
-        var options = this.state.suggestion_list && 
+        var options = this.state.suggestion_list &&
           this.state.suggestion_list.map( line => ({
-            id: line.get(kLINE_ID), 
+            id: line.get(kLINE_ID),
             title: [line.get(kLINE_ARTICUL), line.get(kLINE_PRODUCER),line.get(kLINE_SENTENCE_INDEX)]}) ).toJS() || [];
+
         this.state.suggestion_list_state.get('cb')(null, options);
         this.last_st = null; //больше не надо вызывать
       }
@@ -100,7 +101,8 @@ var AutoPartsSearchWrapper = React.createClass({
         has_custom_scroll={true} 
         onChange={this.typeahead_changed}
         on_blur={this.typeahead_lost_focus} 
-        search={this.typeahead_search} />
+        search={this.typeahead_search}
+      open_results={true}/>
     )
   }
 });

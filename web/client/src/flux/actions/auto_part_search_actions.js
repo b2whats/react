@@ -33,7 +33,7 @@ var actions_ = [
 
 
 var query_auto_parts = (words) => {
-  if((''+ (words || '')).trim().length < 1) {    
+  if((''+ (words || '')).trim().length < 1) {
     return (new q(resolve => resolve([])));
   } else {
     return r_suggestions_

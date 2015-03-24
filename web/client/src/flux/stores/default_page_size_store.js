@@ -15,29 +15,33 @@ var immutable = require('immutable');
 var kON_DEFAULT_PAGE_SIZE_CHANGED__DEFAULT_PAGE_SIZE_STORE_PRIORITY =  sc.kON_DEFAULT_PAGE_SIZE_CHANGED__DEFAULT_PAGE_SIZE_STORE_PRIORITY; //меньше дефолтной
 
 var state_ =  init_state(_.last(__filename.split('/')), { 
-  width: 0
+  width: 0,
 });
 
-var default_page_size_store_did_change_cncl = main_dispatcher
-.on(event_names.kON_DEFAULT_PAGE_SIZE_CHANGED, width => {  
-  var im_width = immutable.fromJS(width);
+var cncl_ = [
+  main_dispatcher
+  .on(event_names.kON_DEFAULT_PAGE_SIZE_CHANGED, width => {
+    var im_width = immutable.fromJS(width);
 
-  if(!immutable.is(state_.width, width)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
-    state_.width_cursor
-      .update(() => im_width);
-    
-    default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были    
-  }
-}, kON_DEFAULT_PAGE_SIZE_CHANGED__DEFAULT_PAGE_SIZE_STORE_PRIORITY);
+    if(!immutable.is(state_.width, width)) { //правильная идея НИКОГДА не апдейтить объект если он не менялся
+      state_.width_cursor
+        .update(() => im_width);
 
+      default_page_size_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были
+    }
+  }, kON_DEFAULT_PAGE_SIZE_CHANGED__DEFAULT_PAGE_SIZE_STORE_PRIORITY),
+
+];
 
 var default_page_size_store = merge(Emitter.prototype, {
   get_width () {
     return state_.width;
   },
-
   dispose () {
-    default_page_size_store_did_change_cncl();
+    if(cncl_) {
+      _.each(cncl_, cncl => cncl());
+    }
+    cncl_ = null;
   },
   $assert_info: main_dispatcher.get_assert_info()
 });

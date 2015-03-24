@@ -92,7 +92,9 @@ var Typeahead = React.createClass({
     );
   },
 
-
+  componentDidMount() {
+    if (this.props.open_results) this.onFocus();
+  },
 
   on_disable_focused_value() {
     this.focused_can_change = false;
