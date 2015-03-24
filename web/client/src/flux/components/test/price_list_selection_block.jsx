@@ -13,13 +13,18 @@ var PriceListSelector = require('components/test/price_list_selector.jsx');
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 var price_list_selector_store = require('stores/admin/price_list_selector_store.js');
 
+var toggle_actions = require('actions/toggle_actions.js');
+var toggle_store = require('stores/toggle_store.js');
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  price_list_values: price_list_selector_store.get_values (),
-  first_value: price_list_selector_store.get_first_value(),
-  range_to: price_list_selector_store.get_price_range_to(),
-  range_from: price_list_selector_store.get_price_range_from()
-}),
-price_list_selector_store /*observable store list*/);
+    price_list_values : price_list_selector_store.get_values(),
+    first_value       : price_list_selector_store.get_first_value(),
+    range_to          : price_list_selector_store.get_price_range_to(),
+    range_from        : price_list_selector_store.get_price_range_from(),
+    toggle            : toggle_store.get_toggle(),
+
+  }),
+  price_list_selector_store, toggle_store /*observable store list*/);
 
 
 var PriceListSelectionBlock = React.createClass({
@@ -44,12 +49,19 @@ var PriceListSelectionBlock = React.createClass({
   },
 
   on_price_list_selector_delta_percent_change(index, delta_percent) {
-    price_list_selector_actions.update_delta_percent(index, +delta_percent.target.value);
+    if (delta_percent.target.value <= 100) {
+      price_list_selector_actions.update_delta_percent(index, +delta_percent.target.value);
+    }
   },
 
   reverse(val) {
     var val = (val | 0) + '';
     return val.split("").reverse().join("").replace(/([0-9]{1,3})/g, '$1 ').trim().split("").reverse().join("");
+  },
+  toggle(val) {
+    return () => {
+      toggle_actions.change(val);
+    }
   },
   render() {
     var values = this.state.price_list_values
@@ -117,22 +129,45 @@ var PriceListSelectionBlock = React.createClass({
           onAdd={this.on_price_list_selector_add}/>
 
         <div>
-          <div className='d-ib va-t'>
-            <span className='w30px p5-0 pB10 ta-c d-ib'>№</span>
-            <span className='w250px p5-0 pB10 ta-c d-ib'>Диапазон</span>
-            <span className='w250px p5-0 pB10 ta-c d-ib'>Наценка</span>
+          <div className='d-ib va-t mR25'>
+            <span className='w30px pB10 ta-c d-ib h25px'>№</span>
+            <span className='w250px pB10 ta-c d-ib h25px'>Диапазон</span>
+            <span className='w250px pB10 ta-c d-ib h25px'>Наценка</span>
             <table cellSpacing="0" className="slider-table va-T br7 o-h b1s bc-grey-300 tl-f bcol-s">
               <tbody>
                   {TrPriceListRows}
               </tbody>
             </table>
           </div>
-          <div className="va-T br6 d-ib m25 w40pr z-depth-1 p20-15">
-            <h3>Инструкция</h3>
-            <br/>
-            добавить - двойной клик,
-            <br/>
-            убрать - утянуть ползунок вправо или назначить цену больше максимальной
+          <div className="va-T br6 d-ib m25-0 w40pr z-depth-1 p20-15 o-h">
+            <div className='entire-width  flex-ai-c'>
+              <span className='fw-b fs24'>Инструкция</span>
+              <span className='c-deep-purple-500 cur-p fs12 bB1d' onClick={this.toggle('manage-instruction')}>
+
+              {(!!!this.state.toggle.get('manage-instruction')) ? 'Скрыть инструкцию' : 'Показать инструкцию'}
+              </span>
+            </div>
+            <div className={cx(!!!this.state.toggle.get('manage-instruction') ? 'd-b' : 'd-N')}>
+              <p className='lh1-4'>
+                1. Выберите оптового поставщика в соответствующем поле для принятия его прайс-листа за основу. Оцените срок доставки товара.
+              </p>
+              <p className='lh1-4'>
+                2. Шкала с делениями служит для деления ценового спектра на диапазоны.
+                 <strong>Кликните на участке шкалы дважды, чтобы создать новое деление</strong>
+              </p>
+              <img className='d-b m15-0' src='/assets/images/templates/manage-example.jpg'/>
+              <span className='lh1-4 d-ib'>
+                3. Ниже шкалы расположен блок настройки наценок. Здесь можно:
+                <ul className='lst-N lh1-4 pL10 m0'>
+                  <li>а) Точно настроить положение бегунка (границ диапазонов)</li>
+                  <li>б) Удалить бегунок</li>
+                  <li>в) Настроить наценку на товары, входяшие в соответствующие ценовые диапазоны</li>
+                </ul>
+              </span>
+              <p className='lh1-4'>
+                4. Чтобы уменьшить количество диапазонов, утащите метку вправо за пределы экрана
+              </p>
+            </div>
           </div>
         </div>
         {/*

@@ -42,7 +42,7 @@ var Footer = React.createClass({
             <Link className="h_link m0-10" href={'/agreement'}>Пользовательское соглашение</Link>
             <div className='d-ib p-r drop-up  m0-10'>
               <span onClick={this.extToggle('drop_up_menu')} className="ap-link us-n">Контакты</span>
-              <ul ref='menu' tabIndex='1' onBlur={this.closeMenu}  className={cx("drop-up-list lst-n", {"d-n": !!!this.state.toggle.get('drop_up_menu')})} >
+              <ul ref='menu' tabIndex='1' onBlur={this.closeMenu}  className={cx("drop-up-list lst-N", {"d-N": !!!this.state.toggle.get('drop_up_menu')})} >
                 <li>
                   Москва(тех.поддержка для продавцов) <strong>+7(499)322-21-74</strong>
                 </li>

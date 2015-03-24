@@ -300,7 +300,7 @@ console.log(this.state.masters_name.first());
                 <i onClick={this.toggle('services_autoservices')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('services_autoservices')) ? "active" : "")}></i>
               </div>
             </div>
-            <div className={cx("p20-15", {"d-n": !!!this.state.toggle.get('services_autoservices')} )}>
+            <div className={cx("p20-15", {"d-N": !!!this.state.toggle.get('services_autoservices')} )}>
               Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
               <div>
                 <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.extToggleSave('master_name')}>{(!!this.state.toggle.get('master_name')) ? 'Сохранить' : 'Имя мастера'}</button>
@@ -344,7 +344,7 @@ console.log(this.state.masters_name.first());
                 <i onClick={this.toggle('autoparts')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoparts')) ? "active" : "")}></i>
               </div>
             </div>
-            <div className={"p20-15 " + ((!!this.state.toggle.get('autoparts')) ? "" : "d-n")}>
+            <div className={"p20-15 " + ((!!this.state.toggle.get('autoparts')) ? "" : "d-N")}>
               Возможность размещения на сайте ваших товаров в течении определенного срока:
               <div className="entire-width mT20  flex-ai-c">
                 {this.generateTarifs('autoparts')}
@@ -371,7 +371,7 @@ console.log(this.state.masters_name.first());
                 <i onClick={this.toggle('catalog')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('catalog')) ? "active" : "")}></i>
               </div>
             </div>
-            <div className={"p20-15 " + ((!!this.state.toggle.get('catalog')) ? "" : "d-n")}>
+            <div className={"p20-15 " + ((!!this.state.toggle.get('catalog')) ? "" : "d-N")}>
               Выберите срок отображения вашей компании в разделе "Каталог компаний":
               <div className="entire-width mT20  flex-ai-c">
                 {this.generateTarifs('catalog')}

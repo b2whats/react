@@ -27,6 +27,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   suppliers: [],
   current_supplier_id: -1,
   price_range: {},
+  price_range_info: {},
 });
 
 
@@ -54,6 +55,10 @@ var cncl_ = [
       update_state_param("price_range", range);
     }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
+    .on(event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE_INFO, info => {
+      update_state_param("price_range_info", info);
+    }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
+  main_dispatcher
     .on(event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE, (id, range) => {
 
 
@@ -75,8 +80,6 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_PRICE_LIST_SELECTOR_RESET, (id) => {
-      console.log(state_.price_range.toJS());
-      console.log(state_.price_range);
 
       var id = id + '';
       if (state_.price_range.has(id)) {
@@ -86,7 +89,7 @@ var cncl_ = [
           {delta_fix: 200, delta_percent: 1}, //значение без price_from это значение наценки для первого интервала цены
         ];
       }
-console.log(values);
+
       var first_value = _.find(values, v => v.price_from === undefined);
       values = _.filter(values, v => v.price_from > state_.price_range_from && v.price_from < state_.price_range_to);
 

@@ -20,7 +20,8 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   
   price_properties: {
     'goods_quality' : '1',
-    'delivery_time' : '1'
+    'delivery_time' : '1',
+    'discount' : 0
   },
   history : {},
   price_list_content: '',

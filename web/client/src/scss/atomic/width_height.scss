@@ -13,7 +13,11 @@ $width_size_list : (20,25,30,40,50,55,60,70,80,90,100,110,120,130,140,150,160,17
 }
 $min_width_size_list : (40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,250);
 @each $size in $min_width_size_list {
-  .minw#{$size}px {min-width: #{$size}px;}
+  .mw#{$size}px {min-width: #{$size}px;}
+}
+@for $i from 0 through 50 {
+  $v: 500 + $i * 10;
+  .Mw#{$v}px {max-width: #{$v}px;}
 }
 $height_size_list : (10,14,15,20,25,30,35,40,50,60,70,80,90,100,110,120,125,130,140,150);
 @each $size in $height_size_list {

@@ -210,10 +210,12 @@
 Текстовые значения свойств устанавливаются через - (.f-l {float: left})
 Цифровые значения свойств устанавливаются без разделителей (.p10 {padding: 10px})
 Перечисление цифровых значений свойств разделяется - (.m10-10 {margin: 10px 10px})
+У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 Все свойства в которых нет указания сторон(left, right, top, bottom) пишутся с маленькой буквы (.d-b {display: block})
 Свойства в которых встречаются указания сторон пишем с маленькой буквы, стороны в них - большими (.mR5 {margin-right: 5px})
-У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 Селекторы которые имеют свойства с приставкой max- min- записываются с большой и маленькой буквы соответственно (.Mw100px {max-width: 100px} .mh200px {min-height: 200px})
+Свойства со значение none так же записываются с большой буквы (.tt-N {text-transform: none})
+
 */
 .m5 {
   margin: 5px; }
@@ -554,6 +556,9 @@
 .p0-10 {
   padding: 0 10px; }
 
+.p5-0 {
+  padding: 5px 0px; }
+
 .p5-10 {
   padding: 5px 10px; }
 
@@ -758,62 +763,215 @@
 .w700px {
   width: 700px; }
 
-.minw40px {
+.mw40px {
   min-width: 40px; }
 
-.minw50px {
+.mw50px {
   min-width: 50px; }
 
-.minw60px {
+.mw60px {
   min-width: 60px; }
 
-.minw70px {
+.mw70px {
   min-width: 70px; }
 
-.minw80px {
+.mw80px {
   min-width: 80px; }
 
-.minw90px {
+.mw90px {
   min-width: 90px; }
 
-.minw100px {
+.mw100px {
   min-width: 100px; }
 
-.minw110px {
+.mw110px {
   min-width: 110px; }
 
-.minw120px {
+.mw120px {
   min-width: 120px; }
 
-.minw130px {
+.mw130px {
   min-width: 130px; }
 
-.minw140px {
+.mw140px {
   min-width: 140px; }
 
-.minw150px {
+.mw150px {
   min-width: 150px; }
 
-.minw160px {
+.mw160px {
   min-width: 160px; }
 
-.minw170px {
+.mw170px {
   min-width: 170px; }
 
-.minw180px {
+.mw180px {
   min-width: 180px; }
 
-.minw190px {
+.mw190px {
   min-width: 190px; }
 
-.minw200px {
+.mw200px {
   min-width: 200px; }
 
-.minw210px {
+.mw210px {
   min-width: 210px; }
 
-.minw250px {
+.mw250px {
   min-width: 250px; }
+
+.Mw500px {
+  max-width: 500px; }
+
+.Mw510px {
+  max-width: 510px; }
+
+.Mw520px {
+  max-width: 520px; }
+
+.Mw530px {
+  max-width: 530px; }
+
+.Mw540px {
+  max-width: 540px; }
+
+.Mw550px {
+  max-width: 550px; }
+
+.Mw560px {
+  max-width: 560px; }
+
+.Mw570px {
+  max-width: 570px; }
+
+.Mw580px {
+  max-width: 580px; }
+
+.Mw590px {
+  max-width: 590px; }
+
+.Mw600px {
+  max-width: 600px; }
+
+.Mw610px {
+  max-width: 610px; }
+
+.Mw620px {
+  max-width: 620px; }
+
+.Mw630px {
+  max-width: 630px; }
+
+.Mw640px {
+  max-width: 640px; }
+
+.Mw650px {
+  max-width: 650px; }
+
+.Mw660px {
+  max-width: 660px; }
+
+.Mw670px {
+  max-width: 670px; }
+
+.Mw680px {
+  max-width: 680px; }
+
+.Mw690px {
+  max-width: 690px; }
+
+.Mw700px {
+  max-width: 700px; }
+
+.Mw710px {
+  max-width: 710px; }
+
+.Mw720px {
+  max-width: 720px; }
+
+.Mw730px {
+  max-width: 730px; }
+
+.Mw740px {
+  max-width: 740px; }
+
+.Mw750px {
+  max-width: 750px; }
+
+.Mw760px {
+  max-width: 760px; }
+
+.Mw770px {
+  max-width: 770px; }
+
+.Mw780px {
+  max-width: 780px; }
+
+.Mw790px {
+  max-width: 790px; }
+
+.Mw800px {
+  max-width: 800px; }
+
+.Mw810px {
+  max-width: 810px; }
+
+.Mw820px {
+  max-width: 820px; }
+
+.Mw830px {
+  max-width: 830px; }
+
+.Mw840px {
+  max-width: 840px; }
+
+.Mw850px {
+  max-width: 850px; }
+
+.Mw860px {
+  max-width: 860px; }
+
+.Mw870px {
+  max-width: 870px; }
+
+.Mw880px {
+  max-width: 880px; }
+
+.Mw890px {
+  max-width: 890px; }
+
+.Mw900px {
+  max-width: 900px; }
+
+.Mw910px {
+  max-width: 910px; }
+
+.Mw920px {
+  max-width: 920px; }
+
+.Mw930px {
+  max-width: 930px; }
+
+.Mw940px {
+  max-width: 940px; }
+
+.Mw950px {
+  max-width: 950px; }
+
+.Mw960px {
+  max-width: 960px; }
+
+.Mw970px {
+  max-width: 970px; }
+
+.Mw980px {
+  max-width: 980px; }
+
+.Mw990px {
+  max-width: 990px; }
+
+.Mw1000px {
+  max-width: 1000px; }
 
 .h10px {
   height: 10px; }
@@ -1413,7 +1571,7 @@
   justify-content: space-around; }
 
 .z-depth-1 {
-  box-shadow: 0 1px 6px -1px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24); }
 
 /*Цвет текста, фона, бордеров*/
 .bc-deep-purple-50 {
@@ -1713,7 +1871,7 @@
 .d-b {
   display: block; }
 
-.d-n {
+.d-N {
   display: none; }
 
 .d-ib {
@@ -1735,13 +1893,16 @@
 .lst-s {
   list-style-type: square; }
 
+.lst-n {
+  list-style-type: number; }
+
 .lst-c {
   list-style-type: circle; }
 
 .lst-d {
   list-style-type: disc; }
 
-.lst-n {
+.lst-N {
   list-style-type: none; }
 
 .o-h {

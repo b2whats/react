@@ -7,6 +7,7 @@ var sc = require('shared_constants');
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 var resource = require('utils/resource.js');
 var api_refs = require('shared_constants/api_refs.js');
+
 var actions_ = [
   ['update_position', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION],
   ['update_position_by_price', event_names.kON_PRICE_LIST_SELECTOR_UPDATE_POSITION_BY_PRICE],
@@ -16,6 +17,7 @@ var actions_ = [
   ['add_position', event_names.kON_PRICE_LIST_SELECTOR_ADD_POSITION],
   ['init_suppliers', event_names.kON_PRICE_LIST_SELECTOR_INIT_SUPPLIERS],
   ['init_price_range', event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE],
+  ['init_price_range_info', event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE_INFO],
 
   
 ];
@@ -41,10 +43,13 @@ module.exports.load_price_list_data = () => {
     .then(response => {
       module.exports.init_suppliers(response.data.wholesale_list);
       module.exports.init_price_range(response.data.price_range);
+      module.exports.init_price_range_info(response.data.info);
+
       var id = 0;
       if (response.data.wholesale_list.length > 0) {
         id = response.data.wholesale_list[0].id;
         main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED].concat([id]));
+        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED].concat(['discount', response.data.info[id].discount]));
       }
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
         .concat([id]));

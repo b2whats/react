@@ -5,10 +5,12 @@
 Текстовые значения свойств устанавливаются через - (.f-l {float: left})
 Цифровые значения свойств устанавливаются без разделителей (.p10 {padding: 10px})
 Перечисление цифровых значений свойств разделяется - (.m10-10 {margin: 10px 10px})
+У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 Все свойства в которых нет указания сторон(left, right, top, bottom) пишутся с маленькой буквы (.d-b {display: block})
 Свойства в которых встречаются указания сторон пишем с маленькой буквы, стороны в них - большими (.mR5 {margin-right: 5px})
-У большинства универсальных свойств есть предустановленные размеры в 1px (.bb-s {border-bottom: 1px solid})
 Селекторы которые имеют свойства с приставкой max- min- записываются с большой и маленькой буквы соответственно (.Mw100px {max-width: 100px} .mh200px {min-height: 200px})
+Свойства со значение none так же записываются с большой буквы (.tt-N {text-transform: none})
+
 */
 @import 'margin';
 @import 'padding';
@@ -27,7 +29,7 @@
 .bs { box-shadow : 0 0 5px rgba(0, 0, 0, 0.4); }
 .cur-p { cursor : pointer; }
 .d-b { display : block; }
-.d-n { display : none; }
+.d-N { display : none; }
 .d-ib { display : inline-block; }
 .d-i { display : inline; }
 .d-if { display : inline-flex; }
@@ -39,9 +41,10 @@
   display : flex;
 }
 .lst-s { list-style-type : square; }
+.lst-n { list-style-type : number; }
 .lst-c { list-style-type : circle; }
 .lst-d { list-style-type : disc; }
-.lst-n { list-style-type : none; }
+.lst-N { list-style-type : none; }
 .o-h { overflow : hidden; }
 .o-v { overflow : visible; }
 .o-a { overflow : auto; }

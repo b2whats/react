@@ -189,9 +189,9 @@ var AccountInfo = React.createClass({
 						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
 					</div>
 				</div>
-				<div className='your-manager w50pr'>
+				<div className='your-manager w50pr Mw500px'>
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
-					<div className='p15 br10 bs  new_context m30-0'>
+					<div className='p15 br10 z-depth-1  new_context m30-0'>
 						<img className='va-T f-L mR20' src='/assets/images/templates/frank.jpg'/>
             <div className='new-context'>
               <div className='fw-b fs18'>Ваш менеджер</div>

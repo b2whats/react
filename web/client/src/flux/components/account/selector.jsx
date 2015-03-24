@@ -54,7 +54,7 @@ var Selector = React.createClass({
       
       return (
         <div className={cx("selector-item", cx(child.props.classBlock))}>
-          <div className="selector-item-header">
+          <div className={cx("selector-item-header", cx(child.props.classTitle))}>
           <label htmlFor={c_uid + '_' + key} className="label-radio">
             <input
               onChange={_.bind(this.on_change, null, key)}

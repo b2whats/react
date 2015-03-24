@@ -103,7 +103,7 @@ console.log('render' + this.state.toggle.get('drop_down_menu'));
             :
             <div className='d-ib p-r drop-down  m0-10'>
               <span onClick={this.extToggle('drop_down_menu')} className="ap-link us-n">{this.state.email}</span>
-              <ul ref='menu' tabIndex='1' onBlur={this.closeMenu}  className={cx("drop-down-list lst-n w210px", {"d-n": !!!this.state.toggle.get('drop_down_menu')})} >
+              <ul ref='menu' tabIndex='1' onBlur={this.closeMenu}  className={cx("drop-down-list lst-N w210px", {"d-N": !!!this.state.toggle.get('drop_down_menu')})} >
                 <li>
                   <Link className = "h_link" href='/account/:region_id/company' params={{region_id : kDEFAULT_REGION_ID}}>Мой аккаунт</Link>
                 </li>
