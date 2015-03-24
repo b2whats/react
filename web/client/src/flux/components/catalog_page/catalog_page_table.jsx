@@ -138,8 +138,8 @@ var CatalogPageTable = React.createClass({
           <td className='ta-c va-m w200px'>
             <div style={ { display:  part.get('main_marker').get('show_phone') ? 'block': 'none' } }
               className="ta-c fs20">
-              <span className='fs14'>{part.get('main_marker').get('main_phone').substr(0,7)}</span>
-            {part.get('main_marker').get('main_phone').substr(7)}
+              <span className='fs14'>{!!part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
+            {!!part.get('main_marker').get('main_phone') &&  part.get('main_marker').get('main_phone').substr(7)}
             </div>
             <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
               style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'inline-block' } }

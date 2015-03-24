@@ -45,6 +45,7 @@ var actions_ = [
   
   ['catalog_change_items_per_page', event_names.kON_CATALOG_CHANGE_ITEMS_PER_PAGE],
   ['catalog_change_page', event_names.kON_CATALOG_CHANGE_PAGE],
+  ['catalog_search', event_names.kON_CATALOG_SEARCH],
 
   ['catalog_show_all_phones_on_current_page', event_names.kON_CATALOG_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
 ];

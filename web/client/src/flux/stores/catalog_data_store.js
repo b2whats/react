@@ -40,6 +40,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   results_count: 0,
 
   show_all_phones: false,
+  search_text: '',
 });
 
 
@@ -87,20 +88,29 @@ var set_results_and_markers_visibility_ = () => {
   var items_from = state_.items_per_page*state_.page_num;
   var items_to =   state_.items_per_page*(state_.page_num + 1);
   var map_bounds = state_.map_bounds.toJS();
-  
+
+
+
+
   state_.results_sorted_cursor
   .update( results => 
     results
-      .map( r => 
-        r.set('visible', 
-          point_utils.pt_in_rect(r.get('main_marker').get('coordinates').toJS(), map_bounds)))
+      .map( r => {
+        var str = `${r.get('company_name')} ${r.get('description')}  ${r.get('main_phone')}  ${r.get('site')}`;
+        return r
+          .set('visible', point_utils.pt_in_rect(r.get('main_marker').get('coordinates').toJS(), map_bounds) &&
+                          !!(str.toLowerCase().indexOf(state_.search_text.toLowerCase()) + 1))
+
+
+      })
       .reduce( (memo, r) => (
         {
           list: memo.list.push(r.set('on_current_page', r.get('visible') && memo.index >= items_from && memo.index < items_to )),
-          index: memo.index + (r.get('visible') ? 1 : 0) 
+          index: memo.index + (r.get('visible') ? 1 : 0)
         } ), {index:0, list:immutable.List()}).list );
+console.log(state_.results_sorted.toJS());
 
-  
+
   state_.results_count_cursor
     .update( () => state_.results_sorted.count( r => r.get('visible')));
 
@@ -122,7 +132,7 @@ var set_results_and_markers_visibility_ = () => {
       return memo;
     }, {});
 
-  //console.log('id_2_on_page', id_2_on_page);
+
 
   state_.catalog_data_cursor
     .cursor(['markers'])
@@ -213,6 +223,15 @@ var cncl_ = [
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
   //-------------------------------------------------------------------------------
+
+  main_dispatcher
+    .on(event_names.kON_CATALOG_SEARCH, (search_text) => {
+      state_.search_text_cursor //выставлять при загрузке 0 страничку
+        .update( () => search_text);
+      set_results_and_markers_visibility_();
+      catalog_data_store.fire(event_names.kON_CHANGE);
+
+    }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
 
   main_dispatcher

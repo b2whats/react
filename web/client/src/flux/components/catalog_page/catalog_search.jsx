@@ -110,7 +110,10 @@ var CatalogSearch = React.createClass({
   search_all(options, searchTerm, cb) {
     cb(null, options);
   },
-
+  search(e) {
+    var text = e.target.value;
+    catalog_data_actions.catalog_search(text);
+  },
   render () {
     var region_name = this.state.region_current && this.state.region_current.get('title');
 
@@ -138,7 +141,7 @@ var CatalogSearch = React.createClass({
             </div>
             
             <div className="md-7-3 catalog-page-midddle">
-              <input className="catalog-page-w100" type="text" placeholder="Введите имя компании или ..." />
+              <input onChange={this.search} className="catalog-page-w100" type="text" placeholder="Введите имя компании или ..." />
             </div>
 
             <div className="md-7-1 catalog-page-midddle">
