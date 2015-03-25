@@ -108,7 +108,8 @@ var set_results_and_markers_visibility_ = () => {
           list: memo.list.push(r.set('on_current_page', r.get('visible') && memo.index >= items_from && memo.index < items_to )),
           index: memo.index + (r.get('visible') ? 1 : 0)
         } ), {index:0, list:immutable.List()}).list );
-console.log(state_.results_sorted.toJS());
+
+console.log(state_.results_sorted);
 
 
   state_.results_count_cursor
