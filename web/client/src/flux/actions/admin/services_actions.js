@@ -27,10 +27,22 @@ module.exports.submit_masters_name = (names) => {
     .then(response => {
     });
 };
-module.exports.make_payment = (payment_info) => {
+module.exports.make_payment = (payment_info, payment_method) => {
+  var w = window.open("","","width=900,height=600");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
-    .post(payment_info)
+    .post({payment_info : payment_info, payment_method : payment_method})
     .then(response => {
+      w.location = response.payment_url;
+
+      var check_url = setInterval(() => {
+        if (w.location.hostname == window.location.hostname || w.closed) {
+          clearInterval(check_url);
+          w.close();
+        }
+        console.log(w.closed);
+      }, 300);
+
+
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_INFO_LOADED].concat([response]));
     });
 };
@@ -40,6 +52,7 @@ var actions_ = [
   ['change_tarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
   ['change_brands', event_names.kACCOUNT_SERVICES_CHANGE_BRANDS],
   ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES],
+  ['change_payment_method', event_names.kACCOUNT_SERVICES_CHANGE_PAYMENT_METHOD],
   ['change_masters_name', event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME]
 
 ];

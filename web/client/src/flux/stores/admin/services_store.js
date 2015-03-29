@@ -108,6 +108,39 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       price : 0
     }
   },
+  payment_method : [
+    {
+      name : 'Безналичный банковский перевод',
+      img  : '/assets/images/templates/beznal.png',
+      type : 'robokassa',
+      id   : 'beznal'
+    },
+    {
+      name : 'Банкосвская карта (Visa, MasterCard, Maestro, JCB, BCL)',
+      img  : '/assets/images/templates/creditcard.png',
+      type : 'robokassa',
+      id   : 'creditcard'
+    },
+    {
+      name : 'WebMoney',
+      img  : '/assets/images/templates/webmoney.png',
+      type : 'robokassa',
+      id   : 'webmoney'
+    },
+    {
+      name : 'Яндекс Деньги',
+      img  : '/assets/images/templates/yandex.png',
+      type : 'robokassa',
+      id   : 'yandex'
+    },
+    {
+      name : 'Другие способы (ROBOKASSA)',
+      img  : '/assets/images/templates/robokassa.png',
+      type : 'robokassa',
+      id   : 'yandex'
+    },
+  ],
+  current_payment_method : {}
 });
 
 var cncl_ = [
@@ -170,7 +203,6 @@ var cncl_ = [
         state_.select_brands_cursor
           .update((list) => list.splice(ind,1));
       }
-      console.log(state_.select_brands.toJS());
     }, 1),
   main_dispatcher
     .on(event_names.kACCOUNT_SERVICES_CHANGE_SERVICES, (id,val) => {
@@ -182,7 +214,13 @@ var cncl_ = [
         state_.select_services_cursor
           .update((list) => list.splice(ind,1));
       }
-      console.log(state_.select_services.toJS());
+    }, 1),
+  main_dispatcher
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_PAYMENT_METHOD, (id) => {
+      state_.current_payment_method_cursor
+        .update(() => state_.payment_method.get(id));
+      account_services_store.fire(event_names.kON_CHANGE);
+
     }, 1),
 ];
 
@@ -216,6 +254,12 @@ var account_services_store = merge(Emitter.prototype, {
   },
   get_masters_name() {
     return state_.masters_name;
+  },
+  get_payment_method() {
+    return state_.payment_method;
+  },
+  get_current_payment_method() {
+    return state_.current_payment_method;
   },
   dispose() {
 

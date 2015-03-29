@@ -109,7 +109,7 @@ var set_results_and_markers_visibility_ = () => {
           index: memo.index + (r.get('visible') ? 1 : 0)
         } ), {index:0, list:immutable.List()}).list );
 
-console.log(state_.results_sorted);
+
 
 
   state_.results_count_cursor

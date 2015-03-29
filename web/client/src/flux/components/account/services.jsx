@@ -28,18 +28,20 @@ var Select = require('react-select');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
     return ({
-      payment           : account_services_store.get_services_info(),
-      step              : account_services_store.get_step(),
-      regions           : region_store.get_region_list(),
-      selected_services : account_services_store.get_selected_services(),
-      masters_name      : account_services_store.get_masters_name(),
-      tarifs            : account_services_store.get_tarifs(),
-      modalIsOpen       : modal_store.get_modal_visible(),
-      brands_by_region  : account_services_store.get_brands_by_region(),
-      services_by_type  : account_services_store.get_services_by_type(),
-      select_brands     : account_services_store.get_select_brands(),
-      select_services   : account_services_store.get_select_services(),
-      toggle            : toggle_store.get_toggle(),
+      payment                : account_services_store.get_services_info(),
+      payment_method         : account_services_store.get_payment_method(),
+      current_payment_method : account_services_store.get_current_payment_method(),
+      step                   : account_services_store.get_step(),
+      regions                : region_store.get_region_list(),
+      selected_services      : account_services_store.get_selected_services(),
+      masters_name           : account_services_store.get_masters_name(),
+      tarifs                 : account_services_store.get_tarifs(),
+      modalIsOpen            : modal_store.get_modal_visible(),
+      brands_by_region       : account_services_store.get_brands_by_region(),
+      services_by_type       : account_services_store.get_services_by_type(),
+      select_brands          : account_services_store.get_select_brands(),
+      select_services        : account_services_store.get_select_services(),
+      toggle                 : toggle_store.get_toggle()
     })
   },
 	modal_store, account_services_store, toggle_store);
@@ -67,10 +69,11 @@ var AccountInfo = React.createClass({
     }
   },
   makePayment() {
-    account_services_actions.make_payment(this.state.selected_services.toJS());
+    account_services_actions.make_payment(this.state.selected_services.toJS(),this.state.current_payment_method.toJS());
   },
   toggle(val) {
-    return () => {
+    return (e) => {
+      e.stopPropagation();
       toggle_actions.change(val);
     }
   },
@@ -137,6 +140,10 @@ var AccountInfo = React.createClass({
     //Стэйт не меняем после каждого изменения
     account_services_actions.change_services(e.target.value,e.target.checked);
   },
+  changePaymentMethod(e) {
+    console.log(e.target.value,e.target.checked);
+    account_services_actions.change_payment_method(e.target.value,e.target.checked);
+  },
   generatedBrandsCheckbox() {
 
     var brands = {};
@@ -185,7 +192,6 @@ var AccountInfo = React.createClass({
   generatedServicesCheckbox() {
     var services = this.state.select_services;
 
-console.log(services.toJS());
 
     return this.state.services_by_type
       .map((part, part_index) => {
@@ -239,8 +245,31 @@ console.log(services.toJS());
     //Так как не меняем стетй. Берем из сторы новый набор данных
     account_services_actions.submit_checkbox('services',account_services_store.get_select_services().toJS().toString());
   },
+  generatedPaymentMethod() {
+    return (
+    <ul className='lst-N ta-l fs14'>
+      {this.state.payment_method
+          .map((part, part_index) => {
+            return (
+                <li className='m15-0' key={part_index}>
+                  <span className='d-ib ta-c w80px mR10'>
+                    <img className='va-m' src={part.get('img')}/>
+                  </span>
+                  <label className="label-radio">
+                    <input  value={part_index} name='payment_method' type="radio" onChange={this.changePaymentMethod} className="radio"/>
+                    {part.get('name')}
+                  </label>
+                </li>
+            )
+          })
+          .toArray()
+      }
+    </ul>
+    )
+  },
 	render() {
-console.log(this.state.masters_name.first());
+    console.log(this.state.current_payment_method.size);
+
     var regions = [];
     this.state.regions.forEach((region) => {
       regions.push({
@@ -285,7 +314,7 @@ console.log(this.state.masters_name.first());
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width">
+            <div onClick={this.toggle('services_autoservices')} className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width">
               <div>
                 Отображение компании в разделе "Консультация мастера"
                 <i className="btn-question btn-icon m0-5"></i>
@@ -329,7 +358,7 @@ console.log(this.state.masters_name.first());
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh">
+            <div onClick={this.toggle('autoparts')} className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh">
               <div>
                 Размещение и отображение прайсов автозапчастей
                 <i className="btn-question btn-icon m0-5"></i>
@@ -353,7 +382,7 @@ console.log(this.state.masters_name.first());
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g">
+            <div onClick={this.toggle('catalog')} className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g">
               <div>
                 Отображение компании в каталоге компаний
                 <i className="btn-question btn-icon m0-5"></i>
@@ -382,8 +411,13 @@ console.log(this.state.masters_name.first());
             Общая сумма: <strong>{summ} </strong> руб.
           </div>
           <hr className="hr-arrow m20-0"/>
+          <div className='m30-0'>
+            <strong>Шаг 3 </strong> из 3.
+            <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
+          </div>
           <div className='ta-c m20-0 fs18 '>
-            <button disabled={(summ == 0) && true}className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.makePayment}>Оплатить</button>
+            {this.generatedPaymentMethod()}
+            <button disabled={(summ == 0 || this.state.current_payment_method.size == 0) && true}className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth-1' onClick={this.makePayment}>Оплатить</button>
           </div>
         </div>
         }
@@ -407,7 +441,7 @@ console.log(this.state.masters_name.first());
             {this.generatedServicesCheckbox()}
 
           </div>
-          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.submitSelectServices}>Сохранить</button>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth-1' onClick={this.submitSelectServices}>Сохранить</button>
         </Modal>
 			</div>
 		);
