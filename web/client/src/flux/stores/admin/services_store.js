@@ -35,18 +35,23 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       },
       '1' : {
         month : 1,
-        price : 300,
-        discount : 5
+        price : 5000,
+        discount : 0
       },
       '3' : {
         month : 3,
-        price : 600,
-        discount : 10
+        price : 14250,
+        discount : 5
       },
       '6' : {
         month : 6,
-        price : 900,
-        discount : 15
+        price : 27000,
+        discount : 10
+      },
+      '12' : {
+        month : 12,
+        price : 48000,
+        discount : 20
       },
     },
     autoservices : {
@@ -57,18 +62,23 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       },
       '1' : {
         month : 1,
-        price : 300,
-        discount : 5
+        price : 7000,
+        discount : 0
       },
       '3' : {
         month : 3,
-        price : 600,
-        discount : 10
+        price : 19950,
+        discount : 5
       },
       '6' : {
         month : 6,
-        price : 900,
-        discount : 15
+        price : 37800,
+        discount : 10
+      },
+      '12' : {
+        month : 12,
+        price : 67200,
+        discount : 20
       },
     },
     catalog : {
@@ -79,18 +89,23 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       },
       '1' : {
         month : 1,
-        price : 300,
-        discount : 5
+        price : 2500,
+        discount : 0
       },
       '3' : {
         month : 3,
-        price : 600,
-        discount : 10
+        price : 7125,
+        discount : 5
       },
       '6' : {
         month : 6,
-        price : 900,
-        discount : 15
+        price : 13500,
+        discount : 10
+      },
+      '12' : {
+        month : 12,
+        price : 24000,
+        discount : 20
       },
     }
   },

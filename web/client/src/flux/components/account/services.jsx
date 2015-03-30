@@ -15,6 +15,7 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
 var decOfNum = require('utils/decline_of_number.js');
+var format_string = require('utils/format_string.js');
 var cx = require('classnames');
 
 var account_services_actions = require('actions/admin/services_actions.js');
@@ -96,12 +97,12 @@ var AccountInfo = React.createClass({
 
             <label key={part.get('month')} className="label-radio">
               <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif(type)} className="radio m0-10" name={type}/>
-              <span className="d-ib va-m lh1-4 fs17">
+              <span className="d-ib va-m lh1-4 fs15">
                 {(part_index == 0) ?
                   'Бесплатно'
                   :
                   <span>
-                    <span>{decOfNumMonth(part.get('month'))} {part.get('price')} руб.</span>
+                    <span>{decOfNumMonth(part.get('month'))}  {format_string.money(part.get('price'), ' ')} руб.</span>
                     <br/>
                     <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
                   </span>
@@ -284,9 +285,9 @@ var AccountInfo = React.createClass({
 			<div>
         <h3 className='fw-b fs20 m20-0'>Действующие услуги</h3>
 
-        {this.generatePaymentBlock('autoservices','as','Отображение компании в разделе<br/>"Консультация мастера"')}
-        {this.generatePaymentBlock('autoparts','ap','Функция<br/>"Размещение запчастей"')}
-        {this.generatePaymentBlock('catalog','g','Отображение компании в<br/>"Каталоге компаний"')}
+        {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
+        {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
+        {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
 
         <hr className="hr bw4 m25-0"/>
         <h3 className='fw-b fs20 m20-0'>Подключение услуг</h3>
@@ -316,7 +317,7 @@ var AccountInfo = React.createClass({
           <div className="br6 b1s bc-g grad-g m20-0">
             <div onClick={this.toggle('services_autoservices')} className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width">
               <div>
-                Отображение компании в разделе "Консультация мастера"
+                Повышение в поиске в разделе "Консультация мастера"
                 <i className="btn-question btn-icon m0-5"></i>
               </div>
               <div>
@@ -360,7 +361,7 @@ var AccountInfo = React.createClass({
           <div className="br6 b1s bc-g grad-g m20-0">
             <div onClick={this.toggle('autoparts')} className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh">
               <div>
-                Размещение и отображение прайсов автозапчастей
+                Повышение в поиске прайсов автозапчастей
                 <i className="btn-question btn-icon m0-5"></i>
               </div>
               <div>
@@ -384,7 +385,7 @@ var AccountInfo = React.createClass({
           <div className="br6 b1s bc-g grad-g m20-0">
             <div onClick={this.toggle('catalog')} className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g">
               <div>
-                Отображение компании в каталоге компаний
+                Повышение в поиске в каталоге компаний
                 <i className="btn-question btn-icon m0-5"></i>
               </div>
               <div>
@@ -408,7 +409,7 @@ var AccountInfo = React.createClass({
             </div>
           </div>
           <div className='ta-c m20-0 fs18 '>
-            Общая сумма: <strong>{summ} </strong> руб.
+            Общая сумма: <strong>{format_string.money(summ, ' ')} </strong> руб.
           </div>
           <hr className="hr-arrow m20-0"/>
           <div className='m30-0'>

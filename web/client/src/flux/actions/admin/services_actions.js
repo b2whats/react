@@ -28,22 +28,30 @@ module.exports.submit_masters_name = (names) => {
     });
 };
 module.exports.make_payment = (payment_info, payment_method) => {
-  var w = window.open("","","width=900,height=600");
+  var w = window.open("","","width=900,height=600,scrollbars=yes,resizable=yes,");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
     .post({payment_info : payment_info, payment_method : payment_method})
     .then(response => {
       w.location = response.payment_url;
+      if (response.payment_method.id == 'beznal') {
+        console.log(12);
+      } else {
+        var check_url = setInterval(() => {
+          try {
+            if (w.location && w.location.hostname == window.location.hostname || w.closed) {
+              clearInterval(check_url);
+              w.close();
+              module.exports.get_services_information();
+            }
+          } catch(e) {
 
-      var check_url = setInterval(() => {
-        if (w.location.hostname == window.location.hostname || w.closed) {
-          clearInterval(check_url);
-          w.close();
-        }
-        console.log(w.closed);
-      }, 300);
+          }
+        }, 500);
+
+      }
 
 
-      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_INFO_LOADED].concat([response]));
+
     });
 };
 var actions_ = [
