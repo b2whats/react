@@ -35,11 +35,22 @@ module.exports.delete_company_filial_async = (filial_id) => {
     console.log('delete', filial_id);
     return r_delete_company_filial.post({filial_id: filial_id});
 };
+
+module.exports.submit_company_personal_details = (detail) => {
+
+  resource(api_refs.kACCOUNT_COMPANY_PERSONAL_DETAILS)
+    .post({type : 'set', legal_detail: detail})
+    .then(data => {
+      console.log(data);
+    });
+};
 var actions_ = [
     ['update_form', event_names.kON_FORM_UPDATE],
     ['change_current_filial', event_names.kON_CURRENT_FILIAL_CHANGE],
     ['new_filial', event_names.kON_NEW_FILIAL],
     ['delete_filial', event_names.kON_FILIAL_DELETE],
+    ['update_company_personal_details', event_names.kON_COMPANY_PERSONAL_DETAILS_UPDATE],
+
 ];
 
 

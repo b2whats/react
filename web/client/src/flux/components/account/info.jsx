@@ -27,11 +27,12 @@ var account_page_store = require('stores/account_page_store.js');
 var Select = require('react-select');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 		return ({ //state update lambda
-			modalIsOpen         : modal_store.get_modal_visible(),
-			formsIsEdit         : editable_forms_store.get_forms_editable(),
-			company_information : account_page_store.get_company_information(),
-			company_filials     : account_page_store.get_company_filials(),
-			current_filial      : account_page_store.get_current_filial(),
+      modalIsOpen             : modal_store.get_modal_visible(),
+      formsIsEdit             : editable_forms_store.get_forms_editable(),
+      company_information     : account_page_store.get_company_information(),
+      company_filials         : account_page_store.get_company_filials(),
+      current_filial          : account_page_store.get_current_filial(),
+      company_personal_detail : account_page_store.get_company_personal_detail(),
 		})
 	},
 	modal_store, editable_forms_store, account_page_store/*observable store list*/);
@@ -85,15 +86,15 @@ var AccountInfo = React.createClass({
   updateValue: function(newValue) {
     console.log(newValue);
   },
-  updateCompanyDetails(field) {
+  updateCompanyPersonalDetails(field) {
     return (e) => {
-      console.log(field);
-      console.log(e.target.value);
+      var value = (typeof e == 'object') ? e.target.value : e;
+      account_page_actions.update_company_personal_details(field, value);
     }
   },
-  submitCompanyDetails(e) {
-    console.log(e.target);
+  submitCompanyPersonalDetails(e) {
     e.preventDefault();
+    account_page_actions.submit_company_personal_details(this.state.company_personal_detail.toJS());
   },
 	render() {
     console.log('update-info');
@@ -215,26 +216,92 @@ var AccountInfo = React.createClass({
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}
 					onRequestClose={this.handleModalCloseRequest}
 				>
-					<div className='ta-c'>
+					<div className='ta-c w700px'>
 						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
             <h2 className='m15-0 mB25'>Реквизиты компании</h2>
-            <form onSubmit={this.submitCompanyDetails} encType="application/x-www-form-urlencoded">
-              <label>
-                <span className='d-b m5-0 fs14'>Полное наименование компании</span>
-                <input type='text'
-                  className='w100pr'
-                  defaultValue='123'
-                  name='a'
-                  onChange={this.updateCompanyDetails('email')}/>
-              </label>
-              <label>
-                <span className='d-b m5-0 fs14'>Юридический адрес</span>
-                <input type='text'
-                  className='w100pr'
-                  defaultValue='123'
-                  name='b'
-                  onChange={this.updateCompanyDetails('email')}/>
-              </label>
+            <form onSubmit={this.submitCompanyPersonalDetails} encType="application/x-www-form-urlencoded">
+              <ButtonGroup className='m15-0' select_element_value={this.state.company_personal_detail.get('type') || 'ИП'} onChange={this.updateCompanyPersonalDetails('type')}>
+                <button className="btn-bg-group w80px" value={'ИП'}>ИП</button>
+                <button className="btn-bg-group w80px" value={'ООО'}>ООО</button>
+                <button className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
+                <button className="btn-bg-group w80px" value={'ОАО'}>ОАО</button>
+              </ButtonGroup>
+              <div>
+                <div className='d-ib w50pr p10'>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Полное наименование компании</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('name')}
+                      onChange={this.updateCompanyPersonalDetails('name')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>ИНН</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('inn')}
+                      onChange={this.updateCompanyPersonalDetails('inn')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Юридический адрес</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('legal_address')}
+                      onChange={this.updateCompanyPersonalDetails('legal_address')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Банк</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('bank')}
+                      onChange={this.updateCompanyPersonalDetails('bank')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Расчетный счет</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('rs')}
+                      onChange={this.updateCompanyPersonalDetails('rs')}/>
+                  </label>
+                </div>
+                <div className='d-ib w50pr p10'>
+                  <label>
+                    <span className='d-b m5-0 fs14'>ОГРН</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('ogrn')}
+                      onChange={this.updateCompanyPersonalDetails('ogrn')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>КПП</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('kpp')}
+                      onChange={this.updateCompanyPersonalDetails('kpp')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Фактический адрес</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('actual_address')}
+                      onChange={this.updateCompanyPersonalDetails('actual_address')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>БИК</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('bik')}
+                      onChange={this.updateCompanyPersonalDetails('bik')}/>
+                  </label>
+                  <label>
+                    <span className='d-b m5-0 fs14'>Корреспондентский счет</span>
+                    <input type='text'
+                      className='w100pr'
+                      defaultValue={this.state.company_personal_detail.get('ks')}
+                      onChange={this.updateCompanyPersonalDetails('ks')}/>
+                  </label>
+                </div>
+              </div>
               <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0'>Сохранить</button>
             </form>
 

@@ -19,6 +19,7 @@ module.exports = {
   kACCOUNT_COMPANY_FILIAL: kAPI_HOST + '/api/get/company_filial.php',
   kACCOUNT_COMPANY_FILIAL_UPDATE: kAPI_HOST + '/api/set/company_filial.php?filial_id=:filial_id',
   kACCOUNT_COMPANY_FILIAL_DELETE: kAPI_HOST + '/api/del/company_filial.php?filial_id=:filial_id',
+  kACCOUNT_COMPANY_PERSONAL_DETAILS: kAPI_HOST + '/api/company/personal_detail.php?type=:type',
 
   kACCOUNT_SERVICES_INFO: kAPI_HOST + '/api/services/services.php?type=:type',
   kACCOUNT_PRICES_HISTORY_INFO: kAPI_HOST + '/api/manage/history.php?type=:type',

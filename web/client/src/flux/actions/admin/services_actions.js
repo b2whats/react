@@ -34,7 +34,7 @@ module.exports.make_payment = (payment_info, payment_method) => {
     .then(response => {
       w.location = response.payment_url;
       if (response.payment_method.id == 'beznal') {
-        console.log(12);
+
       } else {
         var check_url = setInterval(() => {
           try {
@@ -44,7 +44,7 @@ module.exports.make_payment = (payment_info, payment_method) => {
               module.exports.get_services_information();
             }
           } catch(e) {
-
+            /*Заглушка*/
           }
         }, 500);
 
