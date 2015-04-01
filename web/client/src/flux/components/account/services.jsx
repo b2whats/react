@@ -74,7 +74,6 @@ var AccountInfo = React.createClass({
   },
   toggle(val) {
     return (e) => {
-      e.stopPropagation();
       toggle_actions.change(val);
     }
   },
