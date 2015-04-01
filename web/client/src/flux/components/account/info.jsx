@@ -218,10 +218,10 @@ var AccountInfo = React.createClass({
             <h2 className='m15-0 mB25'>Реквизиты компании</h2>
             <form onSubmit={this.submitCompanyPersonalDetails} encType="application/x-www-form-urlencoded">
               <ButtonGroup className='m15-0' select_element_value={this.state.company_personal_detail && this.state.company_personal_detail.get('type') || 'ИП'} onChange={this.updateCompanyPersonalDetails('type')}>
-                <button className="btn-bg-group w80px" value={'ИП'}>ИП</button>
-                <button className="btn-bg-group w80px" value={'ООО'}>ООО</button>
-                <button className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
-                <button className="btn-bg-group w80px" value={'ОАО'}>ОАО</button>
+                <button type='button' className="btn-bg-group w80px" value={'ИП'}>ИП</button>
+                <button type='button'  className="btn-bg-group w80px" value={'ООО'}>ООО</button>
+                <button type='button'  className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
+                <button type='button'  className="btn-bg-group w80px" value={'ОАО'}>ОАО</button>
               </ButtonGroup>
               <div>
                 <div className='d-ib w50pr p10'>
