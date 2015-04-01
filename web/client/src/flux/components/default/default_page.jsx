@@ -92,7 +92,7 @@ var DefaultPage = React.createClass({
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
                 sample="стойка стабилизатора bmw x5"
                 sample_action={auto_part_search_actions.show_value_changed}
-                description="*Начните вводить в строку название или производителя детали и марку, модель своего автомобиля и выберите из нескольких вариантов поискового запроса.">
+                description="**1) Начните вводить... 2) Выберите строку из выпадающего списка.">
                   <AutoPartsSearchWrapper 
                     list_width={this.state.width}
                     placeholder="Введите название, производителя или код*"
@@ -105,7 +105,7 @@ var DefaultPage = React.createClass({
                 header="КОНСУЛЬТАЦИЯ МАСТЕРА"
                 sample="mazda ремонт"
                 sample_action={autoservices_search_actions.show_value_changed}
-                description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
+                description="**1) Начните вводить... 2) Выберите строку из выпадающего списка.">
 
                 <AutoServiceSearchWrapper
                     list_width={this.state.width} 
