@@ -106,7 +106,8 @@ var DefaultPage = React.createClass({
                 sample="mazda ремонт"
                 sample_action={autoservices_search_actions.show_value_changed}
                 description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
-                  <AutoServiceSearchWrapper 
+
+                <AutoServiceSearchWrapper
                     list_width={this.state.width} 
                     placeholder="Введите марку автомобиля и название работ**" 
                     on_value_changed={this.on_auto_service_value_changed}
