@@ -26,8 +26,10 @@ var cncl_ = [
 
       state_.company_information_cursor
         .update(() => immutable.fromJS(info[0]));
-      state_.company_personal_detail_cursor
-        .update(() => immutable.fromJS(info[0].legal_detail));
+      if (!!info[0].legal_detail) {
+        state_.company_personal_detail_cursor
+          .update(() => immutable.fromJS(info[0].legal_detail));
+      }
       account_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher

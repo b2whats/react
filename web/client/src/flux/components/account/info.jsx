@@ -83,9 +83,6 @@ var AccountInfo = React.createClass({
 	btnChange    : function (name) {
 		this.refs.snack.show();
 	},
-  updateValue: function(newValue) {
-    console.log(newValue);
-  },
   updateCompanyPersonalDetails(field) {
     return (e) => {
       var value = (typeof e == 'object') ? e.target.value : e;
@@ -97,7 +94,7 @@ var AccountInfo = React.createClass({
     account_page_actions.submit_company_personal_details(this.state.company_personal_detail.toJS());
   },
 	render() {
-    console.log('update-info');
+
 		var edit = this.state.formsIsEdit.get('informations');
 		var Filial = this.state.company_filials
 				.map((part, part_index) => {
@@ -220,7 +217,7 @@ var AccountInfo = React.createClass({
 						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
             <h2 className='m15-0 mB25'>Реквизиты компании</h2>
             <form onSubmit={this.submitCompanyPersonalDetails} encType="application/x-www-form-urlencoded">
-              <ButtonGroup className='m15-0' select_element_value={this.state.company_personal_detail.get('type') || 'ИП'} onChange={this.updateCompanyPersonalDetails('type')}>
+              <ButtonGroup className='m15-0' select_element_value={this.state.company_personal_detail && this.state.company_personal_detail.get('type') || 'ИП'} onChange={this.updateCompanyPersonalDetails('type')}>
                 <button className="btn-bg-group w80px" value={'ИП'}>ИП</button>
                 <button className="btn-bg-group w80px" value={'ООО'}>ООО</button>
                 <button className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
