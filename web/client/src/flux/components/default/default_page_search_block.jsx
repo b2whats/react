@@ -17,7 +17,11 @@ var DefaultPageSearchBlock = React.createClass({
     description: PropTypes.string.isRequired,
     sample_action: PropTypes.func.isRequired
   },
-
+  getDefaultProps() {
+    return {
+      onSearch: function() {},
+    }
+  },
   mixins: [PureRenderMixin],
 
   sample_click(e) {
@@ -40,7 +44,7 @@ var DefaultPageSearchBlock = React.createClass({
                   <td className="default-page-search-block-width">
                     {this.props.children}
                   </td>
-                  <td><button>Найти</button></td>
+                  <td><button onClick={this.props.onSearch}>Найти</button></td>
               </tr>
             </table>
           </div>

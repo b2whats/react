@@ -21,9 +21,10 @@ var autoservices_search_actions = require('actions/autoservices_search_actions.j
 var default_page_size_store = require('stores/default_page_size_store.js');
 var region_store = require('stores/region_store.js');
 
-
+var suggestion_store = require('stores/auto_part_suggestion_store.js');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: default_page_size_store.get_width (),
+
 }),
 default_page_size_store /*observable store list*/);
 
@@ -70,7 +71,15 @@ var DefaultPage = React.createClass({
     var region_id = region_store.get_region_current().get('translit_name');
     default_page_actions.goto_auto_service_page(region_id, id, auto_mark, name);
   },
-
+  click_search(e) {
+    console.log(e);
+    var el = suggestion_store.get_suggestion_list ().get(0);
+    if (!!el) {
+      var el = el.toJS();
+      var region_id = region_store.get_region_current().get('translit_name');
+      default_page_actions.goto_auto_parts_page(region_id, el[0], el[1], el[2], el[3]);
+    }
+  },
   render () {
     var ap_initial_value = '';
     var as_initial_value = '';
@@ -90,6 +99,7 @@ var DefaultPage = React.createClass({
               
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
+                onSearch={this.click_search}
                 sample="стойка стабилизатора bmw x5"
                 sample_action={auto_part_search_actions.show_value_changed}
                 description="**1) Начните вводить... 2) Выберите строку из выпадающего списка.">
