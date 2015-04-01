@@ -105,7 +105,7 @@ var DefaultPage = React.createClass({
                 header="КОНСУЛЬТАЦИЯ МАСТЕРА"
                 sample="mazda ремонт"
                 sample_action={autoservices_search_actions.show_value_changed}
-                description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов поискового запроса.">
+                description="**Начните вводить в строку марку, модель своего автомобиля и название работ выберите из нескольких вариантов запроса.">
 
                 <AutoServiceSearchWrapper
                     list_width={this.state.width} 
