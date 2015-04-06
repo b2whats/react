@@ -35,6 +35,11 @@ var convert_lat_lng_string_2_array = (str) => {
 var get_regions_memoized = memoize(() => 
   r_regions_.get()
   .then(region_list => {
+      console.log('ymaps', ymaps);
+      ymaps.ready(() => {
+        var geolocation = ymaps.geolocation;
+        console.log(geolocation);
+      });
     region_list = _.map(region_list, r => {
       var res = _.extend({}, r);
       res.title = r.name; //для тайпахеда
