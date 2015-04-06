@@ -28,7 +28,7 @@ module.exports.submit_masters_name = (names) => {
     });
 };
 module.exports.make_payment = (payment_info, payment_method) => {
-  var w = window.open("","","width=900,height=600,scrollbars=yes,resizable=yes,");
+  var w = window.open("","","width=10240,height=600,scrollbars=yes,resizable=yes,");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
     .post({payment_info : payment_info, payment_method : payment_method})
     .then(response => {
@@ -37,6 +37,7 @@ module.exports.make_payment = (payment_info, payment_method) => {
 
       } else {
         var check_url = setInterval(() => {
+          console.log(w.location.hostname);
           try {
             if (w.location && w.location.hostname == window.location.hostname || w.closed) {
               clearInterval(check_url);
