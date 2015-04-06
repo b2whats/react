@@ -35,11 +35,7 @@ var convert_lat_lng_string_2_array = (str) => {
 var get_regions_memoized = memoize(() => 
   r_regions_.get()
   .then(region_list => {
-      console.log('ymaps', ymaps);
-      ymaps.ready(() => {
-        var geolocation = ymaps.geolocation;
-        console.log(geolocation);
-      });
+
     region_list = _.map(region_list, r => {
       var res = _.extend({}, r);
       res.title = r.name; //для тайпахеда
@@ -47,6 +43,24 @@ var get_regions_memoized = memoize(() =>
       res.lower_corner = convert_lat_lng_string_2_array(res.lower_corner);
       res.upper_corner = convert_lat_lng_string_2_array(res.upper_corner);
       return res;
+    });
+    ymaps.ready(() => {
+      ymaps.geolocation.get({
+        provider: 'yandex',
+        mapStateAutoApply: true
+      }).then(function (result) {
+        var region = result.geoObjects.get(0).properties.get('metaDataProperty').GeocoderMetaData.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName.toLocaleLowerCase();
+        if (region == 'Северо-Западный федеральный округ'.toLocaleLowerCase()) {
+          region = 'Санкт-петербург';
+        } else if(region == 'Центральный федеральный округ'.toLocaleLowerCase()) {
+          region = 'москва';
+        }
+        var translate = region_list.filter(el => el.name.toLocaleLowerCase() == region.toLocaleLowerCase());
+        console.log(translate);
+        module.exports.region_changed(region);
+        module.exports.goto_region(translate[0]['translit_name']);
+      });
+
     });
 
     main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_LIST_LOADED].concat([region_list]));
