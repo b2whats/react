@@ -37,7 +37,7 @@ module.exports.make_payment = (payment_info, payment_method) => {
 
       } else {
         var check_url = setInterval(() => {
-          console.log(w.location.hostname);
+
           try {
             if (w.location && w.location.hostname == window.location.hostname || w.closed) {
               clearInterval(check_url);
