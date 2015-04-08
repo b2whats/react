@@ -1093,6 +1093,42 @@
 .Mh150px {
   max-height: 150px; }
 
+.h200px {
+  height: 200px; }
+
+.Mh200px {
+  max-height: 200px; }
+
+.h300px {
+  height: 300px; }
+
+.Mh300px {
+  max-height: 300px; }
+
+.h400px {
+  height: 400px; }
+
+.Mh400px {
+  max-height: 400px; }
+
+.h500px {
+  height: 500px; }
+
+.Mh500px {
+  max-height: 500px; }
+
+.h600px {
+  height: 600px; }
+
+.Mh600px {
+  max-height: 600px; }
+
+.h700px {
+  height: 700px; }
+
+.Mh700px {
+  max-height: 700px; }
+
 .bR1s {
   border-right: 1px solid; }
 

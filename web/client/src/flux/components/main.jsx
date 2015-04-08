@@ -67,7 +67,7 @@ var ice_main = React.createClass({
 
 	render () {
 		var MainContent = (function(router_state, router_context_params) {
-
+console.log(router_state, router_context_params);
 			switch(router_state) {
 				case route_names.kROUTE_R_A:
 				case route_names.kROUTE_R_B:

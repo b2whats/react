@@ -166,7 +166,7 @@ var SearchPageYandexMap = React.createClass({
         <YandexMapMarker 
           key={m.get('id')} 
           {...m.toJS()} />).toJS() || [];
-      
+      console.log(this.state.height, this.state.width * kMAP_PERCENT_WIDTH/100, kMAP_HEADER_HEIGHT);
     return (
       <div className={this.props.className}>
         <div className={class_name_search_page_yandex_map}>                  

@@ -39,6 +39,14 @@ var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
 
 var FilialAddressSelector = require('components/account/filial_address_selector.jsx');
+
+var YandexMap = require('components/yandex/yandex_map.jsx');
+
+var ymap_baloon_template =  require('components/search_page/templates/yandex_baloon_template.jsx');
+var ymap_cluster_baloon_template = require('../search_page/templates/yandex_cluster_baloon_template.jsx');
+var yandex_templates_events = require('components/search_page/templates/yandex_templates_events.js');
+var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
+
 var AccountInfo = React.createClass({
 	mixins : [
 		PureRenderMixin,
@@ -81,6 +89,9 @@ var AccountInfo = React.createClass({
 	btnChange    : function (name) {
 		this.refs.snack.show();
 	},
+  noop() {
+    console.log('noop');
+  },
 	render() {
 		var edit = this.state.formsIsEdit.get('informations');
 		var Filial = this.state.company_filials &&
@@ -104,7 +115,16 @@ var AccountInfo = React.createClass({
 					)
 				})
 				.toJS();
-		return (
+    var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
+    var YandexMarkers  = this.state.auto_part_markers &&
+      this.state.auto_part_markers
+        .filter( m => m.get('on_current_page') )
+        .map(m =>
+          <YandexMapMarker
+            key={m.get('id')}
+          {...m.toJS()} />)
+        .toJS() || [];
+    return (
 			<div className='entire-width'>
 				<div className='company-information w50pr '>
 					<h2 className='tt-n fs26 d-ib'>{this.state.company_information.get('name')}</h2>
@@ -117,65 +137,25 @@ var AccountInfo = React.createClass({
 						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
 					</div>
 				</div>
-				<div className='your-manager w50pr'>
-					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
-					<div className='p15 br10 bs  new_context m30-0'>
-						<img className='va-T f-L mR20' src='/assets/images/templates/frank.jpg'/>
-						<div className='fw-b fs18'>Фрэнк Галлагер</div>
-						<div className='m15-0'>
-							<strong>На связи с 10:00 до 10:30</strong>
-							<span> в рабочие дни</span>
-						</div>
-						<div className='m15-0 lh1-8'>
-							8 (812) 123-45-67 (доб 21)
-							<br/>
-							8 (812) 123-45-67 (доб 21)
-						</div>
-						<div className='td-u ap-link'>
-							mail@mail.ru
-						</div>
-					</div>
+				<div className='w50pr h500px'>
+          <YandexMap
+            bounds={bounds}
+            height={400}
+            width={500}
+            header_height={0}
+            baloon_template={ymap_baloon_template}
+            cluster_baloon_template={ymap_cluster_baloon_template}
+            on_marker_click={this.noop}
+            on_marker_hover={this.noop}
+            on_close_ballon_click={this.noop}
+            on_balloon_event={this.noop}
+            on_bounds_change={this.noop}>
+
+              {YandexMarkers}
+
+          </YandexMap>
 				</div>
-				<Modal
-					isOpen={!!this.state.modalIsOpen.get('payment_information')}
-					onRequestClose={this.handleModalCloseRequest}
-				>
-					<div className='aa'>
-                    {/*Для активной кнопки передать значение selected в класс кнопки*/}
-						<ButtonGroup onChange={this.btnChange}>
-							<button className='btn-bg-group w160px' value={1}>
-								<i className='svg-icon_gear mR5 va-m fs16'/>
-								Автозапчасти</button>
-							<button className='btn-bg-group w160px' value={2}>
-								<i className='svg-icon_key mR5 va-m fs16'/>
-								Сервис</button>
-						</ButtonGroup>
-						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
-						<h2>Вход</h2>
-						<label className='new_context'>
-							E-mail
-							<input type='text' name='email' value={this.state.current_filial}/>
-						</label>
 
-						<button className='m15-0' name='signin'>Войти</button>
-
-					</div>
-				</Modal>
-				<Modal
-					isOpen={!!this.state.modalIsOpen.get('edit_company_filial')}
-					onRequestClose={this.handleModalCloseRequest}
-				>
-
-                    <FilialAddressSelector />
-
-
-
-				</Modal>
-				<Snackbar
-					message="Event added to your calendar"
-					action="undo"
-					ref='snack'
-					onActionTouchTap={this._handleAction}/>
 			</div>
 		);
 	}

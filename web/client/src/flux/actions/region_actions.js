@@ -44,8 +44,10 @@ var get_regions_memoized = memoize(() =>
       res.upper_corner = convert_lat_lng_string_2_array(res.upper_corner);
       return res;
     });
+
     ymaps.ready(() => {
-      ymaps.geolocation.get({
+
+      ymaps.geolocation && ymaps.geolocation.get({
         provider: 'yandex',
         mapStateAutoApply: true
       }).then(function (result) {

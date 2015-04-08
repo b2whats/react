@@ -123,7 +123,7 @@ var CatalogPageTable = React.createClass({
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
                 <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</span>
-                <span className='fs11 bB1s'> Отзывы:
+                <span className='fs11 td-u'> Отзывы:
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>
                 </span>
