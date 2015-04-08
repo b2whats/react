@@ -26,7 +26,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
   .on(event_names.kON_AUTO_PART_SUGGESTION_DATA_LOADED, (suggestion_list, list_state) => {
-      console.log(suggestion_list, list_state);
+
     state_.suggestion_list_cursor
       .update(() => immutable.fromJS(suggestion_list));
     
@@ -39,7 +39,6 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_AUTO_PART_SUGGESTION_VALUE_CHANGED, (value) => {
-      console.log(value);
     var im_value = immutable.fromJS(value);
     if(!immutable.is(state_.value, im_value)) {
       state_.value_cursor

@@ -116,7 +116,7 @@ var query_autoservice_by_id = (region_text, id) => {
 
       var res_converted = {header:res.header, markers:markers, results:results};
 
-      console.log('service res 2::: ', res_converted);
+      //console.log('service res 2::: ', res_converted);
       //_.each(res_converted.results, r => console.log(r.id, r.rank, r.user_id));
 
       /*

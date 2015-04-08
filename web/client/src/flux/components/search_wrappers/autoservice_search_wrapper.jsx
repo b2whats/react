@@ -101,7 +101,7 @@ var AutoServiceSearchWrapper = React.createClass({
         onChange={this.typeahead_changed}
         on_blur={this.typeahead_lost_focus} 
         search={this.typeahead_search}
-        open_results={(this.props.initial_value != '') ? true : false}/>
+        open_results={this.props.isOpen}/>
     )
   }
 });

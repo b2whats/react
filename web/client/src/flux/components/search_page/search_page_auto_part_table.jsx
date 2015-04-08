@@ -232,7 +232,7 @@ var SearchPageAutoPartTable = React.createClass({
               <div className='f-R'>
                 <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
                   <div className='fs14 mB10 mR20 fw-b'>Условия оплаты</div>
-                {console.log(part.toJS())}
+
                   <div>{part.get('conditions').has('price_retail') && 'Розничная цена.'}</div>
                   <div>{part.get('conditions').has('price_if_our_service') && 'Действительна при установке на нашем сервис центре.'}</div>
                   <div>{part.get('conditions').has('delivery_free_msk') && 'Бесплатная доставка по МСК.'}</div>
@@ -287,7 +287,6 @@ var SearchPageAutoPartTable = React.createClass({
             {item_per_page}
       </a>);
 
-console.log(this.state.show_all_phones);
     return (
       <div className={this.props.className}>
         <div className="entire-width flex-ai-c m20-0 h30px">

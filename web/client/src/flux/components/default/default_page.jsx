@@ -89,6 +89,8 @@ var DefaultPage = React.createClass({
     if (this.props.route_context.service == 'autoservices') {
       as_initial_value = this.props.route_context.search_text.replace(/[_]/g,' ');;
     }
+    console.log(ap_initial_value);
+    console.log(as_initial_value);
     return (
     <div className="default-page">
       <div className="default-page-abs">
@@ -107,7 +109,8 @@ var DefaultPage = React.createClass({
                     list_width={this.state.width}
                     placeholder="Введите название, производителя или код*"
                     on_value_changed={this.on_auto_parts_value_changed}
-                    initial_value={ap_initial_value}/>
+                    initial_value={ap_initial_value}
+                    isOpen={!!ap_initial_value}/>
 
               </DefaultPageSearchBlock>
               <div style={{width:'1%', display: 'table-cell'}}></div>
@@ -121,8 +124,8 @@ var DefaultPage = React.createClass({
                     list_width={this.state.width} 
                     placeholder="Введите марку автомобиля и название работ**" 
                     on_value_changed={this.on_auto_service_value_changed}
-                    initial_value={as_initial_value}/>
-
+                    initial_value={as_initial_value}
+                    isOpen={!!as_initial_value}/>
               </DefaultPageSearchBlock>
             </div>
           </div>

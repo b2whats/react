@@ -81,7 +81,6 @@ var Header = React.createClass({
     auth_actions.log_out();
   },
   render() {
-console.log('render' + this.state.toggle.get('drop_down_menu'));
     return (
       <div className="hfm-wrapper main-header header entire-width">
 

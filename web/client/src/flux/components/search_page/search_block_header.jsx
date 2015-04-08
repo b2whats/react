@@ -91,6 +91,7 @@ var SearchBlockHeader = React.createClass({
 
 
     /* jshint ignore:start */
+
     return (
       <div className="search-page">
         {/*логотипчик*/}
@@ -126,7 +127,7 @@ var SearchBlockHeader = React.createClass({
               sample="** Введите марку автомобиля и название работ"
               className="md-12-6 autoservices">
                   <AutoServiceSearchWrapper
-                    initial_value={autoservice_initial_value}                     
+                    initial_value={autoservice_initial_value}
                     placeholder="Консультация мастера **" 
                     on_value_changed={this.on_auto_service_value_changed} />
                     {/*list_width={this.state.width - kSASS_INPUT_PADDING} */}
