@@ -180,7 +180,6 @@ var ice_main = React.createClass({
 					);
 				break;
         case route_names.kROUTE_COMPANY:
-
           return (
             <SearchBlockHeader>
               <div className='account-container-wrapper'>
