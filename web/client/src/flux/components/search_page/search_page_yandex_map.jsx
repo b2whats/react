@@ -47,18 +47,17 @@ var yandex_templates_events = require('./templates/yandex_templates_events.js');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  map_visible: search_page_store.get_search_page_map_visible (),
-  map_display: search_page_store.get_search_page_map_display (),
-  height: search_page_store.get_search_page_height (),
-  width: search_page_store.get_search_page_width (),
-  region_current:           region_store.get_region_current (), 
-  test_value: test_store.get_test_value(),
-  
-  auto_part_markers: auto_part_by_id_store.get_auto_part_markers(),
-  autoservice_markers: autoservice_by_id_store.get_autoservice_markers(),
-  catalog_markers: catalog_data_store.get_catalog_markers(),
-  //auto_part_map_bounds: auto_part_by_id_store.get_map_bounds (),
-  //auto_service_map_bounds: auto_part_by_id_store.get_map_bounds () //TODO не забыть изменить
+    map_visible         : search_page_store.get_search_page_map_visible(),
+    map_display         : search_page_store.get_search_page_map_display(),
+    height              : search_page_store.get_search_page_height(),
+    width               : search_page_store.get_search_page_width(),
+    region_current      : region_store.get_region_current(),
+    test_value          : test_store.get_test_value(),
+    auto_part_markers   : auto_part_by_id_store.get_auto_part_markers(),
+    autoservice_markers : autoservice_by_id_store.get_autoservice_markers(),
+    catalog_markers     : catalog_data_store.get_catalog_markers(),
+    //auto_part_map_bounds: auto_part_by_id_store.get_map_bounds (),
+    //auto_service_map_bounds: auto_part_by_id_store.get_map_bounds () //TODO не забыть изменить
   
 }),
 search_page_store, region_store, test_store, auto_part_by_id_store, autoservice_by_id_store, catalog_data_store /*observable store list*/);

@@ -3,7 +3,7 @@
 var route_names = {
   kROUTE_DEF: '/',
   kROUTE_ACCOUNT: '/account/:region_id/:section',
-  kROUTE_COMPANY: '/company/:company_name/:region_id',
+  kROUTE_COMPANY: '/company/:company_id/:region_id',
 
   kROUTE_DEF_W_REGION: '/:region_id',
 

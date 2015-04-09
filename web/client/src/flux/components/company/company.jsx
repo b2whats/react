@@ -18,22 +18,27 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 var EditableForms = require('components/editable_forms/editable_forms.jsx');
 var editable_forms_actions = require('actions/editable_forms_actions.js');
 var editable_forms_store = require('stores/editable_forms_store.js');
+var personal_company_page_store = require('stores/personal_company_page_store.js');
 
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 
 var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
+var region_store = require('stores/region_store.js');
+var toggle_store = require('stores/toggle_store.js');
+
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 		return ({ //state update lambda
-			modalIsOpen         : modal_store.get_modal_visible(),
-			formsIsEdit         : editable_forms_store.get_forms_editable(),
-			company_information : account_page_store.get_company_information(),
-			company_filials     : account_page_store.get_company_filials(),
-			current_filial      : account_page_store.get_current_filial(),
-		})
+      company_information : personal_company_page_store.get_company_information(),
+      company_filials     : personal_company_page_store.get_company_filials(),
+      region_current      : region_store.get_region_current(),
+      toggle              : toggle_store.get_toggle()
+
+    })
 	},
-	modal_store, editable_forms_store, account_page_store/*observable store list*/);
+	toggle_store, region_store, personal_company_page_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
@@ -93,29 +98,11 @@ var AccountInfo = React.createClass({
     console.log('noop');
   },
 	render() {
-		var edit = this.state.formsIsEdit.get('informations');
-		var Filial = this.state.company_filials &&
-			this.state.company_filials
-				.map((part, part_index) => {
-					return (
-						<div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
-							<span>
-								<span className='fw-b fs16 ta-r d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
-                                {(part.get('filial_type_id') == 1) ?
-	                                <i className='svg-icon_gear m0-10 va-m fs16'/>
-	                                :
-	                                <i className='svg-icon_key m0-10 va-m fs16'/>
-	                                }
-							</span>
-							<span>
-								<i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial', part.get('id'))}/>
-								<i className='svg-icon_close-red m0-5 va-m' onClick={this.deleteFilial(part.get('id'))}/>
-							</span>
-						</div>
-					)
-				})
-				.toJS();
+
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
+    if(this.state.region_current) {
+      bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
+    }
     var YandexMarkers  = this.state.auto_part_markers &&
       this.state.auto_part_markers
         .filter( m => m.get('on_current_page') )
@@ -133,7 +120,7 @@ var AccountInfo = React.createClass({
 						<h3 className='fs20 fw-n bc-g bb-s pb5'>Филиалы компании
 							<i className='btn-question m0-10'/>
 						</h3>
-                        {Filial}
+
 						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
 					</div>
 				</div>
