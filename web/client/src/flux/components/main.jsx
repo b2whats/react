@@ -2,7 +2,7 @@
 
 var React = require('react/addons');
 
-var routes = require('../routes.js');
+
 var route_names = require('shared_constants/route_names.js');
 var routes_store = require('stores/routes_store.js');
 

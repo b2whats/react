@@ -62,8 +62,7 @@ var get_regions_memoized = memoize(() =>
         module.exports.region_changed(region);
         module.exports.goto_region(translate[0]['translit_name']);
       });
-
-    });
+      });
 
     main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_LIST_LOADED].concat([region_list]));
     return region_list;
