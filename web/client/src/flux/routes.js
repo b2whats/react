@@ -183,9 +183,10 @@ routes[route_definitions.kROUTE_ADV] = [
 
 
 routes[route_definitions.kROUTE_COMPANY] = [
-  () => {console.log(1);},
   (route_name, route_context, route_context_params) =>
     region_actions.region_changed(route_context_params.region_id),
+  (route_name, route_context, route_context_params) =>
+    personal_company_page.get_company_information(route_context_params.company_id),
   route_actions.default_route];
 
 

@@ -16,20 +16,26 @@ var account_page_actions = require('actions/account_page_actions.js');
 var state_ = init_state(_.last(__filename.split('/')), {
   company_information     : {},
   company_filials         : {},
+  comments : [],
+  new_comment : {}
 });
 
 var cncl_ = [
-/*  main_dispatcher
-    .on(event_names.kPERSONAL_COMPANY_PAGE_INFO_LOADED, info => {
-
+  main_dispatcher
+    .on(event_names.kPERSONAL_COMPANY_INFO_LOADED, info => {
       state_.company_information_cursor
-        .update(() => immutable.fromJS(info[0]));
-      if (!!info[0].legal_detail) {
-        state_.company_personal_detail_cursor
-          .update(() => immutable.fromJS(info[0].legal_detail));
-      }
-      account_page_store.fire(event_names.kON_CHANGE);
+        .update(() => immutable.fromJS(info['company']));
+        state_.company_filials_cursor
+          .update(() => immutable.fromJS(info['company_filials']));
+      company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 1),
+  main_dispatcher
+    .on(event_names.COMMENT_FORM_UPDATE, (name, value)  => {
+      state_.new_comment_cursor
+        .update(m => m.set(name, value));
+      company_personal_page_store.fire(event_names.kON_CHANGE);
+    }, 100000),
+  /*
   main_dispatcher
     .on(event_names.kACCOUNT_COMPANY_FILIALS_LOADED, info => {
       state_.company_filials_cursor
@@ -87,6 +93,9 @@ var company_personal_page_store = merge(Emitter.prototype, {
   },
   get_company_filials() {
     return state_.company_filials;
+  },
+  get_new_comment() {
+    return state_.new_comment;
   },
   dispose() {
 
