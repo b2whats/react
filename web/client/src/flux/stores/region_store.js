@@ -24,7 +24,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
 var cncl_ = [
   main_dispatcher
-  .on(event_names.kON_REGION_LIST_LOADED, region_list => {  
+  .on(event_names.kON_REGION_LIST_LOADED, region_list => {
     
     state_.region_list_cursor
       .update(() => immutable.fromJS(region_list));

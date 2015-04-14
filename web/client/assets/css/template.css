@@ -1,10 +1,7 @@
 html, body {
     height: 100%;
 }
-input.bs-error {
-  border     : 1px solid rgba(255, 20, 0, 0.5);
-  box-shadow : 0 0 5px rgba(245, 35, 20, 0.4);
-}
+
 i[class^='svg-'] {
     width: 1em;
     height: 1em;
@@ -28,6 +25,7 @@ i {
 
 .btn-group {
     display: inline-block;
+  border: 1px solid transparent;
 }
 .btn-group > button {
     display: inline-block;
@@ -54,6 +52,7 @@ i {
     border-color: #a7a7a7;
     background-color: #fff;
 }
+
 .btn-bg-group:focus, .btn-group .selected {
     border-color: #d0d0d0;
     background-color: #EBEBEB;
@@ -96,7 +95,10 @@ i {
   margin-right: 6px;
 }
 
-
+input.bs-error,.bs-error {
+  border     : 1px solid rgba(255, 20, 0, 0.5);
+  box-shadow : 0 0 5px rgba(245, 35, 20, 0.4);
+}
 
 
 

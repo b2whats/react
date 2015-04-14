@@ -123,15 +123,15 @@ var CatalogPageTable = React.createClass({
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
                 <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</span>
-                <span className='fs11 td-u'> Отзывы:
+                <span className='fs11 td-u'>Отзывы:
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>
                 </span>
-                <Link href="" className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r'>{part.get('site')}</Link>
+                <span><Link href="" target='_blank' className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r ellipsis'>{part.get('site')}</Link></span>
               </div>
               <div className='fs12'>
                 <div className='c-grey-600 m5-0'>Описание компании:</div>
-                {part.get('description')}
+                <span className='Mh40px d-ib o-h'>{part.get('description')}</span>
               </div>
             </div>
           </td>

@@ -1,4 +1,4 @@
-@for $i from 1 through 2 {
+@for $i from 1 through 4 {
   .bR#{$i}s { border-right : #{$i}px solid;}
   .bR#{$i}d { border-right : #{$i}px dotted;}
   .bL#{$i}s { border-left : #{$i}px solid;}
@@ -31,3 +31,6 @@
 .b0 { border : 0; }
 
 .bcol-s {border-collapse: separate;}
+
+.b1trans {border: 1px solid transparent}
+.b2trans {border: 2px solid transparent}

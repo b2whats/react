@@ -36,6 +36,8 @@ module.exports = {
   kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO: kAPI_HOST + '/api/manage/wholesale.php?type=:type',
 
   GET: kAPI_HOST + '/api/get.php',
+  kSUBMIT_COMMENT_DATA: kAPI_HOST + '/api/set/reviews.php',
+
 
 };
 

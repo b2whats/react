@@ -231,15 +231,16 @@ var SearchPageAutoPartTable = React.createClass({
               </div>
               <div className='f-R'>
                 <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
-                  <div className='fs14 mB10 mR20 fw-b'>Условия оплаты</div>
-
-                  <div>{part.get('conditions').has('price_retail') && 'Розничная цена.'}</div>
-                  <div>{part.get('conditions').has('price_if_our_service') && 'Действительна при установке на нашем сервис центре.'}</div>
-                  <div>{part.get('conditions').has('delivery_free_msk') && 'Бесплатная доставка по МСК.'}</div>
-                  <div>{part.get('conditions').has('delivery_free_spb') && 'Бесплатная доставка по СПб.'}</div>
-                  <div>{part.get('conditions').has('price_only_for_legal_person') && 'Только для юр.лиц'}</div>
-                  <div>{part.get('conditions').has('price_above_level_0') && 'Цена покупки от 20 000 р'}</div>
-                  <div>{part.get('conditions').has('price_above_level_1') && 'Цена покупки от 40 000 р'}</div>
+                  {part.get('conditions') && [
+                    <div key={0} className='fs14 mB10 mR20 fw-b'>Условия оплаты</div>,
+                    <div key={1}>{part.get('conditions').has('price_retail') && 'Розничная цена.'}</div>,
+                    <div key={2}>{part.get('conditions').has('price_if_our_service') && 'Действительна при установке на нашем сервис центре.'}</div>,
+                    <div key={3}>{part.get('conditions').has('delivery_free_msk') && 'Бесплатная доставка по МСК.'}</div>,
+                    <div key={4}>{part.get('conditions').has('delivery_free_spb') && 'Бесплатная доставка по СПб.'}</div>,
+                    <div key={5}>{part.get('conditions').has('price_only_for_legal_person') && 'Только для юр.лиц'}</div>,
+                    <div key={6}>{part.get('conditions').has('price_above_level_0') && 'Цена покупки от 20 000 р'}</div>,
+                    <div key={7}>{part.get('conditions').has('price_above_level_1') && 'Цена покупки от 40 000 р'}</div>,
+                  ]}
                 </FixedTooltip>
               </div>
             </div>

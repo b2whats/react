@@ -137,7 +137,7 @@ var CatalogSearch = React.createClass({
           <div className="wrap gutter-5-xs catalog-page-mb-15">
             
             <div className="md-7-1 catalog-page-midddle catalog-page-left">
-              <span>Скрыть фильтры</span>
+              <span className='cur-p ap-link'>Скрыть фильтры</span>
             </div>
             
             <div className="md-7-3 catalog-page-midddle">

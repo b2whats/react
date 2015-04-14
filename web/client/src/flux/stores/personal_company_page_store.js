@@ -14,25 +14,75 @@ var immutable = require('immutable');
 var account_page_actions = require('actions/account_page_actions.js');
 
 var state_ = init_state(_.last(__filename.split('/')), {
-  company_information     : {},
-  company_filials         : {},
-  comments : [],
-  new_comment : {}
+  company_information      : {},
+  company_filials          : {},
+  comments                 : [],
+  new_comment              : {},
+  comment_field_validation : {},
+  rating: {
+    plus: 0,
+    minus: 0
+  },
 });
 
 var cncl_ = [
   main_dispatcher
     .on(event_names.kPERSONAL_COMPANY_INFO_LOADED, info => {
-      state_.company_information_cursor
-        .update(() => immutable.fromJS(info['company']));
+      try {
+        wefew
+      } catch(e) {
+        console.log(e);
+      }
+      if (!!info['company']) {
+        state_.company_information_cursor
+          .update(() => immutable.fromJS(info['company']));
+      }
+      if (!!info['company_filials']) {
         state_.company_filials_cursor
           .update(() => immutable.fromJS(info['company_filials']));
+      }
+      if (!!info['reviews']) {
+        state_.comments_cursor
+          .update(() => immutable.fromJS(info['reviews']));
+        state_.rating_cursor
+          .update((x) => x.set('plus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '+').size));
+        state_.rating_cursor
+          .update((x) => x.set('minus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '-').size));
+      }
+
+
+      company_personal_page_store.fire(event_names.kON_CHANGE);
+    }, 1),
+  main_dispatcher
+    .on(event_names.kSUBMIT_COMMENT_SUCCESS, info => {
+        state_.comments_cursor
+          .update((x) => x.push(immutable.fromJS(info['reviews'])));
+        state_.rating_cursor
+          .update((x) => x.set('plus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '+').size));
+        state_.rating_cursor
+          .update((x) => x.set('minus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '-').size));
       company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
     .on(event_names.COMMENT_FORM_UPDATE, (name, value)  => {
       state_.new_comment_cursor
         .update(m => m.set(name, value));
+      company_personal_page_store.fire(event_names.kON_CHANGE);
+    }, 100000),
+  main_dispatcher
+    .on(event_names.kSUBMIT_COMMENT_STATUS_ERROR, (response)  => {
+      var errors = immutable.fromJS(response.errors);
+      var map_error = errors
+        .reduce((memo, error) =>
+          memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
+      state_.comment_field_validation_cursor
+        .update(() => map_error);
+      company_personal_page_store.fire(event_names.kON_CHANGE);
+    }, 100000),
+  main_dispatcher
+    .on(event_names.kSUBMIT_COMMENT_STATUS_RESET, ()  => {
+      state_.comment_field_validation_cursor
+        .update((x) => x.clear());
       company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 100000),
   /*
@@ -96,6 +146,15 @@ var company_personal_page_store = merge(Emitter.prototype, {
   },
   get_new_comment() {
     return state_.new_comment;
+  },
+  get_comment_field_validation() {
+    return state_.comment_field_validation;
+  },
+  get_comments() {
+    return state_.comments;
+  },
+  get_rating() {
+    return state_.rating;
   },
   dispose() {
 

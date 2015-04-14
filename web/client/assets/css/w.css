@@ -1207,6 +1207,66 @@
 .b2d {
   border: 2px dotted; }
 
+.bR3s {
+  border-right: 3px solid; }
+
+.bR3d {
+  border-right: 3px dotted; }
+
+.bL3s {
+  border-left: 3px solid; }
+
+.bL3d {
+  border-left: 3px dotted; }
+
+.bT3s {
+  border-top: 3px solid; }
+
+.bT3d {
+  border-top: 3px dotted; }
+
+.bB3s {
+  border-bottom: 3px solid; }
+
+.bB3d {
+  border-bottom: 3px dotted; }
+
+.b3s {
+  border: 3px solid; }
+
+.b3d {
+  border: 3px dotted; }
+
+.bR4s {
+  border-right: 4px solid; }
+
+.bR4d {
+  border-right: 4px dotted; }
+
+.bL4s {
+  border-left: 4px solid; }
+
+.bL4d {
+  border-left: 4px dotted; }
+
+.bT4s {
+  border-top: 4px solid; }
+
+.bT4d {
+  border-top: 4px dotted; }
+
+.bB4s {
+  border-bottom: 4px solid; }
+
+.bB4d {
+  border-bottom: 4px dotted; }
+
+.b4s {
+  border: 4px solid; }
+
+.b4d {
+  border: 4px dotted; }
+
 .br0 {
   border-radius: 0px; }
 
@@ -1401,6 +1461,12 @@
 
 .bcol-s {
   border-collapse: separate; }
+
+.b1trans {
+  border: 1px solid transparent; }
+
+.b2trans {
+  border: 2px solid transparent; }
 
 .fs8 {
   font-size: 8px; }

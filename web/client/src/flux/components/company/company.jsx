@@ -33,17 +33,18 @@ var cx = require('classnames');
 
 
 
-var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
-		return ({ //state update lambda
-      company_information : personal_company_page_store.get_company_information(),
-      company_filials     : personal_company_page_store.get_company_filials(),
-      region_current      : region_store.get_region_current(),
-      toggle              : toggle_store.get_toggle(),
-      new_comment :  personal_company_page_store.get_new_comment(),
+var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
+      company_information      : personal_company_page_store.get_company_information(),
+      company_filials          : personal_company_page_store.get_company_filials(),
+      region_current           : region_store.get_region_current(),
+      toggle                   : toggle_store.get_toggle(),
+      new_comment              : personal_company_page_store.get_new_comment(),
+      comment_field_validation : personal_company_page_store.get_comment_field_validation(),
+      comments                 : personal_company_page_store.get_comments(),
+      rating                   : personal_company_page_store.get_rating(),
 
 
-})
-	},
+}),
 	toggle_store, region_store, personal_company_page_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
@@ -57,7 +58,7 @@ var ymap_baloon_template =  require('components/search_page/templates/yandex_bal
 var ymap_cluster_baloon_template = require('../search_page/templates/yandex_cluster_baloon_template.jsx');
 var yandex_templates_events = require('components/search_page/templates/yandex_templates_events.js');
 var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
-var ButtonGroup = require('components/forms_element/button_group.jsx');
+
 
 var AccountInfo = React.createClass({
 	mixins : [
@@ -78,8 +79,10 @@ var AccountInfo = React.createClass({
       personal_company_page_actions.update_form(name, value);
     };
   },
+  commentSubmit() {
+    personal_company_page_actions.submit_form(this.state.new_comment.toJS(), this.state.company_information.get('id'), 0);
+  },
 	render() {
-    console.log(this.state.new_comment.toJS());
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
     if(this.state.region_current) {
       bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
@@ -99,12 +102,12 @@ var AccountInfo = React.createClass({
           <div  key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2'>
             <div className='entire-width'>
               <span>
-                {(part.get('filial_type_id') == 1) ?
+                {(part.get('filial_type') == 1) ?
                   <i className='icon_placemark-ap va-m mR5 fs10'/>
                   :
                   <i className='icon_placemark-as va-m mR5 fs10'/>
                 }
-                <span className='d-ib va-m'>{part.get('full_address')}</span>
+                <span className='va-m'>{part.get('full_address')}</span>
               </span>
               <span>
                 <i onClick={this.toggle('filial_address_'+part_index)}
@@ -138,26 +141,65 @@ var AccountInfo = React.createClass({
         )
       })
       .toJS();
+    var comments_size = this.state.comments.size -1;
+    var Comments = this.state.comments
+      .map((part, part_index) => {
+        return ([
+        <div className='m20-0'>
+          <div className='entire-width'>
+            <span className='d-ib fw-b'>
+              {(part.getIn(['review','rating']) === '+') ?
+                <i className='flaticon-thumbsu fs17 c-green-500'/>
+                :
+                <i className='flaticon-thumbsb fs17 c-red-500'/>
+              }{part.getIn(['review','name'])}
+            </span>
+            <span className='c-grey-600 fs12'>{part.get('date')}</span>
+          </div>
+          <div className='lh1-4 m10-0'>{part.getIn(['review','comment'])}
+          </div>
+          <div className='mL30 bL4s bc-grey-500 pL10'>
+            <div className='entire-width'>
+              <span className='d-ib fw-b'>
+                Ответ
+              </span>
+              <span className='c-grey-300  fs12'>дата</span>
+            </div>
+            <div className='lh1-4 m10-0'>
+              Продажа контрактных и новых запчастей, всех стран(кроме китайских автомобилей )
+              по оптовым и розничным ценам.В наличии и под заказ. ДВС АКПП (б.у новые,восстановленные),
+            </div>
+          </div>
+        </div>,
+        comments_size != part_index && <hr className='hr'/>
+        ])
+      })
+      .toArray();
+
     return (
+
       <div>
         <div className='entire-width'>
           <div className='company-information w50pr'>
             <div className='entire-width flex-ai-c'>
               <h2 className='tt-n fs26 d-ib fw-b'>{this.state.company_information.get('name')}</h2>
               <span className='bB1d fs12'>
-                Отзывы: <span className='c-red-500 cur-p'>+1</span> / <span className='c-green-500 cur-p'>-2</span>
+                Отзывы:
+                <span className='c-red-500 cur-p'>+{this.state.rating.get('plus')}</span>
+                /
+                <span className='c-green-500 cur-p'>-{this.state.rating.get('minus')}</span>
               </span>
             </div>
-            <Link className='mB25 d-ib' target='_blank' href='/'>{this.state.company_information.get('site')} </Link>
+              {this.state.company_information.get('site') && <Link className='mB25 d-ib' target='_blank' href='/'>{this.state.company_information.get('site')} </Link>}
             <div className='fw-b fs12 m10-0'>Описание компании:</div>
             <div className='fs12 lh1-4 Mh140px o-h to-e ws-n'>{this.state.company_information.get('description')}</div>
-            {this.state.company_information.get('brands') && [
-              <div className='fw-b fs12 m10-0'>Обслуживаемые марки:</div>,
-              <div className='fs12 lh1-4 h140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
-            ]}
+              {this.state.company_information.get('brands') && [
+                <div className='fw-b fs12 m10-0'>Обслуживаемые марки:</div>,
+                <div className='fs12 lh1-4 h140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
+              ]}
             <div className='filial-company'>
               <h3 className='fs20 fw-n'>Филиалы компании:</h3>
-              {Filials}
+                {Filials}
             </div>
           </div>
           <div className='w50pr h500px'>
@@ -174,7 +216,7 @@ var AccountInfo = React.createClass({
               on_balloon_event={this.noop}
               on_bounds_change={this.noop}>
 
-                {YandexMarkers}
+                  {YandexMarkers}
 
             </YandexMap>
           </div>
@@ -183,51 +225,68 @@ var AccountInfo = React.createClass({
         <hr className='hr m30-0'/>
         <div className='w700px m0-auto'>
           <h3 className='fs20 fw-n ta-c m20-0'>Отзывы</h3>
-          <div className='bgc-grey-50 br5 z-depth-1 p10-20'>
+          <div className='bgc-grey-50 br5 z-depth-1 p10-20 mB50'>
             <div className='entire-width flex-ai-fe'>
               <label className='d-ib w40pr'>
-                <div className='m5-0 fs14'>Ваше имя<sup>*</sup></div>
+                <div className='m5-0 fs14'>Ваше имя
+                  <sup>*</sup>
+                </div>
 
                 <input
                   type='text'
                   name='name'
                   onChange={this.updateFormElement('name')}
                   className={cx({
-                    'w100pr' : true,
-                    'bs-error' : false
+                    'w100pr'   : true,
+                    'bs-error' : !!this.state.comment_field_validation.has('name')
                   })}/>
               </label>
               <label className='d-ib w40pr'>
-                <div className='m5-0 fs14'>Ваш E-mail<sup>*</sup></div>
+                <div className='m5-0 fs14'>Ваш E-mail
+                  <sup>*</sup>
+                </div>
                 <input
                   type='text'
                   name='email'
                   onChange={this.updateFormElement('email')}
                   className={cx({
-                    'w100pr' : true,
-                    'bs-error' : false
+                    'w100pr'   : true,
+                    'bs-error' : !!this.state.comment_field_validation.has('email')
                   })}/>
               </label>
-              <ButtonGroup select_element_value={this.state.new_comment.get('rating')} onChange={this.updateFormElement('rating')}>
-                <button name='type' className='btn-bg-group' value='+'><i className='flaticon-thumbsu fs17 c-yellow-700'/></button>
-                <button name='type' className='btn-bg-group' value='-'><i className='flaticon-thumbsb fs17 c-red-500'/></button>
+              <ButtonGroup
+                select_element_value={this.state.new_comment.get('rating')}
+                className={cx({'bs-error' : !!this.state.comment_field_validation.has('rating')})}
+                onChange={this.updateFormElement('rating')}>
+                <button name='type' className='btn-bg-group' value='+'>
+                  <i className='flaticon-thumbsu fs17 c-yellow-700'/>
+                </button>
+                <button name='type' className='btn-bg-group' value='-'>
+                  <i className='flaticon-thumbsb fs17 c-red-500'/>
+                </button>
               </ButtonGroup>
             </div>
             <label className='d-ib w100pr mT15'>
-              <div className='m5-0 fs14'>Ваш отзыв<sup>*</sup></div>
+              <div className='m5-0 fs14'>Ваш отзыв
+                <sup>*</sup>
+              </div>
               <textarea
                 type='text'
                 name='comment'
                 onChange={this.updateFormElement('comment')}
                 className={cx({
                   'w100pr h80px' : true,
-                  'bs-error' : false
+                  'bs-error'     : !!this.state.comment_field_validation.has('comment')
                 })}/>
             </label>
-            <button className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1">Отправить</button>
+            <button className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>
           </div>
+
         </div>
+          {Comments}
+
       </div>
+
 		);
 	}
 });

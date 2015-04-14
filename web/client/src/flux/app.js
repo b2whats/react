@@ -16,8 +16,8 @@ require('./utils/router.js')(routes); //инициализация роутер�
 console.log('dfdfdf');  
 
 auth_actions.check_auth()
-.then(() => 
-  
+.then(() =>
+
   React.render(
       <IceMain/>, //ice_main(null)
       document.getElementById('react_main')
