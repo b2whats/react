@@ -8,51 +8,59 @@
 	font-weight: normal;
 	font-style: normal;
 }
-i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
-[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before {
 	font-family: Flaticon;
   line-height: 0.8;
   display: inline-block;
   font-style: normal;
 }
-.flaticon-plus:before {
-	content: "\e000";
-}
+
+}.flaticon-plus:before {
+   content: "\e000";
+ }
 .flaticon-left:before {
-	content: "\e001";
+  content: "\e001";
 }
 .flaticon-top:before {
-	content: "\e002";
+  content: "\e002";
 }
 .flaticon-close:before {
-	content: "\e003";
-  cursor: pointer;
+  content: "\e003";
 }
 .flaticon-close:hover:before {
 	content: "\e003";
   color: #ba3333;
 }
+.flaticon-clear:before {
+  content: "\e004";
+}
 .flaticon-mail:before {
-	content: "\e004";
+  content: "\e005";
 }
 .flaticon-minus:before {
-	content: "\e005";
+  content: "\e006";
+}
+.flaticon-send:before {
+  content: "\e007";
 }
 .flaticon-right:before {
-	content: "\e006";
+  content: "\e008";
+}
+.flaticon-power:before {
+  content: "\e009";
 }
 .flaticon-bottom:before {
-	content: "\e007";
+  content: "\e00a";
 }
 .flaticon-phone:before {
-	content: "\e008";
+  content: "\e00b";
 }
 .flaticon-thumbsb:before {
-	content: "\e009";
+  content: "\e00c";
 }
 .flaticon-thumbsu:before {
-	content: "\e00a";
+  content: "\e00d";
 }
 .flaticon-calendar:before {
-	content: "\e00b";
+  content: "\e00e";
 }

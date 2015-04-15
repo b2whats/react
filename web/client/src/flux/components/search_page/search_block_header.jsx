@@ -111,10 +111,12 @@ var SearchBlockHeader = React.createClass({
         </div>
         
         {/*поисковые формочки*/}
-        <div ref='default_page_content' className="search-page-container">
+        <div ref='default_page_content' className="search-page-container mT10">
           <div className="wrap gutter-15-xs">
+
             <SearchPageSearchBlock 
               sample="* Введите название, производителя или код"
+              description="1) Начните вводить... 2) Выберите строку из выпадающего списка."
               className="md-12-6 autoparts">
               <AutoPartsSearchWrapper
                 initial_value={autoparts_initial_value}
@@ -122,9 +124,10 @@ var SearchBlockHeader = React.createClass({
                 on_value_changed={this.on_auto_parts_value_changed} />
                 {/*list_width={this.state.width - kSASS_INPUT_PADDING}*/}
             </SearchPageSearchBlock>
-            
+
             <SearchPageSearchBlock 
               sample="** Введите марку автомобиля и название работ"
+              description="1) Начните вводить... 2) Выберите строку из выпадающего списка."
               className="md-12-6 autoservices">
                   <AutoServiceSearchWrapper
                     initial_value={autoservice_initial_value}

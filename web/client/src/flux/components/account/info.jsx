@@ -101,7 +101,7 @@ var AccountInfo = React.createClass({
           return (
 						<div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
 							<span>
-								<span className='fw-b fs16 ta-r d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
+								<span className='fw-b fs16 ta-R d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
                                 {(part.get('filial_type_id') == 1) ?
 	                                <i className='svg-icon_gear m0-10 va-m fs16'/>
 	                                :
@@ -174,7 +174,7 @@ var AccountInfo = React.createClass({
 							</td>
 						</tr>
 						<tr>
-							<td className='ta-c h60px p0' colSpan='2'>
+							<td className='ta-C h60px p0' colSpan='2'>
                                     {edit && <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8' onClick={this.endEdit}>Сохранить</button>}
 							</td>
 						</tr>
@@ -213,7 +213,7 @@ var AccountInfo = React.createClass({
 					isOpen={!!this.state.modalIsOpen.get('payment_information')}
 					onRequestClose={this.handleModalCloseRequest}
 				>
-					<div className='ta-c w700px'>
+					<div className='ta-C w700px'>
 						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
             <h2 className='m15-0 mB25'>Реквизиты компании</h2>
             <form onSubmit={this.submitCompanyPersonalDetails} encType="application/x-www-form-urlencoded">

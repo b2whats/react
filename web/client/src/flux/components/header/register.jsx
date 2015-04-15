@@ -38,7 +38,7 @@ var Register = React.createClass({
 
     render () {
         return (
-            <div className='ta-c'>
+            <div className='ta-C'>
                 <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
                 <h2 className='m15-0 mB50'>Регистрация</h2>
                 <span className='mR10 fs16'>Я</span>

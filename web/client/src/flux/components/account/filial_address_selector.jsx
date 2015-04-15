@@ -118,7 +118,7 @@ var FilialAddressSelector = React.createClass({
 		/* jshint ignore:start */
 
 		return (
-			<div className="ta-c w700px">
+			<div className="ta-C w700px">
 				<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
 				<h2 className='m15-0'>{(!!this.state.type) ? 'Редактирование филиала' : 'Новый филиал'}</h2>
 				<ButtonGroup className='m15-0' select_element_value={this.state.type} onChange={this.on_type_changed}>

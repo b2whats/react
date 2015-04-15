@@ -25,8 +25,8 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
   .on(event_names.kON_REGION_LIST_LOADED, region_list => {
-    
-    state_.region_list_cursor
+
+        state_.region_list_cursor
       .update(() => immutable.fromJS(region_list));
     
     region_store.fire(event_names.kON_CHANGE);
@@ -36,7 +36,6 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_REGION_CHANGED, region_id => {
     //к этому времени список регионов есть всегда
-
     var region_current = state_.region_list.find(region => {
       return region.get('id') == region_id ||
         region.get('translit_name').toLocaleLowerCase() == region_id.toLocaleLowerCase() ||

@@ -28,11 +28,6 @@ var state_ = init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
     .on(event_names.kPERSONAL_COMPANY_INFO_LOADED, info => {
-      try {
-        wefew
-      } catch(e) {
-        console.log(e);
-      }
       if (!!info['company']) {
         state_.company_information_cursor
           .update(() => immutable.fromJS(info['company']));
@@ -56,11 +51,23 @@ var cncl_ = [
   main_dispatcher
     .on(event_names.kSUBMIT_COMMENT_SUCCESS, info => {
         state_.comments_cursor
-          .update((x) => x.push(immutable.fromJS(info['reviews'])));
+          .update((x) => x.push(immutable.fromJS(info)));
         state_.rating_cursor
           .update((x) => x.set('plus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '+').size));
         state_.rating_cursor
           .update((x) => x.set('minus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '-').size));
+      company_personal_page_store.fire(event_names.kON_CHANGE);
+    }, 1),
+  main_dispatcher
+    .on(event_names.kSUBMIT_ANSWER_SUCCESS, (id,info) => {
+        state_.comments.find((el,k) => {
+          if (el.get('id') == id ) {
+            state_.comments_cursor
+              .update((x) => x.set(k,immutable.fromJS(info)));
+          }
+        });
+
+
       company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher

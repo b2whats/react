@@ -111,7 +111,7 @@ var CatalogPageTable = React.createClass({
           onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
           key={part_index}>
 
-          <td className='ta-c va-m w50px p0-10'>
+          <td className='ta-C va-m w50px p0-10'>
             <i className={cx((part.get('filial_type_id') == 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
             <div>
               <span  className={cx('fs12 bB1d',(part.get('filial_type_id') == 1) ? 'c-deep-purple-500' : 'c-yellow-800')}>
@@ -127,7 +127,7 @@ var CatalogPageTable = React.createClass({
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>
                 </span>
-                <span><Link href="" target='_blank' className='td-u fs12 c-deep-purple-600 w150px d-ib ta-r ellipsis'>{part.get('site')}</Link></span>
+                <span><Link href="" target='_blank' className='td-u fs12 c-deep-purple-600 w150px d-ib ta-R ellipsis'>{part.get('site')}</Link></span>
               </div>
               <div className='fs12'>
                 <div className='c-grey-600 m5-0'>Описание компании:</div>
@@ -135,15 +135,15 @@ var CatalogPageTable = React.createClass({
               </div>
             </div>
           </td>
-          <td className='ta-c va-m w200px'>
+          <td className='ta-C va-m w200px'>
             <div style={ { display:  part.get('main_marker').get('show_phone') ? 'block': 'none' } }
-              className="ta-c fs20">
+              className="ta-C fs20">
               <span className='fs14'>{!!part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
             {!!part.get('main_marker').get('main_phone') &&  part.get('main_marker').get('main_phone').substr(7)}
             </div>
             <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
               style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'inline-block' } }
-              className="p8 br2 grad-w b0 btn-shad-b ta-c">
+              className="p8 br2 grad-w b0 btn-shad-b ta-C">
               <i className="flaticon-phone c-deep-purple-500 fs16"></i>
               <span className=''>Показать телефон</span>
             </button>
@@ -163,7 +163,7 @@ var CatalogPageTable = React.createClass({
         </table>
       
 
-          <div className="ta-r m20">
+          <div className="ta-R m20">
             <Pager  className="pagination fs14"
               page_num={this.state.page_num}
               items_per_page={this.state.items_per_page}

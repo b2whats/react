@@ -24,6 +24,9 @@ var SearchPageSearchBlock = React.createClass({
       <div className={this.props.className}>
         <div className="search-page-typeahed-holder">
           <div className="search-page-typeahed-border">
+            <div className="fs11 p5-0 ta-L">
+        {this.props.description}
+            </div>
             {this.props.children}
           </div>
           <div className="search-page-typeahed-helper-text">

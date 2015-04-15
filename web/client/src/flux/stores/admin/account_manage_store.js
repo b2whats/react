@@ -48,7 +48,7 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kON_ON_ACCOUNT_MANAGE_PRICE_TYPE_CHANGED, price_type => {
-    update_state_param("price_type", price_type);      
+    update_state_param("price_type", price_type);
   }, kDEFAULT_STORE_PRIORITY),
 
   main_dispatcher

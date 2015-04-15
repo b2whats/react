@@ -198,11 +198,6 @@
   border-top: 1px solid;
   border-color: inherit; }
 
-/*Перенос строки без <br>*/
-.br:after {
-  content: '\A';
-  white-space: pre; }
-
 /*
 Правила моего Atomic'a
 Селекторы располагаются по логическим блокам, а в них по алфавиту
@@ -1600,13 +1595,13 @@
 .fw-n {
   font-weight: normal; }
 
-.ta-c {
+.ta-C {
   text-align: center; }
 
-.ta-l {
+.ta-L {
   text-align: left; }
 
-.ta-r {
+.ta-R {
   text-align: right; }
 
 .ta-j {
@@ -1638,6 +1633,15 @@
 
 .f-R {
   float: right; }
+
+.c-L {
+  clear: left; }
+
+.c-R {
+  clear: right; }
+
+.c-b {
+  clear: both; }
 
 .p-r {
   position: relative; }
@@ -1692,6 +1696,12 @@
 
 .z-depth-1 {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24); }
+
+.z-depth-1h {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24); }
+
+.z-depth-1h:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.24); }
 
 /*Цвет текста, фона, бордеров*/
 .bc-deep-purple-50 {
@@ -2152,6 +2162,24 @@
 
 .c-t {
   color: transparent; }
+
+.bc-white {
+  border-color: #FFFFFF; }
+
+.bgc-white {
+  background-color: #FFFFFF; }
+
+.c-white {
+  color: #FFFFFF; }
+
+.bc-black {
+  border-color: #000000; }
+
+.bgc-black {
+  background-color: #000000; }
+
+.c-black {
+  color: #000000; }
 
 .bs-n {
   box-shadow: none; }

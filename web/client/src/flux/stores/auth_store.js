@@ -19,7 +19,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
   auth_field_validation : {},
   path                  : null,
   email                 : null,
-  check_done            : false
+  check_done            : false,
+  user_id : null,
 });
 
 var cncl_ = [
@@ -50,6 +51,8 @@ var cncl_ = [
         .update(m => response.role);
       state_.email_cursor
         .update(m => response.user_email);
+      state_.user_id_cursor
+        .update(m => response.user_id);
       modal_actions.close_modal();
       auth_store.fire(event_names.kON_CHANGE);
     }, 100000),
@@ -94,6 +97,9 @@ var auth_store = merge(Emitter.prototype, {
   },
   get_email() {
     return state_.email;
+  },
+  get_user_id() {
+    return state_.user_id;
   },
   get_check_done() {
     return state_.check_done;

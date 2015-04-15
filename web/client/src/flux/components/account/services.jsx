@@ -247,12 +247,12 @@ var AccountInfo = React.createClass({
   },
   generatedPaymentMethod() {
     return (
-    <ul className='lst-N ta-l fs14'>
+    <ul className='lst-N ta-L fs14'>
       {this.state.payment_method
           .map((part, part_index) => {
             return (
                 <li className='m15-0' key={part_index}>
-                  <span className='d-ib ta-c w80px mR10'>
+                  <span className='d-ib ta-C w80px mR10'>
                     <img className='va-m' src={part.get('img')}/>
                   </span>
                   <label className="label-radio">
@@ -407,7 +407,7 @@ var AccountInfo = React.createClass({
               </div>
             </div>
           </div>
-          <div className='ta-c m20-0 fs18 '>
+          <div className='ta-C m20-0 fs18 '>
             Общая сумма: <strong>{format_string.money(summ, ' ')} </strong> руб.
           </div>
           <hr className="hr-arrow m20-0"/>
@@ -415,7 +415,7 @@ var AccountInfo = React.createClass({
             <strong>Шаг 3 </strong> из 3.
             <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
           </div>
-          <div className='ta-c m20-0 fs18 '>
+          <div className='ta-C m20-0 fs18 '>
             {this.generatedPaymentMethod()}
             <button disabled={(summ == 0 || this.state.current_payment_method.size == 0) && true}className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth-1' onClick={this.makePayment}>Оплатить</button>
           </div>

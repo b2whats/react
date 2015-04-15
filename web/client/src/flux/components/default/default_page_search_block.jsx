@@ -39,6 +39,9 @@ var DefaultPageSearchBlock = React.createClass({
           </h2>
           
           <div className="default-page-search-block-content">
+            <div className="fs11 p5-0">
+            {this.props.description}
+            </div>
             <table className="default-page-search-block-width">            
               <tr className="default-page-search-block-width stylized-input text_btn">
                   <td className="default-page-search-block-width">
@@ -49,13 +52,11 @@ var DefaultPageSearchBlock = React.createClass({
             </table>
           </div>
 
-          <div className="big-search-block__hint">
+          <div className="big-search-block__hint mB50">
               <span className="default-page-forexample">Например:</span>
               <a onClick={this.sample_click} href="#">{this.props.sample}</a>
           </div>
-          <div className="big-search-block__description">
-            {this.props.description}
-          </div>
+
       </div>
     );
   }

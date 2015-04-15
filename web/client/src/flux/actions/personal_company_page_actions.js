@@ -14,9 +14,10 @@ module.exports.get_company_information = (id) => {
   return resource(api_refs.GET)
     .post({company_by_id: id, company_filials_by_company_id: id, reviews_by_company_id: id})
     .then(response => {
-      response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kPERSONAL_COMPANY_INFO_LOADED].concat([response['results']]));
-      response['error'] && console.warn(response['error']);
-    });
+        response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kPERSONAL_COMPANY_INFO_LOADED].concat([response['results']]));
+        response['error'] && console.warn(response['error']);
+    })
+    .catch(e => console.error(e, e.stack));;
 };
 
 var user_shema = {
@@ -44,35 +45,33 @@ var user_shema = {
 
 
 module.exports.submit_form = (comment, company_id, parent) => {
-  main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_STATUS_RESET]);
   var shema = {
     properties : user_shema,
   };
+
   var validation = validator.validate(comment, shema);
   if (validation.valid) {
+    main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_STATUS_RESET]);
     resource(api_refs.kSUBMIT_COMMENT_DATA)
       .post({comment : comment, company_id : company_id, parent : parent})
       .then(response => {
         console.log(response);
         response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kSUBMIT_COMMENT_SUCCESS].concat([response['results']]));
-
-/*        if (!response.valid) {
-          main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_ERROR].concat([response]));
-        }
-        else {
-          main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_SUCCESS]);
-          main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
-          route_actions.goto_link_with_default_params('/account/:region_id/company',
-            {region_id: region_store.get_region_current().get('translit_name')}
-          );
-        }*/
-      });
+      })
+      .catch(e => console.error(e, e.stack));
   }
   else {
     main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_STATUS_ERROR].concat([validation]));
   }
 };
+module.exports.submit_answer = (comment_id,comment) => {
+    resource(api_refs.kSUBMIT_COMMENT_DATA)
+      .post({comment : comment, comment_id : comment_id})
+      .then(response => {
+        response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kSUBMIT_ANSWER_SUCCESS].concat([comment_id,response['results']]));
+      });
 
+};
 
 var actions_ = [
   ['update_form', event_names.COMMENT_FORM_UPDATE]

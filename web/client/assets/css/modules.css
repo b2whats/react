@@ -42,14 +42,14 @@ content: '?';
   font-size: 14px;
 }
 .btn-plus-minus::before {
-  font-size: 16px;
+  font-size: 10px;
   font-family: 'Flaticon';
   content: '\e000';
 
 }
 .btn-plus-minus.active::before {
   font-family: 'Flaticon';
-  content: "\e005";
+  content: "\e006";
 }
 
 .ReactModal__Overlay {

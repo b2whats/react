@@ -218,7 +218,7 @@ var SearchPageAutoPartTable = React.createClass({
               </FixedTooltip>
             </div>
           </td>
-          <td className='ta-c'>
+          <td className='ta-C'>
             <span className={cx('fs25 va-m m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
             <span className={cx('fs23 va-m m0-5', cx(stock_class_name))}></span>
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
@@ -249,7 +249,7 @@ var SearchPageAutoPartTable = React.createClass({
           <td className="search-page-autopart-table-td-phone search-page-autopart-table-td-multiple-btn">
             
             <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
-              className="ta-c fs20">
+              className="ta-C fs20">
               <span className='fs14'>{part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
             {part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(7)}
             </div>
@@ -257,14 +257,14 @@ var SearchPageAutoPartTable = React.createClass({
             <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
 
                 <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                      className="p8 br2 grad-w b0 btn-shad-b w48pr ta-c">
+                      className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C">
                   <i className="flaticon-phone c-ap fs16"></i>
                   <span className='M-d-n-1420'>Телефон</span>
                 </button>
 
 
               <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                    className="p8 br2 grad-w b0 btn-shad-b w48pr ta-c">
+                    className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C">
                 <i className="flaticon-mail c-ap fs16"></i>
                 <span  className='M-d-n-1420'>Заявка</span>
               </button>
@@ -309,14 +309,14 @@ var SearchPageAutoPartTable = React.createClass({
 
           <table cellSpacing="0" className='search-table'>
               <thead>
-                  <tr className='bg-c-gl ta-l'>
+                  <tr className='bg-c-gl ta-L'>
                       <th className='w40px'><i className='icon_placemark-grey'></i></th>
                       <th className=''>Продавец</th>
                       <th className='w170px'>Производитель / Артикул</th>
                       <th className=''>Описание детали</th>
-                      <th className='ta-c w90px'>Инфо</th>
-                      <th className='ta-c c-wh w110px t-bg-c-ap'>Цена</th>
-                      <th className='ta-c w210px'>
+                      <th className='ta-C w90px'>Инфо</th>
+                      <th className='ta-C c-wh w110px t-bg-c-ap'>Цена</th>
+                      <th className='ta-C w210px'>
                         <label className="label--checkbox">
                           <input type="checkbox" checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} className="checkbox"/>
                           <span className='m0-5'>Показать телефоны</span>
@@ -330,7 +330,7 @@ var SearchPageAutoPartTable = React.createClass({
               </tbody>
           </table>
 
-        <div className="ta-r m20">
+        <div className="ta-R m20">
           <Pager  className="pagination fs14"
             page_num={this.state.page_num}
             items_per_page={this.state.items_per_page}

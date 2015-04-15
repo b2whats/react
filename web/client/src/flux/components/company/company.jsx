@@ -28,24 +28,24 @@ var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
 var region_store = require('stores/region_store.js');
 var toggle_store = require('stores/toggle_store.js');
+var auth_store = require('stores/auth_store.js');
 var toggle_actions = require('actions/toggle_actions.js');
 var cx = require('classnames');
-
+var immutable = require('immutable');
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
-      company_information      : personal_company_page_store.get_company_information(),
-      company_filials          : personal_company_page_store.get_company_filials(),
-      region_current           : region_store.get_region_current(),
-      toggle                   : toggle_store.get_toggle(),
-      new_comment              : personal_company_page_store.get_new_comment(),
-      comment_field_validation : personal_company_page_store.get_comment_field_validation(),
-      comments                 : personal_company_page_store.get_comments(),
-      rating                   : personal_company_page_store.get_rating(),
-
-
+  company_information      : personal_company_page_store.get_company_information(),
+  company_filials          : personal_company_page_store.get_company_filials(),
+  region_current           : region_store.get_region_current(),
+  toggle                   : toggle_store.get_toggle(),
+  new_comment              : personal_company_page_store.get_new_comment(),
+  comment_field_validation : personal_company_page_store.get_comment_field_validation(),
+  comments                 : personal_company_page_store.get_comments(),
+  rating                   : personal_company_page_store.get_rating(),
+  user_id                  : auth_store.get_user_id(),
 }),
-	toggle_store, region_store, personal_company_page_store/*observable store list*/);
+	toggle_store, region_store, personal_company_page_store, auth_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
@@ -67,6 +67,7 @@ var AccountInfo = React.createClass({
 	],
   toggle(val) {
     return (e) => {
+      e.preventDefault();
       toggle_actions.change(val);
     }
   },
@@ -77,6 +78,18 @@ var AccountInfo = React.createClass({
     return (e) => {
       var value = (_.isObject(e)) ? e.target.value : e;
       personal_company_page_actions.update_form(name, value);
+    };
+  },
+  resetAnswer(id) {
+    return () => {
+      this.refs['answer'+id].getDOMNode().value = '';
+    };
+  },
+  submitAnswer(comment_id) {
+    return () => {
+      var comment = this.refs['answer'+comment_id].getDOMNode().value;
+      !!comment &&
+      personal_company_page_actions.submit_answer(comment_id,comment);
     };
   },
   commentSubmit() {
@@ -99,8 +112,8 @@ var AccountInfo = React.createClass({
     var Filials = this.state.company_filials
       .map((part, part_index) => {
         return (
-          <div  key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2'>
-            <div className='entire-width'>
+          <div  key={part.get('id')} className='grad-g p8 m10-0 z-depth-1 br2'>
+            <div onClick={this.toggle('filial_address_'+part_index)} className='entire-width cur-p'>
               <span>
                 {(part.get('filial_type') == 1) ?
                   <i className='icon_placemark-ap va-m mR5 fs10'/>
@@ -110,8 +123,8 @@ var AccountInfo = React.createClass({
                 <span className='va-m'>{part.get('full_address')}</span>
               </span>
               <span>
-                <i onClick={this.toggle('filial_address_'+part_index)}
-                   className={cx("btn-plus-minus btn-icon",!!this.state.toggle.get('filial_address_'+part_index) && "active")}></i>
+                <i
+                   className={cx("btn-plus-minus btn-icon c-grey-500",!!this.state.toggle.get('filial_address_'+part_index) && "active")}></i>
               </span>
             </div>
             <div className={cx('lh1-4', !this.state.toggle.get('filial_address_'+part_index) && "d-N")}>
@@ -121,7 +134,7 @@ var AccountInfo = React.createClass({
                 {part.get('operation_time').map((part, part_index) => {
                   return (
                     <div key={part_index}>
-                      <span className='fw-b fs12 ta-r d-ib w35px'>{operation_time[part_index]}</span> {part.get('from')} - {part.get('to')}
+                      <span className='fw-b fs12 ta-R d-ib w35px'>{operation_time[part_index]}</span> {part.get('from')} - {part.get('to')}
                     </div>
                   )
                 }).toArray()}
@@ -143,41 +156,62 @@ var AccountInfo = React.createClass({
       .toJS();
     var comments_size = this.state.comments.size -1;
     var Comments = this.state.comments
+      .reverse()
       .map((part, part_index) => {
         return ([
-        <div className='m20-0'>
+        <div key={part.get('id')} className='m20-0'>
           <div className='entire-width'>
             <span className='d-ib fw-b'>
               {(part.getIn(['review','rating']) === '+') ?
-                <i className='flaticon-thumbsu fs17 c-green-500'/>
+                <i className='flaticon-thumbsu fs17 c-green-500 mR10'/>
                 :
-                <i className='flaticon-thumbsb fs17 c-red-500'/>
+                <i className='flaticon-thumbsb fs17 c-red-500 mR10'/>
               }{part.getIn(['review','name'])}
+              {!!this.state.user_id && !part.get('answer') &&
+                <span onClick={this.toggle('answer_'+part_index)} className='cur-p c-grey-400 fs12 mL10 fw-n'>Ответить</span>
+              }
             </span>
             <span className='c-grey-600 fs12'>{part.get('date')}</span>
           </div>
-          <div className='lh1-4 m10-0'>{part.getIn(['review','comment'])}
+          <div className='lh1-4 m10-0'>
+            {part.getIn(['review','comment'])}
           </div>
-          <div className='mL30 bL4s bc-grey-500 pL10'>
-            <div className='entire-width'>
-              <span className='d-ib fw-b'>
-                Ответ
-              </span>
-              <span className='c-grey-300  fs12'>дата</span>
+          {!!this.state.toggle.get('answer_'+part_index) && !part.get('answer') ?
+
+            <div className='br5 z-depth-1 p10-20 mB20 bgc-grey-50'>
+              <div className='mL5 f-R c-grey-400 ta-C'>
+                <i onClick={this.submitAnswer(part.get('id'))} className='flaticon-send fs30 cur-p'/>
+                <br/>
+                <i onClick={this.resetAnswer(part.get('id'))} className='flaticon-clear fs20 mT5 cur-p'/>
+              </div>
+              <div className='o-h'>
+                 <textarea
+                   ref={'answer'+part.get('id')}
+                   type='text'
+                   name='answer'
+                   className={cx({
+                     'w100pr h80px' : true
+                   })}/>
+              </div>
             </div>
-            <div className='lh1-4 m10-0'>
-              Продажа контрактных и новых запчастей, всех стран(кроме китайских автомобилей )
-              по оптовым и розничным ценам.В наличии и под заказ. ДВС АКПП (б.у новые,восстановленные),
+            :
+            <div className={cx('mL30 bL4s bc-grey-500 pL10', !part.get('answer') && 'd-N' )}>
+              <div className='fw-b'>
+                  Ответ
+              </div>
+              <div className='lh1-4 m10-0'>
+                {part.get('answer')}
+              </div>
             </div>
-          </div>
+          }
         </div>,
         comments_size != part_index && <hr className='hr'/>
         ])
       })
       .toArray();
 
+console.log(this.state.user_id);
     return (
-
       <div>
         <div className='entire-width'>
           <div className='company-information w50pr'>
@@ -224,9 +258,14 @@ var AccountInfo = React.createClass({
         </div>
         <hr className='hr m30-0'/>
         <div className='w700px m0-auto'>
-          <h3 className='fs20 fw-n ta-c m20-0'>Отзывы</h3>
-          <div className='bgc-grey-50 br5 z-depth-1 p10-20 mB50'>
-            <div className='entire-width flex-ai-fe'>
+
+          <div className={cx('br5 z-depth-1 p10-20 mB50', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
+            {!this.state.toggle.get('comment_show') ?
+              <div className='cur-p fs18 ta-C' onClick={this.toggle('comment_show')}>
+                Оставить отзыв
+              </div>
+            :
+            [<div key={1} className='entire-width flex-ai-fe'>
               <label className='d-ib w40pr'>
                 <div className='m5-0 fs14'>Ваше имя
                   <sup>*</sup>
@@ -259,14 +298,14 @@ var AccountInfo = React.createClass({
                 className={cx({'bs-error' : !!this.state.comment_field_validation.has('rating')})}
                 onChange={this.updateFormElement('rating')}>
                 <button name='type' className='btn-bg-group' value='+'>
-                  <i className='flaticon-thumbsu fs17 c-yellow-700'/>
+                  <i className='flaticon-thumbsu fs17 c-green-500'/>
                 </button>
                 <button name='type' className='btn-bg-group' value='-'>
                   <i className='flaticon-thumbsb fs17 c-red-500'/>
                 </button>
               </ButtonGroup>
-            </div>
-            <label className='d-ib w100pr mT15'>
+            </div>,
+            <label  key={2}  className='d-ib w100pr mT15'>
               <div className='m5-0 fs14'>Ваш отзыв
                 <sup>*</sup>
               </div>
@@ -278,8 +317,9 @@ var AccountInfo = React.createClass({
                   'w100pr h80px' : true,
                   'bs-error'     : !!this.state.comment_field_validation.has('comment')
                 })}/>
-            </label>
-            <button className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>
+            </label>,
+            <button  key={3}  className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>
+            ]}
           </div>
 
         </div>

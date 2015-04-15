@@ -211,7 +211,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <FixedTooltip 
                 open_id={part.get('id')}
                 open_type={'autoservice-tooltip-auto-marks'} 
-                className="ta-l">
+                className="ta-L">
                 
                 <strong className='fs14 mB10 d-ib'>Марки</strong>
                 <div className="search-page-autoservice-table-body-work-tooltip-list">
@@ -233,7 +233,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
           </td>
 
-          <td className="ta-c">
+          <td className="ta-C">
             <span
               className="cur-p bB1d c-yellow-800"
               onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-body-work')} >
@@ -244,7 +244,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <FixedTooltip 
                 open_id={part.get('id')}
                 open_type={'autoservice-tooltip-body-work'} 
-                className="ta-l">
+                className="ta-L">
                 
                 <strong className='fs14 mB10 d-ib'>Кузовные работы</strong>
                 <div className="Mh150px o-a mR-8">
@@ -264,7 +264,7 @@ var SearchPageAutoServiceTable = React.createClass({
             </FixedTooltip>
           </td>
 
-          <td className="ta-c">
+          <td className="ta-C">
             <span
               className="cur-p bB1d c-yellow-800"
               onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-metal-work')} >
@@ -276,7 +276,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <FixedTooltip 
                 open_id={part.get('id')}
                 open_type={'autoservice-tooltip-metal-work'} 
-                className="ta-l">
+                className="ta-L">
                 
                 <strong className='fs14 mB10 d-ib'>Слесарные работы</strong>
               <div className="Mh150px o-a mR-8">
@@ -298,7 +298,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
           </td>
 
-          <td className="ta-c">
+          <td className="ta-C">
             <span
               className="cur-p bB1d c-yellow-800"
               onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work')} >
@@ -309,7 +309,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <FixedTooltip 
                 open_id={part.get('id')}
                 open_type={'autoservice-tooltip-to-work'}
-                className="ta-l">
+                className="ta-L">
                 
                 <strong className='fs14 mB10 d-ib'>ТО</strong>
               <div className="Mh150px o-a mR-8">
@@ -330,7 +330,7 @@ var SearchPageAutoServiceTable = React.createClass({
           </td>
 
 
-          <td className="ta-c">
+          <td className="ta-C">
             <span
               className="cur-p bB1d c-yellow-800"
               onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work1')} >
@@ -341,7 +341,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <FixedTooltip
               open_id={part.get('id')}
               open_type={'autoservice-tooltip-to-work1'}
-              className="ta-l">
+              className="ta-L">
 
               <strong className='fs14 mB10'>Тюнинг и прочее</strong>
               <div className="Mh150px o-a mR-8">
@@ -368,7 +368,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
             <div style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'block': 'none' } }
-              className="ta-c fs20">
+              className="ta-C fs20">
               <span className='fs14'>{part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>
               {part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(7)}
             </div>
@@ -376,7 +376,7 @@ var SearchPageAutoServiceTable = React.createClass({
             <div className='entire-width' style={ { display: this.state.show_all_phones || part.get('main_marker').get('show_phone') ? 'none' : 'flex' } }>
 
               <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
-                className="p8 br2 grad-w b0 btn-shad-b w100pr ta-c">
+                className="p8 br2 grad-w b0 btn-shad-b w100pr ta-C">
                 <i className="flaticon-phone c-as fs16"></i>
                 <span className='M-d-n-1420'>Телефон</span>
               </button>
@@ -419,18 +419,18 @@ var SearchPageAutoServiceTable = React.createClass({
 
           <table cellSpacing="0" className="search-table">
               <thead>
-                <tr className='bg-c-gl ta-l'>
+                <tr className='bg-c-gl ta-L'>
                   <th className='w40px'>
                     <i className='icon_placemark-grey'></i>
                   </th>
                   <th>Компания</th>
                   <th>Марки</th>
-                  <th className='w55px ta-c'><i className='icon_door fs22' title='Кузовные работы'></i></th>
-                  <th className='w55px ta-c'><i className='icon_axis fs22' title='Слесарные работы'></i></th>
-                  <th className='w55px ta-c'><i className='icon_to fs22' title='ТО'></i></th>
-                  <th className='w55px ta-c'><i className='icon_more fs22 va-m' title='Тюнинг и прочее'></i></th>
-                  <th  className='ta-c w110px bgc-yellow-600'>Имя мастера</th>
-                  <th className='ta-c w210px'>
+                  <th className='w55px ta-C'><i className='icon_door fs22' title='Кузовные работы'></i></th>
+                  <th className='w55px ta-C'><i className='icon_axis fs22' title='Слесарные работы'></i></th>
+                  <th className='w55px ta-C'><i className='icon_to fs22' title='ТО'></i></th>
+                  <th className='w55px ta-C'><i className='icon_more fs22 va-m' title='Тюнинг и прочее'></i></th>
+                  <th  className='ta-C w110px bgc-yellow-600'>Имя мастера</th>
+                  <th className='ta-C w210px'>
                     <label className="label--checkbox">
                       <input type="checkbox" checked={this.state.show_all_phones} onChange={this.on_show_all_phones_on_current_page} className="checkbox"/>
                       <span className='m0-5'>Показать телефоны</span>
@@ -445,7 +445,7 @@ var SearchPageAutoServiceTable = React.createClass({
           </table>
 
 
-        <div className="ta-r m20">
+        <div className="ta-R m20">
           <Pager  className="pagination fs14"
             page_num={this.state.page_num}
             items_per_page={this.state.items_per_page}
