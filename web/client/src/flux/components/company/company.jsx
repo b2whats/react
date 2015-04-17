@@ -325,7 +325,7 @@ console.log(this.state.user_id);
         </div>
 
           {Comments}
-        <a name='reviews'></a>
+
       </div>
 
 		);
