@@ -25,7 +25,7 @@ var catalog_data_store = require('stores/catalog_data_store.js');
 var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 var fixed_tooltip_actions = require('actions/fixed_tooltip_actions.js');
-
+var region_store = require('stores/region_store.js');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   catalog_results: catalog_data_store.get_catalog_results(),
   page_num:          catalog_data_store.get_page_num(),
@@ -122,11 +122,11 @@ var CatalogPageTable = React.createClass({
           <td className='va-m p10-0'>
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
-                <span className='fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</span>
-                <span className='fs11 td-u'>Отзывы:
+                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</Link>
+                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs11 td-u'>Отзывы:
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>
-                </span>
+                </Link>
                 <span><Link href="" target='_blank' className='td-u fs12 c-deep-purple-600 w150px d-ib ta-R ellipsis'>{part.get('site')}</Link></span>
               </div>
               <div className='fs12'>

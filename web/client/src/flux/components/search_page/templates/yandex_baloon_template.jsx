@@ -10,9 +10,10 @@ module.exports = (ymaps, on_balloon_event) => {
         '<div class="yandex-map-balloon-title">' +         
           '<i class="svg-icon_placemark-{{properties.marker_type}}"></i>' +         
           '<span>Метка №{{properties.rank}}</span>' +
-        '</div> ' +        
-        '<div class="yandex-map-balloon-company-name">{{properties.company_name}}</div>' + 
-        '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
+        '</div> ' +
+    '<div id="yandex-map-balloon-company-name" class="yandex-map-balloon-company-name cur-p td-u">{{properties.company_name}}</div>' +
+
+    '<div class="yandex-map-balloon-address">{{properties.address}}</div>' +
         '<div class="yandex-map-balloon-footer">' +
           '<div class="yandex-map-balloon-footer-left">' +
             '<div class="yandex-map-balloon-footer-time-header">' +
@@ -81,6 +82,9 @@ module.exports = (ymaps, on_balloon_event) => {
       var close_button = dom_helper.query_selector('#yandex-map-balloon-close-button', this.getParentElement());
       this.close_click_fn = _.bind(this.close_click, this);
       dom_helper.subscribe(close_button, 'click', this.close_click_fn);
+      var goto = dom_helper.query_selector('#yandex-map-balloon-company-name', this.getParentElement());
+      this.goto_company_page_fn = _.bind(this.goto_company_page, this);
+      dom_helper.subscribe(goto, 'click', this.goto_company_page_fn);
     },
 
     close_click(e) {
@@ -90,7 +94,9 @@ module.exports = (ymaps, on_balloon_event) => {
     click(e) {
       on_balloon_event(yandex_templates_events.kON_SHOW_PHONE_CLICK, this.getData().object.id, this.getData().properties.getAll());
     },
-
+        goto_company_page(e) {
+          on_balloon_event(yandex_templates_events.kON_GOTO_COMPANY_PAGE, this.getData().object.id, this.getData().object.properties);
+        },
     clear () {
       on_balloon_event(yandex_templates_events.kON_BALLOON_HIDDEN, this.getData().object.id, this.getData().properties.getAll());
       
@@ -100,6 +106,9 @@ module.exports = (ymaps, on_balloon_event) => {
 
       var close_button = dom_helper.query_selector('#yandex-map-balloon-close-button', this.getParentElement());
       dom_helper.unsubscribe(close_button, 'click', this.close_click_fn);
+
+      var goto = dom_helper.query_selector('#yandex-map-balloon-company-name', this.getParentElement());
+      dom_helper.unsubscribe(goto, 'click', this.goto_company_page_fn);
 
       BalloonContentLayout.superclass.clear.call(this)
 

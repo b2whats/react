@@ -44,7 +44,7 @@ var ymap_baloon_template =  require('./templates/yandex_baloon_template.jsx');
 var ymap_cluster_baloon_template = require('./templates/yandex_cluster_baloon_template.jsx');
 var yandex_templates_events = require('./templates/yandex_templates_events.js');
 
-
+var route_actions = require('actions/route_actions.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
     map_visible         : search_page_store.get_search_page_map_visible(),
@@ -93,7 +93,13 @@ var SearchPageYandexMap = React.createClass({
     catalog_data_actions.catalog_close_balloon(id);
   },
 
-  on_balloon_event(event_name, id) {
+  on_balloon_event(event_name, id, prop) {
+    if(event_name === yandex_templates_events.kON_GOTO_COMPANY_PAGE) {
+      console.log(prop);
+      route_actions.goto_link_with_default_params('/company/'+prop.user_id+'/:region_id#reviews',
+        {region_id: region_store.get_region_current().get('translit_name')}
+      );
+    } else
     if(event_name === yandex_templates_events.kON_SHOW_PHONE_CLICK) {
       auto_part_by_id_actions.auto_part_show_phone(id);
       autoservice_by_id_actions.autoservice_show_phone(id);

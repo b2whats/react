@@ -219,9 +219,9 @@ console.log(this.state.user_id);
               <h2 className='tt-n fs26 d-ib fw-b'>{this.state.company_information.get('name')}</h2>
               <span className='bB1d fs12'>
                 Отзывы:
-                <span className='c-red-500 cur-p'>+{this.state.rating.get('plus')}</span>
+                <span className='c-green-500 cur-p'>+{this.state.rating.get('plus')}</span>
                 /
-                <span className='c-green-500 cur-p'>-{this.state.rating.get('minus')}</span>
+                <span className='c-red-500 cur-p'>-{this.state.rating.get('minus')}</span>
               </span>
             </div>
               {this.state.company_information.get('site') && <Link className='mB25 d-ib' target='_blank' href='/'>{this.state.company_information.get('site')} </Link>}
@@ -323,8 +323,9 @@ console.log(this.state.user_id);
           </div>
 
         </div>
-          {Comments}
 
+          {Comments}
+        <a name='reviews'></a>
       </div>
 
 		);
