@@ -63,9 +63,7 @@ var Header = React.createClass({
   closeMenu(e) {
     var current = e.currentTarget;
     var target = e.target;
-    console.log(current);
-    console.log(target.parentNode);
-    console.log(e.parentNode);
+
     setTimeout(() => {
       if (current === target) {
         //Не успевает произойти onClick как элемент исчезает, поэтому
@@ -93,7 +91,8 @@ var Header = React.createClass({
               region_id : kDEFAULT_REGION_ID,
               type      : '_',
               brands    : '_',
-              services  : '_'
+              services  : '_',
+              type_price : 1
             } }>Каталог компаний</Link>
 
           <Link className="no-href m0-10">|</Link>
