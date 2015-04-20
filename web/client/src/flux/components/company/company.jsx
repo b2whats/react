@@ -33,19 +33,22 @@ var toggle_actions = require('actions/toggle_actions.js');
 var cx = require('classnames');
 var immutable = require('immutable');
 
+var map_data_store = require('stores/personal_company_page_data_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
-  company_information      : personal_company_page_store.get_company_information(),
-  company_filials          : personal_company_page_store.get_company_filials(),
-  region_current           : region_store.get_region_current(),
-  toggle                   : toggle_store.get_toggle(),
-  new_comment              : personal_company_page_store.get_new_comment(),
-  comment_field_validation : personal_company_page_store.get_comment_field_validation(),
-  comments                 : personal_company_page_store.get_comments(),
-  rating                   : personal_company_page_store.get_rating(),
-  user_id                  : auth_store.get_user_id(),
+    company_information     : personal_company_page_store.get_company_information(),
+    company_filials         : personal_company_page_store.get_company_filials(),
+    region_current          : region_store.get_region_current(),
+    regions          : region_store.get_region_list(),
+    toggle                  : toggle_store.get_toggle(),
+    new_comment             : personal_company_page_store.get_new_comment(),
+    comment_field_validation: personal_company_page_store.get_comment_field_validation(),
+    comments                : personal_company_page_store.get_comments(),
+    rating                  : personal_company_page_store.get_rating(),
+    user_id                 : auth_store.get_user_id(),
+    markers                 : map_data_store.get_markers(),
 }),
-	toggle_store, region_store, personal_company_page_store, auth_store/*observable store list*/);
+	toggle_store, region_store, personal_company_page_store, auth_store, map_data_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
@@ -96,12 +99,15 @@ var AccountInfo = React.createClass({
     personal_company_page_actions.submit_form(this.state.new_comment.toJS(), this.state.company_information.get('id'), 0);
   },
 	render() {
+    console.log(this.state.markers && this.state.markers.toJS());
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
-    if(this.state.region_current) {
-      bounds = [this.state.region_current.get('lower_corner').toJS(), this.state.region_current.get('upper_corner').toJS()];
+    if(!!this.state.markers) {
+      var r_id = this.state.markers.get(0).get('region_id');
+      var filial_region = this.state.regions.find(x => x.get('id') == r_id );
+      bounds = [filial_region.get('lower_corner').toJS(), filial_region.get('upper_corner').toJS()];
     }
-    var YandexMarkers  = this.state.auto_part_markers &&
-      this.state.auto_part_markers
+    var YandexMarkers  = this.state.markers &&
+      this.state.markers
         .filter( m => m.get('on_current_page') )
         .map(m =>
           <YandexMapMarker
@@ -237,6 +243,7 @@ console.log(this.state.user_id);
             </div>
           </div>
           <div className='w50pr h500px'>
+          { !!this.state.markers &&
             <YandexMap
               bounds={bounds}
               height={400}
@@ -253,6 +260,7 @@ console.log(this.state.user_id);
                   {YandexMarkers}
 
             </YandexMap>
+          }
           </div>
 
         </div>

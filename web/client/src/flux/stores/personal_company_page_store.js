@@ -28,6 +28,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
     .on(event_names.kPERSONAL_COMPANY_INFO_LOADED, info => {
+      state_.comments_cursor
+        .update(() => immutable.fromJS([]));
       if (!!info['company']) {
         state_.company_information_cursor
           .update(() => immutable.fromJS(info['company']));
