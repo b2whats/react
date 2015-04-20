@@ -174,7 +174,6 @@ var personal_company_page = React.createClass({
                 :
                 <i className='flaticon-thumbsb fs17 c-red-500 mR10'/>
               }{part.getIn(['review','name'])}
-            {console.log(part.get('company_id'))}
               {!!this.state.user_id && !part.get('answer') && this.state.user_id === part.get('company_id') &&
                 <span onClick={this.toggle('answer_'+part_index)} className='cur-p fs14 mL10 fw-n c-deep-purple-500'>Ответить</span>
               }
@@ -269,9 +268,9 @@ var personal_company_page = React.createClass({
         <hr className='hr m30-0'/>
         <div className='w700px m0-auto'>
 
-          <div className={cx('br5 z-depth-1 p10-20 mB50', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
+          <div className={cx('br5 z-depth-1 mB50', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
             {!this.state.toggle.get('comment_show') ?
-              <div className='cur-p fs18 ta-C' onClick={this.toggle('comment_show')}>
+              <div className='cur-p fs18 ta-C p10-20' onClick={this.toggle('comment_show')}>
                 Оставить отзыв
               </div>
             :
