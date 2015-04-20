@@ -377,7 +377,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
               <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
                 className="p8 br2 grad-w b0 btn-shad-b w100pr ta-C">
-                <i className="flaticon-phone c-as fs16"></i>
+                <i className="flaticon-phone c-as fs16 mR5"></i>
                 <span className='M-d-n-1420'>Телефон</span>
               </button>
             </div>

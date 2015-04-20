@@ -144,7 +144,7 @@ var CatalogPageTable = React.createClass({
             <button onClick={_.bind(this.on_show_phone, this, part.get('main_marker').get('id'))}
               style={ { display: part.get('main_marker').get('show_phone') ? 'none' : 'inline-block' } }
               className="p8 br2 grad-w b0 btn-shad-b ta-C">
-              <i className="flaticon-phone c-deep-purple-500 fs16"></i>
+              <i className="flaticon-phone c-deep-purple-500 fs16 mR5"></i>
               <span className=''>Показать телефон</span>
             </button>
           </td>

@@ -37,7 +37,7 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_CATALOG_BRANDS_DATA_LOADED, brands => {  
     state_.brands_cursor
-      .update(() => immutable.fromJS(brands));
+      .update(() => immutable.fromJS(brands).sortBy(v => v.get('name')));
     
     catalog_suggestion_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY), 

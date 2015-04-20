@@ -10,7 +10,6 @@
 }
 i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before {
 	font-family: Flaticon;
-  line-height: 0.8;
   display: inline-block;
   font-style: normal;
 }
@@ -26,6 +25,7 @@ i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before 
 }
 .flaticon-close:before {
   content: "\e003";
+  cursor: pointer;
 }
 .flaticon-close:hover:before {
 	content: "\e003";
