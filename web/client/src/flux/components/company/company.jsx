@@ -101,7 +101,7 @@ var AccountInfo = React.createClass({
 	render() {
     console.log(this.state.markers && this.state.markers.toJS());
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
-    if(!!this.state.markers) {
+    if(!!this.state.markers && this.state.markers.get(0)) {
       var r_id = this.state.markers.get(0).get('region_id');
       var filial_region = this.state.regions.find(x => x.get('id') == r_id );
       bounds = [filial_region.get('lower_corner').toJS(), filial_region.get('upper_corner').toJS()];
