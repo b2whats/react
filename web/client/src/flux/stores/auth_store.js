@@ -62,6 +62,8 @@ var cncl_ = [
         .clear();
       state_.is_auth_cursor
         .update(m => false);
+      state_.user_id_cursor
+        .update(m => null);
       state_.role_cursor
         .update(m => null);
       state_.email_cursor

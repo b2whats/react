@@ -217,7 +217,7 @@ var AccountInfo = React.createClass({
       })
       .toArray();
 
-
+console.log('user_id',this.state.user_id);
     return (
       <div>
         <div className='entire-width'>
