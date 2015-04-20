@@ -47,6 +47,8 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
     rating                  : personal_company_page_store.get_rating(),
     user_id                 : auth_store.get_user_id(),
     markers                 : map_data_store.get_markers(),
+    comment_status :     personal_company_page_store.get_comment_status(),
+
 }),
 	toggle_store, region_store, personal_company_page_store, auth_store, map_data_store/*observable store list*/);
 
@@ -99,7 +101,6 @@ var AccountInfo = React.createClass({
     personal_company_page_actions.submit_form(this.state.new_comment.toJS(), this.state.company_information.get('id'), 0);
   },
 	render() {
-    console.log(this.state.markers && this.state.markers.toJS());
     var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
     if(!!this.state.markers && this.state.markers.get(0)) {
       var r_id = this.state.markers.get(0).get('region_id');
@@ -122,11 +123,11 @@ var AccountInfo = React.createClass({
             <div onClick={this.toggle('filial_address_'+part_index)} className='entire-width cur-p'>
               <span>
                 {(part.get('filial_type') == 1) ?
-                  <i className='icon_placemark-ap va-m mR5 fs10'/>
+                  <i className='icon_placemark-ap va-M mR5 fs10'/>
                   :
-                  <i className='icon_placemark-as va-m mR5 fs10'/>
+                  <i className='icon_placemark-as va-M mR5 fs10'/>
                 }
-                <span className='va-m'>{part.get('full_address')}</span>
+                <span className='va-M'>{part.get('full_address')}</span>
               </span>
               <span>
                 <i
@@ -216,7 +217,7 @@ var AccountInfo = React.createClass({
       })
       .toArray();
 
-console.log(this.state.user_id);
+
     return (
       <div>
         <div className='entire-width'>
@@ -281,7 +282,8 @@ console.log(this.state.user_id);
 
                 <input
                   type='text'
-                  name='name'
+                  name='comment_name'
+                  value={this.state.new_comment.get('name')}
                   onChange={this.updateFormElement('name')}
                   className={cx({
                     'w100pr'   : true,
@@ -295,6 +297,7 @@ console.log(this.state.user_id);
                 <input
                   type='text'
                   name='email'
+                  value={this.state.new_comment.get('email')}
                   onChange={this.updateFormElement('email')}
                   className={cx({
                     'w100pr'   : true,
@@ -317,16 +320,19 @@ console.log(this.state.user_id);
               <div className='m5-0 fs14'>Ваш отзыв
                 <sup>*</sup>
               </div>
+              {console.log(this.state.new_comment.get('comment'))}
               <textarea
                 type='text'
                 name='comment'
+                value={this.state.new_comment.get('comment') || ''}
                 onChange={this.updateFormElement('comment')}
                 className={cx({
                   'w100pr h80px' : true,
                   'bs-error'     : !!this.state.comment_field_validation.has('comment')
                 })}/>
             </label>,
-            <button  key={3}  className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>
+            <button  key={3}  className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>,
+            <span key={4} className='mL20 fs12 va-M d-ib Mw500px'>{this.state.comment_status}</span>
             ]}
           </div>
 

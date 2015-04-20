@@ -219,8 +219,8 @@ var SearchPageAutoPartTable = React.createClass({
             </div>
           </td>
           <td className='ta-C'>
-            <span className={cx('fs25 va-m m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
-            <span className={cx('fs23 va-m m0-5', cx(stock_class_name))}></span>
+            <span className={cx('fs25 va-M m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
+            <span className={cx('fs23 va-M m0-5', cx(stock_class_name))}></span>
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>

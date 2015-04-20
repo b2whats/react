@@ -118,9 +118,9 @@ module.exports.submit_form = (comment, company_id, parent) => {
     properties : user_shema,
   };
 
+  main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_STATUS_RESET]);
   var validation = validator.validate(comment, shema);
   if (validation.valid) {
-    main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_STATUS_RESET]);
     resource(api_refs.kSUBMIT_COMMENT_DATA)
       .post({comment : comment, company_id : company_id, parent : parent})
       .then(response => {

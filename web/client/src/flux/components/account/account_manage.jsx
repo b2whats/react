@@ -306,12 +306,12 @@ var AccountManage = React.createClass({
                       }
                   </select>
                 </div>
-                <span className='va-m'>Общая скидка </span>
+                <span className='va-M'>Общая скидка </span>
                 <input
                   type="search"
                   onChange={_.bind(this.on_select_changed, null, 'discount')}
                   value={this.state.price_properties.get('discount')}
-                  className="va-m w30px" />
+                  className="va-M w30px" />
                 %
                 {this.state.price_range && this.state.price_range.has(this.state.current_supplier_id + '') &&
                 <span className='cur-p c-deep-purple-500' onClick={this.delete_price_list_selection_result}> Отписаться</span>

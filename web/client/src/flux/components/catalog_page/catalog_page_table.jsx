@@ -111,7 +111,7 @@ var CatalogPageTable = React.createClass({
           onClick={_.bind(this.on_marker_click, this, part.get('main_marker').get('id'))}
           key={part_index}>
 
-          <td className='ta-C va-m w50px p0-10'>
+          <td className='ta-C va-M w50px p0-10'>
             <i className={cx((part.get('filial_type_id') == 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
             <div>
               <span  className={cx('fs12 bB1d',(part.get('filial_type_id') == 1) ? 'c-deep-purple-500' : 'c-yellow-800')}>
@@ -119,7 +119,7 @@ var CatalogPageTable = React.createClass({
               </span>
             </div>
           </td>
-          <td className='va-m p10-0'>
+          <td className='va-M p10-0'>
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
                 <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</Link>
@@ -135,7 +135,7 @@ var CatalogPageTable = React.createClass({
               </div>
             </div>
           </td>
-          <td className='ta-C va-m w200px'>
+          <td className='ta-C va-M w200px'>
             <div style={ { display:  part.get('main_marker').get('show_phone') ? 'block': 'none' } }
               className="ta-C fs20">
               <span className='fs14'>{!!part.get('main_marker').get('main_phone') && part.get('main_marker').get('main_phone').substr(0,7)}</span>

@@ -103,14 +103,14 @@ var AccountInfo = React.createClass({
 							<span>
 								<span className='fw-b fs16 ta-R d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
                                 {(part.get('filial_type_id') == 1) ?
-	                                <i className='svg-icon_gear m0-10 va-m fs16'/>
+	                                <i className='svg-icon_gear m0-10 va-M fs16'/>
 	                                :
-	                                <i className='svg-icon_key m0-10 va-m fs16'/>
+	                                <i className='svg-icon_key m0-10 va-M fs16'/>
 	                                }
 							</span>
 							<span>
-								<i className='svg-icon_edit-grey m0-5 va-m'  onClick={this.extOpenModal('edit_company_filial', part.get('id'))}/>
-								<i className='svg-icon_close-red m0-5 va-m' onClick={this.deleteFilial(part.get('id'))}/>
+								<i className='svg-icon_edit-grey m0-5 va-M'  onClick={this.extOpenModal('edit_company_filial', part.get('id'))}/>
+								<i className='svg-icon_close-red m0-5 va-M' onClick={this.deleteFilial(part.get('id'))}/>
 							</span>
 						</div>
 					)

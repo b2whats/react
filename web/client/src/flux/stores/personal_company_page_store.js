@@ -18,6 +18,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   company_filials          : {},
   comments                 : [],
   new_comment              : {},
+  comment_status : null,
   comment_field_validation : {},
   rating: {
     plus: 0,
@@ -54,10 +55,15 @@ var cncl_ = [
     .on(event_names.kSUBMIT_COMMENT_SUCCESS, info => {
         state_.comments_cursor
           .update((x) => x.push(immutable.fromJS(info)));
+        state_.new_comment_cursor
+          .update((x) => x.clear());
+      state_.comment_status_cursor
+        .update(() => 'Вы разместили отзыв. После модерации его можно будет посмотреть ниже на этой же странице.');
         state_.rating_cursor
           .update((x) => x.set('plus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '+').size));
         state_.rating_cursor
           .update((x) => x.set('minus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '-').size));
+      console.log(state_.new_comment.toJS());
       company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
@@ -90,6 +96,8 @@ var cncl_ = [
     }, 100000),
   main_dispatcher
     .on(event_names.kSUBMIT_COMMENT_STATUS_RESET, ()  => {
+      state_.comment_status_cursor
+        .update(() => null);
       state_.comment_field_validation_cursor
         .update((x) => x.clear());
       company_personal_page_store.fire(event_names.kON_CHANGE);
@@ -155,6 +163,9 @@ var company_personal_page_store = merge(Emitter.prototype, {
   },
   get_new_comment() {
     return state_.new_comment;
+  },
+  get_comment_status() {
+    return state_.comment_status;
   },
   get_comment_field_validation() {
     return state_.comment_field_validation;

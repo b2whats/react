@@ -82,12 +82,12 @@ var PriceListSelectionBlock = React.createClass({
         <tr key={to_index}>
           <td className={cx('ta-C p20-0 bR1s bc-grey-300 w30px', {'bgc-grey-50' : index%2 == 0})}>{index + 1} <span className='slider-table-marker'></span></td>
           <td  className={cx('ta-C w250px', {'bgc-grey-50' : index%2 == 0})}>
-            <span className='d-ib mR10 ta-R w90px va-m'>
+            <span className='d-ib mR10 ta-R w90px va-M'>
               {this.reverse(from)} руб.
             </span>
             <span>-</span>
             { to === 'inf' ? 
-              <span className='fs22 mR10 va-m w100px ta-C d-ib'  dangerouslySetInnerHTML={{__html: '&#8734;'}}></span> :
+              <span className='fs22 mR10 va-M w100px ta-C d-ib'  dangerouslySetInnerHTML={{__html: '&#8734;'}}></span> :
               <span><input
                 type="number"
                 value={Math.round(to)}

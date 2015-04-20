@@ -404,7 +404,7 @@ var SearchPageAutoServiceTable = React.createClass({
       <div className={this.props.className}>
         <div className="entire-width flex-ai-fe">
           <div className='fs14 bgc-yellow-600 d-ib p5-15 bTRr8'>Не нашли деталь ? <strong>Позвоните мастеру</strong>
-            <i className='icon_free fs22 va-m mL10'></i>
+            <i className='icon_free fs22 va-M mL10'></i>
           </div>
             {(this.state.results_count > 0) &&
             <div className="m20">
@@ -428,7 +428,7 @@ var SearchPageAutoServiceTable = React.createClass({
                   <th className='w55px ta-C'><i className='icon_door fs22' title='Кузовные работы'></i></th>
                   <th className='w55px ta-C'><i className='icon_axis fs22' title='Слесарные работы'></i></th>
                   <th className='w55px ta-C'><i className='icon_to fs22' title='ТО'></i></th>
-                  <th className='w55px ta-C'><i className='icon_more fs22 va-m' title='Тюнинг и прочее'></i></th>
+                  <th className='w55px ta-C'><i className='icon_more fs22 va-M' title='Тюнинг и прочее'></i></th>
                   <th  className='ta-C w110px bgc-yellow-600'>Имя мастера</th>
                   <th className='ta-C w210px'>
                     <label className="label--checkbox">

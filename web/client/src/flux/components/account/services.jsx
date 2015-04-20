@@ -96,7 +96,7 @@ var AccountInfo = React.createClass({
 
             <label key={part.get('month')} className="label-radio">
               <input defaultChecked={(part_index == 0) && true} type="radio" value={part_index} onChange={this.change_tarif(type)} className="radio m0-10" name={type}/>
-              <span className="d-ib va-m lh1-4 fs15">
+              <span className="d-ib va-M lh1-4 fs15">
                 {(part_index == 0) ?
                   'Бесплатно'
                   :
@@ -253,7 +253,7 @@ var AccountInfo = React.createClass({
             return (
                 <li className='m15-0' key={part_index}>
                   <span className='d-ib ta-C w80px mR10'>
-                    <img className='va-m' src={part.get('img')}/>
+                    <img className='va-M' src={part.get('img')}/>
                   </span>
                   <label className="label-radio">
                     <input  value={part_index} name='payment_method' type="radio" onChange={this.changePaymentMethod} className="radio"/>
