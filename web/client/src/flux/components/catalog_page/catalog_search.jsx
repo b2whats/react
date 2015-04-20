@@ -20,23 +20,29 @@ var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 var catalog_suggestion_store = require('stores/catalog_suggestion_store.js');
 var catalog_data_store = require('stores/catalog_data_store.js');
+var toggle_actions = require('actions/toggle_actions.js');
+var toggle_store = require('stores/toggle_store.js');
+var cx        = require('classnames');
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  brands: catalog_suggestion_store.get_brands(),
-  brand_tags: catalog_suggestion_store.get_brand_tags(),
-  services: catalog_suggestion_store.get_services(),
-  service_tags: catalog_suggestion_store.get_service_tags(),
-  show_value_hack: catalog_suggestion_store.get_show_value(),
-  company_type: catalog_suggestion_store.get_company_type(),
-
-  items_per_page: catalog_data_store.get_items_per_page(),
+    brands         : catalog_suggestion_store.get_brands(),
+    brand_tags     : catalog_suggestion_store.get_brand_tags(),
+    services       : catalog_suggestion_store.get_services(),
+    service_tags   : catalog_suggestion_store.get_service_tags(),
+    show_value_hack: catalog_suggestion_store.get_show_value(),
+    company_type   : catalog_suggestion_store.get_company_type(),
+    company_type_price   : catalog_suggestion_store.get_company_type_price(),
+    toggle         : toggle_store.get_toggle(),
+    items_per_page: catalog_data_store.get_items_per_page(),
 }),
-catalog_suggestion_store, catalog_data_store /*observable store list*/);
+catalog_suggestion_store, catalog_data_store, toggle_store /*observable store list*/);
 
 
 var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 var kORGANIZATION_TYPES = sc.kORGANIZATION_TYPES;
+var kORGANIZATION_PRICE_TYPES = sc.kORGANIZATION_PRICE_TYPES;
 
 var CatalogSearch = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
@@ -50,7 +56,7 @@ var CatalogSearch = React.createClass({
       var brand_tag_ids = this.state.brand_tags.push(immutable.fromJS(v)).map(b => b.get('id')).toJS();
       var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
     
-      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
     }
   },
 
@@ -59,7 +65,7 @@ var CatalogSearch = React.createClass({
       var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
       var service_tags_ids = this.state.service_tags.push(immutable.fromJS(v)).map(s => s.get('id')).toJS();
     
-      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+      catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
     }
   },
 
@@ -71,7 +77,7 @@ var CatalogSearch = React.createClass({
     var brand_tag_ids = this.state.brand_tags.filter(b => b.get('id')!==id).map(b => b.get('id')).toJS();
     var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
     
-    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
 
     e.preventDefault();
     e.stopPropagation();
@@ -81,7 +87,7 @@ var CatalogSearch = React.createClass({
     var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
     var service_tags_ids = this.state.service_tags.filter(s => s.get('id')!==id).map(s => s.get('id')).toJS();
     
-    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids);
+    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
 
     e.preventDefault();
     e.stopPropagation();
@@ -91,9 +97,16 @@ var CatalogSearch = React.createClass({
     var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
     var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
 
-    catalog_actions.update_page(v.id, brand_tag_ids, service_tags_ids);  
+    catalog_actions.update_page(v.id, brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
   },
+  on_organization_type_price_changed(v) {
+    var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
+    var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
 
+    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,v.id);
+
+
+  },
 
 
   on_change_items_per_page (items_num, e) {
@@ -114,6 +127,11 @@ var CatalogSearch = React.createClass({
     var text = e.target.value;
     catalog_data_actions.catalog_search(text);
   },
+  toggle(val) {
+    return (e) => {
+      toggle_actions.change(val);
+    }
+  },
   render () {
     var region_name = this.state.region_current && this.state.region_current.get('title');
 
@@ -132,56 +150,46 @@ var CatalogSearch = React.createClass({
     return (
       <div className="catalog">
 
-        <div className="catalog-page-container catalog-page-container-side-margin">
-          
-          <div className="wrap gutter-5-xs catalog-page-mb-15">
-            
-            <div className="md-7-1 catalog-page-midddle catalog-page-left">
-              <span className='cur-p ap-link'>Скрыть фильтры</span>
+
+
+        <div className={cx('filters p0-20 pT10', !this.state.toggle.get('show_filters') ? 'd-b': 'd-N' )}>
+          <div className='m10-0'>
+            <div className='f-R'>
+              <div className="va-m w120px d-ib mL10">
+                <Typeahead
+                  show_value={this.state.company_type.toJS()}
+                  search={this.search_all}
+                  placeholder="Тип организации"
+                  has_custom_scroll={true}
+                  onChange={this.on_organization_type_changed}
+                  options={kORGANIZATION_TYPES} />
+              </div>
+              <div className="va-m w80px d-ib mL10">
+              {console.log(this.state.company_type_price.toJS())}
+                <Typeahead
+                  show_value={this.state.company_type_price.toJS()}
+                  search={this.search_all}
+                  placeholder="Опт/Роз"
+                  has_custom_scroll={true}
+                  onChange={this.on_organization_type_price_changed}
+                  options={kORGANIZATION_PRICE_TYPES} />
+              </div>
             </div>
-            
-            <div className="md-7-3 catalog-page-midddle">
+            <div className="o-h">
               <input onChange={this.search} className="catalog-page-w100" type="text" placeholder="Введите имя компании или ..." />
             </div>
-
-            <div className="md-7-1 catalog-page-midddle">
-              <Typeahead
-                show_value={this.state.company_type.toJS()} 
-                search={this.search_all}               
-                placeholder="Тип организации" 
-                has_custom_scroll={true}
-                onChange={this.on_organization_type_changed} 
-                options={kORGANIZATION_TYPES} />
-            </div>
-
-
-            <div className="md-7-2 catalog-page-midddle catalog-page-midddle catalog-page-show-pages catalog-page-ta-r">
-
-            <div className="">
-              <span className='mR15'>Показывать по</span>
-              <span className="show-by border-between-h bc-g">
-                  {ItemsPerPage}
-              </span>
-            </div>
-
-            </div>
-
           </div>
 
-          <div className="wrap gutter-5-xs catalog-page-mb-15">
-            <div className="md-7-1 catalog-page-midddle catalog-page-left">
-              <span>Марки</span>
-            </div>
-            <div className="md-7-6">  
-              <div className="catalog-page-typeaged-input-emulator">                
-                  <Typeahead
-                    //show_value={this.state.show_value_hack.toJS()}
-                    show_value={this.state.show_value_hack.toJS()}
-                    placeholder="Выберите марку ..." 
-                    has_custom_scroll={true} 
-                    onChange={this.typeahead_brands_changed} 
-                    on_blur={this.typeahead_lost_focus}
-                    options={this.state.brands && this.state.brands.toJS()}>
+          <div className="m10-0">
+            <div className="catalog-page-typeaged-input-emulator">
+              <Typeahead
+                //show_value={this.state.show_value_hack.toJS()}
+                show_value={this.state.show_value_hack.toJS()}
+                placeholder="Выберите марку ..."
+                has_custom_scroll={true}
+                onChange={this.typeahead_brands_changed}
+                on_blur={this.typeahead_lost_focus}
+                options={this.state.brands && this.state.brands.toJS()}>
 
                     {this.state.brand_tags.map(
                       (bt, index) =>
@@ -192,32 +200,24 @@ var CatalogSearch = React.createClass({
                           <span className="catalog-page-tag-text">{bt.get('title')}</span>
                         </div>
                     ).toJS()
-                    }
+                      }
 
-                  </Typeahead>                
-              </div>
+              </Typeahead>
             </div>
           </div>
-        </div>        
 
+          <div className="m10-0">
+            <div className="catalog-page-typeaged-input-emulator">
+              <Typeahead
+                //show_value={this.state.show_value_hack.toJS()}
+                show_value={this.state.show_value_hack.toJS()}
+                placeholder="Выберите услугу ..."
+                has_custom_scroll={true}
+                onChange={this.typeahead_service_changed}
+                on_blur={this.typeahead_lost_focus}
+                options={this.state.services && this.state.services.toJS()}>
 
-        <div className="catalog-page-container catalog-page-container-side-margin">          
-          <div className="wrap gutter-5-xs">
-            <div className="md-7-1 catalog-page-midddle catalog-page-left">
-              <span>Виды услуг</span>
-            </div>
-            <div className="md-7-6">  
-              <div className="catalog-page-typeaged-input-emulator">
-                  <Typeahead
-                    //show_value={this.state.show_value_hack.toJS()}
-                    show_value={this.state.show_value_hack.toJS()}
-                    placeholder="Выберите услугу ..." 
-                    has_custom_scroll={true} 
-                    onChange={this.typeahead_service_changed} 
-                    on_blur={this.typeahead_lost_focus}
-                    options={this.state.services && this.state.services.toJS()}>
-
-                    {this.state.service_tags.map( (bt,index) => 
+                    {this.state.service_tags.map( (bt,index) =>
                       <div key={index} className="catalog-page-tag catalog-page-tag-services">
                         <span onMouseDownCapture={_.bind(this.on_remove_service_tag, this, bt.get('id') )} className="catalog-page-tag-close">
                           <span className="svg-icon_close"></span>
@@ -225,14 +225,25 @@ var CatalogSearch = React.createClass({
                         <span className="catalog-page-tag-text">{bt.get('title')}</span>
                       </div>).toJS()}
 
-                  </Typeahead>                
-              </div>
+              </Typeahead>
             </div>
           </div>
+        </div>
+
+        <div className='entire-width flex-ai-c p10-20'>
+          <span className='cur-p' onClick={this.toggle('show_filters')}>Скрыть фильтры</span>
+          <div className="">
+            <span className='mR15'>Показывать по</span>
+            <span className="show-by border-between-h bc-g">
+                  {ItemsPerPage}
+            </span>
+          </div>
+        </div>
+
         </div>        
 
 
-      </div>
+
     );
   }
 });

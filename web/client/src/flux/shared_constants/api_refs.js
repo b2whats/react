@@ -12,7 +12,7 @@ module.exports = {
 
   kCATALOG_SERVICES: kAPI_HOST + '/api/get/services.php',
   kCATALOG_BRANDS: kAPI_HOST + '/api/get/brands.php',
-  kCATALOG_DATA: kAPI_HOST + '/api/catalog.php?type=:type&brand=:brands&service=:services&region_text=:region_text',
+  kCATALOG_DATA: kAPI_HOST + '/api/catalog.php?type=:type&brand=:brands&service=:services&region_text=:region_text&price_type=:price_type',
 
   kACCOUNT_COMPANY_INFO: kAPI_HOST + '/api/get/company_info.php',
   kACCOUNT_COMPANY_INFO_UPDATE: kAPI_HOST + '/api/set/company_info.php',

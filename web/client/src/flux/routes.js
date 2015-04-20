@@ -132,7 +132,8 @@ routes[route_definitions.kROUTE_CATALOG] = [
     catalog_actions.get_services_and_brands(
       route_context_params.type,
       route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
-      route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v)
+      route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v),
+      route_context_params.type_price
     ),
 
   (route_name, route_context, route_context_params) =>
@@ -145,7 +146,9 @@ routes[route_definitions.kROUTE_CATALOG] = [
     catalog_data_actions.query_catalog_data(route_context_params.type,
     route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
     route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v),
-    route_context_params.region_id),
+    route_context_params.region_id,
+      route_context_params.type_price
+    ),
 
   route_actions.default_route];
 

@@ -104,7 +104,7 @@ _.each([
   '/account/:region_id/:id',
   '/test',
   '/page/:id',
-  '/catalog/:region_id/:type/:brands/:services',
+  '/catalog/:region_id/:type/:brands/:services/:type_price',
   '/help',
   '/typeahead',
   '/sphere/:sphere_id',

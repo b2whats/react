@@ -4,7 +4,7 @@ var _ = require('underscore');
 
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
-var cx        = React.addons.classSet;
+var cx        = require('classnames');
 
 var sc = require('shared_constants');
 
@@ -122,7 +122,10 @@ var CatalogPageTable = React.createClass({
           <td className='va-M p10-0'>
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
-                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs16 fw-b td-u cur-p w40pr mw200px'>{ part.get('company_name')}</Link>
+                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')}
+                  className={cx('ap-link fs16 fw-b td-u cur-p w40pr mw200px',(part.get('filial_type_id') == 1) ? 'c-deep-purple-500' : 'c-yellow-600')}>
+                { part.get('company_name')}
+                </Link>
                 <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs11 td-u'>Отзывы:
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>

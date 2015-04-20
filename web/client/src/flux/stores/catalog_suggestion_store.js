@@ -24,7 +24,8 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 
   show_value: {index:-1, search_term:''},
 
-  company_type: {index:-1, id: 2, search_term: _.find(sc.kORGANIZATION_TYPES, ot => ot.id === 2).title}
+  company_type: {index:-1, id: 2, search_term: _.find(sc.kORGANIZATION_TYPES, ot => ot.id === 2).title},
+  company_type_price: {index:-1, id: 1, search_term: _.find(sc.kORGANIZATION_PRICE_TYPES, ot => ot.id === 1).title},
 
   //list_state: null,
   //search_term: '',
@@ -51,7 +52,7 @@ var cncl_ = [
   }, kON_CATALOG_SUGGESTION__SUGGESTIONS_STORE_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_CATALOG_PARAMS_CHANGED, (company_type, brands, services) => {
+  .on(event_names.kON_CATALOG_PARAMS_CHANGED, (company_type, brands, services, price_type) => {
     
     //console.log('company_type, brands, services', company_type, brands, services);
     var company_object = _.find(sc.kORGANIZATION_TYPES, ot => ot.id === (company_type - 1));
@@ -61,6 +62,14 @@ var cncl_ = [
           .set('index', company.get('index')-1)
           .set('search_term', company_object.title)
           .set('id', company_object.id));
+
+      var company_object_price = _.find(sc.kORGANIZATION_PRICE_TYPES, ot => ot.id == price_type);
+      state_.company_type_price_cursor
+        .update(company =>
+          company
+            .set('index', company.get('index')-1)
+            .set('search_term', company_object_price.title)
+            .set('id', company_object_price.id));
 
     var im_brands = immutable.fromJS(brands);    
     state_.brand_tags_cursor
@@ -164,6 +173,9 @@ var catalog_suggestion_store = merge(Emitter.prototype, {
 
   get_company_type() {
     return state_.company_type;
+  },
+  get_company_type_price() {
+    return state_.company_type_price;
   },
 
   dispose () {

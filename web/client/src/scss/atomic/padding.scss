@@ -4,27 +4,15 @@ $padding_list : (5,8,10,15,20,25,30);
     padding: #{$size}px;
   }
 }
-$one_side_padding_list : (5,8,10,15,20);
-@each $size in $one_side_padding_list {
-  .pB#{$size} {
-    padding-bottom: #{$size}px;
-  }
-  .pL#{$size} {
-    padding-left: #{$size}px;
-  }
-  .pR#{$size} {
-    padding-right: #{$size}px;
-  }
-  .pT#{$size} {
-    padding-top: #{$size}px;
-  }
-}
+
 .p0 { padding : 0; }
 
 .p2-5 { padding : 2px 5px; }
 
 .p0-5 { padding : 0 5px; }
 .p0-10 { padding : 0 10px; }
+.p0-15 { padding : 0 15px; }
+.p0-20 { padding : 0 20px}
 
 .p5-0 { padding : 5px 0px; }
 .p5-10 { padding : 5px 10px; }
@@ -50,5 +38,19 @@ $one_side_padding_list : (5,8,10,15,20);
 .p8-30 { padding : 8px 30px; }
 
 .p6-20-8 { padding : 6px 20px 8px; }
-
+$one_side_padding_list : (5,8,10,15,20);
+@each $size in $one_side_padding_list {
+  .pB#{$size} {
+    padding-bottom: #{$size}px;
+  }
+  .pL#{$size} {
+    padding-left: #{$size}px;
+  }
+  .pR#{$size} {
+    padding-right: #{$size}px;
+  }
+  .pT#{$size} {
+    padding-top: #{$size}px;
+  }
+}
 

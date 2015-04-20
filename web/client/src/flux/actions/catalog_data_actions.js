@@ -58,13 +58,15 @@ module.exports.close_all_and_open_balloon = (id) => {
   }, 200);
 };
 
-var query_catalog_data = (type, brands, services, region_text) => {
+var query_catalog_data = (type, brands, services, region_text, price_type) => {
   return r_catalog_data_
     .get({
       type: type==='_' ? '' : type, 
       brands: brands==='_' ? '' : brands.join(','), 
       services: services==='_' ? '': services.join(','), 
-      region_text: region_text})
+      region_text: region_text,
+      price_type: price_type
+    })
     .then(res => {
       //console.log('res',res);
       if(_.isArray(res) && res.length === 0) {
@@ -159,8 +161,8 @@ var query_catalog_data = (type, brands, services, region_text) => {
 
 var query_catalog_data_memoized = memoize(query_catalog_data, kMEMOIZE_OPTIONS);
 
-module.exports.query_catalog_data = (type, brands, services, region_text) => {
-  return serializer( () => query_catalog_data_memoized(type, brands, services, region_text)
+module.exports.query_catalog_data = (type, brands, services, region_text, price_type) => {
+  return serializer( () => query_catalog_data_memoized(type, brands, services, region_text,price_type)
     .then(res => {
       
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_CATALOG_DATA_LOADED].concat([res]));

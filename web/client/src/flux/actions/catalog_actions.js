@@ -74,14 +74,14 @@ var get_catalog_data_memoized = memoize((type, brands, services, region_text) =>
 //----------------------------------------------------------------------------------------------------------
 //exports section
 //----------------------------------------------------------------------------------------------------------
-module.exports.get_services_and_brands = (company_type, brands, services) => {  //подгружает список регионов если надо
+module.exports.get_services_and_brands = (company_type, brands, services,type_price) => {  //подгружает список регионов если надо
   return q.all([serializer( () => get_services_memoized()), serializer( () => get_brands_memoized())]) //для смены региона надо быть уверенным что они загружены
     .then(list => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_SERVICES_DATA_LOADED].concat([list[0]]));
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_BRANDS_DATA_LOADED].concat([list[1]]));
-      
+
       company_type = (company_type === '_') ? 3 : +company_type;
-      main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_PARAMS_CHANGED].concat([company_type, brands, services]));
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_PARAMS_CHANGED].concat([company_type, brands, services, type_price]));
       
 
       return list;
@@ -97,7 +97,7 @@ module.exports.get_services_and_brands = (company_type, brands, services) => {  
 };
 
 
-module.exports.update_page = (company_type, brands, services) => {
+module.exports.update_page = (company_type, brands, services, type_price) => {
 
   //route_defaults = (route_defaults === route_definitions.kROUTE_DEF) ? route_definitions.kROUTE_DEF_W_REGION : route_defaults;
   //route_actions.goto_link_w_params(route_defaults, _.extend({}, route_params, {region_id: region_id}));
@@ -111,7 +111,8 @@ module.exports.update_page = (company_type, brands, services) => {
       {
         type: company_type===2 ? '_' : company_type + 1,
         brands: brands.length===0 ? '_' : brands.join(','),
-        services: services.length===0 ? '_' : services.join(',')
+        services: services.length===0 ? '_' : services.join(','),
+        type_price: type_price
       }
     ));
 };
