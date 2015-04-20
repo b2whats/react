@@ -65,7 +65,7 @@ var yandex_templates_events = require('components/search_page/templates/yandex_t
 var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
 
 
-var AccountInfo = React.createClass({
+var personal_company_page = React.createClass({
 	mixins : [
 		PureRenderMixin,
 		RafBatchStateUpdateMixin
@@ -174,8 +174,9 @@ var AccountInfo = React.createClass({
                 :
                 <i className='flaticon-thumbsb fs17 c-red-500 mR10'/>
               }{part.getIn(['review','name'])}
-              {!!this.state.user_id && !part.get('answer') &&
-                <span onClick={this.toggle('answer_'+part_index)} className='cur-p c-grey-400 fs12 mL10 fw-n'>Ответить</span>
+            {console.log(part.get('company_id'))}
+              {!!this.state.user_id && !part.get('answer') && this.state.user_id === part.get('company_id') &&
+                <span onClick={this.toggle('answer_'+part_index)} className='cur-p fs14 mL10 fw-n c-deep-purple-500'>Ответить</span>
               }
             </span>
             <span className='c-grey-600 fs12'>{part.get('date')}</span>
@@ -217,7 +218,7 @@ var AccountInfo = React.createClass({
       })
       .toArray();
 
-console.log('user_id',this.state.user_id);
+
     return (
       <div>
         <div className='entire-width'>
@@ -235,8 +236,8 @@ console.log('user_id',this.state.user_id);
             <div className='fw-b fs12 m10-0'>Описание компании:</div>
             <div className='fs12 lh1-4 Mh140px o-h to-e ws-n'>{this.state.company_information.get('description')}</div>
               {this.state.company_information.get('brands') && [
-                <div className='fw-b fs12 m10-0'>Обслуживаемые марки:</div>,
-                <div className='fs12 lh1-4 h140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
+                <div key={1} className='fw-b fs12 m10-0'>Обслуживаемые марки:</div>,
+                <div key={2} className='fs12 lh1-4 h140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
               ]}
             <div className='filial-company'>
               <h3 className='fs20 fw-n'>Филиалы компании:</h3>
@@ -346,4 +347,4 @@ console.log('user_id',this.state.user_id);
 	}
 });
 
-module.exports = AccountInfo;
+module.exports = personal_company_page;
