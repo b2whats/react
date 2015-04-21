@@ -6,12 +6,24 @@ var cx = require('classnames');
 
 var EditableForms = React.createClass({
     displayName: 'EditableForms',
-    shouldComponentUpdate: function(nextProps){
+    getInitialState: function () {
+      return {text: this.props.text}
+    },
+    shouldComponentUpdate: function(nextProps, nextState){
+
         return (
             (nextProps.text !== this.props.text && nextProps.edit === this.props.edit) ||
-            (nextProps.text === this.props.text && nextProps.edit !== this.props.edit)
+            (nextProps.text === this.props.text && nextProps.edit !== this.props.edit) ||
+            (nextState.text !== this.state.text && nextProps.edit == this.props.edit) ||
+            (nextState.text === this.state.text && nextProps.edit !== this.props.edit)
         );
     },
+  componentWillReceiveProps: function (newProps) {
+    // only accept the latest value from props
+
+      this.setState({text: newProps.text})
+
+  },
     getDefaultProps: function () {
       return {
         type        : 'input',
@@ -22,7 +34,8 @@ var EditableForms = React.createClass({
       };
     },
     update: function(e) {
-        this.props.onChange(e.target.value)
+      this.setState({text: e.target.value});
+      this.props.onChange(e.target.value);
     },
     render () {
 
@@ -32,7 +45,7 @@ var EditableForms = React.createClass({
             switch(type) {
                 case 'input':
                     return (
-                        <input disabled={!self.props.edit} placeholder={self.props.placeholder} className={classes} type='text' onChange={self.update} value={self.props.text}/>
+                        <input disabled={!self.props.edit} placeholder={self.props.placeholder} className={classes} type='text' onChange={self.update} value={self.state.text}/>
                     );
                     break;
                 case 'phone':
@@ -43,17 +56,17 @@ var EditableForms = React.createClass({
                           disabled={!self.props.edit}
                           className={classes}
                           pattern={'+7({{999}}){{999}}-{{99}}-{{99}}'}
-                          value={self.props.text}
+                          value={self.state.text}
                           onChange={self.update} />
                         :
-                        <input disabled='true' placeholder={self.props.placeholder} className={classes} type='text' value={self.props.text}/>
+                        <input disabled='true' placeholder={self.props.placeholder} className={classes} type='text' value={self.state.text}/>
                       }
                       </span>
                     );
                     break;
                 case 'textarea':
                     return (
-                        <textarea placeholder={self.props.placeholder} disabled={!self.props.edit} className={classes} onChange={self.update} value={self.props.text} />
+                        <textarea placeholder={self.props.placeholder} disabled={!self.props.edit} className={classes} onChange={self.update} value={self.state.text} />
                     );
                     break;
             }

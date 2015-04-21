@@ -53,7 +53,7 @@ var AccountInfo = React.createClass({
 	},
 	endEdit           : function () {
 		editable_forms_actions.end_edit();
-		account_page_actions.update_company_information(this.state.company_information.toJS());
+		account_page_actions.update_company_information(account_page_store.get_company_information().toJS());
 	},
 	toggleEdit        : function (id) {
 		return () => (!this.state.formsIsEdit.get(id)) ?
@@ -116,7 +116,6 @@ var AccountInfo = React.createClass({
 					)
 				})
 				.toJS();
-
 		return (
 			<div className='entire-width'>
 				<div className='company-information w50pr '>

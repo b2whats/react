@@ -80,8 +80,7 @@ var AccountManage = React.createClass({
       },
       {
         "columnName"      : "info",
-        "displayName": "Удалить",
-        "customComponent": LinkComponent
+        "visible": false
       },
     ];
 console.log(this.state.history.toJS());

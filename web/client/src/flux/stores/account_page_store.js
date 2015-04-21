@@ -63,7 +63,7 @@ var cncl_ = [
     .on(event_names.kON_FORM_UPDATE, (name, value)  => {
       state_.company_information_cursor
         .update(m => m.set(name, value));
-      account_page_store.fire(event_names.kON_CHANGE);
+      //account_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
     .on(event_names.kON_CURRENT_FILIAL_CHANGE, (id_element)  => {
