@@ -314,7 +314,7 @@ var AccountInfo = React.createClass({
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div onClick={this.toggle('services_autoservices')} className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width">
+            <div onClick={this.toggle('services_autoservices')} className="grad-as-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width cur-p">
               <div>
                 Повышение в поиске в разделе "Консультация мастера"
                 <i className="btn-question btn-icon m0-5"></i>
@@ -326,13 +326,13 @@ var AccountInfo = React.createClass({
                       :
                       <span className="fw-n fs14">{decOfNumMonth(this.state.selected_services.get('autoservices').get('month'))} - <strong>{this.state.selected_services.get('autoservices').get('price')} руб.</strong></span>
                   }
-                <i onClick={this.toggle('services_autoservices')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('services_autoservices')) ? "active" : "")}></i>
+                <i  className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('services_autoservices')) ? "active" : "")}></i>
               </div>
             </div>
             <div className={cx("p20-15", {"d-N": !!!this.state.toggle.get('services_autoservices')} )}>
               Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
               <div>
-                <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.extToggleSave('master_name')}>{(!!this.state.toggle.get('master_name')) ? 'Сохранить' : 'Имя мастера'}</button>
+                <button className={cx("p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px", !!this.state.toggle.get('master_name') && 'grad-ap c-white')} onClick={this.extToggleSave('master_name')}>{(!!this.state.toggle.get('master_name')) ? 'Сохранить' : 'Имя мастера'}</button>
                 <div className="new_context m30-0">
                   <input ref='master_name'
                     className={cx("bgc-t b1s bc-g", {"input-as-text" : !!!this.state.toggle.get('master_name')})}
@@ -358,7 +358,7 @@ var AccountInfo = React.createClass({
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div onClick={this.toggle('autoparts')} className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh">
+            <div onClick={this.toggle('autoparts')} className="grad-ap-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width c-wh cur-p">
               <div>
                 Повышение в поиске прайсов автозапчастей
                 <i className="btn-question btn-icon m0-5"></i>
@@ -370,7 +370,7 @@ var AccountInfo = React.createClass({
                       :
                       <span className="fw-n fs14">{decOfNumMonth(this.state.selected_services.get('autoparts').get('month'))} - <strong>{this.state.selected_services.get('autoparts').get('price')} руб.</strong></span>
                     }
-                <i onClick={this.toggle('autoparts')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoparts')) ? "active" : "")}></i>
+                <i  className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('autoparts')) ? "active" : "")}></i>
               </div>
             </div>
             <div className={"p20-15 " + ((!!this.state.toggle.get('autoparts')) ? "" : "d-N")}>
@@ -382,7 +382,7 @@ var AccountInfo = React.createClass({
           </div>
 
           <div className="br6 b1s bc-g grad-g m20-0">
-            <div onClick={this.toggle('catalog')} className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g">
+            <div onClick={this.toggle('catalog')} className="grad-w-no-hover p15 fw-b fs16 br6 bBLr0 bBRr0 entire-width bc-g cur-p">
               <div>
                 Повышение в поиске в каталоге компаний
                 <i className="btn-question btn-icon m0-5"></i>
@@ -397,7 +397,7 @@ var AccountInfo = React.createClass({
                         <strong>{this.state.selected_services.get('catalog').get('price')} руб.</strong>
                       </span>
                     }
-                <i onClick={this.toggle('catalog')} className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('catalog')) ? "active" : "")}></i>
+                <i className={"btn-plus-minus btn-icon m0-5 " + ((!!this.state.toggle.get('catalog')) ? "active" : "")}></i>
               </div>
             </div>
             <div className={"p20-15 " + ((!!this.state.toggle.get('catalog')) ? "" : "d-N")}>

@@ -363,7 +363,7 @@ var SearchPageAutoServiceTable = React.createClass({
 
           <td className={cx('', cx((part_index%2 > 0) ? 'bgc-yellow-200' : 'bgc-yellow-100'))}>
             <div className="fw-b fs14">{part.get('masters_name').first()}</div>
-            <Link ркуа={part.get('site')} className="c-yellow-800 d-ib fs12">Сайт</Link>
+          {/*<Link href={part.get('site')} className="c-yellow-800 d-ib fs12">Сайт</Link> */}
           </td>
 
           <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
