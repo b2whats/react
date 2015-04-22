@@ -100,10 +100,13 @@ var CatalogSearch = React.createClass({
     catalog_actions.update_page(v.id, brand_tag_ids, service_tags_ids,this.state.company_type_price.get('id'));
   },
   on_organization_type_price_changed(v) {
+
     var brand_tag_ids = this.state.brand_tags.map(b => b.get('id')).toJS();
     var service_tags_ids = this.state.service_tags.map(s => s.get('id')).toJS();
 
-    catalog_actions.update_page(this.state.company_type.get('id'), brand_tag_ids, service_tags_ids,v.id);
+      var type = (v.id == 2) ? 0 : this.state.company_type.get('id');
+
+    catalog_actions.update_page(type, brand_tag_ids, service_tags_ids,v.id);
 
 
   },
@@ -165,7 +168,6 @@ var CatalogSearch = React.createClass({
                   options={kORGANIZATION_TYPES} />
               </div>
               <div className="va-m w80px d-ib mL10">
-              {console.log(this.state.company_type_price.toJS())}
                 <Typeahead
                   show_value={this.state.company_type_price.toJS()}
                   search={this.search_all}
