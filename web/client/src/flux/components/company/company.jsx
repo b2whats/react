@@ -268,9 +268,9 @@ var personal_company_page = React.createClass({
         <hr className='hr m30-0'/>
         <div className='w700px m0-auto'>
 
-          <div className={cx('br5 z-depth-1 mB50', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
+          <div className={cx('br5 z-depth-1 mB50 p10-20', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
             {!this.state.toggle.get('comment_show') ?
-              <div className='cur-p fs18 ta-C p10-20' onClick={this.toggle('comment_show')}>
+              <div className='cur-p fs18 ta-C' onClick={this.toggle('comment_show')}>
                 Оставить отзыв
               </div>
             :

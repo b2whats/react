@@ -5,7 +5,7 @@ var main_dispatcher = require('dispatchers/main_dispatcher.js');
 
 var event_names = require('shared_constants/event_names.js');
 var api_refs = require('shared_constants/api_refs.js');
-
+var immutable = require('immutable');
 
 var validator = require('revalidator');
 var resource = require('utils/resource.js');
@@ -23,6 +23,7 @@ module.exports.get_company_information = (id) => {
   return resource(api_refs.GET)
     .post({company_by_id: id, company_filials_by_company_id: id, reviews_by_company_id: id})
     .then(response => {
+
       if(_.isArray(response.results.company_filials) && response.results.company_filials.length === 0) {
         return {markers:[], results:[]};
       }
