@@ -88,7 +88,7 @@ var CatalogPageTable = React.createClass({
     var items_from = items_per_page*page_num;
     var items_to =   items_per_page*(page_num + 1);
 
-
+console.log(this.state.catalog_results && this.state.catalog_results.toJS());
     var Companies  = this.state.catalog_results && 
     this.state.catalog_results
     //.filter((part, part_index) => part_index >= items_from && part_index < items_to)
@@ -123,10 +123,10 @@ var CatalogPageTable = React.createClass({
             <div className='bR1s bc-grey-300 pR15'>
               <div className='entire-width mB15 flex-ai-c'>
                 <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')}
-                  className={cx('ap-link fs16 fw-b td-u cur-p w40pr mw200px',(part.get('filial_type_id') == 1) ? 'c-deep-purple-500' : 'c-yellow-600')}>
-                { part.get('company_name')}
+                  className={cx('fs16 fw-b td-u cur-p w40pr mw200px c-grey-700')}>
+                { part.get('company_name').trim()}
                 </Link>
-                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='ap-link fs11 td-u'>Отзывы:
+                <Link href={'/company/'+part.get('user_id')+'/'+region_store.get_region_current().get('translit_name')} className='c-grey-700 fs11 td-u'>Отзывы:
                   <span className='c-gr'> +{part.get('recommended').get('plus')} </span>/
                   <span className='c-r'> -{part.get('recommended').get('minus')}</span>
                 </Link>

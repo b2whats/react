@@ -244,8 +244,10 @@ var personal_company_page = React.createClass({
             </div>
           </div>
           <div className='w50pr h500px'>
+
           { !!this.state.markers &&
             <YandexMap
+              key = {this.state.markers.getIn(['0','company_id'])}
               bounds={bounds}
               height={400}
               width={500}
