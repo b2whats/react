@@ -236,7 +236,7 @@ var personal_company_page = React.createClass({
             <div className='fs12 lh1-4 Mh140px o-h to-e ws-n'>{this.state.company_information.get('description')}</div>
               {this.state.company_information.get('brands') && [
                 <div key={1} className='fw-b fs12 m10-0'>Обслуживаемые марки:</div>,
-                <div key={2} className='fs12 lh1-4 h140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
+                <div key={2} className='fs12 lh1-4 Mh140px o-h to-e ws-n'>{this.state.company_information.get('brands')}</div>
               ]}
             <div className='filial-company'>
               <h3 className='fs20 fw-n'>Филиалы компании:</h3>
