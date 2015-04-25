@@ -1,5 +1,61 @@
 # React-Select
 
+## v0.4.7 / 2015-04-21
+
+* improved; lodash is no longer a dependency, thanks [Daniel Lo Nigro](Daniel15)
+
+## v0.4.6 / 2015-04-06
+
+* updated; dependencies, build process and input-autosize component
+
+## v0.4.5 / 2015-03-28
+
+* fixed; issue with long options overlapping arrow and clear icons, thanks [Rohit Kalkur](https://github.com/rovolution)
+
+## v0.4.4 / 2015-03-26
+
+* fixed; error handling click events when the menu is closed, thanks [Ilya Petrov](https://github.com/muromec)
+* fixed; issue where options will not be filtered in certain conditions, thanks [G. Kay Lee](https://github.com/gsklee)
+
+## v0.4.3 / 2015-03-25
+
+* added tests and updated dependencies
+
+## v0.4.2 / 2015-03-23
+
+* added; ESLint and contributing guide
+* fixed; incorrect `classnames` variable assignement in window scope
+* fixed; all ESLint errors and warnings (except invalid JSX undefined/unused vars due to ESLint bug)
+* fixed; first option is now focused correctly, thanks [Eivind Siqveland Larsen](https://github.com/esiqveland)
+
+## v0.4.1 / 2015-03-20
+
+* fixed; IE11 issue: clicking on scrollbar within menu no longer closes menu, thanks [Rohit Kalkur](https://github.com/rovolution)
+
+## v0.4.0 / 2015-03-12
+
+* updated; compatible with React 0.13
+
+## v0.3.5 / 2015-03-09
+
+* improved; less/no repaint on scroll for preformance wins, thanks [jsmunich](https://github.com/jsmunich)
+* added; `onBlur` and `onFocus` event handlers, thanks [Jonas Budelmann](https://github.com/cloudkite)
+* added; support for `inputProps` prop, passed to the `<input>` component, thanks [Yann Plantevin](https://github.com/YannPl)
+* changed; now using [react-component-gulp-tasks](https://github.com/JedWatson/react-component-gulp-tasks) for build
+* fixed; issue w/ remote callbacks overriding cached options, thanks [Corey McMahon](https://github.com/coreymcmahon)
+* fixed; if not `this.props.multi`, menu doesn't need handleMouseDown, thanks [wenbing](https://github.com/wenbing)
+
+## v0.3.4 / 2015-02-23
+
+* fixed; issues with the underscore/lodash dependency change, thanks [Aaron Powell](https://github.com/aaronpowell)
+
+## v0.3.3 / 2015-02-22
+
+* added; `disabled` prop, thanks [Danny Shaw](https://github.com/dannyshaw)
+* added; `searchable` prop - set to `false` to disable the search box, thanks [Julen Ruiz Aizpuru](https://github.com/julen)
+* added; `onOptionLabelClick` prop - see [#66](https://github.com/JedWatson/react-select/pull/66) for docs, thanks [Dmitry Smirnov](https://github.com/dmitry-smirnov)
+* fixed; `text-overflow: ellipsis;` typo, thanks [Andru Vallance](https://github.com/andru)
+
 ## v0.3.2 / 2015-01-30
 
 * fixed; issue adding undefined values to multiselect, thanks [Tejas Dinkar](https://github.com/gja)

@@ -1,7 +1,7 @@
 React-Select
 ============
 
-A Select control built with and for [React](http://facebook.github.io/react/index.html), initially being developed for use in [KeystoneJS](http://www.keystonejs.com).
+A Select control built with and for [React](http://facebook.github.io/react/index.html). Initially built for use in [KeystoneJS](http://www.keystonejs.com).
 
 
 ## Demo & Examples
@@ -20,22 +20,20 @@ Then open [`localhost:8000`](http://localhost:8000) in a browser.
 
 ## Project Status
 
-This is currently a work in progress.
-
-It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
-
-TODO:
+This project is quite stable and ready for production use, however there are plans to improve it including:
 
 - CSS Styles and theme support (working, could be improved)
 - Documentation website (currently just examples)
 - Custom options rendering
+
+It's loosely based on [Selectize](http://brianreavis.github.io/selectize.js/) (in terms of behaviour and user expereience) and [React-Autocomplete](https://github.com/rackt/react-autocomplete) (as a native React Combobox implemenation), as well as other select controls including [Chosen](http://harvesthq.github.io/chosen/) and [Select2](http://ivaynberg.github.io/select2/).
 
 
 ## Installation
 
 The easiest way to use React-Select is to install it from NPM and include it in your own React build process (using [Browserify](http://browserify.org), etc).
 
-You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Underscore.
+You can also use the standalone build by including `dist/select.js` and `dist/default.css` in your page. If you use this, make sure you have already included React and Lodash.
 
 ```
 npm install react-select --save
@@ -72,7 +70,7 @@ function logChange(val) {
 
 ### Multiselect options
 
-You can enable multi-value selection by setting `multi="true"`. In this mode:
+You can enable multi-value selection by setting `multi={true}`. In this mode:
 
 * Selected options will be removed from the dropdown menu
 * The values of the selected items are joined using the `delimiter` property to create the input value
@@ -89,7 +87,7 @@ When your async process finishes getting the options, pass them to `callback(err
 
 The select control will intelligently cache options for input strings that have already been fetched. Async options will still be filtered like the normal options array, so if your async process would only return a smaller set of results for a more specific query, also pass `complete: true` in the callback object.
 
-Unless you specify the property `autoload="false"` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
+Unless you specify the property `autoload={false}` the control will automatically load the default set of options (i.e. for `input: ''`) when it is mounted.
 
 ```
 var Select = require('react-select');
@@ -101,6 +99,8 @@ var getOptions = function(input, callback) {
 				{ value: 'one', label: 'One' },
 				{ value: 'two', label: 'Two' }
 			],
+			// CAREFUL! Only set this to true when there are no more options,
+			// or more specific queries will not be sent to the server.
 			complete: true
 		});
 	}, 500);
@@ -134,4 +134,4 @@ For multi-select inputs, when providing a custom `filterOptions` method, remembe
 
 # License
 
-MIT Licensed. Copyright (c) Jed Watson 2014.
+MIT Licensed. Copyright (c) Jed Watson 2015.
