@@ -1,0 +1,273 @@
+{
+ "header": {
+  "id": 4552925,
+  "service": "Капитальный ремонт двигателя",
+  "name": "Mazda"
+ },
+ "results": [
+  {
+   "id": 2751411,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "стекло ветровое",
+   "retail_price": "12750",
+   "wholesale_price": null,
+   "user_id": 16405,
+   "stock": 1,
+   "rank": 1,
+   "used": true
+  },
+  {
+   "id": 82865517,
+   "code": "5c5845011qnvb",
+   "manufacturer": "volkswagen",
+   "name": "стекло ветровое/windshield",
+   "retail_price": "13285",
+   "wholesale_price": null,
+   "user_id": 19629,
+   "stock": 1,
+   "rank": 2,
+   "used": false
+  },
+  {
+   "id": 99134793,
+   "code": "5c5845011qnvb",
+   "manufacturer": "volkswagen",
+   "name": "стекло ветровоеwindshield",
+   "retail_price": "11810",
+   "wholesale_price": null,
+   "user_id": 19728,
+   "stock": 1,
+   "rank": 3,
+   "used": true
+  },
+  {
+   "id": 99161062,
+   "code": "5c5845011qnvb",
+   "manufacturer": "volkswagen",
+   "name": "стекло ветровоеwindshield",
+   "retail_price": "11810",
+   "wholesale_price": null,
+   "user_id": 19728,
+   "stock": 2,
+   "rank": 3,
+   "used": true
+  },
+  {
+   "id": 79672145,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "деталь",
+   "retail_price": "15987",
+   "wholesale_price": null,
+   "user_id": 19791,
+   "stock": 1,
+   "rank": 4,
+   "used": false
+  },
+  {
+   "id": 29773977,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "без предварит. обработки",
+   "retail_price": "18791",
+   "wholesale_price": null,
+   "user_id": 19930,
+   "stock": 2,
+   "rank": 5,
+   "used": false
+  },
+  {
+   "id": 84611543,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "ветровое стекло",
+   "retail_price": "15204",
+   "wholesale_price": null,
+   "user_id": 20075,
+   "stock": 1,
+   "rank": 6,
+   "used": true
+  },
+  {
+   "id": 70577010,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "ветровое стекло",
+   "retail_price": "17136",
+   "wholesale_price": null,
+   "user_id": 20097,
+   "stock": 2,
+   "rank": 7,
+   "used": true
+  },
+  {
+   "id": 86799309,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "ветровое стекло",
+   "retail_price": "16072",
+   "wholesale_price": null,
+   "user_id": 20152,
+   "stock": 1,
+   "rank": 8,
+   "used": true
+  },
+  {
+   "id": 83691751,
+   "code": "5c5845011qnvb",
+   "manufacturer": "volkswagen",
+   "name": "стекло ветровое/windshield",
+   "retail_price": "12935",
+   "wholesale_price": null,
+   "user_id": 20168,
+   "stock": 1,
+   "rank": 9,
+   "used": false
+  },
+  {
+   "id": 97550787,
+   "code": "5c5845011qnvb",
+   "manufacturer": "vag",
+   "name": "деталь",
+   "retail_price": "14069",
+   "wholesale_price": null,
+   "user_id": 20271,
+   "stock": 1,
+   "rank": 10,
+   "used": false
+  }
+ ],
+ "map": [
+  {
+   "id": 88,
+   "user_id": 16405,
+   "address": "Нижегородская улица 32с15",
+   "phone": "(499) 937-00-12",
+   "company_name": "Автосервис el-el-zap",
+   "coordinates": [
+    55.736356,
+    37.514881
+   ],
+   "number": 77,
+   "rank": 1
+  },
+  {
+   "id": 261,
+   "user_id": 19629,
+   "address": "Бухарестская улица 96",
+   "phone": "(812) 986-10-71",
+   "company_name": "Автосервис nxt-avto",
+   "coordinates": [
+    55.636356,
+    37.584881
+   ],
+   "number": 78,
+   "rank": 2
+  },
+  {
+   "id": 626,
+   "user_id": 19728,
+   "address": "улица Сущёвский Вал 43",
+   "phone": "(495)979-26-74",
+   "company_name": "Автосервис вира плюс",
+   "coordinates": [
+    55.706356,
+    37.864881
+   ],
+   "number": 77,
+   "rank": 3
+  },
+  {
+   "id": 114,
+   "user_id": 19791,
+   "address": "1-й Котляковский переулок 2",
+   "phone": "(495) 771-25-92",
+   "company_name": "Автосервис spparts.ru",
+   "coordinates": [
+    55.956356,
+    37.774881
+   ],
+   "number": 77,
+   "rank": 4
+  },
+  {
+   "id": 317,
+   "user_id": 19930,
+   "address": "проспект Маршала Жукова 21",
+   "phone": "(812) 448-13-05",
+   "company_name": "Автосервис маршал-юг",
+   "coordinates": [
+    55.866356,
+    37.594881
+   ],
+   "number": 78,
+   "rank": 5
+  },
+  {
+   "id": 323,
+   "user_id": 19930,
+   "address": "Северный проспект 7",
+   "phone": "(812) 448-13-05",
+   "company_name": "Автосервис маршал-север",
+   "coordinates": [
+    54.839356,
+    37.494881
+   ],
+   "number": 78,
+   "rank": 5
+  },
+  {
+   "id": 553,
+   "user_id": 20075,
+   "address": "Полярная улица 39с1",
+   "phone": "(916)022-16-32",
+   "company_name": "Автосервис stoauto.com",
+   "coordinates": [
+    55.746356,
+    37.924881
+   ],
+   "number": 77,
+   "rank": 6
+  },
+  {
+   "id": 517,
+   "user_id": 20097,
+   "address": "Московское шоссе 13д",
+   "phone": "(981) 832-31-29",
+   "company_name": "Автосервис franceparts",
+   "coordinates": [
+    55.669356,
+    38.634881
+   ],
+   "number": 78,
+   "rank": 7
+  },
+  {
+   "id": 534,
+   "user_id": 20152,
+   "address": "Сосновая аллея 7",
+   "phone": "(962)910-00-06",
+   "company_name": "Автосервис компания автопрофи",
+   "coordinates": [
+    55.696356,
+    37.424881
+   ],
+   "number": 77,
+   "rank": 8
+  },
+  {
+   "id": 545,
+   "user_id": 20168,
+   "address": "1-я Магистральная улица 18",
+   "phone": "(499) 755-54-53",
+   "company_name": "Автосервис партс-м",
+   "coordinates": [
+    55.646356,
+    38.714881
+   ],
+   "number": 77,
+   "rank": 9
+  }
+ ]
+}

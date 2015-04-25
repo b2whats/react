@@ -3,7 +3,7 @@ require('babel-core/polyfill');
 //мой loader для сохранить index.html куда я хочу
 require('save_file_to_dir?name=index.html!./templates/index.html');
 
-require('save_file_to_dir?name=script.js!./assets/libs/script.js');
+//require('save_file_to_dir?name=script.js!./assets/libs/script.js');
 
 
 require('./assets/css/normalize.css');
@@ -26,4 +26,4 @@ require('./assets/icons/icon-font/flaticon.css');
 
 require('./sass/app.sass');
 
-//require('./flux/app.js');
+require('./flux/app.js');
