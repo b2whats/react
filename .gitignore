@@ -8,6 +8,7 @@ web/log_inotify.txt
 /node_modules/*
 !/node_modules/save_file_to_dir.js
 !/node_modules/ice_middlewares
+!/node_modules/ice_q
 !/node_modules/ice_bash_exec
 !/node_modules/sass-imports
 !/node_modules/material-ui
