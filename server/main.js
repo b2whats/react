@@ -23,11 +23,9 @@ var index_template = null;
 
 _.each([
     config.kSERVER_PATH + '/',
-    config.kSERVER_PATH + '/tmp',
-    config.kSERVER_PATH + '/test',
-    config.kSERVER_PATH + '/checkout',
-    config.kSERVER_PATH + '/about',
-    config.kSERVER_PATH + '/:node_key/:item_part_no'
+    config.kSERVER_PATH + '/:x',
+    config.kSERVER_PATH + '/:x/:y',
+    config.kSERVER_PATH + '/*',
   ],  function(route) {
   router.route(route)
   .all(ice_middlewares.cache_middleware(config.kCACHE_MAIN_PAGE_SECONDS))
