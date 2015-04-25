@@ -83,7 +83,7 @@ module.exports = function(options) {
 
 	];
 	
-	var modulesDirectories = ["web_modules", "node_modules", "flux"];
+	var modulesDirectories = ["web_modules", "node_modules", "flux", "assets"];
 	
 	var extensions = ["", ".web.js", ".js", ".jsx"];
 	

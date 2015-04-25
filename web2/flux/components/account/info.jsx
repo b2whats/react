@@ -4,7 +4,7 @@ var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var cx = require('classnames');
-
+var info_image = require('images/templates/frank.jpg');
 var Link = require('components/link.jsx');
 var immutable = require('immutable');
 var appElement = document.getElementById('react_main');
@@ -189,7 +189,7 @@ var AccountInfo = React.createClass({
 				<div className='your-manager w50pr Mw500px'>
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
 					<div className='p15 br10 z-depth-1  new_context m30-0'>
-						<img className='va-T f-L mR20' src='/assets/images/templates/frank.jpg'/>
+						<img className='va-T f-L mR20' src={info_image} />
             <div className='new-context'>
               <div className='fw-b fs18'>Ваш менеджер</div>
               <div className='m15-0'>
