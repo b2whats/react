@@ -13,8 +13,6 @@ var IceMain = require('./components/main.jsx');
 var routes = require('./routes.js');
 require('./utils/router.js')(routes); //инициализация роутера
 
-console.log('dfdfdf');  
-
 auth_actions.check_auth()
 .then(() =>
 

@@ -22,7 +22,7 @@ module.exports = function(options) {
 		//"js": ["envify-loader", "jsx-loader?harmony"],
 		"js": 
 			{
-				loader: "envify-loader!babel-loader?stage=0&loose=all&externalHelpers",
+				loader: "babel-loader?stage=0&loose=all&externalHelpers",
 				include: js_root,
 			},
 		
@@ -183,14 +183,29 @@ module.exports = function(options) {
           warnings: false,
         },
         sourceMap: false
-      }),
-			
-			new webpack.optimize.DedupePlugin(),
-			new webpack.DefinePlugin({
-				"process.env": {
-					NODE_ENV: JSON.stringify("production")
-				}
-			}),
+      }),			
+			new webpack.optimize.DedupePlugin()
+		);
+	}
+
+	//собрать все переменные окружения
+	var env_obj = Object.keys(process.env).reduce(function(o, k) {
+        o[k] = JSON.stringify(process.env[k]);
+        return o;
+  }, {});
+
+	if(options.minimize) {
+  	env_obj.NODE_ENV = JSON.stringify("production");
+  }
+
+	plugins.push(
+		new webpack.DefinePlugin({
+      'process.env': env_obj
+    })
+  );
+
+	if(options.minimize) {
+		plugins.push(
 			new webpack.optimize.OccurenceOrderPlugin(),
 			new webpack.NoErrorsPlugin()
 		);
