@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2014 by original authors @ fontello.com</metadata>
+<defs>
+<font id="fontello" horiz-adv-x="1000" >
+<font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="450" descent="-550" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="facebook-rect" unicode="&#x21;" d="m1000 361v-824q0-36-26-62t-62-26h-824q-36 0-62 26t-26 62v824q0 36 26 62t62 26h824q36 0 62-26t26-62z m-187-160l20 118q-43 15-143 15-79 0-123-58-26-34-26-119v-78h-79v-115h79v-400h149v400h118l9 115h-127v90q0 42 59 42 31 0 64-10z" horiz-adv-x="1000" />
+<glyph glyph-name="search" unicode="&#x22;" d="m772-322q30-34 6-62l-46-46q-36-32-68 0l-190 190q-74-42-156-42-128 0-223 95t-95 223 90 219 218 91 224-95 96-223q0-88-46-162z m-678 358q0-88 68-156t156-68 151 63 63 153q0 88-68 155t-156 67-151-63-63-151z" horiz-adv-x="789" />
+<glyph glyph-name="vkontakte-rect" unicode="&#x23;" d="m1000 361v-824q0-36-26-62t-62-26h-824q-36 0-62 26t-26 62v824q0 36 26 62t62 26h824q36 0 62-26t26-62z m-240-528q0 58-32 95t-91 50v3q39 16 61 51t22 78q0 46-19 76t-56 42-68 17-78 4h-219v-600h240q47 0 88 9t76 30 56 57 20 88z m-193 246q0-20-7-33t-15-20-26-10-28-3-31-1h-30v127h39q18 0 28 0t25-4 24-9 15-18 6-29z m38-243q0-12-3-23t-7-18-12-13-15-10-18-7-18-4-21-2-20 0h-61v150h77t23-1 24-4 19-8 18-13 10-19 4-28z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

@@ -1,0 +1,179 @@
+//-------------------------------------------------------------------------------
+//Стили тайпахеда по умолчанию, лучше не трогать если не затрагивает все элементы
+//-------------------------------------------------------------------------------
+
+
+$typeahead-scrollbar-move-delta: 30px //на сколько утащить скроллбар вправо
+
+$typeahead-headers-height: 30px
+$typeahead-top-margin: 3px
+
+
+.scrollbar-measure
+  width: 100px
+  height: 100px
+  overflow: scroll
+  position: absolute
+  top: -9999px
+
+
+.typeahead-holder
+  width: 100%
+
+.typeahead-input-float-helper
+  width: 0
+  height: 0
+  //этот стиль если видно выпадающий лист
+  //&.show-results
+
+
+.typeahead-input
+  padding: 5px
+  width: 100%
+  //если инпут в фокусе
+  //&:focus
+  //  background-color: red
+
+
+
+.typeahead-headers
+  //background-color: #EEE
+  height: $typeahead-headers-height
+  overflow: hidden
+  border-bottom: 1px solid gray
+  font-size: 12px
+  font-weight: normal
+  line-height: $typeahead-headers-height
+  padding: 0px 10px
+  border-radius: 0
+
+  //position: absolute
+  //z-index: $typeahead-z-index - 1
+
+.typeahead-list-holder-scroll-visible
+  .typeahead-list-item
+    margin: 0 (2px + $scrollbar-width) 0 0 //отступы отличаются если есть скролбар и если нету (тут если есть)      
+    
+    padding-right: 0 //паддинги для нивелировать скачок по маржину при появлении
+
+.typeahead-list-item
+  margin: 0 2px 0 0  //отступы отличаются если есть скролбар и если нету (тут если нету)    
+  padding-right: $scrollbar-width  //паддинги для нивелировать скачок по маржину при появлении
+
+
+//нужен чтобы скрыть настоящий скроллбар у typeahead-list
+.typeahead-list-holder
+  width: 100%
+  //width: 900px
+  overflow: hidden
+  position: absolute
+  //border: 1px solid #aaa
+  background-color: #FFF
+  //border-bottom-left-radius: 8px
+  //border-bottom-right-radius: 8px
+  border-radius: 8px
+
+
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.4)
+
+  border-top: none
+  margin-top: $typeahead-top-margin
+  z-index: $typeahead-z-index - 2
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+  &.typeahead-list-holder-headers
+    .scrollbar
+      margin-top: $typeahead-headers-height
+
+
+
+
+.typeahead-list
+  box-sizing: content-box
+  z-index: $typeahead-z-index
+  background: white
+  width: 100%
+  margin: 0  
+  max-height: $max-typeahead-list-height
+  overflow: auto
+  padding: 0
+  //скрипт завязан на relative
+  position: relative
+  &.typeahead-list-columns
+    //display: table
+
+  &.custom_scroll
+    padding-right: $typeahead-scrollbar-move-delta
+
+@-moz-document url-prefix()
+  .typeahead-list
+    max-height: $max-typeahead-list-height + 4 //убрать мелкий баг с бордерами под файфокс
+    //overflow: -moz-scrollbars-none //нельзя скрол работать перестает
+
+//пусть на хроме не будет косяков связаных с системами где скролбар не показывается
+.typeahead-list::-webkit-scrollbar
+  display: none
+
+  
+
+.typeahead-list-item
+  font-size: 12px
+  margin: 0
+  padding: 5px 10px
+  cursor: pointer
+  //&.typeahead-list-item-columns
+  strong
+    font-weight: bold
+    color: #00F
+
+
+  a
+    color: gray
+  &.active
+    background: #dadada
+
+
+
+.typeahead-list-col-0, .typeahead-list-col-1, .typeahead-list-col-2, .typeahead-list-col-3, .typeahead-list-col-4
+  display: inline-block
+  overflow: hidden
+  text-overflow: ellipsis
+  vertical-align: middle
+  //font-family: arial
+  &.typeahead-list-col-header //стиль заголовков колонок
+    //font-weight: bold
+
+
+.typeahead-list-col-0
+  //width: 15%
+
+.typeahead-list-col-1
+  padding-left: 5px
+
+.typeahead-list-col-2
+  padding-left: 5px
+
+.typeahead-list-col-3
+  padding-left: 5px
+
+.typeahead-list-col-4
+  padding-left: 5px
+
+
+//продолжить если надо больше
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,28 @@
+@for $i from 8 through 36 {
+  .fs#{$i} { font-size : #{$i}px; }
+}
+@for $i from 8 through 20 {
+  $mod : $i % 10;
+  $div : $i / 10;
+  @if $mod != 0 {
+    .lh#{floor($i / 10)}-#{$mod} { line-height : $div }
+  } @else {
+    .lh#{$div} { line-height : $div }
+  }
+}
+.fw-b { font-weight : bold }
+.fw-n { font-weight : normal }
+
+.ta-C { text-align : center }
+.ta-L { text-align : left }
+.ta-R { text-align : right }
+.ta-j { text-align : justify }
+
+.td-n { text-decoration : none }
+.td-u { text-decoration : underline }
+.td-u:hover { text-decoration : none }
+
+.tt-l { text-transform : lowercase }
+.tt-n { text-transform : none }
+.tt-u { text-transform : uppercase }
+.to-e { text-overflow : ellipsis }

@@ -1,0 +1,110 @@
+@import 'bourbon/bourbon'
+
+@import 'values'
+
+@import 'mixins/valign'
+
+@import 'controls/typeahead'
+@import 'controls/typeahead_scrollbar'
+@import 'controls/yandex_map'
+@import 'controls/pager_buttons'
+@import 'controls/tables'
+@import 'controls/fixed_tooltip'
+@import 'controls/tooltip'
+@import 'controls/btn_icons'
+@import 'controls/price_slider'
+@import 'controls/dropzone'
+@import 'controls/selector'
+
+@import 'controls/svg_plot'
+@import 'controls/chart'
+@import 'controls/chart_with_controls'
+
+@import 'controls/hint/hint'
+@import 'controls/custom_hint'
+
+
+@import 'controls_customization/typeahead_auto_service'
+@import 'controls_customization/typeahead_auto_part'
+@import 'controls_customization/typeahead_scroll_custom'
+@import 'controls_customization/typeahead_region_selector'
+
+//pages
+@import 'header'
+@import 'footer'
+
+@import 'default_page'
+@import 'search_page'
+@import 'search_page_auto_part_table'
+@import 'search_page_autoservice_table'
+
+@import 'catalog_page'
+@import 'catalog_page_table'
+
+@import 'admin/select_filial.sass'
+@import 'admin/account_statistics'
+
+@import 'account/account_manage'
+
+html, body, .main-view
+  height: 100%
+  margin: 0
+  padding: 0
+
+
+*
+  box-sizing: border-box
+
+body
+  font-size: 14px
+  color: #313131
+
+a
+  &,:visited
+    text-decoration: none
+    outline-style: none
+
+.wrap
+  > *
+    font-size: 14px
+
+
+.hfm-wrapper
+  width: 100%
+  padding-left: 20px
+  padding-right: 20px
+  margin: 0 auto
+
+.main-wrapper
+  min-height: 100%
+  padding: 0
+  position: relative
+
+.main-body
+  margin-bottom: 0
+  padding-bottom: $footer-height
+
+
+
+.disable-pointer-events
+  .stop-events  
+    pointer-events: none
+  .disable-events-on-map-move
+    pointer-events: none
+
+.noselect
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+
+
+.height100
+  height: 100%
+.bgred
+  background-color: red
+.bred
+  border: 1px solid red

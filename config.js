@@ -2,9 +2,9 @@
 
 global.__config = __dirname+'/';
 var _ = require('underscore');
-var Sequelize = require('sequelize');
+//var Sequelize = require('sequelize');
 
-
+/*
 var db_config = {
   kSQL_LITE_DB_PATH: __dirname + '/data',
   kSQL_LITE_DB_NAME: 'liteurl',
@@ -36,6 +36,7 @@ var LiteUrl = sequelize.define('liteurl', {
   freezeTableName: true, //имя тоже liteurl а не liteurls
   timestamps: true,
 });
+*/
 
 
 module.exports = {
@@ -48,8 +49,7 @@ module.exports = {
   kCACHE_MAIN_PAGE_SECONDS: 0,
   kPREPARE_FOR_TEST: false,
   kDB: {
-    LiteUrl: LiteUrl
+    //LiteUrl: LiteUrl
   },
-  kSLACK_INTEGRATION: 'https://hooks.slack.com/services/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',
 };
 

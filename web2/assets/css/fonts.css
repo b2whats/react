@@ -1,0 +1,97 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('/assets/fonts/fontello.eot?84943772');
+    src: url('/assets/fonts/fontello.eot?84943772#iefix') format('embedded-opentype'),
+    url('/assets/fonts/fontello.woff?84943772') format('woff'),
+    url('/assets/fonts/fontello.ttf?84943772') format('truetype'),
+    url('/assets/fonts/fontello.svg?84943772#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('/assets/fonts/fontello.svg?84943772#fontello') format('svg');
+  }
+}
+
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    vertical-align: top;
+    margin-right: .2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: .2em;
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-facebook-rect:before { content: '\21'; } /* '!' */
+.icon-vkontakte-rect:before { content: '\23'; } /* '#' */
+
+
+@font-face {
+    font-family: 'helveticaneuecyrlight';
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-light.eot');
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-light.eot?#iefix') format('embedded-opentype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-light.woff2') format('woff2'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-light.woff') format('woff'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-light.ttf') format('truetype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-light.svg#../fonts/helvetica/helveticaneuecyrlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'helveticaneuecyrbold';
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-bold.eot');
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-bold.eot?#iefix') format('embedded-opentype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-bold.woff2') format('woff2'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-bold.woff') format('woff'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-bold.ttf') format('truetype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-bold.svg#../fonts/helvetica/helveticaneuecyrbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'helveticaneuecyrroman';
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-roman.eot');
+    src: url('/assets/fonts/helvetica/helveticaneuecyr-roman.eot?#iefix') format('embedded-opentype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-roman.woff2') format('woff2'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-roman.woff') format('woff'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-roman.ttf') format('truetype'),
+    url('/assets/fonts/helvetica/helveticaneuecyr-roman.svg#../fonts/helvetica/helveticaneuecyrroman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

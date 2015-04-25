@@ -1,0 +1,42 @@
+$margin_list : (5,10,15,20,25,30,35,40,45,50);
+@each $size in $margin_list {
+  .m#{$size} {
+    margin: #{$size}px;
+  }
+  .m#{$size}-0 {
+    margin: #{$size}px 0;
+  }
+  .m0-#{$size} {
+    margin: 0 #{$size}px;
+  }
+  .m#{$size}-#{$size} {
+    margin: #{$size}px #{$size}px;
+  }
+  .mB#{$size} {
+    margin-bottom: #{$size}px;
+  }
+  .mL#{$size} {
+    margin-left: #{$size}px;
+  }
+  .mR#{$size} {
+    margin-right: #{$size}px;
+  }
+  .mT#{$size} {
+    margin-top: #{$size}px;
+  }
+}
+.m0 {
+  margin: 0;
+}
+.m0-auto {
+  margin: 0 auto;
+}
+.mR-8 {
+  margin-right: -8px;
+}
+.mR1pr {
+  margin-right: 1%;
+}
+.mR2pr {
+  margin-right: 2%;
+}

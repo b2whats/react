@@ -1,0 +1,48 @@
+//--------------------------------------------------------------------------------
+//кастомные стили тайпахеда для автопарта
+//--------------------------------------------------------------------------------
+
+$auto-parts-hover-delta: 3px
+
+.autoparts
+  .typeahead-list-holder
+    //border: 3px solid white
+  .typeahead-list 
+    border: $auto-parts-hover-delta solid white //граница чтобы у выделения был отступ от верха низа и сбоков
+
+  .typeahead-list-col-0
+    width: 15%
+
+  .typeahead-list-col-1
+    width: 15%
+    font-weight: bold
+    &.typeahead-list-col-header //по дизайну второе поле болдом
+      font-weight: normal
+    strong
+      font-weight: bold  
+
+  .typeahead-list-col-2
+    width: 70%
+
+  .typeahead-list-holder-scroll-visible
+    .typeahead-list-item
+      margin: 0 ($scrollbar-custom-width + 2*$auto-parts-hover-delta) 0 0 //отступы отличаются если есть скролбар и если нету (тут если есть)      
+      padding-right: 0 //паддинги для нивелировать скачок по маржину при появлении
+
+  .typeahead-list-item
+    -moz-border-radius: 4px
+    -webkit-border-radius: 4px
+    border-radius: 4px
+    margin: 0 (2*$auto-parts-hover-delta) 0 0 //отступы отличаются если есть скролбар и если нету (тут если нету)    
+    padding-right: $scrollbar-custom-width  //паддинги для нивелировать скачок по маржину при появлении
+
+    strong
+      color: #5F42A4 //цвет выделения
+      font-weight: normal
+    &.active //как выглядит выделение
+      background-color: #B7A6DE
+      color: white
+      strong
+        color: white
+
+

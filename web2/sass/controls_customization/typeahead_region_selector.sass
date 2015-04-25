@@ -1,0 +1,56 @@
+$region-hover-delta: 1px
+$max-region-typeahead-list-height: 390px
+
+$scrollbar-region-thumb-max-height: $max-region-typeahead-list-height - $arrow-wh*2 - $scrollbar-to-arrow-delta*2
+
+.region_selector
+  padding: 13px 0 6px 4px
+  
+  .typeahead-list-holder
+    position: relative
+
+    border-radius: 0
+    background: transparent
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    box-shadow: none
+    margin-top: 2px
+  .typeahead-list
+    max-height: $max-region-typeahead-list-height
+
+  .typeahead-input
+    //маржин и видс
+    width: 270px //на глаз +-пара пикселей
+    margin-left: 10px
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    box-shadow: none
+    margin-bottom: 5px
+    height: 29px
+    padding: 4px 4px 4px 8px
+    
+
+  .typeahead-list-holder-scroll-visible
+    .typeahead-list-item
+      margin: 0 ($scrollbar-custom-width + 2*$region-hover-delta) 0 0 //отступы отличаются если есть скролбар и если нету (тут если есть)      
+      padding-right: 0 //паддинги для нивелировать скачок по маржину при появлении
+
+  .typeahead-list-item
+    font-size: 14px
+    color: #2A2A2A
+    line-height: 30px
+    padding: 0 10px
+    -moz-border-radius: 4px
+    -webkit-border-radius: 4px
+    border-radius: 4px
+    margin: 0 (2px + 2*$region-hover-delta) 0 0 //отступы отличаются если есть скролбар и если нету (тут если нету)    
+    padding-right: $scrollbar-custom-width  //паддинги для нивелировать скачок по маржину при появлении
+    &.active //как выглядит выделение
+      background-color: #FDF3B3
+      color: black
+      strong
+        color: black
+
+  .scrollbar
+    .thumb
+      max-height: $scrollbar-region-thumb-max-height //ВАЖНО УКАЗАТЬ МАКС ИМЕННО ПО НЕМУ Я СУЖУ О РАЗМЕРЕ ОТСТУПА ОТ СТРЕЛОК

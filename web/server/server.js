@@ -4,7 +4,7 @@ var config = require('../config.js');
 
 //ГОВНОКОД ПЕРЕПИСАТЬ!!!
 
-var kTOUCH_SESSION_TIME = Math.round(config.kUSER_TOKEN_EXPIRE/100)+1; //поведение сессии в коннекте немного не так как ожидаем, см мидлварку
+var kTOUCH_SESSION_TIME = Math.round(config.kUSER_TOKEN_EXPIRE / 100) + 1; //поведение сессии в коннекте немного не так как ожидаем, см мидлварку
 
 var express = require('express');
 var app = express();

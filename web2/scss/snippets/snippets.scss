@@ -1,0 +1,72 @@
+/*Троеточие если строка не поместилась*/
+.ellipsis {
+  overflow         : hidden;
+  white-space      : nowrap;
+  text-overflow    : ellipsis;
+  -o-text-overflow : ellipsis;
+}
+/*Фикс для ссылок при hover эффекте*/
+.bold-fixed:before {
+  content     : attr(title);
+  font-weight : bold;
+  display     : block;
+  overflow    : hidden;
+  height      : 1px;
+  visibility  : hidden;
+  color       : transparent;
+}
+/* метод Ильи Стрельцына */
+.new_context, .new-context {
+  -height : 1% !important;
+  *zoom   : 1 !important;
+  /* display: table */
+  display : table !important;
+}
+/* Очень важное дополнение! */
+.new_context:after, .new-context:after {
+  content      : '. . . . . . . . . . .'; /* Решение проблемы в Opera 12.00 */
+  display      : block;
+  word-spacing : 99in;
+  height       : 0;
+  overflow     : hidden;
+
+  /* Лекарство бага с отступом в Opera */
+  font-size    : 0.05em;
+  line-height  : 0.05em;
+  /*Оно тут нужно лишь для связки с entire-width*/
+  white-space: normal;
+}
+/*Блоки растянутые на всю ширину*/
+.entire-width {
+  display: -webkit-box; /* Android 4.3-, Safari без оптимизации */
+  -webkit-box-pack: justify; /* Android 4.3-, Safari без оптимизации */
+  display: -webkit-flex; /* оптимизация для Safari */
+  -webkit-justify-content: space-between; /* оптимизация для Safari */
+  display: flex;
+  justify-content: space-between;
+  text-align: justify; /* IE10-, Firefox 12-22 */
+  text-align-last: justify; /* IE10-, Firefox 12-22 */
+/*Необходимо когда теги не разделены пробелом и не работает флекс бокс - для IE*/
+  text-justify: newspaper;
+  zoom: 1;
+}
+.entire-width > * {
+  display : inline-block;
+  /*Для IE, там где работает флекс бокс это правило не отработает*/
+  vertical-align: middle;
+  /* display: -webkit-box; /* !хак! для Android 4.3-, должен идти после inline-block */
+  /*Добавил для того что бы строка не растягивалась на всю ширину из-за justify*/
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+/*Бордеры у списка только между элементами*/
+.border-between-h > * + * {
+  border-left: 1px solid;
+  border-color: inherit;
+}
+.border-between-v > * + * {
+  border-top: 1px solid;
+  border-color: inherit;
+}
+

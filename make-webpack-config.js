@@ -50,6 +50,10 @@ module.exports = function(options) {
 		"sass": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
 			"css-loader?sourceMap!sass-loader?indentedSyntax=sass&includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap!sass-imports?../common_vars.json" : 
 			"css-loader!autoprefixer-loader!sass-loader?indentedSyntax=sass&includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "!sass-imports?../common_vars.json",
+
+		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
+			"css-loader?sourceMap!sass-loader?includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap" : 
+			"css-loader!autoprefixer-loader!sass-loader?includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "",
 		
 		/*
 		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
