@@ -58,10 +58,11 @@ var cncl_ = [
   }, kDEFAULT_STORE_PRIORITY),
 
   main_dispatcher
-    .on(event_names.kACCOUNT_PRICE_INFO_LOADED, (data) => {
+    .on(event_names.kACCOUNT_PRICE_HISTORY_LOADED, (data) => {
       state_.history_cursor
-        .update(() => immutable.fromJS(data.data));
+        .update(() => immutable.fromJS(data));
       account_manage_store.fire(event_names.kON_CHANGE);
+      console.log(state_.history_cursor.toJS());
     }, kDEFAULT_STORE_PRIORITY),
   main_dispatcher
     .on(event_names.kACCOUNT_PRICE_DELETE, (id) => {

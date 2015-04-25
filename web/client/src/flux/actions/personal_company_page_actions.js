@@ -87,7 +87,7 @@ module.exports.get_company_information = (id) => {
         response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kPERSONAL_COMPANY_INFO_LOADED].concat([response['results']]));
         response['error'] && console.warn(response['error']);
     })
-    .catch(e => console.error(e, e.stack));;
+    .catch(e => console.error(e, e.stack));
 };
 
 var user_shema = {

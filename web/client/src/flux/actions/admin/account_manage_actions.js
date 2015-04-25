@@ -7,6 +7,7 @@ var main_dispatcher = require('dispatchers/main_dispatcher.js');
 var event_names = require('shared_constants/event_names.js');
 var api_refs = require('shared_constants/api_refs.js');
 
+var merge = require('utils/merge.js');
 
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
@@ -39,18 +40,24 @@ module.exports.upload_price_list = (form_data, operation_id, file_name, price_ty
   })
 };
 module.exports.get_price_history_information = () => {
-  return resource(api_refs.kACCOUNT_PRICES_HISTORY_INFO)
-    .get({type : 'get'})
-    .then(response => {
-      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_INFO_LOADED].concat([response]));
-    });
-};
-module.exports.delete_price = (id) => {
-  return resource(api_refs.kACCOUNT_PRICES_DELETE)
-    .post({type : 'delete', price_id : id})
+  return resource(api_refs.GET)
+    .post({price_history_by_auth: 'price_history_by_auth'})
     .then(response => {
       console.log(response);
-      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_DELETE].concat([id]));
+      response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_PRICE_HISTORY_LOADED].concat([response['results']['price_history']]));
+      response['error'] && console.warn(response['error']);
+    })
+    .catch(e => console.error(e, e.stack));
+};
+module.exports.delete_price_by_type = (type) => {
+  var price_type = (type == 1) ? {price_retail: 'price_retail'} : {price_wholesale: 'price_wholesale'};
+  var params = merge({price_files_by_type_id : type}, price_type);
+
+  return resource(api_refs.DEL)
+    .post(params)
+    .then(response => {
+      console.log(response);
+      //main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_DELETE].concat([id]));
     });
 };
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));

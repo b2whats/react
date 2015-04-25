@@ -23,15 +23,16 @@ var price_list_selector_store = require('stores/admin/price_list_selector_store.
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-    loaded              : account_manage_store.get_loaded(),
-    errors              : account_manage_store.get_errors(),
-    file_name           : account_manage_store.get_file_name(),
-    price_properties    : account_manage_store.get_price_properties(),
-    price_list_content  : account_manage_store.get_price_list_content(),
-    price_type          : account_manage_store.get_price_type(),
-    suppliers           : price_list_selector_store.get_suppliers(),
-    current_supplier_id : price_list_selector_store.get_current_supplier_id(),
-    price_range         : price_list_selector_store.get_price_range(),
+    loaded             : account_manage_store.get_loaded(),
+    errors             : account_manage_store.get_errors(),
+    file_name          : account_manage_store.get_file_name(),
+    price_properties   : account_manage_store.get_price_properties(),
+    price_list_content : account_manage_store.get_price_list_content(),
+    price_type         : account_manage_store.get_price_type(),
+    history            : account_manage_store.get_history(),
+    suppliers          : price_list_selector_store.get_suppliers(),
+    current_supplier_id: price_list_selector_store.get_current_supplier_id(),
+    price_range        : price_list_selector_store.get_price_range(),
   }),
   account_manage_store, price_list_selector_store /*observable store list*/);
 
@@ -145,7 +146,9 @@ var AccountManage = React.createClass({
     console.log(type);
     account_manage_actions.change_price_type(type);
   },
-
+  clear_price() {
+    account_manage_actions.delete_price_by_type(this.state.price_type);
+  },
   render() {
     //var kCHECKBOX_PRICE_IF_OUR_SERVICE = 'price_if_our_service';
     //var kCHECKBOX_PRICE_RETAIL = 'price_retail';
@@ -155,21 +158,33 @@ var AccountManage = React.createClass({
            {e.get('message')}
         </span>
       </span>).toJS();
+    var History = !!this.state.history &&
+      <table className='T-p5-15 fs12'>
+        {this.state.history.map((el,index) =>
+          <tr key={index} className={cx((index % 2 === 0) && 'bgc-grey-200')}>
+            <td>{el.get('date')}</td>
+            <td>{el.get('type')}</td>
+            <td>{el.get('used')}</td>
+            <td>{el.get('status')}</td>
+          </tr>
+        ).take(7).toArray()}
+      </table>;
+
+
 
     return (
       <div className="account-manage">
         <div className='entire-width flex-ai-c'>
           <div>
-            <span className="mR20 fs24">Добавить прайс лист</span>
+            <span className="mR20 fs24 va-M">Добавить прайс лист</span>
             <ButtonGroup select_element_value={this.state.price_type} onChange={this.on_change_price_type}>
               <button name='type' className='btn-bg-group w130px' value='1'>Розничный</button>
               <button name='type' className='btn-bg-group w130px' value='2'>Оптовый</button>
             </ButtonGroup>
           </div>
-          <Link
-            className="h_link"
-            href='/account/:region_id/manage-history'
-          >Итория загрузок</Link>
+          <div className='cur-p' onClick={this.clear_price}>
+            Очистить {(this.state.price_type == 1) ? 'розничный' : 'оптовый'} прайс <i className='flaticon-clear fs20' />
+          </div>
         </div>
         <div className="m20-0">
           <span className="vm h-30px ib">
@@ -345,7 +360,11 @@ var AccountManage = React.createClass({
         </div>
         }
 
-
+  <div className='m20-0'>
+    <div className='fs20'>Последние загрузки</div>
+    <hr className='hr'/>
+    {History}
+  </div>
       </div>
     );
   }

@@ -170,6 +170,7 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
           
           case 'manage':
             price_list_selector_actions.load_price_list_data();
+            account_manage_actions.get_price_history_information();
           break;
           case 'manage-history':
             account_manage_actions.get_price_history_information();
