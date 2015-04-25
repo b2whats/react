@@ -4,7 +4,7 @@
 */
 var _ = require('underscore');
 var immutable = require('immutable');
-var q = require('third_party/es6_promise.js');
+var q = Promise; //require('third_party/es6_promise.js');
 
 
 var hash_code = function(str) {
@@ -63,8 +63,9 @@ var create_memoizer = (fn, options) => {
     }
   };
 
-  return () => {
-    var args = [].slice.call(arguments);
+  return (...args) => {
+    //var args = [].slice.call(arguments);
+
     var im = immutable.fromJS(args);
     var hash = hash_code(im.toString()) & mask_;
     
