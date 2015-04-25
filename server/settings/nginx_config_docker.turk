@@ -1,0 +1,158 @@
+proxy_cache_path  /var/cache/nginx levels=1:2 keys_zone=smap:8m max_size=3000m inactive=600m;
+
+large_client_header_buffers 4 256k;
+ 
+upstream ice_map_upstream {
+  server 127.0.0.1:3000;
+  keepalive 16;
+}
+
+upstream ice_groonga_upstream {
+  server 127.0.0.1:10041;
+  keepalive 4;
+}
+
+log_format timed_combined '$remote_addr - $upstream_addr - $remote_user [$time_local]  '
+  '"$request" $status $body_bytes_sent '
+  '"$http_referer" "$http_user_agent" '
+  '$request_time upstream_response_time: $upstream_response_time $pipe';
+access_log /dev/stdout timed_combined;
+
+server {
+    gzip on;
+    gzip_comp_level 6;
+    gzip_vary on;
+    gzip_min_length  1000;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/octet-stream application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_buffers 16 8k;
+
+    listen 80 default_server;
+    #server_name www.sobutiliniki.ru;
+    
+    #charset utf-8;
+    #charset_types text/html text/xml text/plain text/css text/vnd.wap.wml application/javascript application/rss+xml application/json;
+
+    large_client_header_buffers 4 256k;
+
+
+
+    #proxy_cache smap;
+    #proxy_cache_key $scheme$proxy_host$request_uri;
+    #add_header X-Cache-Status $upstream_cache_status;
+    #error_page 502  /errors/502.html;
+
+#    location ~ ^/assets/(flexiblegs/.*|fonts/.*|libs/.*|css/.*|static/.*|icons/.*|bower_components/.*|robots.txt|humans.txt|favicon.ico)$ {
+#      alias /home/ice/ext/tehnopark/build/public/assets/$1;
+#      access_log off;
+#      expires 90d;
+#    }
+#
+#    #standart build
+#    location ~ ^/(js/.*|lcss/.*|docs/.*|icons/.*|flags/.*)$ {
+#      alias /home/ice/ext/tehnopark/build/public/build/dev/$1;
+#      access_log off;
+#      expires 90d;
+#    }
+
+
+    location ~ ^/data/(images/.*)$ {
+      alias /home/ice/ext/tehnopark/build/public/../../data/$1;
+      access_log off;
+      expires 90d;
+
+      #always load images in local env
+      #if_modified_since  off;
+      #add_header  Last-Modified  "";
+    }
+
+
+
+    location ~ ^/assets\/(images/.*)$ {
+      alias /home/ice/ext/tehnopark/build/public/assets/$1;
+      access_log off;
+      expires 90d;
+
+      #always load images in local env
+      #if_modified_since  off;
+      #add_header  Last-Modified  "";
+    }
+
+
+    location ~ ^/_assets/(.*)$ {
+      alias /home/ice/ext/tehnopark/build/public/$1;
+      access_log off;
+      expires 90d;
+    }    
+
+    #limit_rate 25k;
+
+    location ~ ^/search/(.*)$ {
+      charset utf-8;
+      charset_types text/html text/xml text/plain text/css text/vnd.wap.wml application/javascript application/rss+xml application/json;
+
+      #сколько результатов выдавать
+      set $limit 50;
+      
+      #строка для validation query можно задать например чтобы не более N слов и тп
+      set_unescape_uri $arg_qs_u $arg_qs;
+
+      proxy_redirect off;
+      proxy_buffering off;
+      proxy_set_header   X-Real-IP            $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host                   $http_host;
+      proxy_set_header   X-NginX-Proxy    true;
+      proxy_set_header   Connection "";
+      proxy_http_version 1.1;
+
+      #разрешенные символы для запросов в поисковый движок groonga
+      #if ($arg_qs_u ~* "^[=-_\d\sa-zA-Z\+\*\.\,\:\\АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя]+$") {
+        proxy_pass         http://ice_groonga_upstream/d/select?table=items_tbl&match_columns=description_with_id&limit=0&drilldown[node_id_ref].keys=node_id_ref,node_id_ref._id&drilldown[node_id_ref].output_columns=_value.node_id_ref._key,_value.node_id_ref.title,_value.node_id_ref.img,_value.description_with_id,_value.img,_value.part_no,_value._key,_value.price,_value.delivery_time&drilldown[node_id_ref].limit=$limit&query=$arg_qs;
+      #}
+    }
+
+    location ~ ^/query/(.*)$ {
+      charset utf-8;
+      charset_types text/html text/xml text/plain text/css text/vnd.wap.wml application/javascript application/rss+xml application/json;
+
+      #сколько результатов выдавать
+      set $limit 50;
+      
+      #строка для validation query можно задать например чтобы не более N слов и тп
+      set_unescape_uri $arg_qs_u $arg_qs;
+
+      proxy_redirect off;
+      proxy_buffering off;
+      proxy_set_header   X-Real-IP            $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host                   $http_host;
+      proxy_set_header   X-NginX-Proxy    true;
+      proxy_set_header   Connection "";
+      proxy_http_version 1.1;
+
+      #разрешенные символы для запросов в поисковый движок groonga
+      #if ($arg_qs_u ~* "^[=-_\d\sa-zA-Z\+\*\.\,\:\\АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя]+$") {
+        proxy_pass         http://ice_groonga_upstream/d/select?table=tree_tbl&output_columns=_key,title,img,items._key,items.part_no,items.img,items.description_with_id,items.price,items.delivery_time&limit=$limit&query=_key:$arg_qs;
+      #}
+
+    }
+
+     
+    location / {
+      proxy_redirect off;
+      proxy_buffering off;
+      proxy_set_header   X-Real-IP            $remote_addr;
+      proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+      proxy_set_header   X-Forwarded-Proto $scheme;
+      proxy_set_header   Host                   $http_host;
+      proxy_set_header   X-NginX-Proxy    true;
+      proxy_set_header   Connection "";
+      proxy_http_version 1.1;
+      proxy_cache smap;
+      proxy_cache_key $scheme$proxy_host$request_uri;
+      proxy_pass         http://ice_map_upstream;
+    }
+}

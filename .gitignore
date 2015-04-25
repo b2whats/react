@@ -1,1 +1,17 @@
 web/log_inotify.txt
+/osx/log_inotify.txt
+/build/*
+!/build/.empty
+/build/public/*
+!/build/public
+!/build/public/.empty
+/node_modules/*
+!/node_modules/save_file_to_dir.js
+!/node_modules/ice_middlewares
+!/node_modules/ice_bash_exec
+!/node_modules/sass-imports
+!/node_modules/material-ui
+!/node_modules/react-tap-event-plugin
+/react-starter-master
+/data
+npm-debug.log

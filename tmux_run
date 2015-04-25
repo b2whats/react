@@ -1,0 +1,97 @@
+#!/bin/bash
+set -e
+
+export LC_NUMERIC=C
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+CLIENT_DIR="$( cd -P "$( dirname "$SOURCE" )"/build/public && pwd )"
+
+
+cat server/settings/nginx_config_docker.template | \
+sed "s/{DIR}/$(echo $CLIENT_DIR | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" | \
+sed "s/{SERVER_PATH}/$(echo $SERVER_PATH | sed -e 's/\\/\\\\/g' -e 's/\//\\\//g' -e 's/&/\\\&/g')/g" > server/settings/nginx_config_docker.turk
+
+if (tmux list-s | grep algo2_tmux_server); then
+  echo 'TMUX SESSION EXIST'
+
+  if (( $# == 0 )) 
+  then
+    tmux attach-session -t algo2_tmux_server
+  fi
+
+else
+echo 'START CREATE TMUX SESSION'
+
+unamestr=`uname`
+
+OAUTH2=SERVER
+if [[ $unamestr == 'Darwin' ]]; then
+OAUTH2=CLIENT #все разрабы под OSX поэтому так
+fi
+
+tmux start-server
+tmux new-session -d -s algo2_tmux_server -n WEB
+tmux new-window -t algo2_tmux_server:2 -n COMMANDS
+tmux new-window -t algo2_tmux_server:3 -n GIT
+tmux new-window -t algo2_tmux_server:4 -n MONGO
+
+tmux split-window -v -t algo2_tmux_server:1
+tmux split-window -h -t algo2_tmux_server:1.1
+
+
+tmux split-window -v -t algo2_tmux_server:2
+
+tmux select-window -t algo2_tmux_server:1
+tmux resize-pane -t algo2_tmux_server:1.0 20
+
+SYSTEM=`uname`
+
+#REMOVE STATS без этого файла сайт пока билд не пройдет работать не будет
+rm -f $DIR/build/stats.json
+#подчистить билд
+ls -d -1 $PWD/build/public/* | xargs rm -rf
+
+cp -r $DIR/web2/assets ./build/public/assets
+
+#tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m  "watch -n0 'printf \"HTTP/1.1 200 OK\n\n\$(date && touch /home/ice/sentimeta_map/map_server/client/touch_helper.md)\n\" | nc -l -p 3082 >/dev/null && date'" C-m
+
+#временно кастомный билд reactify
+#echo '127.0.0.1    sob' | sudo tee -a /etc/hosts
+#tmux send-keys -t algo2_tmux_server:1.2 "cd ." C-m "mkdir -p ./client/build/dev/js" C-m "watchify ./client/src/flux/app.js -x 'react/addons' -x underscore -x 'immutable/contrib/cursor' -x immutable -o ./client/build/dev/js/map.app.js -t [ reactify --es6 --global] -t [envify --global --purge] -d -v" C-m
+#sleep 2
+#tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m "sudo ln -n -s $DIR/node_modules/reactify /usr/lib/node_modules/reactify" C-m "grunt devscripts" C-m "grunt" C-m 
+tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m "npm run start" C-m 
+
+if [[ $NODE_ENV == "production" ]]; then
+  tmux send-keys -t algo2_tmux_server:1.0 "cd ." C-m "npm run build" C-m  
+else
+  tmux send-keys -t algo2_tmux_server:1.0 "cd ." C-m "npm run hot-dev-server" C-m
+fi
+
+#tmux send-keys -t algo2_tmux_server:1.2 "cd ./data_utils/groonga" C-m "./start_db.sh" C-m
+
+#sleep 1
+tmux send-keys -t algo2_tmux_server:2.0 "cd ." C-m "sudo rm /etc/nginx/sites-enabled/default" C-m "sudo ln -n -s $DIR/server/settings/nginx_config_docker.turk /etc/nginx/sites-enabled/smap.config" C-m
+sleep 1
+tmux send-keys -t algo2_tmux_server:2.1 "cd ." C-m "sudo sv restart nginx" C-m 
+
+
+
+#tmux send-keys -t algo2_tmux_server:1.1 "cd ." C-m "./error_colorer supervisor -w server,../node_modules,app_admin.js -- --harmony_collections app_admin.js" C-m
+#sleep 1
+#tmux select-window -t algo2_tmux_server:2
+
+#sleep 1
+#tmux select-window -t algo2_tmux_server:1
+#sleep 1
+
+
+  #tmux attach-session -t algo2_tmux_server
+fi
