@@ -53,6 +53,11 @@ server {
       #add_header  Last-Modified  "";
     }
 
+    location ~ ^{SERVER_PATH}/assets\/(libs/.*)$ {
+      alias {DIR}/assets/$1;
+      access_log off;
+    }
+
 
     location ~ ^/_assets/(.*)$ {
       alias {DIR}/$1;
