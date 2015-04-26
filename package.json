@@ -34,6 +34,7 @@
     "react": "^0.13.1",
     "react-select": "^0.4.7",
     "revalidator": "^0.3.1",
+    "scriptjs": "^2.5.7",
     "sequelize": "^2.0.5",
     "sqlite3": "^3.0.5",
     "underscore": "^1.8.3",

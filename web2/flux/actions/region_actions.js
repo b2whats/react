@@ -18,6 +18,9 @@ var promise_serializer = require('utils/promise_serializer.js');
 var serializer = promise_serializer.create_serializer();
 
 var memoize = require('utils/promise_memoizer.js');
+
+var ymap_loader = require('third_party/yandex_maps.js');
+
 //15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 8, max_items_per_hash: 4};
 
@@ -44,25 +47,29 @@ var get_regions_memoized = memoize(() =>
       res.upper_corner = convert_lat_lng_string_2_array(res.upper_corner);
       return res;
     });
-    var map = ymaps;
-      map.ready(() => {
 
-        map.geolocation.get({
-        provider: 'yandex',
-        mapStateAutoApply: true
-      }).then(function (result) {
-        var region = result.geoObjects.get(0).properties.get('metaDataProperty').GeocoderMetaData.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName.toLocaleLowerCase();
-        if (region == 'Северо-Западный федеральный округ'.toLocaleLowerCase()) {
-          region = 'Санкт-петербург';
-        } else if(region == 'Центральный федеральный округ'.toLocaleLowerCase()) {
-          region = 'москва';
-        }
-        var translate = region_list.filter(el => el.name.toLocaleLowerCase() == region.toLocaleLowerCase());
-        console.log(translate);
-        module.exports.region_changed(region);
-        module.exports.goto_region(translate[0]['translit_name']);
+    ymap_loader.get_ymaps_promise()
+    .then(ymaps => {
+      var map = ymaps;
+        map.ready(() => {
+
+          map.geolocation.get({
+          provider: 'yandex',
+          mapStateAutoApply: true
+        }).then(function (result) {
+          var region = result.geoObjects.get(0).properties.get('metaDataProperty').GeocoderMetaData.AddressDetails.Country.AdministrativeArea.AdministrativeAreaName.toLocaleLowerCase();
+          if (region == 'Северо-Западный федеральный округ'.toLocaleLowerCase()) {
+            region = 'Санкт-петербург';
+          } else if(region == 'Центральный федеральный округ'.toLocaleLowerCase()) {
+            region = 'москва';
+          }
+          var translate = region_list.filter(el => el.name.toLocaleLowerCase() == region.toLocaleLowerCase());
+          console.log(translate);
+          module.exports.region_changed(region);
+          module.exports.goto_region(translate[0]['translit_name']);
+        });
       });
-      });
+    });
 
     main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_LIST_LOADED].concat([region_list]));
     return region_list;

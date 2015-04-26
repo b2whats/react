@@ -27,3 +27,6 @@ require('./assets/icons/icon-font/flaticon.css');
 require('./sass/app.sass');
 
 require('./flux/app.js');
+
+//var w = require("https://maps.googleapis.com/maps/api/js?key=AIzaSyCf-855OrsG1iPpBwpaoXh9ebeN0tPeZsQ");
+
