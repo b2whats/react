@@ -12,7 +12,6 @@ require('./assets/css/forms.css');
 require('./assets/css/modules.css');
 require('./assets/css/template.css');
 
-
 require('./scss/app.scss');
 
 require('./assets/tmp_icons/icons.data.svg.css');
@@ -20,13 +19,6 @@ require('./assets/flexiblegs/css/flexiblegs.min.css');
 
 require('./assets/icons/icon-font/flaticon.css');
 
-
-
-//require('./assets/fonts/flaticon.css');
-
 require('./sass/app.sass');
 
 require('./flux/app.js');
-
-//var w = require("https://maps.googleapis.com/maps/api/js?key=AIzaSyCf-855OrsG1iPpBwpaoXh9ebeN0tPeZsQ");
-
