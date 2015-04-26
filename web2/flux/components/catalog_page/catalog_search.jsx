@@ -133,6 +133,8 @@ var CatalogSearch = React.createClass({
   toggle(val) {
     return (e) => {
       toggle_actions.change(val);
+      //для таблички чтобы она знала что размер контента изменился
+      window.dispatchEvent(new Event('resize'));
     }
   },
   render () {
