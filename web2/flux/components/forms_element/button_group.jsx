@@ -21,7 +21,7 @@ var ButtonGroup = React.createClass({
 
     render: function () {
         var children = this.props.children.map(function(item, i) {
-            var classes = React.addons.classSet({
+            var classes = require('classnames')({
                 'selected' : this.props.select_element_value == item.props.value
             });
             return React.addons.cloneWithProps(item, {

@@ -26,7 +26,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
   },
   auth_store, modal_store);
 
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
 var SignIn = React.createClass({
   mixins : [

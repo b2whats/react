@@ -22,7 +22,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
             register_field_validation: register_store.get_register_field_validation(),
         })},
     register_store,auth_store);
-var cx = React.addons.classSet;
+var cx = require('classnames');
 var Register = React.createClass({
     mixins: [ModalMixin,RafBatchStateUpdateMixin],
 

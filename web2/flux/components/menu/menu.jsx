@@ -3,6 +3,8 @@ var React = require('react/addons');
 var Link = require('components/link.jsx');
 var route_names = require('shared_constants/route_names.js');
 
+var cx = require('classnames');
+
 var Menu = React.createClass({
     getDefaultProps: function() {
         return {
@@ -16,7 +18,7 @@ var Menu = React.createClass({
         return (
                 <ul className={this.props.className}>
                     { this.props.items.map(function(element, index){
-                        var classes = React.addons.classSet({
+                        var classes = cx({
                             'selected' : self.props.selected == element.id
                         });
 

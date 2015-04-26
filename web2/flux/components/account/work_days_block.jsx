@@ -3,7 +3,7 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
-var cx = React.addons.classSet;
+var cx = require('classnames');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 

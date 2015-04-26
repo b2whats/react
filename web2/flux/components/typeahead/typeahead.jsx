@@ -5,7 +5,7 @@
 
 var React     = require('react/addons');
 var PropTypes = React.PropTypes;
-var cx        = React.addons.classSet;
+var cx        = require('classnames');
 var raf = require('utils/raf.js');
 var style_utils = require('utils/style_utils.js');
 var _ = require('underscore');

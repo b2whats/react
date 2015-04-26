@@ -4,7 +4,7 @@ var _ = require('underscore');
 var React = require('react/addons');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var cx        = React.addons.classSet;
+var cx        = require('classnames');
 
 var kPAGES_ON_SCREEN = 3;
 

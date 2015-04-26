@@ -60,7 +60,7 @@ var auth_actions = require('actions/auth_actions.js');
 
 
 //auth_actions.check_auth();
-var cx = React.addons.classSet;
+var cx = require('classnames');
 var ice_main = React.createClass({
 	mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
