@@ -8,7 +8,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var CatalogSearch = require('../catalog_page/catalog_search.jsx');
-//var CatalogPageTable = require('./catalog_page_table.jsx');
+var CatalogPageTableNew = require('./catalog_page_table_new.jsx');
 /* jshint ignore:end */
 
 var CatalogPageRightBlockContentNew = React.createClass({
@@ -17,9 +17,9 @@ var CatalogPageRightBlockContentNew = React.createClass({
   
   render () {
     return (
-      <div className="search-page-right-block">
+      <div className="search-page-right-block-new">
         <CatalogSearch show_pager={false}/>
-        
+        <CatalogPageTableNew />
       </div>
     );
   }

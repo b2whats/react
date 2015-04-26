@@ -64,7 +64,6 @@ var get_regions_memoized = memoize(() =>
             region = 'москва';
           }
           var translate = region_list.filter(el => el.name.toLocaleLowerCase() == region.toLocaleLowerCase());
-          console.log(translate);
           module.exports.region_changed(region);
           module.exports.goto_region(translate[0]['translit_name']);
         });

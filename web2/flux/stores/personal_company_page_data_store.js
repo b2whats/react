@@ -237,7 +237,6 @@ var cncl_ = [
 
   main_dispatcher
   .on(event_names.kPERSONAL_PAGE_MAP_LOADED, (catalog_data) => {
-console.log(catalog_data);
     state_.catalog_data_cursor
       .update(() => immutable.fromJS(catalog_data));
 
