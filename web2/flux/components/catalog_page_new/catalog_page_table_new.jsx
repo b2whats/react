@@ -20,7 +20,7 @@ var getObjectAt = (i) => {
 };
 
 var getHeightAt = (i) => {
-  return 30 + (i%2)*20;
+  return 60 + (i%2)*20;
 };
 
 var renderImage = (cell_data) => (
@@ -40,11 +40,11 @@ var CatalogPageTableNew = React.createClass({
             key="b"
             width={Math.floor(this.props.width)}
             height={Math.floor(this.props.height)}
-            rowHeight={40}
+            rowHeight={112}
             //headerHeight={50}
             rowGetter={getObjectAt}
-            rowHeightGetter={getHeightAt}
-            rowsCount={100}
+            
+            rowsCount={1000}
             overflowX={'auto'}
             overflowY={'auto'}
             >
