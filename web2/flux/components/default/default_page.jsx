@@ -100,8 +100,6 @@ var DefaultPage = React.createClass({
     if (this.props.route_context.service == 'autoservices') {
       as_initial_value = this.props.route_context.search_text.replace(/[_]/g,' ');;
     }
-    console.log(ap_initial_value);
-    console.log(as_initial_value);
     return (
     <div className="default-page">
       <div className="default-page-abs">
