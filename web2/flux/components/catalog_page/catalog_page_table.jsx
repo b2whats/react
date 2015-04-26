@@ -88,7 +88,7 @@ var CatalogPageTable = React.createClass({
     var items_from = items_per_page*page_num;
     var items_to =   items_per_page*(page_num + 1);
 
-console.log(this.state.catalog_results && this.state.catalog_results.toJS());
+    //console.log(this.state.catalog_results && this.state.catalog_results.toJS());
     var Companies  = this.state.catalog_results && 
     this.state.catalog_results
     //.filter((part, part_index) => part_index >= items_from && part_index < items_to)

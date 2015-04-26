@@ -152,6 +152,9 @@ routes[route_definitions.kROUTE_CATALOG] = [
 
   route_actions.default_route];
 
+
+routes[route_definitions.kROUTE_CATALOG_NEW] = routes[route_definitions.kROUTE_CATALOG];  
+
 routes[route_definitions.kROUTE_ACCOUNT] = [
       kSECURITY_NEED_AUTH,
       (route_name, route_context, route_context_params) => {

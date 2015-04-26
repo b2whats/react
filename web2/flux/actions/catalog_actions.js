@@ -98,13 +98,10 @@ module.exports.get_services_and_brands = (company_type, brands, services,type_pr
 
 
 module.exports.update_page = (company_type, brands, services, type_price) => {
-
-  //route_defaults = (route_defaults === route_definitions.kROUTE_DEF) ? route_definitions.kROUTE_DEF_W_REGION : route_defaults;
-  //route_actions.goto_link_w_params(route_defaults, _.extend({}, route_params, {region_id: region_id}));
   var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
 
   route_actions.goto_link_w_params(
-    route_names.kROUTE_CATALOG,
+    routes_store.get_route_state_ro(),
     _.extend(
       {},
       route_params,

@@ -24,7 +24,7 @@ var SearchPageYandexMap = require('components/search_page/search_page_yandex_map
 var SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
-
+var CatalogPageRightBlockContentNew = require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
 
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
@@ -130,6 +130,17 @@ var ice_main = React.createClass({
 						</SearchBlockHeader>
 					);
 				break;
+
+        case route_names.kROUTE_CATALOG_NEW:
+          return (
+            <SearchBlockHeader>
+              <div ref='main_content' className="search-page-main-fixed">
+                <div style={{backgroundColor: 'blue'}} className="search-page-left-block" />
+                <CatalogPageRightBlockContentNew />
+              </div>
+            </SearchBlockHeader>
+          );
+        break;        
 
 				//ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
 				case route_names.kROUTE_ACCOUNT:
