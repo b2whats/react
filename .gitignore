@@ -13,6 +13,9 @@ web/log_inotify.txt
 !/node_modules/sass-imports
 !/node_modules/material-ui
 !/node_modules/react-tap-event-plugin
+!/node_modules/webpack-dev-server
+/node_modules/webpack-dev-server/*
+!/node_modules/webpack-dev-server/bin
 /react-starter-master
 /data
 npm-debug.log

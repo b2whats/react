@@ -71,7 +71,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "sass-dev-server": "webpack-dev-server --config webpack-sass-source-map-dev-server.config.js --progress --colors --port $HOT_RELOAD_PORT --inline",
-    "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --host 0.0.0.0 --port $HOT_RELOAD_PORT --inline",
+    "hot-dev-server": "webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --host $EXT_IP --port $HOT_RELOAD_PORT --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
     "start": "babel-node --stage=0 --loose=all ./server/server.js"
   },
