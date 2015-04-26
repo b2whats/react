@@ -110,8 +110,6 @@ var set_results_and_markers_visibility_ = () => {
         } ), {index:0, list:immutable.List()}).list );
 
 
-console.log(state_.results_sorted);
-
   state_.results_count_cursor
     .update( () => state_.results_sorted.count( r => r.get('visible')));
 
