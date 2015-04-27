@@ -7,24 +7,25 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var SizeHoc = require('components/hoc/size_hoc.js');
 
 var Link = require('components/link.jsx');
-var {Table, Column} = require('fixed-data-table-ice');
-require('fixed-data-table-ice/dist/fixed-data-table.css');
 
 var ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
 
 var anim = require('utils/anim.js');
 
 
+var CatalogPageTableHolder = require('./catalog_page_table_holder.jsx');
 
 
-
-var getObjectAt = (i) => {
-  if(i === 0) return null;
-  return {
+var _ = require('underscore');
+var objects = _.map(_.range(0, 1000), (i) => ({
     num: i,
     name: `name ${i}`,
     description: `description ${i}`,
-  };
+}));
+
+var getObjectAt = (i) => {
+  if(i === 0) return null;
+  return objects[i-1];
 };
 
 var getRowClassName = (i) => {  
@@ -45,12 +46,14 @@ var CatalogPageTableNew = React.createClass({
   
   getInitialState() {
     return {
+      counter: 0,
       headerTop: 0,
       wheelHandler: null,
       showMainHeader: true,
       startRow: this.props.startRow,
     };
   },
+  
 
   getRowHeight(index) {
     return index===0 ? this.props.headerHeight : kROW_HEIGHT;
@@ -115,40 +118,21 @@ var CatalogPageTableNew = React.createClass({
       <div style={{backgroundColor: 'red'}} className="catalog-page-table-new">
         {this.props.width && this.props.height ?
           [
-            <Table
+            <CatalogPageTableHolder
               key="table"
               width={Math.floor(this.props.width)}
               height={Math.floor(this.props.height)}
               rowHeight={112}
               rowHeightGetter={this.getRowHeight}
               rowGetter={getObjectAt}
-              //rowClassNameGetter={getRowClassName}
               scrollToRow={this.state.startRow}
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
               rowsCount={1000}
               overflowX={'auto'}
-              overflowY={'auto'}
-              >
-              <Column
-                dataKey="num"
-                fixed={true}
-                label=""
-                width={50} />
+              overflowY={'auto'} />
 
-              <Column
-                dataKey="name"
-                flexGrow={1}
-                label="name"
-                width={50} />
-            
-              <Column
-                dataKey="description"
-                
-                label="description"
-                flexGrow={1}
-                width={50} />
-            </Table>
+
             ,
             this.state.showMainHeader ? 
               <div 
