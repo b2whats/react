@@ -78,6 +78,10 @@
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
     "start": "babel-node --stage=0 --loose=all ./server/server.js",
     "whot-dev-server": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --host 192.168.0.111 --port 3081 --inline",
+    "wstart": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 babel-node --stage=0 --loose=all ./server/server.js",
+
+    "wbuildp": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 NODE_ENV=production  webpack --config webpack-production.config.js --progress --profile --colors",
+    "wstartp": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 NODE_ENV=production  babel-node --stage=0 --loose=all ./server/server.js"
     "wstart": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 babel-node --stage=0 --loose=all ./server/server.js"
   },
   "author": "istarkov@gmail.com",
