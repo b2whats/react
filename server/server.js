@@ -2,7 +2,7 @@
 
 //require("babel-core/external-helpers");
 //require("babel-core/polyfill");
-
+var path = require('path');
 //var q = Promise;//require('q');
 var config = require('../config.js');
 
@@ -22,6 +22,7 @@ app.use(cookie_parser());
 app.use(body_parser.json()); //автоматом разбирать json
 app.use(validator());
 app.use(method_override()); //put and delete methods instead of <input type="hidden" name="_method" value="put" />
+app.use('/_assets', express.static(path.join(__dirname, '..', 'build/public')));
 
 //app.use(cookie_session({ secret: 'safdsdfsdfwerewcxc', cookie: { maxAge: config.kUSER_TOKEN_EXPIRE }})); //переделать на ... redis
 
