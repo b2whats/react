@@ -22,6 +22,7 @@ var CatalogPageRightBlockContentNew = React.createClass({
   },
 
   _showFilters() {
+    //так отркутить на начало
     this.setState({startRow: 0}, () => this.setState({startRow: null}));
   },
 
@@ -34,19 +35,23 @@ var CatalogPageRightBlockContentNew = React.createClass({
   render_mini_header() {
     return (
       <div className="search-page-right-block-new--mini-header">
-        <a onClick={this._showFilters} className="ap-link us-n" href="javascript:void(0)">Показать фильтры</a>
+        <a onClick={this._showFilters} className="ap-link us-n">Показать фильтры</a>
       </div>
     );
   },
 
   render () {
+    const kROW_HEIGHT = 112;
+    const kHEADER_HEIGHT = 185;
+    const kMINI_HEADER_HEIGHT = 40;
+
     return (
       <div className="search-page-right-block-new">
-        {/*<CatalogSearch show_pager={false}/>*/}
         <CatalogPageTableNew 
-          headerHeight={185}
-          miniHeaderHeight={40}
+          headerHeight={kHEADER_HEIGHT}
+          miniHeaderHeight={kMINI_HEADER_HEIGHT}
           startRow={this.state.startRow} 
+          rowHeight={kROW_HEIGHT}
           miniHeaderRenderer={this.render_mini_header}
           headerRenderer={this.render_filters} />
       </div>

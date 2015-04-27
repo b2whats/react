@@ -9,7 +9,7 @@ var SizeHoc = require('components/hoc/size_hoc.js');
 var Link = require('components/link.jsx');
 
 var ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
-
+var PureRenderer = require('components/hoc/pure_renderer.jsx');
 var anim = require('utils/anim.js');
 
 
@@ -22,6 +22,32 @@ var objects = _.map(_.range(0, 1000), (i) => ({
     name: `name ${i}`,
     description: `description ${i}`,
 }));
+
+var columns = [
+  {
+    dataKey: "num",
+    fixed: true,
+    label: "",
+    width: 50,
+    cellDataGetter (key, obj) {
+      console.log('kk', key, obj);
+      return 'jopa';
+    }
+  },
+  {
+    dataKey: "name",
+    flexGrow: 1,
+    label: "",
+    width: 50,
+  },
+  {
+    dataKey: "description",
+    flexGrow: 1,
+    label: "",
+    width: 50,
+  },
+];
+
 
 var getObjectAt = (i) => {
   if(i === 0) return null;
@@ -37,7 +63,7 @@ var renderImage = (cell_data) => (
 );
 
 
-var kROW_HEIGHT = 112;
+
 var kSCROLL_HEADER_DEBOUNCE = 20;
 var kSCROLL_HEADER_DEBOUNCE_EPS = 2;
 
@@ -56,7 +82,7 @@ var CatalogPageTableNew = React.createClass({
   
 
   getRowHeight(index) {
-    return index===0 ? this.props.headerHeight : kROW_HEIGHT;
+    return index===0 ? this.props.headerHeight : this.props.rowHeight;
   },
 
   //---------------Логика для хедера чтобы уплывал и чтобы на нем скрол работал ---------------------
@@ -82,7 +108,6 @@ var CatalogPageTableNew = React.createClass({
           show_main_header = false;
         }
       } else {
-
         if (-header_top > -(this.props.headerHeight - this.props.miniHeaderHeight -  kSCROLL_HEADER_DEBOUNCE_EPS)) {
           show_main_header = true;
         }
@@ -92,6 +117,7 @@ var CatalogPageTableNew = React.createClass({
       }
     }
   },
+
   //---------------------------------------------------------------------------------------------------
   componentWillReceiveProps(nextProps) {
     const kANIM_TIME = 300;
@@ -122,17 +148,18 @@ var CatalogPageTableNew = React.createClass({
               key="table"
               width={Math.floor(this.props.width)}
               height={Math.floor(this.props.height)}
-              rowHeight={112}
+              rowHeight={this.getRowHeight(1)}
               rowHeightGetter={this.getRowHeight}
-              rowGetter={getObjectAt}
               scrollToRow={this.state.startRow}
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
+              
               rowsCount={1000}
+              rowGetter={getObjectAt}
+              columns={columns}
+              
               overflowX={'auto'}
               overflowY={'auto'} />
-
-
             ,
             this.state.showMainHeader ? 
               <div 
@@ -140,13 +167,12 @@ var CatalogPageTableNew = React.createClass({
                 onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
                 style={{top:`${this.state.headerTop}px`, height: this.props.headerHeight}} 
                 className="catalog-header-holder">
-                {this.props.headerRenderer()}
+                <PureRenderer render={this.props.headerRenderer} />
               </div>
                 :
               <div key="table-mini-header" className="search-page-right-block-new--mini-header-holder">
-                {this.props.miniHeaderRenderer()}
+                <PureRenderer render={this.props.miniHeaderRenderer} />
               </div>
-            
           ]
             :
           null
