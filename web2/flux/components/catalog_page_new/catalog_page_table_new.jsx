@@ -47,7 +47,8 @@ var CatalogPageTableNew = React.createClass({
     return {
       headerTop: 0,
       wheelHandler: null,
-      showMainHeader: true
+      showMainHeader: true,
+      startRow: this.props.startRow,
     };
   },
 
@@ -96,10 +97,14 @@ var CatalogPageTableNew = React.createClass({
       this._onTableScroll(0,0);
       var anim_start_header_position = -(this.props.headerHeight - this.props.miniHeaderHeight);
       this.setState({headerTop: anim_start_header_position});
-
+      var is_top_started = false;
       anim(kANIM_TIME, anim_start_header_position, 0, 'ease_out_cubic', 
-        (v /*, t*/) => {
+        (v, t) => {
           this.setState({headerTop: v});
+          if(t > 0.0 && !is_top_started) {
+            is_top_started = true;
+            this.setState({startRow: 0}, () => this.setState({startRow: null}));
+          }
           return true;
         });
     }
@@ -118,7 +123,7 @@ var CatalogPageTableNew = React.createClass({
               rowHeightGetter={this.getRowHeight}
               rowGetter={getObjectAt}
               //rowClassNameGetter={getRowClassName}
-              scrollToRow={this.props.startRow}
+              scrollToRow={this.state.startRow}
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
               rowsCount={1000}
