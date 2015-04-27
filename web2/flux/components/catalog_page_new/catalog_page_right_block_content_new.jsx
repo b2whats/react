@@ -15,13 +15,28 @@ var CatalogPageRightBlockContentNew = React.createClass({
 
   mixins: [PureRenderMixin],
   
+  getInitialState: function() {
+    return {
+      startRow: null
+    };
+  },
+
+  _showFilters() {
+    this.setState({startRow: 0}, () => this.setState({startRow: null}));
+  },
+
   render_filters() {
     return (
       <CatalogSearch show_pager={false} />
     );
   },
 
-  render_show_filters() {
+  render_mini_header() {
+    return (
+      <div className="search-page-right-block-new--mini-header">
+        <a onClick={this._showFilters} className="ap-link us-n" href="javascript:void(0)">Показать фильтры</a>
+      </div>
+    );
   },
 
   render () {
@@ -29,7 +44,9 @@ var CatalogPageRightBlockContentNew = React.createClass({
       <div className="search-page-right-block-new">
         {/*<CatalogSearch show_pager={false}/>*/}
         <CatalogPageTableNew 
-          headerHeight={185} 
+          headerHeight={185}
+          startRow={this.state.startRow} 
+          miniHeaderRenderer={this.render_mini_header}
           headerRenderer={this.render_filters} />
       </div>
     );
