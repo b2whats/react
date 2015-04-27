@@ -23,9 +23,17 @@ var getHeightAt = (i) => {
   return 60 + (i%2)*20;
 };
 
+var getRowClassName = (i) => {
+  
+  return i===0 ? '--first-row' : '';
+};
+
+
 var renderImage = (cell_data) => (
   <div>cell_data</div>
 );
+//public_fixedDataTableCell_main
+
 
 var CatalogPageTableNew = React.createClass({
 
@@ -43,7 +51,7 @@ var CatalogPageTableNew = React.createClass({
             rowHeight={112}
             //headerHeight={50}
             rowGetter={getObjectAt}
-            
+            rowClassNameGetter={getRowClassName}
             rowsCount={1000}
             overflowX={'auto'}
             overflowY={'auto'}
