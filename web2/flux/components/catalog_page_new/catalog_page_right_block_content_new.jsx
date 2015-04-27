@@ -15,11 +15,22 @@ var CatalogPageRightBlockContentNew = React.createClass({
 
   mixins: [PureRenderMixin],
   
+  render_filters() {
+    return (
+      <CatalogSearch show_pager={false} />
+    );
+  },
+
+  render_show_filters() {
+  },
+
   render () {
     return (
       <div className="search-page-right-block-new">
-        <CatalogSearch show_pager={false}/>
-        <CatalogPageTableNew />
+        {/*<CatalogSearch show_pager={false}/>*/}
+        <CatalogPageTableNew 
+          headerHeight={185} 
+          headerRenderer={this.render_filters} />
       </div>
     );
   }
