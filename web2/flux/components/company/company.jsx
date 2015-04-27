@@ -6,7 +6,7 @@ var _ = require('underscore');
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Link = require('components/link.jsx');
-var immutable = require('immutable');
+
 var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
 Modal.setAppElement(appElement);
@@ -160,7 +160,7 @@ var personal_company_page = React.createClass({
           </div>
         )
       })
-      .toJS();
+      .toArray();
     var comments_size = this.state.comments.size -1;
     var Comments = this.state.comments
       .reverse()
