@@ -6,6 +6,7 @@ web/log_inotify.txt
 !/build/public
 !/build/public/.empty
 /node_modules/*
+!/node_modules/fixed-data-table-ice
 !/node_modules/save_file_to_dir.js
 !/node_modules/ice_middlewares
 !/node_modules/ice_q
