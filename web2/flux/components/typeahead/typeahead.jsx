@@ -594,7 +594,7 @@ var TypeaheadResults = React.createClass({
 
   },
 
-  on_wheel() {
+  on_wheel(e) {
     this.prevent_scroll_2_focused_time = (new Date()).getTime();
     if(!this.pointer_events_timer_started) {
 
@@ -612,6 +612,7 @@ var TypeaheadResults = React.createClass({
       setTimeout(this.pointer_events_guard, kPOINTER_EVENTS_PREVENT_TIME + kSMALL_DELTA);
       this.pointer_events_timer_started = true;
     }
+    e.stopPropagation();
   },
 
   on_scroll() {

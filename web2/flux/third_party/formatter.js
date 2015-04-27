@@ -1,5 +1,6 @@
 'use strict';
 var q = require('third_party/es6_promise.js');
+var $script = require('scriptjs');
 
 var promise_serializer = require('utils/promise_serializer.js');
 var serializer = promise_serializer.create_serializer();
@@ -9,6 +10,7 @@ var kMEMOIZE_OPTIONS = {expire_ms: 60*15*1000, cache_size_power: 0, max_items_pe
 
 var memoized_call_ = memoize(() => {
   return new q(function(resolve, reject) {
+    /*
     if (typeof window === 'undefined') {
       console.error('object window not defined');
       reject(new Error('object window not defined'));    
@@ -18,6 +20,7 @@ var memoized_call_ = memoize(() => {
       console.error('you need to include scriptjs library at the beggining of html');
       reject(new Error('you need to include scriptjs library at the beggining of html'));
     }
+    */
 
     //сначала ждем когда загружающий ya скрипт загрузится, потом когда он сам все подгрузит
     $script('/assets/libs/formatter.min.js', function() {

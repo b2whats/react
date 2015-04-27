@@ -10,6 +10,9 @@ var Link = require('components/link.jsx');
 var {Table, Column} = require('fixed-data-table-ice');
 require('fixed-data-table-ice/dist/fixed-data-table.css');
 
+var ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
+
+
 var getObjectAt = (i) => {
   if(i === 0) return null;
   return {
@@ -31,12 +34,38 @@ var renderImage = (cell_data) => (
 //public_fixedDataTableCell_main
 
 var kROW_HEIGHT = 112;
+var kSCROLL_HEADER_DEBOUNCE = 20;
+
 var CatalogPageTableNew = React.createClass({
 
   mixins: [PureRenderMixin],
   
+  getInitialState() {
+    return {
+      headerTop: 0,
+      wheelHandler: null
+    };
+  },
+
   getRowHeight(index) {
     return index===0 ? this.props.headerHeight : kROW_HEIGHT;
+  },
+
+  //для передавать события onWheel с хедера напрямую в табличку
+  _onReactWheelHandlerChanged(wheelHandler) {
+    if(this.isMounted) {
+      this.setState({wheelHandler});
+    }
+  },
+
+  _onTableScroll(x, y) {
+    if(this.isMounted) {
+      var header_top = Math.min(y, this.props.headerHeight + kSCROLL_HEADER_DEBOUNCE);
+      if(y < this.props.headerHeight + kSCROLL_HEADER_DEBOUNCE || header_top !== -this.state.headerTop) {
+        //не обновлять state когда хедер уже скрыт
+        this.setState({headerTop:-header_top});
+      }
+    }
   },
 
   render () {
@@ -54,6 +83,8 @@ var CatalogPageTableNew = React.createClass({
               rowHeightGetter={this.getRowHeight}
               rowGetter={getObjectAt}
               //rowClassNameGetter={getRowClassName}
+              onScroll={this._onTableScroll}
+              onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
               rowsCount={1000}
               overflowX={'auto'}
               overflowY={'auto'}
@@ -78,7 +109,11 @@ var CatalogPageTableNew = React.createClass({
                 width={50} />
             </Table>
             ,
-            <div key="table-header" style={{height: this.props.headerHeight}} className="catalog-header-holder">
+            <div 
+              key="table-header" 
+              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
+              style={{top:`${this.state.headerTop}px`, height: this.props.headerHeight}} 
+              className="catalog-header-holder">
               {this.props.headerRenderer()}
             </div>
           ]
