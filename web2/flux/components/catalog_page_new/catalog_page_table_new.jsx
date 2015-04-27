@@ -12,6 +12,12 @@ require('fixed-data-table-ice/dist/fixed-data-table.css');
 
 var ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
 
+var anim = require('utils/anim.js');
+
+
+
+
+
 var getObjectAt = (i) => {
   if(i === 0) return null;
   return {
@@ -28,7 +34,7 @@ var getRowClassName = (i) => {
 var renderImage = (cell_data) => (
   <div>cell_data</div>
 );
-//public_fixedDataTableCell_main
+
 
 var kROW_HEIGHT = 112;
 var kSCROLL_HEADER_DEBOUNCE = 20;
@@ -58,7 +64,6 @@ var CatalogPageTableNew = React.createClass({
   },
 
   _onTableScroll(x, y) {
-    var kMINI_HEADER_HEIGHT = 40;
     if(this.isMounted) {
       var header_top = Math.min(y, this.props.headerHeight + kSCROLL_HEADER_DEBOUNCE);
 
@@ -69,12 +74,12 @@ var CatalogPageTableNew = React.createClass({
     
       var show_main_header = this.state.showMainHeader; 
       if(this.state.showMainHeader === true) {
-        if (-header_top < -(this.props.headerHeight - kMINI_HEADER_HEIGHT + kSCROLL_HEADER_DEBOUNCE_EPS)) {
+        if (-header_top < -(this.props.headerHeight - this.props.miniHeaderHeight + kSCROLL_HEADER_DEBOUNCE_EPS)) {
           show_main_header = false;
         }
       } else {
 
-        if (-header_top > -(this.props.headerHeight - kMINI_HEADER_HEIGHT -  kSCROLL_HEADER_DEBOUNCE_EPS)) {
+        if (-header_top > -(this.props.headerHeight - this.props.miniHeaderHeight -  kSCROLL_HEADER_DEBOUNCE_EPS)) {
           show_main_header = true;
         }
       }
@@ -85,8 +90,18 @@ var CatalogPageTableNew = React.createClass({
   },
   //---------------------------------------------------------------------------------------------------
   componentWillReceiveProps(nextProps) {
+    const kANIM_TIME = 300;
+
     if(nextProps.startRow!==null && this.props.startRow===null) {
       this._onTableScroll(0,0);
+      var anim_start_header_position = -(this.props.headerHeight - this.props.miniHeaderHeight);
+      this.setState({headerTop: anim_start_header_position});
+
+      anim(kANIM_TIME, anim_start_header_position, 0, 'ease_out_cubic', 
+        (v /*, t*/) => {
+          this.setState({headerTop: v});
+          return true;
+        });
     }
   },
 

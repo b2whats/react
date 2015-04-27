@@ -45,6 +45,7 @@ var CatalogPageRightBlockContentNew = React.createClass({
         {/*<CatalogSearch show_pager={false}/>*/}
         <CatalogPageTableNew 
           headerHeight={185}
+          miniHeaderHeight={40}
           startRow={this.state.startRow} 
           miniHeaderRenderer={this.render_mini_header}
           headerRenderer={this.render_filters} />
