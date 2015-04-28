@@ -30,7 +30,7 @@ var columns = [
     label: "",
     width: 50,
     cellDataGetter (key, obj) {
-      console.log('kk', key, obj);
+      //console.log('kk', key, obj);
       return 'jopa';
     }
   },

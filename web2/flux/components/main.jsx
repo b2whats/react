@@ -24,7 +24,9 @@ var SearchPageYandexMap = require('components/search_page/search_page_yandex_map
 var SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
 
 var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
-var CatalogPageRightBlockContentNew = require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
+//потому что ES6 модуль
+//var {CatalogPageRightBlockContentNew}= require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
+import {CatalogPageRightBlockContentNew} from 'components/catalog_page_new/catalog_page_right_block_content_new.jsx';
 
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 

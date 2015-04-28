@@ -11,39 +11,41 @@ var CatalogSearch = require('../catalog_page/catalog_search.jsx');
 var CatalogPageTableNew = require('./catalog_page_table_new.jsx');
 /* jshint ignore:end */
 
-//var raf_hoc = require('components/hoc/raf_hoc.js');
+import RafStateUpdate from 'components/hoc/raf_hoc.js';
+
+var catalog_data_store = require('stores/catalog_data_store.js');
 
 
+//var CatalogPageRightBlockContentNew = React.createClass({
+@RafStateUpdate(() => ({
+  catalog_results: catalog_data_store.get_catalog_results(),
+  results_count:   catalog_data_store.get_results_count(),
+}), catalog_data_store)
+export class CatalogPageRightBlockContentNew extends React.Component {
+  //mixins: [PureRenderMixin],
+  constructor(props) {
+    super(props);
+    this.state = {startRow: null};
+  }
 
-
-var CatalogPageRightBlockContentNew = React.createClass({
-
-  mixins: [PureRenderMixin],
-  
-  getInitialState: function() {
-    return {
-      startRow: null
-    };
-  },
-
-  _showFilters() {
+  _showFilters = () => {
     //так отркутить на начало
     this.setState({startRow: 0}, () => this.setState({startRow: null}));
-  },
+  }
 
-  render_filters() {
+  render_filters = () => {
     return (
       <CatalogSearch filter_new_type={true} show_pager={false} />
     );
-  },
+  }
 
-  render_mini_header() {
+  render_mini_header = () => {
     return (
       <div className="search-page-right-block-new--mini-header">
         <a onClick={this._showFilters} className="ap-link us-n">Показать фильтры</a>
       </div>
     );
-  },
+  }
 
   render () {
     const kROW_HEIGHT = 112;
@@ -62,6 +64,6 @@ var CatalogPageRightBlockContentNew = React.createClass({
       </div>
     );
   }
-});
+};
 
-module.exports = CatalogPageRightBlockContentNew;
+//module.exports = CatalogPageRightBlockContentNew;
