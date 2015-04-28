@@ -235,7 +235,7 @@ var CatalogSearch = React.createClass({
         </div>
           <div className='entire-width flex-ai-c p10-20'>
             {this.props.filter_new_type === true ?
-              <div style={{marginTop: '-10px', fontSize: '14px', color: '#aaa'}}>Фильтры</div>
+              <div style={{marginTop: '-10px', fontSize: '14px', color: '#eee'}}>Показать фильтры</div>
               : 
               <span className='cur-p' onClick={this.toggle('show_filters')}>
                 {this.state.toggle.get('show_filters') ? 'Показать фильтры' : 'Скрыть фильтры'}

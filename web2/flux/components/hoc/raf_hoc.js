@@ -22,8 +22,9 @@ export default function RafStateUpdate(get_state, ...stores) {
       this.event_disablers = _.map(stores, store => store.on(event_names.kON_CHANGE, this.on_change_handler));
     }
 
-    on_change_handler = () => {      
+    on_change_handler = () => {
       raf(() => {
+        console.log('RAF UPDATE');
         var state = get_state();        
         if(this.event_disablers!==null) {
           this.setState(state);

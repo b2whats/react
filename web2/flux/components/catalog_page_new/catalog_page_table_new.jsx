@@ -15,55 +15,6 @@ var anim = require('utils/anim.js');
 
 var CatalogPageTableHolder = require('./catalog_page_table_holder.jsx');
 
-
-var _ = require('underscore');
-var objects = _.map(_.range(0, 1000), (i) => ({
-    num: i,
-    name: `name ${i}`,
-    description: `description ${i}`,
-}));
-
-var columns = [
-  {
-    dataKey: "num",
-    fixed: true,
-    label: "",
-    width: 50,
-    cellDataGetter (key, obj) {
-      //console.log('kk', key, obj);
-      return 'jopa';
-    }
-  },
-  {
-    dataKey: "name",
-    flexGrow: 1,
-    label: "",
-    width: 50,
-  },
-  {
-    dataKey: "description",
-    flexGrow: 1,
-    label: "",
-    width: 50,
-  },
-];
-
-
-var getObjectAt = (i) => {
-  if(i === 0) return null;
-  return objects[i-1];
-};
-
-var getRowClassName = (i) => {  
-  return i===0 ? '--first-row' : '';
-};
-
-var renderImage = (cell_data) => (
-  <div>cell_data</div>
-);
-
-
-
 var kSCROLL_HEADER_DEBOUNCE = 20;
 var kSCROLL_HEADER_DEBOUNCE_EPS = 2;
 
@@ -78,7 +29,11 @@ var CatalogPageTableNew = React.createClass({
       startRow: this.props.startRow,
     };
   },
-  
+
+  getRowObjectAt(i) {
+    if(i === 0) return null;
+    return this.props.getRowObjectAt(i-1);
+  },
 
   getRowHeight(index) {
     return index===0 ? this.props.headerHeight : this.props.rowHeight;
@@ -117,6 +72,10 @@ var CatalogPageTableNew = React.createClass({
     }
   },
 
+  cellRenderer(cellData: any, cellDataKey: string, rowData: object, rowIndex: number, columnData: any, width: number) {
+    return this.props.cellRenderer(cellDataKey, rowData);
+  },
+
   //---------------------------------------------------------------------------------------------------
   componentWillReceiveProps(nextProps) {
     const kANIM_TIME = 300;
@@ -140,7 +99,7 @@ var CatalogPageTableNew = React.createClass({
 
   render () {    
     return (      
-      <div style={{backgroundColor: 'red'}} className="catalog-page-table-new">
+      <div className="catalog-page-table-new">
         {this.props.width && this.props.height ?
           [
             <CatalogPageTableHolder
@@ -153,9 +112,10 @@ var CatalogPageTableNew = React.createClass({
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
               
-              rowsCount={1000}
-              rowGetter={getObjectAt}
-              columns={columns}
+              rowsCount={this.props.rowsCount}
+              rowGetter={this.getRowObjectAt}
+              columns={this.props.columns}
+              cellRenderer = {this.cellRenderer}
               
               overflowX={'auto'}
               overflowY={'auto'} />

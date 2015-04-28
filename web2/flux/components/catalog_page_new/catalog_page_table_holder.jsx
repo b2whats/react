@@ -16,11 +16,12 @@ var CatalogPageTableHolder = React.createClass({
   mixins: [PureRenderMixin],
 
   render () {
+    var {cellRenderer, ...other} = this.props;
     return (
       <Table
-        {...this.props}
+        {...other}
         >
-        {this.props.columns.map((c, index) => (<Column key={index} {...c} />))}
+        {this.props.columns.map((c, index) => (<Column key={index} cellRenderer={cellRenderer} {...c} />))}
       </Table>
     );
   }

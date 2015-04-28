@@ -80,7 +80,7 @@ module.exports.get_services_and_brands = (company_type, brands, services,type_pr
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_SERVICES_DATA_LOADED].concat([list[0]]));
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_BRANDS_DATA_LOADED].concat([list[1]]));
 
-      company_type = (company_type === '_') ? 3 : +company_type;
+      company_type = (company_type === '_') ? 3 : +company_type;      
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_CATALOG_PARAMS_CHANGED].concat([company_type, brands, services, type_price]));
       
 
