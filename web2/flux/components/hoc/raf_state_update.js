@@ -19,12 +19,11 @@ export default function RafStateUpdate(get_state, ...stores) {
       super(props);
       this.state = get_state(props);
       
-      this.event_disablers = _.map(stores, store => store.on(event_names.kON_CHANGE, this.on_change_handler));
+      this.event_disablers = _.map(stores, store => store.on(event_names.kON_CHANGE, this._onChangeHandler));
     }
 
-    on_change_handler = () => {
+    _onChangeHandler = () => {
       raf(() => {
-        console.log('RAF UPDATE');
         var state = get_state();        
         if(this.event_disablers!==null) {
           this.setState(state);
@@ -45,6 +44,7 @@ export default function RafStateUpdate(get_state, ...stores) {
     }    
 
     render() {
+      console.log(this.state);
       return <DecoratedComponent {...this.props} {...this.state} />;
     }
   }

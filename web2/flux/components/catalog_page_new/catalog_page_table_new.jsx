@@ -30,12 +30,12 @@ var CatalogPageTableNew = React.createClass({
     };
   },
 
-  getRowObjectAt(i) {
+  _getRowObjectAt(i) {
     if(i === 0) return null;
     return this.props.getRowObjectAt(i-1);
   },
 
-  getRowHeight(index) {
+  _getRowHeight(index) {
     return index===0 ? this.props.headerHeight : this.props.rowHeight;
   },
 
@@ -72,7 +72,7 @@ var CatalogPageTableNew = React.createClass({
     }
   },
 
-  cellRenderer(cellData: any, cellDataKey: string, rowData: object, rowIndex: number, columnData: any, width: number) {
+  _cellRenderer(cellData: any, cellDataKey: string, rowData: object, rowIndex: number, columnData: any, width: number) {
     return this.props.cellRenderer(cellDataKey, rowData);
   },
 
@@ -97,41 +97,45 @@ var CatalogPageTableNew = React.createClass({
     }
   },
 
-  render () {    
-    return (      
+  render () {
+    return (
       <div className="catalog-page-table-new">
         {this.props.width && this.props.height ?
           [
             <CatalogPageTableHolder
               key="table"
+              forceUpdateCounter={this.props.forceUpdateCounter}
               width={Math.floor(this.props.width)}
               height={Math.floor(this.props.height)}
-              rowHeight={this.getRowHeight(1)}
-              rowHeightGetter={this.getRowHeight}
+              rowHeight={this._getRowHeight(1)}
+              rowHeightGetter={this._getRowHeight}
               scrollToRow={this.state.startRow}
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
               
               rowsCount={this.props.rowsCount}
-              rowGetter={this.getRowObjectAt}
+              rowGetter={this._getRowObjectAt}
               columns={this.props.columns}
-              cellRenderer = {this.cellRenderer}
+              cellRenderer = {this._cellRenderer}
               
               overflowX={'auto'}
               overflowY={'auto'} />
+            ,            
+            <div 
+              key="table-header" 
+              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
+              style={{top:`${this.state.headerTop}px`, height: this.props.headerHeight}} 
+              className="catalog-header-holder">
+              <PureRenderer render={this.props.headerRenderer} />
+            </div>
             ,
-            this.state.showMainHeader ? 
-              <div 
-                key="table-header" 
-                onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
-                style={{top:`${this.state.headerTop}px`, height: this.props.headerHeight}} 
-                className="catalog-header-holder">
-                <PureRenderer render={this.props.headerRenderer} />
-              </div>
-                :
-              <div key="table-mini-header" className="search-page-right-block-new--mini-header-holder">
-                <PureRenderer render={this.props.miniHeaderRenderer} />
-              </div>
+            <div 
+              key="table-mini-header" 
+              style={this.state.showMainHeader ? styleInvisible : styleEmpty}
+              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
+              className="search-page-right-block-new--mini-header-holder">
+              <PureRenderer render={this.props.miniHeaderRenderer} />
+            </div>
           ]
             :
           null
@@ -140,5 +144,8 @@ var CatalogPageTableNew = React.createClass({
     );
   }
 });
+
+const styleEmpty = {};
+const styleInvisible = {visibility: 'hidden'};
 
 module.exports = SizeHoc(CatalogPageTableNew);

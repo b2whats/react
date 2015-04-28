@@ -31,7 +31,7 @@ var kON_CATALOG__CATALOG_STORE_PRIORITY =  sc.kON_CATALOG__CATALOG_STORE_PRIORIT
 
 var state_ =  init_state(_.last(__filename.split('/')), {
   catalog_data: null,
-  results_sorted: null,
+  results_sorted: [],
   map_center: null,
   map_bounds: null,
   
