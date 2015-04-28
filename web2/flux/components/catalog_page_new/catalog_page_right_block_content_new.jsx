@@ -11,6 +11,11 @@ var CatalogSearch = require('../catalog_page/catalog_search.jsx');
 var CatalogPageTableNew = require('./catalog_page_table_new.jsx');
 /* jshint ignore:end */
 
+//var raf_hoc = require('components/hoc/raf_hoc.js');
+
+
+
+
 var CatalogPageRightBlockContentNew = React.createClass({
 
   mixins: [PureRenderMixin],
@@ -28,7 +33,7 @@ var CatalogPageRightBlockContentNew = React.createClass({
 
   render_filters() {
     return (
-      <CatalogSearch show_pager={false} />
+      <CatalogSearch filter_new_type={true} show_pager={false} />
     );
   },
 

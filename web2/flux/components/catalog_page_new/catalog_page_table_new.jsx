@@ -72,7 +72,6 @@ var CatalogPageTableNew = React.createClass({
   
   getInitialState() {
     return {
-      counter: 0,
       headerTop: 0,
       wheelHandler: null,
       showMainHeader: true,

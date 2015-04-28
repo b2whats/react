@@ -233,20 +233,27 @@ var CatalogSearch = React.createClass({
             </div>
           </div>
         </div>
-        {this.props.show_pager === false ? 
-          null :            
           <div className='entire-width flex-ai-c p10-20'>
-            <span className='cur-p' onClick={this.toggle('show_filters')}>
-              {this.state.toggle.get('show_filters') ? 'Показать фильтры' : 'Скрыть фильтры'}
-            </span>
-              <div className="">
-                <span className='mR15'>Показывать по</span>
-                <span className="show-by border-between-h bc-g">
-                      {ItemsPerPage}
-                </span>
-              </div>
+            {this.props.filter_new_type === true ?
+              <div style={{marginTop: '-10px', fontSize: '14px', color: '#aaa'}}>Фильтры</div>
+              : 
+              <span className='cur-p' onClick={this.toggle('show_filters')}>
+                {this.state.toggle.get('show_filters') ? 'Показать фильтры' : 'Скрыть фильтры'}
+              </span>
+            }
+
+            {this.props.show_pager === false ? 
+              null :            
+
+                <div className="">
+                  <span className='mR15'>Показывать по</span>
+                  <span className="show-by border-between-h bc-g">
+                        {ItemsPerPage}
+                  </span>
+                </div>
+            }
+
           </div>
-        }
         </div>        
 
 
