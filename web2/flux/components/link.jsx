@@ -50,7 +50,7 @@ var Link = React.createClass({
     var link = this.get_evaluated_link(href, this.props.params || {});
     /* jshint ignore:start */
     return (
-      <a onClick={this.on_click} title={this.props.children} href={link} {...other_props}>{this.props.children}</a>
+      <a ref="aref" onClick={this.on_click} href={link} {...other_props}>{this.props.children}</a>
     )
     /* jshint ignore:end */
   }
