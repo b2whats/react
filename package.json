@@ -33,6 +33,7 @@
     "point-geometry": "0.0.0",
     "q": "^0.9.7",
     "react": "^0.13.1",
+    "react-controllables": "^0.3.2",
     "react-select": "^0.4.7",
     "revalidator": "^0.3.1",
     "scriptjs": "^2.5.7",
