@@ -1,5 +1,5 @@
 'use strict';
-var q = require('third_party/es6_promise.js');
+var q = Promise;
 var $script = require('scriptjs');
 
 var promise_serializer = require('utils/promise_serializer.js');

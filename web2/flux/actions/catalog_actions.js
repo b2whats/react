@@ -12,7 +12,7 @@ var api_refs = require('shared_constants/api_refs.js');
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
 var promise_serializer = require('utils/promise_serializer.js');
-var q = require('third_party/es6_promise.js');
+var q = Promise;
 
 var serializer = promise_serializer.create_serializer();
 

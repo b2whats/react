@@ -9,7 +9,7 @@
 */
 
 //var _ = require('underscore');
-var q = Promise; //require('third_party/es6_promise.js');
+var q = Promise;
 var kSKIP_ERROR = 'kSKIP_ERROR';
 
 var create_serializer = () => {

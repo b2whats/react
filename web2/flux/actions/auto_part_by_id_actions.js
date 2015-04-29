@@ -1,7 +1,6 @@
 'use strict';
 
 var _ = require('underscore');
-//var q = require('third_party/es6_promise.js');
 
 var main_dispatcher = require('dispatchers/main_dispatcher.js');
 

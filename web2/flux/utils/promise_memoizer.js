@@ -4,7 +4,7 @@
 */
 var _ = require('underscore');
 var immutable = require('immutable');
-var q = Promise; //require('third_party/es6_promise.js');
+var q = Promise;
 
 
 var hash_code = function(str) {

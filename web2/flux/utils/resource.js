@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('underscore');
-var q = require('third_party/es6_promise.js');
+var q = Promise;
 var route_template = require('utils/route_template.js');
 var text_utils = require('utils/text.js');
 
