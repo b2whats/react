@@ -75,7 +75,7 @@ function renderDescriptionColumn(cellDataKey, rowData) {
 
 function renderPhoneColumn(cellDataKey, rowData) {
   return (
-    <div className='ta-C va-M w200px'>
+    <div className='ta-C va-M'>
       <div style={ { display:  rowData.get('main_marker').get('show_phone') ? 'block': 'none' } }
         className="ta-C fs20">
         <span className='fs14'>{!!rowData.get('main_marker').get('main_phone') && rowData.get('main_marker').get('main_phone').substr(0,7)}</span>
