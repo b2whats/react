@@ -35,6 +35,10 @@ export default class CatalogPageRightBlockContentNew extends Component {
     return this.props.catalogResults && this.props.catalogResults.get(i);
   }
 
+  _getRowClassNameAt = (i) => {    
+    return i % 2 == 0 ? 'catalog-page-table-new-row-even' : 'catalog-page-table-new-row-odd';
+  }
+
   _onShowFiltersClick = () => {
     //так отркутить на начало
     this.setState({startRow: 0}, () => this.setState({startRow: null}));
@@ -54,13 +58,13 @@ export default class CatalogPageRightBlockContentNew extends Component {
     );
   }
 
-  updateTableView() {
+  _updateTableView() {
     this.setState({forceUpdateCounter: this.state.forceUpdateCounter + 1});
   }
 
   componentWillReceiveProps(nextProps) {
     if(this.props.catalogResults !== nextProps.catalogResults) {
-      this.updateTableView();
+      this._updateTableView();
     }
   }
 
@@ -72,10 +76,12 @@ export default class CatalogPageRightBlockContentNew extends Component {
     return (
       <div className="search-page-right-block-new">
         <CatalogPageTableNew
+
           forceUpdateCounter={this.state.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
           columns = {this._columns} 
           cellRenderer = {this._cellRenderer}
           getRowObjectAt = {this._getRowObjectAt}
+          getRowClassNameAt={this._getRowClassNameAt}
           rowsCount = {this.props.catalogResults && this.props.catalogResults.size || kMIN_DEFAULT_ROWS_SIZE}
           headerHeight = {kHEADER_HEIGHT}
           miniHeaderHeight = {kMINI_HEADER_HEIGHT}

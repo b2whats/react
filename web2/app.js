@@ -5,6 +5,7 @@ require('save_file_to_dir?name=index.html!./templates/index.html');
 
 //require('save_file_to_dir?name=script.js!./assets/libs/script.js');
 
+require('fixed-data-table-ice/dist/fixed-data-table.css');
 
 require('./assets/css/normalize.css');
 require('./assets/css/fonts.css');

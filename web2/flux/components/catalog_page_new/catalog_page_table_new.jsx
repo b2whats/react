@@ -35,6 +35,13 @@ var CatalogPageTableNew = React.createClass({
     return this.props.getRowObjectAt(i-1);
   },
 
+  _getRowClassNameAt(i) {
+    if(i === 0) return null;
+    if(this.props.getRowClassNameAt) {
+      return this.props.getRowClassNameAt(i-1);
+    }
+  },
+
   _getRowHeight(index) {
     return index===0 ? this.props.headerHeight : this.props.rowHeight;
   },
@@ -115,6 +122,7 @@ var CatalogPageTableNew = React.createClass({
               
               rowsCount={this.props.rowsCount}
               rowGetter={this._getRowObjectAt}
+              rowClassNameGetter={this._getRowClassNameAt}
               columns={this.props.columns}
               cellRenderer = {this._cellRenderer}
               

@@ -8,7 +8,6 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 /* jshint ignore:start */
 var Link = require('components/link.jsx');
 var {Table, Column} = require('fixed-data-table-ice');
-require('fixed-data-table-ice/dist/fixed-data-table.css');
 /* jshint ignore:end */
 
 

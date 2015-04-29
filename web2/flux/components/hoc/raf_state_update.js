@@ -44,7 +44,6 @@ export default function RafStateUpdate(get_state, ...stores) {
     }    
 
     render() {
-      console.log(this.state);
       return <DecoratedComponent {...this.props} {...this.state} />;
     }
   }
