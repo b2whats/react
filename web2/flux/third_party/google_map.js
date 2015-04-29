@@ -1,6 +1,7 @@
 'use strict';
 var q = Promise;
 var $script = require('scriptjs');
+var sc = require('shared_constants');
 
 var promise_serializer = require('utils/promise_serializer.js');
 var serializer = promise_serializer.create_serializer();
@@ -25,7 +26,7 @@ var memoized_call_ = memoize(() => {
     };
 
     //сначала ждем когда загружающий ya скрипт загрузится, потом когда он сам все подгрузит ?v=3.exp
-    $script('https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_&key=AIzaSyDoE60ueAva9YAW1ZtXqMx9UQhxD3iVKcw', function() {      
+    $script(`https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_&key=${sc.kGOOGLE_MAP_API_KEY}`, function() {
       if (typeof window.google === 'undefined') {
         console.error('gmap not loaded');
         reject(new Error('gmap not loaded'));

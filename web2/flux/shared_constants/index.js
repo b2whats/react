@@ -50,6 +50,8 @@ var consts = {
   kMAP_MARKERS_MARGINS: [20,50,10,50], //насколько близко подгружать маркеры к краю карты
 
   kMAP_MIN_ZOOM_CHANGE_AT_WIDTH: 1600,
+
+  kGOOGLE_MAP_API_KEY: 'AIzaSyDoE60ueAva9YAW1ZtXqMx9UQhxD3iVKcw',
   
 };
 
