@@ -4,14 +4,12 @@ import React, {PropTypes, Component} from 'react/addons';
 import CatalogSearch from '../catalog_page/catalog_search.jsx';
 import CatalogPageTableNew from './catalog_page_table_new.jsx';
 
-
 import RafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer} from './catalog_items_renderer.js'
 
 import catalogDataStore from 'stores/catalog_data_store.js';
 
-
-const kMIN_DEFAULT_ROWS_SIZE =20;
+const kMIN_DEFAULT_ROWS_SIZE = 0;
 
 @RafStateUpdate(() => ({
   catalogResults: catalogDataStore.get_catalog_results()
