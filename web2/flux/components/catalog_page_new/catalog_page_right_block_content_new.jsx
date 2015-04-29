@@ -5,7 +5,7 @@ import CatalogSearch from '../catalog_page/catalog_search.jsx';
 import CatalogPageTableNew from './catalog_page_table_new.jsx';
 
 import RafStateUpdate from 'components/hoc/raf_state_update.js';
-import {columns, cellRenderer} from './catalog_items_renderer.js'
+import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js'
 
 import catalogDataStore from 'stores/catalog_data_store.js';
 
@@ -36,7 +36,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _getRowClassNameAt = (i) => {    
-    return i % 2 == 0 ? 'catalog-page-table-new-row-even' : 'catalog-page-table-new-row-odd';
+    return getRowClassNameAt(i);
   }
 
   _onShowFiltersClick = () => {

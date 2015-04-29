@@ -10,6 +10,9 @@ const kKEY_COLUMN_RANK = keyOf({kKEY_COLUMN_RANK: null});
 const kKEY_COLUMN_DESCRIPTION = keyOf({kKEY_COLUMN_DESCRIPTION: null});
 const kKEY_COLUMN_PHONE = keyOf({kKEY_COLUMN_PHONE: null});
 
+const kROW_CLASS_NAME_EVEN = 'catalog-page-table-new-row-even';
+const kROW_CLASS_NAME_ODD = 'catalog-page-table-new-row-odd'
+
 //DATA DEFINITION
 const columns = [
     {
@@ -89,6 +92,10 @@ function renderPhoneColumn(cellDataKey, rowData) {
       </button>
     </div>  
   );
+}
+
+export function getRowClassNameAt(i) {
+  return i % 2 == 0 ? kROW_CLASS_NAME_EVEN : kROW_CLASS_NAME_ODD;
 }
 
 export function cellRenderer(cellDataKey, rowData, table_action) {
