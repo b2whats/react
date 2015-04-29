@@ -42,6 +42,15 @@ var consts = {
 
   kAUTH_STORE_PRIORITY: kDEFAULT_STORE_PRIORITY,
   kDEFAULT_STORE_PRIORITY: kDEFAULT_STORE_PRIORITY,
+
+  kGOOGLE_TILE_SIZE: 256,
+  kCALC_MAP_TRANSFORM_FROM_LEFT_TOP: true,
+
+  kMAP_RESTRICT_BOUNDS: [70, -175, -70, 175],
+  kMAP_MARKERS_MARGINS: [20,50,10,50], //насколько близко подгружать маркеры к краю карты
+
+  kMAP_MIN_ZOOM_CHANGE_AT_WIDTH: 1600,
+  
 };
 
 module.exports = consts;
