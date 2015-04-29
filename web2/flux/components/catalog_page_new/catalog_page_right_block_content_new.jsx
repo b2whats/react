@@ -1,30 +1,39 @@
 'use strict';
 import React, {PropTypes, Component} from 'react/addons';
+import controllable from 'react-controllables';
 
 import CatalogSearch from '../catalog_page/catalog_search.jsx';
 import CatalogPageTableNew from './catalog_page_table_new.jsx';
 
-import RafStateUpdate from 'components/hoc/raf_state_update.js';
+import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js'
 
 import catalogDataStore from 'stores/catalog_data_store.js';
 
 const kMIN_DEFAULT_ROWS_SIZE = 0;
 
-@RafStateUpdate(() => ({
+@controllable(['forceUpdateCounter', 'startRow'])
+@rafStateUpdate(() => ({
   catalogResults: catalogDataStore.get_catalog_results()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
+  
   static propTypes = {
-    catalogResults: PropTypes.any.isRequired
+    catalogResults: PropTypes.any.isRequired,
+    forceUpdateCounter: PropTypes.number.isRequired,
+    startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
   }
+
+  static defaultProps = {
+    forceUpdateCounter: 0,
+    startRow: null,
+  };
 
   //описание столбцов
   _columns = columns;
 
   constructor(props) {
     super(props);
-    this.state = {startRow: null, forceUpdateCounter: 0};
   }
   
   _cellRenderer = (cellDataKey, rowData) => { 
@@ -40,8 +49,9 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _onShowFiltersClick = () => {
-    //так отркутить на начало
-    this.setState({startRow: 0}, () => this.setState({startRow: null}));
+    if(this.props.onStartRowChange) {
+      this.props.onStartRowChange(0); //отмотать на 0 роу (потом подправить код таблички чтоб правильно мотала на любые роу - там косяк с офсетом изза хедера)
+    }
   }
 
   _renderHeader = () => {
@@ -58,8 +68,10 @@ export default class CatalogPageRightBlockContentNew extends Component {
     );
   }
 
-  _updateTableView() {
-    this.setState({forceUpdateCounter: this.state.forceUpdateCounter + 1});
+  _updateTableView = () => {
+    if(this.props.onForceUpdateCounterChange) {
+      this.props.onForceUpdateCounterChange(this.props.forceUpdateCounter + 1);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,16 +80,24 @@ export default class CatalogPageRightBlockContentNew extends Component {
     }
   }
 
+  componentDidUpdate (prevProps) {
+    if(this.props.startRow!==null) {
+      if(this.props.onStartRowChange) {
+        this.props.onStartRowChange(null); //we need to reset startRow after rendering complete so after we can reset to same row
+      }
+    }
+  }
+
   render () {
     const kROW_HEIGHT = 112;
     const kHEADER_HEIGHT = 185;
     const kMINI_HEADER_HEIGHT = 40;
-    
+
     return (
       <div className="search-page-right-block-new">
         <CatalogPageTableNew
 
-          forceUpdateCounter={this.state.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
+          forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
           columns = {this._columns} 
           cellRenderer = {this._cellRenderer}
           getRowObjectAt = {this._getRowObjectAt}
@@ -85,7 +105,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
           rowsCount = {this.props.catalogResults && this.props.catalogResults.size || kMIN_DEFAULT_ROWS_SIZE}
           headerHeight = {kHEADER_HEIGHT}
           miniHeaderHeight = {kMINI_HEADER_HEIGHT}
-          startRow = {this.state.startRow} 
+          startRow = {this.props.startRow} 
           rowHeight = {kROW_HEIGHT}
           miniHeaderRenderer = {this._renderMiniHeader}
           headerRenderer = {this._renderHeader} />

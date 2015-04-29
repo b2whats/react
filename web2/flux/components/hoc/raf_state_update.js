@@ -9,7 +9,7 @@ var shallowEqual = require('react/lib/shallowEqual.js');
 
 var __internal__counter__ = 0;
 
-export default function RafStateUpdate(get_state, ...stores) {
+export default function rafStateUpdate(get_state, ...stores) {
   
   return DecoratedComponent => class RafStateUpdateContainer extends Component {
     

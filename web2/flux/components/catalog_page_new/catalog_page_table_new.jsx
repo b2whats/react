@@ -88,6 +88,7 @@ var CatalogPageTableNew = React.createClass({
     const kANIM_TIME = 300;
 
     if(nextProps.startRow!==null && this.props.startRow===null) {
+      var rowToScroll = nextProps.startRow;
       this._onTableScroll(0,0);
       var anim_start_header_position = -(this.props.headerHeight - this.props.miniHeaderHeight);
       this.setState({headerTop: anim_start_header_position});
@@ -97,7 +98,7 @@ var CatalogPageTableNew = React.createClass({
           this.setState({headerTop: v});
           if(t > 0.0 && !is_top_started) {
             is_top_started = true;
-            this.setState({startRow: 0}, () => this.setState({startRow: null}));
+            this.setState({startRow: rowToScroll}, () => this.setState({startRow: null}));
           }
           return true;
         });
