@@ -154,7 +154,7 @@ var CatalogPageTableNew = React.createClass({
   }
 });
 
-const styleEmpty = {};
+const styleEmpty = {}; //стили а не пропажа элемента чтобы не терять Wheel Event
 const styleInvisible = {visibility: 'hidden'};
 
 module.exports = SizeHoc(CatalogPageTableNew);
