@@ -10,112 +10,39 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 var sc = require('shared_constants');
 
-/* jshint ignore:start */
 var GoogleMap = require('components/google/google_map.js');
 var Marker = require('./marker.jsx');
-/* jshint ignore:end */
+
 
 var Geo = require('utils/geo.js');
-//var bounds = [[59.744465,30.042834],[60.090935,30.568322]];
 
+var kMAP_OPTIONS = null; //options to create map
 
-//State update and stores for which we need intercept kON_CHANGE events
-/*
-var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  map_initial_center: markers_store.get_initial_center (),
+var raf = require('utils/raf.js');
 
-  map_initial_zoom: markers_store.get_initial_zoom (),
-  selected_aspects: markers_store.get_selected_aspects(),
-  markers: markers_store.get_markers(),
-  see_the_best_value: page_google_map_store.get_see_the_best_value(),
-  thru_the_ice_value: page_google_map_store.get_thru_the_ice_value(),
-}),
-markers_store, page_google_map_store);
-*/
-
-var kMIN_ZOOM_SMALL = {
-  minZoom: 3
-};
-
-var kMIN_ZOOM_BIG = {
-  minZoom: 3
-};
 
 var GoogleMapBlockNew = React.createClass({
   mixins: [PureRenderMixin],
 
-  on_projection_change (next_state) {
-    //var state = next_state ? next_state : this.state;
-
-    //this.geo_service_.unproject_bounds_with_margin(sc.kMAP_MARKERS_MARGINS, 10000),
-    //this.geo_service_.get_zoom(),
-
-    /*
-    hotel_info_actions.get_poi_data(
-      this.geo_service_.unproject_bounds_with_margin(sc.kMAP_MARKERS_MARGINS, 10000),
-      this.geo_service_.get_zoom(),
-      state.selected_aspects.toJS(),
-      state.see_the_best_value.get('id'),
-      state.thru_the_ice_value.get('id')
-    );
-    */
+  getInitialState() {
+    return {
+      center : [59.744465, 30.042834],
+      zoom: 8
+    };
   },
 
-  on_resize (width, height) {
-    //console.log(width, height);
-    //map_actions.map_size_changed(width, height); //пока не используется нигде
-    this.geo_service_.set_view_size(width, height);
-    this.geo_service_.can_project() && this.on_projection_change();
+  _onCenterChange (center, bounds, zoom) {
+    raf( () => this.setState({center, zoom}) ); //эмулируем стору и раф апдейт
   },
 
-  on_bounds_changed (left_top, zoom) {
-    console.log('bc', left_top, zoom);
-    //map_actions.map_bounds_changed(left_top, zoom); //пока не используется нигде
-    this.geo_service_.set_view(left_top, zoom, 0);
-    this.geo_service_.can_project() && this.on_projection_change();
-  },
-
-  componentWillUpdate (nextProps, nextState) {
-    /*
-    if(nextState.selected_aspects!==this.state.selected_aspects ||
-       nextState.see_the_best_value!==this.state.see_the_best_value ||
-       nextState.thru_the_ice_value!==this.state.thru_the_ice_value) {
-
-      this.geo_service_.can_project() && this.on_projection_change(nextState);
-
-    }
-    */
-  },
-
-  componentWillMount() {
-    this.geo_service_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
-  },
-
-  componentDidMount() {
-
-    /*
-    setTimeout( () => {
-      var node = this.refs.map_google_holder.getDOMNode();
-      this.on_resize(node.clientWidth, node.clientHeight);
-
-      var gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
-      gs.set_view_size(node.clientWidth, node.clientHeight);
-      gs.set_view(this.state.map_initial_center.toJS(), this.state.map_initial_zoom, 0); //от центральной точки
-      var br_lat_lng = gs.unproject({x: -node.clientWidth/2, y: -node.clientHeight/2});
-      //проинициализировать до загрузки карты чтобы можно было подтянуть маркеры
-      this.on_bounds_changed([br_lat_lng.lat, br_lat_lng.lng], this.state.map_initial_zoom, 0);
-
-    }, 0, this );
-    */
-
-  },
-
-  on_hover(id, hover) {
-    plot_actions.marker_hover(id, hover);
+  on_hover(id, hover) {    
   },
 
   on_click(id) {
-    plot_actions.favorite_toggle(id);
+  },
+
+  componentDidMount() {
+    setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000);
   },
 
   render () {
@@ -130,29 +57,16 @@ var GoogleMapBlockNew = React.createClass({
           marker={marker} />
     )).toJS();
     */
-
-    var map_initial_center = [59.744465, 30.042834];
-
-    var options = kMIN_ZOOM_SMALL;
-    if(this.geo_service_.get_width() > sc.kMAP_MIN_ZOOM_CHANGE_AT_WIDTH) {
-      options = kMIN_ZOOM_BIG;
-    }
-
-    /* jshint ignore:start */
     return (
       <GoogleMap
         className={this.props.className}
-        center={map_initial_center}
-        zoom={8}
-        restrict_bounds={sc.kMAP_RESTRICT_BOUNDS}
-        on_resize={this.on_resize}
-        on_bounds_changed={this.on_bounds_changed}
-        options={options}>
-
+        center={this.state.center}
+        onCenterChange={this._onCenterChange}
+        zoom={this.state.zoom}
+        options={kMAP_OPTIONS}>
         {/*Markers*/}
       </GoogleMap>
     );
-    /* jshint ignore:end */
   }
 });
 
