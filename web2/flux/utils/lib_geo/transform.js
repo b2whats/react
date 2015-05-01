@@ -63,7 +63,7 @@ Transform.prototype = {
         this.tileZoom = Math.floor(zoom);
         this.zoomFraction = zoom - this.tileZoom;
         
-        this._constrain();
+        //this._constrain();
     },
 
     zoomScale: function(zoom) { return Math.pow(2, zoom); },
@@ -107,7 +107,7 @@ Transform.prototype = {
     panBy: function(offset) {
         var point = this.centerPoint._add(offset);
         this.center = this.pointLocation(point);
-        this._constrain();
+        //this._constrain();
     },
 
     setZoomAround: function(zoom, center) {
@@ -131,7 +131,7 @@ Transform.prototype = {
     },
 
     pointLocation: function(p) {
-        var p2 = this.centerPoint._sub(p)._rotate(-this.angle);
+        var p2 = this.centerPoint._sub(p)._rotate(-this.angle);    
         return this.unproject(this.point.sub(p2));
     },
 

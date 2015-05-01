@@ -1,6 +1,6 @@
 'use strict';
 
-var _ = require('underscore');
+//var _ = require('underscore');
 //-------------------------------------------------------------------------------------------
 //Код этих либ выдран из mapboxgl чтобы преобразования координат не зависели от библиотеки
 var LatLng = require('./lib_geo/lat_lng.js');
@@ -35,10 +35,14 @@ Geo.prototype.can_project = function() {
 
 Geo.prototype.unproject = function(pt_x_y) {
   if(this.view_from_left_top) {
-    var ptxy = _.extend({}, pt_x_y);
+    var ptxy = Object.assign({}, pt_x_y);
     ptxy.x += this.transform.width/2;
     ptxy.y += this.transform.height/2;
-    return this.transform.pointLocation(Point.convert(ptxy));
+    var pt_res = this.transform.pointLocation(Point.convert(ptxy));
+    if(pt_res.lng > 180) {
+      pt_res.lng = -360 + pt_res.lng;
+    }
+    return pt_res;
   } else {
     return this.transform.pointLocation(Point.convert(pt_x_y));
   }
