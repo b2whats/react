@@ -6,22 +6,25 @@ import CatalogSearch from '../catalog_page/catalog_search.jsx';
 import CatalogPageTableNew from './catalog_page_table_new.jsx';
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
-import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js'
+import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
 
 import catalogDataStore from 'stores/catalog_data_store.js';
 
 const kMIN_DEFAULT_ROWS_SIZE = 0;
+
+
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
   catalogResults: catalogDataStore.get_catalog_results()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
-  
+
   static propTypes = {
     catalogResults: PropTypes.any.isRequired,
     forceUpdateCounter: PropTypes.number.isRequired,
     startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
+    onStartRowChange: PropTypes.func,
   }
 
   static defaultProps = {
@@ -35,8 +38,8 @@ export default class CatalogPageRightBlockContentNew extends Component {
   constructor(props) {
     super(props);
   }
-  
-  _cellRenderer = (cellDataKey, rowData) => { 
+
+  _cellRenderer = (cellDataKey, rowData) => {
     return cellRenderer(cellDataKey, rowData);
   }
 
@@ -44,7 +47,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
     return this.props.catalogResults && this.props.catalogResults.get(i);
   }
 
-  _getRowClassNameAt = (i) => {    
+  _getRowClassNameAt = (i) => {
     return getRowClassNameAt(i);
   }
 
@@ -93,23 +96,23 @@ export default class CatalogPageRightBlockContentNew extends Component {
     const kHEADER_HEIGHT = 185;
     const kMINI_HEADER_HEIGHT = 40;
 
+    
     return (
       <div className="search-page-right-block-new">
         <CatalogPageTableNew
-
           forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
-          columns = {this._columns} 
+          columns = {this._columns}
           cellRenderer = {this._cellRenderer}
           getRowObjectAt = {this._getRowObjectAt}
           getRowClassNameAt={this._getRowClassNameAt}
           rowsCount = {this.props.catalogResults && this.props.catalogResults.size || kMIN_DEFAULT_ROWS_SIZE}
           headerHeight = {kHEADER_HEIGHT}
           miniHeaderHeight = {kMINI_HEADER_HEIGHT}
-          startRow = {this.props.startRow} 
+          startRow = {this.props.startRow}
           rowHeight = {kROW_HEIGHT}
           miniHeaderRenderer = {this._renderMiniHeader}
           headerRenderer = {this._renderHeader} />
       </div>
     );
   }
-};
+}

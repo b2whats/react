@@ -28,6 +28,8 @@ var CatalogPageRightBlockContent = require('components/catalog_page/catalog_page
 //var {CatalogPageRightBlockContentNew}= require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
 import CatalogPageRightBlockContentNew from 'components/catalog_page_new/catalog_page_right_block_content_new.jsx';
 
+var GoogleMapBlockNew = require('components/google/google_map_block_new.jsx');
+
 var PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
 var AccountInfo = require('components/account/info.jsx');
@@ -137,7 +139,7 @@ var ice_main = React.createClass({
           return (
             <SearchBlockHeader>
               <div ref='main_content' className="search-page-main-fixed">
-                <div style={{backgroundColor: 'blue'}} className="search-page-left-block" />
+                <GoogleMapBlockNew style={{backgroundColor: 'blue'}} className="search-page-left-block" />
                 <CatalogPageRightBlockContentNew />
               </div>
             </SearchBlockHeader>

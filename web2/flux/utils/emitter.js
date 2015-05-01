@@ -28,6 +28,13 @@ emitter.prototype.fire = function() { //сразу диспатчим
   }
 };        
 
+emitter.prototype.destroy = function() {
+  if(this.listeners_) {
+    delete this.listeners_;
+  }
+};
+
+
 emitter.prototype.on = function(evt_name, listener, priority) {
   if(evt_name===undefined || evt_name===null) {
     console.error('event name undefined');

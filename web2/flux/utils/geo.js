@@ -59,6 +59,10 @@ Geo.prototype.get_width = function() {
   return this.transform.width;
 };
 
+Geo.prototype.get_height = function() {
+  return this.transform.height;
+};
+
 Geo.prototype.get_zoom = function() {
   return this.transform.zoom;
 };

@@ -5,16 +5,18 @@ var _ = require('underscore');
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
+var cx = require('classnames');
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Emitter = require('utils/emitter.js');
 var event_names = require('shared_constants/event_names.js');
 var sc = require('shared_constants');
 
-/* jshint ignore:start */
+
 var GoogleMapMap = require('./google_map_map.jsx');
 var GoogleMapMarkers = require('./google_map_markers.jsx');
-/* jshint ignore:end */
+
 
 var gmap_loader_ = require('third_party/google_map.js');
 
@@ -46,12 +48,27 @@ var GoogleMap = React.createClass({
     restrict_bounds: PropTypes.array
   },
 
+  componentWillMount() {
+    var this_ = this;
+
+    this.map_ = null;
+
+    this.markers_dispatcher_ = merge(Emitter.prototype, {
+      get_children() {
+        return this_.props.children;
+      }
+    });
+
+    this.geo_service_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
+  },
+
+
   on_window_resize () {
-    var map_dom = this.refs.google_map_dom.getDOMNode();
+    var map_dom = this.refs.google_map_dom.getDOMNode();    
+    this.geo_service_.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
     
-    this.geo_service.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
-    
-    this.props.on_resize && this.props.on_resize(map_dom.clientWidth, map_dom.clientHeight); //jshint ignore:line
+
+    //this.props.on_resize && this.props.on_resize(map_dom.clientWidth, map_dom.clientHeight); //jshint ignore:line
   },
 
   on_bounds_changed (map) {
@@ -59,7 +76,7 @@ var GoogleMap = React.createClass({
     var ne = bounds.getNorthEast();
     var sw = bounds.getSouthWest();
 
-    this.geo_service.set_view([ne.lat(), sw.lng()], map.getZoom(), 0);
+    this.geo_service_.set_view([ne.lat(), sw.lng()], map.getZoom(), 0);
     this.props.on_bounds_changed && this.props.on_bounds_changed([ne.lat(), sw.lng()], map.getZoom()); //jshint ignore:line
   },
 
@@ -90,72 +107,60 @@ var GoogleMap = React.createClass({
 
       if(ne.lat() > lt_lat) {
         geo_service.set_view([lt_lat, sw.lng()], zoom, 0);
-        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth/2, y: map_dom.clientHeight/2});        
+        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth / 2, y: map_dom.clientHeight / 2});
       }
 
       if(sw.lat() < br_lat) {
         geo_service.set_view([br_lat, sw.lng()], zoom, 0);
-        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth/2, y: -map_dom.clientHeight/2});
+        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth / 2, y: -map_dom.clientHeight / 2});
       }
       
       
       if(sw.lng() < lt_lng || (sw.lng() > ne.lng() && center.lng() < 0)) {        
         geo_service.set_view([ne.lat(), lt_lng], zoom, 0);
-        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth/2, y: map_dom.clientHeight/2}); 
+        br_lat_lng = geo_service.unproject({x: map_dom.clientWidth / 2, y: map_dom.clientHeight / 2}); 
       }
       
       if(ne.lng() > br_lng || (sw.lng() > ne.lng() && center.lng() > 0)) {
         geo_service.set_view([ne.lat(), br_lng], zoom, 0);
-        br_lat_lng = geo_service.unproject({x: -map_dom.clientWidth/2, y: map_dom.clientHeight/2}); 
+        br_lat_lng = geo_service.unproject({x: -map_dom.clientWidth / 2, y: map_dom.clientHeight / 2}); 
       }
 
       map.setCenter({lat: br_lat_lng.lat, lng: br_lat_lng.lng});    
     }
   },
   
-  componentWillMount() {
-    var self = this;
-
-    this.map = null;
-
-    this.markers_dispatcher = merge(Emitter.prototype, {
-      get_children() {
-        return self.props.children;
-      }
-    });
-
-    this.geo_service = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
+  
+  get_left_top_from_center(width, height, center, zoom) {
+    var gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
+    gs.set_view_size(width, height);
+    gs.set_view([center[0], center[1]], zoom, 0); //от центральной точки
+    return gs.unproject({x: -width / 2, y: -height / 2});
   },
   
   componentDidMount() {
     window.addEventListener('resize', this.on_window_resize);
     
-    setTimeout(() => {
+    setTimeout(() => { //to detect size
       this.on_window_resize ();
       
-      var map_dom = this.refs.google_map_dom.getDOMNode();
-      
-      var gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
-      gs.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
-      gs.set_view([this.props.center[0], this.props.center[1]], this.props.zoom, 0); //от центральной точки
-      var br_lat_lng = gs.unproject({x: -map_dom.clientWidth/2, y: -map_dom.clientHeight/2});
-      
-      this.geo_service.set_view([br_lat_lng.lat, br_lat_lng.lng], this.props.zoom, 0);
+      var br_lat_lng = this.get_left_top_from_center(this.geo_service_.get_width(), this.geo_service_.get_height(), this.props.center, this.props.zoom);      
+      this.geo_service_.set_view([br_lat_lng.lat, br_lat_lng.lng], this.props.zoom, 0);
 
       gmap_loader_()
       .then(maps => {
-
-        var br_lat_lng = this.geo_service.unproject({x: map_dom.clientWidth/2, y: map_dom.clientHeight/2});
+        console.log('LOADED');
+        var center_lat_lng = this.geo_service_.unproject({x: this.geo_service_.get_width()/2, y: this.geo_service_.get_height()/2});
         
         var map_options = _.extend({}, kMAP_CONTROL_OPTIONS, this.props.options);
 
         var mapOptions = _.extend({
           zoom: this.props.zoom,
-          center: new maps.LatLng(br_lat_lng.lat, br_lat_lng.lng),
+          center: new maps.LatLng(center_lat_lng.lat, center_lat_lng.lng),
         }, map_options);
               
         var map = new maps.Map(this.refs.google_map_dom.getDOMNode(), mapOptions);
-        this.map = map;
+        this.map_ = map;
 
         //не вешать на bounds changed
         maps.event.addListener(map, 'center_changed', _.bind(this.check_bounds, this, map, maps));
@@ -163,7 +168,7 @@ var GoogleMap = React.createClass({
 
         //----------------------------------------
         //render in overlay
-        var self = this;
+        var this_ = this;
         var overlay = _.extend(new maps.OverlayView(), {
           onAdd() {
             var div = document.createElement('div');
@@ -176,12 +181,11 @@ var GoogleMap = React.createClass({
             div.style.height = '100px';
             var panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
-            /* jshint ignore:start */
+
             React.render(
-              <GoogleMapMarkers geo_service={self.geo_service} dispatcher={self.markers_dispatcher} />, //ice_main(null)
+              <GoogleMapMarkers geo_service={this_.geo_service_} dispatcher={this_.markers_dispatcher_} />, //ice_main(null)
               div
             );
-            /* jshint ignore:end */
           },
 
           draw() {
@@ -196,9 +200,9 @@ var GoogleMap = React.createClass({
               //div.style.transform = `translate(${ptx.x}px, ${ptx.y}px)`; //чтобы не было глюков с z-index и тп
               div.style.left = `${ptx.x}px`;
               div.style.top = `${ptx.y}px`;
-              self.markers_dispatcher.fire(event_names.kON_CHANGE);
+              this_.markers_dispatcher_.fire(event_names.kON_CHANGE);
             });
-            self.on_bounds_changed(map, maps);          
+            this_.on_bounds_changed(map, maps);          
           }
         });
 
@@ -213,64 +217,52 @@ var GoogleMap = React.createClass({
             var ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
 
             raf( () => {
-              //div.style.transform = `translate(${ptx.x}px, ${ptx.y}px)`; //чтобы не было глюков с z-index и тп
               div.style.left = `${ptx.x}px`;
               div.style.top  = `${ptx.y}px`;
-              self.markers_dispatcher.fire(event_names.kON_CHANGE);
+              this_.markers_dispatcher_.fire(event_names.kON_CHANGE);
             });
-            self.on_bounds_changed(map, maps);
-
+            this_.on_bounds_changed(map, maps);
         });
       })
       .catch( e => console.error(e));
     }, 0, this);
   },
+  
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.on_window_resize);
-    this.map = null;
-    this.markers_dispatcher.destroy();
+    this.map_ = null;
+    this.markers_dispatcher_.destroy();
 
-    delete this.map;
-    delete this.markers_dispatcher;
+    delete this.map_;
+    delete this.markers_dispatcher_;
   },
 
   componentWillReceiveProps(next_props) {
-    if(this.map) {
+    if(this.map_) {
       if(Math.abs(next_props.center[0] - this.props.center[0]) + Math.abs(next_props.center[1] - this.props.center[1]) > kEPS) {
-        //this.map.setCenter({lat:next_props.center[0], lng:next_props.center[1]});
-        var map_dom = this.refs.google_map_dom.getDOMNode();
-
-        var gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
-        gs.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
-        gs.set_view([next_props.center[0], next_props.center[1]], this.state.map_initial_zoom, 0); //от центральной точки
-        var br_lat_lng = gs.unproject({x: -map_dom.clientWidth/2, y: -map_dom.clientHeight/2});
-        
-
-        this.geo_service.set_view([br_lat_lng.lat, br_lat_lng.lng], next_props.zoom, 0);      
-        br_lat_lng = this.geo_service.unproject({x: map_dom.clientWidth/2, y: map_dom.clientHeight/2});
-        this.map.setCenter({lat:br_lat_lng.lat, lng:br_lat_lng.lng});
+        var br_lat_lng = this.get_left_top_from_center(this.geo_service_.get_width(), this.geo_service_.get_height(), this.props.center, this.props.zoom);        
+        this.geo_service_.set_view([br_lat_lng.lat, br_lat_lng.lng], next_props.zoom, 0);
+        var center_lat_lng = this.geo_service_.unproject({x: this.geo_service_.get_width()/2, y: this.geo_service_.get_height()/2});        
+        this.map_.setCenter({lat:center_lat_lng.lat, lng:center_lat_lng.lng});
       }
 
       if(Math.abs(next_props.zoom - this.props.zoom) > 0) {
-        this.map.setZoom(next_props.zoom);
+        this.map_.setZoom(next_props.zoom);
       }
     }
   },
 
   componentDidUpdate() {
-    this.markers_dispatcher.fire(event_names.kON_CHANGE);
+    this.markers_dispatcher_.fire(event_names.kON_CHANGE);
   },
 
   render () {
-
-    /* jshint ignore:start */
     return (
-      <div className="google-map-holder">
+      <div className={this.props.className}>
         <GoogleMapMap ref="google_map_dom"/>
       </div>
     );
-    /* jshint ignore:end */
   }
 });
 
