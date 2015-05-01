@@ -98,7 +98,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
     
     return (
-      <div className="search-page-right-block-new">
+      <div className="search-page-right-block-new search-page-right-block-new--new">
         <CatalogPageTableNew
           forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
           columns = {this._columns}

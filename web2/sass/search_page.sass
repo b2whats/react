@@ -18,6 +18,9 @@
   left: 0 //20px
   bottom: 0 //20px
   right: 100% - $search-page-left-block-width
+  &.search-page-left-block--new
+    right: 100% - $search-page-left-block-width-new
+
 .search-page-right-block  
   position: absolute
   padding-left: 0 //10px
@@ -29,7 +32,8 @@
   margin-right: 0 //20px
   overflow-y: auto
   overflow-x: hidden
-
+  &.search-page-right-block--new
+    left: $search-page-left-block-width-new
 
 
 //заглавный элемент каждого блока на страничке

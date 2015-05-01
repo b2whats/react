@@ -138,8 +138,8 @@ var ice_main = React.createClass({
         case route_names.kROUTE_CATALOG_NEW:
           return (
             <SearchBlockHeader>
-              <div ref='main_content' className="search-page-main-fixed">
-                <GoogleMapBlockNew style={{backgroundColor: 'blue'}} className="search-page-left-block" />
+              <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
+                <GoogleMapBlockNew style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />
                 <CatalogPageRightBlockContentNew />
               </div>
             </SearchBlockHeader>
