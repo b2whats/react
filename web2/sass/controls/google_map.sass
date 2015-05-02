@@ -4,7 +4,7 @@ $map-marker-height: 30px * $map-marker-scale
 
 $map-marker-x-offset_delta: 7/20 //маркер не симмеричный
 
-.map-marker-holder
+//.map-marker-holder - в теории ненужен
   
 
 
@@ -15,8 +15,18 @@ $map-marker-x-offset_delta: 7/20 //маркер не симмеричный
   position: absolute
   left:  -$map-marker-width * $map-marker-x-offset_delta
   top: -$map-marker-height
-  //background-color: rgba(128,0,255, 0.6)
   cursor: pointer
+  z-index: 0
+  &:hover
+    z-index: 1
+  &.map-marker--active
+    z-index: 1    
+
+
+
+
+.map-marker__small-hint
+  width: 140px
   
 .map-marker--as
   background-image: url('/assets/icons/map_icons/map_icon_violet.svg')

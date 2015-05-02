@@ -37,6 +37,14 @@ var GoogleMapBlockNew = React.createClass({
           lng: 30.080121,
           title: 'hello world',
           description: 'wowowowoowo',
+        },
+
+        {
+          id: '2323',
+          lat: 59.724965,
+          lng: 30.081521,
+          title: 'hello world',
+          description: 'wowowowoowo',
         }
       ]),
     };
