@@ -1,9 +1,24 @@
+$map-marker-scale: 1.5
+$map-marker-width: 20px * $map-marker-scale
+$map-marker-height: 30px * $map-marker-scale
 
-.google_map_marker_holder
-  width: 1px
-  height: 1px
-  left: 0px
-  top: 0px
-  background-color: transparent
-  position: absolute
+$map-marker-x-offset_delta: 7/20 //маркер не симмеричный
+
+.map-marker-holder
   
+
+
+  
+.map-marker
+  width: $map-marker-width
+  height: $map-marker-height
+  position: absolute
+  left:  -$map-marker-width * $map-marker-x-offset_delta
+  top: -$map-marker-height
+  //background-color: rgba(128,0,255, 0.6)
+  cursor: pointer
+  
+.map-marker--as
+  background-image: url('/assets/icons/map_icons/map_icon_violet.svg')
+  background-repeat: no-repeat
+  background-size: cover

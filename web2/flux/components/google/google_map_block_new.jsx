@@ -19,7 +19,9 @@ var Geo = require('utils/geo.js');
 var kMAP_OPTIONS = null; //options to create map
 
 var raf = require('utils/raf.js');
+var immutable = require('immutable');
 
+//59.724465, 30.080121
 
 var GoogleMapBlockNew = React.createClass({
   mixins: [PureRenderMixin],
@@ -27,7 +29,16 @@ var GoogleMapBlockNew = React.createClass({
   getInitialState() {
     return {
       center : [59.744465, 30.042834],
-      zoom: 8
+      zoom: 8,
+      markers: immutable.fromJS([
+        {
+          id: '1232323',
+          lat: 59.724465,
+          lng: 30.080121,
+          title: 'hello world',
+          description: 'wowowowoowo',
+        }
+      ]),
     };
   },
 
@@ -42,21 +53,21 @@ var GoogleMapBlockNew = React.createClass({
   },
 
   componentDidMount() {
-    setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000);
+    //setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000);
   },
 
   render () {
-    /*
+    
     var Markers = this.state.markers.map ( marker => (
         <Marker
           on_click={this.on_click}
           on_hover={this.on_hover}
-          key={marker.get('rid')}
+          key={marker.get('id')}
           lat={marker.get('lat')}
           lng={marker.get('lng')}
           marker={marker} />
     )).toJS();
-    */
+    
     return (
       <GoogleMap
         className={this.props.className}
@@ -64,7 +75,7 @@ var GoogleMapBlockNew = React.createClass({
         onCenterChange={this._onCenterChange}
         zoom={this.state.zoom}
         options={kMAP_OPTIONS}>
-        {/*Markers*/}
+        {Markers}
       </GoogleMap>
     );
   }
