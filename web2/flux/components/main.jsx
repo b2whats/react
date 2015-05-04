@@ -139,14 +139,6 @@ var ice_main = React.createClass({
           return (
             <SearchBlockHeader>
               <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
-                <svg width="0" height="0" style={{position: 'absolute'}}>
-                  <defs>
-                    <clipPath id="map-icon-clip-mask">
-                      <path d="M21.9989169,0 C9.8492591,0 0,9.37054061 0,20.9297098 C0,32.488879 9.8492591,41.8594196 21.9989169,41.8594196 C22.2241914,41.8594196 22.4472998,41.8507432 22.6725742,41.8442359 L14.9050429,62 L16.5957343,62 C16.5957343,62 37.5190272,40.3453832 42.0786688,29.4955119 C43.3068478,26.8817384 44,23.9838119 44,20.9297098 C44,9.37054061 34.1507409,0 21.9989169,0 Z" id="Path" fill="#000000"></path>
-                    </clipPath>
-                  </defs>
-                </svg>
-
                 <GoogleMapBlockNew style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />
                 <CatalogPageRightBlockContentNew />
               </div>

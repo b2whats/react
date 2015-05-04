@@ -1,6 +1,7 @@
 'use strict';
 import React, {PropTypes, Component} from 'react/addons';
 //import controllable from 'react-controllables';
+import cx from 'classnames';
 
 var shallowEqual = require('react/lib/shallowEqual.js');
 
@@ -22,12 +23,11 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   render () {
-    //console.log(this.props.marker.get('title'));
     return (
-      <div className="map-marker-holder map-marker-holder--as hint hint--top hint--info hint-html">
+      <div className={cx('map-marker-holder map-marker-holder--as hint hint--top hint--info hint-html', this.props.hover ? 'hint--always hover' : 'hint--hidden')}>
         <div className="map-marker map-marker--as"></div>
         <div className="hint-content noevents map-marker-holder__small-hint">
-          привет мир <strong>я хтмл</strong> хоть <i>с картинками</i> хоть без
+          {this.props.marker.get('title')}<strong>я хтмл</strong> хоть <i>с картинками</i> хоть без
         </div>
       </div>
     );

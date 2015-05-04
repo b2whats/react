@@ -32,20 +32,37 @@ var GoogleMapBlockNew = React.createClass({
       zoom: 8,
       markers: immutable.fromJS([
         {
-          id: '1232323',
+          id: '111',
           lat: 59.724465,
           lng: 30.080121,
-          title: 'hello world',
+          title: '1 1 1 1',
           description: 'wowowowoowo',
         },
 
         {
-          id: '2323',
+          id: '222',
           lat: 59.724965,
           lng: 30.081521,
-          title: 'hello world',
+          title: '2 2 2 2 2 2',
           description: 'wowowowoowo',
-        }
+        },
+
+        {
+          id: '333',
+          lat: 59.704965,
+          lng: 30.081521,
+          title: '3 3 3 3 3',
+          description: 'wowowowoowo',
+        },
+
+        {
+          id: '444',
+          lat: 59.724965,
+          lng: 30.181521,
+          title: '4 4 4',
+          description: 'wowowowoowo',
+        },
+
       ]),
     };
   },

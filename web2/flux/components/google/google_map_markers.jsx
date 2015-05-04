@@ -1,17 +1,25 @@
 'use strict';
 var _ = require('underscore');
-var event_names = require('shared_constants/event_names.js');
 
 var React = require('react/addons');
+var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
 var cx        = React.addons.classSet;
 
 var raf = require('utils/raf.js');
 
+var __internal__counter__ = 0;
 
 var GoogleMapMarkers = React.createClass({
-  //mixins: [PureRenderMixin],
+  mixins: [PureRenderMixin],
+  
+  propTypes: {
+    geo_service: PropTypes.any,
+    distanceToMouse: PropTypes.func,
+    dispatcher: PropTypes.any,
+  },
+  
   _getState() {
     return {
       children: this.props.dispatcher.get_children()
@@ -21,27 +29,95 @@ var GoogleMapMarkers = React.createClass({
   _onChangeHandler () {
     var state = this._getState();
     if(this.isMounted()){
-      this.replaceState(state);
+      this.setState(state);
     }
   },
 
+  _clearHoverState() {
+    var hoverKey = this.hoverKey;
+    
+    if(hoverKey) {
+      if(this.props.onChildMouseLeave) {
+        this.props.onChildMouseLeave(hoverKey);
+      }
+      //потом добавить проверку что уже не сеттили
+      this.hoverKey = null;
+      this.setState({hoverKey: null});    
+    }
+  },
+
+  _onMouseChangeHandler() {
+    raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
+  },
+
+  _onMouseChangeHandler_raf() {    
+    var mp = this.props.dispatcher.get_mouse_position();
+    if(mp) {
+      var distances = [];
+
+      React.Children.forEach(this.state.children, child => {
+        var dist = this.props.distanceToMouse(this.dimesions_cache_ && this.dimesions_cache_[child.key], mp, child.props);
+        if(dist < this.props.hoverDistance) {
+          //console.log(child.key, dist);
+          distances.push(      
+            {
+              key: child.key, 
+              dist: dist,
+            });
+        }
+      });
+      
+      if(distances.length) {
+        //console.log('==========');
+        distances.sort((a, b) => a.dist - b.dist);
+        var hoverKey = distances[0].key;
+        
+        if(this.hoverKey !== hoverKey) {
+          if(this.props.onChildMouseLeave) {
+            this.props.onChildMouseLeave(this.hoverKey);
+          }
+          if(this.props.onChildMouseEnter) {
+            this.props.onChildMouseEnter(hoverKey);
+          }
+
+          this.hoverKey = hoverKey;
+          this.setState({hoverKey: hoverKey});
+        }
+  
+      } else {
+        this._clearHoverState();
+      }
+    } else {
+      this._clearHoverState();
+    }
+
+  },
+
   _getDimensions(key) {
-    var cache_key = '__' + key;
+    var cache_key = key;
     return this.dimesions_cache_[cache_key];
   },
 
   getInitialState: function() {
-    return this._getState();
+    return Object.assign({}, this._getState(), {hoverKey: null});
   },
 
   componentWillMount() {
-    this.event_disabler = this.props.dispatcher.on(event_names.kON_CHANGE, this._onChangeHandler);
+    this.event_disabler = this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
+    this.mouse_event_disabler = this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler, 0);    
     this.dimesions_cache_ = {};
+    this.__internal__display_name__ = this.constructor.displayName + '__' + __internal__counter__++;
+    this.hoverKey = null;
   },
   
   componentWillUnmount() {
-    this.event_disabler();
-    delete this.event_disabler;
+    if(this.event_disabler) {
+      this.event_disabler();
+    }
+    if(this.mouse_event_disabler) {
+      this.mouse_event_disabler();
+    }
+    this.dimesions_cache_ = null;
   },
 
   render () {
@@ -56,18 +132,18 @@ var GoogleMapMarkers = React.createClass({
         top: `${pt.y}px`
       };
       
-      var cache_key = '__' + child.key;
-      this.dimesions_cache_[cache_key] = {x: pt.x, y: pt.y};
+      var cache_key = child.key;
+      this.dimesions_cache_[cache_key] = {x: pt.x, y: pt.y, lat: child.props.lat, lng: child.props.lng};      
       
       return (
-        <div key={child.key} className="map-marker-holder" style={Object.assign({}, style, style_pt_pos)}>
-          { React.cloneElement(child, {getDimensions: this._getDimensions})}
+        <div key={child.key} style={Object.assign({}, style, style_pt_pos)}>
+          { React.cloneElement(child, {hover: child.key === this.state.hoverKey, getDimensions: this._getDimensions})}
         </div>
       );
     });
 
     return (
-      <div>
+      <div className="map-markers-plane">
         {markers}
       </div>
     );

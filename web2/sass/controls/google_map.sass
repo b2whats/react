@@ -36,7 +36,7 @@ $map-marker-x-offset2: 0.37
     //background-color: red
     background-repeat: no-repeat
     //clip-path: url('../assets/icons/map_icons/map_icon_violet.svg')
-    clip-path: url(#map-icon-clip-mask)
+    //clip-path: url(#map-icon-clip-mask)
     //clip-path: polygon(50% 5%, 0% 100%, 100% 100%)
     
 
@@ -46,15 +46,12 @@ $map-marker-x-offset2: 0.37
   @include map-marker-holder-mixin(1)
   position: absolute
   cursor: pointer
-  z-index: 0  
-  &:hover
-    z-index: 100
+  z-index: 100000
+  &.hover
+    z-index: 100100
     .map-marker
       transform: scale(1, 1)    
     
-  &.map-marker--active
-    z-index: 100
-
 
 
 .map-marker-holder__small-hint

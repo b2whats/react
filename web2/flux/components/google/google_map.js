@@ -5,7 +5,6 @@ var PropTypes = React.PropTypes;
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Emitter = require('utils/emitter.js');
-var event_names = require('shared_constants/event_names.js');
 var sc = require('shared_constants');
 
 var GoogleMapMap = require('./google_map_map.jsx');
@@ -16,6 +15,7 @@ var gmap_loader_ = require('third_party/google_map.js');
 var merge = require('utils/merge.js');
 var Geo = require('utils/geo.js');
 var raf = require('utils/raf.js');
+var __internal__counter__ = 0;
 
 var kEPS = 0.00001;
 
@@ -61,14 +61,19 @@ var GoogleMap = React.createClass({
     className: PropTypes.string,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
+    hoverDistance: PropTypes.number
   },
 
-  defaultProps: {
-    distanceToMouse(pt, mousePos, marker) {
-    
-    }
+  getDefaultProps: function() {
+    return {
+      distanceToMouse(pt, mousePos, marker) {
+        var x = pt.x;
+        var y = pt.y - 20;
+        return Math.sqrt((x - mousePos.x)*(x - mousePos.x) + (y - mousePos.y)*(y - mousePos.y));
+      },
+      hoverDistance: 30,
+    };
   },
-
 
   on_window_resize_ () {
     var map_dom = this.refs.google_map_dom.getDOMNode();    
@@ -117,10 +122,15 @@ var GoogleMap = React.createClass({
     this.maps_ = null;
     this.prev_bounds_ = null;
     this.prev_center_ = null;
+    this.mouse_ = null;
+    this.__internal__display_name__ = this.constructor.displayName + '__' + __internal__counter__++;
 
     this.markers_dispatcher_ = merge(Emitter.prototype, {
       get_children() {
         return this_.props.children;
+      },
+      get_mouse_position() {
+        return this_.mouse_;
       }
     });
     this.geo_service_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
@@ -163,8 +173,8 @@ var GoogleMap = React.createClass({
             div.style.left = '0px';
             div.style.right = '0px';
             div.style.top = '0px';
-            div.style.width = '0px';
-            div.style.height = '0px';
+            div.style.width = '2000px';
+            div.style.height = '2000px';
             var panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
 
@@ -172,6 +182,7 @@ var GoogleMap = React.createClass({
               <GoogleMapMarkers 
                 geo_service={this_.geo_service_}
                 distanceToMouse={this_.props.distanceToMouse}
+                hoverDistance={this_.props.hoverDistance}
                 dispatcher={this_.markers_dispatcher_} />),
               div
             );
@@ -190,7 +201,7 @@ var GoogleMap = React.createClass({
               div.style.left = `${ptx.x}px`;
               div.style.top = `${ptx.y}px`;
               if(this_.markers_dispatcher_) {
-                this_.markers_dispatcher_.fire(event_names.kON_CHANGE);
+                this_.markers_dispatcher_.fire('kON_CHANGE');
               }
             });
 
@@ -213,11 +224,27 @@ var GoogleMap = React.createClass({
               div.style.left = `${ptx.x}px`;
               div.style.top  = `${ptx.y}px`;
               if(this_.markers_dispatcher_) {
-                this_.markers_dispatcher_.fire(event_names.kON_CHANGE);
+                this_.markers_dispatcher_.fire('kON_CHANGE');
               }            
             });
 
             this_.on_bounds_changed_(map, maps);
+        });
+        
+        maps.event.addListener(map, 'mouseout', (e) => {
+          this_.mouse_ = null;
+          this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+        });
+
+        maps.event.addListener(map, 'mousemove', (e) => {
+          //console.log(e.pixel.x, e.pixel.y, e.latLng.lat(), e.latLng.lng());
+          if(!this_.mouse_) this_.mouse_ = {x:0, y:0, lat:0, lng:0};
+
+          this_.mouse_.x = e.pixel.x;
+          this_.mouse_.y = e.pixel.y;
+          this_.mouse_.lat = e.latLng.lat();
+          this_.mouse_.lng = e.latLng.lng();
+          this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
         });
       })
       .catch( e => {
@@ -263,7 +290,7 @@ var GoogleMap = React.createClass({
   },
 
   componentDidUpdate() {
-    this.markers_dispatcher_.fire(event_names.kON_CHANGE);
+    this.markers_dispatcher_.fire('kON_CHANGE');
   },
 
   render () {
