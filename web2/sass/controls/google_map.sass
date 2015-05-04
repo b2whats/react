@@ -1,34 +1,54 @@
-$map-marker-scale: 1.5
-$map-marker-width: 20px * $map-marker-scale
-$map-marker-height: 30px * $map-marker-scale
+$map-marker-scale-big: 1.5
+$map-marker-width: 44px
+$map-marker-height: 62px
 
-$map-marker-x-offset_delta: 7/20 //маркер не симмеричный
-
+$map-marker-x-offset_delta: 0.37 //маркер не симмеричный
+$map-marker-x-offset2: 0.37
 //.map-marker-holder - в теории ненужен
   
-
-
+@mixin map-marker-holder-mixin($map-marker-scale)
+  width: $map-marker-width * $map-marker-scale
+  height: $map-marker-height * $map-marker-scale
+  left:  -$map-marker-width * $map-marker-scale * $map-marker-x-offset_delta
+  top: -$map-marker-height * $map-marker-scale
   
+@mixin map-marker-mixin($map-marker-scale)
+  width: $map-marker-width * $map-marker-scale
+  height: $map-marker-height * $map-marker-scale
+  left:  0
+  top: 0
+  transform-origin: $map-marker-width * $map-marker-scale * $map-marker-x-offset2 $map-marker-height * $map-marker-scale
+  
+
+
 .map-marker
-  width: $map-marker-width
-  height: $map-marker-height
+  @include map-marker-mixin(1)
   position: absolute
-  left:  -$map-marker-width * $map-marker-x-offset_delta
-  top: -$map-marker-height
+  backface-visibility: hidden
+  //transform: translate3d(0,0,0) scale(2.5,2.5)
+  //transform: scale(1, 1)
+  transform: scale(0.5, 0.5)
+  
+  &.map-marker--as
+    background-image: url('../assets/icons/map_icons/map_icon_violet.svg')
+    background-repeat: no-repeat
+    background-size: cover
+
+
+.map-marker-holder
+  @include map-marker-holder-mixin(1)
+  position: absolute
   cursor: pointer
-  z-index: 0
+  z-index: 0  
   &:hover
-    z-index: 1
+    z-index: 100
+    
   &.map-marker--active
-    z-index: 1    
+    z-index: 100
 
 
 
-
-.map-marker__small-hint
+.map-marker-holder__small-hint
   width: 140px
   
-.map-marker--as
-  background-image: url('/assets/icons/map_icons/map_icon_violet.svg')
-  background-repeat: no-repeat
-  background-size: cover
+

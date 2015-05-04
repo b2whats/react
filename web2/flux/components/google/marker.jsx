@@ -24,9 +24,9 @@ export default class CatalogPageRightBlockContentNew extends Component {
   render () {
     //console.log(this.props.marker.get('title'));
     return (
-      <div className="map-marker map-marker--as hint hint--top hint--info hint-html">
-        <div>J</div>
-        <div className="hint-content noevents map-marker__small-hint">
+      <div className="map-marker-holder map-marker-holder--as hint hint--top hint--info hint-html">
+        <div className="map-marker map-marker--as"></div>
+        <div className="hint-content noevents map-marker-holder__small-hint">
           привет мир <strong>я хтмл</strong> хоть <i>с картинками</i> хоть без
         </div>
       </div>
