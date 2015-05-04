@@ -417,7 +417,7 @@ var AccountInfo = React.createClass({
           </div>
           <div className='ta-C m20-0 fs18 '>
             {this.generatedPaymentMethod()}
-            <button disabled={(summ == 0 || this.state.current_payment_method.size == 0) && true}className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth-1' onClick={this.makePayment}>Оплатить</button>
+            <button disabled={(summ == 0 || this.state.current_payment_method.size == 0) && true}className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1' onClick={this.makePayment}>Оплатить</button>
           </div>
         </div>
         }
@@ -441,7 +441,7 @@ var AccountInfo = React.createClass({
             {this.generatedServicesCheckbox()}
 
           </div>
-          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth-1' onClick={this.submitSelectServices}>Сохранить</button>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1' onClick={this.submitSelectServices}>Сохранить</button>
         </Modal>
 			</div>
 		);

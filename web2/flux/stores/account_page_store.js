@@ -14,7 +14,10 @@ var immutable = require('immutable');
 var account_page_actions = require('actions/account_page_actions.js');
 
 var state_ = init_state(_.last(__filename.split('/')), {
-  company_information     : {},
+  company_information     : {
+    legal_detail: null,
+    phone: null,
+  },
   company_filials         : {},
   current_filial          : {},
   company_personal_detail : {}

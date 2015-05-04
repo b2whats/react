@@ -18,6 +18,7 @@ module.exports.get_company_information = () => {
 };
 var r_set_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO_UPDATE);
 module.exports.update_company_information = (new_company_information) => {
+  console.log(new_company_information);
     r_set_company_info.post(new_company_information)
         .then(data => {
             return data;

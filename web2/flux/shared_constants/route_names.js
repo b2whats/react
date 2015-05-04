@@ -4,7 +4,7 @@ var route_names = {
   kROUTE_DEF: '/',
   kROUTE_ACCOUNT: '/account/:region_id/:section',
   kROUTE_COMPANY: '/company/:company_id/:region_id',
-
+  kROUTE_AFTER_REGISTER: '/after/register/:step/:region_id',
   kROUTE_DEF_W_REGION: '/:region_id',
 
   kROUTE_CATALOG: '/catalog/:region_id/:type/:brands/:services/:type_price',

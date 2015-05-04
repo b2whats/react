@@ -7,6 +7,9 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Link = require('components/link.jsx');
 
+
+
+
 var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
 Modal.setAppElement(appElement);
@@ -119,7 +122,7 @@ var personal_company_page = React.createClass({
     var Filials = this.state.company_filials
       .map((part, part_index) => {
         return (
-          <div  key={part.get('id')} className='grad-g p8 m10-0 z-depth-1 br2'>
+          <div  key={part.get('id')} className='grad-g p8 m10-0 z-depth1 br2'>
             <div onClick={this.toggle('filial_address_'+part_index)} className='entire-width cur-p'>
               <span>
                 {(part.get('filial_type') == 1) ?
@@ -185,7 +188,7 @@ var personal_company_page = React.createClass({
           </div>
           {!!this.state.toggle.get('answer_'+part_index) && !part.get('answer') ?
 
-            <div className='br5 z-depth-1 p10-20 mB20 bgc-grey-50'>
+            <div className='br5 z-depth1 p10-20 mB20 bgc-grey-50'>
               <div className='mL5 f-R c-grey-400 ta-C'>
                 <i onClick={this.submitAnswer(part.get('id'))} className='flaticon-send fs30 cur-p'/>
                 <br/>
@@ -270,7 +273,7 @@ var personal_company_page = React.createClass({
         <hr className='hr m30-0'/>
         <div className='w700px m0-auto'>
 
-          <div className={cx('br5 z-depth-1 mB50 p10-20', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
+          <div className={cx('br5 z-depth1 mB50 p10-20', !this.state.toggle.get('comment_show')? 'grad-as' :'bgc-grey-50')}>
             {!this.state.toggle.get('comment_show') ?
               <div className='cur-p fs18 ta-C' onClick={this.toggle('comment_show')}>
                 Оставить отзыв
@@ -333,7 +336,7 @@ var personal_company_page = React.createClass({
                   'bs-error'     : !!this.state.comment_field_validation.has('comment')
                 })}/>
             </label>,
-            <button  key={3}  className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth-1" onClick={this.commentSubmit}>Отправить</button>,
+            <button  key={3}  className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m10-0 z-depth1" onClick={this.commentSubmit}>Отправить</button>,
             <span key={4} className='mL20 fs12 va-M d-ib Mw500px'>{this.state.comment_status}</span>
             ]}
           </div>

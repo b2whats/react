@@ -39,6 +39,9 @@ var AccountManage = require('components/account/account_manage.jsx');
 var AccountManageHistory = require('components/account/account_manage_history.jsx');
 var AccountStatistics = require('components/account/account_statistics.jsx');
 
+import AfterRegister from 'components/after_register.jsx';
+
+
 var Menu = require('components/menu/menu.jsx');
 /* jshint ignore:end */
 
@@ -71,7 +74,7 @@ var ice_main = React.createClass({
 
 	render () {
 		var MainContent = (function(router_state, router_context_params) {
-//console.log(router_state, router_context_params);
+console.log(router_state, router_context_params);
 			switch(router_state) {
 				case route_names.kROUTE_R_A:
 				case route_names.kROUTE_R_B:
@@ -205,7 +208,17 @@ var ice_main = React.createClass({
             </SearchBlockHeader>
           );
           break;
-
+        case route_names.kROUTE_AFTER_REGISTER:
+          return (
+            <SearchBlockHeader>
+              <div className='account-container-wrapper'>
+                <div className='account-container'>
+                  <AfterRegister aa='1' />
+                </div>
+              </div>
+            </SearchBlockHeader>
+          );
+          break;
 
 
 				case route_names.kROUTE_TEST_N:

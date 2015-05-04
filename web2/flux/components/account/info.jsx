@@ -53,6 +53,7 @@ var AccountInfo = React.createClass({
 	},
 	endEdit           : function () {
 		editable_forms_actions.end_edit();
+    console.log(account_page_store.get_company_information().toJS());
 		account_page_actions.update_company_information(account_page_store.get_company_information().toJS());
 	},
 	toggleEdit        : function (id) {
@@ -188,7 +189,7 @@ var AccountInfo = React.createClass({
 				</div>
 				<div className='your-manager w50pr Mw500px'>
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
-					<div className='p15 br10 z-depth-1  new_context m30-0'>
+					<div className='p15 br10 z-depth1  new_context m30-0'>
 						<img className='va-T f-L mR20' src={info_image} />
             <div className='new-context'>
               <div className='fw-b fs18'>Ваш менеджер</div>

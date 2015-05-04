@@ -18,11 +18,11 @@ module.exports = function(options) {
 	var loaders = {
 		"coffee": "coffee-redux-loader",
 		//"jsx": options.hotComponents ? ["react-hot-loader", "jsx-loader?harmony"] : "jsx-loader?harmony",
-		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0&loose=all&externalHelpers"] : "babel-loader?stage=0&loose=all&externalHelpers",
+		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0&externalHelpers"] : "babel-loader?stage=0&externalHelpers",
 		//"js": ["envify-loader", "jsx-loader?harmony"],
 		"js": 
 			{
-				loader: "babel-loader?stage=0&loose=all&externalHelpers",
+				loader: "babel-loader?stage=0&externalHelpers",
 				include: js_root,
 			},
 		
