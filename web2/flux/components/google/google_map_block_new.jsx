@@ -27,43 +27,56 @@ var GoogleMapBlockNew = React.createClass({
   mixins: [PureRenderMixin],
 
   getInitialState() {
+
+  var markers = [
+      {
+        id: '111',
+        lat: 59.724465,
+        lng: 30.080121,
+        title: '1 1 1 1',
+        description: 'wowowowoowo',
+      },
+
+      {
+        id: '222',
+        lat: 59.724965,
+        lng: 30.081521,
+        title: '2 2 2 2 2 2',
+        description: 'wowowowoowo',
+      },
+
+      {
+        id: '333',
+        lat: 59.704965,
+        lng: 30.081521,
+        title: '3 3 3 3 3',
+        description: 'wowowowoowo',
+      },
+
+      {
+        id: '444',
+        lat: 59.724965,
+        lng: 30.181521,
+        title: '4 4 4',
+        description: 'wowowowoowo',
+      },
+    ];
+
+    for(var i=0;i!=50;++i) {
+      markers.push({
+        id: '' + i,
+        lat: 59.724965 + (Math.random() - 0.5),
+        lng: 30.181521 + (Math.random() - 0.5),
+        title: `${i} ${i} ${i}`,
+        description: 'wowowowoowo',
+      });
+    }
+
+
     return {
       center : [59.744465, 30.042834],
       zoom: 8,
-      markers: immutable.fromJS([
-        {
-          id: '111',
-          lat: 59.724465,
-          lng: 30.080121,
-          title: '1 1 1 1',
-          description: 'wowowowoowo',
-        },
-
-        {
-          id: '222',
-          lat: 59.724965,
-          lng: 30.081521,
-          title: '2 2 2 2 2 2',
-          description: 'wowowowoowo',
-        },
-
-        {
-          id: '333',
-          lat: 59.704965,
-          lng: 30.081521,
-          title: '3 3 3 3 3',
-          description: 'wowowowoowo',
-        },
-
-        {
-          id: '444',
-          lat: 59.724965,
-          lng: 30.181521,
-          title: '4 4 4',
-          description: 'wowowowoowo',
-        },
-
-      ]),
+      markers: immutable.fromJS(markers),
     };
   },
 

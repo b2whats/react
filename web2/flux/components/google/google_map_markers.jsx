@@ -47,6 +47,8 @@ var GoogleMapMarkers = React.createClass({
   },
 
   _onMouseChangeHandler() {
+    //clearTimeout(this._updateTimer);
+    //this._updateTimer = setTimeout(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), 100);
     raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
   },
 
@@ -108,6 +110,7 @@ var GoogleMapMarkers = React.createClass({
     this.dimesions_cache_ = {};
     this.__internal__display_name__ = this.constructor.displayName + '__' + __internal__counter__++;
     this.hoverKey = null;
+    this._updateTimer = null;
   },
   
   componentWillUnmount() {
@@ -152,11 +155,11 @@ var GoogleMapMarkers = React.createClass({
 
 
 var style = {
-  width: '2px',
-  height: '2px',
+  width: '0px',
+  height: '0px',
   left: 0,
   top: 0,
-  backgroundColor: 'red',
+  backgroundColor: 'transparent',
   position: 'absolute',
 };
 
