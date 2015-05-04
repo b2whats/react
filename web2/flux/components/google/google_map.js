@@ -60,6 +60,13 @@ var GoogleMap = React.createClass({
     restrict_bounds: PropTypes.array,
     className: PropTypes.string,
     options: PropTypes.any,
+    distanceToMouse: PropTypes.func,
+  },
+
+  defaultProps: {
+    distanceToMouse(pt, mousePos, marker) {
+    
+    }
   },
 
 
@@ -107,6 +114,7 @@ var GoogleMap = React.createClass({
   componentWillMount() {
     var this_ = this;
     this.map_ = null;
+    this.maps_ = null;
     this.prev_bounds_ = null;
     this.prev_center_ = null;
 
@@ -142,6 +150,7 @@ var GoogleMap = React.createClass({
               
         var map = new maps.Map(this.refs.google_map_dom.getDOMNode(), map_options);
         this.map_ = map;
+        this.maps_ = maps;
         
         //render in overlay
         var this_ = this;
@@ -153,13 +162,17 @@ var GoogleMap = React.createClass({
             div.style.position = 'absolute';
             div.style.left = '0px';
             div.style.right = '0px';
-            div.style.width = '100px';
-            div.style.height = '100px';
+            div.style.top = '0px';
+            div.style.width = '0px';
+            div.style.height = '0px';
             var panes = this.getPanes();
             panes.overlayMouseTarget.appendChild(div);
 
-            React.render(
-              <GoogleMapMarkers geo_service={this_.geo_service_} dispatcher={this_.markers_dispatcher_} />, //ice_main(null)
+            React.render((
+              <GoogleMapMarkers 
+                geo_service={this_.geo_service_}
+                distanceToMouse={this_.props.distanceToMouse}
+                dispatcher={this_.markers_dispatcher_} />),
               div
             );
           },
@@ -216,7 +229,13 @@ var GoogleMap = React.createClass({
   
   componentWillUnmount() {
     window.removeEventListener('resize', this.on_window_resize_);
+    
+    if(this.maps_ && this.map_) {
+      this.maps_.event.clearInstanceListeners(this.map_);
+    }
+    
     this.map_ = null;
+    this.maps_ = null;
     this.markers_dispatcher_.destroy();
 
     delete this.map_;
