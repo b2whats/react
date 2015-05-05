@@ -77,7 +77,6 @@ var GoogleMap = React.createClass({
 
   on_window_resize_ () {
     var map_dom = this.refs.google_map_dom.getDOMNode();    
-    console.log(map_dom.clientWidth, map_dom.clientHeight);
     this.geo_service_.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
     this.on_bounds_changed_();
   },
@@ -156,7 +155,6 @@ var GoogleMap = React.createClass({
         if(!this.isMounted()) {
           return;
         }
-        console.log('load');
 
         var center_lat_lng = this.geo_service_.unproject({x: this.geo_service_.get_width() / 2, y: this.geo_service_.get_height() / 2});
         
