@@ -1,12 +1,13 @@
 'use strict';
 import React, {PropTypes, Component} from 'react/addons';
-//import controllable from 'react-controllables';
 import cx from 'classnames';
 
 var shallowEqual = require('react/lib/shallowEqual.js');
 
 export default class CatalogPageRightBlockContentNew extends Component {
   static propTypes = {
+    marker: PropTypes.any,
+    hover: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -37,4 +38,4 @@ export default class CatalogPageRightBlockContentNew extends Component {
       </div>
     );
   }
-};
+}

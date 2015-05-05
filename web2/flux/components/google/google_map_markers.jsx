@@ -1,11 +1,8 @@
 'use strict';
-var _ = require('underscore');
-
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var cx        = React.addons.classSet;
 
 var raf = require('utils/raf.js');
 
@@ -18,6 +15,9 @@ var GoogleMapMarkers = React.createClass({
     geo_service: PropTypes.any,
     distanceToMouse: PropTypes.func,
     dispatcher: PropTypes.any,
+    onChildMouseLeave: PropTypes.func,
+    onChildMouseEnter: PropTypes.func,
+    hoverDistance: PropTypes.number,   
   },
   
   _getState() {

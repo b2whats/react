@@ -66,10 +66,10 @@ var GoogleMap = React.createClass({
 
   getDefaultProps: function() {
     return {
-      distanceToMouse(pt, mousePos, marker) {
+      distanceToMouse(pt, mousePos /*, marker*/) {
         var x = pt.x;
         var y = pt.y - 20;
-        return Math.sqrt((x - mousePos.x)*(x - mousePos.x) + (y - mousePos.y)*(y - mousePos.y));
+        return Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
       },
       hoverDistance: 30,
     };
@@ -238,18 +238,20 @@ var GoogleMap = React.createClass({
             this_.on_bounds_changed_(map, maps);
         });
         
-        maps.event.addListener(map, 'mouseout', (e) => {
+        maps.event.addListener(map, 'mouseout', () => {
           this_.mouse_ = null;
           this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
         });
 
-        maps.event.addListener(map, 'drag', (e) => {
+        maps.event.addListener(map, 'drag', () => {
           this_.is_in_drag_ = true;
         });
         
 
         maps.event.addListener(map, 'mousemove', (e) => {          
-          if(!this_.mouse_) this_.mouse_ = {x:0, y:0, lat:0, lng:0};
+          if(!this_.mouse_) {
+           this_.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
+         }
 
           this_.mouse_.x = e.pixel.x;
           this_.mouse_.y = e.pixel.y;

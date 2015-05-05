@@ -1,5 +1,5 @@
+'use strict';
 var React = require('react/addons');
-
 
 var SizeHoc = (Component) => {
   const SizeHocComponent = React.createClass({        
@@ -29,7 +29,7 @@ var SizeHoc = (Component) => {
 
 
     render() {
-      return <Component ref={v => this.component = v} {...this.props} {...this.state} />
+      return <Component ref={v => this.component = v} {...this.props} {...this.state} />;
     }
   });
   return SizeHocComponent;
