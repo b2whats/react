@@ -15,8 +15,8 @@ export default function rafStateUpdate(get_state, ...stores) {
 
   return DecoratedComponent => class RafStateUpdateContainer extends Component {
 
-    __internal__display_name__ = DecoratedComponent.prototype.constructor.name + '___' + __internal__counter__++;
-
+    __internal__display_name__ = (DecoratedComponent.displayName || DecoratedComponent.name || 'Component') + '___' + __internal__counter__++;
+    
     constructor(props) {
       super(props);
       this.state = get_state(props);
