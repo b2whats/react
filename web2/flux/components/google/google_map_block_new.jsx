@@ -30,7 +30,7 @@ var GoogleMapBlockNew = React.createClass({
 
   var markers = [
       {
-        id: '111',
+        id: '1111',
         lat: 59.724465,
         lng: 30.080121,
         title: '1 1 1 1',
@@ -38,7 +38,7 @@ var GoogleMapBlockNew = React.createClass({
       },
 
       {
-        id: '222',
+        id: '2222',
         lat: 59.724965,
         lng: 30.081521,
         title: '2 2 2 2 2 2',
@@ -46,7 +46,7 @@ var GoogleMapBlockNew = React.createClass({
       },
 
       {
-        id: '333',
+        id: '3333',
         lat: 59.704965,
         lng: 30.081521,
         title: '3 3 3 3 3',
@@ -54,7 +54,7 @@ var GoogleMapBlockNew = React.createClass({
       },
 
       {
-        id: '444',
+        id: '4444',
         lat: 59.724965,
         lng: 30.181521,
         title: '4 4 4',

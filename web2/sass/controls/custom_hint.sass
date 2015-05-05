@@ -181,11 +181,18 @@ $custom-hint-hover-helper-size: 12px
 .#{$prefix}success
   @include ice-hint-type($successColor)
 
+.hint
+  &.#{$prefix}hidden
+    &:hover    
+      &:after,&:before
+        opacity: 0
+        visibility: hidden
 
-.#{$prefix}hidden
-  .hint-content
-    opacity: 0
-    visibility: hidden
+      .hint-content
+        opacity: 0
+        visibility: hidden
+
+
 
 
 .#{$prefix}always

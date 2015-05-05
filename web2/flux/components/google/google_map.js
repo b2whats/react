@@ -123,6 +123,9 @@ var GoogleMap = React.createClass({
     this.prev_bounds_ = null;
     this.prev_center_ = null;
     this.mouse_ = null;
+    this.is_in_drag_ = false;
+    this.fire_mouse_event_on_idle_ = false;
+
     this.__internal__display_name__ = this.constructor.displayName + '__' + __internal__counter__++;
 
     this.markers_dispatcher_ = merge(Emitter.prototype, {
@@ -221,10 +224,14 @@ var GoogleMap = React.createClass({
             var ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
 
             raf( () => {
+              this_.is_in_drag_ = false;
               div.style.left = `${ptx.x}px`;
               div.style.top  = `${ptx.y}px`;
               if(this_.markers_dispatcher_) {
                 this_.markers_dispatcher_.fire('kON_CHANGE');
+                if(this_.fire_mouse_event_on_idle_) {
+                  this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+                }
               }            
             });
 
@@ -236,15 +243,24 @@ var GoogleMap = React.createClass({
           this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
         });
 
-        maps.event.addListener(map, 'mousemove', (e) => {
-          //console.log(e.pixel.x, e.pixel.y, e.latLng.lat(), e.latLng.lng());
+        maps.event.addListener(map, 'drag', (e) => {
+          this_.is_in_drag_ = true;
+        });
+        
+
+        maps.event.addListener(map, 'mousemove', (e) => {          
           if(!this_.mouse_) this_.mouse_ = {x:0, y:0, lat:0, lng:0};
 
           this_.mouse_.x = e.pixel.x;
           this_.mouse_.y = e.pixel.y;
           this_.mouse_.lat = e.latLng.lat();
           this_.mouse_.lng = e.latLng.lng();
-          this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+          if(this_.is_in_drag_ === true) {
+            this_.fire_mouse_event_on_idle_ = true;
+          } else {
+            this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+            this_.fire_mouse_event_on_idle_ = false;
+          }
         });
       })
       .catch( e => {
