@@ -1,5 +1,5 @@
 /**
-* Карта гугла с отложенной загрузкой
+* пример карты гугла
 */
 import React, {PropTypes, Component} from 'react/addons';
 import controllable from 'react-controllables';
@@ -25,7 +25,6 @@ const K_MAP_OPTIONS = null; //options to create map
 
 @controllable(['center', 'zoom', 'markers'])
 export default class GoogleMapBlockExample extends Component {
-
   static propTypes = {
     onCenterChange: PropTypes.func,
     onZoomChange: PropTypes.func,
@@ -43,14 +42,11 @@ export default class GoogleMapBlockExample extends Component {
   }
 
   _onCenterChange = (center, bounds, zoom) => {
-
     raf( () => {
       this.props.onCenterChange(center);
       this.props.onZoomChange(zoom);
-      //this.setState({center, zoom})
     }); //эмулируем стору и раф апдейт
   }
-
 
   componentDidMount() {
     //setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
