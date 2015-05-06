@@ -16,7 +16,7 @@
     left:  -$map-marker-width * $map-marker-scale * $map-marker-x-offset-delta
     top: -$map-marker-height * $map-marker-scale
 
-  @mixin map-marker-mixin($map-marker-scale)
+  @mixin marker-mixin($map-marker-scale)
     width: $map-marker-width * $map-marker-scale
     height: $map-marker-height * $map-marker-scale
     left:  0
@@ -30,17 +30,17 @@
   z-index: 100000
   &.hover
     z-index: 100100
-    .map-marker-example__map-marker
+    .map-marker-example__marker
       transform: scale($hover-size-scale, $hover-size-scale)
 
 
-  .map-marker-example__map-marker
-    @include map-marker-mixin($base-marker-scale)
+  .map-marker-example__marker
+    @include marker-mixin($base-marker-scale)
     position: absolute
     transform: scale($normal-size-scale, $normal-size-scale)
     transition: transform 0.25s ease
     transition: transform 0.3s cubic-bezier(0.485, 1.650, 0.545, 0.835)
-    &.map-marker-example__map-marker--as
+    &.map-marker-example__marker--as
       background-image: url('../assets/icons/map_icons/map_icon_violet.svg')
       background-repeat: no-repeat
 

@@ -31,7 +31,7 @@ export default class MapMarker extends Component {
       <div className={cx(
         'map-marker-example hint hint--top hint--info hint-html',
         (this.props.hover) ? 'hint--always hover' : 'hint--hidden')}>
-        <div className="map-marker-example__map-marker map-marker-example__map-marker--as"></div>
+        <div className="map-marker-example__marker map-marker-example__marker--as"></div>
         <div className="hint-content noevents map-marker-example__small-hint">
           <div>
             <strong>Название {this.props.marker.get('title')}</strong>
