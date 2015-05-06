@@ -1,47 +1,44 @@
-'use strict';
+const _ = require('underscore');
+const route_names = require('shared_constants/route_names.js');
+const route_definitions = route_names; //пока полежат в одном месте
+const route_actions = require('actions/route_actions.js');
+const region_actions = require('actions/region_actions.js');
+const security = require('./security.js');
 
-var _ = require('underscore');
-var route_names = require('shared_constants/route_names.js');
-var route_definitions = route_names; //пока полежат в одном месте
-var route_actions = require('actions/route_actions.js');
-var region_actions = require('actions/region_actions.js');
-var security = require('./security.js');
+const auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+const account_page_actions = require('actions/account_page_actions.js');
+const autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
+const catalog_data_actions = require('actions/catalog_data_actions.js');
 
-var auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
-var account_page_actions = require('actions/account_page_actions.js');
-var autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
-var catalog_data_actions = require('actions/catalog_data_actions.js');
+const catalog_actions = require('actions/catalog_actions.js');
+const catalog_data_actions_new = require('actions/catalog_data_actions_new.js');
 
-var catalog_actions = require('actions/catalog_actions.js');
+const account_services_actions = require('actions/admin/services_actions.js');
+const account_manage_actions = require('actions/admin/account_manage_actions.js');
+const price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
-var account_services_actions = require('actions/admin/services_actions.js');
-var account_manage_actions = require('actions/admin/account_manage_actions.js');
-var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
+const modal_actions = require('actions/modal_actions.js');
+const auth_actions = require('actions/auth_actions.js');
 
-var modal_actions = require('actions/modal_actions.js');
-var auth_actions = require('actions/auth_actions.js');
+const personal_company_page = require('actions/personal_company_page_actions.js');
 
-var personal_company_page = require('actions/personal_company_page_actions.js');
-
-var ap_search_actions = require('actions/auto_part_search_actions.js');
+const ap_search_actions = require('actions/auto_part_search_actions.js');
 //дефолтный регион
-var kDEFAULT_REGION_ID = 'moskva';
+const kDEFAULT_REGION_ID = 'moskva';
 
 //получать с сервера
 
-
-
-var routes = {};
+const routes = {};
 
 //ЧАСТЬ ОТВЕЧАЮЩАЯ ЗА ЛОГИН
-var auth_options = {
+const auth_options = {
   pre_auth(path_role, route_name, route_context, route_context_params) {
     auth_actions.save_path(route_context.path);
     modal_actions.open_modal('signin');
   },
 };
 
-var kSECURITY_NEED_AUTH = security(null, auth_options);
+const kSECURITY_NEED_AUTH = security(null, auth_options);
 
 routes[route_definitions.kROUTE_AGREEMENT] = [
 
@@ -153,7 +150,32 @@ routes[route_definitions.kROUTE_CATALOG] = [
   route_actions.default_route];
 
 
-routes[route_definitions.kROUTE_CATALOG_NEW] = routes[route_definitions.kROUTE_CATALOG];  
+routes[route_definitions.kROUTE_CATALOG_NEW] = [
+  (route_name, route_context, route_context_params) =>
+    region_actions.region_changed(route_context_params.region_id),
+
+  (route_name, route_context, route_context_params) =>
+    catalog_actions.get_services_and_brands(
+      route_context_params.type,
+      route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
+      route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v),
+      route_context_params.type_price
+    ),
+
+  (route_name, route_context, route_context_params) =>
+    auto_part_by_id_actions.reset_auto_part_data(),
+
+  (route_name, route_context, route_context_params) =>
+    autoservice_by_id_actions.reset_autoservice_data(),
+
+  (route_name, route_context, route_context_params) =>
+    catalog_data_actions_new.queryCatalogData(route_context_params.type,
+    route_context_params.brands === '_' ? [] :   _.map(route_context_params.brands.split(','),   v => +v),
+    route_context_params.services === '_' ? [] : _.map(route_context_params.services.split(','), v => +v),
+    route_context_params.region_id,
+      route_context_params.type_price
+    ),
+  route_actions.default_route];
 
 routes[route_definitions.kROUTE_ACCOUNT] = [
       kSECURITY_NEED_AUTH,
@@ -166,11 +188,11 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
             account_page_actions.get_company_filial();
             account_page_actions.get_company_information();
           break;
-          
+
           case 'services':
             account_services_actions.get_services_information();
           break;
-          
+
           case 'manage':
             price_list_selector_actions.load_price_list_data();
             account_manage_actions.get_price_history_information();
