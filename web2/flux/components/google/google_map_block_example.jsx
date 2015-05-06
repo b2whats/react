@@ -10,7 +10,7 @@ import MarkerExample from './marker_example.jsx';
 import raf from 'utils/raf.js';
 
 const K_MAP_OPTIONS = null; //options to create map
-const K_MARKERS_COUNT = 150;
+const K_MARKERS_COUNT = 50;
 
 const markers = new immutable
   .Range(0, K_MARKERS_COUNT)
@@ -21,7 +21,16 @@ const markers = new immutable
     title: `${i} ${i} ${i}`,
     description: 'wowowowoowo',
     c: 0
-  })).toList();
+  }))
+  .toList()
+  .push(new immutable.Map({ //маркер должен указывать на центр круга иначе косяк https://www.dropbox.com/s/oybq1nvogjfstlj/Screenshot%202015-05-06%2017.46.32.png?dl=0
+    id: 'red selo',
+    lat: 59.724465,
+    lng: 30.080121,
+    title: 'Красное село точно в кольце на изгибе дороги',
+    description: 'wowowowoowo',
+    c: 0
+  }));
 
 @controllable(['center', 'zoom', 'markers'])
 export default class GoogleMapBlockExample extends Component {
