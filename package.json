@@ -50,10 +50,12 @@
     "css-loader": "^0.9.0",
     "eslint": "^0.20.0",
     "eslint-plugin-react": "^2.2.0",
+    "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "extract-text-webpack-plugin": "^0.3.5",
     "file-loader": "^0.8.1",
     "html-loader": "^0.2.2",
     "items-store": "^0.4.2",
+    "jscs": "^1.13.1",
     "json-loader": "^0.5.1",
     "jsx-loader": "^0.12.0",
     "less": "^2.1.2",
@@ -79,10 +81,8 @@
     "start": "babel-node --stage=0 --loose=all ./server/server.js",
     "whot-dev-server": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 webpack-dev-server --config webpack-hot-dev-server.config.js --hot --progress --colors --host 192.168.0.111 --port 3081 --inline",
     "wstart": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 babel-node --stage=0 --loose=all ./server/server.js",
-
     "wbuildp": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 NODE_ENV=production  webpack --config webpack-production.config.js --progress --profile --colors",
-    "wstartp": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 NODE_ENV=production  babel-node --stage=0 --loose=all ./server/server.js",
-    "wstart": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 babel-node --stage=0 --loose=all ./server/server.js"
+    "wstartp": "SERVER_PATH= DOCKER_HOST_NAME=react2 EXT_IP=192.168.0.111 HOT_RELOAD_PORT=3081 PORT_OFFSET=3080 NODE_ENV=production  babel-node --stage=0 --loose=all ./server/server.js"
   },
   "author": "istarkov@gmail.com",
   "license": "yes"
