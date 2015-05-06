@@ -1,4 +1,3 @@
-'use strict';
 /**
 * Карта гугла с отложенной загрузкой
 */
@@ -6,26 +5,26 @@ import React, {PropTypes, Component} from 'react/addons';
 import controllable from 'react-controllables';
 import immutable from 'immutable';
 
-import GoogleMap  from 'components/google/google_map.js';
+import GoogleMap from 'components/google/google_map.js';
 import Marker from './marker.jsx';
 import raf from 'utils/raf.js';
 
 
-let markers = immutable
-  .Range(0, 50)
-  .map(i => immutable.Map({
+let markers = new immutable
+  .Range(0, 150)
+  .map(i => new immutable.Map({
     id: '' + i,
     lat: 59.724965 + (Math.random() - 0.5),
     lng: 30.181521 + (Math.random() - 0.5),
     title: `${i} ${i} ${i}`,
     description: 'wowowowoowo',
-    c: 0,
+    c: 0
   })).toList();
 
-const kMAP_OPTIONS = null; //options to create map
+const K_MAP_OPTIONS = null; //options to create map
 
 @controllable(['center', 'zoom', 'markers'])
-export default class GoogleMapBlockNew extends Component {
+export default class GoogleMapBlockExample extends Component {
 
   static propTypes = {
     onCenterChange: PropTypes.func,
@@ -44,6 +43,7 @@ export default class GoogleMapBlockNew extends Component {
   }
 
   _onCenterChange = (center, bounds, zoom) => {
+
     raf( () => {
       this.props.onCenterChange(center);
       this.props.onZoomChange(zoom);
@@ -54,12 +54,12 @@ export default class GoogleMapBlockNew extends Component {
 
   componentDidMount() {
     //setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
-    //setInterval(() => this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
+    //setInterval(() =>
+    //this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
   }
 
-  render () {
-
-    var Markers = this.props.markers.map ( marker => (
+  render() {
+    const Markers = this.props.markers.map( marker => (
         <Marker
           on_click={this.on_click}
           on_hover={this.on_hover}
@@ -75,7 +75,7 @@ export default class GoogleMapBlockNew extends Component {
         center={this.props.center}
         onCenterChange={this._onCenterChange}
         zoom={this.props.zoom}
-        options={kMAP_OPTIONS}>
+        options={K_MAP_OPTIONS}>
         {Markers}
       </GoogleMap>
     );

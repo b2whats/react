@@ -1,8 +1,7 @@
-'use strict';
 import React, {PropTypes, Component} from 'react/addons';
 import cx from 'classnames';
 
-var shallowEqual = require('react/lib/shallowEqual.js');
+import shallowEqual from 'react/lib/shallowEqual.js';
 
 export default class CatalogPageRightBlockContentNew extends Component {
   static propTypes = {
@@ -17,12 +16,12 @@ export default class CatalogPageRightBlockContentNew extends Component {
     super(props);
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return !shallowEqual(this.props, nextProps) ||
       !shallowEqual(this.state, nextState);
   }
 
-  render () {
+  render() {
     this.was_hover = this.was_hover || this.props.hover;
 
     return (
@@ -35,7 +34,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
           <div>
            <a className="ap-link">кликни на маркер для информации</a>
           </div>
-        </div> 
+        </div>
       </div>
     );
   }

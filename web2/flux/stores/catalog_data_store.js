@@ -34,7 +34,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   results_sorted: [],
   map_center: null,
   map_bounds: null,
-  
+
   page_num: 0,
   items_per_page: 10,
   results_count: 0,
@@ -47,7 +47,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 //пересортировывает результаты в зависимости от удаленности от центра,
 //выставляет правильные маркеры
 var sort_results_ = (results, center, bounds) => {
-  //пока затычка 
+  //пока затычка
   var distance_to_center = (coordinates) => {
     var dx = center.get(0) - coordinates.get(0);
     var dy = center.get(1) - coordinates.get(1);
@@ -60,20 +60,20 @@ var sort_results_ = (results, center, bounds) => {
   //сортировка результата по ближайшему маркеру в результате к центру
   return results
     .sortBy(result =>  result.get('markers') //отсортировать по ближайшему маркеру
-        .map(marker => 
+        .map(marker =>
           distance_to_center(marker.get('coordinates')))
         .min())
     .map(result =>  //поменять main_marker на ближайший
       result
-        .set('main_marker', 
+        .set('main_marker',
           result.get('markers')
-            .minBy( marker => 
+            .minBy( marker =>
               distance_to_center(marker.get('coordinates')))))
 
     .map(result =>  //выставить правильную видимость если открыт балун
       result
         .set('is_balloon_visible_same_address',  marker_visible_id === result.get('main_marker').get('id')))
-    .map(result =>  
+    .map(result =>
       result
         .set('markers', result.get('markers').sortBy(m => distance_to_center(m.get('coordinates')))));
 
@@ -93,7 +93,7 @@ var set_results_and_markers_visibility_ = () => {
 
 
   state_.results_sorted_cursor
-  .update( results => 
+  .update( results =>
     results
       .map( r => {
         var str = `${r.get('company_name')} ${r.get('description')}  ${r.get('main_phone')}  ${r.get('site')}`;
@@ -118,10 +118,10 @@ var set_results_and_markers_visibility_ = () => {
     .reduce( (memo, r) => {
       if(r.get('on_current_page') === true) {
         memo[r.get('main_marker').get('id')] = 1;
-      
+
         r.get('markers').forEach( m => {
           if(point_utils.pt_in_rect(m.get('coordinates').toJS(), map_bounds)) {
-            memo[m.get('id')] = 1;      
+            memo[m.get('id')] = 1;
           }
         });
       }
@@ -135,7 +135,7 @@ var set_results_and_markers_visibility_ = () => {
 
   state_.catalog_data_cursor
     .cursor(['markers'])
-    .update( markers => 
+    .update( markers =>
       markers.map( m => {
         if(m.get('id') in id_2_on_page) {
           if (m.get('on_current_page') !== true) {
@@ -162,7 +162,7 @@ var cncl_ = [
       //пробежать по видимым результатам - маркерам показать телефоны
       var rank_dict = {};
       state_.results_sorted_cursor
-        .update( results => 
+        .update( results =>
           results.map( r => {
             if (r.get('on_current_page')) {
               r = r.updateIn(['main_marker'], marker =>  {
@@ -170,7 +170,7 @@ var cncl_ = [
                 return marker.set('show_phone', true)
               });
 
-              r = r.updateIn(['markers'], markers => 
+              r = r.updateIn(['markers'], markers =>
                 markers.map(marker => {
                   rank_dict[marker.get('rank')] = 1;
                   return marker.set('show_phone', true)
@@ -181,7 +181,7 @@ var cncl_ = [
 
       state_.catalog_data_cursor
       .cursor(['markers'])
-      .update(markers => markers.map(marker => 
+      .update(markers => markers.map(marker =>
         (marker.get('rank') in rank_dict) ? marker.set('show_phone', true) : marker ));
 
     }
@@ -189,7 +189,7 @@ var cncl_ = [
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
-  
+
   main_dispatcher
   .on(event_names.kON_CATALOG_CHANGE_PAGE, page_num => {
 
@@ -197,23 +197,23 @@ var cncl_ = [
       .update( () => page_num);
 
     state_.show_all_phones_cursor
-      .update( () => false);    
+      .update( () => false);
 
-    set_results_and_markers_visibility_();  
+    set_results_and_markers_visibility_();
 
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
-  
+
 
   main_dispatcher
-  .on(event_names.kON_CATALOG_CHANGE_ITEMS_PER_PAGE, items_per_page => {  
+  .on(event_names.kON_CATALOG_CHANGE_ITEMS_PER_PAGE, items_per_page => {
 
     state_.items_per_page_cursor
       .update( () => items_per_page);
 
     state_.page_num_cursor
       .update( () => 0);
-    
+
     state_.show_all_phones_cursor
       .update( () => false);
 
@@ -234,14 +234,14 @@ var cncl_ = [
 
 
   main_dispatcher
-  .on(event_names.kON_CATALOG_DATA_LOADED, (catalog_data) => {  
+  .on(event_names.kON_CATALOG_DATA_LOADED, (catalog_data) => {
 
     state_.catalog_data_cursor
       .update(() => immutable.fromJS(catalog_data));
 
     state_.page_num_cursor //выставлять при загрузке 0 страничку
       .update( () => 0);
-    
+
     state_.show_all_phones_cursor
       .update( () => false);
 
@@ -251,23 +251,23 @@ var cncl_ = [
       r = r.updateIn([marker_user_id], list => list.push(m));
       return r;
     }, immutable.fromJS({}));
-  
+
 
     state_.results_sorted_cursor
-    .update( () => 
+    .update( () =>
       state_.catalog_data.get('results')
-        .map( r => 
+        .map( r =>
           r.set('markers', user_id_2_markers_list.get(r.get('user_id')))
            .set('main_marker', user_id_2_markers_list.get(r.get('user_id')).get(0)) ));
 
     if(state_.map_center !== null) {
-      
+
       state_.results_sorted_cursor
         .update( results_sorted => sort_results_(results_sorted, state_.map_center, state_.map_bounds));
 
       state_.page_num_cursor
-        .update( () => 0);    
-      
+        .update( () => 0);
+
       state_.show_all_phones_cursor
         .update( () => false);
 
@@ -276,10 +276,10 @@ var cncl_ = [
 
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
-  
+
   //---------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_RESET_DATA, () => {  
+  .on(event_names.kON_CATALOG_RESET_DATA, () => {
 
     state_.catalog_data_cursor
       .update(() => immutable.fromJS(null));
@@ -294,19 +294,19 @@ var cncl_ = [
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
   main_dispatcher
-  .on(event_names.kON_CATALOG_CLOSE_ALL_BALLOON, () => { 
+  .on(event_names.kON_CATALOG_CLOSE_ALL_BALLOON, () => {
     if(!state_.catalog_data) return;
-    
+
     state_.catalog_data_cursor
     .cursor(['markers'])
     .update(markers => markers.map(marker => marker.set('is_open', false)));
-  
+
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
-  //---------------------------------------------------------------------  
+  //---------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_TOGGLE_BALLOON, id => { 
+  .on(event_names.kON_CATALOG_TOGGLE_BALLOON, id => {
     if(!state_.catalog_data) return;
 
     if(_.isArray(id)) { //кликнули в кластер - потом разрулю что с этим делать
@@ -319,23 +319,23 @@ var cncl_ = [
     });
 
     if (index < 0) {
-      
+
       if(state_.catalog_data.get('markers').findIndex(marker => marker.get('is_open') === true ) > -1) {
         state_.catalog_data_cursor
         .cursor(['markers'])
-        .update(markers => 
-          markers.map(marker => 
-            marker.get('is_open') === false ? marker : marker.set('is_open', false)));      
+        .update(markers =>
+          markers.map(marker =>
+            marker.get('is_open') === false ? marker : marker.set('is_open', false)));
       }
 
     } else {
 
       state_.catalog_data_cursor
       .cursor(['markers'])
-      .update(markers => 
-        markers.map(marker => 
-          marker.get('id') === id ? 
-            marker.set('is_open', !marker.get('is_open')) : 
+      .update(markers =>
+        markers.map(marker =>
+          marker.get('id') === id ?
+            marker.set('is_open', !marker.get('is_open')) :
             (marker.get('is_open') === false ? marker : marker.set('is_open', false)) ));
 
     }
@@ -343,8 +343,8 @@ var cncl_ = [
 
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
-  
-  
+
+
   //---------------------------------------------------------------------
   main_dispatcher
   .on(event_names.kON_CATALOG_CLOSE_BALLOON, id => {
@@ -359,17 +359,17 @@ var cncl_ = [
     var index  = state_.catalog_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
 
-    state_.catalog_data_cursor    
+    state_.catalog_data_cursor
       .cursor(['markers', index])
       .update(marker => marker.set('is_open', false));
 
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
-  
+
 
   //---------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_SHOW_PHONE, id => { 
+  .on(event_names.kON_CATALOG_SHOW_PHONE, id => {
     if(!state_.catalog_data) return;
 
     var index  = state_.catalog_data.get('markers').findIndex(marker => marker.get('id') === id );
@@ -379,19 +379,19 @@ var cncl_ = [
 
     state_.catalog_data_cursor
       .cursor(['markers'])
-      .update(markers => 
-        markers.map(marker => 
+      .update(markers =>
+        markers.map(marker =>
           marker.get('rank') === marker_rank ? marker.set('show_phone', true) : marker));
-    
+
     state_.results_sorted_cursor
-      .update( results => 
+      .update( results =>
         results.map( result => {
           //if(result.get('main_marker').get('id') === id) {
           if(result.get('rank') === marker_rank) {
             result = result.updateIn(['main_marker'], marker =>  marker.set('show_phone', true));
 
-            result = result.updateIn(['markers'], markers => 
-              markers.map(marker => 
+            result = result.updateIn(['markers'], markers =>
+              markers.map(marker =>
                 marker.set('show_phone', true)));
           }
           return result;
@@ -404,7 +404,7 @@ var cncl_ = [
 
   //---------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_BALLOON_VISIBLE, (id, visible) => { 
+  .on(event_names.kON_CATALOG_BALLOON_VISIBLE, (id, visible) => {
     if(!state_.catalog_data) return;
 
     var index  = state_.catalog_data.get('markers').findIndex(marker => marker.get('id') === id );
@@ -416,32 +416,32 @@ var cncl_ = [
       .cursor(['markers', index])
       .update(marker => marker.set('balloon_visible', visible));
 
-    
+
     state_.results_sorted_cursor
-      .update( results => 
+      .update( results =>
         results.map( result => {
-          
+
           if(result.get('rank') === marker_rank) {
             result = result.set('is_balloon_visible_same_rank', visible);
           }
-          
-          
+
+
           if(result.get('main_marker').get('id') === id) {
             result = result.set('is_balloon_visible_same_address', visible);
           }
-        
+
 
           return result;
         } ) );
-    
-      
+
+
 
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
-  
+
   //---------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_MARKER_HOVER, (id, hover_state, options) => { 
+  .on(event_names.kON_CATALOG_MARKER_HOVER, (id, hover_state, options) => {
 
     if(!state_.catalog_data) return;
 
@@ -450,11 +450,11 @@ var cncl_ = [
       id = id[0];
     }
 
-    
+
 
     var index  = state_.catalog_data.get('markers').findIndex(marker => marker.get('id') === id );
     if (index < 0) return;
-    
+
     var marker_rank = state_.catalog_data.get('markers').get(index).get('rank');
     //var marker_fillial_type_id = state_.catalog_data.get('markers').get(index).get('filial_type_id');
 
@@ -470,23 +470,23 @@ var cncl_ = [
 
     state_.catalog_data_cursor
       .cursor(['markers'])
-        .update(markers => 
-          markers.map( m => 
+        .update(markers =>
+          markers.map( m =>
             m.get('rank') === marker_rank ?
-              ( m.get('id') === id ? 
-                  m.set('marker_color', color[m.get('filial_type_id') - 1]).set('cluster_color', cluster_color[m.get('filial_type_id') - 1]) : 
+              ( m.get('id') === id ?
+                  m.set('marker_color', color[m.get('filial_type_id') - 1]).set('cluster_color', cluster_color[m.get('filial_type_id') - 1]) :
                   m.set('marker_color', color_sec[m.get('filial_type_id') - 1]).set('cluster_color', cluster_color[m.get('filial_type_id') - 1])) :
-              m             
+              m
           ));
 
     state_.results_sorted_cursor
-      .update( results => 
+      .update( results =>
         results.map( result => {
-          
+
           if(result.get('rank') === marker_rank) {
             result = result.set('is_hovered_same_rank', hover_state);
           }
-          
+
           if ( !(options && options.update_same_address === false) ) {
             if(result.get('main_marker').get('id') === id) {
               result = result.set('is_hovered_same_address', hover_state);
@@ -495,20 +495,20 @@ var cncl_ = [
 
           return result;
         } ) );
-    
+
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
-  
+
 
   //------------------RESULTS PART------------------------------------------------------
   //------------------------------------------------------------------------------------
   main_dispatcher
-  .on(event_names.kON_CATALOG_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom, bounds) => { 
+  .on(event_names.kON_CATALOG_MAP_BOUNDS_CHANGED_BY_USER, (center, zoom, bounds) => {
     //console.log('bounds', bounds);
     state_.map_center_cursor
       .update(() => immutable.fromJS(center));
-    
+
     state_.map_bounds_cursor
       .update(() => immutable.fromJS(bounds));
 
@@ -519,12 +519,12 @@ var cncl_ = [
 
     state_.page_num_cursor
       .update( () => 0);
-    
-    state_.show_all_phones_cursor
-      .update( () => false);    
 
-    set_results_and_markers_visibility_();  
-      
+    state_.show_all_phones_cursor
+      .update( () => false);
+
+    set_results_and_markers_visibility_();
+
     catalog_data_store.fire(event_names.kON_CHANGE);
   }, kON_CATALOG__CATALOG_STORE_PRIORITY),
 
@@ -559,7 +559,7 @@ var catalog_data_store = merge(Emitter.prototype, {
   get_map_bounds () {
     return state_.map_bounds;
   },
-  
+
   get_show_all_phones () {
     return state_.show_all_phones;
   },

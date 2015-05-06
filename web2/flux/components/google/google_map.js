@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react/addons');
 var PropTypes = React.PropTypes;
 var PureRenderMixin = React.addons.PureRenderMixin;
@@ -49,11 +47,11 @@ function is_arrays_equal_eps(array_a, array_b, eps) {
 }
 
 
-var GoogleMap = React.createClass({  
+var GoogleMap = React.createClass({
   mixins: [PureRenderMixin],
-  
+
   propTypes: {
-    onCenterChange: PropTypes.func, 
+    onCenterChange: PropTypes.func,
     center: PropTypes.array,
     defaultCenter: PropTypes.array,
     zoom: PropTypes.number.isRequired,
@@ -76,7 +74,7 @@ var GoogleMap = React.createClass({
   },
 
   on_window_resize_ () {
-    var map_dom = this.refs.google_map_dom.getDOMNode();    
+    var map_dom = this.refs.google_map_dom.getDOMNode();
     this.geo_service_.set_view_size(map_dom.clientWidth, map_dom.clientHeight);
     this.on_bounds_changed_();
   },
@@ -100,7 +98,7 @@ var GoogleMap = React.createClass({
         this.props.onCenterChange([center_lat_lng.lat, center_lat_lng.lng], bounds, zoom);
         this.prev_bounds_ = bounds;
       }
-      
+
       if(sc.__DEV__) { //TODO remove if all ok
         if(map) {
           var gm_c = map.getCenter();
@@ -141,13 +139,13 @@ var GoogleMap = React.createClass({
 
   componentDidMount() {
     window.addEventListener('resize', this.on_window_resize_);
-    
+
     setTimeout(() => { //to detect size
       this.on_window_resize_ ();
-      
-      var br_lat_lng = get_left_top_from_center(this.geo_service_.get_width(), this.geo_service_.get_height(), this.props.center || this.props.defaultCenter, this.props.zoom);      
+
+      var br_lat_lng = get_left_top_from_center(this.geo_service_.get_width(), this.geo_service_.get_height(), this.props.center || this.props.defaultCenter, this.props.zoom);
       this.geo_service_.set_view([br_lat_lng.lat, br_lat_lng.lng], this.props.zoom, 0);
-      
+
       this.on_bounds_changed_(); //now we can calculate map bounds center etc...
 
       gmap_loader_()
@@ -157,18 +155,18 @@ var GoogleMap = React.createClass({
         }
 
         var center_lat_lng = this.geo_service_.unproject({x: this.geo_service_.get_width() / 2, y: this.geo_service_.get_height() / 2});
-        
+
         var props_options = {
           zoom: this.props.zoom,
           center: new maps.LatLng(center_lat_lng.lat, center_lat_lng.lng),
         };
 
         var map_options = Object.assign({}, kMAP_CONTROL_OPTIONS, this.props.options || {}, props_options);
-              
+
         var map = new maps.Map(this.refs.google_map_dom.getDOMNode(), map_options);
         this.map_ = map;
         this.maps_ = maps;
-        
+
         //render in overlay
         var this_ = this;
         var overlay = Object.assign(new maps.OverlayView(), {
@@ -186,7 +184,7 @@ var GoogleMap = React.createClass({
             panes.overlayMouseTarget.appendChild(div);
 
             React.render((
-              <GoogleMapMarkers 
+              <GoogleMapMarkers
                 geo_service={this_.geo_service_}
                 distanceToMouse={this_.props.distanceToMouse}
                 hoverDistance={this_.props.hoverDistance}
@@ -204,7 +202,7 @@ var GoogleMap = React.createClass({
             var div  = this.div;
 
             raf( () => {
-              //div.style.transform = `translate(${ptx.x}px, ${ptx.y}px)`; //bad solution 
+              //div.style.transform = `translate(${ptx.x}px, ${ptx.y}px)`; //bad solution
               div.style.left = `${ptx.x}px`;
               div.style.top = `${ptx.y}px`;
               if(this_.markers_dispatcher_) {
@@ -212,12 +210,12 @@ var GoogleMap = React.createClass({
               }
             });
 
-            this_.on_bounds_changed_(map, maps);          
+            this_.on_bounds_changed_(map, maps);
           }
         });
 
         overlay.setMap(map);
-        
+
 
         maps.event.addListener(map, 'idle', () => {
             var div  = overlay.div;
@@ -236,12 +234,12 @@ var GoogleMap = React.createClass({
                 if(this_.fire_mouse_event_on_idle_) {
                   this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
                 }
-              }            
+              }
             });
 
             this_.on_bounds_changed_(map, maps);
         });
-        
+
         maps.event.addListener(map, 'mouseout', () => {
           this_.mouse_ = null;
           this_.markers_dispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
@@ -250,9 +248,9 @@ var GoogleMap = React.createClass({
         maps.event.addListener(map, 'drag', () => {
           this_.drag_time_ = (new Date()).getTime();
         });
-        
 
-        maps.event.addListener(map, 'mousemove', (e) => {          
+
+        maps.event.addListener(map, 'mousemove', (e) => {
           if(!this_.mouse_) {
            this_.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
           }
@@ -277,14 +275,14 @@ var GoogleMap = React.createClass({
       });
     }, 0, this);
   },
-  
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.on_window_resize_);
-    
+
     if(this.maps_ && this.map_) {
       this.maps_.event.clearInstanceListeners(this.map_);
     }
-    
+
     this.map_ = null;
     this.maps_ = null;
     this.markers_dispatcher_.destroy();
@@ -300,7 +298,7 @@ var GoogleMap = React.createClass({
         if(Math.abs(next_props.center[0] - center_lat_lng.lat) + Math.abs(next_props.center[1] - center_lat_lng.lng) > kEPS) {
           var br_lat_lng = get_left_top_from_center(this.geo_service_.get_width(), this.geo_service_.get_height(), next_props.center, next_props.zoom);
           this.geo_service_.set_view([br_lat_lng.lat, br_lat_lng.lng], next_props.zoom, 0);
-          
+
           var new_center_lat_lng = this.geo_service_.unproject({x: this.geo_service_.get_width() / 2, y: this.geo_service_.get_height() / 2});
           this.map_.panTo({lat: new_center_lat_lng.lat, lng: new_center_lat_lng.lng});
         }
