@@ -46,8 +46,8 @@ const immutable = require('immutable');
 
 //State update and stores for which we need intercept kON_CHANGE events
 const RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-	router_state: routesStore.get_route_state_ro(),
-	router_context_params: routesStore.get_route_context_params(),
+	routerState: routesStore.get_route_state_ro(),
+	routerContextParams: routesStore.get_route_context_params(),
   check_done: authStore.get_check_done()
 }),
 routesStore, authStore /*observable store list*/);
@@ -61,165 +61,148 @@ const cx = require('classnames');
 const IceMain = React.createClass({
 	mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
 
-	render() {
-    let MainContent = ((router_state, router_context_params) => {
-      console.log(router_state, router_context_params);
-			switch(router_state) {
-				case routeNames.kROUTE_R_A:
-				case routeNames.kROUTE_R_B:
-				case routeNames.kROUTE_R_C:
-					return (
-						<div>
-							<Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
-							<Link href={routeNames.kROUTE_R_B}>{routeNames.kROUTE_R_B}</Link><br/>
-							<Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
-						</div>
-					);
+  _getContent(routerState, routerContextParams) {
+    switch (routerState) {
+      case routeNames.kROUTE_R_A:
+      case routeNames.kROUTE_R_B:
+      case routeNames.kROUTE_R_C:
+        return (
+          <div>
+            <Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
+            <Link href={routeNames.kROUTE_R_B}>{routeNames.kROUTE_R_B}</Link><br/>
+            <Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
+          </div>
+        );
 
-				break;
-
-
-        case routeNames.kROUTE_AGREEMENT:
-
-          return (
-            <SearchBlockHeader>
-              <div className='account-container-wrapper'>
-                <div className='account-container'>
-                  <Agreement />
-                </div>
+      case routeNames.kROUTE_AGREEMENT:
+        return (
+          <SearchBlockHeader>
+            <div className='account-container-wrapper'>
+              <div className='account-container'>
+                <Agreement />
               </div>
-            </SearchBlockHeader>
-          );
-          break;
-				case routeNames.kROUTE_DEF:
-				case routeNames.kROUTE_DEF_W_REGION:
-        case routeNames.kROUTE_ADV:
-					/* jshint ignore:start */
-					return (
-						<DefaultPage route_context={router_context_params}/>
-					);
-					/* jshint ignore:end */
-				break;
-				//ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
-				//ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
-				case routeNames.kROUTE_PARTS_FIND:
-				case routeNames.kROUTE_CATALOG:
-				//ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
-					const RightBlockContent = (function(router_state) {
-	    		switch(router_state) {
-						case routeNames.kROUTE_PARTS_FIND:
-						  return <SearchPageRightBlockContent />;
-						break;
-						case routeNames.kROUTE_CATALOG:
-						  return <CatalogPageRightBlockContent />;
-						break;
-					  }
-					}) (router_state);
+            </div>
+          </SearchBlockHeader>
+        );
+      case routeNames.kROUTE_DEF:
+      case routeNames.kROUTE_DEF_W_REGION:
+      case routeNames.kROUTE_ADV:
+        return (
+          <DefaultPage route_context={routerContextParams}/>
+        );
+      //ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
+      //ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
+      case routeNames.kROUTE_PARTS_FIND:
+      case routeNames.kROUTE_CATALOG:
+      //ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
+        const RightBlockContent = (function getRightBlockContent(subRouterState) {
+          switch (subRouterState) {
+            case routeNames.kROUTE_PARTS_FIND:
+              return <SearchPageRightBlockContent />;
+            case routeNames.kROUTE_CATALOG:
+              return <CatalogPageRightBlockContent />;
+            default:
+              return null;
+          }
+        })(routerState);
+
+        return (
+          <SearchBlockHeader>
+            <div ref='main_content' className="search-page-main-fixed">
+              <SearchPageYandexMap className="search-page-left-block" />
+              {RightBlockContent}
+            </div>
+          </SearchBlockHeader>
+        );
+
+      case routeNames.kROUTE_CATALOG_NEW:
+        return (
+          <SearchBlockHeader>
+            <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
+              <GoogleMapBlockExample style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />
+              <CatalogPageRightBlockContentNew />
+            </div>
+          </SearchBlockHeader>
+        );
+
+      //ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
+      case routeNames.kROUTE_ACCOUNT:
+      //У тебя тут возможно будут другие кейсы  и по итогам будет что то вроде как в блоке выше
+      //по итогам смотри блок case стал таким же по структуре что и блок выше
+      //код стал читаемей
+        const menuList = [
+          {name: 'Компания', id: 'company'},
+          {name: 'Услуги', id: 'services'},
+          //{name: 'Статистика', id:'statistics'},
+          {name: 'Управление товарами', id: 'manage'}
+          //{name: 'История оплат', id:'history'}
+        ];
 
 
-					return (
-						<SearchBlockHeader>
-							<div ref='main_content' className="search-page-main-fixed">
-							  <SearchPageYandexMap className="search-page-left-block" />
-							  {RightBlockContent}
-							</div>
-						</SearchBlockHeader>
-					);
-				break;
+        const CentralBlockContent = (function getCentralBlockContent(subRouterState, subRouterContextParams) {
+          switch (subRouterContextParams.section) {
+            case 'company':
+              return <AccountInfo />;
+            case 'services':
+              return <AccountServices />;
+            case 'manage':
+              return <AccountManage />;
+            case 'manage-history':
+              return <AccountManageHistory />;
+            case 'statistics':
+              return <AccountStatistics />;
+            default:
+              throw new Error('no block');
+          }
+        })(routerState, routerContextParams);
 
-        case routeNames.kROUTE_CATALOG_NEW:
-          return (
-            <SearchBlockHeader>
-              <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
-                <GoogleMapBlockExample style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />
-                <CatalogPageRightBlockContentNew />
+        return (
+          <SearchBlockHeader>
+            <div className='account-container-wrapper'>
+              <h1 className='fs29 m5-0'>Личный кабинет</h1>
+              <Menu selected={routerContextParams.section} className="account-menu" listClassName="ap-link bb-s bold-fixed" items={ menuList } />
+              <hr className='hr100' />
+              <div className='account-container'>
+                {CentralBlockContent}
               </div>
-            </SearchBlockHeader>
-          );
-        break;
+            </div>
+          </SearchBlockHeader>
+        );
 
-				//ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
-				case routeNames.kROUTE_ACCOUNT:
-				//У тебя тут возможно будут другие кейсы	и по итогам будет что то вроде как в блоке выше
-				//по итогам смотри блок case стал таким же по структуре что и блок выше
-				//код стал читаемей
-					const menu_list = [
-						{name: 'Компания', id:'company'},
-						{name: 'Услуги', id:'services'},
-						//{name: 'Статистика', id:'statistics'},
-						{name: 'Управление товарами', id:'manage'},
-						//{name: 'История оплат', id:'history'}
-					];
-
-
-					const CentralBlockContent = (function(router_state, router_context_params) {
-            console.log(router_context_params);
-            switch(router_context_params.section) {
-              case 'company':
-                return <AccountInfo />;
-                break;
-              case 'services':
-                return <AccountServices />;
-                break;
-              case 'manage':
-              	return <AccountManage />;
-              break;
-              case 'manage-history':
-                return <AccountManageHistory />;
-                break;
-              case 'statistics':
-                return <AccountStatistics />;
-              break;
-            }
-					}) (router_state, router_context_params);
-
-					return (
-						<SearchBlockHeader>
-							<div className='account-container-wrapper'>
-								<h1 className='fs29 m5-0'>Личный кабинет</h1>
-								<Menu selected={router_context_params.section} className="account-menu" listClassName="ap-link bb-s bold-fixed" items={ menu_list } />
-								<hr className='hr100' />
-								<div className='account-container'>
-									{CentralBlockContent}
-								</div>
-							</div>
-						</SearchBlockHeader>
-					);
-				break;
-        case routeNames.kROUTE_COMPANY:
-          return (
-            <SearchBlockHeader>
-              <div className='account-container-wrapper'>
-                <div className='account-container'>
-                  <CompanyInfo />
-                </div>
+      case routeNames.kROUTE_COMPANY:
+        return (
+          <SearchBlockHeader>
+            <div className='account-container-wrapper'>
+              <div className='account-container'>
+                <CompanyInfo />
               </div>
-            </SearchBlockHeader>
-          );
-          break;
-        case routeNames.kROUTE_AFTER_REGISTER:
-          return (
-            <SearchBlockHeader>
-              <div className='account-container-wrapper'>
-                <div className='account-container'>
-                  <AfterRegister aa='1' />
-                </div>
+            </div>
+          </SearchBlockHeader>
+        );
+
+      case routeNames.kROUTE_AFTER_REGISTER:
+        return (
+          <SearchBlockHeader>
+            <div className='account-container-wrapper'>
+              <div className='account-container'>
+                <AfterRegister aa='1' />
               </div>
-            </SearchBlockHeader>
-          );
-          break;
+            </div>
+          </SearchBlockHeader>
+        );
 
+      case routeNames.kROUTE_TEST_N:
+        return (<PriceListSelectionBlock/>);
 
-				case routeNames.kROUTE_TEST_N:
-					return (<PriceListSelectionBlock/>);
-				break;
+      default:
+        return null;
+    }
+  },
 
+  render() {
+    let MainContent = this._getContent(this.state.routerState, this.state.routerContextParams.toJS());
 
-
-			}
-		}) (this.state.router_state,this.state.router_context_params.toJS());
-
-		return (
+    return (
 			<div className="main-wrapper">
 				<Header />
 				<div className="hfm-wrapper main-body">
@@ -227,8 +210,9 @@ const IceMain = React.createClass({
 				</div>
 				<Footer />
 			</div>
-	  );
-	}
+    );
+  }
+
 });
 
 module.exports = IceMain;
