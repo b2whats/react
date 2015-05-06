@@ -6,12 +6,14 @@ import controllable from 'react-controllables';
 import immutable from 'immutable';
 
 import GoogleMap from 'components/google/google_map.js';
-import Marker from './marker.jsx';
+import MarkerExample from './marker_example.jsx';
 import raf from 'utils/raf.js';
 
+const K_MAP_OPTIONS = null; //options to create map
+const K_MARKERS_COUNT = 150;
 
-let markers = new immutable
-  .Range(0, 150)
+const markers = new immutable
+  .Range(0, K_MARKERS_COUNT)
   .map(i => new immutable.Map({
     id: '' + i,
     lat: 59.724965 + (Math.random() - 0.5),
@@ -20,8 +22,6 @@ let markers = new immutable
     description: 'wowowowoowo',
     c: 0
   })).toList();
-
-const K_MAP_OPTIONS = null; //options to create map
 
 @controllable(['center', 'zoom', 'markers'])
 export default class GoogleMapBlockExample extends Component {
@@ -56,14 +56,14 @@ export default class GoogleMapBlockExample extends Component {
 
   render() {
     const Markers = this.props.markers.map( marker => (
-        <Marker
+        <MarkerExample
           on_click={this.on_click}
           on_hover={this.on_hover}
           key={marker.get('id')}
           lat={marker.get('lat')}
           lng={marker.get('lng')}
           marker={marker} />
-    )).toJS();
+    ));
 
     return (
       <GoogleMap

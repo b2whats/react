@@ -1,0 +1,60 @@
+.map-marker-holder.map-marker-holder--example
+  $map-marker-scale-big: 1.5
+  $map-marker-width: 44px
+  $map-marker-height: 62px
+
+  $map-marker-x-offset_delta: 0.37 //маркер не симмеричный
+  $map-marker-x-offset2: 0.37
+
+  @mixin map-marker-holder-mixin($map-marker-scale)
+    width: $map-marker-width * $map-marker-scale
+    height: $map-marker-height * $map-marker-scale
+    left:  -$map-marker-width * $map-marker-scale * $map-marker-x-offset_delta
+    top: -$map-marker-height * $map-marker-scale
+
+  @mixin map-marker-mixin($map-marker-scale)
+    width: $map-marker-width * $map-marker-scale
+    height: $map-marker-height * $map-marker-scale
+    left:  0
+    top: 0
+    background-size: $map-marker-width * $map-marker-scale $map-marker-height * $map-marker-scale
+    transform-origin: $map-marker-width * $map-marker-scale * $map-marker-x-offset2 $map-marker-height * $map-marker-scale
+
+  pointer-events: none
+  @include map-marker-holder-mixin(1)
+  position: absolute
+  cursor: pointer
+  z-index: 100000
+  &.hover
+    z-index: 100100
+    .map-marker
+      transform: scale(1, 1)
+
+
+  .map-marker
+    @include map-marker-mixin(1)
+    position: absolute
+    transform: scale(0.5, 0.5)
+    transition: transform 0.25s ease
+    transition: transform 0.3s cubic-bezier(0.485, 1.650, 0.545, 0.835)
+
+    pointer-events: initial
+    &.map-marker--as
+      background-image: url('../assets/icons/map_icons/map_icon_violet.svg')
+      background-repeat: no-repeat
+
+
+
+  .map-marker-holder__small-hint
+    width: 190px
+
+  .hint-content
+    div
+      &:first-child
+        margin-bottom: 5px
+  .ap-link
+    color: #23546B
+    font-size: 10px
+    font-style: italic
+
+
