@@ -13,17 +13,18 @@ export default class CatalogPageRightBlockContentNew extends Component {
   static defaultProps = {
   };
 
+  constructor(props) {
+    super(props);
+  }
+
   shouldComponentUpdate (nextProps, nextState) {
     return !shallowEqual(this.props, nextProps) ||
       !shallowEqual(this.state, nextState);
   }
 
-
-  constructor(props) {
-    super(props);
-  }
-
   render () {
+    this.was_hover = this.was_hover || this.props.hover;
+
     return (
       <div className={cx('map-marker-holder map-marker-holder--as hint hint--top hint--info hint-html', (this.props.hover) ? 'hint--always hover' : 'hint--hidden')}>
         <div className="map-marker map-marker--as"></div>
@@ -34,7 +35,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
           <div>
            <a className="ap-link">кликни на маркер для информации</a>
           </div>
-        </div>
+        </div> 
       </div>
     );
   }

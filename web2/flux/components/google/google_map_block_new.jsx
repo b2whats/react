@@ -2,107 +2,64 @@
 /**
 * Карта гугла с отложенной загрузкой
 */
-var React = require('react/addons');
-//var PropTypes = React.PropTypes;
+import React, {PropTypes, Component} from 'react/addons';
+import controllable from 'react-controllables';
+import immutable from 'immutable';
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-//var rafBatchStateUpdateMixinCreate =require('mixins/raf_state_update.js');
-
-//var sc = require('shared_constants');
-
-var GoogleMap = require('components/google/google_map.js');
-var Marker = require('./marker.jsx');
+import GoogleMap  from 'components/google/google_map.js';
+import Marker from './marker.jsx';
+import raf from 'utils/raf.js';
 
 
-//var Geo = require('utils/geo.js');
+let markers = immutable
+  .Range(0, 50)
+  .map(i => immutable.Map({
+    id: '' + i,
+    lat: 59.724965 + (Math.random() - 0.5),
+    lng: 30.181521 + (Math.random() - 0.5),
+    title: `${i} ${i} ${i}`,
+    description: 'wowowowoowo',
+    c: 0,
+  })).toList();
 
-var kMAP_OPTIONS = null; //options to create map
+const kMAP_OPTIONS = null; //options to create map
 
-var raf = require('utils/raf.js');
-var immutable = require('immutable');
+@controllable(['center', 'zoom', 'markers'])
+export default class GoogleMapBlockNew extends Component {
 
-//59.724465, 30.080121
+  static propTypes = {
+    onCenterChange: PropTypes.func,
+    onZoomChange: PropTypes.func,
+    className: PropTypes.string
+  }
 
-var GoogleMapBlockNew = React.createClass({
-  mixins: [PureRenderMixin],
+  static defaultProps = {
+    center: [59.744465, 30.042834],
+    zoom: 8,
+    markers
+  };
 
-  getInitialState() {
+  constructor(props) {
+    super(props);
+  }
 
-  var markers = [
-      {
-        id: '1111',
-        lat: 59.724465,
-        lng: 30.080121,
-        title: '1 1 1 1',
-        description: 'wowowowoowo',
-        c: 0,
-      },
+  _onCenterChange = (center, bounds, zoom) => {
+    raf( () => {
+      this.props.onCenterChange(center);
+      this.props.onZoomChange(zoom);
+      //this.setState({center, zoom})
+    }); //эмулируем стору и раф апдейт
+  }
 
-      {
-        id: '2222',
-        lat: 59.724965,
-        lng: 30.081521,
-        title: '2 2 2 2 2 2',
-        description: 'wowowowoowo',
-        c: 0,
-      },
-
-      {
-        id: '3333',
-        lat: 59.704965,
-        lng: 30.081521,
-        title: '3 3 3 3 3',
-        description: 'wowowowoowo',
-        c: 0,
-      },
-
-      {
-        id: '4444',
-        lat: 59.724965,
-        lng: 30.181521,
-        title: '4 4 4',
-        description: 'wowowowoowo',
-        c: 0,
-      },
-    ];
-
-    for(var i=0; i!=50; ++i) {
-      markers.push({
-        id: '' + i,
-        lat: 59.724965 + (Math.random() - 0.5),
-        lng: 30.181521 + (Math.random() - 0.5),
-        title: `${i} ${i} ${i}`,
-        description: 'wowowowoowo',
-        c: 0,
-      });
-    }
-
-
-    return {
-      center: [59.744465, 30.042834],
-      zoom: 8,
-      markers: immutable.fromJS(markers),
-    };
-  },
-
-  _onCenterChange (center, bounds, zoom) {
-    raf( () => this.setState({center, zoom}) ); //эмулируем стору и раф апдейт
-  },
-
-  on_hover(id, hover) {    
-  },
-
-  on_click(id) {
-  },
 
   componentDidMount() {
     //setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
     //setInterval(() => this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
-  },
+  }
 
   render () {
-    
-    var Markers = this.state.markers.map ( marker => (
+
+    var Markers = this.props.markers.map ( marker => (
         <Marker
           on_click={this.on_click}
           on_hover={this.on_hover}
@@ -111,18 +68,16 @@ var GoogleMapBlockNew = React.createClass({
           lng={marker.get('lng')}
           marker={marker} />
     )).toJS();
-    
+
     return (
       <GoogleMap
         className={this.props.className}
-        center={this.state.center}
+        center={this.props.center}
         onCenterChange={this._onCenterChange}
-        zoom={this.state.zoom}
+        zoom={this.props.zoom}
         options={kMAP_OPTIONS}>
         {Markers}
       </GoogleMap>
     );
   }
-});
-
-module.exports = GoogleMapBlockNew;
+}
