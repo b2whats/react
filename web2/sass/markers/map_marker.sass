@@ -1,0 +1,59 @@
+//by define marker top left corner is placed at lat, lng position
+//you need to change marker left top - it based on your marker design
+.map-marker
+  $map-marker-width: 44px
+  $map-marker-height: 62px
+
+  $map-marker-x-offset-delta: 0.37 //маркер не симмеричный
+  $base-marker-scale: 1
+
+  $normal-size-scale: 0.5 //to avoid blur and other artifacts
+  $hover-size-scale: 1
+
+  @mixin map-marker-mixin($map-marker-scale)
+    width: $map-marker-width * $map-marker-scale
+    height: $map-marker-height * $map-marker-scale
+    left:  -$map-marker-width * $map-marker-scale * $map-marker-x-offset-delta
+    top: -$map-marker-height * $map-marker-scale
+
+  @mixin marker-mixin($map-marker-scale)
+    width: $map-marker-width * $map-marker-scale
+    height: $map-marker-height * $map-marker-scale
+    left:  0
+    top: 0
+    background-size: $map-marker-width * $map-marker-scale $map-marker-height * $map-marker-scale
+    transform-origin: $map-marker-width * $map-marker-scale * $map-marker-x-offset-delta $map-marker-height * $map-marker-scale
+
+  @include map-marker-mixin($base-marker-scale)
+  position: absolute
+  cursor: pointer
+  z-index: 100000
+  &.hover
+    z-index: 100100
+    .map-marker__marker
+      transform: scale($hover-size-scale, $hover-size-scale)
+
+
+  .map-marker__marker
+    @include marker-mixin($base-marker-scale)
+    position: absolute
+    transform: scale($normal-size-scale, $normal-size-scale)
+    transition: transform 0.25s ease
+    transition: transform 0.3s cubic-bezier(0.485, 1.650, 0.545, 0.835)
+    &.map-marker__marker--as
+      background-image: url('../assets/icons/map_icons/map_icon_violet.svg')
+      background-repeat: no-repeat
+
+  .map-marker__small-hint
+    width: 190px
+
+  .hint-content
+    div
+      &:first-child
+        margin-bottom: 5px
+  .ap-link
+    color: #23546B
+    font-size: 10px
+    font-style: italic
+
+

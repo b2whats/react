@@ -26,6 +26,7 @@ const CatalogPageRightBlockContent = require('components/catalog_page/catalog_pa
 import CatalogPageRightBlockContentNew from 'components/catalog_page_new/catalog_page_right_block_content_new.jsx';
 
 const GoogleMapBlockExample = require('components/google/google_map_block_example.jsx');
+const CatalogMap = require('components/catalog_page_new/catalog_map.jsx');
 
 const PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
@@ -119,7 +120,8 @@ const IceMain = React.createClass({
         return (
           <SearchBlockHeader>
             <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
-              <GoogleMapBlockExample style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />
+              {/*<GoogleMapBlockExample style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />*/}
+              <CatalogMap className="search-page-left-block search-page-left-block--new" />
               <CatalogPageRightBlockContentNew />
             </div>
           </SearchBlockHeader>
