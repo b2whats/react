@@ -10,19 +10,21 @@ const actionExportHelper = require('utils/action_export_helper.js');
 
 const serialize = require('utils/promise_serializer_new.js');
 
-//const memoize = require('utils/promise_memoizer.js');
+// const memoize = require('utils/promise_memoizer.js');
 const memoize = require('utils/promise_memoizer_new.js');
 
 
-//15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
+// 15 минут експирация, хэш ключей 256, в случае коллизии хранить результатов не более 4 значений по хэш ключу
 const K_MEMOIZE_OPTIONS = {expire_ms: 60 * 15 * 1000, cache_size_power: 8, max_items_per_hash: 4};
 
-const K_CATALOG_DELTA_ID = [0, 10000000]; //на случай если id сервисов и филиалов пересекаюца
+const K_CATALOG_DELTA_ID = [0, 10000000]; // на случай если id сервисов и филиалов пересекаюца
 const K_CATALOG_MARKER_TYPE = ['auto-part-marker-type', 'autoservice-marker-type'];
 
 const rCatalogData = resource(apiRefs.kCATALOG_DATA);
 
-const actions_ = [/*
+const actions_ = [
+  ['mapBoundsChange', eventNames.K_CATALOG_NEW_MAP_BOUNDS_CHANGE]
+  /*
   ['reset_catalog_data', eventNames.kON_CATALOG_RESET_DATA],
   ['catalog_toggle_balloon', eventNames.kON_CATALOG_TOGGLE_BALLOON],
   ['catalog_close_balloon', eventNames.kON_CATALOG_CLOSE_BALLOON],
@@ -49,7 +51,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
       if (Array.isArray(res) && res.length === 0) {
         return {markers: [], results: []};
       }
-      //добавить адреса в компании и подчистить компании без адресов и адреса без компаний
+      // добавить адреса в компании и подчистить компании без адресов и адреса без компаний
       const mapUserId2Markers = _.reduce(res.map, (memo, marker) => {
         if (!(marker.user_id in memo)) {
           memo[marker.user_id] = [];
@@ -66,10 +68,10 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
       const markers = res.map
         .filter(m => m.user_id in resUserId)
         .map(m => Object.assign({}, m, {
-            server_id: m.id,    //настоящий id
-            id: m.id + K_CATALOG_DELTA_ID[m.filial_type_id - 1],          //смещенный id
-            icon_number: m.rank, //циферка на иконке
-            marker_type: K_CATALOG_MARKER_TYPE[m.filial_type_id - 1]   //тип метки - автосервис или запчасть
+            server_id: m.id,    // настоящий id
+            id: m.id + K_CATALOG_DELTA_ID[m.filial_type_id - 1],          // смещенный id
+            icon_number: m.rank, // циферка на иконке
+            marker_type: K_CATALOG_MARKER_TYPE[m.filial_type_id - 1]   // тип метки - автосервис или запчасть
           }));
 
 
@@ -84,12 +86,12 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
 module.exports.queryCatalogData = (type, brands, services, regionText, priceType) => {
   return _queryCatalogData(type, brands, services, regionText, priceType)
     .then(res => {
-      mainDispatcher.fire.apply(mainDispatcher, [eventNames.kON_CATALOG_NEW_DATA_LOADED].concat([res]));
+      mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_CATALOG_NEW_DATA_LOADED].concat([res]));
       return res;
     })
     .catch(e => {
       if (!serialize.is_skip_error(e)) {
-        console.error(e, e.stack); //eslint-disable-line no-console
+        console.error(e, e.stack); // eslint-disable-line no-console
         throw e;
       }
     });

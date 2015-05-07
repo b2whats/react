@@ -9,7 +9,9 @@ import GoogleMap from 'components/google/google_map.js';
 import MarkerExample from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
 
-const K_MAP_OPTIONS = null; //options to create map
+import catalogActions from 'actions/catalog_data_actions_new.js';
+
+const K_MAP_OPTIONS = null; // options to create map
 const K_MARKERS_COUNT = 150;
 
 const markers = new immutable
@@ -26,15 +28,18 @@ const markers = new immutable
 @controllable(['center', 'zoom', 'markers'])
 export default class CatalogMap extends Component {
   static propTypes = {
+    className: PropTypes.string,
+    center: PropTypes.any,
+    zoom: PropTypes.number,
+    markers: PropTypes.any,
     onCenterChange: PropTypes.func,
-    onZoomChange: PropTypes.func,
-    className: PropTypes.string
+    onZoomChange: PropTypes.func
   }
 
   static defaultProps = {
     center: [59.744465, 30.042834],
-    zoom: 8,
-    markers
+    markers,
+    zoom: 8
   };
 
   constructor(props) {
@@ -45,13 +50,14 @@ export default class CatalogMap extends Component {
     raf( () => {
       this.props.onCenterChange(center);
       this.props.onZoomChange(zoom);
-    }); //эмулируем стору и раф апдейт
+      catalogActions.mapBoundsChange(center, bounds, zoom);
+    }); // эмулируем стору и раф апдейт
   }
 
   componentDidMount() {
-    //setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
-    //setInterval(() =>
-    //this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
+    // setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
+    // setInterval(() =>
+    // this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
   }
 
   render() {

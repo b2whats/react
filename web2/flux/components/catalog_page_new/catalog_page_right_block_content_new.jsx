@@ -1,4 +1,3 @@
-'use strict';
 import React, {PropTypes, Component} from 'react/addons';
 import controllable from 'react-controllables';
 
@@ -8,31 +7,31 @@ import CatalogPageTableNew from './catalog_page_table_new.jsx';
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
 
-import catalogDataStore from 'stores/catalog_data_store.js';
+import catalogDataStore from 'stores/catalog_data_store_new.js';
 
-const kMIN_DEFAULT_ROWS_SIZE = 0;
-
-
+const K_MIN_DEFAULT_ROWS_SIZE = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
-  catalogResults: catalogDataStore.get_catalog_results()
+  catalogResults: catalogDataStore.getData(),
+  catalogSResults: catalogDataStore.getSortedData()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
   static propTypes = {
     catalogResults: PropTypes.any.isRequired,
     forceUpdateCounter: PropTypes.number.isRequired,
+    onForceUpdateCounterChange: PropTypes.func,
     startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
-    onStartRowChange: PropTypes.func,
+    onStartRowChange: PropTypes.func
   }
 
   static defaultProps = {
     forceUpdateCounter: 0,
-    startRow: null,
-  };
+    startRow: null
+  }
 
-  //описание столбцов
+  // описание столбцов
   _columns = columns;
 
   constructor(props) {
@@ -52,8 +51,8 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _onShowFiltersClick = () => {
-    if(this.props.onStartRowChange) {
-      this.props.onStartRowChange(0); //отмотать на 0 роу (потом подправить код таблички чтоб правильно мотала на любые роу - там косяк с офсетом изза хедера)
+    if (this.props.onStartRowChange) {
+      this.props.onStartRowChange(0); // отмотать на 0 роу (потом подправить код таблички чтоб правильно мотала на любые роу - там косяк с офсетом изза хедера)
     }
   }
 
@@ -72,31 +71,31 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _updateTableView = () => {
-    if(this.props.onForceUpdateCounterChange) {
+    if (this.props.onForceUpdateCounterChange) {
       this.props.onForceUpdateCounterChange(this.props.forceUpdateCounter + 1);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.catalogResults !== nextProps.catalogResults) {
+    if (this.props.catalogResults !== nextProps.catalogResults) {
       this._updateTableView();
     }
   }
 
-  componentDidUpdate (prevProps) {
-    if(this.props.startRow!==null) {
-      if(this.props.onStartRowChange) {
-        this.props.onStartRowChange(null); //we need to reset startRow after rendering complete so after we can reset to same row
+  componentDidUpdate(prevProps) {
+    if (this.props.startRow!==null) {
+      if (this.props.onStartRowChange) {
+        this.props.onStartRowChange(null); // we need to reset startRow after rendering complete so after we can reset to same row
       }
     }
   }
 
-  render () {
-    const kROW_HEIGHT = 112;
-    const kHEADER_HEIGHT = 185;
-    const kMINI_HEADER_HEIGHT = 40;
+  render() {
+    const K_ROW_HEIGHT = 112;
+    const K_HEADER_HEIGHT = 185;
+    const K_MINI_HEADER_HEIGHT = 40;
 
-    
+
     return (
       <div className="search-page-right-block-new search-page-right-block-new--new">
         <CatalogPageTableNew
@@ -105,11 +104,11 @@ export default class CatalogPageRightBlockContentNew extends Component {
           cellRenderer = {this._cellRenderer}
           getRowObjectAt = {this._getRowObjectAt}
           getRowClassNameAt={this._getRowClassNameAt}
-          rowsCount = {this.props.catalogResults && this.props.catalogResults.size || kMIN_DEFAULT_ROWS_SIZE}
-          headerHeight = {kHEADER_HEIGHT}
-          miniHeaderHeight = {kMINI_HEADER_HEIGHT}
+          rowsCount = {this.props.catalogResults && this.props.catalogResults.size || K_MIN_DEFAULT_ROWS_SIZE}
+          headerHeight = {K_HEADER_HEIGHT}
+          miniHeaderHeight = {K_MINI_HEADER_HEIGHT}
           startRow = {this.props.startRow}
-          rowHeight = {kROW_HEIGHT}
+          rowHeight = {K_ROW_HEIGHT}
           miniHeaderRenderer = {this._renderMiniHeader}
           headerRenderer = {this._renderHeader} />
       </div>
