@@ -21,6 +21,7 @@ import EditableForms from 'components/editable_forms/editable_forms.jsx';
 import account_page_actions from 'actions/account_page_actions.js';
 
 
+
 /*Store*/
 import account_page_store from 'stores/account_page_store.js';
 
@@ -37,6 +38,8 @@ class Step1 extends Component {
   onCompanyInformationChange = (field) => (value) => {
     account_page_actions.update_form(field, value);
   }
+
+
   render() {
     return (
       <div className=''>
@@ -56,6 +59,7 @@ class Step1 extends Component {
                   text={this.props.companyInformation.get('name')} />
               </strong>
             </td>
+
           </tr>
           <tr>
             <td className='va-T'>Сайт</td>
