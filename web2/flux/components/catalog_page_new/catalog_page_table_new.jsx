@@ -62,13 +62,23 @@ const CatalogPageTableNew = React.createClass({
     }
   },
 
+  _onVisibleRowsChanged(height, verticalScrollState) {
+    const scrollState = verticalScrollState || this.verticalScrollState;
+    if(!scrollState) {
+      return;
+    }
+
+    console.log(height, verticalScrollState);
+  },
+
   _onHeightChanged(h) {
-    console.log('hChanged', h);
+    this._onVisibleRowsChanged(h);
   },
 
   _onTableScroll(x, y, verticalScrollState) {
     if(verticalScrollState) {
-      console.log('verticalScrollState', this.props.height, verticalScrollState);
+      this._onVisibleRowsChanged(this.props.height, verticalScrollState);
+      this.verticalScrollState = verticalScrollState;
     }
 
     if (this.isMounted) {
@@ -105,7 +115,7 @@ const CatalogPageTableNew = React.createClass({
 
     if (nextProps.startRow!==null && this.props.startRow===null) {
       let rowToScroll = nextProps.startRow;
-      this._onTableScroll(0, 0);
+      //this._onTableScroll(0, 0);
       let animStartHeaderPosition = -(this.props.headerHeight - this.props.miniHeaderHeight);
       this.setState({headerTop: animStartHeaderPosition});
       let isTopStarted = false;
