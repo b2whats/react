@@ -12,7 +12,7 @@ const K_KEY_COLUMN_PHONE = keyOf({K_KEY_COLUMN_PHONE: null});
 const K_ROW_CLASS_NAME_EVEN = 'catalog-page-table-new-row-even';
 const K_ROW_CLASS_NAME_ODD = 'catalog-page-table-new-row-odd';
 
-//DATA DEFINITION
+// DATA DEFINITION
 const columns = [
     {
       dataKey: K_KEY_COLUMN_RANK,
@@ -65,7 +65,7 @@ function renderDescriptionColumn(cellDataKey, rowData) {
           <span><Link href="" target='_blank' className='td-u fs12 c-deep-purple-600 w150px d-ib ta-R ellipsis'>{rowData.get('site')}</Link></span>
         </div>
         <div className='fs12'>
-          <div className='c-grey-600 m5-0'>Описание компании:</div>
+          <div className='c-grey-600 m5-0'>Описание компании: info {rowData.get('sort')} {rowData.get('addresses').get(0).get('coordinates').toString()}</div>
           <span className='Mh40px d-ib o-h'>{rowData.get('description')}</span>
         </div>
       </div>
@@ -75,7 +75,7 @@ function renderDescriptionColumn(cellDataKey, rowData) {
 
 function renderPhoneColumn(cellDataKey, rowData) {
   const showPhone = false;
-  const mainPhone = null; //rowData.get('main_marker').get('main_phone')
+  const mainPhone = rowData.get('main_phone'); // rowData.get('main_marker').get('main_phone')
 
   return (
     <div className='ta-C va-M'>

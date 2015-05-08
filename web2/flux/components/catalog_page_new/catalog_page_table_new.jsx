@@ -1,43 +1,51 @@
-'use strict';
+const React = require('react/addons');
+const PropTypes = React.PropTypes;
 
-var React = require('react/addons');
-var PropTypes = React.PropTypes;
+const PureRenderMixin = React.addons.PureRenderMixin;
+const sizeHoc = require('components/hoc/size_hoc.js');
 
-var PureRenderMixin = React.addons.PureRenderMixin;
-var SizeHoc = require('components/hoc/size_hoc.js');
+const Link = require('components/link.jsx');
 
-var Link = require('components/link.jsx');
-
-var ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
-var PureRenderer = require('components/hoc/pure_renderer.jsx');
-var anim = require('utils/anim.js');
+const ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
+const PureRenderer = require('components/hoc/pure_renderer.jsx');
+const anim = require('utils/anim.js');
 
 
-var CatalogPageTableHolder = require('./catalog_page_table_holder.jsx');
+const CatalogPageTableHolder = require('./catalog_page_table_holder.jsx');
 
-var kSCROLL_HEADER_DEBOUNCE = 20;
-var kSCROLL_HEADER_DEBOUNCE_EPS = 2;
+const K_SCROLL_HEADER_DEBOUNCE = 20;
+const K_SCROLL_HEADER_DEBOUNCE_EPS = 2;
 
-var CatalogPageTableNew = React.createClass({
+const styleEmpty = {}; // стили а не пропажа элемента чтобы не терять Wheel Event
+const styleInvisible = {visibility: 'hidden'};
+
+
+const CatalogPageTableNew = React.createClass({
   mixins: [PureRenderMixin],
-  
+
+  propTypes: {
+    startRow: PropTypes.number,
+    headerHeight: PropTypes.number,
+    miniHeaderHeight: PropTypes.number
+  },
+
   getInitialState() {
     return {
       headerTop: 0,
       wheelHandler: null,
       showMainHeader: true,
-      startRow: this.props.startRow,
+      startRow: this.props.startRow
     };
   },
 
   _getRowObjectAt(i) {
-    if(i === 0) return null;
+    if (i === 0) return null;
     return this.props.getRowObjectAt(i-1);
   },
 
   _getRowClassNameAt(i) {
-    if(i === 0) return null;
-    if(this.props.getRowClassNameAt) {
+    if (i === 0) return null;
+    if (this.props.getRowClassNameAt) {
       return this.props.getRowClassNameAt(i-1);
     }
   },
@@ -46,35 +54,43 @@ var CatalogPageTableNew = React.createClass({
     return index===0 ? this.props.headerHeight : this.props.rowHeight;
   },
 
-  //---------------Логика для хедера чтобы уплывал и чтобы на нем скрол работал ---------------------
-  //для передавать события onWheel с хедера напрямую в табличку
+  // ---------------Логика для хедера чтобы уплывал и чтобы на нем скрол работал ---------------------
+  // для передавать события onWheel с хедера напрямую в табличку
   _onReactWheelHandlerChanged(wheelHandler) {
-    if(this.isMounted) {
+    if (this.isMounted) {
       this.setState({wheelHandler});
     }
   },
 
-  _onTableScroll(x, y) {
-    if(this.isMounted) {
-      var header_top = Math.min(y, this.props.headerHeight + kSCROLL_HEADER_DEBOUNCE);
+  _onHeightChanged(h) {
+    console.log('hChanged', h);
+  },
 
-      if(y < this.props.headerHeight + kSCROLL_HEADER_DEBOUNCE || header_top !== -this.state.headerTop) {
-        //не обновлять state когда хедер уже скрыт
-        this.setState({headerTop:-header_top});
+  _onTableScroll(x, y, verticalScrollState) {
+    if(verticalScrollState) {
+      console.log('verticalScrollState', this.props.height, verticalScrollState);
+    }
+
+    if (this.isMounted) {
+      let headerTop = Math.min(y, this.props.headerHeight + K_SCROLL_HEADER_DEBOUNCE);
+
+      if (y < this.props.headerHeight + K_SCROLL_HEADER_DEBOUNCE || headerTop !== -this.state.headerTop) {
+        // не обновлять state когда хедер уже скрыт
+        this.setState({headerTop: -headerTop});
       }
-    
-      var show_main_header = this.state.showMainHeader; 
-      if(this.state.showMainHeader === true) {
-        if (-header_top < -(this.props.headerHeight - this.props.miniHeaderHeight + kSCROLL_HEADER_DEBOUNCE_EPS)) {
-          show_main_header = false;
+
+      let showMainHeader = this.state.showMainHeader;
+      if (this.state.showMainHeader === true) {
+        if (-headerTop < -(this.props.headerHeight - this.props.miniHeaderHeight + K_SCROLL_HEADER_DEBOUNCE_EPS)) {
+          showMainHeader = false;
         }
       } else {
-        if (-header_top > -(this.props.headerHeight - this.props.miniHeaderHeight -  kSCROLL_HEADER_DEBOUNCE_EPS)) {
-          show_main_header = true;
+        if (-headerTop > -(this.props.headerHeight - this.props.miniHeaderHeight - K_SCROLL_HEADER_DEBOUNCE_EPS)) {
+          showMainHeader = true;
         }
       }
-      if(show_main_header !== this.state.showMainHeader) {
-        this.setState({showMainHeader: show_main_header});
+      if (showMainHeader !== this.state.showMainHeader) {
+        this.setState({showMainHeader: showMainHeader});
       }
     }
   },
@@ -83,29 +99,33 @@ var CatalogPageTableNew = React.createClass({
     return this.props.cellRenderer(cellDataKey, rowData);
   },
 
-  //---------------------------------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------------------------------
   componentWillReceiveProps(nextProps) {
-    const kANIM_TIME = 300;
+    const K_ANIM_TIME = 300;
 
-    if(nextProps.startRow!==null && this.props.startRow===null) {
-      var rowToScroll = nextProps.startRow;
-      this._onTableScroll(0,0);
-      var anim_start_header_position = -(this.props.headerHeight - this.props.miniHeaderHeight);
-      this.setState({headerTop: anim_start_header_position});
-      var is_top_started = false;
-      anim(kANIM_TIME, anim_start_header_position, 0, 'ease_out_cubic', 
+    if (nextProps.startRow!==null && this.props.startRow===null) {
+      let rowToScroll = nextProps.startRow;
+      this._onTableScroll(0, 0);
+      let animStartHeaderPosition = -(this.props.headerHeight - this.props.miniHeaderHeight);
+      this.setState({headerTop: animStartHeaderPosition});
+      let isTopStarted = false;
+      anim(K_ANIM_TIME, animStartHeaderPosition, 0, 'ease_out_cubic',
         (v, t) => {
           this.setState({headerTop: v});
-          if(t > 0.0 && !is_top_started) {
-            is_top_started = true;
+          if (t > 0.0 && !isTopStarted) {
+            isTopStarted = true;
             this.setState({startRow: rowToScroll}, () => this.setState({startRow: null}));
           }
           return true;
         });
     }
+
+    if (nextProps.height !== this.props.height) {
+      this._onHeightChanged(nextProps.height);
+    }
   },
 
-  render () {
+  render() {
     return (
       <div className="catalog-page-table-new">
         {this.props.width && this.props.height ?
@@ -120,28 +140,28 @@ var CatalogPageTableNew = React.createClass({
               scrollToRow={this.state.startRow}
               onScroll={this._onTableScroll}
               onReactWheelHandlerChanged={this._onReactWheelHandlerChanged}
-              
+
               rowsCount={this.props.rowsCount}
               rowGetter={this._getRowObjectAt}
               rowClassNameGetter={this._getRowClassNameAt}
               columns={this.props.columns}
               cellRenderer = {this._cellRenderer}
-              
+
               overflowX={'auto'}
-              overflowY={'auto'} />
-            ,            
-            <div 
-              key="table-header" 
-              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
-              style={{top:`${this.state.headerTop}px`, height: this.props.headerHeight}} 
+              overflowY={'auto'} />,
+
+            <div
+              key="table-header"
+              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel}
+              style={{top: `${this.state.headerTop}px`, height: this.props.headerHeight}}
               className="catalog-header-holder">
               <PureRenderer render={this.props.headerRenderer} />
-            </div>
-            ,
-            <div 
-              key="table-mini-header" 
+            </div>,
+
+            <div
+              key="table-mini-header"
               style={this.state.showMainHeader ? styleInvisible : styleEmpty}
-              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel} 
+              onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel}
               className="search-page-right-block-new--mini-header-holder">
               <PureRenderer render={this.props.miniHeaderRenderer} />
             </div>
@@ -154,7 +174,5 @@ var CatalogPageTableNew = React.createClass({
   }
 });
 
-const styleEmpty = {}; //стили а не пропажа элемента чтобы не терять Wheel Event
-const styleInvisible = {visibility: 'hidden'};
 
-module.exports = SizeHoc(CatalogPageTableNew);
+module.exports = sizeHoc(CatalogPageTableNew);

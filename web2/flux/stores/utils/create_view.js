@@ -1,8 +1,6 @@
 
 export default function view(propNames) {
   return (target, key, descriptor) => {
-    let prevStoreState = {};
-    let viewState = null;
     let calcView = descriptor.value;
     if (typeof calcView !== 'function') {
       throw new Error(`@autobind decorator can only be applied to methods not: ${typeof calcView}`);
@@ -11,6 +9,9 @@ export default function view(propNames) {
     return {
       configurable: true,
       get() {
+        let prevStoreState = {};
+        let viewState = null;
+
         let calcViewBinded = calcView.bind(this);
 
         let checkPropsAndCallFn = (...args) => {

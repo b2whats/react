@@ -6,13 +6,17 @@ import controllable from 'react-controllables';
 import immutable from 'immutable';
 
 import GoogleMap from 'components/google/google_map.js';
+import rafStateUpdate from 'components/hoc/raf_state_update.js';
+
 import MarkerExample from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
 
+
+import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogActions from 'actions/catalog_data_actions_new.js';
 
 const K_MAP_OPTIONS = null; // options to create map
-const K_MARKERS_COUNT = 150;
+const K_MARKERS_COUNT = 1;
 
 const markers = new immutable
   .Range(0, K_MARKERS_COUNT)
@@ -25,21 +29,22 @@ const markers = new immutable
     c: 0
   })).toList();
 
-@controllable(['center', 'zoom', 'markers'])
+@controllable(['markers'])
+@rafStateUpdate(() => ({
+  // catalogResults: catalogDataStore.getData(),
+  zoom: catalogDataStore.getMapInfo().get('zoom'),
+  center: catalogDataStore.getMapInfo().get('center').toJS()
+}), catalogDataStore)
 export default class CatalogMap extends Component {
   static propTypes = {
     className: PropTypes.string,
     center: PropTypes.any,
     zoom: PropTypes.number,
-    markers: PropTypes.any,
-    onCenterChange: PropTypes.func,
-    onZoomChange: PropTypes.func
+    markers: PropTypes.any
   }
 
   static defaultProps = {
-    center: [59.744465, 30.042834],
-    markers,
-    zoom: 8
+    markers
   };
 
   constructor(props) {
@@ -47,17 +52,7 @@ export default class CatalogMap extends Component {
   }
 
   _onCenterChange = (center, bounds, zoom) => {
-    raf( () => {
-      this.props.onCenterChange(center);
-      this.props.onZoomChange(zoom);
-      catalogActions.mapBoundsChange(center, bounds, zoom);
-    }); // эмулируем стору и раф апдейт
-  }
-
-  componentDidMount() {
-    // setTimeout(()=> this.setState({center: [58.744465, 31.042834], zoom: 6}), 5000); //пример как мувить карту
-    // setInterval(() =>
-    // this.setState({markers: this.state.markers.map((m,index) => index<5 ? m.set('c', m.get('c') + 1) : m)}), 16); //пример кучи апдейтов и перерисовок
+    catalogActions.mapBoundsChange(center, bounds, zoom);
   }
 
   render() {

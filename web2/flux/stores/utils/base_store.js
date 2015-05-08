@@ -5,12 +5,12 @@ import initState from 'utils/init_state.js';
 import eventNames from 'shared_constants/event_names.js';
 import sc from 'shared_constants';
 
-
 export default class BaseStore extends Emitter {
   dispatcher = mainDispatcherCreate.create_proxy();
 
-  constructor() {
+  constructor(fluxInstance) {
     super();
+    this.fluxInstance_ = fluxInstance;
     this.disposables = [];
     this.fireChangeEvent = this.fire.bind(this, eventNames.kON_CHANGE);
     this.$assert_info = this.dispatcher.get_assert_info();
@@ -27,7 +27,10 @@ export default class BaseStore extends Emitter {
     if (!this.constructor.name) {
       throw new Error('constructor name undefined');
     }
-    return initState(this.constructor.name, state);
+
+    const atomName = this.constructor.name + '__' + (this.fluxInstance_ && this.fluxInstance_.id || '');
+
+    return initState(atomName, state);
   }
 
 

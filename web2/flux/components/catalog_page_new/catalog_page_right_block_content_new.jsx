@@ -13,8 +13,8 @@ const K_MIN_DEFAULT_ROWS_SIZE = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
-  catalogResults: catalogDataStore.getData(),
-  catalogSResults: catalogDataStore.getSortedData()
+  //catalogResults: catalogDataStore.getData(),
+  catalogResults: catalogDataStore.getSortedData()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 

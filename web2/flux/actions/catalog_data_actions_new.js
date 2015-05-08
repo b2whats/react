@@ -23,7 +23,8 @@ const K_CATALOG_MARKER_TYPE = ['auto-part-marker-type', 'autoservice-marker-type
 const rCatalogData = resource(apiRefs.kCATALOG_DATA);
 
 const actions_ = [
-  ['mapBoundsChange', eventNames.K_CATALOG_NEW_MAP_BOUNDS_CHANGE]
+  ['mapBoundsChange', eventNames.K_ON_CATALOG_NEW_MAP_BOUNDS_CHANGE],
+  ['visibleRowsChange', eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED]
   /*
   ['reset_catalog_data', eventNames.kON_CATALOG_RESET_DATA],
   ['catalog_toggle_balloon', eventNames.kON_CATALOG_TOGGLE_BALLOON],
@@ -74,11 +75,27 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
             marker_type: K_CATALOG_MARKER_TYPE[m.filial_type_id - 1]   // тип метки - автосервис или запчасть
           }));
 
+      // пока задать детерминированную сортировку
+      const hashCode = function calcHashCode(str) {
+        let hash = 0;
+        let i;
+        let chr;
+        let len;
+        if (str.length === 0) return hash;
+        for (i = 0, len = str.length; i < len; i++) {
+          chr = str.charCodeAt(i);
+          hash = ((hash << 5) - hash) + chr;
+          hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+      };
+
 
       const results = res.results
         .filter(result => result.user_id in mapUserId2Markers)
-        .map(result => Object.assign({}, result, {addresses: mapUserId2Markers[result.user_id]}));
+        .map(result => Object.assign({sort: hashCode(result.company_name) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
 
+      // console.log(results[0]);
       return results;
     });
 }));
@@ -86,7 +103,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
 module.exports.queryCatalogData = (type, brands, services, regionText, priceType) => {
   return _queryCatalogData(type, brands, services, regionText, priceType)
     .then(res => {
-      mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_CATALOG_NEW_DATA_LOADED].concat([res]));
+      mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_ON_CATALOG_NEW_DATA_LOADED].concat([res]));
       return res;
     })
     .catch(e => {
