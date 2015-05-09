@@ -74,7 +74,7 @@ const {getScale, getRealFromTo} = (() => {
 
       return {
         rowFrom: Math.max(0, rowFrom - K_SCALES_SUM - addFrom),
-        rowTo: Math.min(totalSize - 1, rowTo + K_SCALES_SUM + addTo)
+        rowTo: Math.min(totalSize - 1, Math.round((rowTo + K_SCALES_SUM + addTo) / 2) * 2 + 1)
       };
     }
   };
