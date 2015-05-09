@@ -18,7 +18,8 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
   catalogResults: catalogDataStore.getSortedData(),
-  hoveredRowIndex: catalogDataStore.getHoveredRowIndex()
+  hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
+  mapInfo: catalogDataStore.getMapInfo()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
@@ -59,16 +60,14 @@ export default class CatalogPageRightBlockContentNew extends Component {
     return getRowClassNameAt(i, i === this.props.hoveredRowIndex);
   }
 
-  _onShowFiltersClick = () => {
-    if (this.props.onStartRowChange) {
-      this.props.onStartRowChange(0); // отмотать на 0 роу (потом подправить код таблички чтоб правильно мотала на любые роу - там косяк с офсетом изза хедера)
-    }
-  }
-
   _renderHeader = () => {
     return (
       <CatalogSearch filter_new_type={true} show_pager={false} />
     );
+  }
+
+  _onShowFiltersClick = () => {
+    this._resetTableToStartRow();
   }
 
   _renderMiniHeader = () => {
@@ -77,6 +76,12 @@ export default class CatalogPageRightBlockContentNew extends Component {
         <a onClick={this._onShowFiltersClick} style={{pointerEvents: 'initial'}} className="ap-link us-n">Показать фильтры</a>
       </div>
     );
+  }
+
+  _resetTableToStartRow = () => {
+    if (this.props.onStartRowChange) {
+      this.props.onStartRowChange(0); // отмотать на 0 роу (потом подправить код таблички чтоб правильно мотала на любые роу - там косяк с офсетом изза хедера)
+    }
   }
 
 
@@ -104,6 +109,11 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._updateTableView();
+
+    // карта поменялась отмотать на начало
+    if (this.props.mapInfo !== nextProps.mapInfo) {
+      this._resetTableToStartRow();
+    }
   }
 
   componentDidUpdate(prevProps) {

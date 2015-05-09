@@ -43,7 +43,7 @@ export default class MapMarker extends Component {
         style={zIndexStyle}
         className={cx('map-marker hint hint--top hint--info hint-html',
           (this.props.hover) ? 'hint--always hover' : 'hint--hidden')}>
-        <div style={scaleStyle} className="map-marker__marker map-marker__marker--as"></div>
+        <div style={scaleStyle} className={cx('map-marker__marker', this.props.marker.get('filial_type_id') === 1 ? 'map-marker__marker--ap' : 'map-marker__marker--as')}></div>
         <div className="hint-content noevents map-marker__small-hint">
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
