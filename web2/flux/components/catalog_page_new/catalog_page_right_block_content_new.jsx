@@ -10,7 +10,10 @@ import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogDataActionNew from 'actions/catalog_data_actions_new.js';
 
+import _ from 'underscore';
+
 const K_MIN_DEFAULT_ROWS_SIZE = 0;
+const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
@@ -25,7 +28,8 @@ export default class CatalogPageRightBlockContentNew extends Component {
     forceUpdateCounter: PropTypes.number.isRequired,
     onForceUpdateCounterChange: PropTypes.func,
     startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
-    onStartRowChange: PropTypes.func
+    onStartRowChange: PropTypes.func,
+    hoveredRowIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -38,6 +42,11 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
   constructor(props) {
     super(props);
+
+    // Надо будет посмотреть как это будет выглядеть
+    if (K_SCROLL_EVENT_THROTTLE_TIMEOUT > 0) {
+      this._callUpdateVisibleRows = _.throttle(this._callUpdateVisibleRows, K_SCROLL_EVENT_THROTTLE_TIMEOUT);
+    }
   }
 
   _cellRenderer = (cellDataKey, rowData) => {
@@ -78,8 +87,15 @@ export default class CatalogPageRightBlockContentNew extends Component {
     }
   }
 
+  _callUpdateVisibleRows = (visibleRowFirst, visibleRowLast) => {
+    // console.log('t', visibleRowFirst, visibleRowLast);
+    catalogDataActionNew.visibleRowsChange(visibleRowFirst, visibleRowLast);
+  }
+
   _onVisibleRowsChange = (visibleRowFirst, visibleRowLast) => {
-    // console.log(visibleRowFirst, visibleRowLast);
+    // console.log('n', visibleRowFirst, visibleRowLast);
+    this._callUpdateVisibleRows(visibleRowFirst, visibleRowLast);
+    // catalogDataActionNew.visibleRowsChange(visibleRowFirst, visibleRowLast);
   }
 
   _onRowMouseEnter = (index) => {

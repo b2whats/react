@@ -6,7 +6,7 @@ import controllable from 'react-controllables';
 import immutable from 'immutable';
 
 import GoogleMap from 'components/google/google_map.js';
-import rafStateUpdate from 'components/hoc/raf_state_update.js';
+import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
 import MarkerExample from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
@@ -16,7 +16,7 @@ import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogActions from 'actions/catalog_data_actions_new.js';
 
 const K_MAP_OPTIONS = null; // options to create map
-const K_MARKERS_COUNT = 1;
+const K_MARKERS_COUNT = 50;
 
 const markers = new immutable
   .Range(0, K_MARKERS_COUNT)
@@ -33,7 +33,8 @@ const markers = new immutable
 @rafStateUpdate(() => ({
   // catalogResults: catalogDataStore.getData(),
   zoom: catalogDataStore.getMapInfo().get('zoom'),
-  center: catalogDataStore.getMapInfo().get('center').toJS()
+  center: catalogDataStore.getMapInfo().get('center'),
+  visibleRows: catalogDataStore.getVisibleRows()
 }), catalogDataStore)
 export default class CatalogMap extends Component {
   static propTypes = {
@@ -69,7 +70,7 @@ export default class CatalogMap extends Component {
     return (
       <GoogleMap
         className={this.props.className}
-        center={this.props.center}
+        center={this.props.center.toJS()}
         onCenterChange={this._onCenterChange}
         zoom={this.props.zoom}
         options={K_MAP_OPTIONS}>

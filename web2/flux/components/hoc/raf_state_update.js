@@ -1,48 +1,81 @@
-'use strict';
-
 import React, { Component } from 'react';
 
-var _ = require('underscore');
-var raf = require('utils/raf.js');
-var event_names = require('shared_constants/event_names.js');
+import _ from 'underscore';
+import raf from 'utils/raf.js';
+import eventNames from 'shared_constants/event_names.js';
+import shallowEqual from 'react/lib/shallowEqual.js';
 
-var shallowEqual = require('react/lib/shallowEqual.js');
+let __internalCounter__ = 0;
 
-
-var __internal__counter__ = 0;
-
-export default function rafStateUpdate(get_state, ...stores) {
-
+export default function rafStateUpdate(getState, ...stores) {
   return DecoratedComponent => class RafStateUpdateContainer extends Component {
 
-    __internal__display_name__ = (DecoratedComponent.displayName || DecoratedComponent.name || 'Component') + '___' + __internal__counter__++;
-    
+    __internal__display_name__ = (DecoratedComponent.displayName || DecoratedComponent.name || 'Component') + '___' + __internalCounter__++;
+
     constructor(props) {
       super(props);
-      this.state = get_state(props);
+      this.state = getState(props);
 
-      this.event_disablers = _.map(stores, store => store.on(event_names.kON_CHANGE, this._onChangeHandler));
+      this.eventDisablers = _.map(stores, store => store.on(eventNames.kON_CHANGE, this._onChangeHandler));
     }
 
     _onChangeHandler = () => {
       raf(() => {
-        var state = get_state();
-        if(this.event_disablers!==null) {
+        const state = getState();
+        if (this.eventDisablers!==null) {
           this.setState(state);
         }
       }, null, this.__internal__display_name__);
     }
 
-    shouldComponentUpdate (nextProps, nextState) {
+    shouldComponentUpdate(nextProps, nextState) {
       return !shallowEqual(this.props, nextProps) ||
         !shallowEqual(this.state, nextState);
     }
 
     componentWillUnmount() {
-      _.each(this.event_disablers, function(disabler) {
+      _.each(this.eventDisablers, (disabler) => {
         disabler();
       }, this);
-      this.event_disablers = null;
+      this.eventDisablers = null;
+    }
+
+    render() {
+      return <DecoratedComponent {...this.props} {...this.state} />;
+    }
+  };
+}
+
+
+export function stateUpdate(getState, ...stores) {
+  return DecoratedComponent => class RafStateUpdateContainer extends Component {
+
+    __internal__display_name__ = (DecoratedComponent.displayName || DecoratedComponent.name || 'Component') + '___' + __internalCounter__++;
+
+    constructor(props) {
+      super(props);
+      this.state = getState(props);
+
+      this.eventDisablers = _.map(stores, store => store.on(eventNames.kON_CHANGE, this._onChangeHandler));
+    }
+
+    _onChangeHandler = () => {
+      const state = getState();
+      if (this.eventDisablers!==null) {
+        this.setState(state);
+      }
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+      return !shallowEqual(this.props, nextProps) ||
+        !shallowEqual(this.state, nextState);
+    }
+
+    componentWillUnmount() {
+      _.each(this.eventDisablers, (disabler) => {
+        disabler();
+      }, this);
+      this.eventDisablers = null;
     }
 
     render() {

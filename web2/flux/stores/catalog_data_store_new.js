@@ -59,15 +59,23 @@ class CatalogDataStoreNew extends BaseStore {
     data: [],
     mapInfo: {center: [59.744465, 30.042834], zoom: 8, bounds: []},
     visibleElements: {startRow: 0, endRow: 0}, // пришел к мысли менять только на скроле надо добавлять удалять иконки иначе стремная картинка
-    hoveredRowIndex: -1
+    hoveredRowIndex: -1,
+    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
   });
 
   constructor() {
     super();
     this.register(eventNames.K_ON_CATALOG_NEW_DATA_LOADED, this._onCatalogDataLoaded);
     this.register(eventNames.K_ON_CATALOG_NEW_MAP_BOUNDS_CHANGE, this._onBoundsChanged);
-
+    this.register(eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED, this._onVisibleRowsChanged);
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
+  }
+
+  _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
+    this.state.visibleRows_cursor
+      .update(() => ({visibleRowFirst, visibleRowLast}));
+
+    this.fireChangeEvent();
   }
 
   _onRowHover(hoveredRowIndex, hoverState) {
@@ -101,6 +109,10 @@ class CatalogDataStoreNew extends BaseStore {
 
   getHoveredRowIndex() {
     return this.state.hoveredRowIndex;
+  }
+
+  getVisibleRows() {
+    return this.state.visibleRows;
   }
 
   // view обновляется только если указанные в нем props меняюца

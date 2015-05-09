@@ -6,7 +6,7 @@ import shallowEqual from 'react/lib/shallowEqual.js';
 export default class MapMarker extends Component {
   static propTypes = {
     marker: PropTypes.any,
-    hover: PropTypes.bool,
+    hover: PropTypes.bool
   };
 
   static defaultProps = {
@@ -23,7 +23,6 @@ export default class MapMarker extends Component {
 
   render() {
     this.was_hover = this.was_hover || this.props.hover;
-
     return (
       <div className={cx(
         'map-marker hint hint--top hint--info hint-html',
