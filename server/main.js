@@ -30,7 +30,7 @@ _.each([
   router.route(route)
   .all(ice_middlewares.cache_middleware(config.kCACHE_MAIN_PAGE_SECONDS))
   .get(function (req, res) {
-    
+
     try {
 
       if(!config.kIS_PRODUCTION || kSCRIPT_URL === null) {
@@ -41,20 +41,20 @@ _.each([
         kSTYLE_URL = urls.length > 1 ? publicPath + urls[1] : null;//"main.css?" + stats.hash;
         kSCRIPT_URL = publicPath + urls[0];
         kSCRIPT_COMMONS_URL = stats.assetsByChunkName.commons ? publicPath + stats.assetsByChunkName.commons : null;
-        
+
         index_html_content = fs.readFileSync(config.kDEV_RELEASE + '/public/index.html', 'utf8');
         index_template = dot.template(index_html_content);
-      }    
+      }
 
-      var fb_title = 'facebook title';
+      var fb_title = 'avtogiper.ru';
       var twitter_title = fb_title;
-      var description = 'some description';
+      var description = 'лучший поисковый ресурс по атозапчастям в России';
 
-      var image = (req.query.fb && req.query.fb.length > 2) ? 
-        'http://' + req.headers.host +  config.kSERVER_PATH + '/assets/images/logo_for_social.jpg' : 
+      var image = (req.query.fb && req.query.fb.length > 2) ?
+        'http://' + req.headers.host +  config.kSERVER_PATH + '/assets/images/logo_for_social.jpg' :
         'http://' + req.headers.host +  config.kSERVER_PATH + '/assets/images/logo_for_social.jpg';
 
-      
+
       res.send(
         index_template({
           config: {
@@ -63,16 +63,16 @@ _.each([
             'kSTYLE_URL': kSTYLE_URL,
             'kSCRIPT_COMMONS_URL': kSCRIPT_COMMONS_URL,
             'kSESSION_UUID' : uuid.v4(),
-          },        
+          },
 
           FB: {
-            image: image, //'http://' + req.headers.host +  '/assets/images/private-beach.jpg', 
+            image: image, //'http://' + req.headers.host +  '/assets/images/private-beach.jpg',
             title: fb_title,
             description: description
           },
 
           twitter: {
-            image: image, //'http://' + req.headers.host +  '/assets/images/private-beach.jpg', 
+            image: image, //'http://' + req.headers.host +  '/assets/images/private-beach.jpg',
             title: twitter_title,
             description: description
           }
