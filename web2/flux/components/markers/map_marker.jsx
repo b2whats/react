@@ -4,7 +4,12 @@ import cx from 'classnames';
 import shallowEqual from 'react/lib/shallowEqual.js';
 
 const K_SCALE_HOVER = 1;
-const K_SCALE_NORMAL = 0.5;
+const K_SCALE_NORMAL = 0.6;
+
+const K_MIN_BRIGHTNESS = 0.6;
+const K_MIN_CONTRAST = 0.4;
+
+export {K_SCALE_NORMAL};
 
 export default class MapMarker extends Component {
   static propTypes = {
@@ -27,7 +32,10 @@ export default class MapMarker extends Component {
   }
 
   render() {
+    // const brightness = K_MIN_BRIGHTNESS + (1 - K_MIN_BRIGHTNESS) * Math.min(this.props.scale / K_SCALE_NORMAL, 1);
     const scale = this.props.hover ? K_SCALE_HOVER : this.props.scale;
+    const brightness = K_MIN_BRIGHTNESS + (1 - K_MIN_BRIGHTNESS) * Math.min(scale / K_SCALE_NORMAL, 1);
+    const contrast = K_MIN_CONTRAST + (1 - K_MIN_CONTRAST) * Math.min(scale / K_SCALE_NORMAL, 1);
 
     // пропорционально скейлу
     const zIndexStyle = {
@@ -35,7 +43,13 @@ export default class MapMarker extends Component {
     };
 
     const scaleStyle = {
-      transform: `scale(${scale} , ${scale})`
+      transform: `scale(${scale} , ${scale})`,
+      // opacity: brightness
+      // filter: `brightness(${brightness})`,
+      // '-webkit-filter': `brightness(${brightness})`
+      filter: `contrast(${contrast})`,
+      '-webkit-filter': `contrast(${contrast})`
+
     };
     // this.was_hover = this.was_hover || this.props.hover;
     return (

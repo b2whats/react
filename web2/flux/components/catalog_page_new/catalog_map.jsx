@@ -8,7 +8,7 @@ import immutable from 'immutable';
 import GoogleMap from 'components/google/google_map.js';
 import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
-import MarkerExample from 'components/markers/map_marker.jsx';
+import MapMarker, {K_SCALE_NORMAL} from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
 
 import invariant from 'fixed-data-table-ice/internal/invariant.js';
@@ -23,14 +23,15 @@ const K_MAP_OPTIONS = null; // options to create map
 // потом снова потом 5 размера 0.4, и 10 элементов размера 0.3
 // если поставить пусто то на карте будут видны тока те что на экране
 const {getScale, getRealFromTo} = (() => {
-  const K_BEFORE_AFTER_SCALES = [{l: 20, scale: 0.3}, {l: 10, scale: 0.4}];
-  const K_NORMAL_SCALE = 0.6;
+  const K_SCALE_SMALL = 0.25;
+  const K_SCALE_MEDIUM = 0.4;
+  const K_BEFORE_AFTER_SCALES = [{l: 20, scale: K_SCALE_SMALL}, {l: 10, scale: K_SCALE_MEDIUM}];
   const K_SCALES_SUM = K_BEFORE_AFTER_SCALES.reduce((sum, el) => el.l + sum, 0);
 
   return {
     getScale(rowIndex, rowFrom, rowTo) {
       if (rowIndex >= rowFrom && rowIndex <= rowTo) {
-        return K_NORMAL_SCALE;
+        return K_SCALE_NORMAL;
       }
 
       if (K_BEFORE_AFTER_SCALES.length) {
@@ -65,7 +66,7 @@ const {getScale, getRealFromTo} = (() => {
 
       invariant(!K_BEFORE_AFTER_SCALES.length, 'и сюда попадать грех');
 
-      return K_NORMAL_SCALE;
+      return K_SCALE_NORMAL;
     },
 
     getRealFromTo(rowFrom, rowTo, totalSize) {
@@ -121,7 +122,7 @@ export default class CatalogMap extends Component {
           return row.get('addresses')
             .filter(addr => addr.get('visible_address'))
             .map(addr => (
-              <MarkerExample
+              <MapMarker
                 key={addr.get('id')}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
