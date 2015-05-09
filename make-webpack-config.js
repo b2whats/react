@@ -20,12 +20,12 @@ module.exports = function(options) {
 		//"jsx": options.hotComponents ? ["react-hot-loader", "jsx-loader?harmony"] : "jsx-loader?harmony",
 		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0&externalHelpers"] : "babel-loader?stage=0&externalHelpers",
 		//"js": ["envify-loader", "jsx-loader?harmony"],
-		"js": 
+		"js":
 			{
 				loader: "babel-loader?stage=0&externalHelpers",
 				include: js_root,
 			},
-		
+
 
 		"json": "json-loader",
 		// "js": {
@@ -38,30 +38,30 @@ module.exports = function(options) {
 		"woff|woff2": "url-loader?limit=100000",
 		"ttf|eot": "file-loader",
 		"wav|mp3": "file-loader",
-		
+
 		//"html": "html-loader",
-		
+
 		"md|markdown": ["html-loader", "markdown-loader"]
 	};
 	var stylesheetLoaders = {
 		"css": "css-loader",
 		"less": "css-loader!less-loader",
 		"styl": "css-loader!stylus-loader",
-		"sass": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
-			"css-loader?sourceMap!sass-loader?indentedSyntax=sass&includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap!sass-imports?../common_vars.json" : 
+		"sass": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ?
+			"css-loader?sourceMap!sass-loader?indentedSyntax=sass&includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap!sass-imports?../common_vars.json" :
 			"css-loader!autoprefixer-loader!sass-loader?indentedSyntax=sass&includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "!sass-imports?../common_vars.json",
 
-		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
-			"css-loader?sourceMap!sass-loader?includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap" : 
+		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ?
+			"css-loader?sourceMap!sass-loader?includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "&sourceMap" :
 			"css-loader!autoprefixer-loader!sass-loader?includePaths[]=" + path.resolve(__dirname, 'web2/sass/node_modules') + "",
-		
+
 		/*
-		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ? 
-			"css-loader?sourceMap!sass-loader?includePaths[]=" + path.resolve(__dirname, 'node_modules') + "&sourceMap!sass-imports?../common_vars.json" : 
+		"scss": options.devtool === 'sourcemap' || options.devtool === 'inline-source-map' ?
+			"css-loader?sourceMap!sass-loader?includePaths[]=" + path.resolve(__dirname, 'node_modules') + "&sourceMap!sass-imports?../common_vars.json" :
 			"css-loader!autoprefixer-loader!sass-loader!sass-imports?../common_vars.json",
 		*/
 	};
-	
+
 	var additionalLoaders = [
 		//{ test: /\.html$/, loader: "save_file_to_dir" }
 
@@ -82,16 +82,16 @@ module.exports = function(options) {
 	var externals = [
 
 	];
-	
+
 	var modulesDirectories = ["web_modules", "node_modules", "flux", "assets"];
-	
+
 	var extensions = ["", ".web.js", ".js", ".jsx"];
-	
-	
+
+
 	var publicPath = options.devServer ?
 		"http://" + process.env.EXT_IP + ":" + process.env.HOT_RELOAD_PORT + "/_assets/" :
 		"/_assets/";
-	
+
 
 	var output = {
 		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
@@ -149,7 +149,7 @@ module.exports = function(options) {
 	function reactEntry(name) {
 		return './web2/app.js'; //(options.prerender ? "./config/prerender?" : "./config/app?") + name;
 	}
-	
+
 
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
 		var loaders = stylesheetLoaders[ext];
@@ -168,22 +168,22 @@ module.exports = function(options) {
 		plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[contenthash]" : "")));
 		//plugins.push(new ExtractTextPlugin("[name].css?[contenthash]"));
 	}
-	
+
 	//plugins.push(new ExtractTextPlugin("[name].html" + (options.longTermCaching ? "?[contenthash]" : "")));
 	//plugins.push(new ExtractTextPlugin("[name].html"));
-	
+
 	//потом добавить для соурмапов
 	//plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[contenthash]" : "")));
 
 	if(options.minimize) {
 		plugins.push(
-			
+
 			new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false,
         },
         sourceMap: false
-      }),			
+      }),
 			new webpack.optimize.DedupePlugin()
 		);
 	}
@@ -200,7 +200,8 @@ module.exports = function(options) {
 
 	plugins.push(
 		new webpack.DefinePlugin({
-      'process.env': env_obj
+      'process.env': env_obj,
+      '__DEV__': options.minimize ? false : true
     })
   );
 

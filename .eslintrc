@@ -5,6 +5,9 @@
     "node": true,
     "es6": true
   },
+  "globals": {
+    "__DEV__": false
+  },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "binaryLiterals": true,
