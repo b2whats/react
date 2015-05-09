@@ -76,6 +76,15 @@ export default class CatalogPageRightBlockContentNew extends Component {
     }
   }
 
+  _onVisibleRowsChange = (visibleRowFirst, visibleRowLast) => {
+    //console.log(visibleRowFirst, visibleRowLast);
+  }
+
+  _onRowMouseEnter = (row, index) => {
+    //console.log(index);
+  }
+
+
   componentWillReceiveProps(nextProps) {
     if (this.props.catalogResults !== nextProps.catalogResults) {
       this._updateTableView();
@@ -95,10 +104,12 @@ export default class CatalogPageRightBlockContentNew extends Component {
     const K_HEADER_HEIGHT = 185;
     const K_MINI_HEADER_HEIGHT = 40;
 
-
     return (
       <div className="search-page-right-block-new search-page-right-block-new--new">
         <CatalogPageTableNew
+          className="catalog-page-table-new"
+          onVisibleRowsChange={this._onVisibleRowsChange}
+          onRowMouseEnter={this._onRowMouseEnter}
           forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
           columns = {this._columns}
           cellRenderer = {this._cellRenderer}

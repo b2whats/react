@@ -2,8 +2,8 @@ FROM whats/baseimage_2
 
 RUN apt-get update && \
 npm install -g node-gyp && \
-npm install -g supervisor && \
-npm install -g babel && \
+#npm install -g supervisor && \
+#npm install -g babel && \
 npm install jison -g && \
 chown ice -R /home/ice/.npm
 
