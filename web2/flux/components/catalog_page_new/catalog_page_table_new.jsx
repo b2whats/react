@@ -170,7 +170,7 @@ const CatalogPageTableNew = React.createClass({
 
   _onRowMouseLeave() {
     if (this.props.onRowMouseLeave && this.currentRowIndex !== null) {
-      this.props.onRowMouseLeave(this.currentRowIndex);
+      this.props.onRowMouseLeave(this.currentRowIndex, this.props.getRowObjectAt(this.currentRowIndex));
       this.currentRowIndex = null;
     }
   },
@@ -180,7 +180,7 @@ const CatalogPageTableNew = React.createClass({
       this._onRowMouseLeave();
 
       if (this.props.onRowMouseEnter) {
-        this.props.onRowMouseEnter(rowIndex);
+        this.props.onRowMouseEnter(rowIndex, this.props.getRowObjectAt(rowIndex));
       }
 
       this.currentRowIndex = rowIndex;

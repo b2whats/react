@@ -8,13 +8,15 @@ import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
 
 import catalogDataStore from 'stores/catalog_data_store_new.js';
+import catalogDataActionNew from 'actions/catalog_data_actions_new.js';
 
 const K_MIN_DEFAULT_ROWS_SIZE = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
   //catalogResults: catalogDataStore.getData(),
-  catalogResults: catalogDataStore.getSortedData()
+  catalogResults: catalogDataStore.getSortedData(),
+  hoveredRowIndex: catalogDataStore.getHoveredRowIndex()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
@@ -47,7 +49,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _getRowClassNameAt = (i) => {
-    return getRowClassNameAt(i);
+    return getRowClassNameAt(i, i === this.props.hoveredRowIndex);
   }
 
   _onShowFiltersClick = () => {
@@ -82,16 +84,18 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
   _onRowMouseEnter = (index) => {
     // console.log('enter', index);
+    catalogDataActionNew.rowHover(index, true);
   }
 
   _onRowMouseLeave = (index) => {
     // console.log('leave', index);
+    catalogDataActionNew.rowHover(index, false);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.catalogResults !== nextProps.catalogResults) {
-      this._updateTableView();
-    }
+    // if (this.props.catalogResults !== nextProps.catalogResults) {
+    this._updateTableView();
+    // }
   }
 
   componentDidUpdate(prevProps) {
