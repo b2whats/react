@@ -7,8 +7,8 @@
   $map-marker-x-offset-delta: 0.37 //маркер не симмеричный
   $base-marker-scale: 1
 
-  $normal-size-scale: 0.5 //to avoid blur and other artifacts
-  $hover-size-scale: 1
+  //$normal-size-scale: 0.5 //to avoid blur and other artifacts
+  //$hover-size-scale: 1
 
   @mixin map-marker-mixin($map-marker-scale)
     width: $map-marker-width * $map-marker-scale
@@ -27,9 +27,9 @@
   @include map-marker-mixin($base-marker-scale)
   position: absolute
   cursor: pointer
-  z-index: 100000
+  //z-index: 100000
   &.hover
-    z-index: 100100
+    //z-index: 100100
     .map-marker__marker
       //transform: scale($hover-size-scale, $hover-size-scale)
 

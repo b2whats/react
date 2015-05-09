@@ -29,14 +29,20 @@ export default class MapMarker extends Component {
   render() {
     const scale = this.props.hover ? K_SCALE_HOVER : this.props.scale;
 
+    // пропорционально скейлу
+    const zIndexStyle = {
+      zIndex: Math.round(scale * 10000)
+    };
+
     const scaleStyle = {
       transform: `scale(${scale} , ${scale})`
     };
     // this.was_hover = this.was_hover || this.props.hover;
     return (
-      <div className={cx(
-        'map-marker hint hint--top hint--info hint-html',
-        (this.props.hover) ? 'hint--always hover' : 'hint--hidden')}>
+      <div
+        style={zIndexStyle}
+        className={cx('map-marker hint hint--top hint--info hint-html',
+          (this.props.hover) ? 'hint--always hover' : 'hint--hidden')}>
         <div style={scaleStyle} className="map-marker__marker map-marker__marker--as"></div>
         <div className="hint-content noevents map-marker__small-hint">
           <div>

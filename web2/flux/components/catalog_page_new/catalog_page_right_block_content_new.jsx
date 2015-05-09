@@ -17,7 +17,6 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
-  //catalogResults: catalogDataStore.getData(),
   catalogResults: catalogDataStore.getSortedData(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex()
 }), catalogDataStore)
@@ -37,17 +36,16 @@ export default class CatalogPageRightBlockContentNew extends Component {
     startRow: null
   }
 
-  // описание столбцов
   _columns = columns;
 
   constructor(props) {
     super(props);
 
-    // Надо будет посмотреть как это будет выглядеть
     if (K_SCROLL_EVENT_THROTTLE_TIMEOUT > 0) {
       this._callUpdateVisibleRows = _.throttle(this._callUpdateVisibleRows, K_SCROLL_EVENT_THROTTLE_TIMEOUT);
     }
   }
+
 
   _cellRenderer = (cellDataKey, rowData) => {
     return cellRenderer(cellDataKey, rowData);
@@ -81,37 +79,31 @@ export default class CatalogPageRightBlockContentNew extends Component {
     );
   }
 
+
   _updateTableView = () => {
     if (this.props.onForceUpdateCounterChange) {
       this.props.onForceUpdateCounterChange(this.props.forceUpdateCounter + 1);
     }
   }
 
-  _callUpdateVisibleRows = (visibleRowFirst, visibleRowLast) => {
-    // console.log('t', visibleRowFirst, visibleRowLast);
+  // @вынесена так как в зависмости от K_SCROLL_EVENT_THROTTLE_TIMEOUT парамера может быть сделана throttle вариантом
+  _callUpdateVisibleRows = (visibleRowFirst, visibleRowLast) =>
     catalogDataActionNew.visibleRowsChange(visibleRowFirst, visibleRowLast);
-  }
 
   _onVisibleRowsChange = (visibleRowFirst, visibleRowLast) => {
     // console.log('n', visibleRowFirst, visibleRowLast);
     this._callUpdateVisibleRows(visibleRowFirst, visibleRowLast);
-    // catalogDataActionNew.visibleRowsChange(visibleRowFirst, visibleRowLast);
   }
 
-  _onRowMouseEnter = (index) => {
-    // console.log('enter', index);
+  _onRowMouseEnter = (index) =>
     catalogDataActionNew.rowHover(index, true);
-  }
 
-  _onRowMouseLeave = (index) => {
-    // console.log('leave', index);
+  _onRowMouseLeave = (index) =>
     catalogDataActionNew.rowHover(index, false);
-  }
+
 
   componentWillReceiveProps(nextProps) {
-    // if (this.props.catalogResults !== nextProps.catalogResults) {
     this._updateTableView();
-    // }
   }
 
   componentDidUpdate(prevProps) {

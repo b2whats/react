@@ -57,10 +57,12 @@ const calcVisibleMarkers = (sortData, {mapInfo}) => {
 class CatalogDataStoreNew extends BaseStore {
   state = this.initialState({
     data: [],
+    // где карта
     mapInfo: {center: [59.744465, 30.042834], zoom: 8, bounds: []},
-    visibleElements: {startRow: 0, endRow: 0}, // пришел к мысли менять только на скроле надо добавлять удалять иконки иначе стремная картинка
+    // над какой строкой мышка
     hoveredRowIndex: -1,
-    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
+    // visibleRowFirst индекс первого видимого элемента, visibleRowFirstPart какая часть элемента видна (например 0.5) только половина видна
+    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1, visibleRowFirstPart: 1, visibleRowLastPart: 1}
   });
 
   constructor() {
@@ -71,7 +73,7 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
   }
 
-  _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
+  _onVisibleRowsChanged(visibleRowFirst, visibleRowLast, visibleRowFirstPart, visibleRowLastPart) {
     this.state.visibleRows_cursor
       .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
 
@@ -118,9 +120,7 @@ class CatalogDataStoreNew extends BaseStore {
   // view обновляется только если указанные в нем props меняюца
   @view(['data', 'mapInfo'])
   getSortedData() {
-    const res = calcSortData(this.state);
-    // console.log('view result', res); // eslint-disable-line no-console
-    return res;
+    return calcSortData(this.state);
   }
 
   @view(['data', 'mapInfo'])
