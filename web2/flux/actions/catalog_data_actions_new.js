@@ -49,8 +49,8 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
       price_type: priceType
     })
     .then(res => {
-      if (Array.isArray(res) && res.length === 0) {
-        return {markers: [], results: []};
+      if ((Array.isArray(res) && res.length === 0) || res === null) {
+        return [];
       }
       // добавить адреса в компании и подчистить компании без адресов и адреса без компаний
       const mapUserId2Markers = _.reduce(res.map, (memo, marker) => {

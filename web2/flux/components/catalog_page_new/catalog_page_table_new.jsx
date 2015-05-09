@@ -5,7 +5,7 @@ const PureRenderMixin = React.addons.PureRenderMixin;
 const sizeHoc = require('components/hoc/size_hoc.js');
 
 const Link = require('components/link.jsx');
-
+const invariant = require('fixed-data-table-ice/internal/invariant.js');
 const ReactWheelHandler = require('fixed-data-table-ice/internal/ReactWheelHandler');
 const PureRenderer = require('components/hoc/pure_renderer.jsx');
 const anim = require('utils/anim.js');
@@ -100,10 +100,12 @@ const CatalogPageTableNew = React.createClass({
     }
 
     if (!this.props.rowsCount) {
-      this._onVisibleRowsChangeCall(0, 0);
+      this.rowYPositions[0].rowIndex = -1; // reset
+      this._onVisibleRowsChangeCall(-1, -1);
       return;
     }
 
+    let posIndex = 0;
     let visibleRowFirst =
       this.props.miniHeaderHeight >= this._getRowHeight(scrollState.index) + scrollState.offset ? scrollState.index + 1 : scrollState.index;
 
@@ -111,16 +113,54 @@ const CatalogPageTableNew = React.createClass({
     let visibleRowLast = scrollState.index + 1;
     let heightSum = this._getRowHeight(scrollState.index) + scrollState.offset;
 
+    // ==<<begin position calcs for mouse over events
+    this.rowYPositions[posIndex].rowIndex = Math.max(0, visibleRowFirst - K_HEADER_FIELD_INDEX_DELTA);
+
+    if (scrollState.index === visibleRowFirst && visibleRowFirst > 0) {
+      this.rowYPositions[posIndex].rowYTop = scrollState.offset;
+      this.rowYPositions[posIndex].rowYBottom = heightSum;
+    } else {
+      this.rowYPositions[posIndex].rowYTop = heightSum;
+      this.rowYPositions[posIndex].rowYBottom = heightSum + this._getRowHeight(scrollState.index + 1);
+    }
+    // i know that i can remove this calc this.rowYPositions[posIndex].rowYTop = scrollState.offset; upper but it's exact calc for future use
+    this.rowYPositions[posIndex].rowYTop = Math.max(this.props.miniHeaderHeight, this.rowYPositions[posIndex].rowYTop);
+    // end position calcs for mouse over events>>==
+
     for (; heightSum < this.props.height && visibleRowLast < this.props.rowsCount + K_HEADER_FIELD_INDEX_DELTA; ++visibleRowLast) {
       heightSum += this._getRowHeight(visibleRowLast);
     }
     --visibleRowLast;
 
-    visibleRowFirst = visibleRowFirst === 0 ? 0 : visibleRowFirst - K_HEADER_FIELD_INDEX_DELTA; // первое поле хедер
+    visibleRowFirst = Math.max(0, visibleRowFirst - K_HEADER_FIELD_INDEX_DELTA); // первое поле хедер
     visibleRowLast = visibleRowLast - K_HEADER_FIELD_INDEX_DELTA;
 
-    visibleRowFirst = visibleRowFirst > visibleRowLast ? visibleRowLast : visibleRowFirst;
+    if (visibleRowFirst > visibleRowLast) {
+      if (__DEV__) {
+        invariant(visibleRowLast === -1, 'first row index is less than last row index and not eq -1');
+      }
 
+      this.rowYPositions[0].rowIndex = -1; // reset
+      visibleRowFirst = visibleRowLast;
+    } else {
+      // ==<<begin position calcs for mouse enter events
+      posIndex = 1;
+      for (let rowIndex = visibleRowFirst + 1; rowIndex <= visibleRowLast; ++rowIndex) {
+        this.rowYPositions[posIndex].rowIndex = rowIndex;
+        this.rowYPositions[posIndex].rowYTop = this.rowYPositions[posIndex - 1].rowYBottom;
+        this.rowYPositions[posIndex].rowYBottom = Math.min(this.props.height, this.rowYPositions[posIndex].rowYTop + this._getRowHeight(rowIndex + K_HEADER_FIELD_INDEX_DELTA));
+        ++posIndex;
+      }
+      this.rowYPositions[posIndex].rowIndex = -1;
+      // end position calcs for mouse enter events>>==
+    }
+
+    /*
+    console.log('-----------------------------------------');
+    for(let i=0; this.rowYPositions[i].rowIndex >=0; ++i) {
+      console.log(this.rowYPositions[i]);
+    }
+    */
     this._onVisibleRowsChangeCall(visibleRowFirst, visibleRowLast);
   },
 
@@ -142,7 +182,6 @@ const CatalogPageTableNew = React.createClass({
   _onRowMouseEnterCalc() {
     if (this.verticalScrollState) {
       // console.log(this.mousePosX, this.mousePosY);
-
     }
   },
 
@@ -223,8 +262,13 @@ const CatalogPageTableNew = React.createClass({
   },
 
   componentWillMount() {
+    const K_MAX_VISIBLE_ROWS = 100; // думаю хватит на ближайшие несколько лет
     this.mousePosX = null;
     this.mousePosY = null;
+
+    this.rowYPositions = Array
+      .from(Array(K_MAX_VISIBLE_ROWS).keys())
+      .map(v => ({rowIndex: -1, rowYTop: -1000, rowYBottom: -1000}));
 
     this.currentRow = null;
     this.inScroll = false;

@@ -99,7 +99,7 @@ var GoogleMap = React.createClass({
         this.prev_bounds_ = bounds;
       }
 
-      if(sc.__DEV__) { //TODO remove if all ok
+      if(__DEV__) { //TODO remove if all ok
         if(map) {
           var gm_c = map.getCenter();
           if(!is_arrays_equal_eps([center_lat_lng.lat, center_lat_lng.lng], [gm_c.lat(), gm_c.lng()], kEPS)) {

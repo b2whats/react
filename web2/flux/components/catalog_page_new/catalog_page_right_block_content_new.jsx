@@ -77,7 +77,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _onVisibleRowsChange = (visibleRowFirst, visibleRowLast) => {
-    //console.log(visibleRowFirst, visibleRowLast);
+    console.log(visibleRowFirst, visibleRowLast);
   }
 
   _onRowMouseEnter = (row, index) => {
