@@ -61,8 +61,8 @@ class CatalogDataStoreNew extends BaseStore {
     mapInfo: {center: [59.744465, 30.042834], zoom: 8, bounds: []},
     // над какой строкой мышка
     hoveredRowIndex: -1,
-    // visibleRowFirst индекс первого видимого элемента, visibleRowFirstPart какая часть элемента видна (например 0.5) только половина видна
-    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1, visibleRowFirstPart: 1, visibleRowLastPart: 1}
+    // visibleRowFirst индекс первого видимого элемента,
+    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
   });
 
   constructor() {
@@ -73,7 +73,8 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
   }
 
-  _onVisibleRowsChanged(visibleRowFirst, visibleRowLast, visibleRowFirstPart, visibleRowLastPart) {
+  _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
+    // visibleRowFirstPart, visibleRowLastPart не обновляю ибо очень часто меняются
     this.state.visibleRows_cursor
       .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
 

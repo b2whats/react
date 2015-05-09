@@ -302,14 +302,13 @@ const CatalogPageTableNew = React.createClass({
 
     if (nextProps.startRow!==null && this.props.startRow===null) {
       let rowToScroll = nextProps.startRow;
-      // if (this.prevVisibleRowFirst
-
 
       let animStartHeaderPosition = Math.max(this.state.headerTop, -(this.props.headerHeight - this.props.miniHeaderHeight));
 
-
       this.setState({headerTop: animStartHeaderPosition});
+
       let isTopStarted = false;
+
       anim(K_ANIM_TIME, animStartHeaderPosition, 0, 'ease_out_cubic',
         (v, t) => {
           this.setState({headerTop: v});
