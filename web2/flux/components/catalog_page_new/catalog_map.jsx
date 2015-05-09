@@ -25,7 +25,7 @@ const K_HOVER_DISTANCE = 30;
 const {getScale, getRealFromTo} = (() => {
   const K_SCALE_SMALL = 0.25;
   const K_SCALE_MEDIUM = 0.4;
-  const K_BEFORE_AFTER_SCALES = [{l: 20, scale: K_SCALE_SMALL}, {l: 10, scale: K_SCALE_MEDIUM}];
+  const K_BEFORE_AFTER_SCALES = [{l: 15, scale: K_SCALE_SMALL}, {l: 10, scale: K_SCALE_MEDIUM}];
   const K_SCALES_SUM = K_BEFORE_AFTER_SCALES.reduce((sum, el) => el.l + sum, 0);
 
   return {
@@ -44,9 +44,8 @@ const {getScale, getRealFromTo} = (() => {
             }
           }
 
-          if (__DEV__) {
-            invariant(false, 'не должны бы сюда попадать');
-          }
+          // перебор возможен так задумано
+          return K_BEFORE_AFTER_SCALES[0].scale;
         }
 
         if (rowIndex > rowTo) {
@@ -58,9 +57,8 @@ const {getScale, getRealFromTo} = (() => {
             }
           }
 
-          if (__DEV__) {
-            invariant(false, 'не должны бы сюда попадать');
-          }
+          // перебор возможен так задумано
+          return K_BEFORE_AFTER_SCALES[0].scale;
         }
       }
 
@@ -70,9 +68,13 @@ const {getScale, getRealFromTo} = (() => {
     },
 
     getRealFromTo(rowFrom, rowTo, totalSize) {
+      let addFrom = ((rowTo + K_SCALES_SUM) > (totalSize - 1)) ? ((rowTo + K_SCALES_SUM) - (totalSize - 1)) : 0;
+      let addTo = rowFrom - K_SCALES_SUM < 0 ? K_SCALES_SUM - rowFrom : 0;
+
+
       return {
-        rowFrom: Math.max(0, rowFrom - K_SCALES_SUM),
-        rowTo: Math.min(totalSize - 1, rowTo + K_SCALES_SUM)
+        rowFrom: Math.max(0, rowFrom - K_SCALES_SUM - addFrom),
+        rowTo: Math.min(totalSize - 1, rowTo + K_SCALES_SUM + addTo)
       };
     }
   };
@@ -136,7 +138,7 @@ export default class CatalogMap extends Component {
     const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.catalogResults.size);
     const emptyIm = new immutable.List();
 
-    const Markers = rowFrom === -1 ? [] : (new immutable.Range(rowFrom, rowTo + 1)).toList()
+    const Markers = rowFrom === -1 ? emptyIm : (new immutable.Range(rowFrom, rowTo + 1)).toList()
       .flatMap( rowIndex => {
         const row = this.props.catalogResults.get(rowIndex);
 

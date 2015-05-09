@@ -27,19 +27,16 @@
   @include map-marker-mixin($base-marker-scale)
   position: absolute
   cursor: pointer
-  //z-index: 100000
   &.hover
-    //z-index: 100100
     .map-marker__marker
-      //transform: scale($hover-size-scale, $hover-size-scale)
 
 
   .map-marker__marker
     @include marker-mixin($base-marker-scale)
     position: absolute
-    //transform: scale($normal-size-scale, $normal-size-scale)
+    will-change: transform
     transition: transform 0.25s ease
-    transition: transform 0.3s cubic-bezier(0.485, 1.650, 0.545, 0.835)
+    transition: transform 0.25s cubic-bezier(0.485, 1.650, 0.545, 0.835)
     &.map-marker__marker--ap
       background-image: url('../assets/icons/map_icons/map_icon_violet.svg')
       background-repeat: no-repeat
