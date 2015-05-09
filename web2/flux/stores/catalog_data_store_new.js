@@ -58,7 +58,7 @@ class CatalogDataStoreNew extends BaseStore {
   state = this.initialState({
     data: [],
     // где карта
-    mapInfo: {center: [59.744465, 30.042834], zoom: 8, bounds: []},
+    mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
     // над какой строкой мышка
     hoveredRowIndex: -1,
     // visibleRowFirst индекс первого видимого элемента,
@@ -96,6 +96,7 @@ class CatalogDataStoreNew extends BaseStore {
   }
 
   _onBoundsChanged(center, bounds, zoom) {
+    // console.log(center, zoom);
     this.state.mapInfo_cursor
       .update(mapInfo => mapInfo.merge({center, bounds, zoom}));
 

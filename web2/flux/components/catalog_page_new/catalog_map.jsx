@@ -83,7 +83,8 @@ const {getScale, getRealFromTo} = (() => {
   zoom: catalogDataStore.getMapInfo().get('zoom'),
   center: catalogDataStore.getMapInfo().get('center'),
   visibleRows: catalogDataStore.getVisibleRows(),
-  catalogResults: catalogDataStore.getSortedData()
+  catalogResults: catalogDataStore.getSortedData(),
+  hoveredRowIndex: catalogDataStore.getHoveredRowIndex()
 }), catalogDataStore)
 export default class CatalogMap extends Component {
   static propTypes = {
@@ -91,7 +92,8 @@ export default class CatalogMap extends Component {
     center: PropTypes.any,
     zoom: PropTypes.number,
     visibleRows: PropTypes.any,
-    catalogResults: PropTypes.any
+    catalogResults: PropTypes.any,
+    hoveredRowIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -134,7 +136,6 @@ export default class CatalogMap extends Component {
     const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.catalogResults.size);
     const emptyIm = new immutable.List();
 
-
     const Markers = rowFrom === -1 ? [] : (new immutable.Range(rowFrom, rowTo + 1)).toList()
       .flatMap( rowIndex => {
         const row = this.props.catalogResults.get(rowIndex);
@@ -147,6 +148,7 @@ export default class CatalogMap extends Component {
                 key={addr.get('id')}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
+                hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
                 marker={addr} />
             ));
