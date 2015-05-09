@@ -64,7 +64,7 @@ var GoogleMap = React.createClass({
 
   getDefaultProps: function() {
     return {
-      distanceToMouse(pt, mousePos /*, marker*/) {
+      distanceToMouse(pt, mousePos /*, markerProps*/) {
         var x = pt.x;
         var y = pt.y - 20;
         return Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
