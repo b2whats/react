@@ -77,13 +77,16 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _onVisibleRowsChange = (visibleRowFirst, visibleRowLast) => {
-    console.log(visibleRowFirst, visibleRowLast);
+    // console.log(visibleRowFirst, visibleRowLast);
   }
 
-  _onRowMouseEnter = (row, index) => {
-    //console.log(index);
+  _onRowMouseEnter = (index) => {
+    // console.log('enter', index);
   }
 
+  _onRowMouseLeave = (index) => {
+    // console.log('leave', index);
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.catalogResults !== nextProps.catalogResults) {
@@ -110,6 +113,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
           className="catalog-page-table-new"
           onVisibleRowsChange={this._onVisibleRowsChange}
           onRowMouseEnter={this._onRowMouseEnter}
+          onRowMouseLeave={this._onRowMouseLeave}
           forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
           columns = {this._columns}
           cellRenderer = {this._cellRenderer}

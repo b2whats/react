@@ -169,19 +169,39 @@ const CatalogPageTableNew = React.createClass({
   },
 
   _onRowMouseLeave() {
-    if (this.props.onRowMouseLeave && this.currentRow) {
-      this.currentRow = null;
-      this.props.onRowMouseLeave(this.currentRow);
+    if (this.props.onRowMouseLeave && this.currentRowIndex !== null) {
+      this.props.onRowMouseLeave(this.currentRowIndex);
+      this.currentRowIndex = null;
     }
   },
 
-  _onRowMouseEnter(e, index) {
-    console.log('_onRowMouseEnter', index - K_HEADER_FIELD_INDEX_DELTA);
+  _onRowMouseEnter(rowIndex) {
+    if (rowIndex !== this.currentRowIndex) {
+      this._onRowMouseLeave();
+
+      if (this.props.onRowMouseEnter) {
+        this.props.onRowMouseEnter(rowIndex);
+      }
+
+      this.currentRowIndex = rowIndex;
+    }
   },
 
   _onRowMouseEnterCalc() {
-    if (this.verticalScrollState) {
-      // console.log(this.mousePosX, this.mousePosY);
+    if (this.mousePosX !== null && this.mousePosY !== null) {
+      let rowIndex = -1;
+      for (let i = 0; this.rowYPositions[i].rowIndex >=0; ++i) {
+        if (this.mousePosY >= this.rowYPositions[i].rowYTop && this.mousePosY < this.rowYPositions[i].rowYBottom) {
+          rowIndex = this.rowYPositions[i].rowIndex;
+          break;
+        }
+      }
+
+      if (rowIndex !== -1) {
+        this._onRowMouseEnter(rowIndex);
+      } else {
+        this._onRowMouseLeave();
+      }
     }
   },
 
@@ -270,7 +290,7 @@ const CatalogPageTableNew = React.createClass({
       .from(Array(K_MAX_VISIBLE_ROWS).keys())
       .map(v => ({rowIndex: -1, rowYTop: -1000, rowYBottom: -1000}));
 
-    this.currentRow = null;
+    this.currentRowIndex = null;
     this.inScroll = false;
     this.prevVisibleRowFirst = -1;
     this.prevVisibleRowLast = -1;
@@ -319,9 +339,7 @@ const CatalogPageTableNew = React.createClass({
               rowHeightGetter={this._getRowHeight}
               scrollToRow={this.state.startRow}
               onScroll={this._onTableScrollChange}
-              // onScrollEnd={this._onTableScrollEnd}
               onReactWheelHandlerChange={this._onReactWheelHandlerChange}
-              onRowMouseEnter={this._onRowMouseEnter}
 
               rowsCount={this.props.rowsCount + K_HEADER_FIELD_INDEX_DELTA}
               rowGetter={this._getRowObjectAt}
