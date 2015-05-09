@@ -36,14 +36,14 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort')))
     // проставить видимым айтемам то что они видимы
     .map(item =>
-      id2PtInRect[item.get('user_id')] ? item.set('visible_map', true) : item)
+      id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
     // у видимых айтемов адреса отсортировать по видимости, у невидимых оставить как есть
     .map(item =>
-      item.get('visible_map') === true ?
+      item.get('visible_item') === true ?
         item.set('addresses',
           item.get('addresses')
-            .sortBy(addr =>
-              pointUtils.imPtInImRect(addr.get('coordinates'), bounds) ? 1 : 0))
+            .map(addr => addr.set('visible_address', pointUtils.imPtInImRect(addr.get('coordinates'), bounds)))
+            .sortBy(addr => addr.get('visible_address') ? 0 : 1))
         : item );
 
   return sorted;
@@ -73,7 +73,7 @@ class CatalogDataStoreNew extends BaseStore {
 
   _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
     this.state.visibleRows_cursor
-      .update(() => ({visibleRowFirst, visibleRowLast}));
+      .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
 
     this.fireChangeEvent();
   }

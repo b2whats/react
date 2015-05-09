@@ -31,17 +31,19 @@ const markers = new immutable
 
 @controllable(['markers'])
 @rafStateUpdate(() => ({
-  // catalogResults: catalogDataStore.getData(),
   zoom: catalogDataStore.getMapInfo().get('zoom'),
   center: catalogDataStore.getMapInfo().get('center'),
-  visibleRows: catalogDataStore.getVisibleRows()
+  visibleRows: catalogDataStore.getVisibleRows(),
+  catalogResults: catalogDataStore.getSortedData()
 }), catalogDataStore)
 export default class CatalogMap extends Component {
   static propTypes = {
     className: PropTypes.string,
     center: PropTypes.any,
     zoom: PropTypes.number,
-    markers: PropTypes.any
+    markers: PropTypes.any,
+    visibleRows: PropTypes.any,
+    catalogResults: PropTypes.any
   }
 
   static defaultProps = {
@@ -57,15 +59,29 @@ export default class CatalogMap extends Component {
   }
 
   render() {
-    const Markers = this.props.markers.map( marker => (
-        <MarkerExample
-          on_click={this.on_click}
-          on_hover={this.on_hover}
-          key={marker.get('id')}
-          lat={marker.get('lat')}
-          lng={marker.get('lng')}
-          marker={marker} />
-    ));
+    // this.props.catalogResults.map()
+
+    const rowFrom = this.props.visibleRows.get('visibleRowFirst');
+    const rowTo = this.props.visibleRows.get('visibleRowLast');
+    const emptyIm = new immutable.List();
+
+    const Markers = rowFrom === -1 ? [] : (new immutable.Range(rowFrom, rowTo + 1)).toList()
+      .flatMap( rowIndex => {
+        const row = this.props.catalogResults.get(rowIndex);
+
+        if (row.get('visible_item')) {
+          return row.get('addresses')
+            .filter(addr => addr.get('visible_address'))
+            .map(addr => (
+              <MarkerExample
+                key={addr.get('id')}
+                lat={addr.get('coordinates').get(0)}
+                lng={addr.get('coordinates').get(1)}
+                marker={addr} />
+            ));
+        }
+        return emptyIm;
+      });
 
     return (
       <GoogleMap
