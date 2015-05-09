@@ -77,6 +77,7 @@ export default class CatalogMap extends Component {
                 key={addr.get('id')}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
+                scale={0.5}
                 marker={addr} />
             ));
         }

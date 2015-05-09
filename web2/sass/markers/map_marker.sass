@@ -31,13 +31,13 @@
   &.hover
     z-index: 100100
     .map-marker__marker
-      transform: scale($hover-size-scale, $hover-size-scale)
+      //transform: scale($hover-size-scale, $hover-size-scale)
 
 
   .map-marker__marker
     @include marker-mixin($base-marker-scale)
     position: absolute
-    transform: scale($normal-size-scale, $normal-size-scale)
+    //transform: scale($normal-size-scale, $normal-size-scale)
     transition: transform 0.25s ease
     transition: transform 0.3s cubic-bezier(0.485, 1.650, 0.545, 0.835)
     &.map-marker__marker--as
