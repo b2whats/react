@@ -1,9 +1,7 @@
-const React = require('react/addons');
-const PropTypes = React.PropTypes;
+import React, {PropTypes, Component} from 'react/addons';
+import raf from 'utils/raf.js';
 
-const PureRenderMixin = React.addons.PureRenderMixin;
-
-const raf = require('utils/raf.js');
+const {PureRenderMixin} = React.addons;
 
 let __internalCounter__ = 0;
 
@@ -30,7 +28,7 @@ const GoogleMapMarkers = React.createClass({
 
   _getState() {
     return {
-      children: this.props.dispatcher.get_children()
+      children: this.props.dispatcher.getChildren()
     };
   },
 
@@ -46,29 +44,30 @@ const GoogleMapMarkers = React.createClass({
 
     if (hoverKey) {
       if (this.props.onChildMouseLeave) {
-        this.props.onChildMouseLeave(hoverKey);
+        this.props.onChildMouseLeave(hoverKey, this.props);
       }
-      // потом добавить проверку что уже не сеттили
+
       this.hoverKey = null;
       this.setState({hoverKey: null});
     }
   },
 
   _onMouseChangeHandler() {
-    // clearTimeout(this._updateTimer);
-    // this._updateTimer = setTimeout(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), 100);
     raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
   },
 
   _onMouseChangeHandler_raf() {
-    const mp = this.props.dispatcher.get_mouse_position();
+    if (!this.dimesions_cache_) {
+      return;
+    }
+
+    const mp = this.props.dispatcher.getMousePosition();
     if (mp) {
       let distances = [];
 
       React.Children.forEach(this.state.children, child => {
         const dist = this.props.distanceToMouse(this.dimesions_cache_ && this.dimesions_cache_[child.key], mp, child.props);
         if (dist < this.props.hoverDistance) {
-          // console.log(child.key, dist);
           distances.push(
             {
               key: child.key,
@@ -78,7 +77,6 @@ const GoogleMapMarkers = React.createClass({
       });
 
       if (distances.length) {
-        // console.log('==========');
         distances.sort((a, b) => a.dist - b.dist);
         const hoverKey = distances[0].key;
 
@@ -87,7 +85,7 @@ const GoogleMapMarkers = React.createClass({
             this.props.onChildMouseLeave(this.hoverKey);
           }
           if (this.props.onChildMouseEnter) {
-            this.props.onChildMouseEnter(hoverKey);
+            this.props.onChildMouseEnter(hoverKey, this.props);
           }
 
           this.hoverKey = hoverKey;

@@ -16,69 +16,10 @@ import invariant from 'fixed-data-table-ice/internal/invariant.js';
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogActions from 'actions/catalog_data_actions_new.js';
 
+import {getScale, getRealFromTo} from './calc_markers_visibility.js';
+
 const K_MAP_OPTIONS = null; // options to create map
 const K_HOVER_DISTANCE = 30;
-// {l: 10, scale: 0.3}, {l: 5, scale: 0.4} - означает
-// 10 элементов размера 0.3, потом 5 размера 0.4, потом те что видны в табличке обычного размера
-// потом снова потом 5 размера 0.4, и 10 элементов размера 0.3
-// если поставить пусто то на карте будут видны тока те что на экране
-const {getScale, getRealFromTo} = (() => {
-  const K_SCALE_SMALL = 0.25;
-  const K_SCALE_MEDIUM = 0.4;
-  const K_BEFORE_AFTER_SCALES = [{l: 15, scale: K_SCALE_SMALL}, {l: 10, scale: K_SCALE_MEDIUM}];
-  const K_SCALES_SUM = K_BEFORE_AFTER_SCALES.reduce((sum, el) => el.l + sum, 0);
-
-  return {
-    getScale(rowIndex, rowFrom, rowTo) {
-      if (rowIndex >= rowFrom && rowIndex <= rowTo) {
-        return K_SCALE_NORMAL;
-      }
-
-      if (K_BEFORE_AFTER_SCALES.length) {
-        if (rowIndex < rowFrom) {
-          let deltaS = rowFrom;
-          for (let index = K_BEFORE_AFTER_SCALES.length - 1; index >= 0; --index) {
-            deltaS -= K_BEFORE_AFTER_SCALES[index].l;
-            if (rowIndex >= deltaS) {
-              return K_BEFORE_AFTER_SCALES[index].scale;
-            }
-          }
-
-          // перебор возможен так задумано
-          return K_BEFORE_AFTER_SCALES[0].scale;
-        }
-
-        if (rowIndex > rowTo) {
-          let deltaS = rowTo;
-          for (let index = K_BEFORE_AFTER_SCALES.length - 1; index >= 0; --index) {
-            deltaS += K_BEFORE_AFTER_SCALES[index].l;
-            if (rowIndex <= deltaS) {
-              return K_BEFORE_AFTER_SCALES[index].scale;
-            }
-          }
-
-          // перебор возможен так задумано
-          return K_BEFORE_AFTER_SCALES[0].scale;
-        }
-      }
-
-      invariant(!K_BEFORE_AFTER_SCALES.length, 'и сюда попадать грех');
-
-      return K_SCALE_NORMAL;
-    },
-
-    getRealFromTo(rowFrom, rowTo, totalSize) {
-      let addFrom = ((rowTo + K_SCALES_SUM) > (totalSize - 1)) ? ((rowTo + K_SCALES_SUM) - (totalSize - 1)) : 0;
-      let addTo = rowFrom - K_SCALES_SUM < 0 ? K_SCALES_SUM - rowFrom : 0;
-
-
-      return {
-        rowFrom: Math.max(0, rowFrom - K_SCALES_SUM - addFrom),
-        rowTo: Math.min(totalSize - 1, Math.round((rowTo + K_SCALES_SUM + addTo) / 2) * 2 + 1)
-      };
-    }
-  };
-})();
 
 // @controllable(['markers'])
 @rafStateUpdate(() => ({
@@ -132,6 +73,14 @@ export default class CatalogMap extends Component {
     return distKoef * Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
   }
 
+  onChildMouseEnter_(key, props) {
+    //console.log('onChildMouseEnter_ parentIndex', key, props);
+  }
+
+  onChildMouseLeave_() {
+    //console.log('onChildMouseLeave_');
+  }
+
   render() {
     const visibleRowFrom = this.props.visibleRows.get('visibleRowFirst');
     const visibleRowTo = this.props.visibleRows.get('visibleRowLast');
@@ -147,9 +96,12 @@ export default class CatalogMap extends Component {
             .filter(addr => addr.get('visible_address'))
             .map(addr => (
               <MapMarker
+                // required params
                 key={addr.get('id')}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
+                // any params
+                parentIndex={rowIndex}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
                 marker={addr} />
@@ -165,6 +117,8 @@ export default class CatalogMap extends Component {
         distanceToMouse={this._distanceToMouse}
         center={this.props.center.toJS()}
         onCenterChange={this._onCenterChange}
+        onChildMouseEnter={this.onChildMouseEnter_}
+        onChildMouseLeave={this.onChildMouseLeave_}
         zoom={this.props.zoom}
         options={K_MAP_OPTIONS}>
         {Markers}
