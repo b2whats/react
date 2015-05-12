@@ -12,9 +12,6 @@ import gmapLoader from 'third_party/google_map.js';
 
 import merge from 'utils/merge.js';
 import Geo from 'utils/geo.js';
-import raf from 'utils/raf.js';
-
-let __internalCounter__ = 0;
 
 const kEPS = 0.00001;
 
@@ -148,8 +145,6 @@ const GoogleMap = React.createClass({
     this.fireMouseEventOnIdle_ = false;
     this.updateCounter_ = 0;
 
-    // this.__internal__display_name__ = this.constructor.displayName + '__' + __internalCounter__++;
-
     this.markersDispatcher_ = merge(Emitter.prototype, {
       getChildren() {
         return this_.props.children;
@@ -231,16 +226,15 @@ const GoogleMap = React.createClass({
             const sw = bounds.getSouthWest();
             const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
             // const div = this.div;
+
             this_.updateCounter_++;
             this_.onBoundsChanged_(map, maps, !this_.props.debounced);
 
-            raf( () => {
-              div.style.left = `${ptx.x}px`;
-              div.style.top = `${ptx.y}px`;
-              if (this_.markersDispatcher_) {
-                this_.markersDispatcher_.fire('kON_CHANGE');
-              }
-            });
+            div.style.left = `${ptx.x}px`;
+            div.style.top = `${ptx.y}px`;
+            if (this_.markersDispatcher_) {
+              this_.markersDispatcher_.fire('kON_CHANGE');
+            }
           }
         });
 
@@ -258,17 +252,15 @@ const GoogleMap = React.createClass({
           this_.updateCounter_++;
           this_.onBoundsChanged_(map, maps);
 
-          raf( () => {
-            this_.dragTime_ = 0;
-            div.style.left = `${ptx.x}px`;
-            div.style.top = `${ptx.y}px`;
-            if (this_.markersDispatcher_) {
-              this_.markersDispatcher_.fire('kON_CHANGE');
-              if (this_.fireMouseEventOnIdle_) {
-                this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
-              }
+          this_.dragTime_ = 0;
+          div.style.left = `${ptx.x}px`;
+          div.style.top = `${ptx.y}px`;
+          if (this_.markersDispatcher_) {
+            this_.markersDispatcher_.fire('kON_CHANGE');
+            if (this_.fireMouseEventOnIdle_) {
+              this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
             }
-          });
+          }
         });
 
         maps.event.addListener(map, 'mouseout', () => {
