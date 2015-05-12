@@ -44,6 +44,9 @@ function isArraysEqualEps(arrayA, arrayB, eps) {
   return false;
 }
 
+function isNumber(n) {
+  return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
+}
 
 const GoogleMap = React.createClass({
   mixins: [PureRenderMixin],
@@ -134,6 +137,146 @@ const GoogleMap = React.createClass({
     }
   },
 
+  initMap_() {
+    const brLatLng = getLeftTopFromCenter(this.geoService_.get_width(), this.geoService_.get_height(), this.props.center || this.props.defaultCenter, this.props.zoom);
+    this.geoService_.set_view([brLatLng.lat, brLatLng.lng], this.props.zoom, 0);
+
+    this.onBoundsChanged_(); // now we can calculate map bounds center etc...
+
+    gmapLoader()
+    .then(maps => {
+      if (!this.mounted_) {
+        return;
+      }
+
+      const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
+
+      const propsOptions = {
+        zoom: this.props.zoom,
+        center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng)
+      };
+
+      const mapOptions = Object.assign({}, K_MAP_CONTROL_OPTIONS, this.props.options || {}, propsOptions);
+
+      const map = new maps.Map(this.refs.google_map_dom.getDOMNode(), mapOptions);
+      this.map_ = map;
+      this.maps_ = maps;
+
+      // render in overlay
+      const this_ = this;
+      const overlay = Object.assign(new maps.OverlayView(), {
+        onAdd() {
+          const div = document.createElement('div');
+          this.div = div;
+          div.style.backgroundColor = 'transparent';
+          div.style.position = 'absolute';
+          div.style.left = '0px';
+          div.style.right = '0px';
+          div.style.top = '0px';
+          div.style.width = '2000px';
+          div.style.height = '2000px';
+          const panes = this.getPanes();
+          panes.overlayMouseTarget.appendChild(div);
+
+          React.render((
+            <GoogleMapMarkers
+              onChildMouseEnter={this_.onChildMouseEnter_}
+              onChildMouseLeave={this_.onChildMouseLeave_}
+              geo_service={this_.geoService_}
+              distanceToMouse={this_.props.distanceToMouse}
+              hoverDistance={this_.props.hoverDistance}
+              dispatcher={this_.markersDispatcher_} />),
+            div
+          );
+        },
+
+        draw() {
+          const div = overlay.div;
+          const overlayProjection = overlay.getProjection();
+          const bounds = map.getBounds();
+          const ne = bounds.getNorthEast();
+          const sw = bounds.getSouthWest();
+          const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
+          // need round for safari
+          const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
+
+          this_.updateCounter_++;
+          this_.onBoundsChanged_(map, maps, !this_.props.debounced);
+
+          div.style.left = `${ptxRounded.x}px`;
+          div.style.top = `${ptxRounded.y}px`;
+          if (this_.markersDispatcher_) {
+            this_.markersDispatcher_.fire('kON_CHANGE');
+          }
+        }
+      });
+
+      overlay.setMap(map);
+
+
+      maps.event.addListener(map, 'idle', () => {
+        const div = overlay.div;
+        const overlayProjection = overlay.getProjection();
+        const bounds = map.getBounds();
+        const ne = bounds.getNorthEast();
+        const sw = bounds.getSouthWest();
+        const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
+        // need round for safari
+        const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
+
+        this_.updateCounter_++;
+        this_.onBoundsChanged_(map, maps);
+
+        this_.dragTime_ = 0;
+        div.style.left = `${ptxRounded.x}px`;
+        div.style.top = `${ptxRounded.y}px`;
+        if (this_.markersDispatcher_) {
+          this_.markersDispatcher_.fire('kON_CHANGE');
+          if (this_.fireMouseEventOnIdle_) {
+            this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+          }
+        }
+      });
+
+      maps.event.addListener(map, 'mouseout', () => {
+        this_.mouse_ = null;
+        this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+      });
+
+      maps.event.addListener(map, 'drag', () => {
+        this_.dragTime_ = (new Date()).getTime();
+      });
+
+
+      maps.event.addListener(map, 'mousemove', (e) => {
+        if (!this_.mouse_) {
+          this_.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
+        }
+        const K_IDLE_TIMEOUT = 100;
+        const currTime = (new Date()).getTime();
+
+        this_.mouse_.x = e.pixel.x;
+        this_.mouse_.y = e.pixel.y;
+        this_.mouse_.lat = e.latLng.lat();
+        this_.mouse_.lng = e.latLng.lng();
+        if (currTime - this_.dragTime_ < K_IDLE_TIMEOUT) {
+          this_.fireMouseEventOnIdle_ = true;
+        } else {
+          this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+          this_.fireMouseEventOnIdle_ = false;
+        }
+      });
+    })
+    .catch( e => {
+      console.error(e); // eslint-disable-line no-console
+      throw e;
+    });
+  },
+
+  isCenterDefined_(center) {
+    return center && center.length === 2 && isNumber(center[0]) && isNumber(center[1]);
+  },
+
   componentWillMount() {
     const this_ = this;
     this.map_ = null;
@@ -144,6 +287,8 @@ const GoogleMap = React.createClass({
     this.dragTime_ = 0;
     this.fireMouseEventOnIdle_ = false;
     this.updateCounter_ = 0;
+
+    gmapLoader(); // начать подгружать можно уже сейчас
 
     this.markersDispatcher_ = merge(Emitter.prototype, {
       getChildren() {
@@ -159,146 +304,16 @@ const GoogleMap = React.createClass({
     this.geoService_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
   },
 
+
   componentDidMount() {
     this.mounted_ = true;
     window.addEventListener('resize', this.onWindowResize_);
 
     setTimeout(() => { // to detect size
       this.onWindowResize_();
-
-      const brLatLng = getLeftTopFromCenter(this.geoService_.get_width(), this.geoService_.get_height(), this.props.center || this.props.defaultCenter, this.props.zoom);
-      this.geoService_.set_view([brLatLng.lat, brLatLng.lng], this.props.zoom, 0);
-
-      this.onBoundsChanged_(); // now we can calculate map bounds center etc...
-
-      gmapLoader()
-      .then(maps => {
-        if (!this.mounted_) {
-          return;
-        }
-
-        const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
-
-        const propsOptions = {
-          zoom: this.props.zoom,
-          center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng)
-        };
-
-        const mapOptions = Object.assign({}, K_MAP_CONTROL_OPTIONS, this.props.options || {}, propsOptions);
-
-        const map = new maps.Map(this.refs.google_map_dom.getDOMNode(), mapOptions);
-        this.map_ = map;
-        this.maps_ = maps;
-
-        // render in overlay
-        const this_ = this;
-        const overlay = Object.assign(new maps.OverlayView(), {
-          onAdd() {
-            const div = document.createElement('div');
-            this.div = div;
-            div.style.backgroundColor = 'transparent';
-            div.style.position = 'absolute';
-            div.style.left = '0px';
-            div.style.right = '0px';
-            div.style.top = '0px';
-            div.style.width = '2000px';
-            div.style.height = '2000px';
-            const panes = this.getPanes();
-            panes.overlayMouseTarget.appendChild(div);
-
-            React.render((
-              <GoogleMapMarkers
-                onChildMouseEnter={this_.onChildMouseEnter_}
-                onChildMouseLeave={this_.onChildMouseLeave_}
-                geo_service={this_.geoService_}
-                distanceToMouse={this_.props.distanceToMouse}
-                hoverDistance={this_.props.hoverDistance}
-                dispatcher={this_.markersDispatcher_} />),
-              div
-            );
-          },
-
-          draw() {
-            const div = overlay.div;
-            const overlayProjection = overlay.getProjection();
-            const bounds = map.getBounds();
-            const ne = bounds.getNorthEast();
-            const sw = bounds.getSouthWest();
-            const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
-            // need round for safari
-            const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
-
-            this_.updateCounter_++;
-            this_.onBoundsChanged_(map, maps, !this_.props.debounced);
-
-            div.style.left = `${ptxRounded.x}px`;
-            div.style.top = `${ptxRounded.y}px`;
-            if (this_.markersDispatcher_) {
-              this_.markersDispatcher_.fire('kON_CHANGE');
-            }
-          }
-        });
-
-        overlay.setMap(map);
-
-
-        maps.event.addListener(map, 'idle', () => {
-          const div = overlay.div;
-          const overlayProjection = overlay.getProjection();
-          const bounds = map.getBounds();
-          const ne = bounds.getNorthEast();
-          const sw = bounds.getSouthWest();
-          const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
-          // need round for safari
-          const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
-
-          this_.updateCounter_++;
-          this_.onBoundsChanged_(map, maps);
-
-          this_.dragTime_ = 0;
-          div.style.left = `${ptxRounded.x}px`;
-          div.style.top = `${ptxRounded.y}px`;
-          if (this_.markersDispatcher_) {
-            this_.markersDispatcher_.fire('kON_CHANGE');
-            if (this_.fireMouseEventOnIdle_) {
-              this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
-            }
-          }
-        });
-
-        maps.event.addListener(map, 'mouseout', () => {
-          this_.mouse_ = null;
-          this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
-        });
-
-        maps.event.addListener(map, 'drag', () => {
-          this_.dragTime_ = (new Date()).getTime();
-        });
-
-
-        maps.event.addListener(map, 'mousemove', (e) => {
-          if (!this_.mouse_) {
-            this_.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
-          }
-          const K_IDLE_TIMEOUT = 100;
-          const currTime = (new Date()).getTime();
-
-          this_.mouse_.x = e.pixel.x;
-          this_.mouse_.y = e.pixel.y;
-          this_.mouse_.lat = e.latLng.lat();
-          this_.mouse_.lng = e.latLng.lng();
-          if (currTime - this_.dragTime_ < K_IDLE_TIMEOUT) {
-            this_.fireMouseEventOnIdle_ = true;
-          } else {
-            this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
-            this_.fireMouseEventOnIdle_ = false;
-          }
-        });
-      })
-      .catch( e => {
-        console.error(e); // eslint-disable-line no-console
-        throw e;
-      });
+      if (this.isCenterDefined_(this.props.center)) {
+        this.initMap_();
+      }
     }, 0, this);
   },
 
@@ -320,6 +335,11 @@ const GoogleMap = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    if (!this.isCenterDefined_(this.props.center) && this.isCenterDefined_(nextProps.center)) {
+      setTimeout(() =>
+        this.initMap_(), 0);
+    }
+
     if (this.map_) {
       const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
       if (nextProps.center) {

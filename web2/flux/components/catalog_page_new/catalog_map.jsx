@@ -27,7 +27,7 @@ const K_HOVER_DISTANCE = 30;
   zoom: catalogDataStore.getMapInfo().get('zoom'),
   center: catalogDataStore.getMapInfo().get('center'),
   visibleRows: catalogDataStore.getVisibleRows(),
-  catalogResults: catalogDataStore.getSortedData(),
+  dataResults: catalogDataStore.getSortedData(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
   onRowMapHover: catalogActions.rowMapHover,
   oMapBoundsChange: catalogActions.mapBoundsChange
@@ -35,10 +35,10 @@ const K_HOVER_DISTANCE = 30;
 export default class CatalogMap extends Component {
   static propTypes = {
     className: PropTypes.string,
-    center: PropTypes.any,
-    zoom: PropTypes.number,
-    visibleRows: PropTypes.any,
-    catalogResults: PropTypes.any,
+    center: PropTypes.any.isRequired,
+    zoom: PropTypes.number.isRequired,
+    visibleRows: PropTypes.any.isRequired,
+    dataResults: PropTypes.any.isRequired,
     hoveredRowIndex: PropTypes.number,
 
     onRowMapHover: PropTypes.func,
@@ -83,7 +83,7 @@ export default class CatalogMap extends Component {
   }
 
   _onChildMouseEnter = (key, props) => {
-    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
+    const rowIndex = this.props.dataResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
     if (rowIndex > -1) {
       if (this.props.onRowMapHover) {
         this.props.onRowMapHover(rowIndex, true);
@@ -92,25 +92,21 @@ export default class CatalogMap extends Component {
   }
 
   _onChildMouseLeave = (key, props) => {
-    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
+    const rowIndex = this.props.dataResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
     if (this.props.onRowMapHover) {
       this.props.onRowMapHover(rowIndex, false);
     }
   }
 
   render() {
-    if (this.props.center.size === 0) {
-      return null;
-    }
-
     const visibleRowFrom = this.props.visibleRows.get('visibleRowFirst');
     const visibleRowTo = this.props.visibleRows.get('visibleRowLast');
-    const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.catalogResults.size);
+    const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.dataResults.size);
     const emptyIm = new immutable.List();
 
     const Markers = rowFrom === -1 ? emptyIm : (new immutable.Range(rowFrom, rowTo + 1)).toList()
       .flatMap( rowIndex => {
-        const row = this.props.catalogResults.get(rowIndex);
+        const row = this.props.dataResults.get(rowIndex);
 
         if (row.get('visible_item')) {
           return row.get('addresses')
