@@ -129,6 +129,7 @@ export default class CatalogMap extends Component {
         onCenterChange={this._onCenterChange}
         onChildMouseEnter={this.onChildMouseEnter_}
         onChildMouseLeave={this.onChildMouseLeave_}
+        debounced={true} // слать запросы onBoundsChange только на idle
         zoom={this.props.zoom}
         options={K_MAP_OPTIONS}>
         {Markers}

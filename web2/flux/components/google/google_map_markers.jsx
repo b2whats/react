@@ -28,7 +28,8 @@ const GoogleMapMarkers = React.createClass({
 
   _getState() {
     return {
-      children: this.props.dispatcher.getChildren()
+      children: this.props.dispatcher.getChildren(),
+      updateCounter: this.props.dispatcher.getUpdateCounter()
     };
   },
 

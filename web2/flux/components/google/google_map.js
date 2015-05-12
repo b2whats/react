@@ -62,7 +62,8 @@ const GoogleMap = React.createClass({
     distanceToMouse: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
-    hoverDistance: PropTypes.number
+    hoverDistance: PropTypes.number,
+    debounced: PropTypes.bool
   },
 
   getDefaultProps() {
@@ -72,7 +73,8 @@ const GoogleMap = React.createClass({
         const y = pt.y - 20;
         return Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
       },
-      hoverDistance: 30
+      hoverDistance: 30,
+      debounced: true
     };
   },
 
@@ -94,7 +96,7 @@ const GoogleMap = React.createClass({
     this.onBoundsChanged_();
   },
 
-  onBoundsChanged_(map) {
+  onBoundsChanged_(map, maps, callExtBoundsChange) {
     if (map) {
       const locBounds = map.getBounds();
       const ne = locBounds.getNorthEast();
@@ -110,8 +112,10 @@ const GoogleMap = React.createClass({
       const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
 
       if (!isArraysEqualEps(bounds, this.prevBounds_, kEPS)) {
-        this.props.onCenterChange([centerLatLng.lat, centerLatLng.lng], bounds, zoom);
-        this.prevBounds_ = bounds;
+        if (callExtBoundsChange !== false) {
+          this.props.onCenterChange([centerLatLng.lat, centerLatLng.lng], bounds, zoom);
+          this.prevBounds_ = bounds;
+        }
       }
 
       if (__DEV__) { // TODO remove if all ok
@@ -142,6 +146,7 @@ const GoogleMap = React.createClass({
     this.mouse_ = null;
     this.dragTime_ = 0;
     this.fireMouseEventOnIdle_ = false;
+    this.updateCounter_ = 0;
 
     // this.__internal__display_name__ = this.constructor.displayName + '__' + __internalCounter__++;
 
@@ -151,6 +156,9 @@ const GoogleMap = React.createClass({
       },
       getMousePosition() {
         return this_.mouse_;
+      },
+      getUpdateCounter() {
+        return this_.updateCounter_;
       }
     });
     this.geoService_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
@@ -216,23 +224,23 @@ const GoogleMap = React.createClass({
           },
 
           draw() {
-            const overlayProjection = this.getProjection();
+            const div = overlay.div;
+            const overlayProjection = overlay.getProjection();
             const bounds = map.getBounds();
             const ne = bounds.getNorthEast();
             const sw = bounds.getSouthWest();
             const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
-            const div = this.div;
+            // const div = this.div;
+            this_.updateCounter_++;
+            this_.onBoundsChanged_(map, maps, !this_.props.debounced);
 
             raf( () => {
-              // div.style.transform = `translate(${ptx.x}px, ${ptx.y}px)`; // bad solution
               div.style.left = `${ptx.x}px`;
               div.style.top = `${ptx.y}px`;
               if (this_.markersDispatcher_) {
                 this_.markersDispatcher_.fire('kON_CHANGE');
               }
             });
-
-            this_.onBoundsChanged_(map, maps);
           }
         });
 
@@ -247,6 +255,9 @@ const GoogleMap = React.createClass({
           const sw = bounds.getSouthWest();
           const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
 
+          this_.updateCounter_++;
+          this_.onBoundsChanged_(map, maps);
+
           raf( () => {
             this_.dragTime_ = 0;
             div.style.left = `${ptx.x}px`;
@@ -258,8 +269,6 @@ const GoogleMap = React.createClass({
               }
             }
           });
-
-          this_.onBoundsChanged_(map, maps);
         });
 
         maps.event.addListener(map, 'mouseout', () => {
