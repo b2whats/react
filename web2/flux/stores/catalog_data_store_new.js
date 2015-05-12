@@ -58,6 +58,7 @@ class CatalogDataStoreNew extends BaseStore {
     // где карта
     // mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
     mapInfo: {center: [], zoom: 10, bounds: []},
+    regionId: null,
     // над какой строкой мышка
     hoveredRowIndex: -1,
     // мышка над маркером чтобы выделить в табличке
@@ -79,10 +80,15 @@ class CatalogDataStoreNew extends BaseStore {
   _onRegionChanged() {
     const currentRegion = regionStore.get_region_current();
 
-    this.state.mapInfo_cursor
-      .update(mapInfo => mapInfo.merge({center: currentRegion.get('center')}));
+    if (this.state.regionId !== currentRegion.get('id')) {
+      this.state.mapInfo_cursor
+        .update(mapInfo => mapInfo.merge({center: currentRegion.get('center')}));
 
-    this.fireChangeEvent();
+      this.state.regionId_cursor
+        .update(() => currentRegion.get('id'));
+
+      this.fireChangeEvent();
+    }
   }
 
   _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
