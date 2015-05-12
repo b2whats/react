@@ -22,12 +22,22 @@ var filial_address_and_work_time_store = require('stores/admin/filial_address_an
 var filial_address_and_work_time_actions = require('actions/admin/filial_address_and_work_time_actions.js');
 
 var sass_vars = require('common_vars.json')['yandex-map'];
-var ModalMixin = require('components/mixins/modal_mixin.js');
+
 
 var kMARKER_COLOR = [
 	sass_vars['auto-part-marker-color'],
 	sass_vars['autoservice-marker-color']
 ];
+
+/*Action*/
+import ModalActions from 'actions/ModalActions.js';
+
+
+
+
+
+
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(
 	() => ({
@@ -45,14 +55,15 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(
 var FilialAddressSelector = React.createClass({
 	mixins : [
 		PureRenderMixin,
-		RafBatchStateUpdateMixin,
-		ModalMixin
+		RafBatchStateUpdateMixin
 	],
 
 	on_phone_change(index, e) {
 		filial_address_and_work_time_actions.f_phone_change(index, e.target.value);
 	},
-
+  onClickCloseModal() {
+    ModalActions.closeModal();
+  },
 	on_address_changed(address, coords, metadata) {
 		filial_address_and_work_time_actions.f_address_change(address);
 		filial_address_and_work_time_actions.f_coords_change(coords);
@@ -85,7 +96,7 @@ var FilialAddressSelector = React.createClass({
 			phones      : this.state.phones.toJS(),
 		};
 		filial_address_and_work_time_actions.submit_form(value);
-		this.closeModal();
+		this.onClickCloseModal();
 	},
 	render() {
 		var map_width = 400; //важно знать заранее как вариант подтянуть из sass
@@ -119,7 +130,7 @@ var FilialAddressSelector = React.createClass({
 
 		return (
 			<div className="ta-C w700px">
-				<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
+				<div className='ReactModal__Content-close flaticon-close' onClick={this.onClickCloseModal}></div>
 				<h2 className='m15-0'>{(!!this.state.type) ? 'Редактирование филиала' : 'Новый филиал'}</h2>
 				<ButtonGroup className='m15-0' select_element_value={this.state.type} onChange={this.on_type_changed}>
 					<button className="btn-bg-group w160px" value={1}>

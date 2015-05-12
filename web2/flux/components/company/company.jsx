@@ -16,7 +16,7 @@ Modal.setAppElement(appElement);
 
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
-var modal_store = require('stores/modal_store.js');
+var modal_store = require('stores/ModalStore.js');
 var ModalMixin = require('../mixins/modal_mixin.js');
 
 var EditableForms = require('components/editable_forms/editable_forms.jsx');
@@ -30,9 +30,9 @@ var ButtonGroup = require('components/forms_element/button_group.jsx');
 var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
 var region_store = require('stores/region_store.js');
-var toggle_store = require('stores/toggle_store.js');
+var toggle_store = require('stores/ToggleStore.js');
 var auth_store = require('stores/auth_store.js');
-var toggle_actions = require('actions/toggle_actions.js');
+var toggle_actions = require('actions/ToggleActions.js');
 var cx = require('classnames');
 var immutable = require('immutable');
 
@@ -40,10 +40,10 @@ var map_data_store = require('stores/personal_company_page_data_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
     company_information     : personal_company_page_store.get_company_information(),
-    company_filials         : personal_company_page_store.get_company_filials(),
+    company_filials         : personal_company_page_store.getCompanyFilials(),
     region_current          : region_store.get_region_current(),
     regions          : region_store.get_region_list(),
-    toggle                  : toggle_store.get_toggle(),
+    toggle                  : toggle_store.getToggle(),
     new_comment             : personal_company_page_store.get_new_comment(),
     comment_field_validation: personal_company_page_store.get_comment_field_validation(),
     comments                : personal_company_page_store.get_comments(),

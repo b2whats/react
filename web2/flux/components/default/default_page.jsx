@@ -38,7 +38,7 @@ var kSASS_INPUT = style_utils.from_px_to_number( sass_vars['input-padding'] );
 
 var kLIST_DELTA=9; //сумма толщин бордеров - потом посчитаю и хз откуда 1 пиксель
 var kRECALC_WIDTH_TIMEOUT = 200;
-
+console.log('init');
 var DefaultPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   

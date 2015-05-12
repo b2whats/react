@@ -17,7 +17,7 @@ const account_services_actions = require('actions/admin/services_actions.js');
 const account_manage_actions = require('actions/admin/account_manage_actions.js');
 const price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
-const modal_actions = require('actions/modal_actions.js');
+const modal_actions = require('actions/ModalActions.js');
 const auth_actions = require('actions/auth_actions.js');
 
 const personal_company_page = require('actions/personal_company_page_actions.js');
@@ -34,7 +34,7 @@ const routes = {};
 const auth_options = {
   pre_auth(path_role, route_name, route_context, route_context_params) {
     auth_actions.save_path(route_context.path);
-    modal_actions.open_modal('signin');
+    modal_actions.openModal('signin');
   },
 };
 
@@ -220,8 +220,12 @@ routes[route_definitions.kROUTE_COMPANY] = [
 
 
 routes[route_definitions.kROUTE_AFTER_REGISTER] = [
-  (route_name, route_context, route_context_params) =>
-    region_actions.region_changed(route_context_params.region_id),
+  (route_name, route_context, route_context_params) => {
+    region_actions.region_changed(route_context_params.region_id);
+    account_services_actions.get_services_information();
+    account_page_actions.get_company_filial();
+    account_page_actions.get_company_information();
+  },
   route_actions.default_route];
 
 module.exports = routes;

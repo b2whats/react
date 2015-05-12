@@ -13,15 +13,15 @@ var PriceListSelector = require('components/test/price_list_selector.jsx');
 var price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 var price_list_selector_store = require('stores/admin/price_list_selector_store.js');
 
-var toggle_actions = require('actions/toggle_actions.js');
-var toggle_store = require('stores/toggle_store.js');
+var toggle_actions = require('actions/ToggleActions.js');
+var toggle_store = require('stores/ToggleStore.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
     price_list_values : price_list_selector_store.get_values(),
     first_value       : price_list_selector_store.get_first_value(),
     range_to          : price_list_selector_store.get_price_range_to(),
     range_from        : price_list_selector_store.get_price_range_from(),
-    toggle            : toggle_store.get_toggle(),
+    toggle            : toggle_store.getToggle(),
 
   }),
   price_list_selector_store, toggle_store /*observable store list*/);

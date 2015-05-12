@@ -15,13 +15,13 @@ module.exports.get_services_information = () => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_INFO_LOADED].concat([response]));
     });
 };
-module.exports.submit_checkbox = (field,selected) => {
+module.exports.submitCheckbox = (field,selected) => {
   return resource(api_refs.kACCOUNT_SERVICES_INFO)
     .post({type : 'set', field : field,selected : selected})
     .then(response => {
     });
 };
-module.exports.submit_masters_name = (names) => {
+module.exports.submitMasterName = (names) => {
   return resource(api_refs.kACCOUNT_SERVICES_INFO)
     .post({type : 'set', field : 'masters_name',names : names})
     .then(response => {
@@ -58,11 +58,11 @@ module.exports.make_payment = (payment_info, payment_method) => {
 var actions_ = [
   ['change_step', event_names.kACCOUNT_SERVICES_CHANGE_STEP],
   ['toggle', event_names.kACCOUNT_SERVICES_TOGGLE],
-  ['change_tarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
+  ['changeTarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
   ['change_brands', event_names.kACCOUNT_SERVICES_CHANGE_BRANDS],
   ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES],
   ['change_payment_method', event_names.kACCOUNT_SERVICES_CHANGE_PAYMENT_METHOD],
-  ['change_masters_name', event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME]
+  ['changeMasterName', event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME]
 
 ];
 

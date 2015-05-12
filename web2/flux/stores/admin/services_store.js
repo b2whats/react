@@ -21,7 +21,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   toggle: {
     'autoservices' : 'autoservices'
   },
-  brands_by_region: {},
+  brands_by_region: [],
   services_by_type: {},
   select_brands: {},
   select_services: {},
@@ -246,22 +246,22 @@ var account_services_store = merge(Emitter.prototype, {
   get_step() {
     return state_.step;
   },
-  get_toggle() {
+  getToggle() {
     return state_.toggle;
   },
-  get_selected_services() {
+  getSelectedServices() {
     return state_.selected_services;
   },
-  get_tarifs() {
+  getTarifs() {
     return state_.tarifs;
   },
-  get_brands_by_region() {
+  getBrandsGroupByRegion() {
     return state_.brands_by_region;
   },
-  get_services_by_type() {
+  getServicesGroupByType() {
     return state_.services_by_type;
   },
-  get_select_brands() {
+  getSelectBrands() {
     return state_.select_brands;
   },
   get_select_services() {

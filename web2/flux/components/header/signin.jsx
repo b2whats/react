@@ -7,12 +7,12 @@ var ModalMixin = require('../mixins/modal_mixin.js');
 
 var Modal = require('components/modal/index');
 var appElement = document.getElementById('react_main');
-Modal.setAppElement(appElement);
+
 
 var auth_store = require('stores/auth_store.js');
 var auth_actions = require('actions/auth_actions.js');
 
-var modal_store = require('stores/modal_store.js');
+var modal_store = require('stores/ModalStore.js');
 var route_actions = require('actions/route_actions.js');
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
@@ -21,7 +21,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
       auth_field_validation : auth_store.get_auth_field_validation(),
       is_auth               : auth_store.is_auth(),
       path                  : auth_store.get_path(),
-      modalIsOpen           : modal_store.get_modal_visible()
+      modalIsOpen           : modal_store.getModalIsOpen()
     })
   },
   auth_store, modal_store);

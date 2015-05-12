@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "async": "^0.9.0",
+    "autobind-decorator": "^1.2.0",
     "autoprefixer-loader": "^1.2.0",
     "babel-eslint": "^3.1.1",
     "css-loader": "^0.9.0",

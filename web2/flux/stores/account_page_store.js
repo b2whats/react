@@ -18,7 +18,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
     legal_detail: null,
     phone: null,
   },
-  company_filials         : {},
+  companyFilials         : [],
   current_filial          : {},
   company_personal_detail : {}
 });
@@ -37,16 +37,16 @@ var cncl_ = [
     }, 1),
   main_dispatcher
     .on(event_names.kACCOUNT_COMPANY_FILIALS_LOADED, info => {
-      state_.company_filials_cursor
+      state_.companyFilials_cursor
         .update(() => immutable.fromJS(info));
       account_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
     .on(event_names.kACCOUNT_COMPANY_FILIALS_UPDATE, filial => {
 
-      state_.company_filials_cursor
+      state_.companyFilials_cursor
         .update(m => {
-          if (!!state_.company_filials.find(el => el.get('id') === filial.id)) {
+          if (!!state_.companyFilials.find(el => el.get('id') === filial.id)) {
             return m.map(el => (el.get('id') === filial.id) ? immutable.fromJS(filial) : el);
           }
           else {
@@ -72,15 +72,15 @@ var cncl_ = [
     .on(event_names.kON_CURRENT_FILIAL_CHANGE, (id_element)  => {
       console.log('UPDATE 1');
       state_.current_filial_cursor
-        .update(() => state_.company_filials.find(b => b.get('id') === id_element));
+        .update(() => state_.companyFilials.find(b => b.get('id') === id_element));
       //После него идет открытие модального окна, стейт могу не обновлять, он его сам обновит
       //account_page_store.fire(event_names.kON_CHANGE);
     }, 100000),
   main_dispatcher
     .on(event_names.kON_FILIAL_DELETE, (id_filial)  => {
 
-      state_.company_filials_cursor
-        .update(company_filials => company_filials.filter(b => b.get('id') !== id_filial));
+      state_.companyFilials_cursor
+        .update(companyFilials => companyFilials.filter(b => b.get('id') !== id_filial));
       account_page_actions.delete_company_filial_async(id_filial);
       account_page_store.fire(event_names.kON_CHANGE);
     }, 100000),
@@ -90,8 +90,8 @@ var account_page_store = merge(Emitter.prototype, {
   get_company_information() {
     return state_.company_information;
   },
-  get_company_filials() {
-    return state_.company_filials;
+  getCompanyFilials() {
+    return state_.companyFilials;
   },
   get_current_filial() {
     return state_.current_filial;

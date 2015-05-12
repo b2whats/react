@@ -9,7 +9,7 @@ import shallowEqual from 'react/lib/shallowEqual.js';
 export default class MapMarker extends Component {
   static propTypes = {
     marker: PropTypes.any,
-    hover: PropTypes.bool,
+    hover: PropTypes.bool
   };
 
   static defaultProps = {

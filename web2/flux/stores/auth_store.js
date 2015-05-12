@@ -11,7 +11,7 @@ var init_state = require('utils/init_state.js');
 var immutable = require('immutable');
 var merge = require('utils/merge.js');
 
-var modal_actions = require('actions/modal_actions.js');
+var modal_actions = require('actions/ModalActions.js');
 
 var state_ = init_state(_.last(__filename.split('/')), {
   is_auth               : false,
@@ -53,7 +53,7 @@ var cncl_ = [
         .update(m => response.user_email);
       state_.user_id_cursor
         .update(m => response.user_id);
-      modal_actions.close_modal();
+      modal_actions.closeModal();
       auth_store.fire(event_names.kON_CHANGE);
     }, 100000),
   main_dispatcher

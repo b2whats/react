@@ -29,7 +29,7 @@ var cncl_ = [
 
 
 var toggle = merge(Emitter.prototype, {
-    get_toggle () {
+    getToggle () {
         return state_.toggle;
     },
     dispose () {

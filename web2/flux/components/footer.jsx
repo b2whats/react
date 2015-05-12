@@ -8,12 +8,12 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Link = require('components/link.jsx');
 /* jshint ignore:end */
 var cx = require('classnames');
-var toggle_actions = require('actions/toggle_actions.js');
-var toggle_store = require('stores/toggle_store.js');
+var toggle_actions = require('actions/ToggleActions.js');
+var toggle_store = require('stores/ToggleStore.js');
 var rafBatchStateUpdateMixinCreate = require('components/mixins/raf_state_update.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-    toggle      : toggle_store.get_toggle(),
+    toggle      : toggle_store.getToggle(),
   }),
   toggle_store /*observable store list*/);
 

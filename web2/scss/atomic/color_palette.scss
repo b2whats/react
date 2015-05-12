@@ -63,13 +63,13 @@ $color : (
 /*Цвет текста, фона, бордеров*/
 @each $name, $map in $color {
   @each $brightnes, $color in $map {
-    .bc-#{$name}-#{$brightnes} {
+    .bc-#{$name}-#{$brightnes}, .H-bc-#{$name}-#{$brightnes}:hover {
       border-color: #{$color};
     }
-    .bgc-#{$name}-#{$brightnes} {
+    .bgc-#{$name}-#{$brightnes}, .H-bgc-#{$name}-#{$brightnes}:hover {
       background-color: #{$color};
     }
-    .c-#{$name}-#{$brightnes} {
+    .c-#{$name}-#{$brightnes}, .H-c-#{$name}-#{$brightnes}:hover {
       color: #{$color};
     }
   }

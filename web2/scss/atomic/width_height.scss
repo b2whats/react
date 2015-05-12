@@ -3,8 +3,8 @@
 .w49pr { width : 49%; }
 .w98pr { width : 98%; }
 .w99pr { width : 99%; }
-@for $i from 0 through 20 {
-  $v: $i * 5;
+@for $i from 0 through 50 {
+  $v: $i * 2;
   .w#{$v}pr {width: percentage($v / 100);}
 }
 $width_size_list : (20,25,30,35,40,45,50,55,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,250,300,700);

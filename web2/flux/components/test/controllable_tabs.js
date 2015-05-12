@@ -133,3 +133,105 @@ export default class AfterRegister extends Component {
 {Filial}
 <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
 </div>
+
+/*    Object.getOwnPropertyNames(this.constructor.prototype)
+ .filter(x => x.startsWith('on'))
+ .map(x => this[x] = this[x].bind(this));*/
+
+
+
+function ext() {
+  return (target, key, descriptor) => {
+    let fn = descriptor.value;
+    return {
+      configurable: true,
+      get() {
+        let boundFn = fn.bind(this);
+        Object.defineProperty(this, key, {
+          value: boundFn,
+          configurable: true,
+          writable: true
+        });
+        return boundFn;
+      }
+    };
+  };
+}
+function ext3(target, key, descriptor) {
+  let fn = descriptor.value;
+  return {
+    configurable: true,
+    get() {
+      function boundFn() {
+        fn.apply(this, arguments);
+      }
+      Object.defineProperty(this, key, {
+        value: boundFn,
+        configurable: true,
+        writable: true
+      });
+      return boundFn;
+    }
+  };
+}
+function boundMethod(target, key, descriptor) {
+  let fn = descriptor.value;
+  if (typeof fn !== 'function') {
+    throw new Error(`@autobind decorator can only be applied to methods not: ${typeof fn}`);
+  }
+
+  /*  if (sc.__DEV__) {
+   return {
+   configurable: true,
+   get() {
+   debugger;
+   console.log(sc.__DEV__);
+   var getStackTrace = function() {
+   var obj = {};
+   Error.captureStackTrace(obj, getStackTrace);
+   return obj.stack;
+   };
+   let abr = getStackTrace().split('\n')[2].indexOf('makeAssimilatePrototype');
+   let boundFn = fn.bind(this);
+   if (abr === -1) {
+   Object.defineProperty(this, key, {
+   value: boundFn,
+   configurable: true,
+   writable: true
+   });
+   }
+   return boundFn;
+   },
+   set() {
+   console.log('set');
+   }
+   };
+   }*/
+  return {
+    configurable: true,
+    get() {
+      let boundFn = fn.bind(this);
+      Object.defineProperty(this, key, {
+        value: boundFn,
+        configurable: true,
+        writable: true
+      });
+      return boundFn;
+    }
+  };
+
+
+}
+
+
+
+function ext1() {
+  return function (target, key, descriptor) {
+    let fn = descriptor.value;
+    descriptor.value = function () {
+      console.log(1);
+      fn.call(this, arguments);
+    };
+    return descriptor;
+  }
+}

@@ -10,7 +10,7 @@ var immutable = require('immutable');
 var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
 Modal.setAppElement(appElement);
-var modal_store = require('stores/modal_store.js');
+var modal_store = require('stores/ModalStore.js');
 var ModalMixin = require('../mixins/modal_mixin.js');
 
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
@@ -25,13 +25,17 @@ var ButtonGroup = require('components/forms_element/button_group.jsx');
 var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
 var Select = require('react-select');
+
+/*Component*/
+import CompanyFilial from 'components/Account/Company/CompanyFilial';
+
+
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
 		return ({ //state update lambda
-      modalIsOpen             : modal_store.get_modal_visible(),
+      modalIsOpen             : modal_store.getModalIsOpen(),
       formsIsEdit             : editable_forms_store.get_forms_editable(),
       company_information     : account_page_store.get_company_information(),
-      company_filials         : account_page_store.get_company_filials(),
-      current_filial          : account_page_store.get_current_filial(),
       company_personal_detail : account_page_store.get_company_personal_detail(),
 		})
 	},
@@ -64,23 +68,6 @@ var AccountInfo = React.createClass({
 	updateFormElement : function (name) {
 		return (value) => account_page_actions.update_form(name, value);
 	},
-	extOpenModal(id_modal, id_element) {
-		return () => {
-      if (id_element !== 'new') {
-        account_page_actions.change_current_filial(id_element);
-      } else {
-        account_page_actions.new_filial();
-      }
-      this.openModal(id_modal)();
-    }
-	},
-
-	deleteFilial : function (id_filial) {
-
-		return () => {
-			account_page_actions.delete_filial(id_filial);
-		}
-	},
 	btnChange    : function (name) {
 		this.refs.snack.show();
 	},
@@ -97,33 +84,13 @@ var AccountInfo = React.createClass({
 	render() {
 
 		var edit = this.state.formsIsEdit.get('informations');
-		var Filial = this.state.company_filials
-				.map((part, part_index) => {
-          return (
-						<div key={part.get('id')} className='grad-g p8 m10-0 b1s bc-g br2 entire-width'>
-							<span>
-								<span className='fw-b fs16 ta-R d-ib w25px'>{part_index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
-                                {(part.get('filial_type_id') == 1) ?
-	                                <i className='svg-icon_gear m0-10 va-M fs16'/>
-	                                :
-	                                <i className='svg-icon_key m0-10 va-M fs16'/>
-	                                }
-							</span>
-							<span>
-								<i className='svg-icon_edit-grey m0-5 va-M'  onClick={this.extOpenModal('edit_company_filial', part.get('id'))}/>
-								<i className='svg-icon_close-red m0-5 va-M' onClick={this.deleteFilial(part.get('id'))}/>
-							</span>
-						</div>
-					)
-				})
-				.toJS();
 		return (
 			<div className='entire-width'>
 				<div className='company-information w50pr '>
-					<h2 className='tt-n fs26 d-ib'>Информация о компании</h2>
+					<h2 className='tt-n fs26 d-ib mR15'>Информация о компании</h2>
 					<span className='d-ib'>
-						<i className='svg-icon_edit-grey m0-15' onClick={this.toggleEdit('informations')}/>
-						<a className='fs13 m0-15  td-u ap-link d-ib' onClick={this.openModal('payment_information')} >Платежные реквизиты</a>
+						<i className='svg-icon_edit-grey' onClick={this.toggleEdit('informations')}/>
+						<a className='fs13 mL15  td-u ap-link d-ib' onClick={this.openModal('payment_information')} >Платежные реквизиты</a>
 					</span>
 					<table className='company-information__view-edit m10-0 w100pr'>
             <tr>
@@ -179,13 +146,7 @@ var AccountInfo = React.createClass({
 							</td>
 						</tr>
 					</table>
-					<div className='filial-company'>
-						<h3 className='fs20 fw-n bc-g bb-s pb5'>Филиалы компании
-							<i className='btn-question m0-10'/>
-						</h3>
-                        {Filial}
-						<button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.extOpenModal('edit_company_filial', 'new')}>Новый филиал</button>
-					</div>
+          <CompanyFilial />
 				</div>
 				<div className='your-manager w50pr Mw500px'>
 					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>

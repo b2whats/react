@@ -1,15 +1,15 @@
 'use strict';
-var modal_actions = require('actions/modal_actions.js');
+var modal_actions = require('actions/ModalActions.js');
 
 var ModalMixin = {
     openModal: function(id) {
-        return () => modal_actions.open_modal(id);
+        return () => modal_actions.openModal(id);
     },
     closeModal: function() {
-        modal_actions.close_modal();
+        modal_actions.closeModal();
     },
     handleModalCloseRequest: function() {
-        modal_actions.close_modal();
+        modal_actions.closeModal();
     }
 };
 

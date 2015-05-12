@@ -158,7 +158,7 @@ var company_personal_page_store = merge(Emitter.prototype, {
   get_company_information() {
     return state_.company_information;
   },
-  get_company_filials() {
+  getCompanyFilials() {
     return state_.company_filials;
   },
   get_new_comment() {

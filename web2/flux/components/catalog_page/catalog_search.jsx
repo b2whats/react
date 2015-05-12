@@ -20,8 +20,8 @@ var catalog_data_actions = require('actions/catalog_data_actions.js');
 
 var catalog_suggestion_store = require('stores/catalog_suggestion_store.js');
 var catalog_data_store = require('stores/catalog_data_store.js');
-var toggle_actions = require('actions/toggle_actions.js');
-var toggle_store = require('stores/toggle_store.js');
+var toggle_actions = require('actions/ToggleActions.js');
+var toggle_store = require('stores/ToggleStore.js');
 var cx        = require('classnames');
 
 
@@ -33,7 +33,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state u
     show_value_hack: catalog_suggestion_store.get_show_value(),
     company_type   : catalog_suggestion_store.get_company_type(),
     company_type_price   : catalog_suggestion_store.get_company_type_price(),
-    toggle         : toggle_store.get_toggle(),
+    toggle         : toggle_store.getToggle(),
     items_per_page: catalog_data_store.get_items_per_page(),
 }),
 catalog_suggestion_store, catalog_data_store, toggle_store /*observable store list*/);

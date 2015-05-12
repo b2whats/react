@@ -73,6 +73,9 @@ const IceMain = React.createClass({
             <GoogleAutocomplete apiKey={sc.kGOOGLE_MAP_API_KEY} />
             {/*
             <Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
+          <div>
+            <DefaultPage1 route_context={routerContextParams}/>
+            <DefaultPage2 route_context={routerContextParams}/>
             <Link href={routeNames.kROUTE_R_B}>{routeNames.kROUTE_R_B}</Link><br/>
             <Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
             */}

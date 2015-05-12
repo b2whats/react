@@ -12,7 +12,7 @@ var init_state = require('utils/init_state.js');
 var immutable = require('immutable');
 
 var register_actions = require('actions/register_actions.js');
-var modal_actions = require('actions/modal_actions.js');
+var modal_actions = require('actions/ModalActions.js');
 
 var state_ = init_state(_.last(__filename.split('/')), {
   register_field            : {

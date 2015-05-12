@@ -33,7 +33,7 @@ var cncl_ = [
 
 
 var modal_store = merge(Emitter.prototype, {
-    get_modal_visible () {
+    getModalIsOpen () {
         return state_.modalIsOpen;
     },
     dispose () {

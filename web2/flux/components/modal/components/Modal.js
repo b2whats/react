@@ -63,3 +63,4 @@ var Modal = module.exports = React.createClass({
 function sanitizeProps(props) {
   delete props.ref;
 }
+Modal.setAppElement(document.getElementById('react_main'));

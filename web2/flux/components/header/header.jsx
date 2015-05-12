@@ -25,15 +25,15 @@ var form_actions = require('actions/form_actions.js');
 var auth_store = require('stores/auth_store.js');
 var region_store = require('stores/region_store.js');
 var route_actions = require('actions/route_actions.js');
-var modal_store = require('stores/modal_store.js');
+var modal_store = require('stores/ModalStore.js');
 var auth_actions = require('actions/auth_actions.js');
-var toggle_actions = require('actions/toggle_actions.js');
-var toggle_store = require('stores/toggle_store.js');
+var toggle_actions = require('actions/ToggleActions.js');
+var toggle_store = require('stores/ToggleStore.js');
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-    modalIsOpen : modal_store.get_modal_visible(),
+    modalIsOpen : modal_store.getModalIsOpen(),
     is_auth     : auth_store.is_auth(),
     email       : auth_store.get_email(),
-    toggle      : toggle_store.get_toggle(),
+    toggle      : toggle_store.getToggle(),
   }),
   modal_store, auth_store, toggle_store /*observable store list*/);
 var Header = React.createClass({
