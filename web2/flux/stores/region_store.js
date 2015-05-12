@@ -28,7 +28,7 @@ var cncl_ = [
 
         state_.region_list_cursor
       .update(() => immutable.fromJS(region_list));
-    
+
     region_store.fire(event_names.kON_CHANGE);
   }, kON_REGION__REGION_STORE_PRIORITY),
 
@@ -48,14 +48,14 @@ var cncl_ = [
 
       state_.region_selection_visible_cursor
         .update(() => false);
-        
-      region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были 
+
+      region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были
     }
   }, kON_REGION__REGION_STORE_PRIORITY),
 
   main_dispatcher
   .on(event_names.kON_CHANGE_REGION_SELECTION, region_selection_visible => {
-    
+
     if(!immutable.is(state_.region_selection_visible, region_selection_visible)) {
       state_.region_selection_visible_cursor
         .update(() => region_selection_visible);
@@ -63,7 +63,7 @@ var cncl_ = [
       state_.show_value_cursor
         .update(v => v.set('index', v.get('index') + 1));
 
-      region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были 
+      region_store.fire(event_names.kON_CHANGE); //аналогично EVENT слать только в случае если изменения были
     }
   }, kON_REGION__REGION_STORE_PRIORITY)
 ];
@@ -82,6 +82,10 @@ var region_store = merge(Emitter.prototype, {
   },
   get_region_selection_show_value() {
     return state_.show_value; //это хак
+  },
+
+  getPriority() {
+    return kON_REGION__REGION_STORE_PRIORITY;
   },
 
   dispose () {

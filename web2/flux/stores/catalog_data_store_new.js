@@ -7,6 +7,8 @@ import pointUtils from 'utils/point_utils.js';
 import view from 'stores/utils/create_view.js';
 import immutable, {fromJS} from 'immutable';
 
+import regionStore from 'stores/region_store.js';
+
 
 const calcSortData = ({data, mapInfo}) => { // сам расчет принимает state на вход и зависит только от него
   if (!data.size) {
@@ -58,7 +60,8 @@ class CatalogDataStoreNew extends BaseStore {
   state = this.initialState({
     data: [],
     // где карта
-    mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
+    // mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
+    mapInfo: {center: [], zoom: 10, bounds: []},
     // над какой строкой мышка
     hoveredRowIndex: -1,
     // мышка над маркером чтобы выделить в табличке
@@ -74,6 +77,16 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED, this._onVisibleRowsChanged);
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
     this.register(eventNames.K_ON_CATALOG_MAP_ROW_HOVER, this._onMapRowHover);
+    this.register(eventNames.kON_REGION_CHANGED, this._onRegionChanged, regionStore.getPriority() + 1);
+  }
+
+  _onRegionChanged() {
+    const currentRegion = regionStore.get_region_current();
+
+    this.state.mapInfo_cursor
+      .update(mapInfo => mapInfo.merge({center: currentRegion.get('center')}));
+
+    this.fireChangeEvent();
   }
 
   _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {

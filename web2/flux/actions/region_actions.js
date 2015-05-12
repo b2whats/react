@@ -35,7 +35,7 @@ var convert_lat_lng_string_2_array = (str) => {
   return _.map(str.split(','), v => 1*v);
 };
 
-var get_regions_memoized = memoize(() => 
+var get_regions_memoized = memoize(() =>
   r_regions_.get()
   .then(region_list => {
 
@@ -64,7 +64,7 @@ var get_regions_memoized = memoize(() =>
             region = 'москва';
           }
           var translate = region_list.filter(el => el.name.toLocaleLowerCase() == region.toLocaleLowerCase());
-          
+
           //module.exports.region_changed(region);
           module.exports.goto_region(translate[0]['translit_name']);
         });
@@ -82,7 +82,8 @@ var get_regions_memoized = memoize(() =>
 //----------------------------------------------------------------------------------------------------------
 module.exports.region_changed = (region_id) => {  //подгружает список регионов если надо
   return serializer( () => get_regions_memoized() //для смены региона надо быть уверенным что они загружены
-    .then(region_list => {      
+    .then(region_list => {
+
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_REGION_CHANGED].concat([region_id]));
       return region_list;
     })

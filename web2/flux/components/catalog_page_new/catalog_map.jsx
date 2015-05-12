@@ -84,6 +84,10 @@ export default class CatalogMap extends Component {
   }
 
   render() {
+    if (this.props.center.size === 0) {
+      return null;
+    }
+
     const visibleRowFrom = this.props.visibleRows.get('visibleRowFirst');
     const visibleRowTo = this.props.visibleRows.get('visibleRowLast');
     const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.catalogResults.size);
