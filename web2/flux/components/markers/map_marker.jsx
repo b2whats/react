@@ -49,6 +49,7 @@ export default class MapMarker extends Component {
 
     const scaleStyle = {
       transform: `scale(${scale} , ${scale})`,
+      'WebkitTransform': `scale(${scale} , ${scale})`,
       // opacity: brightness
       // filter: `brightness(${brightness})`,
       // '-webkit-filter': `brightness(${brightness})`
@@ -57,7 +58,7 @@ export default class MapMarker extends Component {
       zIndex: Math.round(scale * 10000)
     };
 
-    const showHint = this.props.hover || this.props.hoveredAtTable;
+    const showHint = this.props.hover; // || this.props.hoveredAtTable;
 
     return (
       <div
