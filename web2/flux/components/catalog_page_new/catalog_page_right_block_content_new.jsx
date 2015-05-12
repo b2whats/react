@@ -19,6 +19,7 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 @rafStateUpdate(() => ({
   catalogResults: catalogDataStore.getSortedData(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
+  hoveredMapRowIndex: catalogDataStore.getMapHoveredRowIndex(),
   mapInfo: catalogDataStore.getMapInfo()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
@@ -29,7 +30,8 @@ export default class CatalogPageRightBlockContentNew extends Component {
     onForceUpdateCounterChange: PropTypes.func,
     startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
     onStartRowChange: PropTypes.func,
-    hoveredRowIndex: PropTypes.number
+    hoveredRowIndex: PropTypes.number,
+    hoveredMapRowIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -57,7 +59,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _getRowClassNameAt = (i) => {
-    return getRowClassNameAt(i, i === this.props.hoveredRowIndex);
+    return getRowClassNameAt(i, i === this.props.hoveredRowIndex || i === this.props.hoveredMapRowIndex);
   }
 
   _renderHeader = () => {

@@ -39,15 +39,27 @@ const GoogleMapMarkers = React.createClass({
     }
   },
 
-  _clearHoverState() {
+  _onChildMouseEnter(hoverKey, childProps) {
+    if (this.props.onChildMouseEnter) {
+      this.props.onChildMouseEnter(hoverKey, childProps);
+    }
+
+    this.childProps = childProps;
+    this.hoverKey = hoverKey;
+    this.setState({hoverKey: hoverKey});
+  },
+
+  _onChildMouseLeave() {
     const hoverKey = this.hoverKey;
+    const childProps = this.childProps;
 
     if (hoverKey) {
       if (this.props.onChildMouseLeave) {
-        this.props.onChildMouseLeave(hoverKey, this.props);
+        this.props.onChildMouseLeave(hoverKey, childProps);
       }
 
       this.hoverKey = null;
+      this.childProps = null;
       this.setState({hoverKey: null});
     }
   },
@@ -71,7 +83,8 @@ const GoogleMapMarkers = React.createClass({
           distances.push(
             {
               key: child.key,
-              dist: dist
+              dist: dist,
+              props: child.props
             });
         }
       });
@@ -79,23 +92,18 @@ const GoogleMapMarkers = React.createClass({
       if (distances.length) {
         distances.sort((a, b) => a.dist - b.dist);
         const hoverKey = distances[0].key;
+        const childProps = distances[0].props;
 
         if (this.hoverKey !== hoverKey) {
-          if (this.props.onChildMouseLeave) {
-            this.props.onChildMouseLeave(this.hoverKey);
-          }
-          if (this.props.onChildMouseEnter) {
-            this.props.onChildMouseEnter(hoverKey, this.props);
-          }
+          this._onChildMouseLeave();
 
-          this.hoverKey = hoverKey;
-          this.setState({hoverKey: hoverKey});
+          this._onChildMouseEnter(hoverKey, childProps);
         }
       } else {
-        this._clearHoverState();
+        this._onChildMouseLeave();
       }
     } else {
-      this._clearHoverState();
+      this._onChildMouseLeave();
     }
   },
 
@@ -109,6 +117,7 @@ const GoogleMapMarkers = React.createClass({
   },
 
   componentWillMount() {
+    this.childProps = null;
     this.event_disabler = this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
     this.mouse_event_disabler = this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler, 0);
     this.dimesions_cache_ = {};

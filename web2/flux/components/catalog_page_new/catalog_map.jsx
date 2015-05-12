@@ -74,11 +74,13 @@ export default class CatalogMap extends Component {
   }
 
   onChildMouseEnter_(key, props) {
-    //console.log('onChildMouseEnter_ parentIndex', key, props);
+    // console.log('onChildMouseEnter_ parentIndex', key, props.rowIndex);
+    catalogActions.rowMapHover(props.rowIndex, true);
   }
 
-  onChildMouseLeave_() {
-    //console.log('onChildMouseLeave_');
+  onChildMouseLeave_(key, props) {
+    // console.log('onChildMouseLeave', key, props.rowIndex);
+    catalogActions.rowMapHover(props.rowIndex, false);
   }
 
   render() {
@@ -101,7 +103,7 @@ export default class CatalogMap extends Component {
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params
-                parentIndex={rowIndex}
+                rowIndex={rowIndex}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
                 marker={addr} />

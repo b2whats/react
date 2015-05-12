@@ -61,6 +61,8 @@ class CatalogDataStoreNew extends BaseStore {
     mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
     // над какой строкой мышка
     hoveredRowIndex: -1,
+    // мышка над маркером чтобы выделить в табличке
+    hoveredMapRowIndex: -1,
     // visibleRowFirst индекс первого видимого элемента,
     visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
   });
@@ -71,12 +73,20 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_NEW_MAP_BOUNDS_CHANGE, this._onBoundsChanged);
     this.register(eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED, this._onVisibleRowsChanged);
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
+    this.register(eventNames.K_ON_CATALOG_MAP_ROW_HOVER, this._onMapRowHover);
   }
 
   _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
     // visibleRowFirstPart, visibleRowLastPart не обновляю ибо очень часто меняются
     this.state.visibleRows_cursor
       .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
+
+    this.fireChangeEvent();
+  }
+
+  _onMapRowHover(hoveredMapRowIndex, hoverState) {
+    this.state.hoveredMapRowIndex_cursor
+      .update(() => hoverState ? hoveredMapRowIndex : -1);
 
     this.fireChangeEvent();
   }
@@ -113,6 +123,10 @@ class CatalogDataStoreNew extends BaseStore {
 
   getHoveredRowIndex() {
     return this.state.hoveredRowIndex;
+  }
+
+  getMapHoveredRowIndex() {
+    return this.state.hoveredMapRowIndex;
   }
 
   getVisibleRows() {
