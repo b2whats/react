@@ -288,8 +288,6 @@ const GoogleMap = React.createClass({
     this.fireMouseEventOnIdle_ = false;
     this.updateCounter_ = 0;
 
-    gmapLoader(); // начать подгружать можно уже сейчас
-
     this.markersDispatcher_ = merge(Emitter.prototype, {
       getChildren() {
         return this_.props.children;
@@ -313,6 +311,8 @@ const GoogleMap = React.createClass({
       this.onWindowResize_();
       if (this.isCenterDefined_(this.props.center)) {
         this.initMap_();
+      } else {
+        gmapLoader(); // начать подгружать можно уже сейчас
       }
     }, 0, this);
   },
