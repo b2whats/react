@@ -28,7 +28,9 @@ const K_HOVER_DISTANCE = 30;
   center: catalogDataStore.getMapInfo().get('center'),
   visibleRows: catalogDataStore.getVisibleRows(),
   catalogResults: catalogDataStore.getSortedData(),
-  hoveredRowIndex: catalogDataStore.getHoveredRowIndex()
+  hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
+  onRowMapHover: catalogActions.rowMapHover,
+  oMapBoundsChange: catalogActions.mapBoundsChange
 }), catalogDataStore)
 export default class CatalogMap extends Component {
   static propTypes = {
@@ -37,7 +39,10 @@ export default class CatalogMap extends Component {
     zoom: PropTypes.number,
     visibleRows: PropTypes.any,
     catalogResults: PropTypes.any,
-    hoveredRowIndex: PropTypes.number
+    hoveredRowIndex: PropTypes.number,
+
+    onRowMapHover: PropTypes.func,
+    oMapBoundsChange: PropTypes.func
   }
 
   static defaultProps = {
@@ -46,10 +51,6 @@ export default class CatalogMap extends Component {
 
   constructor(props) {
     super(props);
-  }
-
-  _onCenterChange = (center, bounds, zoom) => {
-    catalogActions.mapBoundsChange(center, bounds, zoom);
   }
 
   _distanceToMouse(pt, mousePos, markerProps) {
@@ -74,16 +75,27 @@ export default class CatalogMap extends Component {
     return distKoef * Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
   }
 
-  onChildMouseEnter_ = (key, props) => {
-    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
-    if (rowIndex > -1) {
-      catalogActions.rowMapHover(rowIndex, true);
+
+  _onCenterChange = (center, bounds, zoom) => {
+    if (this.props.oMapBoundsChange) {
+      this.props.oMapBoundsChange(center, bounds, zoom);
     }
   }
 
-  onChildMouseLeave_ = (key, props) => {
+  _onChildMouseEnter = (key, props) => {
     const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
-    catalogActions.rowMapHover(rowIndex, false);
+    if (rowIndex > -1) {
+      if (this.props.onRowMapHover) {
+        this.props.onRowMapHover(rowIndex, true);
+      }
+    }
+  }
+
+  _onChildMouseLeave = (key, props) => {
+    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
+    if (this.props.onRowMapHover) {
+      this.props.onRowMapHover(rowIndex, false);
+    }
   }
 
   render() {
@@ -127,8 +139,8 @@ export default class CatalogMap extends Component {
         distanceToMouse={this._distanceToMouse}
         center={this.props.center.toJS()}
         onCenterChange={this._onCenterChange}
-        onChildMouseEnter={this.onChildMouseEnter_}
-        onChildMouseLeave={this.onChildMouseLeave_}
+        onChildMouseEnter={this._onChildMouseEnter}
+        onChildMouseLeave={this._onChildMouseLeave}
         debounced={true} // слать запросы onBoundsChange только на idle
         zoom={this.props.zoom}
         options={K_MAP_OPTIONS}>
