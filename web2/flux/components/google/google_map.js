@@ -53,7 +53,7 @@ const GoogleMap = React.createClass({
 
   propTypes: {
     onCenterChange: PropTypes.func,
-    center: PropTypes.array,
+    center: PropTypes.array.isRequired,
     defaultCenter: PropTypes.array,
     zoom: PropTypes.number.isRequired,
     restrict_bounds: PropTypes.array,

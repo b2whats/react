@@ -21,6 +21,7 @@ import {getScale, getRealFromTo} from './calc_markers_visibility.js';
 const K_MAP_OPTIONS = null; // options to create map
 const K_HOVER_DISTANCE = 30;
 
+
 // @controllable(['markers'])
 @rafStateUpdate(() => ({
   zoom: catalogDataStore.getMapInfo().get('zoom'),
@@ -73,14 +74,16 @@ export default class CatalogMap extends Component {
     return distKoef * Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
   }
 
-  onChildMouseEnter_(key, props) {
-    // console.log('onChildMouseEnter_ parentIndex', key, props.rowIndex);
-    catalogActions.rowMapHover(props.rowIndex, true);
+  onChildMouseEnter_ = (key, props) => {
+    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
+    if (rowIndex > -1) {
+      catalogActions.rowMapHover(rowIndex, true);
+    }
   }
 
-  onChildMouseLeave_(key, props) {
-    // console.log('onChildMouseLeave', key, props.rowIndex);
-    catalogActions.rowMapHover(props.rowIndex, false);
+  onChildMouseLeave_ = (key, props) => {
+    const rowIndex = this.props.catalogResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
+    catalogActions.rowMapHover(rowIndex, false);
   }
 
   render() {
@@ -107,10 +110,11 @@ export default class CatalogMap extends Component {
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params
-                rowIndex={rowIndex}
+                // rowIndex={rowIndex}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
-                marker={addr} />
+                marker={addr}
+                />
             ));
         }
         return emptyIm;

@@ -60,7 +60,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
         if (!(marker.user_id in memo)) {
           memo[marker.user_id] = [];
         }
-        memo[marker.user_id].push(marker);
+        memo[marker.user_id].push(Object.assign({visible_address: true}, marker));
         return memo;
       }, {});
 
@@ -69,6 +69,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
         return memo;
       }, {});
 
+      /*
       const markers = res.map
         .filter(m => m.user_id in resUserId)
         .map(m => Object.assign({}, m, {
@@ -77,7 +78,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
             icon_number: m.rank, // циферка на иконке
             marker_type: K_CATALOG_MARKER_TYPE[m.filial_type_id - 1]   // тип метки - автосервис или запчасть
           }));
-
+      */
       // пока задать детерминированную сортировку
       const hashCode = function calcHashCode(str) {
         let hash = 0;
@@ -96,7 +97,7 @@ const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, se
 
       const results = res.results
         .filter(result => result.user_id in mapUserId2Markers)
-        .map(result => Object.assign({sort: hashCode(result.company_name) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
+        .map(result => Object.assign({visible_item: true, sort: hashCode(result.company_name) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
 
       // console.log(results[0]);
       return results;

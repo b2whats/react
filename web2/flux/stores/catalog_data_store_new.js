@@ -51,10 +51,6 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
   return sorted;
 };
 
-const calcVisibleMarkers = (sortData, {mapInfo}) => {
-
-
-};
 
 class CatalogDataStoreNew extends BaseStore {
   state = this.initialState({
@@ -150,11 +146,6 @@ class CatalogDataStoreNew extends BaseStore {
   @view(['data', 'mapInfo'])
   getSortedData() {
     return calcSortData(this.state);
-  }
-
-  @view(['data', 'mapInfo'])
-  getVisibleMarkers() {
-    return calcVisibleMarkers(this.getSortedData(), this.state);
   }
 
 }
