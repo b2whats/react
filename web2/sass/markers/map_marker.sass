@@ -23,6 +23,7 @@
     top: 0
     background-size: $map-marker-width * $map-marker-scale $map-marker-height * $map-marker-scale
     transform-origin: $map-marker-width * $map-marker-scale * $map-marker-x-offset-delta $map-marker-height * $map-marker-scale
+    -webkit-transform-origin: $map-marker-width * $map-marker-scale * $map-marker-x-offset-delta $map-marker-height * $map-marker-scale
 
   @include map-marker-mixin($base-marker-scale)
   position: absolute

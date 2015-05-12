@@ -225,13 +225,14 @@ const GoogleMap = React.createClass({
             const ne = bounds.getNorthEast();
             const sw = bounds.getSouthWest();
             const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
-            // const div = this.div;
+            // need round for safari
+            const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
 
             this_.updateCounter_++;
             this_.onBoundsChanged_(map, maps, !this_.props.debounced);
 
-            div.style.left = `${ptx.x}px`;
-            div.style.top = `${ptx.y}px`;
+            div.style.left = `${ptxRounded.x}px`;
+            div.style.top = `${ptxRounded.y}px`;
             if (this_.markersDispatcher_) {
               this_.markersDispatcher_.fire('kON_CHANGE');
             }
@@ -248,13 +249,15 @@ const GoogleMap = React.createClass({
           const ne = bounds.getNorthEast();
           const sw = bounds.getSouthWest();
           const ptx = overlayProjection.fromLatLngToDivPixel(new maps.LatLng(ne.lat(), sw.lng()));
+          // need round for safari
+          const ptxRounded = {x: Math.round(ptx.x), y: Math.round(ptx.y)};
 
           this_.updateCounter_++;
           this_.onBoundsChanged_(map, maps);
 
           this_.dragTime_ = 0;
-          div.style.left = `${ptx.x}px`;
-          div.style.top = `${ptx.y}px`;
+          div.style.left = `${ptxRounded.x}px`;
+          div.style.top = `${ptxRounded.y}px`;
           if (this_.markersDispatcher_) {
             this_.markersDispatcher_.fire('kON_CHANGE');
             if (this_.fireMouseEventOnIdle_) {
