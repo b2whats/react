@@ -27,8 +27,8 @@ const K_MAP_CONTROL_OPTIONS = {
 
 function getLeftTopFromCenter(width, height, center, zoom) {
   let gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
-  gs.set_view_size(width, height);
-  gs.set_view([center[0], center[1]], zoom, 0); // от центральной точки
+  gs.setViewSize(width, height);
+  gs.setView([center[0], center[1]], zoom, 0); // от центральной точки
   return gs.unproject({x: -width / 2, y: -height / 2});
 }
 
@@ -52,7 +52,7 @@ const GoogleMap = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    onCenterChange: PropTypes.func,
+    onBoundsChange: PropTypes.func,
     center: PropTypes.array.isRequired,
     defaultCenter: PropTypes.array,
     zoom: PropTypes.number.isRequired,
@@ -63,7 +63,8 @@ const GoogleMap = React.createClass({
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     hoverDistance: PropTypes.number,
-    debounced: PropTypes.bool
+    debounced: PropTypes.bool,
+    margin: PropTypes.array
   },
 
   getDefaultProps() {
@@ -92,7 +93,7 @@ const GoogleMap = React.createClass({
 
   onWindowResize_() {
     const mapDom = this.refs.google_map_dom.getDOMNode();
-    this.geoService_.set_view_size(mapDom.clientWidth, mapDom.clientHeight);
+    this.geoService_.setViewSize(mapDom.clientWidth, mapDom.clientHeight);
     this.onBoundsChanged_();
   },
 
@@ -101,19 +102,18 @@ const GoogleMap = React.createClass({
       const locBounds = map.getBounds();
       const ne = locBounds.getNorthEast();
       const sw = locBounds.getSouthWest();
-      this.geoService_.set_view([ne.lat(), sw.lng()], map.getZoom(), 0);
+      this.geoService_.setView([ne.lat(), sw.lng()], map.getZoom(), 0);
     }
 
-    if (this.props.onCenterChange && this.geoService_.can_project()) {
-      const topLeft = this.geoService_.unproject({x: 0, y: 0});
-      const bottomRight = this.geoService_.unproject({x: this.geoService_.get_width(), y: this.geoService_.get_height()});
-      const zoom = this.geoService_.get_zoom();
-      const bounds = [topLeft.lat, topLeft.lng, bottomRight.lat, bottomRight.lng];
-      const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
+    if (this.props.onBoundsChange && this.geoService_.canProject()) {
+      const zoom = this.geoService_.getZoom();
+      const bounds = this.geoService_.getBounds();
+      const centerLatLng = this.geoService_.getCenter();
 
       if (!isArraysEqualEps(bounds, this.prevBounds_, kEPS)) {
         if (callExtBoundsChange !== false) {
-          this.props.onCenterChange([centerLatLng.lat, centerLatLng.lng], bounds, zoom);
+          const marginBounds = this.geoService_.getBounds(this.props.margin);
+          this.props.onBoundsChange([centerLatLng.lat, centerLatLng.lng], zoom, bounds, marginBounds);
           this.prevBounds_ = bounds;
         }
       }
@@ -138,8 +138,8 @@ const GoogleMap = React.createClass({
   },
 
   initMap_() {
-    const brLatLng = getLeftTopFromCenter(this.geoService_.get_width(), this.geoService_.get_height(), this.props.center || this.props.defaultCenter, this.props.zoom);
-    this.geoService_.set_view([brLatLng.lat, brLatLng.lng], this.props.zoom, 0);
+    const brLatLng = getLeftTopFromCenter(this.geoService_.getWidth(), this.geoService_.getHeight(), this.props.center || this.props.defaultCenter, this.props.zoom);
+    this.geoService_.setView([brLatLng.lat, brLatLng.lng], this.props.zoom, 0);
 
     this.onBoundsChanged_(); // now we can calculate map bounds center etc...
 
@@ -149,7 +149,7 @@ const GoogleMap = React.createClass({
         return;
       }
 
-      const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
+      const centerLatLng = this.geoService_.getCenter();
 
       const propsOptions = {
         zoom: this.props.zoom,
@@ -341,13 +341,13 @@ const GoogleMap = React.createClass({
     }
 
     if (this.map_) {
-      const centerLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
+      const centerLatLng = this.geoService_.getCenter();
       if (nextProps.center) {
         if (Math.abs(nextProps.center[0] - centerLatLng.lat) + Math.abs(nextProps.center[1] - centerLatLng.lng) > kEPS) {
-          const brLatLng = getLeftTopFromCenter(this.geoService_.get_width(), this.geoService_.get_height(), nextProps.center, nextProps.zoom);
-          this.geoService_.set_view([brLatLng.lat, brLatLng.lng], nextProps.zoom, 0);
+          const brLatLng = getLeftTopFromCenter(this.geoService_.getWidth(), this.geoService_.getHeight(), nextProps.center, nextProps.zoom);
+          this.geoService_.setView([brLatLng.lat, brLatLng.lng], nextProps.zoom, 0);
 
-          const newCenterLatLng = this.geoService_.unproject({x: this.geoService_.get_width() / 2, y: this.geoService_.get_height() / 2});
+          const newCenterLatLng = this.geoService_.getCenter();
           this.map_.panTo({lat: newCenterLatLng.lat, lng: newCenterLatLng.lng});
         }
       }

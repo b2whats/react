@@ -40,13 +40,13 @@ export default class CatalogMap extends Component {
     visibleRows: PropTypes.any.isRequired,
     dataResults: PropTypes.any.isRequired,
     hoveredRowIndex: PropTypes.number,
-
+    mapMargin: PropTypes.array,
     onRowMapHover: PropTypes.func,
     oMapBoundsChange: PropTypes.func
   }
 
   static defaultProps = {
-
+    mapMargin: [30, 30, 30, 30]
   };
 
   constructor(props) {
@@ -76,9 +76,9 @@ export default class CatalogMap extends Component {
   }
 
 
-  _onCenterChange = (center, bounds, zoom) => {
+  _onBoundsChange = (center, zoom, bounds, marginBounds) => {
     if (this.props.oMapBoundsChange) {
-      this.props.oMapBoundsChange(center, bounds, zoom);
+      this.props.oMapBoundsChange(center, zoom, bounds, marginBounds);
     }
   }
 
@@ -134,9 +134,10 @@ export default class CatalogMap extends Component {
         hoverDistance={K_HOVER_DISTANCE}
         distanceToMouse={this._distanceToMouse}
         center={this.props.center.toJS()}
-        onCenterChange={this._onCenterChange}
+        onBoundsChange={this._onBoundsChange}
         onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave}
+        margin={this.props.mapMargin}
         debounced={true} // слать запросы onBoundsChange только на idle
         zoom={this.props.zoom}
         options={K_MAP_OPTIONS}>

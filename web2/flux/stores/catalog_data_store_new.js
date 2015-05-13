@@ -120,10 +120,9 @@ class CatalogDataStoreNew extends BaseStore {
     this.fireChangeEvent();
   }
 
-  _onBoundsChanged(center, bounds, zoom) {
-    // console.log(center, zoom);
+  _onBoundsChanged(center, zoom, bounds, marginBounds) {
     this.state.mapInfo_cursor
-      .update(mapInfo => mapInfo.merge({center, bounds, zoom}));
+      .update(mapInfo => mapInfo.merge({center, bounds: marginBounds, zoom}));
 
     this.fireChangeEvent();
   }
