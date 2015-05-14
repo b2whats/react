@@ -1,14 +1,14 @@
 //by define marker top left corner is placed at lat, lng position
 //you need to change marker left top - it based on your marker design
 .map-marker
-  $map-marker-width: 44px
-  $map-marker-height: 62px
+  //$map-marker-width: 44px
+  $map-marker-width: $mapMarker-width //from common_vars.json
+  $map-marker-height: $mapMarker-height //from common_vars.json
 
   $map-marker-x-offset-delta: 0.37 //маркер не симмеричный
   $base-marker-scale: 1
 
-  //$normal-size-scale: 0.5 //to avoid blur and other artifacts
-  //$hover-size-scale: 1
+  //@debug $map-marker-width
 
   @mixin map-marker-mixin($map-marker-scale)
     width: $map-marker-width * $map-marker-scale
@@ -28,8 +28,6 @@
   @include map-marker-mixin($base-marker-scale)
   position: absolute
   cursor: pointer
-  &.hover
-    .map-marker__marker
 
 
   .map-marker__marker
@@ -45,9 +43,6 @@
       background-image: url('../assets/icons/map_icons/map_icon_yellow.svg')
       background-repeat: no-repeat
 
-
-  .map-marker__small-hint
-    width: 190px
 
   .hint-content
     div

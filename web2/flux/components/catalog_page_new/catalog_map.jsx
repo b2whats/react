@@ -8,7 +8,7 @@ import immutable from 'immutable';
 import GoogleMap from 'components/google/google_map.js';
 import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
-import MapMarker, {K_SCALE_NORMAL} from 'components/markers/map_marker.jsx';
+import MapMarker, {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT} from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
 
 import invariant from 'fixed-data-table-ice/internal/invariant.js';
@@ -18,9 +18,9 @@ import catalogActions from 'actions/catalog_data_actions_new.js';
 
 import {getScale, getRealFromTo} from './calc_markers_visibility.js';
 
+
 const K_MAP_OPTIONS = null; // options to create map
 const K_HOVER_DISTANCE = 30;
-
 
 // @controllable(['markers'])
 @rafStateUpdate(() => ({
@@ -54,7 +54,7 @@ export default class CatalogMap extends Component {
   }
 
   _distanceToMouse(pt, mousePos, markerProps) {
-    const K_MARKER_HEIGHT = 62;
+    // const K_MARKER_HEIGHT = 62;
     // маркер жирный вверху туда с большей вероятностью будут тянуть мышку
     const K_MARKER_WEIGHT_PT = K_MARKER_HEIGHT * 0.7;
     // см в render ниже как задаем scale

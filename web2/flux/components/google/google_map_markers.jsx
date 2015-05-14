@@ -159,11 +159,11 @@ const GoogleMapMarkers = React.createClass({
       };
 
       const cacheKey = child.key;
-      this.dimesions_cache_[cacheKey] = {x: pt.x, y: pt.y, lat: child.props.lat, lng: child.props.lng};
+      this.dimesions_cache_[cacheKey] = {x: pt.x, y: pt.y, lat: child.props.lat, lng: child.props.lng, mapWidth: this.props.geo_service.getWidth(), mapHeight: this.props.geo_service.getHeight()};
 
       return (
         <div key={child.key} style={Object.assign({}, style, stylePtPos)}>
-          {React.cloneElement(child, {hover: child.key === this.state.hoverKey, getDimensions: this._getDimensions})}
+          {React.cloneElement(child, {hover: child.key === this.state.hoverKey, getDimensions: this._getDimensions, $dimensionKey: child.key})}
         </div>
       );
     });
