@@ -21,12 +21,12 @@ const SearchPageYandexMap = require('components/search_page/search_page_yandex_m
 const SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
 
 const CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
-//потому что ES6 модуль
-//const {CatalogPageRightBlockContentNew}= require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
+// потому что ES6 модуль
+// const {CatalogPageRightBlockContentNew}= require('components/catalog_page_new/catalog_page_right_block_content_new.jsx');
 import CatalogPageRightBlockContentNew from 'components/catalog_page_new/catalog_page_right_block_content_new.jsx';
 
 const GoogleMapBlockExample = require('components/google/google_map_block_example.jsx');
-const CatalogMap = require('components/catalog_page_new/catalog_map.jsx');
+const CatalogMapData = require('components/catalog_page_new/catalog_map_data.jsx');
 
 const PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
@@ -45,19 +45,19 @@ const authStore = require('stores/auth_store.js');
 const immutable = require('immutable');
 
 
-//State update and stores for which we need intercept kON_CHANGE events
-const RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
+// State update and stores for which we need intercept kON_CHANGE events
+const RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ // state update lambda
 	routerState: routesStore.get_route_state_ro(),
 	routerContextParams: routesStore.get_route_context_params(),
   check_done: authStore.get_check_done()
 }),
 routesStore, authStore /*observable store list*/);
 
-//const TypeaheadPage = require('./typeahead/typeahead_page.jsx');
+// const TypeaheadPage = require('./typeahead/typeahead_page.jsx');
 
 
-//const auth_actions = require('actions/auth_actions.js');
-//auth_actions.check_auth();
+// const auth_actions = require('actions/auth_actions.js');
+// auth_actions.check_auth();
 const cx = require('classnames');
 const IceMain = React.createClass({
 	mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
@@ -91,11 +91,11 @@ const IceMain = React.createClass({
         return (
           <DefaultPage route_context={routerContextParams}/>
         );
-      //ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
-      //ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
+      // ВСЕ СТРАНИЧКИ У КОТОРЫХ ЕСТЬ ВВЕРХУ ПОИСК
+      // ОТЛИЧАЮТСЯ ТОЛЬКО КОНТЕНТОМ Конкретно эти две kROUTE_PARTS_FIND и kROUTE_CATALOG только правым блоком - карта одинаковая
       case routeNames.kROUTE_PARTS_FIND:
       case routeNames.kROUTE_CATALOG:
-      //ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
+      // ВОТ ТУТ МОЖНО МУТИТЬ ПОДРОУТИНГ ДЛЯ ВСЕХ СТРАНИЧЕК С ПОИСКОМ ВВЕРХУ
         const RightBlockContent = (function getRightBlockContent(subRouterState) {
           switch (subRouterState) {
             case routeNames.kROUTE_PARTS_FIND:
@@ -121,23 +121,23 @@ const IceMain = React.createClass({
           <SearchBlockHeader>
             <div ref='main_content' className="search-page-main-fixed search-page-main-fixed--new">
               {/*<GoogleMapBlockExample style={{backgroundColor: 'blue'}} className="search-page-left-block search-page-left-block--new" />*/}
-              <CatalogMap className="search-page-left-block search-page-left-block--new" />
+              <CatalogMapData className="search-page-left-block search-page-left-block--new" />
               <CatalogPageRightBlockContentNew />
             </div>
           </SearchBlockHeader>
         );
 
-      //ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
+      // ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
       case routeNames.kROUTE_ACCOUNT:
-      //У тебя тут возможно будут другие кейсы  и по итогам будет что то вроде как в блоке выше
-      //по итогам смотри блок case стал таким же по структуре что и блок выше
-      //код стал читаемей
+      // У тебя тут возможно будут другие кейсы  и по итогам будет что то вроде как в блоке выше
+      // по итогам смотри блок case стал таким же по структуре что и блок выше
+      // код стал читаемей
         const menuList = [
           {name: 'Компания', id: 'company'},
           {name: 'Услуги', id: 'services'},
-          //{name: 'Статистика', id:'statistics'},
+          // {name: 'Статистика', id:'statistics'},
           {name: 'Управление товарами', id: 'manage'}
-          //{name: 'История оплат', id:'history'}
+          // {name: 'История оплат', id:'history'}
         ];
 
 

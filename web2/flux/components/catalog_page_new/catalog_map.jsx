@@ -13,8 +13,8 @@ import raf from 'utils/raf.js';
 
 import invariant from 'fixed-data-table-ice/internal/invariant.js';
 
-import catalogDataStore from 'stores/catalog_data_store_new.js';
-import catalogActions from 'actions/catalog_data_actions_new.js';
+// import catalogDataStore from 'stores/catalog_data_store_new.js';
+// import catalogActions from 'actions/catalog_data_actions_new.js';
 
 import {getScale, getRealFromTo} from './calc_markers_visibility.js';
 
@@ -23,6 +23,7 @@ const K_MAP_OPTIONS = null; // options to create map
 const K_HOVER_DISTANCE = 30;
 
 // @controllable(['markers'])
+/*
 @rafStateUpdate(() => ({
   zoom: catalogDataStore.getMapInfo().get('zoom'),
   center: catalogDataStore.getMapInfo().get('center'),
@@ -32,6 +33,7 @@ const K_HOVER_DISTANCE = 30;
   onRowMapHover: catalogActions.rowMapHover,
   oMapBoundsChange: catalogActions.mapBoundsChange
 }), catalogDataStore)
+*/
 export default class CatalogMap extends Component {
   static propTypes = {
     className: PropTypes.string,

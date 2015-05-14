@@ -182,7 +182,7 @@ const GoogleMap = React.createClass({
             <GoogleMapMarkers
               onChildMouseEnter={this_.onChildMouseEnter_}
               onChildMouseLeave={this_.onChildMouseLeave_}
-              geo_service={this_.geoService_}
+              geoService={this_.geoService_}
               distanceToMouse={this_.props.distanceToMouse}
               hoverDistance={this_.props.hoverDistance}
               dispatcher={this_.markersDispatcher_} />),

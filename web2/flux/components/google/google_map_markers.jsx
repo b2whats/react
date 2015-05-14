@@ -18,7 +18,7 @@ const GoogleMapMarkers = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    geo_service: PropTypes.any,
+    geoService: PropTypes.any,
     distanceToMouse: PropTypes.func,
     dispatcher: PropTypes.any,
     onChildMouseLeave: PropTypes.func,
@@ -151,19 +151,25 @@ const GoogleMapMarkers = React.createClass({
     this.dimesions_cache_ = {};
 
     const markers = React.Children.map(this.state.children, child => {
-      const pt = this.props.geo_service.project({lat: child.props.lat, lng: child.props.lng});
+      const pt = this.props.geoService.project({lat: child.props.lat, lng: child.props.lng});
 
       const stylePtPos = {
         left: `${pt.x}px`,
         top: `${pt.y}px`
       };
 
+      // to prevent rerender on child element i need to pass const params $getDimensions and $dimensionKey instead of dimension object
       const cacheKey = child.key;
-      this.dimesions_cache_[cacheKey] = {x: pt.x, y: pt.y, lat: child.props.lat, lng: child.props.lng, mapWidth: this.props.geo_service.getWidth(), mapHeight: this.props.geo_service.getHeight()};
+      this.dimesions_cache_[cacheKey] = {x: pt.x, y: pt.y, lat: child.props.lat, lng: child.props.lng};
 
       return (
         <div key={child.key} style={Object.assign({}, style, stylePtPos)}>
-          {React.cloneElement(child, {hover: child.key === this.state.hoverKey, getDimensions: this._getDimensions, $dimensionKey: child.key})}
+          {React.cloneElement(child, {
+            $hover: child.key === this.state.hoverKey,
+            $getDimensions: this._getDimensions,
+            $dimensionKey: child.key,
+            $geoService: this.props.geoService
+          })}
         </div>
       );
     });

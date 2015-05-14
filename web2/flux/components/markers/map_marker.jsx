@@ -3,40 +3,53 @@ import cx from 'classnames';
 
 import shallowEqual from 'react/lib/shallowEqual.js';
 
+// TODO перейти на jss вместо sass
 import {mapMarker} from 'common_vars.json';
 
 const K_MARKER_WIDTH = +mapMarker.width.replace('px', '');
 const K_MARKER_HEIGHT = +mapMarker.height.replace('px', '');
-const K_BALLOON_WIDTH = 250;
+const K_MARKER_OFFSET = +mapMarker.offset; // маркер тычка не симметричная
 
 const K_SCALE_HOVER = 1;
 const K_SCALE_TABLE_HOVER = 1;
 const K_SCALE_NORMAL = 0.6;
 
-const K_MIN_BRIGHTNESS = 0.6;
+// const K_MIN_GRAYSCALE = 0.0;
 const K_MIN_CONTRAST = 0.4;
 
 
-const K_BALLOON_WIDTH_STYLE = {
-  width: '300px',
-  left: '-28px',
-  marginLeft: '0px'
-};
+function getHintBaloonStyle({x}, mapWidth, mapHeight) {
+  const K_BALLOON_WIDTH = 250;
+  // на сколько пикселей я хочу чтобы балун смещался от центра стрелки
+  const K_BALLOON_DEFAULT_OFFSET = K_BALLOON_WIDTH * 0.5;
+  // надо пересчитать в смещении от угла
+  const offset = -K_BALLOON_DEFAULT_OFFSET + K_MARKER_WIDTH * 0.5;
+  // на сколько пикселей такой балун будет вылезать за пределы экрана по ширине (см. несимметричность маркера)
+  const leftX = x + offset - K_MARKER_WIDTH * K_MARKER_OFFSET;
+  const rightX = leftX + K_BALLOON_WIDTH;
+  // если rightX или leftX вылезают надо пересчитать
 
-function getHintBaloonStyle(markerDim) {
-  //подсчитать смещение
+  const K_BALLOON_WIDTH_STYLE = {
+    width: `${K_BALLOON_WIDTH}px`,
+    left: `${offset}px`,
+    marginLeft: '0px'
+  };
+
+  return K_BALLOON_WIDTH_STYLE;
 }
 
 export {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT};
 
 export default class MapMarker extends Component {
   static propTypes = {
-    marker: PropTypes.any,
-    hover: PropTypes.bool,
-    hoveredAtTable: PropTypes.bool,
-    scale: PropTypes.number,
+    $hover: PropTypes.bool,
     $dimensionKey: PropTypes.any,
-    getDimensions: PropTypes.func
+    $getDimensions: PropTypes.func,
+    $geoService: PropTypes.any,
+
+    marker: PropTypes.any,
+    hoveredAtTable: PropTypes.bool,
+    scale: PropTypes.number
   };
 
   static defaultProps = {
@@ -53,39 +66,35 @@ export default class MapMarker extends Component {
   }
 
   render() {
-    let scale = this.props.hover ? K_SCALE_HOVER : this.props.scale;
+    let scale = this.props.$hover ? K_SCALE_HOVER : this.props.scale;
     scale = this.props.hoveredAtTable ? K_SCALE_TABLE_HOVER : scale;
-
-
-    const brightness = K_MIN_BRIGHTNESS + (1 - K_MIN_BRIGHTNESS) * Math.min(scale / K_SCALE_NORMAL, 1);
+    // const grayscale = 1 + Math.max(0, Math.min(scale / K_SCALE_NORMAL, 1)) * (K_MIN_GRAYSCALE - 1);
     const contrast = K_MIN_CONTRAST + (1 - K_MIN_CONTRAST) * Math.min(scale / K_SCALE_NORMAL, 1);
-
 
     const scaleStyle = {
       transform: `scale(${scale} , ${scale})`,
-      'WebkitTransform': `scale(${scale} , ${scale})`,
+      WebkitTransform: `scale(${scale} , ${scale})`,
       filter: `contrast(${contrast})`,
-      'WebkitFilter': `contrast(${contrast})`,
+      // WebkitFilter: `grayscale(${grayscale}) contrast(${contrast})`,
+      WebkitFilter: `contrast(${contrast})`,
       zIndex: Math.round(scale * 10000)
-      // opacity: brightness
-      // filter: `brightness(${brightness})`,
-      // '-webkit-filter': `brightness(${brightness})`
     };
 
-    const showHint = this.props.hover; // || this.props.hoveredAtTable;
+    const showHint = this.props.$hover; // || this.props.hoveredAtTable;
 
     // разобрацо переходит ли или потеря
-    const markerDim = this.props.getDimensions(this.props.$dimensionKey);
-    // console.log('markerDim', markerDim);
+    const mapWidth = this.props.$geoService.getWidth();
+    const mapHeight = this.props.$geoService.getHeight();
+    const markerDim = this.props.$getDimensions(this.props.$dimensionKey);
 
-    // const hintBaloonStyle = getHintBaloonStyle(markerDim);
+    const hintBaloonStyle = getHintBaloonStyle(markerDim, mapWidth, mapHeight);
 
     return (
       <div
         className={cx('map-marker hint hint--top hint--info hint-html',
           showHint ? 'hint--always hover' : 'hint--hidden')}>
         <div style={scaleStyle} className={cx('map-marker__marker', this.props.marker.get('filial_type_id') === 1 ? 'map-marker__marker--ap' : 'map-marker__marker--as')}></div>
-        <div style={K_BALLOON_WIDTH_STYLE} className="hint-content noevents">
+        <div style={hintBaloonStyle} className="hint-content noevents">
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
