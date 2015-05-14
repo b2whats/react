@@ -38,7 +38,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort')))
     // проставить видимым айтемам то что они видимы
     .map(item =>
-      id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
+      id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item.set('visible_item', false))
     // у видимых айтемов адреса отсортировать по видимости, у невидимых оставить как есть
     .map(item =>
       item.get('visible_item') === true ?
@@ -166,6 +166,11 @@ class CatalogDataStoreNew extends BaseStore {
   @view(['data', 'mapInfo'])
   getSortedData() {
     return calcSortData(this.state);
+  }
+
+  @view(['data', 'mapInfo'])
+  getFirstInvisibleRowIndex() {
+    return this.getSortedData().findIndex(item => item.get('visible_item') !== true);
   }
 
 }

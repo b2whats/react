@@ -20,6 +20,7 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
   catalogResults: catalogDataStore.getSortedData(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
   hoveredMapRowIndex: catalogDataStore.getMapHoveredRowIndex(),
+  firstInvisibleRowIndex: catalogDataStore.getFirstInvisibleRowIndex(),
   mapInfo: catalogDataStore.getMapInfo()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
@@ -31,7 +32,9 @@ export default class CatalogPageRightBlockContentNew extends Component {
     startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
     onStartRowChange: PropTypes.func,
     hoveredRowIndex: PropTypes.number,
-    hoveredMapRowIndex: PropTypes.number
+    hoveredMapRowIndex: PropTypes.number,
+    firstInvisibleRowIndex: PropTypes.number,
+    mapInfo: PropTypes.any
   }
 
   static defaultProps = {
@@ -59,7 +62,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _getRowClassNameAt = (i) => {
-    return getRowClassNameAt(i, i === this.props.hoveredRowIndex || i === this.props.hoveredMapRowIndex);
+    return getRowClassNameAt(i, i === this.props.hoveredRowIndex || i === this.props.hoveredMapRowIndex, i === this.props.firstInvisibleRowIndex);
   }
 
   _renderHeader = () => {

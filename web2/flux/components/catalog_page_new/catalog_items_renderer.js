@@ -9,6 +9,7 @@ const K_KEY_COLUMN_RANK = keyOf({K_KEY_COLUMN_RANK: null});
 const K_KEY_COLUMN_DESCRIPTION = keyOf({K_KEY_COLUMN_DESCRIPTION: null});
 const K_KEY_COLUMN_PHONE = keyOf({K_KEY_COLUMN_PHONE: null});
 
+const K_ROW_CLASS_NAME_BORDER_LINE = 'catalog-page-table-new-row-border-line';
 const K_ROW_CLASS_NAME_EVEN = 'catalog-page-table-new-row-even';
 const K_ROW_CLASS_NAME_ODD = 'catalog-page-table-new-row-odd';
 
@@ -97,12 +98,14 @@ function renderPhoneColumn(cellDataKey, rowData) {
   );
 }
 
-export function getRowClassNameAt(i, isHovered) {
+export function getRowClassNameAt(i, isHovered, isFirstInvisibleRow) {
+  const borderTopClass = isFirstInvisibleRow ? K_ROW_CLASS_NAME_BORDER_LINE : '';
+
   if (isHovered) {
-    return i % 2 === 0 ? K_ROW_CLASS_NAME_EVEN_HOVERED : K_ROW_CLASS_NAME_ODD_HOVERED;
+    return borderTopClass + ' ' + (i % 2 === 0 ? K_ROW_CLASS_NAME_EVEN_HOVERED : K_ROW_CLASS_NAME_ODD_HOVERED);
   }
 
-  return i % 2 === 0 ? K_ROW_CLASS_NAME_EVEN : K_ROW_CLASS_NAME_ODD;
+  return borderTopClass + ' ' + (i % 2 === 0 ? K_ROW_CLASS_NAME_EVEN : K_ROW_CLASS_NAME_ODD);
 }
 
 export function cellRenderer(cellDataKey, rowData, tableAction) {
