@@ -63,6 +63,8 @@ class CatalogDataStoreNew extends BaseStore {
     hoveredRowIndex: -1,
     // мышка над маркером чтобы выделить в табличке
     hoveredMapRowIndex: -1,
+    // адрес балуна
+    activeAddressId: null,
     // visibleRowFirst индекс первого видимого элемента,
     visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
   });
@@ -75,6 +77,8 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_ROW_HOVER, this._onRowHover);
     this.register(eventNames.K_ON_CATALOG_MAP_ROW_HOVER, this._onMapRowHover);
     this.register(eventNames.kON_REGION_CHANGED, this._onRegionChanged, regionStore.getPriority() + 1);
+
+    this.register(eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE, this._onMapRowAddressActive);
   }
 
   _onRegionChanged() {
@@ -95,6 +99,13 @@ class CatalogDataStoreNew extends BaseStore {
     // visibleRowFirstPart, visibleRowLastPart не обновляю ибо очень часто меняются
     this.state.visibleRows_cursor
       .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
+
+    this.fireChangeEvent();
+  }
+
+  _onMapRowAddressActive(activeAddressId, activeState) {
+    this.state.activeAddressId_cursor
+      .update(() => activeState ? activeAddressId : null);
 
     this.fireChangeEvent();
   }
@@ -141,6 +152,10 @@ class CatalogDataStoreNew extends BaseStore {
 
   getMapHoveredRowIndex() {
     return this.state.hoveredMapRowIndex;
+  }
+
+  getActiveAddressId() {
+    return this.state.activeAddressId;
   }
 
   getVisibleRows() {

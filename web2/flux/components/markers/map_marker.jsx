@@ -122,9 +122,11 @@ export default class MapMarker extends Component {
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
+          <div>аьвыат выьбаьт выьбта ьбывтаь бтывьбат ьыбвта ьбтыв аьывта ьбывтаь бтывбьат </div>
           <div>
            <a className="ap-link">кликни на маркер для информации</a>
           </div>
+
         </div>
       </div>
     );

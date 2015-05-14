@@ -21,6 +21,7 @@ const GoogleMapMarkers = React.createClass({
     geoService: PropTypes.any,
     distanceToMouse: PropTypes.func,
     dispatcher: PropTypes.any,
+    onChildClick: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     hoverDistance: PropTypes.number
@@ -38,6 +39,10 @@ const GoogleMapMarkers = React.createClass({
     if (this.isMounted()) {
       this.setState(state);
     }
+  },
+
+  _onChildClick() {
+
   },
 
   _onChildMouseEnter(hoverKey, childProps) {

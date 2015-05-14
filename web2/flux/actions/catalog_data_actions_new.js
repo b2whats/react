@@ -26,7 +26,8 @@ const actions_ = [
   ['mapBoundsChange', eventNames.K_ON_CATALOG_NEW_MAP_BOUNDS_CHANGE],
   ['visibleRowsChange', eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED],
   ['rowHover', eventNames.K_ON_CATALOG_ROW_HOVER],
-  ['rowMapHover', eventNames.K_ON_CATALOG_MAP_ROW_HOVER]
+  ['rowMapHover', eventNames.K_ON_CATALOG_MAP_ROW_HOVER],
+  ['rowAddressActive', eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE]
 
   /*
   ['reset_catalog_data', eventNames.kON_CATALOG_RESET_DATA],

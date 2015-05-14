@@ -15,6 +15,8 @@ import CatalogMap from './catalog_map.jsx';
   visibleRows: catalogDataStore.getVisibleRows(),
   dataResults: catalogDataStore.getSortedData(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
+  activeAddressId: catalogDataStore.getActiveAddressId(),
+  onRowAddressActive: catalogActions.rowAddressActive,
   onRowMapHover: catalogActions.rowMapHover,
   oMapBoundsChange: catalogActions.mapBoundsChange
 }), catalogDataStore)
@@ -26,7 +28,9 @@ export default class CatalogMapData extends Component {
     visibleRows: PropTypes.any.isRequired,
     dataResults: PropTypes.any.isRequired,
     hoveredRowIndex: PropTypes.number,
+    activeAddressId: PropTypes.any,
     mapMargin: PropTypes.array,
+    onRowAddressActive: PropTypes.func,
     onRowMapHover: PropTypes.func,
     oMapBoundsChange: PropTypes.func
   }

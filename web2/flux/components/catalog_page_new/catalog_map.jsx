@@ -43,6 +43,7 @@ export default class CatalogMap extends Component {
     dataResults: PropTypes.any.isRequired,
     hoveredRowIndex: PropTypes.number,
     mapMargin: PropTypes.array,
+    onRowAddressActive: PropTypes.func,
     onRowMapHover: PropTypes.func,
     oMapBoundsChange: PropTypes.func
   }
@@ -81,6 +82,12 @@ export default class CatalogMap extends Component {
   _onBoundsChange = (center, zoom, bounds, marginBounds) => {
     if (this.props.oMapBoundsChange) {
       this.props.oMapBoundsChange(center, zoom, bounds, marginBounds);
+    }
+  }
+
+  _onChildClick = (key, props) => {
+    if (this.props.onRowAddressActive) {
+      this.props.onRowAddressActive(props.marker.get('id'));
     }
   }
 
@@ -139,6 +146,7 @@ export default class CatalogMap extends Component {
         onBoundsChange={this._onBoundsChange}
         onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave}
+        onChildClick={this._onChildClick}
         margin={this.props.mapMargin}
         debounced={true} // слать запросы onBoundsChange только на idle
         zoom={this.props.zoom}
