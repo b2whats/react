@@ -58,6 +58,7 @@ export default class MapMarker extends Component {
     $dimensionKey: PropTypes.any,
     $getDimensions: PropTypes.func,
     $geoService: PropTypes.any,
+    $onMouseAllow: PropTypes.func,
 
     marker: PropTypes.any,
     hoveredAtTable: PropTypes.bool,
@@ -89,11 +90,12 @@ export default class MapMarker extends Component {
       !shallowEqual(this.state, nextState);
   }
 
-  _onMouseMove = (e) => {
-    if (this.props.showBallon) {
-      e.stopPropagation(); // отменить наведение на иконки под балуном
-      e.preventDefault();
-    }
+  _onMouseEnterContent = (e) => {
+    this.props.$onMouseAllow(false);
+  }
+
+  _onMouseLeaveContent = (e) => {
+    this.props.$onMouseAllow(true);
   }
 
   _onCloseClick = () => {
@@ -156,7 +158,8 @@ export default class MapMarker extends Component {
         <div
           style={hintBalloonStyle}
           className={cx('hint-content map-marker-hint', this.props.showBallon ? '' : 'noevents')}
-          onMouseMove={this._onMouseMove}>
+          onMouseEnter={this._onMouseEnterContent}
+          onMouseLeave={this._onMouseLeaveContent}>
           <div
             onClick={this._onCloseClick}
             className={cx('map-marker-hint__close-button', this.props.showBallonState ? 'map-marker-hint__close-button--visible' : '')}>

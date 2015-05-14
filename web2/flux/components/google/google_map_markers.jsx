@@ -77,8 +77,20 @@ const GoogleMapMarkers = React.createClass({
     }
   },
 
+
+  _onMouseAllow(value) {
+    if (!value) {
+      this._onChildMouseLeave();
+    }
+
+    this._allowMouse = value;
+  },
+
+
   _onMouseChangeHandler() {
-    raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
+    if (this._allowMouse) {
+      raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
+    }
   },
 
   _onMouseChangeHandler_raf() {
@@ -139,6 +151,8 @@ const GoogleMapMarkers = React.createClass({
     this.__internal__display_name__ = this.constructor.displayName + '__' + __internalCounter__++;
     this.hoverKey = null;
     this._updateTimer = null;
+
+    this._allowMouse = true;
     /*
     setTimeout(() => {
       console.log('START'); // eslint-disable-line no-console
@@ -188,7 +202,8 @@ const GoogleMapMarkers = React.createClass({
             $hover: child.key === this.state.hoverKey,
             $getDimensions: this._getDimensions,
             $dimensionKey: child.key,
-            $geoService: this.props.geoService
+            $geoService: this.props.geoService,
+            $onMouseAllow: this._onMouseAllow
           })}
         </div>
       );

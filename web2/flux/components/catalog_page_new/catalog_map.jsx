@@ -143,7 +143,6 @@ export default class CatalogMap extends Component {
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params
-                // rowIndex={rowIndex}
                 onCloseClick={this._onChildCloseClick}
                 showBallon={this.props.activeAddressId === addr.get('id')}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
