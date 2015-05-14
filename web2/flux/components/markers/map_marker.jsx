@@ -13,30 +13,34 @@ const K_MARKER_OFFSET = +mapMarker.offset; // маркер тычка не си�
 const K_SCALE_HOVER = 1;
 const K_SCALE_TABLE_HOVER = 1;
 const K_SCALE_NORMAL = 0.6;
-
 // const K_MIN_GRAYSCALE = 0.0;
 const K_MIN_CONTRAST = 0.4;
 
+function getHintBaloonHorizontalPosStyle(x, mapWidth) {
+  // какой отступ я хочу от края если возможно
+  const K_BALLOON_MAP_OFFSET = 10;
+  // ширина балуна не шире карты
+  const K_BALLOON_WIDTH = Math.min(250, mapWidth - 2 * K_BALLOON_MAP_OFFSET);
+  // на сколько пикселей я хочу чтобы балун смещался от центра стрелки если ему нико не мешает
+  const K_BALLOON_DEFAULT_OFFSET = K_BALLOON_WIDTH * 0.15;
 
-function getHintBaloonStyle({x}, mapWidth, mapHeight) {
-  const K_BALLOON_WIDTH = 250;
-  // на сколько пикселей я хочу чтобы балун смещался от центра стрелки
-  const K_BALLOON_DEFAULT_OFFSET = K_BALLOON_WIDTH * 0.5;
   // надо пересчитать в смещении от угла
   const offset = -K_BALLOON_DEFAULT_OFFSET + K_MARKER_WIDTH * 0.5;
   // на сколько пикселей такой балун будет вылезать за пределы экрана по ширине (см. несимметричность маркера)
   const leftX = x + offset - K_MARKER_WIDTH * K_MARKER_OFFSET;
   const rightX = leftX + K_BALLOON_WIDTH;
-  // если rightX или leftX вылезают надо пересчитать
+  // если rightX или leftX или оба вылезают надо пересчитать
+  const mapOffset = offset + Math.min(0, (mapWidth - K_BALLOON_MAP_OFFSET) - rightX) + Math.max(0, K_BALLOON_MAP_OFFSET - leftX);
+
 
   const K_BALLOON_WIDTH_STYLE = {
     width: `${K_BALLOON_WIDTH}px`,
-    left: `${offset}px`,
+    left: `${mapOffset}px`,
     marginLeft: '0px'
   };
-
   return K_BALLOON_WIDTH_STYLE;
 }
+
 
 export {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT};
 
@@ -87,7 +91,7 @@ export default class MapMarker extends Component {
     const mapHeight = this.props.$geoService.getHeight();
     const markerDim = this.props.$getDimensions(this.props.$dimensionKey);
 
-    const hintBaloonStyle = getHintBaloonStyle(markerDim, mapWidth, mapHeight);
+    const hintBaloonStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
 
     return (
       <div
