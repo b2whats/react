@@ -19,7 +19,7 @@ const K_SCALE_NORMAL = 0.6;
 const K_MIN_CONTRAST = 0.4;
 
 function getHintBaloonVerticalPosClass(y, mapHeight) {
-  const K_MAX_BALLOON_HEIGHT = 200;
+  const K_MAX_BALLOON_HEIGHT = 240;
   return y > K_MAX_BALLOON_HEIGHT ? 'hint--top' : 'hint--bottom';
 }
 
@@ -51,7 +51,7 @@ function getHintBaloonHorizontalPosStyle(x, mapWidth) {
 
 export {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT};
 
-@controllable(['hoverState'])
+@controllable(['hoverState', 'showBallonState'])
 export default class MapMarker extends Component {
   static propTypes = {
     $hover: PropTypes.bool,
@@ -64,14 +64,18 @@ export default class MapMarker extends Component {
     scale: PropTypes.number,
     showBallon: PropTypes.bool,
 
+    showBallonState: PropTypes.bool.isRequired,
+    onShowBallonStateChange: PropTypes.func.isRequired,
+
     // чтобы разбить хувер анимацию на две части иначе транзишены чудеса дают
-    hoverState: PropTypes.bool,
+    hoverState: PropTypes.bool.isRequired,
     onHoverStateChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     scale: K_SCALE_NORMAL,
-    hoverState: false
+    hoverState: false,
+    showBallonState: false
   };
 
   constructor(props) {
@@ -83,22 +87,37 @@ export default class MapMarker extends Component {
       !shallowEqual(this.state, nextState);
   }
 
+  _onMouseMove = (e) => {
+    if (this.props.showBallon) {
+      e.stopPropagation(); // отменить наведение на иконки под балуном
+      e.preventDefault();
+    }
+  }
+
   render() {
-    let scale = this.props.$hover ? K_SCALE_HOVER : this.props.scale;
+    let scale = this.props.$hover || this.props.showBallon ? K_SCALE_HOVER : this.props.scale;
     scale = this.props.hoveredAtTable ? K_SCALE_TABLE_HOVER : scale;
     // const grayscale = 1 + Math.max(0, Math.min(scale / K_SCALE_NORMAL, 1)) * (K_MIN_GRAYSCALE - 1);
     const contrast = K_MIN_CONTRAST + (1 - K_MIN_CONTRAST) * Math.min(scale / K_SCALE_NORMAL, 1);
 
-    const scaleStyle = {
+    const zIndexStyle = {
+      // если охота чтоб могли быть над балуном надо просто добавить this.props.$hover ? 1000000 : 0
+      zIndex: Math.round(scale * 10000) - (this.props.showBallon ? 20 : 0) + (this.props.$hover ? 1000000 : 0)
+    };
+
+    const zIndexBalloonStyle = {
+      zIndex: 1000000 - (this.props.showBallon ? 20 : 0)
+    };
+
+    const scaleStyle = Object.assign({
       transform: `scale(${scale} , ${scale})`,
       WebkitTransform: `scale(${scale} , ${scale})`,
       filter: `contrast(${contrast})`,
       // WebkitFilter: `grayscale(${grayscale}) contrast(${contrast})`,
-      WebkitFilter: `contrast(${contrast})`,
-      zIndex: Math.round(scale * 10000)
-    };
+      WebkitFilter: `contrast(${contrast})`
+    }, zIndexStyle);
 
-    const showHint = this.props.hoverState; // || this.props.hoveredAtTable;
+    const showHint = this.props.hoverState || this.props.showBallonState; // || this.props.hoveredAtTable;
 
     // расчет показа балуна (не показывать вне границ карты)
     const mapWidth = this.props.$geoService.getWidth();
@@ -108,26 +127,38 @@ export default class MapMarker extends Component {
     const hintBaloonHorizontalPosStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
     const hintBaloonVerticalPosClass = getHintBaloonVerticalPosClass(markerDim.y, mapHeight);
 
+    const hintBalloonStyle = Object.assign({}, hintBaloonHorizontalPosStyle, zIndexBalloonStyle);
     // надо сначала выставить балун в правильную позицию а только потом анимировать всплывание
     const noTransClass = this.props.$hover === true && this.props.hoverState !== true ? 'hint--notrans' : '';
+    const noTransBalloonClass = this.props.showBallon === true && this.props.showBallonState !== true ? 'hint--notrans' : '';
     // console.log(this.props.$hover, this.props.hoverState, noTransClass);
 
     return (
       <div
         className={cx('map-marker hint hint--info hint-html',
           noTransClass,
+          noTransBalloonClass,
           hintBaloonVerticalPosClass,
+          this.props.showBallon ? 'hint--balloon' : '',
           showHint ? 'hint--always' : 'hint--hidden')}>
-        <div style={scaleStyle} className={cx('map-marker__marker', this.props.marker.get('filial_type_id') === 1 ? 'map-marker__marker--ap' : 'map-marker__marker--as')}></div>
-        <div style={hintBaloonHorizontalPosStyle} className="hint-content noevents">
+        <div
+          style={scaleStyle}
+          className={cx('map-marker__marker', this.props.marker.get('filial_type_id') === 1 ? 'map-marker__marker--ap' : 'map-marker__marker--as')}>
+        </div>
+        <div
+          style={hintBalloonStyle}
+          className={cx('hint-content', this.props.showBallon ? '' : 'noevents')}
+          onMouseMove={this._onMouseMove}>
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
-          {this.props.showBallon &&
-            <div>аьвыат выьбаьт выьбта ьбывтаь бтывьбат ьыбвта ьбтыв аьывта ьбывтаь бтывбьат </div>
-          }
+
+          <div className={cx('hint__balloon-content', this.props.showBallonState ? 'hint__balloon-content--visible' : '')}>
+            Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла
+          </div>
+
           <div>
-           <a className="ap-link">кликни на маркер для информации</a>
+            <a className="ap-link">кликни на маркер для информации</a>
           </div>
 
         </div>
@@ -141,6 +172,10 @@ export default class MapMarker extends Component {
     // и только по факту hoverState рисуется подсказка
     if (prevProps.$hover !== this.props.$hover) {
       setTimeout(() => this.props.onHoverStateChange(this.props.$hover), 0);
+    }
+
+    if (prevProps.showBallon !== this.props.showBallon) {
+      setTimeout(() => this.props.onShowBallonStateChange(this.props.showBallon), 0);
     }
   }
 }

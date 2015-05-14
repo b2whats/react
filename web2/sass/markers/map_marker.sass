@@ -32,6 +32,15 @@
   &.hint--bottom:before, .hint--bottom:after
     left: calc(50% - 12px)
 
+  &.hint--balloon
+    @include ice-hint-type(rgba(97, 104, 172, 1))
+    .hint-content
+      //transform: translate3d(0,0,0)
+      transition: background-color 1.0s ease
+      //color: black
+    &:before
+      z-index: $zIndex - 20
+
   .map-marker__marker
     @include marker-mixin($base-marker-scale)
     position: absolute
@@ -54,5 +63,14 @@
     color: #23546B
     font-size: 10px
     font-style: italic
+
+  .hint__balloon-content
+    height: 0
+    transform: translate3d(0,0,0)
+    overflow: hidden
+    transition: height 0.35s cubic-bezier(0.485, 1.650, 0.545, 0.835)
+
+  .hint__balloon-content--visible
+    height: 100px
 
 

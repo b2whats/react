@@ -84,6 +84,10 @@ export default class CatalogMap extends Component {
     if (this.props.oMapBoundsChange) {
       this.props.oMapBoundsChange(center, zoom, bounds, marginBounds);
     }
+
+    if (this.props.onRowAddressActive) {
+      this.props.onRowAddressActive(null, false);
+    }
   }
 
   _onChildClick = (key, props) => {
