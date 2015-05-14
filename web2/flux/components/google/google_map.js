@@ -60,6 +60,7 @@ const GoogleMap = React.createClass({
     className: PropTypes.string,
     options: PropTypes.any,
     distanceToMouse: PropTypes.func,
+    onChildClick: PropTypes.func,
     onChildMouseEnter: PropTypes.func,
     onChildMouseLeave: PropTypes.func,
     hoverDistance: PropTypes.number,
@@ -77,6 +78,12 @@ const GoogleMap = React.createClass({
       hoverDistance: 30,
       debounced: true
     };
+  },
+
+  onChildClick_(...args) {
+    if (this.props.onChildClick) {
+      return this.props.onChildClick(...args);
+    }
   },
 
   onChildMouseEnter_(...args) {
@@ -180,6 +187,7 @@ const GoogleMap = React.createClass({
 
           React.render((
             <GoogleMapMarkers
+              onChildClick={this_.onChildClick_}
               onChildMouseEnter={this_.onChildMouseEnter_}
               onChildMouseLeave={this_.onChildMouseLeave_}
               geoService={this_.geoService_}
@@ -247,7 +255,6 @@ const GoogleMap = React.createClass({
         this_.dragTime_ = (new Date()).getTime();
       });
 
-
       maps.event.addListener(map, 'mousemove', (e) => {
         if (!this_.mouse_) {
           this_.mouse_ = {x: 0, y: 0, lat: 0, lng: 0};
@@ -266,6 +273,24 @@ const GoogleMap = React.createClass({
           this_.fireMouseEventOnIdle_ = false;
         }
       });
+
+      // click vs dblclick
+      (() => {
+        // try to detect click not double click (but i have no idea about reasonable timeout for this)
+        let cancelClickTimeout_;
+        const K_DBL_CLICK_WAIT = 300;
+
+        maps.event.addListener(map, 'dblclick', () => {
+          clearTimeout(cancelClickTimeout_);
+        });
+
+        maps.event.addListener(map, 'click', () => {
+          clearTimeout(cancelClickTimeout_);
+          cancelClickTimeout_ = setTimeout(() => {
+            this_.markersDispatcher_.fire('kON_CLICK');
+          }, K_DBL_CLICK_WAIT);
+        });
+      })();
     })
     .catch( e => {
       console.error(e); // eslint-disable-line no-console

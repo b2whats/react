@@ -62,6 +62,7 @@ export default class MapMarker extends Component {
     marker: PropTypes.any,
     hoveredAtTable: PropTypes.bool,
     scale: PropTypes.number,
+    showBallon: PropTypes.bool,
 
     // чтобы разбить хувер анимацию на две части иначе транзишены чудеса дают
     hoverState: PropTypes.bool,
@@ -122,7 +123,9 @@ export default class MapMarker extends Component {
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
-          <div>аьвыат выьбаьт выьбта ьбывтаь бтывьбат ьыбвта ьбтыв аьывта ьбывтаь бтывбьат </div>
+          {this.props.showBallon &&
+            <div>аьвыат выьбаьт выьбта ьбывтаь бтывьбат ьыбвта ьбтыв аьывта ьбывтаь бтывбьат </div>
+          }
           <div>
            <a className="ap-link">кликни на маркер для информации</a>
           </div>

@@ -42,7 +42,14 @@ const GoogleMapMarkers = React.createClass({
   },
 
   _onChildClick() {
-
+    if (this.props.onChildClick) {
+      if (this.childProps) {
+        const hoverKey = this.hoverKey;
+        const childProps = this.childProps;
+        // используем тот факт что кликнуть можно только на уже нахуверенную иконку
+        this.props.onChildClick(hoverKey, childProps);
+      }
+    }
   },
 
   _onChildMouseEnter(hoverKey, childProps) {
@@ -126,6 +133,8 @@ const GoogleMapMarkers = React.createClass({
     this.childProps = null;
     this.event_disabler = this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
     this.mouse_event_disabler = this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler, 0);
+    this.click_event_disabler = this.props.dispatcher.on('kON_CLICK', this._onChildClick, 0);
+
     this.dimesions_cache_ = {};
     this.__internal__display_name__ = this.constructor.displayName + '__' + __internalCounter__++;
     this.hoverKey = null;
@@ -146,9 +155,15 @@ const GoogleMapMarkers = React.createClass({
     if (this.event_disabler) {
       this.event_disabler();
     }
+
     if (this.mouse_event_disabler) {
       this.mouse_event_disabler();
     }
+
+    if (this.click_event_disabler) {
+      this.click_event_disabler();
+    }
+
     this.dimesions_cache_ = null;
   },
 

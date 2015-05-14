@@ -43,6 +43,7 @@ export default class CatalogMap extends Component {
     dataResults: PropTypes.any.isRequired,
     hoveredRowIndex: PropTypes.number,
     mapMargin: PropTypes.array,
+    activeAddressId: PropTypes.any,
     onRowAddressActive: PropTypes.func,
     onRowMapHover: PropTypes.func,
     oMapBoundsChange: PropTypes.func
@@ -87,7 +88,7 @@ export default class CatalogMap extends Component {
 
   _onChildClick = (key, props) => {
     if (this.props.onRowAddressActive) {
-      this.props.onRowAddressActive(props.marker.get('id'));
+      this.props.onRowAddressActive(props.marker.get('id'), true);
     }
   }
 
@@ -108,6 +109,7 @@ export default class CatalogMap extends Component {
   }
 
   render() {
+    // console.log('this.props.activeAddressId', this.props.activeAddressId);
     const visibleRowFrom = this.props.visibleRows.get('visibleRowFirst');
     const visibleRowTo = this.props.visibleRows.get('visibleRowLast');
     const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.dataResults.size);
@@ -128,6 +130,7 @@ export default class CatalogMap extends Component {
                 lng={addr.get('coordinates').get(1)}
                 // any params
                 // rowIndex={rowIndex}
+                showBallon={this.props.activeAddressId === addr.get('id')}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
                 marker={addr}
