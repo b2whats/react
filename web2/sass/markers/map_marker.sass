@@ -51,12 +51,13 @@
       // чтобы цвет bg хинта плавно менялся
       transition: background-color 1.0s ease
     &:before
-      z-index: $zIndex - 20
+      z-index: $zIndex - 19
       // чтобы цвет стрелочки плавно менялся
       transition: border-color 1.0s ease
 
   .map-marker-hint
     cursor: default
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.5)
 
   .map-marker-hint__close-button
     position: absolute
