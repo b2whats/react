@@ -274,6 +274,7 @@ const GoogleMap = React.createClass({
         }
       });
 
+      /*
       // click vs dblclick
       (() => {
         // try to detect click not double click (but i have no idea about reasonable timeout for this)
@@ -285,12 +286,14 @@ const GoogleMap = React.createClass({
         });
 
         maps.event.addListener(map, 'click', () => {
+          console.log('click iii');
           clearTimeout(cancelClickTimeout_);
           cancelClickTimeout_ = setTimeout(() => {
             this_.markersDispatcher_.fire('kON_CLICK');
           }, K_DBL_CLICK_WAIT);
         });
       })();
+      */
     })
     .catch( e => {
       console.error(e); // eslint-disable-line no-console
@@ -359,6 +362,17 @@ const GoogleMap = React.createClass({
     delete this.markersDispatcher_;
   },
 
+  onMapClick_() {
+    // по неведомой причине не всегда проходят клики с карты
+    if (this.markersDispatcher_) {
+      const K_IDLE_TIMEOUT = 100;
+      const currTime = (new Date()).getTime();
+      if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
+        this.markersDispatcher_.fire('kON_CLICK');
+      }
+    }
+  },
+
   componentWillReceiveProps(nextProps) {
     if (!this.isCenterDefined_(this.props.center) && this.isCenterDefined_(nextProps.center)) {
       setTimeout(() =>
@@ -390,7 +404,7 @@ const GoogleMap = React.createClass({
 
   render() {
     return (
-      <div className={this.props.className}>
+      <div onClick={this.onMapClick_} className={this.props.className}>
         <GoogleMapMap ref="google_map_dom"/>
       </div>
     );
