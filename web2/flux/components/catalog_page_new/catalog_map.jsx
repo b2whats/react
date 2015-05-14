@@ -92,7 +92,11 @@ export default class CatalogMap extends Component {
 
   _onChildClick = (key, props) => {
     if (this.props.onRowAddressActive) {
-      this.props.onRowAddressActive(props.marker.get('id'), true);
+      if (props.marker.get('id') === this.props.activeAddressId) {
+        this.props.onRowAddressActive(null, false);
+      } else {
+        this.props.onRowAddressActive(props.marker.get('id'), true);
+      }
     }
   }
 

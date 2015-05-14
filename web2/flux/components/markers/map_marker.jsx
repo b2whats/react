@@ -147,18 +147,18 @@ export default class MapMarker extends Component {
         </div>
         <div
           style={hintBalloonStyle}
-          className={cx('hint-content', this.props.showBallon ? '' : 'noevents')}
+          className={cx('hint-content map-marker-hint', this.props.showBallon ? '' : 'noevents')}
           onMouseMove={this._onMouseMove}>
-          <div>
+          <div className="map-marker-hint__title">
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
 
-          <div className={cx('hint__balloon-content', this.props.showBallonState ? 'hint__balloon-content--visible' : '')}>
+          <div className={cx('map-marker-hint__content', this.props.showBallonState ? 'map-marker-hint__content--visible' : '')}>
             Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла
           </div>
 
           <div>
-            <a className="ap-link">кликни на маркер для информации</a>
+            <a className={cx('map-marker-hint__ap-link', this.props.showBallonState ? 'map-marker-hint__ap-link--hidden' : '')}>кликни на маркер для информации</a>
           </div>
 
         </div>

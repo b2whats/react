@@ -29,18 +29,6 @@
   position: absolute
   cursor: pointer
 
-  &.hint--bottom:before, .hint--bottom:after
-    left: calc(50% - 12px)
-
-  &.hint--balloon
-    @include ice-hint-type(rgba(97, 104, 172, 1))
-    .hint-content
-      //transform: translate3d(0,0,0)
-      transition: background-color 1.0s ease
-      //color: black
-    &:before
-      z-index: $zIndex - 20
-
   .map-marker__marker
     @include marker-mixin($base-marker-scale)
     position: absolute
@@ -54,23 +42,37 @@
       background-image: url('../assets/icons/map_icons/map_icon_yellow.svg')
       background-repeat: no-repeat
 
+  &.hint--bottom:before, .hint--bottom:after
+    left: calc(50% - 12px)
 
-  .hint-content
-    div
-      &:first-child
-        margin-bottom: 5px
-  .ap-link
+  &.hint--balloon
+    @include ice-hint-type(rgba(97, 104, 172, 1))
+    .hint-content
+      // чтобы цвет bg хинта плавно менялся
+      transition: background-color 1.0s ease
+    &:before
+      z-index: $zIndex - 20
+      // чтобы цвет стрелочки плавно менялся
+      transition: border-color 1.0s ease
+
+
+  .map-marker-hint__title
+    margin-bottom: 5px
+
+  .map-marker-hint__ap-link
     color: #23546B
     font-size: 10px
     font-style: italic
+  .map-marker-hint__ap-link--hidden
+    visibility: hidden
 
-  .hint__balloon-content
+  .map-marker-hint__content
     height: 0
     transform: translate3d(0,0,0)
     overflow: hidden
     transition: height 0.35s cubic-bezier(0.485, 1.650, 0.545, 0.835)
 
-  .hint__balloon-content--visible
+  .map-marker-hint__content--visible
     height: 100px
 
 
