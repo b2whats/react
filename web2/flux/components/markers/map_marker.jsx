@@ -19,8 +19,8 @@ const K_SCALE_NORMAL = 0.6;
 const K_MIN_CONTRAST = 0.4;
 
 function getHintBaloonVerticalPosClass(y, mapHeight) {
-  return 'hint--top';
-  // return 'hint--bottom';
+  const K_MAX_BALLOON_HEIGHT = 200;
+  return y > K_MAX_BALLOON_HEIGHT ? 'hint--top' : 'hint--bottom';
 }
 
 function getHintBaloonHorizontalPosStyle(x, mapWidth) {
@@ -107,6 +107,7 @@ export default class MapMarker extends Component {
     const hintBaloonHorizontalPosStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
     const hintBaloonVerticalPosClass = getHintBaloonVerticalPosClass(markerDim.y, mapHeight);
 
+    // надо сначала выставить балун в правильную позицию а только потом анимировать всплывание
     const noTransClass = this.props.$hover === true && this.props.hoverState !== true ? 'hint--notrans' : '';
     // console.log(this.props.$hover, this.props.hoverState, noTransClass);
 
