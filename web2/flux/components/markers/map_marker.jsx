@@ -90,6 +90,12 @@ export default class MapMarker extends Component {
       !shallowEqual(this.state, nextState);
   }
 
+  componentWillUnmount() {
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick();
+    }
+  }
+
   _onMouseEnterContent = (e) => {
     this.props.$onMouseAllow(false);
   }
