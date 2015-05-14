@@ -64,6 +64,8 @@ export default class MapMarker extends Component {
     scale: PropTypes.number,
     showBallon: PropTypes.bool,
 
+    onCloseClick: PropTypes.func,
+
     showBallonState: PropTypes.bool.isRequired,
     onShowBallonStateChange: PropTypes.func.isRequired,
 
@@ -91,6 +93,12 @@ export default class MapMarker extends Component {
     if (this.props.showBallon) {
       e.stopPropagation(); // отменить наведение на иконки под балуном
       e.preventDefault();
+    }
+  }
+
+  _onCloseClick = () => {
+    if (this.props.onCloseClick) {
+      this.props.onCloseClick();
     }
   }
 
@@ -149,6 +157,12 @@ export default class MapMarker extends Component {
           style={hintBalloonStyle}
           className={cx('hint-content map-marker-hint', this.props.showBallon ? '' : 'noevents')}
           onMouseMove={this._onMouseMove}>
+          <div
+            onClick={this._onCloseClick}
+            className={cx('map-marker-hint__close-button', this.props.showBallonState ? 'map-marker-hint__close-button--visible' : '')}>
+            close
+          </div>
+
           <div className="map-marker-hint__title">
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>

@@ -100,6 +100,12 @@ export default class CatalogMap extends Component {
     }
   }
 
+  _onChildCloseClick = () => {
+    if (this.props.onRowAddressActive) {
+      this.props.onRowAddressActive(null, false);
+    }
+  }
+
   _onChildMouseEnter = (key, props) => {
     const rowIndex = this.props.dataResults.findIndex(r => r.get('user_id') === props.marker.get('user_id'));
     if (rowIndex > -1) {
@@ -138,6 +144,7 @@ export default class CatalogMap extends Component {
                 lng={addr.get('coordinates').get(1)}
                 // any params
                 // rowIndex={rowIndex}
+                onCloseClick={this._onChildCloseClick}
                 showBallon={this.props.activeAddressId === addr.get('id')}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
                 scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
