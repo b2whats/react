@@ -2,7 +2,7 @@
 * пример карты гугла
 */
 import React, {PropTypes, Component} from 'react/addons';
-import controllable from 'react-controllables';
+// import controllable from 'react-controllables';
 import immutable from 'immutable';
 
 import GoogleMap from 'components/google/google_map.js';

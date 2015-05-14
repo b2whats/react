@@ -53,8 +53,15 @@ $custom-hint-hover-helper-size: 12px
     // $showDelay will apply as soon as element is hovered.
     @include vendor('transition-delay', $showDelay)
 
+  &.hint--notrans
+    &:before, &:after
+      @include vendor('transition', none)
+    .hint-content
+      @include vendor('transition', none)
+
+
 @mixin ice-set-margin($property, $transitionDirection)
-  $value: unquote("#{$property}(#{$transitionDistance * $transitionDirection})")  
+  $value: unquote("#{$property}(#{$transitionDistance * $transitionDirection})")
   @include vendor('transform', $value)
 
 
@@ -93,11 +100,11 @@ $custom-hint-hover-helper-size: 12px
   .hint-content
     // bring back to center
     margin-bottom: -1 * floor($tooltipHeight / 2)
-  
+
   .hint-content
     #{$propertyX}: 100%
     bottom: 50%
-  
+
   .hint-content
     &:after //чтобы окно не дергалось
       content: ' '
@@ -133,7 +140,7 @@ $custom-hint-hover-helper-size: 12px
 /**
  * right tooltip
  */
-.#{$prefix}right 
+.#{$prefix}right
   @include ice-horizontal-positioned-tooltip('left', 1)
 
 
@@ -183,7 +190,7 @@ $custom-hint-hover-helper-size: 12px
 
 .hint
   &.#{$prefix}hidden
-    &:hover    
+    &:hover
       &:after,&:before
         opacity: 0
         visibility: hidden
@@ -198,9 +205,9 @@ $custom-hint-hover-helper-size: 12px
 .#{$prefix}always
   .hint-content
     opacity: 1
-    visibility: visible  
+    visibility: visible
 
-  
+
   &.#{$prefix}top
     .hint-content
       @include ice-set-margin('translateY', -1)
@@ -217,4 +224,4 @@ $custom-hint-hover-helper-size: 12px
     .hint-content
       @include ice-set-margin('translateX', 1)
 
-  
+

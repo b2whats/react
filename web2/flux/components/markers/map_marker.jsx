@@ -1,6 +1,8 @@
 import React, {PropTypes, Component} from 'react/addons';
 import cx from 'classnames';
 
+import controllable from 'react-controllables';
+
 import shallowEqual from 'react/lib/shallowEqual.js';
 
 // TODO перейти на jss вместо sass
@@ -15,6 +17,11 @@ const K_SCALE_TABLE_HOVER = 1;
 const K_SCALE_NORMAL = 0.6;
 // const K_MIN_GRAYSCALE = 0.0;
 const K_MIN_CONTRAST = 0.4;
+
+function getHintBaloonVerticalPosClass(y, mapHeight) {
+  return 'hint--top';
+  // return 'hint--bottom';
+}
 
 function getHintBaloonHorizontalPosStyle(x, mapWidth) {
   // какой отступ я хочу от края если возможно
@@ -44,6 +51,7 @@ function getHintBaloonHorizontalPosStyle(x, mapWidth) {
 
 export {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT};
 
+@controllable(['hoverState'])
 export default class MapMarker extends Component {
   static propTypes = {
     $hover: PropTypes.bool,
@@ -53,11 +61,16 @@ export default class MapMarker extends Component {
 
     marker: PropTypes.any,
     hoveredAtTable: PropTypes.bool,
-    scale: PropTypes.number
+    scale: PropTypes.number,
+
+    // чтобы разбить хувер анимацию на две части иначе транзишены чудеса дают
+    hoverState: PropTypes.bool,
+    onHoverStateChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    scale: K_SCALE_NORMAL
+    scale: K_SCALE_NORMAL,
+    hoverState: false
   };
 
   constructor(props) {
@@ -84,21 +97,27 @@ export default class MapMarker extends Component {
       zIndex: Math.round(scale * 10000)
     };
 
-    const showHint = this.props.$hover; // || this.props.hoveredAtTable;
+    const showHint = this.props.hoverState; // || this.props.hoveredAtTable;
 
-    // разобрацо переходит ли или потеря
+    // расчет показа балуна (не показывать вне границ карты)
     const mapWidth = this.props.$geoService.getWidth();
     const mapHeight = this.props.$geoService.getHeight();
     const markerDim = this.props.$getDimensions(this.props.$dimensionKey);
 
-    const hintBaloonStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
+    const hintBaloonHorizontalPosStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
+    const hintBaloonVerticalPosClass = getHintBaloonVerticalPosClass(markerDim.y, mapHeight);
+
+    const noTransClass = this.props.$hover === true && this.props.hoverState !== true ? 'hint--notrans' : '';
+    // console.log(this.props.$hover, this.props.hoverState, noTransClass);
 
     return (
       <div
-        className={cx('map-marker hint hint--top hint--info hint-html',
-          showHint ? 'hint--always hover' : 'hint--hidden')}>
+        className={cx('map-marker hint hint--info hint-html',
+          noTransClass,
+          hintBaloonVerticalPosClass,
+          showHint ? 'hint--always' : 'hint--hidden')}>
         <div style={scaleStyle} className={cx('map-marker__marker', this.props.marker.get('filial_type_id') === 1 ? 'map-marker__marker--ap' : 'map-marker__marker--as')}></div>
-        <div style={hintBaloonStyle} className="hint-content noevents">
+        <div style={hintBaloonHorizontalPosStyle} className="hint-content noevents">
           <div>
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
@@ -108,5 +127,14 @@ export default class MapMarker extends Component {
         </div>
       </div>
     );
+  }
+
+  componentDidUpdate(prevProps) {
+    // для сначала выставить балун по горизонтали а потом анимировать - иначе транизишн
+    // по горизонтали будет мувить балун после мувов карты поэтому на просто $hover ставицо hint--notrans
+    // и только по факту hoverState рисуется подсказка
+    if (prevProps.$hover !== this.props.$hover) {
+      setTimeout(() => this.props.onHoverStateChange(this.props.$hover), 0);
+    }
   }
 }
