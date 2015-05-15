@@ -8,6 +8,8 @@ import regionStore from 'stores/region_store.js';
 import catalogDataActionsNew from 'actions/catalog_data_actions_new.js';
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 
+import CatalogRowShowPhone from './catlog_row_show_phone.jsx';
+
 const K_KEY_COLUMN_RANK = keyOf({K_KEY_COLUMN_RANK: null});
 const K_KEY_COLUMN_DESCRIPTION = keyOf({K_KEY_COLUMN_DESCRIPTION: null});
 const K_KEY_COLUMN_PHONE = keyOf({K_KEY_COLUMN_PHONE: null});
@@ -43,11 +45,6 @@ const columns = [
 
 export {columns};
 
-function onShowPhone(rowId, e) {
-  console.log('rowId', rowId);
-
-  e.stopPropagation();
-}
 
 function showBalloon(rowData, rowIndex, e) {
   // console.log('rowIndex', rowIndex);
@@ -98,23 +95,9 @@ function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
 }
 
 function renderPhoneColumn(cellDataKey, rowData, rowIndex) {
-  const showPhone = false;
-  const mainPhone = rowData.get('main_phone'); // rowData.get('main_marker').get('main_phone')
-
+  // вот жеж синтаксис es7 :-)
   return (
-    <div className='ta-C va-M' onClick={showBalloon.bind(null, rowData, rowIndex)}>
-      <div style={ { display: showPhone ? 'block': 'none' } }
-        className="ta-C fs20">
-        <span className='fs14'>{!!mainPhone && mainPhone.substr(0, 7)}</span>
-      {!!mainPhone && mainPhone.substr(7)}
-      </div>
-      <button onClick={ (e) => onShowPhone(rowData.get('user_id'), e)}
-        style={ { display: showPhone ? 'none' : 'inline-block' } }
-        className="p8 br2 grad-w b0 btn-shad-b ta-C">
-        <i className="flaticon-phone c-deep-purple-500 fs16 mR5"></i>
-        <span className=''>Показать телефон</span>
-      </button>
-    </div>
+    <CatalogRowShowPhone {...{cellDataKey, rowData, rowIndex}} />
   );
 }
 

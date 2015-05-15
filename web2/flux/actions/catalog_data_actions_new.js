@@ -27,21 +27,8 @@ const actions_ = [
   ['visibleRowsChange', eventNames.K_ON_CATALOG_VISIBLE_ROWS_CHANGED],
   ['rowHover', eventNames.K_ON_CATALOG_ROW_HOVER],
   ['rowMapHover', eventNames.K_ON_CATALOG_MAP_ROW_HOVER],
-  ['rowAddressActive', eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE]
-
-  /*
-  ['reset_catalog_data', eventNames.kON_CATALOG_RESET_DATA],
-  ['catalog_toggle_balloon', eventNames.kON_CATALOG_TOGGLE_BALLOON],
-  ['catalog_close_balloon', eventNames.kON_CATALOG_CLOSE_BALLOON],
-  ['catalog_show_phone', eventNames.kON_CATALOG_SHOW_PHONE],
-  ['catalog_marker_hover', eventNames.kON_CATALOG_MARKER_HOVER],
-  ['catalog_balloon_visible', eventNames.kON_CATALOG_BALLOON_VISIBLE],
-  ['catalog_map_bounds_changed_by_user', eventNames.kON_CATALOG_MAP_BOUNDS_CHANGED_BY_USER],
-  ['catalog_change_items_per_page', eventNames.kON_CATALOG_CHANGE_ITEMS_PER_PAGE],
-  ['catalog_change_page', eventNames.kON_CATALOG_CHANGE_PAGE],
-  ['catalog_search', eventNames.kON_CATALOG_SEARCH],
-  ['catalog_show_all_phones_on_current_page', eventNames.kON_CATALOG_SHOW_ALL_PHONES_ON_CURRENT_PAGE],
-  */
+  ['rowAddressActive', eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE],
+  ['showPhone', eventNames.K_ON_CATALOG_SHOW_PHONE]
 ];
 
 const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, services, regionText, priceType) => {

@@ -66,7 +66,9 @@ class CatalogDataStoreNew extends BaseStore {
     // адрес балуна
     activeAddressId: null,
     // visibleRowFirst индекс первого видимого элемента,
-    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1}
+    visibleRows: {visibleRowFirst: -1, visibleRowLast: -1},
+
+    visiblePhonesSet: new immutable.Set()
   });
 
   constructor() {
@@ -79,6 +81,8 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.kON_REGION_CHANGED, this._onRegionChanged, regionStore.getPriority() + 1);
 
     this.register(eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE, this._onMapRowAddressActive);
+
+    this.register(eventNames.K_ON_CATALOG_SHOW_PHONE, this._onShowPhone);
   }
 
   _onRegionChanged() {
@@ -138,6 +142,13 @@ class CatalogDataStoreNew extends BaseStore {
     this.fireChangeEvent();
   }
 
+  _onShowPhone(rowUserId) {
+    this.state.visiblePhonesSet_cursor
+      .update(prev => prev.add(rowUserId));
+
+    this.fireChangeEvent();
+  }
+
   getData() {
     return this.state.data;
   }
@@ -160,6 +171,10 @@ class CatalogDataStoreNew extends BaseStore {
 
   getVisibleRows() {
     return this.state.visibleRows;
+  }
+
+  getVisiblePhoneSet() {
+    return this.state.visiblePhonesSet;
   }
 
   // view обновляется только если указанные в нем props меняюца
