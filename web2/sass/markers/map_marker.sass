@@ -49,6 +49,7 @@
     @include ice-hint-type(rgba(97, 104, 172, 1))
     .hint-content
       // чтобы цвет bg хинта плавно менялся
+      z-index: $zIndex - 20
       transition: background-color 1.0s ease
     &:before
       z-index: $zIndex - 19

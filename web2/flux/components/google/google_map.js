@@ -3,7 +3,6 @@ import React, {PropTypes, Component} from 'react/addons';
 const {PureRenderMixin} = React.addons;
 
 import Emitter from 'utils/emitter.js';
-import sc from 'shared_constants';
 
 import GoogleMapMap from './google_map_map.jsx';
 import GoogleMapMarkers from './google_map_markers.jsx';
@@ -14,6 +13,9 @@ import merge from 'utils/merge.js';
 import Geo from 'utils/geo.js';
 
 const kEPS = 0.00001;
+
+const K_GOOGLE_TILE_SIZE = 256;
+const K_CALC_MAP_TRANSFORM_FROM_LEFT_TOP = true;
 
 const K_MAP_CONTROL_OPTIONS = {
   overviewMapControl: false,
@@ -28,7 +30,7 @@ const K_MAP_CONTROL_OPTIONS = {
 };
 
 function getLeftTopFromCenter(width, height, center, zoom) {
-  let gs = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
+  let gs = new Geo(K_GOOGLE_TILE_SIZE, K_CALC_MAP_TRANSFORM_FROM_LEFT_TOP);
   gs.setViewSize(width, height);
   gs.setView([center[0], center[1]], zoom, 0); // от центральной точки
   return gs.unproject({x: -width / 2, y: -height / 2});
@@ -79,7 +81,8 @@ const GoogleMap = React.createClass({
         return Math.sqrt((x - mousePos.x) * (x - mousePos.x) + (y - mousePos.y) * (y - mousePos.y));
       },
       hoverDistance: 30,
-      debounced: true
+      debounced: true,
+      options: K_MAP_CONTROL_OPTIONS
     };
   },
 
@@ -166,7 +169,7 @@ const GoogleMap = React.createClass({
         center: new maps.LatLng(centerLatLng.lat, centerLatLng.lng)
       };
 
-      const mapOptions = Object.assign({}, K_MAP_CONTROL_OPTIONS, this.props.options || {}, propsOptions);
+      const mapOptions = Object.assign({}, this.props.options || {}, propsOptions);
 
       const map = new maps.Map(this.refs.google_map_dom.getDOMNode(), mapOptions);
       this.map_ = map;
@@ -276,27 +279,6 @@ const GoogleMap = React.createClass({
           this_.fireMouseEventOnIdle_ = false;
         }
       });
-
-      /*
-      // click vs dblclick
-      (() => {
-        // try to detect click not double click (but i have no idea about reasonable timeout for this)
-        let cancelClickTimeout_;
-        const K_DBL_CLICK_WAIT = 300;
-
-        maps.event.addListener(map, 'dblclick', () => {
-          clearTimeout(cancelClickTimeout_);
-        });
-
-        maps.event.addListener(map, 'click', () => {
-          console.log('click iii');
-          clearTimeout(cancelClickTimeout_);
-          cancelClickTimeout_ = setTimeout(() => {
-            this_.markersDispatcher_.fire('kON_CLICK');
-          }, K_DBL_CLICK_WAIT);
-        });
-      })();
-      */
     })
     .catch( e => {
       console.error(e); // eslint-disable-line no-console
@@ -330,7 +312,7 @@ const GoogleMap = React.createClass({
         return this_.updateCounter_;
       }
     });
-    this.geoService_ = new Geo(sc.kGOOGLE_TILE_SIZE, sc.kCALC_MAP_TRANSFORM_FROM_LEFT_TOP);
+    this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE, K_CALC_MAP_TRANSFORM_FROM_LEFT_TOP);
   },
 
 

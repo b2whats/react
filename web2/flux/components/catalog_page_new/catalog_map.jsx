@@ -20,7 +20,6 @@ import invariant from 'fixed-data-table-ice/internal/invariant.js';
 import {getScale, getRealFromTo} from './calc_markers_visibility.js';
 
 
-const K_MAP_OPTIONS = null; // options to create map
 const K_HOVER_DISTANCE = 30;
 
 // @controllable(['markers'])
@@ -168,8 +167,7 @@ export default class CatalogMap extends Component {
         onChildClick={this._onChildClick}
         margin={this.props.mapMargin}
         debounced={true} // слать запросы onBoundsChange только на idle
-        zoom={this.props.zoom}
-        options={K_MAP_OPTIONS}>
+        zoom={this.props.zoom}>
         {Markers}
       </GoogleMap>
     );

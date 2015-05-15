@@ -116,14 +116,14 @@ export default class MapMarker extends Component {
     // const grayscale = 1 + Math.max(0, Math.min(scale / K_SCALE_NORMAL, 1)) * (K_MIN_GRAYSCALE - 1);
     const contrast = K_MIN_CONTRAST + (1 - K_MIN_CONTRAST) * Math.min(scale / K_SCALE_NORMAL, 1);
 
+    // подтянуто отсюда sass/controls/hint/hint-variables.scss потом надо вытащить в общие переменные
+    const K_HINT_HTML_DEFAULT_Z_INDEX = 1000000;
+
     const zIndexStyle = {
-      // если охота чтоб могли быть над балуном надо просто добавить this.props.$hover ? 1000000 : 0
-      zIndex: Math.round(scale * 10000) - (this.props.showBallon ? 20 : 0) + (this.props.$hover ? 1000000 : 0)
+      // посл член позволяет иконкам быть над клик балуном
+      zIndex: Math.round(scale * 10000) - (this.props.showBallon ? 20 : 0) + (this.props.$hover ? K_HINT_HTML_DEFAULT_Z_INDEX : 0)
     };
 
-    const zIndexBalloonStyle = {
-      zIndex: 1000000 - (this.props.showBallon ? 20 : 0)
-    };
 
     const scaleStyle = Object.assign({
       transform: `scale(${scale} , ${scale})`,
@@ -133,8 +133,8 @@ export default class MapMarker extends Component {
       WebkitFilter: `contrast(${contrast})`
     }, zIndexStyle);
 
+    // показать хинт только после того как он прошел стадию без анимации
     const showHint = this.props.hoverState || this.props.showBallonState; // || this.props.hoveredAtTable;
-
     // расчет показа балуна (не показывать вне границ карты)
     const mapWidth = this.props.$geoService.getWidth();
     const mapHeight = this.props.$geoService.getHeight();
@@ -143,11 +143,11 @@ export default class MapMarker extends Component {
     const hintBaloonHorizontalPosStyle = getHintBaloonHorizontalPosStyle(markerDim.x, mapWidth);
     const hintBaloonVerticalPosClass = getHintBaloonVerticalPosClass(markerDim.y, mapHeight);
 
-    const hintBalloonStyle = Object.assign({}, hintBaloonHorizontalPosStyle, zIndexBalloonStyle);
     // надо сначала выставить балун в правильную позицию а только потом анимировать всплывание
     const noTransClass = this.props.$hover === true && this.props.hoverState !== true ? 'hint--notrans' : '';
     const noTransBalloonClass = this.props.showBallon === true && this.props.showBallonState !== true ? 'hint--notrans' : '';
-    // console.log(this.props.$hover, this.props.hoverState, noTransClass);
+
+    const hintBalloonStyle = hintBaloonHorizontalPosStyle; // Object.assign({}, hintBaloonHorizontalPosStyle);
 
     return (
       <div
@@ -168,7 +168,7 @@ export default class MapMarker extends Component {
           onMouseLeave={this._onMouseLeaveContent}>
           <div
             onClick={this._onCloseClick}
-            className={cx('map-marker-hint__close-button', this.props.showBallonState ? 'map-marker-hint__close-button--visible' : '')}>
+            className={cx('map-marker-hint__close-button', this.props.showBallon ? 'map-marker-hint__close-button--visible' : '')}>
             close
           </div>
 
@@ -176,12 +176,12 @@ export default class MapMarker extends Component {
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
 
-          <div className={cx('map-marker-hint__content', this.props.showBallonState ? 'map-marker-hint__content--visible' : '')}>
+          <div className={cx('map-marker-hint__content', this.props.showBallon ? 'map-marker-hint__content--visible' : '')}>
             Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла
           </div>
 
           <div>
-            <a className={cx('map-marker-hint__ap-link', this.props.showBallonState ? 'map-marker-hint__ap-link--hidden' : '')}>кликни на маркер для информации</a>
+            <a className={cx('map-marker-hint__ap-link', this.props.showBallon ? 'map-marker-hint__ap-link--hidden' : '')}>кликни на маркер для информации</a>
           </div>
 
         </div>
