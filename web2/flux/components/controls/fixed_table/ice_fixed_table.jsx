@@ -12,7 +12,7 @@ const anim = require('utils/anim.js');
 
 const debounceCore = require('fixed-data-table-ice/internal/debounceCore.js');
 
-const CatalogPageTableHolder = require('./catalog_page_table_holder.jsx');
+const IceFixedTableHolder = require('./ice_fixed_table_holder.jsx');
 
 const K_SCROLL_HEADER_DEBOUNCE = 20;
 const K_SCROLL_HEADER_DEBOUNCE_EPS = 2;
@@ -23,7 +23,7 @@ const styleEmpty = {}; // стили а не пропажа элемента ч�
 const styleInvisible = {visibility: 'hidden'};
 
 
-const CatalogPageTableNew = React.createClass({
+const IceFixedTable = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -39,7 +39,7 @@ const CatalogPageTableNew = React.createClass({
     columns: PropTypes.array, // columns definition columns = [{dataKey: K_KEY_COLUMN_RANK, fixed: true, label: '', width: 70},...]
     getRowObjectAt: PropTypes.func,
     getRowClassNameAt: PropTypes.func,
-    cellRenderer: PropTypes.func,
+    cellRenderer: PropTypes.func.isRequired,
     headerRenderer: PropTypes.func,
     miniHeaderRenderer: PropTypes.func,
     onVisibleRowsChange: PropTypes.func,
@@ -278,7 +278,7 @@ const CatalogPageTableNew = React.createClass({
   },
 
   _cellRenderer(cellData: any, cellDataKey: string, rowData: object, rowIndex: number, columnData: any, width: number) {
-    return this.props.cellRenderer(cellDataKey, rowData);
+    return this.props.cellRenderer(cellDataKey, rowData, rowIndex);
   },
 
   componentWillMount() {
@@ -333,7 +333,7 @@ const CatalogPageTableNew = React.createClass({
         className={this.props.className}>
         {this.props.width && this.props.height ?
           [
-            <CatalogPageTableHolder
+            <IceFixedTableHolder
               key="table"
               forceUpdateCounter={this.props.forceUpdateCounter}
               width={Math.floor(this.props.width)}
@@ -378,4 +378,4 @@ const CatalogPageTableNew = React.createClass({
 });
 
 
-module.exports = sizeHoc(CatalogPageTableNew);
+module.exports = sizeHoc(IceFixedTable);

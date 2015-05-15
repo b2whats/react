@@ -5,6 +5,9 @@ import Link from 'components/link.jsx';
 import regionStore from 'stores/region_store.js';
 import catalogDataActions from 'actions/catalog_data_actions.js';
 
+import catalogDataActionsNew from 'actions/catalog_data_actions_new.js';
+
+
 const K_KEY_COLUMN_RANK = keyOf({K_KEY_COLUMN_RANK: null});
 const K_KEY_COLUMN_DESCRIPTION = keyOf({K_KEY_COLUMN_DESCRIPTION: null});
 const K_KEY_COLUMN_PHONE = keyOf({K_KEY_COLUMN_PHONE: null});
@@ -40,7 +43,7 @@ const columns = [
 
 export {columns};
 
-function renderPartColumn(cellDataKey, rowData) {
+function renderPartColumn(cellDataKey, rowData, rowIndex) {
   return (
     <div className='ta-C va-M w50px p0-10'>
       <i className={cx((rowData.get('filial_type_id') === 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
@@ -53,7 +56,7 @@ function renderPartColumn(cellDataKey, rowData) {
   );
 }
 
-function renderDescriptionColumn(cellDataKey, rowData) {
+function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
   return (
     <div className='va-M p10-0'>
       <div className='bR1s bc-grey-300 pR15'>
@@ -77,7 +80,7 @@ function renderDescriptionColumn(cellDataKey, rowData) {
   );
 }
 
-function renderPhoneColumn(cellDataKey, rowData) {
+function renderPhoneColumn(cellDataKey, rowData, rowIndex) {
   const showPhone = false;
   const mainPhone = rowData.get('main_phone'); // rowData.get('main_marker').get('main_phone')
 
@@ -108,14 +111,14 @@ export function getRowClassNameAt(i, isHovered, isFirstInvisibleRow) {
   return borderTopClass + ' ' + (i % 2 === 0 ? K_ROW_CLASS_NAME_EVEN : K_ROW_CLASS_NAME_ODD);
 }
 
-export function cellRenderer(cellDataKey, rowData, tableAction) {
+export function cellRenderer(cellDataKey, rowData, rowIndex) {
   switch (cellDataKey) {
     case K_KEY_COLUMN_RANK:
-      return renderPartColumn(cellDataKey, rowData, tableAction);
+      return renderPartColumn(cellDataKey, rowData, rowIndex);
     case K_KEY_COLUMN_DESCRIPTION:
-      return renderDescriptionColumn(cellDataKey, rowData, tableAction);
+      return renderDescriptionColumn(cellDataKey, rowData, rowIndex);
     case K_KEY_COLUMN_PHONE:
-      return renderPhoneColumn(cellDataKey, rowData, tableAction);
+      return renderPhoneColumn(cellDataKey, rowData, rowIndex);
     default:
       return (
         <div>{rowData ? 'Привет мир' : ''}</div>

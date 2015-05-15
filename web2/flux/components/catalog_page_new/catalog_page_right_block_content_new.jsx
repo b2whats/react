@@ -2,7 +2,8 @@ import React, {PropTypes, Component} from 'react/addons';
 import controllable from 'react-controllables';
 
 import CatalogSearch from '../catalog_page/catalog_search.jsx';
-import CatalogPageTableNew from './catalog_page_table_new.jsx';
+import IceFixedTable from 'components/controls/fixed_table/ice_fixed_table.jsx';
+
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
@@ -53,8 +54,8 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
 
-  _cellRenderer = (cellDataKey, rowData) => {
-    return cellRenderer(cellDataKey, rowData);
+  _cellRenderer = (cellDataKey, rowData, rowIndex) => {
+    return cellRenderer(cellDataKey, rowData, rowIndex);
   }
 
   _getRowObjectAt = (i) => {
@@ -136,7 +137,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
     return (
       <div className="search-page-right-block-new search-page-right-block-new--new">
-        <CatalogPageTableNew
+        <IceFixedTable
           className="catalog-page-table-new"
           onVisibleRowsChange={this._onVisibleRowsChange}
           onRowMouseEnter={this._onRowMouseEnter}
