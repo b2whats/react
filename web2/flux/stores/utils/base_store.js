@@ -28,7 +28,8 @@ export default class BaseStore extends Emitter {
       throw new Error('constructor name undefined');
     }
 
-    const atomName = this.constructor.name + '__' + (this.fluxInstance_ && this.fluxInstance_.id || '');
+    const atomName = this.constructor.name + '__' + this.constructor.displayName + '__' + (this.fluxInstance_ && this.fluxInstance_.id || '');
+    //console.log(atomName, this.constructor.name, this.constructor.displayName, this.constructor.prototype);
 
     return initState(atomName, state);
   }

@@ -32,7 +32,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       r[item.get('user_id')] = 1;
       return r;
     }, {});
-console.log(id2PtInRect);
+  // console.log(id2PtInRect);
   const sorted = data
     // отсортировать по видимость на карте и sort параметру
     .sortBy(item =>
@@ -52,12 +52,14 @@ console.log(id2PtInRect);
             .sortBy(addr => addr.get('visible_address') ? 0 : 1)
             .sortBy(addr => addr.get('distance_to_center')))
         : item );
-console.log(sorted.toJS());
+  // console.log(sorted.toJS());
   return sorted;
 };
 
 
 class SearchDataStoreAS extends BaseStore {
+  static displayName = 'SearchDataStoreAS'
+
   state = this.initialState({
     data: [],
     // где карта

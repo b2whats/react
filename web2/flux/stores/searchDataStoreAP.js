@@ -52,12 +52,15 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
             .sortBy(addr => addr.get('visible_address') ? 0 : 1)
             .sortBy(addr => addr.get('distance_to_center')))
         : item );
-console.log(sorted.toJS());
+  // console.log(sorted.toJS());
   return sorted;
 };
 
 
 class SearchDataStoreAP extends BaseStore {
+
+  static displayName = 'SearchDataStoreAP'
+
   state = this.initialState({
     data: [],
     // где карта

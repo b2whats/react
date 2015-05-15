@@ -53,6 +53,8 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
 
 
 class CatalogDataStoreNew extends BaseStore {
+  static displayName = 'CatalogDataStoreNew'
+
   state = this.initialState({
     data: [],
     // где карта

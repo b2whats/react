@@ -129,9 +129,6 @@ export default class CatalogMap extends Component {
     const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.dataResults.size);
     const emptyIm = new immutable.List();
 
-    console.log(visibleRowFrom, visibleRowTo, this.props.dataResults.size);
-    console.log(rowFrom, rowTo);
-
 
     const Markers = rowFrom === -1 ? emptyIm : (new immutable.Range(rowFrom, rowTo + 1)).toList()
       .flatMap( rowIndex => {
