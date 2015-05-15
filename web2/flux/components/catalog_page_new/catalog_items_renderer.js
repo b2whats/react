@@ -3,10 +3,10 @@ import keyOf from 'utils/keyof.js';
 import cx from 'classnames';
 import Link from 'components/link.jsx';
 import regionStore from 'stores/region_store.js';
-import catalogDataActions from 'actions/catalog_data_actions.js';
+// import catalogDataActions from 'actions/catalog_data_actions.js';
 
 import catalogDataActionsNew from 'actions/catalog_data_actions_new.js';
-
+import catalogDataStore from 'stores/catalog_data_store_new.js';
 
 const K_KEY_COLUMN_RANK = keyOf({K_KEY_COLUMN_RANK: null});
 const K_KEY_COLUMN_DESCRIPTION = keyOf({K_KEY_COLUMN_DESCRIPTION: null});
@@ -43,9 +43,26 @@ const columns = [
 
 export {columns};
 
+function onShowPhone(rowId, e) {
+  console.log('rowId', rowId);
+
+  e.stopPropagation();
+}
+
+function showBalloon(rowData, rowIndex, e) {
+  // console.log('rowIndex', rowIndex);
+  const addressId = rowData.get('addresses').get(0).get('id');
+
+  if (catalogDataStore.getActiveAddressId() === addressId) {
+    catalogDataActionsNew.rowAddressActive(null, false);
+  } else {
+    catalogDataActionsNew.rowAddressActive(rowData.get('addresses').get(0).get('id'), true);
+  }
+}
+
 function renderPartColumn(cellDataKey, rowData, rowIndex) {
   return (
-    <div className='ta-C va-M w50px p0-10'>
+    <div className='ta-C va-M w50px p0-10' onClick={showBalloon.bind(null, rowData, rowIndex)}>
       <i className={cx((rowData.get('filial_type_id') === 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
       <div>
         <span className={cx('fs12 bB1d', (rowData.get('filial_type_id') === 1) ? 'c-deep-purple-500' : 'c-yellow-800')}>
@@ -58,7 +75,7 @@ function renderPartColumn(cellDataKey, rowData, rowIndex) {
 
 function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
   return (
-    <div className='va-M p10-0'>
+    <div className='va-M p10-0' onClick={showBalloon.bind(null, rowData, rowIndex)}>
       <div className='bR1s bc-grey-300 pR15'>
         <div className='entire-width mB15 flex-ai-c'>
           <Link href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
@@ -85,13 +102,13 @@ function renderPhoneColumn(cellDataKey, rowData, rowIndex) {
   const mainPhone = rowData.get('main_phone'); // rowData.get('main_marker').get('main_phone')
 
   return (
-    <div className='ta-C va-M'>
+    <div className='ta-C va-M' onClick={showBalloon.bind(null, rowData, rowIndex)}>
       <div style={ { display: showPhone ? 'block': 'none' } }
         className="ta-C fs20">
         <span className='fs14'>{!!mainPhone && mainPhone.substr(0, 7)}</span>
       {!!mainPhone && mainPhone.substr(7)}
       </div>
-      <button onClick={ () => catalogDataActions.catalog_show_phone(rowData.get('main_marker').get('id'))}
+      <button onClick={ (e) => onShowPhone(rowData.get('user_id'), e)}
         style={ { display: showPhone ? 'none' : 'inline-block' } }
         className="p8 br2 grad-w b0 btn-shad-b ta-C">
         <i className="flaticon-phone c-deep-purple-500 fs16 mR5"></i>

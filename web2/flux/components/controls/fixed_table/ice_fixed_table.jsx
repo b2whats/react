@@ -278,7 +278,7 @@ const IceFixedTable = React.createClass({
   },
 
   _cellRenderer(cellData: any, cellDataKey: string, rowData: object, rowIndex: number, columnData: any, width: number) {
-    return this.props.cellRenderer(cellDataKey, rowData, rowIndex);
+    return this.props.cellRenderer(cellDataKey, rowData, rowIndex - K_HEADER_FIELD_INDEX_DELTA);
   },
 
   componentWillMount() {
