@@ -296,6 +296,7 @@ const GoogleMap = React.createClass({
         this_.mouse_.y = e.pixel.y;
         this_.mouse_.lat = e.latLng.lat();
         this_.mouse_.lng = e.latLng.lng();
+
         if (currTime - this_.dragTime_ < K_IDLE_TIMEOUT) {
           this_.fireMouseEventOnIdle_ = true;
         } else {
@@ -315,11 +316,12 @@ const GoogleMap = React.createClass({
   },
 
   componentWillMount() {
-    // const this_ = this;
+    this.mounted_ = false;
+
     this.map_ = null;
     this.maps_ = null;
     this.prevBounds_ = null;
-    // this.prev_center_ = null;
+
     this.mouse_ = null;
     this.dragTime_ = 0;
     this.fireMouseEventOnIdle_ = false;
