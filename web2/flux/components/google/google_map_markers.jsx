@@ -1,5 +1,4 @@
 import React, {PropTypes, Component} from 'react/addons';
-import raf from 'utils/raf.js';
 
 const {PureRenderMixin} = React.addons;
 
@@ -89,7 +88,7 @@ const GoogleMapMarkers = React.createClass({
 
   _onMouseChangeHandler() {
     if (this._allowMouse) {
-      raf(() => this.dimesions_cache_ && this._onMouseChangeHandler_raf(), null, this.__internal__display_name__);
+      this._onMouseChangeHandler_raf();
     }
   },
 
