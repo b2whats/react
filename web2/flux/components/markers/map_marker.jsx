@@ -175,6 +175,9 @@ export default class MapMarker extends Component {
           <div className="map-marker-hint__title">
             <strong>{this.props.marker.get('company_name')}</strong>
           </div>
+          <div className="map-marker-hint__address">
+            {this.props.marker.get('address')}
+          </div>
 
           <div className={cx('map-marker-hint__content', this.props.showBallon ? 'map-marker-hint__content--visible' : '')}>
             Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла
