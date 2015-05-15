@@ -5,8 +5,8 @@ const {PureRenderMixin} = React.addons;
 let __internalCounter__ = 0;
 
 const style = {
-  width: '0px',
-  height: '0px',
+  width: 0,
+  height: 0,
   left: 0,
   top: 0,
   backgroundColor: 'transparent',
