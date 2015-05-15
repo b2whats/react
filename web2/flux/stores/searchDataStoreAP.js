@@ -68,10 +68,13 @@ class SearchDataStoreAP extends BaseStore {
     hoveredRowIndex: -1,
     // мышка над маркером чтобы выделить в табличке
     hoveredMapRowIndex: -1,
+    // адрес балуна
+    activeAddressId: null,
     // visibleRowFirst индекс первого видимого элемента,
     visibleRows: {visibleRowFirst: 0, visibleRowLast: 15},
     showAllPhone: {autoparts: false, autoservices: false},
-    visiblePhone: []
+    visiblePhone: [],
+    header: {}
   });
 
   constructor() {
@@ -85,6 +88,14 @@ class SearchDataStoreAP extends BaseStore {
 
     this.register(eventNames.K_ON_SEARCH_SHOW_ALL_PHONE_CHANGE_AP, this._onShowAllPhoneChanged);
     this.register(eventNames.K_ON_SEARCH_SHOW_PHONE_CHANGE_AP, this._onVisiblePhoneChanged);
+    this.register(eventNames.K_ON_SEARCH_ROW_ADDRESS_ACTIVE_AP, this._onMapRowAddressActive);
+  }
+
+  _onMapRowAddressActive(activeAddressId, activeState) {
+    this.state.activeAddressId_cursor
+      .update(() => activeState ? activeAddressId : null);
+
+    this.fireChangeEvent();
   }
 
   _onRegionChanged() {
@@ -124,9 +135,10 @@ class SearchDataStoreAP extends BaseStore {
   }
 
   _onAutoServicesDataLoaded(v) {
-    console.log('dataloaded');
     this.state.data_cursor
-      .update(() => fromJS(v));
+      .update(() => fromJS(v.results));
+    this.state.header_cursor
+      .update(() => fromJS(v.header));
     this.state.visiblePhone_cursor
       .update(visiblePhone => visiblePhone.clear());
     this.fireChangeEvent();
@@ -166,7 +178,9 @@ class SearchDataStoreAP extends BaseStore {
   getMapHoveredRowIndex() {
     return this.state.hoveredMapRowIndex;
   }
-
+  getHeader() {
+    return this.state.header;
+  }
   getVisibleRows() {
     return this.state.visibleRows;
   }
@@ -177,6 +191,9 @@ class SearchDataStoreAP extends BaseStore {
 
   getVisiblePhone() {
     return this.state.visiblePhone;
+  }
+  getActiveAddressId() {
+    return this.state.activeAddressId;
   }
   // view обновляется только если указанные в нем props меняюца
   @view(['data', 'mapInfo'])

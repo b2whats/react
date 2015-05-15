@@ -29,6 +29,8 @@ const actions_ = [
   ['rowMapHover', eventNames.K_ON_SEARCH_MAP_ROW_HOVER_AS],
   ['showAllPhoneChange', eventNames.K_ON_SEARCH_SHOW_ALL_PHONE_CHANGE_AS],
   ['visiblePhoneChange', eventNames.K_ON_SEARCH_SHOW_PHONE_CHANGE_AS],
+  ['rowAddressActive', eventNames.K_ON_SEARCH_ROW_ADDRESS_ACTIVE_AS]
+
 ];
 
 const _queryAutoServicesData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, id) => {

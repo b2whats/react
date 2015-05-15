@@ -271,8 +271,8 @@ export default class SearchPageAutoPartTable extends Component {
                 onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
                 className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
               >
-                <span className="table-line">
-                  <span className="d-tc va-m"><i className="flaticon-phone c-ap fs16" /></span>
+                <span className="table-line w100pr ta-C">
+                  <span className="d-tc va-m ta-C"><i className="flaticon-phone c-ap fs16" /></span>
                   <span className='M-d-n-1420 va-m'>Телефон</span>
                 </span>
               </button>

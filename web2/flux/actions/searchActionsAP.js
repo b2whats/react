@@ -29,6 +29,7 @@ const actions_ = [
   ['rowMapHover', eventNames.K_ON_SEARCH_MAP_ROW_HOVER_AP],
   ['showAllPhoneChange', eventNames.K_ON_SEARCH_SHOW_ALL_PHONE_CHANGE_AP],
   ['visiblePhoneChange', eventNames.K_ON_SEARCH_SHOW_PHONE_CHANGE_AP],
+  ['rowAddressActive', eventNames.K_ON_SEARCH_ROW_ADDRESS_ACTIVE_AP]
 ];
 
 const _queryAutoPartsData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, id) => {
@@ -82,7 +83,7 @@ const _queryAutoPartsData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, i
         .map(result => Object.assign({visible_item: false, sort: hashCode(result.name) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
 
       // console.log(results[0]);
-      return results;
+      return {header: res.header, results: results};
     });
 }));
 

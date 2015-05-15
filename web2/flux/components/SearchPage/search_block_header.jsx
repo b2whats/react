@@ -31,10 +31,12 @@ var search_page_store = require('stores/search_page_store.js');
 var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
 
+import searchDataStoreAP from 'stores/searchDataStoreAP.js';
+
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: search_page_store.get_search_page_width (),
-  auto_part_data: auto_part_by_id_store.get_auto_part_data_header (),
+  auto_part_data: searchDataStoreAP.getHeader(),
   autoservice_data: autoservice_by_id_store.get_autoservice_data_header (),
 }),
 search_page_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
@@ -86,6 +88,7 @@ var SearchBlockHeader = React.createClass({
   },
 
   render() {
+    console.log(this.state.auto_part_data.toJS());
     var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('name') : '';
     var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('service') : '';
 

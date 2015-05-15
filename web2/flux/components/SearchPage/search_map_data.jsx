@@ -20,7 +20,9 @@ import SearchMap from './search_map.jsx';
   visibleRowsAS: searchDataStoreAS.getVisibleRows(),
   dataResultsAS: searchDataStoreAS.getSortedData(),
   hoveredRowIndexAS: searchDataStoreAS.getHoveredRowIndex(),
-}), searchDataStoreAP, searchDataStoreAP)
+  activeAddressIdAP: searchDataStoreAP.getActiveAddressId(),
+/*  activeAddressIdAS: searchDataStoreAS.getActiveAddressId()*/
+}), searchDataStoreAP, searchDataStoreAS)
 export default class SearchMapData extends Component {
   static propTypes = {
     className: PropTypes.string,

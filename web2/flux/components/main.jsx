@@ -14,6 +14,7 @@ const DefaultPage = require('components/default/default_page.jsx');
 
 const Agreement = require('components/static/agreement.jsx');
 const SearchBlockHeader = require('components/search_page/search_block_header.jsx');
+const SearchBlockHeaderNew = require('components/SearchPage/search_block_header.jsx');
 
 const Link = require('components/link.jsx');
 
@@ -136,15 +137,15 @@ const IceMain = React.createClass({
           </SearchBlockHeader>
         );
 
-      // ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
+
       case routeNames.kROUTE_PARTS_FIND_NEW:
         return (
-          <SearchBlockHeader>
+          <SearchBlockHeaderNew>
             <div ref='main_content' className="search-page-main-fixed">
               <SearchMapData className="search-page-left-block search-page-left-block--new" />
               <SearchPageRightBlockContentNew />
             </div>
-          </SearchBlockHeader>
+          </SearchBlockHeaderNew>
         );
 
       //ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
