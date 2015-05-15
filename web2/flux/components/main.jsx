@@ -41,7 +41,7 @@ const AccountManageHistory = require('components/account/account_manage_history.
 const AccountStatistics = require('components/account/account_statistics.jsx');
 const GoogleAutocomplete = require('components/google/google_autocomplete.jsx');
 
-import AfterRegister from 'components/after_register.jsx';
+import AfterRegister from 'components/AfterRegister/AfterRegister.jsx';
 
 const Menu = require('components/menu/menu.jsx');
 
