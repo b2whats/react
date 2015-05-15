@@ -22,7 +22,7 @@ const memoizedCall_ = serialize(memoize(K_MEMOIZE_OPTIONS)((apiKey) => {
 
     const apiKeyString = apiKey ? `&key=${apiKey}` : '';
     // сначала ждем когда загружающий ya скрипт загрузится, потом когда он сам все подгрузит ?v=3.exp
-    $script(`https://maps.googleapis.com/maps/api/js?callback=_$_google_map_initialize_$_${apiKeyString}`, () => {
+    $script(`https://maps.googleapis.com/maps/api/js?language=ru&libraries=places&callback=_$_google_map_initialize_$_${apiKeyString}`, () => {
       if (typeof window.google === 'undefined') {
         console.error('gmap not loaded');  // eslint-disable-line no-console
         reject(new Error('gmap not loaded'));

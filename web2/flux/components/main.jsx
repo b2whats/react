@@ -1,6 +1,6 @@
 const React = require('react/addons');
 
-
+const sc = require('shared_constants');
 const routeNames = require('shared_constants/route_names.js');
 const routesStore = require('stores/routes_store.js');
 
@@ -36,6 +36,7 @@ const AccountServices = require('components/account/services.jsx');
 const AccountManage = require('components/account/account_manage.jsx');
 const AccountManageHistory = require('components/account/account_manage_history.jsx');
 const AccountStatistics = require('components/account/account_statistics.jsx');
+const GoogleAutocomplete = require('components/google/google_autocomplete.jsx');
 
 import AfterRegister from 'components/after_register.jsx';
 
@@ -68,10 +69,13 @@ const IceMain = React.createClass({
       case routeNames.kROUTE_R_B:
       case routeNames.kROUTE_R_C:
         return (
-          <div>
+          <div style={{width: '400px'}}>
+            <GoogleAutocomplete apiKey={sc.kGOOGLE_MAP_API_KEY} />
+            {/*
             <Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
             <Link href={routeNames.kROUTE_R_B}>{routeNames.kROUTE_R_B}</Link><br/>
             <Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
+            */}
           </div>
         );
 
