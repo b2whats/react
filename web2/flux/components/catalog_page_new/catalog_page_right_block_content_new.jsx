@@ -106,8 +106,10 @@ export default class CatalogPageRightBlockContentNew extends Component {
     this._callUpdateVisibleRows(visibleRowFirst, visibleRowLast);
   }
 
-  _onRowMouseEnter = (index) =>
+  _onRowMouseEnter = (index) => {
+    console.log(index);
     catalogDataActionNew.rowHover(index, true);
+  }
 
   _onRowMouseLeave = (index) =>
     catalogDataActionNew.rowHover(index, false);

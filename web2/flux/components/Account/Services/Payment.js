@@ -64,10 +64,11 @@ class Payment extends Component {
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price');
+    console.log(typeof summ );
     return (
-      <div className='ta-C m20-0 fs18 '>
+      <div className={cx('ta-C m20-0 fs18')}>
         {paymentMethod()}
-        <button disabled={(this.props.summ === 0 || this.props.currentPaymentMethod.size === 0) && true} className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1' onClick={this.onSubmitPayment}>Оплатить</button>
+        <button disabled={(summ === 0 || this.props.currentPaymentMethod.size === 0) && true} className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1' onClick={this.onSubmitPayment}>Оплатить</button>
       </div>
     );
   }

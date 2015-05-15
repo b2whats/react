@@ -20,3 +20,4 @@ web/log_inotify.txt
 /react-starter-master
 /data
 npm-debug.log
+/api

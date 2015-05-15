@@ -10,6 +10,7 @@ var route_names = {
   kROUTE_CATALOG: '/catalog/:region_id/:type/:brands/:services/:type_price',
   kROUTE_CATALOG_NEW: '/catalog_new/:region_id/:type/:brands/:services/:type_price',
   kROUTE_PARTS_FIND: '/find/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id',
+  kROUTE_PARTS_FIND_NEW: '/find_new/:region_id/:sentence/:producer/:articul/:id/:service/:service_auto_mark/:service_id',
   kROUTE_ADV: '/adv/:region_id/:service/:search_text',
 
   kHELP_ROUTE: 'kHELP_ROUTE',

@@ -40,30 +40,40 @@ i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before 
 .flaticon-minus:before {
   content: "\e006";
 }
-.flaticon-send:before {
-  content: "\e007";
+.flaticon-left-arrow:before {
+    content: "\e007";
 }
-.flaticon-edit:before {
+.flaticon-right-arrow:before {
+    content: "\e007";
+    transform: rotate(180deg);
+}
+.flaticon-send:before {
     content: "\e008";
 }
-.flaticon-right:before {
+.flaticon-edit:before {
     content: "\e009";
 }
-.flaticon-power:before {
+.flaticon-right:before {
     content: "\e00a";
 }
-.flaticon-bottom:before {
+.flaticon-power:before {
     content: "\e00b";
 }
-.flaticon-phone:before {
+.flaticon-bottom:before {
     content: "\e00c";
 }
-.flaticon-thumbsb:before {
+.flaticon-phone:before {
     content: "\e00d";
 }
-.flaticon-thumbsu:before {
+.flaticon-thumbsb:before {
     content: "\e00e";
 }
-.flaticon-calendar:before {
+.flaticon-thumbsu:before {
     content: "\e00f";
+}
+.flaticon-calendar:before {
+    content: "\e010";
+}
+.table-line > * {
+    display: table-cell;
 }

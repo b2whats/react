@@ -51,6 +51,7 @@ export function getScale(rowIndex, rowFrom, rowTo) {
 
 export function getRealFromTo(rowFrom, rowTo, totalSize) {
   let addFrom = ((rowTo + K_SCALES_SUM) > (totalSize - 1)) ? ((rowTo + K_SCALES_SUM) - (totalSize - 1)) : 0;
+
   let addTo = rowFrom - K_SCALES_SUM < 0 ? K_SCALES_SUM - rowFrom : 0;
 
 

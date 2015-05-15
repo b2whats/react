@@ -132,27 +132,30 @@ class AfterRegister extends Component {
     if (type === '+') this.setState((state) => ({step: ++state.step}));
     if (type === '-' && this.state.step > 1) this.setState((state) => ({step: --state.step}));
   }
+  onClickChangeLocation() {
+
+  }
   render() {
     let { step } = this.state;
     let stepDesc = stepData[step].desc;
     let stepComp = stepData[step].component;
     return (
       <div className='entire-width flex-ai-fs'>
-        <div className='w60pr'>
+        <div className='w68pr'>
           {stepComp}
         </div>
-        <div className='w38pr z-depth1 p15 br3'>
+        <div className='w30pr z-depth1 p15 br3'>
           <h2 className='fs20 tt-n'>Шаг {step}</h2>
           <div className='m10-0'>
             {stepDesc}
           </div>
           <div className='entire-width mT30'>
-            {step > 1 && <button onClick={this.onChangeStep.bind(null, '-')} className="w80px p8 br2 grad-ap z-depth1 b0 ta-C c-white">Назад</button>}
+            {step > 1 && <button onClick={this.onChangeStep.bind(null, '-')} className="w110px p8 br2 grad-ap z-depth1 b0 ta-C c-white"><i className="flaticon-left-arrow"/> Назад</button>}
 
             {!stepData[step + 1] ?
-              <button className="p8-10 br2 grad-ap z-depth1 b0 ta-C c-white">Вернуться на главную</button>
+              <button onClick={this.onClickChangeLocation} className="p8-10 br2 grad-ap z-depth1 b0 ta-C c-white">Вернуться на главную</button>
               :
-              <button onClick={this.onChangeStep.bind(null, '+')} className="w80px p8 br2 grad-ap z-depth1 b0 ta-C c-white">Вперед</button>
+              <button onClick={this.onChangeStep.bind(null, '+')} className="w110px p8 br2 grad-as z-depth1 b0 ta-C c-white">Вперед <i className="flaticon-right-arrow"/> </button>
             }
           </div>
         </div>

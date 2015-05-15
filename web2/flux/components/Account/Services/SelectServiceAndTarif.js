@@ -347,10 +347,10 @@ class CompanyFilial extends Component {
             </div>
           </div>
         </div>
+        <hr className="hr-arrow m20-0"/>
         <div className='ta-C m20-0 fs18 '>
           Общая сумма: <strong>{formatString.money(summ, ' ')} </strong> руб.
         </div>
-        <hr className="hr-arrow m20-0"/>
       </div>
     );
   }

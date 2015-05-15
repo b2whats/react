@@ -12,7 +12,7 @@ var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
 module.exports.get_company_information = () => {
   return r_get_company_info.get()
     .then(response => {
-            main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_COMPANY_INFO_LOADED].concat([response]));
+      response.status !== 'error' && main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_COMPANY_INFO_LOADED].concat([response]));
           });
 };
 var r_set_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO_UPDATE);

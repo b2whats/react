@@ -5,3 +5,6 @@ module.exports.pt_in_rect = (pt, rect) =>
 
 module.exports.imPtInImRect = (pt, rect) =>
   pt_in_sect(pt.get(0), rect.get(0), rect.get(2)) && pt_in_sect(pt.get(1), rect.get(1), rect.get(3));
+
+module.exports.distanceToCenter = (center, point) =>
+  (Math.pow((center[0] - point[0]),2) + Math.pow((center[1] - point[1]),2));

@@ -26,7 +26,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
     .on(event_names.kACCOUNT_COMPANY_INFO_LOADED, info => {
-
+      console.log(info);
       state_.company_information_cursor
         .update(() => immutable.fromJS(info[0]));
       if (!!info[0].legal_detail) {

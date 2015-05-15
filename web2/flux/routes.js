@@ -26,6 +26,14 @@ const ap_search_actions = require('actions/auto_part_search_actions.js');
 //дефолтный регион
 const kDEFAULT_REGION_ID = 'moskva';
 
+const searchAutoPartsActions = require('actions/searchActionsAP.js');
+const searchAutoServicesActions = require('actions/searchActionsAS.js');
+
+
+
+
+
+
 //получать с сервера
 
 const routes = {};
@@ -119,7 +127,25 @@ routes[route_definitions.kROUTE_PARTS_FIND] = [ //route_definitions.kROUTE_PARTS
 
     route_actions.default_route];
 
+routes[route_definitions.kROUTE_PARTS_FIND_NEW] = [ //route_definitions.kROUTE_PARTS_FIND, route_names.kFIND_ROUTE,
+  //(route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
+  (route_name, route_context, route_context_params) =>
+    region_actions.region_changed(route_context_params.region_id),
 
+  (route_name, route_context, route_context_params) =>
+    catalog_data_actions.reset_catalog_data(),
+
+  (route_name, route_context, route_context_params) =>
+      searchAutoPartsActions.queryAutoPartsData(route_context_params.region_id, route_context_params.id),
+
+  (route_name, route_context, route_context_params) =>
+    searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, route_context_params.service_id),
+
+/*  (route_name, route_context, route_context_params) =>
+    route_context_params.service_id === '_' ? autoservice_by_id_actions.reset_autoservice_data() :
+      autoservice_by_id_actions.query_autoservice_by_id(route_context_params.region_id, route_context_params.service_id),*/
+
+  route_actions.default_route];
 
 routes[route_definitions.kROUTE_CATALOG] = [
   (route_name, route_context, route_context_params) =>

@@ -59,6 +59,13 @@
   white-space: pre-wrap;
   text-align: left;
 }
+// Блоки на 1 линии со своим контекстом внутри. Аналог ячеек таблицы но на дивах
+.table-line {
+  display: table;
+}
+.table-line > *{
+  display: table-cell;
+}
 
 /*Бордеры у списка только между элементами*/
 .border-between-h > * + * {

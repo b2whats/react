@@ -19,6 +19,7 @@ const Link = require('components/link.jsx');
 
 const SearchPageYandexMap = require('components/search_page/search_page_yandex_map.jsx');
 const SearchPageRightBlockContent = require('components/search_page/search_page_right_block_content.jsx');
+const SearchPageRightBlockContentNew = require('components/SearchPage/search_page_right_block_content.jsx');
 
 const CatalogPageRightBlockContent = require('components/catalog_page/catalog_page_right_block_content.jsx');
 // потому что ES6 модуль
@@ -27,6 +28,7 @@ import CatalogPageRightBlockContentNew from 'components/catalog_page_new/catalog
 
 const GoogleMapBlockExample = require('components/google/google_map_block_example.jsx');
 const CatalogMapData = require('components/catalog_page_new/catalog_map_data.jsx');
+const SearchMapData = require('components/SearchPage/search_map_data.jsx');
 
 const PriceListSelectionBlock = require('components/test/price_list_selection_block.jsx');
 
@@ -135,6 +137,17 @@ const IceMain = React.createClass({
         );
 
       // ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
+      case routeNames.kROUTE_PARTS_FIND_NEW:
+        return (
+          <SearchBlockHeader>
+            <div ref='main_content' className="search-page-main-fixed">
+              <SearchMapData className="search-page-left-block search-page-left-block--new" />
+              <SearchPageRightBlockContentNew />
+            </div>
+          </SearchBlockHeader>
+        );
+
+      //ВСЕ СТРАНИЧКИ С ПОИСКОМ НО БЕЗ КАРТЫ
       case routeNames.kROUTE_ACCOUNT:
       // У тебя тут возможно будут другие кейсы  и по итогам будет что то вроде как в блоке выше
       // по итогам смотри блок case стал таким же по структуре что и блок выше
