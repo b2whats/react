@@ -19,7 +19,9 @@ const K_MAP_CONTROL_OPTIONS = {
   overviewMapControl: false,
   streetViewControl: false,
   rotateControl: true,
-  mapTypeControl: false
+  mapTypeControl: false,
+  // disable poi
+  styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]
   // minZoom: 1,
   // maxZoom: 24,
   // TODO add and comment all google options
@@ -65,7 +67,8 @@ const GoogleMap = React.createClass({
     onChildMouseLeave: PropTypes.func,
     hoverDistance: PropTypes.number,
     debounced: PropTypes.bool,
-    margin: PropTypes.array
+    margin: PropTypes.array,
+    apiKey: PropTypes.string
   },
 
   getDefaultProps() {
@@ -150,7 +153,7 @@ const GoogleMap = React.createClass({
 
     this.onBoundsChanged_(); // now we can calculate map bounds center etc...
 
-    gmapLoader()
+    gmapLoader(this.props.apiKey)
     .then(maps => {
       if (!this.mounted_) {
         return;
@@ -340,7 +343,7 @@ const GoogleMap = React.createClass({
       if (this.isCenterDefined_(this.props.center)) {
         this.initMap_();
       } else {
-        gmapLoader(); // начать подгружать можно уже сейчас
+        gmapLoader(this.props.apiKey); // начать подгружать можно уже сейчас
       }
     }, 0, this);
   },

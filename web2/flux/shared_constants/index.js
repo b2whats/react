@@ -53,8 +53,10 @@ var consts = {
 
   kMAP_MIN_ZOOM_CHANGE_AT_WIDTH: 1600,
 
-  kGOOGLE_MAP_API_KEY: 'AIzaSyDoE60ueAva9YAW1ZtXqMx9UQhxD3iVKcw',
-  
+  //kGOOGLE_MAP_API_KEY: 'AIzaSyDoE60ueAva9YAW1ZtXqMx9UQhxD3iVKcw',
+  // TODO вставить автогиперовский ключ
+  kGOOGLE_MAP_API_KEY: null,
+
 };
 
 module.exports = consts;
