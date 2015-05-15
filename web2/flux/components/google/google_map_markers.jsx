@@ -142,9 +142,9 @@ const GoogleMapMarkers = React.createClass({
 
   componentWillMount() {
     this.childProps = null;
-    this.event_disabler = this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
-    this.mouse_event_disabler = this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler, 0);
-    this.click_event_disabler = this.props.dispatcher.on('kON_CLICK', this._onChildClick, 0);
+    this.props.dispatcher.on('kON_CHANGE', this._onChangeHandler);
+    this.props.dispatcher.on('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
+    this.props.dispatcher.on('kON_CLICK', this._onChildClick);
 
     this.dimesions_cache_ = {};
     this.__internal__display_name__ = this.constructor.displayName + '__' + __internalCounter__++;
@@ -165,17 +165,9 @@ const GoogleMapMarkers = React.createClass({
   },
 
   componentWillUnmount() {
-    if (this.event_disabler) {
-      this.event_disabler();
-    }
-
-    if (this.mouse_event_disabler) {
-      this.mouse_event_disabler();
-    }
-
-    if (this.click_event_disabler) {
-      this.click_event_disabler();
-    }
+    this.props.dispatcher.removeListener('kON_CHANGE', this._onChangeHandler);
+    this.props.dispatcher.removeListener('kON_MOUSE_POSITION_CHANGE', this._onMouseChangeHandler);
+    this.props.dispatcher.removeListener('kON_CLICK', this._onChildClick);
 
     this.dimesions_cache_ = null;
   },

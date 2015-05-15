@@ -2,14 +2,13 @@ import React, {PropTypes, Component} from 'react/addons';
 
 const {PureRenderMixin} = React.addons;
 
-import Emitter from 'utils/emitter.js';
+import EventEmitter from 'eventemitter3';
 
 import GoogleMapMap from './google_map_map.jsx';
 import GoogleMapMarkers from './google_map_markers.jsx';
 
 import gmapLoader from 'third_party/google_map.js';
 
-import merge from 'utils/merge.js';
 import Geo from 'utils/geo.js';
 
 const kEPS = 0.00001;
@@ -51,6 +50,31 @@ function isArraysEqualEps(arrayA, arrayB, eps) {
 function isNumber(n) {
   return !Number.isNaN(parseFloat(n)) && Number.isFinite(n);
 }
+
+class MarkerDispatcher extends EventEmitter {
+  constructor(gmapInstance) {
+    super();
+    this.gmapInstance = gmapInstance;
+  }
+
+  getChildren() {
+    return this.gmapInstance.props.children;
+  }
+
+  getMousePosition() {
+    return this.gmapInstance.mouse_;
+  }
+
+  getUpdateCounter() {
+    return this.gmapInstance.updateCounter_;
+  }
+
+  dispose() {
+    this.gmapInstance = null;
+    this.removeAllListeners();
+  }
+}
+
 
 const GoogleMap = React.createClass({
   mixins: [PureRenderMixin],
@@ -220,7 +244,7 @@ const GoogleMap = React.createClass({
           div.style.left = `${ptxRounded.x}px`;
           div.style.top = `${ptxRounded.y}px`;
           if (this_.markersDispatcher_) {
-            this_.markersDispatcher_.fire('kON_CHANGE');
+            this_.markersDispatcher_.emit('kON_CHANGE');
           }
         }
       });
@@ -245,16 +269,16 @@ const GoogleMap = React.createClass({
         div.style.left = `${ptxRounded.x}px`;
         div.style.top = `${ptxRounded.y}px`;
         if (this_.markersDispatcher_) {
-          this_.markersDispatcher_.fire('kON_CHANGE');
+          this_.markersDispatcher_.emit('kON_CHANGE');
           if (this_.fireMouseEventOnIdle_) {
-            this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+            this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
           }
         }
       });
 
       maps.event.addListener(map, 'mouseout', () => {
         this_.mouse_ = null;
-        this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+        this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
       });
 
       maps.event.addListener(map, 'drag', () => {
@@ -275,7 +299,7 @@ const GoogleMap = React.createClass({
         if (currTime - this_.dragTime_ < K_IDLE_TIMEOUT) {
           this_.fireMouseEventOnIdle_ = true;
         } else {
-          this_.markersDispatcher_.fire('kON_MOUSE_POSITION_CHANGE');
+          this_.markersDispatcher_.emit('kON_MOUSE_POSITION_CHANGE');
           this_.fireMouseEventOnIdle_ = false;
         }
       });
@@ -291,7 +315,7 @@ const GoogleMap = React.createClass({
   },
 
   componentWillMount() {
-    const this_ = this;
+    // const this_ = this;
     this.map_ = null;
     this.maps_ = null;
     this.prevBounds_ = null;
@@ -301,17 +325,7 @@ const GoogleMap = React.createClass({
     this.fireMouseEventOnIdle_ = false;
     this.updateCounter_ = 0;
 
-    this.markersDispatcher_ = merge(Emitter.prototype, {
-      getChildren() {
-        return this_.props.children;
-      },
-      getMousePosition() {
-        return this_.mouse_;
-      },
-      getUpdateCounter() {
-        return this_.updateCounter_;
-      }
-    });
+    this.markersDispatcher_ = new MarkerDispatcher(this);
     this.geoService_ = new Geo(K_GOOGLE_TILE_SIZE, K_CALC_MAP_TRANSFORM_FROM_LEFT_TOP);
   },
 
@@ -341,7 +355,7 @@ const GoogleMap = React.createClass({
 
     this.map_ = null;
     this.maps_ = null;
-    this.markersDispatcher_.destroy();
+    this.markersDispatcher_.dispose();
 
     delete this.map_;
     delete this.markersDispatcher_;
@@ -353,7 +367,7 @@ const GoogleMap = React.createClass({
       const K_IDLE_TIMEOUT = 100;
       const currTime = (new Date()).getTime();
       if (currTime - this.dragTime_ > K_IDLE_TIMEOUT) {
-        this.markersDispatcher_.fire('kON_CLICK');
+        this.markersDispatcher_.emit('kON_CLICK');
       }
     }
   },
@@ -384,7 +398,7 @@ const GoogleMap = React.createClass({
   },
 
   componentDidUpdate() {
-    this.markersDispatcher_.fire('kON_CHANGE');
+    this.markersDispatcher_.emit('kON_CHANGE');
   },
 
   render() {
