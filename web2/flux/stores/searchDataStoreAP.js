@@ -95,6 +95,7 @@ class SearchDataStoreAP extends BaseStore {
   }
 
   _onMapRowAddressActive(activeAddressId, activeState) {
+    console.log('store');
     this.state.activeAddressId_cursor
       .update(() => activeState ? activeAddressId : null);
 

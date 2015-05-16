@@ -1,6 +1,7 @@
 //by define marker top left corner is placed at lat, lng position
 //you need to change marker left top - it based on your marker design
 .map-marker
+  color: #1e1e1e
   //$map-marker-width: 44px
   $map-marker-width: $mapMarker-width //from common_vars.json
   $map-marker-height: $mapMarker-height //from common_vars.json
@@ -46,19 +47,14 @@
     left: calc(50% - 12px)
 
   &.hint--balloon
-    @include ice-hint-type(rgba(97, 104, 172, 1))
-    .hint-content
-      // чтобы цвет bg хинта плавно менялся
-      z-index: $zIndex - 20
-      transition: background-color 1.0s ease
-    &:before
-      z-index: $zIndex - 19
-      // чтобы цвет стрелочки плавно менялся
-      transition: border-color 1.0s ease
+    @include ice-hint-type(rgb(255, 255, 255))
+
+
 
   .map-marker-hint
     cursor: default
-    box-shadow: 2px 2px 12px rgba(0,0,0,0.5)
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.3)
+    color: rgba(0,0,0,0.8)
 
   .map-marker-hint__close-button
     position: absolute
@@ -73,15 +69,17 @@
 
   .map-marker-hint__title
     margin-bottom: 5px
+    font-size: 17px
+    font-weight: normal
 
   .map-marker-hint__address
     font-weight: normal
     font-size: 11px
     color: rgba(0,0,0,0.5)
-    margin-bottom: 5px
+    margin: 10px 0
 
   .map-marker-hint__ap-link
-    color: #23546B
+    color: #1e1e1e
     font-size: 10px
     font-style: italic
   .map-marker-hint__ap-link--hidden
@@ -94,6 +92,6 @@
     transition: height 0.35s cubic-bezier(0.485, 1.650, 0.545, 0.835)
 
   .map-marker-hint__content--visible
-    height: 100px
+    height: 80px
 
 

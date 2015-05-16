@@ -169,22 +169,43 @@ export default class MapMarker extends Component {
           <div
             onClick={this._onCloseClick}
             className={cx('map-marker-hint__close-button', this.props.showBallon ? 'map-marker-hint__close-button--visible' : '')}>
-            close
+            <i className="flaticon-close" />
           </div>
 
-          <div className="map-marker-hint__title">
-            <strong>{this.props.marker.get('company_name')}</strong>
+          <div className="map-marker-hint__title big-first">
+            {this.props.marker.get('company_name')}
           </div>
           <div className="map-marker-hint__address">
             {this.props.marker.get('address')}
           </div>
 
-          <div className={cx('map-marker-hint__content', this.props.showBallon ? 'map-marker-hint__content--visible' : '')}>
-            Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла Телефоны бла бла
+          <div className={cx('map-marker-hint__content entire-width lh1-2', this.props.showBallon ? 'map-marker-hint__content--visible' : '')}>
+            <span>
+              <div className="m10-0">Время работы:</div>
+
+              <strong className="w40px d-ib">Пн-Пт</strong>{this.props.marker.getIn(['operation_time', 0, 'from'])} - {this.props.marker.getIn(['operation_time', 0, 'to'])}<br/>
+              <strong className="w40px d-ib">Сб</strong>
+                {this.props.marker.getIn(['operation_time', 1, 'is_holiday']) ?
+                  <span>Выходной<br/></span> :
+                  <span>{this.props.marker.getIn(['operation_time', 1, 'from'])} - {this.props.marker.getIn(['operation_time', 1, 'to'])}<br/></span>
+                }
+              <strong className="w40px d-ib">Вс</strong>
+                {this.props.marker.getIn(['operation_time', 2, 'is_holiday']) ?
+                  <span>Выходной<br/></span> :
+                  <span>{this.props.marker.getIn(['operation_time', 2, 'from'])} - {this.props.marker.getIn(['operation_time', 2, 'to'])}<br/></span>
+                }
+            </span>
+            <span>
+              <div className="m10-0">Телефоны:</div>
+
+              {this.props.marker.getIn(['filial_phones', 0])}<br/>
+              {this.props.marker.getIn(['filial_phones', 1])}<br/>
+            </span>
+
           </div>
 
           <div>
-            <a className={cx('map-marker-hint__ap-link', this.props.showBallon ? 'map-marker-hint__ap-link--hidden' : '')}>кликни на маркер для информации</a>
+            <a className={cx('fs11', this.props.showBallon && 'd-N')}>кликни на маркер для информации</a>
           </div>
 
         </div>

@@ -59,7 +59,7 @@
 /**
  * set default color for tooltip arrows
  */
-@include arrow-border-color($defaultColor, 'false');
+@include arrow-border-color('#fff', 'false');
 
 /**
  * top tooltip

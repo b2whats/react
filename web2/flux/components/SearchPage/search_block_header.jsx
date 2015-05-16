@@ -88,7 +88,6 @@ var SearchBlockHeader = React.createClass({
   },
 
   render() {
-    console.log(this.state.auto_part_data.toJS());
     var autoparts_initial_value = this.state.auto_part_data ? this.state.auto_part_data.get('name') : '';
     var autoservice_initial_value = this.state.autoservice_data ? this.state.autoservice_data.get('service') : '';
 

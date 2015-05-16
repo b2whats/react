@@ -9,7 +9,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Link = require('components/link.jsx');
 
 var SearchPageAutoPartTable = require('./search_page_auto_part_table.jsx');
-var SearchPageAutoServiceTable = require('./search_page_autoservice_table.jsx');
+var SearchPageAutoServiceTable = require('./search_page_auto_part_table1.jsx');
 /* jshint ignore:end */
 
 var SearchPageRightBlockContent = React.createClass({

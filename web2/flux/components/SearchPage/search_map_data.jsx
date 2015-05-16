@@ -19,9 +19,8 @@ import SearchMap from './search_map.jsx';
   hoveredRowIdAP: searchDataStoreAP.getHoveredRowIndex(),
   visibleRowsAS: searchDataStoreAS.getVisibleRows(),
   dataResultsAS: searchDataStoreAS.getSortedData(),
-  hoveredRowIndexAS: searchDataStoreAS.getHoveredRowIndex(),
-  activeAddressIdAP: searchDataStoreAP.getActiveAddressId(),
-/*  activeAddressIdAS: searchDataStoreAS.getActiveAddressId()*/
+  hoveredRowIdAS: searchDataStoreAS.getHoveredRowIndex(),
+  activeAddressId: searchDataStoreAP.getActiveAddressId(),
 }), searchDataStoreAP, searchDataStoreAS)
 export default class SearchMapData extends Component {
   static propTypes = {
@@ -44,6 +43,12 @@ export default class SearchMapData extends Component {
   constructor(props) {
     super(props);
   }
+
+  onRowAddressActive(...args) {
+    console.log(...args);
+    // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
+    searchActionsAP.rowAddressActive(...args);
+  }
   onRowMapHover(rowIndex, type, val) {
     if (type === 'autoservices'){
       searchActionsAS.rowMapHover(rowIndex, val);
@@ -57,6 +62,7 @@ export default class SearchMapData extends Component {
     searchActionsAS.mapBoundsChange(...args);
   }
   render() {
-    return (<SearchMap {...this.props} onRowMapHover={this.onRowMapHover} oMapBoundsChange={this.oMapBoundsChange} />);
+    console.log(this.props.activeAddressId);
+    return (<SearchMap {...this.props} onRowAddressActive={this.onRowAddressActive} onRowMapHover={this.onRowMapHover} oMapBoundsChange={this.oMapBoundsChange} />);
   }
 }

@@ -118,6 +118,7 @@ class SearchDataStoreAS extends BaseStore {
   }
 
   _onRowHover(hoveredRowIndex, hoverState) {
+    console.log(hoveredRowIndex, hoverState);
     this.state.hoveredRowIndex_cursor
       .update(() => hoverState ? hoveredRowIndex : -1);
 

@@ -50,7 +50,8 @@ var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок по
   visiblePhone: searchDataStoreAP.getVisiblePhone(),
   firstInvisibleRowIndex: searchDataStoreAP.getFirstInvisibleRowIndex(),
   hoveredMapRowIndex: searchDataStoreAP.getMapHoveredRowIndex(),
-}), auto_part_by_id_store, searchDataStoreAP)
+  activeAddressId: searchDataStoreAP.getActiveAddressId(),
+}), searchDataStoreAP)
 export default class SearchPageAutoPartTable extends Component {
   constructor(props) {
     super(props);
@@ -67,7 +68,7 @@ export default class SearchPageAutoPartTable extends Component {
     onItemPerPageChange: PropTypes.func,
   }
   onCurrentPageChange(num) {
-    console.log(num);
+
     let current = num + 1;
     let end = current * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
@@ -115,7 +116,7 @@ export default class SearchPageAutoPartTable extends Component {
 
 */
   on_show_price_tootip(id, tooltip_type, e) {
-    console.log('on_show_price_tootip', id);
+
     fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
     e.preventDefault();
     e.stopPropagation();
@@ -132,13 +133,21 @@ export default class SearchPageAutoPartTable extends Component {
     searchActionsAP.showAllPhoneChange(type);
   }
   onShowOrderPopup(popup, data) {
-    console.log(popup, data.toJS());
+
   }
   onRowMouseEnter(index) {
     searchActionsAP.rowHover(index, true);
   }
   onRowMouseLeave(index) {
     searchActionsAP.rowHover(index, false);
+  }
+  onRowAddressActive(id) {
+    // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
+    if (this.props.activeAddressId === id) {
+      searchActionsAP.rowAddressActive(null, false);
+    } else {
+      searchActionsAP.rowAddressActive(id, true);
+    }
   }
   render() {
     let end = this.props.currentPage * this.props.itemPerPage;
@@ -160,7 +169,8 @@ export default class SearchPageAutoPartTable extends Component {
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
           onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
-          className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT2s bc-deep-purple-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
+          onClick={this.onRowAddressActive.bind(null, company.get('id'))}
+          className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-deep-purple-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
           key={part.get('id')}
         >
           <td className={cx('search-page-autopart-table-td-rank') }>
