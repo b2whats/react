@@ -14,10 +14,10 @@ $scrollbar-to-arrow-delta: 1px
 $scrollbar-thumb-min-height: 40px
 
 //максимальная высота ползунка
-$scrollbar-thumb-max-height: $max-typeahead-list-height - $arrow-wh*2 - $scrollbar-to-arrow-delta*2
+$scrollbar-thumb-max-height: $max-typeahead-list-height
 
 //ширина ползунка
-$scrollbar-thumb-width: 10px
+$scrollbar-thumb-width: 3px
 
 
 
@@ -44,8 +44,8 @@ $scrollbar-thumb-width: 10px
 
   .arrow
     position: absolute
-    height: $arrow-wh
-    font-size: $arrow-wh - 4px
+    height: 0
+    font-size: 0
     text-align: center
     left: 0
     right: 0
@@ -68,12 +68,10 @@ $scrollbar-thumb-width: 10px
 
     &.up
       top: 0
-      &:before
-        content: ""
+
     &.down
       bottom: 0
-      &:before
-        content: ""
+
 
 
 //ПОКА НЕ ИСПОЛЬЗУЕТСЯ, ПОТОМ ЕСЛИ РУКИ ДОЙДУТ СДЕЛАЮ ПОИСК React ЭЛЕМЕНТА ПОД МЫШКОЙ

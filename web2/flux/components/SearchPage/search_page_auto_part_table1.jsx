@@ -5,12 +5,12 @@ var _ = require('underscore');
 import React, {PropTypes, Component} from 'react/addons';
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
-var cx        = require('classnames');
+var cx = require('classnames');
 
 var sc = require('shared_constants');
 
 var PureRenderMixin = React.addons.PureRenderMixin;
-var rafBatchStateUpdateMixinCreate =require('components/mixins/raf_state_update.js');
+var rafBatchStateUpdateMixinCreate = require('components/mixins/raf_state_update.js');
 var PointerEventDisablerMixin = require('components/mixins/pointer_event_disabler_mixin.js');
 
 var point_utils = require('utils/point_utils.js');
@@ -40,12 +40,19 @@ import controllable from 'react-controllables';
 /*Utils*/
 import autobind from 'utils/autobind.js';
 
+/*Action*/
+import ModalActions from 'actions/ModalActions.js';
+import Order from './Order.jsx';
 
+
+
+import Link from 'components/link.jsx';
+import regionStore from 'stores/region_store.js';
 //var search_page_actions = require('actions/search_page_actions.js');
 var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
-@controllable(['currentPage','itemPerPage'])
+@controllable(['currentPage', 'itemPerPage', 'currentOrderItem'])
 @rafStateUpdate(() => ({
   autoServicesResults: searchDataStoreAS.getSortedData(),
   showAllPhone: searchDataStoreAS.getShowAllPhone().get('autoservices'),
@@ -54,21 +61,26 @@ var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок по
   hoveredMapRowIndex: searchDataStoreAS.getMapHoveredRowIndex(),
   activeAddressId: searchDataStoreAP.getActiveAddressId(),
 }), searchDataStoreAS, searchDataStoreAP)
-export default class SearchPageAutoPartTable extends Component {
+export default
+class SearchPageAutoPartTable extends Component {
   constructor(props) {
     super(props);
     autobind(this);
   }
+
   static defaultProps = {
     currentPage: 1,
     itemPerPage: 10,
+    currentOrderItem: null
   }
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
     itemPerPage: PropTypes.number.isRequired,
     onCurrentPageChange: PropTypes.func,
     onItemPerPageChange: PropTypes.func,
+    onCurrentOrderItemChange: PropTypes.func,
   }
+
   onCurrentPageChange(num) {
 
     let current = num + 1;
@@ -77,6 +89,7 @@ export default class SearchPageAutoPartTable extends Component {
     searchActionsAS.visibleRowsChange(start, end);
     this.props.onCurrentPageChange(current);
   }
+
   onItemPerPageChange(num) {
     let end = num * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
@@ -90,26 +103,39 @@ export default class SearchPageAutoPartTable extends Component {
     e.preventDefault();
     e.stopPropagation();
   }
+
   on_goto_find(id, auto_part_initial_value, e) {
     auto_part_search_actions.show_value_changed(auto_part_initial_value);
     e.preventDefault();
     e.stopPropagation();
   }
+
   onVisiblePhoneChange(userId) {
     searchActionsAS.visiblePhoneChange(userId);
   }
+
   onShowAllPhoneChange(type) {
     searchActionsAS.showAllPhoneChange(type);
   }
-  onShowOrderPopup(popup, data) {
 
+  onShowOrderPopup(currentItem, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    ModalActions.openModal('order');
+    this.props.onCurrentOrderItemChange(currentItem);
+  }
+  onClickCloseModal() {
+
+    ModalActions.closeModal();
   }
   onRowMouseEnter(index) {
     searchActionsAS.rowHover(index, true);
   }
+
   onRowMouseLeave(index) {
     searchActionsAS.rowHover(index, false);
   }
+
   onRowAddressActive(id) {
     console.log(id);
     // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
@@ -119,283 +145,303 @@ export default class SearchPageAutoPartTable extends Component {
       searchActionsAP.rowAddressActive(id, true);
     }
   }
+
   render() {
     let end = this.props.currentPage * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
-    var TrMarkers  = this.props.autoServicesResults
-        .slice(start, end)
-        .map((part, part_index) => {
+    var TrMarkers = this.props.autoServicesResults
+      .slice(start, end)
+      .map((part, part_index) => {
         let company = part.get('addresses').first();
 
-    let isVisiblePhone = !!(this.props.visiblePhone.indexOf(part.get('user_id')) + 1);
-    let currentIndex = this.props.itemPerPage * (this.props.currentPage - 1) + part_index;
-          var hover_class = cx({
-            hovered_same_rank: part.get('is_hovered_same_rank'), //это значит кто то в табличке или на карте навелся на ранк X
-            hovered_same_address: part.get('is_hovered_same_address'),
-            balloon_visible_same_rank: part.get('is_balloon_visible_same_rank'),
-            balloon_visible_same_address: part.get('is_balloon_visible_same_address')
-          });
+        let isVisiblePhone = !!(this.props.visiblePhone.indexOf(part.get('user_id')) + 1);
+        let currentIndex = this.props.itemPerPage * (this.props.currentPage - 1) + part_index;
+        let inDisplay = true;
+        if (this.props.firstInvisibleRowIndex <= currentIndex) {
+          inDisplay = false;
+        }
+        var hover_class = cx({
+          hovered_same_rank: part.get('is_hovered_same_rank'), //это значит кто то в табличке или на карте навелся на ранк X
+          hovered_same_address: part.get('is_hovered_same_address'),
+          balloon_visible_same_rank: part.get('is_balloon_visible_same_rank'),
+          balloon_visible_same_address: part.get('is_balloon_visible_same_address')
+        });
 
-          var stock_class_name = {};
-          stock_class_name['stock-num-'+part.get('stock')] = true;
+        var stock_class_name = {};
+        stock_class_name['stock-num-' + part.get('stock')] = true;
 
-          var brands = part.get('brands') && part.get('brands').keySeq().toJS().join(', ');
+        var brands = part.get('brands') && part.get('brands').keySeq().toJS().join(', ');
 
-          var kBODY_WORK_KEY = 'Кузовные работы';
-          var kMETAL_WORK_KEY = 'Слесарные работы';
-          var kTO_WORK_KEY = 'ТО';
-          var kTUNING = 'Тюнинг и прочее';
+        var kBODY_WORK_KEY = 'Кузовные работы';
+        var kMETAL_WORK_KEY = 'Слесарные работы';
+        var kTO_WORK_KEY = 'ТО';
+        var kTUNING = 'Тюнинг и прочее';
 
-          var body_list = part.get('services').get(kBODY_WORK_KEY) && part.get('services').get(kBODY_WORK_KEY).get('list') &&
-            part.get('services').get(kBODY_WORK_KEY).get('list').map( (l, index) => {
-              return <div key={index}>{l}</div>;
-            }).toArray();
+        var body_list = part.get('services').get(kBODY_WORK_KEY) && part.get('services').get(kBODY_WORK_KEY).get('list') &&
+          part.get('services').get(kBODY_WORK_KEY).get('list').map((l, index) => {
+            return <div key={index}>{l}</div>;
+          }).toArray();
 
-          var metal_list = part.get('services').get(kMETAL_WORK_KEY) && part.get('services').get(kMETAL_WORK_KEY).get('list') &&
-            part.get('services').get(kMETAL_WORK_KEY).get('list').map( (l, index) => {
-              return <div key={index}>{l}</div>;
-            }).toArray();
+        var metal_list = part.get('services').get(kMETAL_WORK_KEY) && part.get('services').get(kMETAL_WORK_KEY).get('list') &&
+          part.get('services').get(kMETAL_WORK_KEY).get('list').map((l, index) => {
+            return <div key={index}>{l}</div>;
+          }).toArray();
 
-          var to_list = part.get('services').get(kTO_WORK_KEY) && part.get('services').get(kTO_WORK_KEY).get('list') &&
-            part.get('services').get(kTO_WORK_KEY).get('list').map( (l, index) => {
-              return <div key={index}>{l}</div>;
-            }).toArray();
+        var to_list = part.get('services').get(kTO_WORK_KEY) && part.get('services').get(kTO_WORK_KEY).get('list') &&
+          part.get('services').get(kTO_WORK_KEY).get('list').map((l, index) => {
+            return <div key={index}>{l}</div>;
+          }).toArray();
 
-          var tuning_list = part.get('services').get(kTUNING) && part.get('services').get(kTUNING).get('list') &&
-            part.get('services').get(kTUNING).get('list').map( (l, index) => {
-              return <div key={index}>{l}</div>;
-            }).toArray();
+        var tuning_list = part.get('services').get(kTUNING) && part.get('services').get(kTUNING).get('list') &&
+          part.get('services').get(kTUNING).get('list').map((l, index) => {
+            return <div key={index}>{l}</div>;
+          }).toArray();
 
-          //console.log('brands', typeof(body_list));
+        //console.log('brands', typeof(body_list));
 
-          /*m.get('balloon_visible').toString()*/
-          return (
-            <tr
-              onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
-              onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
-              onClick={this.onRowAddressActive.bind(null, company.get('id'))}
-              className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-yellow-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
-              key={part.get('id')}
-            >
-              <td className={cx('search-page-autoservice-table-td-rank', hover_class)}>
-                <span className='nas'>{part.get('rank')}</span>
-              </td>
+        /*m.get('balloon_visible').toString()*/
+        return (
+          <tr
+            onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
+            onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
+            onClick={this.onRowAddressActive.bind(null, company.get('id'))}
+            className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-yellow-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
+            key={part.get('id')}
+          >
+            <td className={cx('search-page-autoservice-table-td-rank', hover_class)}>
+              <span className='nas'>{part.get('rank')}</span>
+            </td>
 
-              <td className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
+            <td className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
 
-                <div className="lh1-4 ellipsis">{company.get('company_name')}</div>
-                <div className='ellipsis'>
-                  <span
+              <div className="lh1-4 ellipsis">{company.get('company_name')}</div>
+              <div className='ellipsis'>
+                <span className="bb-d c-g cur-p lh1-4">
 
-                    className="bb-d c-g cur-p lh1-4">
+                  {!inDisplay ?
+                    <Link
+                      href={`/company/${part.get('user_id')}/${regionStore.get_region_current().get('translit_name')}`}
+                      className={cx('td-u cur-p c-grey-700')}
+                    >
+                      {company.get('address')}
+                    </Link>
+                    :
+                    company.get('address')
+                  }
 
-                {company.get('address')}
+                </span>
+              </div>
+              <div className="f-R">
+                <FixedTooltip
+                  open_id={part.get('id')}
+                  open_type={'autoservice-tooltip-adresses'}
+                >
 
+                  <strong>Все адреса</strong>
+
+                  <div className="search-page-autoservice-table-body-work-tooltip-list">
+                  </div>
+
+                </FixedTooltip>
+              </div>
+
+            </td>
+
+            <td className="search-page-autoservice-table-td-auto-marks">
+              <div
+                className="cur-p c-yellow-800 h35px to-e o-h lh1-4"
+                onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-auto-marks')} >
+              {brands}
+              </div>
+
+              <FixedTooltip
+                open_id={part.get('id')}
+                open_type={'autoservice-tooltip-auto-marks'}
+                className="ta-L">
+
+                <strong className='fs14 mB10 d-ib'>Марки</strong>
+                <div className="search-page-autoservice-table-body-work-tooltip-list">
+                  {brands}
+                </div>
+
+                <hr className='hr'/>
+
+                <div
+                  className="c-yellow-800">
+                  <i className='icon_key fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретную марку?
+                    <br/>
+                    Наберите ее в поиске
                   </span>
                 </div>
-                <div className="f-R">
-                  <FixedTooltip
-                    open_id={part.get('id')}
-                    open_type={'autoservice-tooltip-adresses'}
-                  >
+              </FixedTooltip>
 
-                    <strong>Все адреса</strong>
+            </td>
 
-                    <div className="search-page-autoservice-table-body-work-tooltip-list">
-                    </div>
-
-                  </FixedTooltip>
-                </div>
-
-              </td>
-
-              <td className="search-page-autoservice-table-td-auto-marks">
-                <div
-                  className="cur-p c-yellow-800 h35px to-e o-h lh1-4"
-                  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-auto-marks')} >
-              {brands}
-                </div>
-
-                <FixedTooltip
-                  open_id={part.get('id')}
-                  open_type={'autoservice-tooltip-auto-marks'}
-                  className="ta-L">
-
-                  <strong className='fs14 mB10 d-ib'>Марки</strong>
-                  <div className="search-page-autoservice-table-body-work-tooltip-list">
-                  {brands}
-                  </div>
-
-                  <hr className='hr'/>
-
-
-                  <div
-                    className="c-yellow-800">
-                    <i className='icon_key fs32 f-L mR10'></i>
-                    <span className='bB1d cur-p'>
-                      Ищете конкретную марку?<br/>
-                      Наберите ее в поиске
-                    </span>
-                  </div>
-                </FixedTooltip>
-
-              </td>
-
-              <td className="ta-C">
-                <span
-                  className="cur-p bB1d c-yellow-800"
-                  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-body-work')} >
-              {part.get('services').get(kBODY_WORK_KEY) && (part.get('services').get(kBODY_WORK_KEY).get('count').get('in')+' / ' +
+            <td className="ta-C">
+              <span
+                className="cur-p bB1d c-yellow-800"
+                onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-body-work')} >
+              {part.get('services').get(kBODY_WORK_KEY) && (part.get('services').get(kBODY_WORK_KEY).get('count').get('in') + ' / ' +
               part.get('services').get(kBODY_WORK_KEY).get('count').get('all'))}
-                </span>
+              </span>
             {/*код тултипа*/}
-                <FixedTooltip
-                  open_id={part.get('id')}
-                  open_type={'autoservice-tooltip-body-work'}
-                  className="ta-L">
+              <FixedTooltip
+                open_id={part.get('id')}
+                open_type={'autoservice-tooltip-body-work'}
+                className="ta-L">
 
-                  <strong className='fs14 mB10 d-ib'>Кузовные работы</strong>
-                  <div className="Mh150px o-a mR-8">
+                <strong className='fs14 mB10 d-ib'>Кузовные работы</strong>
+                <div className="Mh150px o-a mR-8">
                   {body_list}
-                  </div>
+                </div>
 
-                  <hr className='hr'/>
+                <hr className='hr'/>
 
-                  <div
-                    className="c-yellow-800">
-                    <i className='icon_key fs32 f-L mR10'></i>
-                    <span className='bB1d cur-p'>
-                      Ищете конкретный вид работ?<br/>
-                      Наберите его в поиске
-                    </span>
-                  </div>
-                </FixedTooltip>
-              </td>
+                <div
+                  className="c-yellow-800">
+                  <i className='icon_key fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретный вид работ?
+                    <br/>
+                    Наберите его в поиске
+                  </span>
+                </div>
+              </FixedTooltip>
+            </td>
 
-              <td className="ta-C">
-                <span
-                  className="cur-p bB1d c-yellow-800"
-                  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-metal-work')} >
-              {part.get('services').get(kMETAL_WORK_KEY) && (part.get('services').get(kMETAL_WORK_KEY).get('count').get('in')+' / ' +
+            <td className="ta-C">
+              <span
+                className="cur-p bB1d c-yellow-800"
+                onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-metal-work')} >
+              {part.get('services').get(kMETAL_WORK_KEY) && (part.get('services').get(kMETAL_WORK_KEY).get('count').get('in') + ' / ' +
               part.get('services').get(kMETAL_WORK_KEY).get('count').get('all'))}
-                </span>
+              </span>
 
             {/*код тултипа*/}
-                <FixedTooltip
-                  open_id={part.get('id')}
-                  open_type={'autoservice-tooltip-metal-work'}
-                  className="ta-L">
+              <FixedTooltip
+                open_id={part.get('id')}
+                open_type={'autoservice-tooltip-metal-work'}
+                className="ta-L">
 
-                  <strong className='fs14 mB10 d-ib'>Слесарные работы</strong>
-                  <div className="Mh150px o-a mR-8">
+                <strong className='fs14 mB10 d-ib'>Слесарные работы</strong>
+                <div className="Mh150px o-a mR-8">
                   {metal_list}
-                  </div>
+                </div>
 
-                  <hr className='hr'/>
+                <hr className='hr'/>
 
-                  <div
-                    className="c-yellow-800">
-                    <i className='icon_key fs32 f-L mR10'></i>
-                    <span className='bB1d cur-p'>
-                      Ищете конкретный вид работ?<br/>
-                      Наберите его в поиске
-                    </span>
-                  </div>
-                </FixedTooltip>
+                <div
+                  className="c-yellow-800">
+                  <i className='icon_key fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретный вид работ?
+                    <br/>
+                    Наберите его в поиске
+                  </span>
+                </div>
+              </FixedTooltip>
 
+            </td>
 
-              </td>
-
-              <td className="ta-C">
-                <span
-                  className="cur-p bB1d c-yellow-800"
-                  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work')} >
-              {part.get('services').get(kTO_WORK_KEY) && (part.get('services').get(kTO_WORK_KEY).get('count').get('in')+' / ' +
+            <td className="ta-C">
+              <span
+                className="cur-p bB1d c-yellow-800"
+                onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work')} >
+              {part.get('services').get(kTO_WORK_KEY) && (part.get('services').get(kTO_WORK_KEY).get('count').get('in') + ' / ' +
               part.get('services').get(kTO_WORK_KEY).get('count').get('all'))}
-                </span>
+              </span>
             {/*код тултипа*/}
-                <FixedTooltip
-                  open_id={part.get('id')}
-                  open_type={'autoservice-tooltip-to-work'}
-                  className="ta-L">
+              <FixedTooltip
+                open_id={part.get('id')}
+                open_type={'autoservice-tooltip-to-work'}
+                className="ta-L">
 
-                  <strong className='fs14 mB10 d-ib'>ТО</strong>
-                  <div className="Mh150px o-a mR-8">
+                <strong className='fs14 mB10 d-ib'>ТО</strong>
+                <div className="Mh150px o-a mR-8">
                   {to_list}
-                  </div>
+                </div>
 
-                  <hr className='hr'/>
+                <hr className='hr'/>
 
-                  <div
-                    className="c-yellow-800">
-                    <i className='icon_key fs32 f-L mR10'></i>
-                    <span className='bB1d cur-p'>
-                      Ищете конкретный вид работ?<br/>
-                      Наберите его в поиске
-                    </span>
-                  </div>
-                </FixedTooltip>
-              </td>
+                <div
+                  className="c-yellow-800">
+                  <i className='icon_key fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретный вид работ?
+                    <br/>
+                    Наберите его в поиске
+                  </span>
+                </div>
+              </FixedTooltip>
+            </td>
 
-
-              <td className="ta-C">
-                <span
-                  className="cur-p bB1d c-yellow-800"
-                  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work1')} >
-              {part.get('services').get(kTUNING) && (part.get('services').get(kTUNING).get('count').get('in')+' / ' +
+            <td className="ta-C">
+              <span
+                className="cur-p bB1d c-yellow-800"
+                onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autoservice-tooltip-to-work1')} >
+              {part.get('services').get(kTUNING) && (part.get('services').get(kTUNING).get('count').get('in') + ' / ' +
               part.get('services').get(kTUNING).get('count').get('all'))}
-                </span>
+              </span>
             {/*код тултипа*/}
-                <FixedTooltip
-                  open_id={part.get('id')}
-                  open_type={'autoservice-tooltip-to-work1'}
-                  className="ta-L">
+              <FixedTooltip
+                open_id={part.get('id')}
+                open_type={'autoservice-tooltip-to-work1'}
+                className="ta-L">
 
-                  <strong className='fs14 mB10'>Тюнинг и прочее</strong>
-                  <div className="Mh150px o-a mR-8">
+                <strong className='fs14 mB10'>Тюнинг и прочее</strong>
+                <div className="Mh150px o-a mR-8">
                   {tuning_list}
-                  </div>
+                </div>
 
-                  <hr className='hr'/>
+                <hr className='hr'/>
 
-                  <div
-                    className="c-yellow-800">
-                    <i className='icon_key fs32 f-L mR10'></i>
-                    <span className='bB1d cur-p'>
-                      Ищете конкретный вид работ?<br/>
-                      Наберите его в поиске
-                    </span>
-                  </div>
-                </FixedTooltip>
-              </td>
+                <div
+                  className="c-yellow-800">
+                  <i className='icon_key fs32 f-L mR10'></i>
+                  <span className='bB1d cur-p'>
+                    Ищете конкретный вид работ?
+                    <br/>
+                    Наберите его в поиске
+                  </span>
+                </div>
+              </FixedTooltip>
+            </td>
 
-              <td className={cx('', cx((part_index%2 > 0) ? 'bgc-yellow-200' : 'bgc-yellow-100'))}>
-                <div className="fw-b fs14">{part.get('masters_name').first()}</div>
+            <td className={cx('', cx((part_index % 2 > 0) ? 'bgc-yellow-200' : 'bgc-yellow-100'))}>
+              <div className="fw-b fs14">{part.get('masters_name').first().split(' ')[0]}</div>
           {/*<Link href={part.get('site')} className="c-yellow-800 d-ib fs12">Сайт</Link> */}
-              </td>
+            </td>
 
-              <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
-                <div className={cx('ta-C fs20', !(this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
-                  <span className='fs14'>{company.get('main_phone') && company.get('main_phone').substr(0,7)}</span>
-                  <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
-                </div>
-                <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
-                  <button
-                    onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
-                    className="p8 br2 grad-w b0 btn-shad-b w100pr ta-C"
-                  >
-
-                    <i className="flaticon-phone c-as fs16 mR5"></i>
-                    <span className='M-d-n-1420'>Телефон</span>
-                  </button>
-                </div>
-
-
-              </td>
-            </tr>
-          )
-        }
-      ).toJS();
+            <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
+              <div className={cx('ta-C fs20', !(this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
+                <span className='fs14'>{company.get('main_phone') && company.get('main_phone').substr(0,7)}</span>
+                <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
+              </div>
+              <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
+                <button
+                  onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
+                  className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                >
+                  <span className="table-line w100pr ta-C">
+                    <span className="d-tc va-m ta-C"><i className="flaticon-phone c-as fs16" /></span>
+                    <span className='M-d-n-1420 va-m'>Телефон</span>
+                  </span>
+                </button>
+                <button
+                  onClick={this.onShowOrderPopup.bind(null, currentIndex)}
+                  className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                >
+                  <i className="flaticon-mail c-as fs16 mR5"></i>
+                  <span className='M-d-n-1420'>Заявка</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        )
+      }
+    ).toJS();
 
     //page_num
     //items_per_page
@@ -410,11 +456,12 @@ export default class SearchPageAutoPartTable extends Component {
       </a>
     ));
 
-
     return (
       <div className={this.props.className}>
+
         <div className="entire-width flex-ai-fe">
-          <div className='fs14 bgc-yellow-600 d-ib p5-15 bTRr8'>Не нашли деталь ? <strong>Позвоните мастеру</strong>
+          <div className='fs14 bgc-yellow-600 d-ib p5-15 bTRr8'>Не нашли деталь ?
+            <strong>Позвоните мастеру</strong>
             <i className='icon_free fs22 va-M mL10'></i>
           </div>
             {(this.props.autoServicesResults.size > 0) &&
@@ -427,7 +474,6 @@ export default class SearchPageAutoPartTable extends Component {
               }
         </div>
 
-
         <table cellSpacing="0" className="search-table">
           <thead>
             <tr className='bg-c-gl ta-L'>
@@ -436,11 +482,19 @@ export default class SearchPageAutoPartTable extends Component {
               </th>
               <th>Компания</th>
               <th>Марки</th>
-              <th className='w55px ta-C'><i className='icon_door fs22' title='Кузовные работы'></i></th>
-              <th className='w55px ta-C'><i className='icon_axis fs22' title='Слесарные работы'></i></th>
-              <th className='w55px ta-C'><i className='icon_to fs22' title='ТО'></i></th>
-              <th className='w55px ta-C'><i className='icon_more fs22 va-M' title='Тюнинг и прочее'></i></th>
-              <th  className='ta-C w110px bgc-yellow-600'>Имя мастера</th>
+              <th className='w55px ta-C'>
+                <i className='icon_door fs22' title='Кузовные работы'></i>
+              </th>
+              <th className='w55px ta-C'>
+                <i className='icon_axis fs22' title='Слесарные работы'></i>
+              </th>
+              <th className='w55px ta-C'>
+                <i className='icon_to fs22' title='ТО'></i>
+              </th>
+              <th className='w55px ta-C'>
+                <i className='icon_more fs22 va-M' title='Тюнинг и прочее'></i>
+              </th>
+              <th  className='ta-C w95px bgc-yellow-600'>Имя мастера</th>
               <th className='ta-C w210px'>
                 <label className="label--checkbox">
                   <input
@@ -461,7 +515,6 @@ export default class SearchPageAutoPartTable extends Component {
           </tbody>
         </table>
 
-
         <div className="ta-R m20">
           <Pager className="pagination fs14"
             page_num={this.props.currentPage - 1}
@@ -471,11 +524,7 @@ export default class SearchPageAutoPartTable extends Component {
             on_click={this.onCurrentPageChange}/>
 
         </div>
-
-
-
-
-
+        <Order type={1} item={this.props.autoServicesResults.get(this.props.currentOrderItem)} onClickCloseModal={this.onClickCloseModal}/>
       </div>
     );
     /* jshint ignore:end */

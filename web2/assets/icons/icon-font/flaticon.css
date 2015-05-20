@@ -71,9 +71,9 @@ i[class^="flaticon-"],[class^="flaticon-"]:before, [class*=" flaticon-"]:before 
 .flaticon-thumbsu:before {
     content: "\e00f";
 }
-.flaticon-calendar:before {
+.flaticon-exclamation:before {
     content: "\e010";
 }
-.table-line > * {
-    display: table-cell;
+.flaticon-calendar:before {
+    content: "\e011";
 }

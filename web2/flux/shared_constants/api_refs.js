@@ -1,7 +1,7 @@
 'use strict';
 
 
-var kAPI_HOST = 'http://autogiper.com';
+var kAPI_HOST = 'http://autogiper.ru';
 module.exports = {
   kAUTO_PART_SUGGESTER_API: kAPI_HOST + '/api/search.php?type=autoparts&text=:words',
   kAUTO_SERVICE_SUGGESTER_API: kAPI_HOST + '/api/search.php?type=autoservices&text=:words',
@@ -27,6 +27,7 @@ module.exports = {
   kACCOUNT_SERVICES_PAYMENT: kAPI_HOST + '/api/services/payment.php',
 
   kSUBMIT_REGISTER_DATA: kAPI_HOST + '/api/register.php',
+  kSUBMIT_ORDER: kAPI_HOST + '/api/order.php',
   kAUTH: kAPI_HOST + '/api/auth.php',  //Передавать с параметрами
   kAUTH_CHECK: kAPI_HOST + '/api/auth.php', //Чек идет без параметров
   kAUTH_LOG_OUT: kAPI_HOST + '/api/logout.php',

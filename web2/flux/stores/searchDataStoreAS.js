@@ -73,7 +73,8 @@ class SearchDataStoreAS extends BaseStore {
     // visibleRowFirst индекс первого видимого элемента,
     visibleRows: {visibleRowFirst: 0, visibleRowLast: 15},
     showAllPhone: {autoparts: false, autoservices: false},
-    visiblePhone: []
+    visiblePhone: [],
+    header: {}
   });
 
   constructor() {
@@ -118,7 +119,7 @@ class SearchDataStoreAS extends BaseStore {
   }
 
   _onRowHover(hoveredRowIndex, hoverState) {
-    console.log(hoveredRowIndex, hoverState);
+    //console.log(hoveredRowIndex, hoverState);
     this.state.hoveredRowIndex_cursor
       .update(() => hoverState ? hoveredRowIndex : -1);
 
@@ -127,7 +128,9 @@ class SearchDataStoreAS extends BaseStore {
 
   _onAutoPartsDataLoaded(v) {
     this.state.data_cursor
-      .update(() => fromJS(v));
+      .update(() => fromJS(v.results));
+    this.state.header_cursor
+      .update(() => fromJS(v.header));
     this.state.visiblePhone_cursor
       .update(visiblePhone => visiblePhone.clear());
     this.fireChangeEvent();
@@ -188,6 +191,9 @@ class SearchDataStoreAS extends BaseStore {
   @view(['data', 'mapInfo'])
   getFirstInvisibleRowIndex() {
     return this.getSortedData().findIndex(item => item.get('visible_item') !== true);
+  }
+  getHeader() {
+    return this.state.header;
   }
 }
 

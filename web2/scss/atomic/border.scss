@@ -22,14 +22,14 @@
 @for $i from 1 through 4 {
   .bw#{$i} { border-width : #{$i}px;}
 }
-
+.br50 { border-radius : 50px;}
 .bR0 { border-right : 0;}
 .bL0 { border-left :  0;}
 .bT0 { border-top :  0;}
 .bB0 { border-bottom :  0;}
 
 .b0 { border : 0; }
-
+.b-N {border: none;}
 .bcol-s {border-collapse: separate;}
 
 .b1trans {border: 1px solid transparent}

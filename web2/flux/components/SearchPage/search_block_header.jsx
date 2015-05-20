@@ -14,7 +14,6 @@ var SearchPageSearchBlock = require('./search_page_search_block.jsx');
 var AutoPartsSearchWrapper = require('components/search_wrappers/auto_part_search_wrapper.jsx');
 var AutoServiceSearchWrapper = require('components/search_wrappers/autoservice_search_wrapper.jsx');
 
-var SearchPageMapHeaderBlock = require('./search_page_map_header_block.jsx');
 
 var dom_helper = require('utils/dom_helper.js');
 
@@ -32,13 +31,13 @@ var auto_part_by_id_store = require('stores/auto_part_by_id_store.js');
 var autoservice_by_id_store = require('stores/autoservice_by_id_store.js');
 
 import searchDataStoreAP from 'stores/searchDataStoreAP.js';
-
+import searchDataStoreAS from 'stores/searchDataStoreAS.js';
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
-  width: search_page_store.get_search_page_width (),
-  auto_part_data: searchDataStoreAP.getHeader(),
-  autoservice_data: autoservice_by_id_store.get_autoservice_data_header (),
-}),
+    width: search_page_store.get_search_page_width(),
+    auto_part_data: searchDataStoreAP.getHeader(),
+    autoservice_data: searchDataStoreAS.getHeader(),
+  }),
 search_page_store, auto_part_by_id_store, autoservice_by_id_store /*observable store list*/);
 
 var style_utils = require('utils/style_utils.js');

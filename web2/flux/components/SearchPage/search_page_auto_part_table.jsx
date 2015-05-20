@@ -3,6 +3,7 @@
 var _ = require('underscore');
 
 import React, {PropTypes, Component} from 'react/addons';
+import emptyFunction from 'react/lib/emptyFunction';
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
 var cx        = require('classnames');
@@ -37,13 +38,21 @@ import controllable from 'react-controllables';
 
 /*Utils*/
 import autobind from 'utils/autobind.js';
-
-
+import Link from 'components/link.jsx';
+import regionStore from 'stores/region_store.js';
 //var search_page_actions = require('actions/search_page_actions.js');
 var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
-@controllable(['currentPage','itemPerPage'])
+/*Action*/
+import ModalActions from 'actions/ModalActions.js';
+import Order from './Order.jsx';
+
+
+
+
+
+@controllable(['currentPage','itemPerPage', 'currentOrderItem'])
 @rafStateUpdate(() => ({
   autoPartResults: searchDataStoreAP.getSortedData(),
   showAllPhone: searchDataStoreAP.getShowAllPhone().get('autoparts'),
@@ -60,15 +69,16 @@ export default class SearchPageAutoPartTable extends Component {
   static defaultProps = {
     currentPage: 1,
     itemPerPage: 10,
+    currentOrderItem: null
   }
   static propTypes = {
     currentPage: PropTypes.number.isRequired,
     itemPerPage: PropTypes.number.isRequired,
     onCurrentPageChange: PropTypes.func,
     onItemPerPageChange: PropTypes.func,
+    onCurrentOrderItemChange: PropTypes.func,
   }
   onCurrentPageChange(num) {
-
     let current = num + 1;
     let end = current * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
@@ -76,50 +86,17 @@ export default class SearchPageAutoPartTable extends Component {
     this.props.onCurrentPageChange(current);
   }
   onItemPerPageChange(num) {
-    let end = num * this.props.itemPerPage;
-    let start = end - this.props.itemPerPage;
+    let end = this.props.currentPage * num;
+    let start = end - num;
+
     searchActionsAP.visibleRowsChange(start, end);
     this.props.onItemPerPageChange(num);
   }
-/*
 
-
-  
-  on_marker_click(id, e) {
-    auto_part_by_id_actions.close_all_and_open_balloon(id);
-    e.preventDefault();
-    e.stopPropagation();
-  },
-
-  on_hover(id, hover_state) {
-    auto_part_by_id_actions.auto_part_marker_hover(id, hover_state, {update_same_address: false});
-  },
-
-  on_show_phone (id) {
-    auto_part_by_id_actions.auto_part_show_phone(id);
-  },  
-  //TODO добавить и написать миксин который будет дизейблить поинтер евенты  
-  on_change_items_per_page (items_num, e) {
-    auto_part_by_id_actions.auto_part_change_items_per_page(items_num);
-    event.preventDefault();
-    event.stopPropagation();
-  },
-
-  on_page_click (page_num) {
-    auto_part_by_id_actions.auto_part_change_page(page_num);
-  },
-
-  on_show_all_phones_on_current_page (e) {
-    auto_part_by_id_actions.auto_part_show_all_phones_on_current_page(e.target.checked);
-  },
-
-
-*/
   on_show_price_tootip(id, tooltip_type, e) {
-
-    fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
     e.preventDefault();
     e.stopPropagation();
+    fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
   }
   on_goto_find(id, auto_part_initial_value, e) {
     auto_part_search_actions.show_value_changed(auto_part_initial_value);
@@ -132,8 +109,11 @@ export default class SearchPageAutoPartTable extends Component {
   onShowAllPhoneChange(type) {
     searchActionsAP.showAllPhoneChange(type);
   }
-  onShowOrderPopup(popup, data) {
-
+  onShowOrderPopup(currentItem, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    ModalActions.openModal('order');
+    this.props.onCurrentOrderItemChange(currentItem);
   }
   onRowMouseEnter(index) {
     searchActionsAP.rowHover(index, true);
@@ -149,7 +129,13 @@ export default class SearchPageAutoPartTable extends Component {
       searchActionsAP.rowAddressActive(id, true);
     }
   }
+
+  onClickCloseModal() {
+
+    ModalActions.closeModal();
+  }
   render() {
+    if (this.props.autoPartResults.size === 0) return null
     let end = this.props.currentPage * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
     const Markers  = this.props.autoPartResults
@@ -165,6 +151,9 @@ export default class SearchPageAutoPartTable extends Component {
         stock_class_name[kSTOCK_ICONS_ADD[part.get('stock')]] = true;
         let isVisiblePhone = !!(this.props.visiblePhone.indexOf(part.get('user_id')) + 1);
         let currentIndex = this.props.itemPerPage * (this.props.currentPage - 1) + part_index;
+        let inDisplay = true;
+        if (this.props.firstInvisibleRowIndex <= currentIndex) inDisplay = false;
+        let currentRegion =  regionStore.get_region_current() && regionStore.get_region_current().get('translit_name');
       return (
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
@@ -182,9 +171,18 @@ export default class SearchPageAutoPartTable extends Component {
             <div className="lh1-4 ellipsis">{company.get('company_name')}</div>
             <div className='ellipsis'>
               <span
-                className="bb-d c-g cur-p lh1-4">
-
-                {company.get('address')}
+                className="bb-d c-g cur-p lh1-4"
+              >
+                {!inDisplay ?
+                  <Link
+                    href={`/company/${part.get('user_id')}/${currentRegion}`}
+                    className={cx('td-u cur-p c-grey-700')}
+                  >
+                    {company.get('address')}
+                  </Link>
+                  :
+                  company.get('address')
+                }
 
               </span>
             </div>
@@ -249,11 +247,11 @@ export default class SearchPageAutoPartTable extends Component {
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
-            <div className="fs18 fw-b m0-5 lh1 M-fs14-1200">{part.get('retail_price')} <span className='M-d-n-1200'> р.</span></div>
+            <div className="fs18 fw-b m0-5 lh1">
+              {part.get('retail_price')} р.
+              <i onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')} className="flaticon-exclamation mL5 fs14 c-deep-purple-500 cur-p" />
+            </div>
             <div className="">
-              <div className='fs11 c-p bb-d cur-p m0-5' onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>
-                условия <span className='M-d-n-1200'> оплаты</span>
-              </div>
               <div className='f-R'>
                 <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
                   {part.get('conditions') && [
@@ -287,7 +285,7 @@ export default class SearchPageAutoPartTable extends Component {
                 </span>
               </button>
               <button
-                onClick={this.onShowOrderPopup.bind(null, 'orderPopup', part)}
+                onClick={this.onShowOrderPopup.bind(null, currentIndex)}
                 className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
               >
                 <i className="flaticon-mail c-ap fs16 mR5"></i>
@@ -303,7 +301,7 @@ export default class SearchPageAutoPartTable extends Component {
     const ItemsPerPage = kITEMS_PER_PAGE.map((item, index) => (
       <a
         key={index}
-        onClick={this.props.onItemPerPageChange.bind(null, item)}
+        onClick={this.onItemPerPageChange.bind(null, item)}
         className={cx('bc-g cur-p', cx(item === this.props.itemPerPage && 'active'))}
       >
         {item}
@@ -335,10 +333,10 @@ export default class SearchPageAutoPartTable extends Component {
                 <i className='icon_placemark-grey'></i>
               </th>
               <th className=''>Продавец</th>
-              <th className='w170px'>Производитель / Артикул</th>
+              <th className='w140px'>Производитель<br/>Артикул</th>
               <th className=''>Описание детали</th>
               <th className='ta-C w90px'>Инфо</th>
-              <th className='ta-C c-wh w110px t-bg-c-ap'>Цена</th>
+              <th className='ta-C c-wh w95px t-bg-c-ap fw-b'>Цена</th>
               <th className='ta-C w210px'>
                 <label className="label--checkbox">
                   <input
@@ -368,10 +366,11 @@ export default class SearchPageAutoPartTable extends Component {
             on_click={this.onCurrentPageChange}/>
 
         </div>
-      
+
+        <Order type={1} item={this.props.autoPartResults.get(this.props.currentOrderItem)} onClickCloseModal={this.onClickCloseModal}/>
 
 
-
+        <hr className="search-page-hr" />
       </div>
     );
     /* jshint ignore:end */

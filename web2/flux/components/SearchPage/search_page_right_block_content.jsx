@@ -20,7 +20,7 @@ var SearchPageRightBlockContent = React.createClass({
     return (
       <div style={{left : '38%'}} className="search-page-right-block">
         <SearchPageAutoPartTable />
-        <hr className="search-page-hr" />
+
         <SearchPageAutoServiceTable />            
       </div>
     );

@@ -16,7 +16,7 @@ var actions_ = [
 
 // find/:region_id/:sentence/:producer/:articul/:id
 module.exports.goto_auto_parts_page = (region_id, id, articul, producer, sentence) => {
-  route_actions.goto_link_w_params(route_definitions.kROUTE_PARTS_FIND, 
+  route_actions.goto_link_w_params(route_definitions.kROUTE_PARTS_FIND_NEW,
     text_utils.encode_link_object_properties({
       region_id: region_id,
       id: id,
@@ -30,7 +30,7 @@ module.exports.goto_auto_parts_page = (region_id, id, articul, producer, sentenc
 };
 
 module.exports.goto_auto_service_page = (region_id, service_id, service_auto_mark, service) => {
-  route_actions.goto_link_w_params(route_definitions.kROUTE_PARTS_FIND, 
+  route_actions.goto_link_w_params(route_definitions.kROUTE_PARTS_FIND_NEW,
     text_utils.encode_link_object_properties({
       region_id: region_id,
       id: '_',

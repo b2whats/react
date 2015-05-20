@@ -86,7 +86,7 @@ var Header = React.createClass({
         <div className="top-navbar">
           <Link
             className="h_link m0-10"
-            href={route_names.kROUTE_CATALOG}
+            href={route_names.kROUTE_CATALOG_NEW}
             params={ {
               region_id : kDEFAULT_REGION_ID,
               type      : '_',

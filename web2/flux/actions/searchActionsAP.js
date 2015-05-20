@@ -88,6 +88,7 @@ const _queryAutoPartsData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, i
 }));
 
 module.exports.queryAutoPartsData = (region_text, id) => {
+  if (isNaN(id)) return
   return _queryAutoPartsData(region_text, id)
     .then(res => {
       mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_ON_SEARCH_AP_DATA_LOADED].concat([res]));

@@ -47,8 +47,14 @@
     left: calc(50% - 12px)
 
   &.hint--balloon
-    @include ice-hint-type(rgb(255, 255, 255))
-
+    .hint-content
+      // чтобы цвет bg хинта плавно менялся
+      z-index: $zIndex - 20
+      transition: background-color 1.0s ease
+    &:before
+      z-index: $zIndex - 19
+      // чтобы цвет стрелочки плавно менялся
+      transition: border-color 1.0s ease
 
 
   .map-marker-hint

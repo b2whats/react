@@ -26,7 +26,7 @@ var actions_ = [
 // find/:region_id/:sentence/:producer/:articul/:id
 module.exports.goto_auto_parts_page = (id, articul, producer, sentence) => {
   var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
-  var route_defaults = route_names.kROUTE_PARTS_FIND;
+  var route_defaults = route_names.kROUTE_PARTS_FIND_NEW;
 
   //перенести эту логику в роут актионс если все нормально
   route_actions.goto_link_w_params(route_defaults, _.extend(
@@ -45,7 +45,7 @@ module.exports.goto_auto_parts_page = (id, articul, producer, sentence) => {
 
 module.exports.goto_auto_service_page = (service_id, service_auto_mark, service) => {
   var route_params = routes_store.get_route_context_params() && routes_store.get_route_context_params().toJS();
-  var route_defaults = route_names.kROUTE_PARTS_FIND;
+  var route_defaults = route_names.kROUTE_PARTS_FIND_NEW;
 
   route_actions.goto_link_w_params(route_defaults, _.extend(
     {id:'_', articul:'_', producer:'_', sentence:'_', service_id:'_', service:'_', service_auto_mark:'_'},

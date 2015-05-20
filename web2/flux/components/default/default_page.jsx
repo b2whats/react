@@ -26,9 +26,9 @@ var suggestion_store_as = require('stores/autoservices_suggestion_store.js');
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
   width: default_page_size_store.get_width (),
-
+    modalIsOpen: modalStore.getModalIsOpen(),
 }),
-default_page_size_store /*observable store list*/);
+default_page_size_store, modalStore /*observable store list*/);
 
 
 var style_utils = require('utils/style_utils.js');
@@ -38,7 +38,13 @@ var kSASS_INPUT = style_utils.from_px_to_number( sass_vars['input-padding'] );
 
 var kLIST_DELTA=9; //сумма толщин бордеров - потом посчитаю и хз откуда 1 пиксель
 var kRECALC_WIDTH_TIMEOUT = 200;
-console.log('init');
+
+import Modal from 'components/modal/index';
+import modalStore from 'stores/ModalStore.js';
+import modalActions from 'actions/ModalActions.js';
+
+
+
 var DefaultPage = React.createClass({
   mixins: [PureRenderMixin, RafBatchStateUpdateMixin],
   
@@ -73,7 +79,7 @@ var DefaultPage = React.createClass({
     default_page_actions.goto_auto_service_page(region_id, id, auto_mark, name);
   },
   click_search(e) {
-    console.log(e);
+
     var el = suggestion_store_ap.get_suggestion_list ().get(0);
     if (!!el) {
       var el = el.toJS();
@@ -91,6 +97,12 @@ var DefaultPage = React.createClass({
       default_page_actions.goto_auto_service_page(region_id, el[0], el[1], el[2], el[3]);
     }
   },
+  onClickCloseModal() {
+    modalActions.closeModal();
+  },
+  onClickShowModal() {
+    modalActions.openModal('video_main');
+  },
   render () {
     var ap_initial_value = '';
     var as_initial_value = '';
@@ -102,11 +114,20 @@ var DefaultPage = React.createClass({
     }
     return (
     <div className="default-page">
-      <div className="default-page-abs">
+      <div className="">
         <div className="hfm-wrapper default-page-search-height">
-          <div className="default-page-wrapper default-page-search-height">
+          <div className="default-page-search-height">
             <div ref='default_page_content' className="default-page-content big-search-block">
-              <div className="default-page-logo"><span className="svg-logo default-page-logo-icon"></span></div>
+              <div className="default-page-logo"><span className="svg-logo default-page-logo-icon"></span><br />
+              <span
+                className="c-as tt-u cur-p d-ib"
+                onClick={this.onClickShowModal}
+              >
+                <i
+                  className="flaticon-right fs16 br50 b4s"
+                  style={{ padding: '8px 8px 8px 11px'}}
+                /> <span className="fs18 c-ap">Обучающее видео</span></span>
+              </div>
               
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
@@ -141,6 +162,16 @@ var DefaultPage = React.createClass({
           </div>
         </div>      
       </div>
+      <Modal
+        isOpen={!!this.state.modalIsOpen.get('video_main')}
+        onRequestClose={this.onClickCloseModal}
+      >
+        <div className='ta-C'>
+          <div className='ReactModal__Content-close btn-close cur-p' onClick={this.onClickCloseModal}></div>
+          <h2 className='m15-0 mB20'>Обучающее видео</h2>
+          <iframe className="b0" width="560" height="315" src="https://www.youtube.com/embed/TpPgUWRecMg" frameBorder="0" allowFullScreen></iframe>
+        </div>
+      </Modal>
     </div>
     );
   }

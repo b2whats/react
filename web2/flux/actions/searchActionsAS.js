@@ -84,7 +84,7 @@ const _queryAutoServicesData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text
         .map(result => Object.assign({visible_item: false, sort: hashCode(result.address) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
 
       // console.log(results[0]);
-      return results;
+      return {header: res.header, results: results};
     });
 }));
 
