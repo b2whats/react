@@ -254,7 +254,8 @@ export default class SearchPageAutoPartTable extends Component {
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1">
               {part.get('retail_price')} р.
-              <i onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')} className="flaticon-exclamation mL5 fs14 c-deep-purple-500 cur-p fw-n" />
+              <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>Условия оплаты</div>
+
             </div>
             <div className="">
               <div className='f-R'>
