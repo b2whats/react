@@ -70,7 +70,8 @@ class CatalogDataStoreNew extends BaseStore {
     // visibleRowFirst индекс первого видимого элемента,
     visibleRows: {visibleRowFirst: -1, visibleRowLast: -1},
 
-    visiblePhonesSet: new immutable.Set()
+    visiblePhonesSet: new immutable.Set(),
+    search: null
   });
 
   constructor() {
@@ -85,8 +86,13 @@ class CatalogDataStoreNew extends BaseStore {
     this.register(eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE, this._onMapRowAddressActive);
 
     this.register(eventNames.K_ON_CATALOG_SHOW_PHONE, this._onShowPhone);
+    this.register(eventNames.K_ON_CATALOG_SEARCH, this._onChangeSearch);
   }
-
+  _onChangeSearch(text) {
+    this.state.search_cursor
+      .update(search => text);
+    this.fireChangeEvent();
+  }
   _onRegionChanged() {
     const currentRegion = regionStore.get_region_current();
 
@@ -153,6 +159,9 @@ class CatalogDataStoreNew extends BaseStore {
 
   getData() {
     return this.state.data;
+  }
+  getSearch() {
+    return this.state.search;
   }
 
   getMapInfo() {

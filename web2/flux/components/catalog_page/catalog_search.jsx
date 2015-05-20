@@ -23,7 +23,7 @@ var catalog_data_store = require('stores/catalog_data_store.js');
 var toggle_actions = require('actions/ToggleActions.js');
 var toggle_store = require('stores/ToggleStore.js');
 var cx        = require('classnames');
-
+import catalogDataActionNew from 'actions/catalog_data_actions_new.js';
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({ //state update lambda
     brands         : catalog_suggestion_store.get_brands(),
@@ -128,7 +128,7 @@ var CatalogSearch = React.createClass({
   },
   search(e) {
     var text = e.target.value;
-    catalog_data_actions.catalog_search(text);
+    catalogDataActionNew.search(text);
   },
   toggle(val) {
     return (e) => {

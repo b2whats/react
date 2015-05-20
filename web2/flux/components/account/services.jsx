@@ -29,7 +29,7 @@ var Select = require('react-select');
 
 /*Component*/
 import SelectServiceAndTarif from 'components/Account/Services/SelectServiceAndTarif';
-import Payment from 'components/Account/Services/Payment';
+
 
 
 
@@ -83,12 +83,12 @@ var AccountInfo = React.createClass({
   },
   generatePaymentBlock(type, css, title) {
     return (
-      <div className="br8 b1s bc-g grad-g d-ib w300px mR20">
+      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 w250px', css !== 'g' && 'mR20')}>
         <div className={`bg-c-${css} p8-10 fs14 fw-b br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
           <div dangerouslySetInnerHTML={{__html: title}}>
 
           </div>
-          <i className="btn-question btn-icon"></i>
+
         </div>
         <div className="m15 d-f h40px flex-ai-c fs15">
             {
@@ -125,7 +125,7 @@ var AccountInfo = React.createClass({
         {(this.state.step == 0) &&
           <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.changeStep}>Подключить услуги</button>
         }
-        {(this.state.step >= 1) &&
+        {(this.state.step == 0) &&
           <div>
             <strong>Шаг 1 </strong> из 3 .
             <h4 className="d-ib fs20 m0 fw-n">Выбор региона(ов)</h4>
@@ -139,18 +139,12 @@ var AccountInfo = React.createClass({
           <div className='m30-0'>
             <hr className="hr-arrow m20-0"/>
             <div className='m30-0'>
-              <strong>Шаг 2 </strong> из 3.
               <h4 className="d-ib fs20 m0 fw-n">Выбор услуги и тарифа:</h4>
             </div>
           </div>
           <SelectServiceAndTarif />
 
-          <div className='m30-0'>
-            <strong>Шаг 3 </strong> из 3.
-            <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
-          </div>
 
-          <Payment />
 
 
         </div>

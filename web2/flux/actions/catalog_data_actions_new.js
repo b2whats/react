@@ -28,7 +28,9 @@ const actions_ = [
   ['rowHover', eventNames.K_ON_CATALOG_ROW_HOVER],
   ['rowMapHover', eventNames.K_ON_CATALOG_MAP_ROW_HOVER],
   ['rowAddressActive', eventNames.K_ON_CATALOG_ROW_ADDRESS_ACTIVE],
-  ['showPhone', eventNames.K_ON_CATALOG_SHOW_PHONE]
+  ['showPhone', eventNames.K_ON_CATALOG_SHOW_PHONE],
+  ['search', eventNames.K_ON_CATALOG_SEARCH],
+
 ];
 
 const _queryCatalogData = serialize(memoize(K_MEMOIZE_OPTIONS)((type, brands, services, regionText, priceType) => {

@@ -59,7 +59,7 @@ function http(method, url, object, timeout, reconnect_attempts, parent_resolve, 
             
             xhr.send(object);
           } else {
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+            //xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
             xhr.send(JSON.stringify(object));
           }        
         } else {

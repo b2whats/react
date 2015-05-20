@@ -111,16 +111,16 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   },
   selected_services: {
     autoparts : {
-      month : 0,
-      price : 0
+      month : 1,
+      price : 5000
     },
     autoservices : {
-      month : 0,
-      price : 0
+      month : 1,
+      price : 7000
     },
     catalog : {
-      month : 0,
-      price : 0
+      month : 1,
+      price : 2500
     }
   },
   payment_method : [

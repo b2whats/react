@@ -22,7 +22,8 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
   hoveredMapRowIndex: catalogDataStore.getMapHoveredRowIndex(),
   firstInvisibleRowIndex: catalogDataStore.getFirstInvisibleRowIndex(),
-  mapInfo: catalogDataStore.getMapInfo()
+  mapInfo: catalogDataStore.getMapInfo(),
+  search: catalogDataStore.getSearch()
 }), catalogDataStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
@@ -133,6 +134,13 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   render() {
+    if (this.props.search) {
+      let q = this.props.search.toLowerCase();
+      this.props.catalogResults = this.props.catalogResults.filter((part, index) => {
+        let str = `${part.get('company_name')} ${part.get('description')} ${part.get('main_phone')} ${part.get('site')}`;
+        return !!(str.toLowerCase().indexOf(q) + 1);
+      });
+    }
     const K_ROW_HEIGHT = 112;
     const K_HEADER_HEIGHT = 185;
     const K_MINI_HEADER_HEIGHT = 40;

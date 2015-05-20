@@ -1,5 +1,6 @@
 const _ = require('underscore');
-const route_names = require('shared_constants/route_names.js');
+
+import route_names from 'shared_constants/route_names.js';
 const route_definitions = route_names; //пока полежат в одном месте
 const route_actions = require('actions/route_actions.js');
 const region_actions = require('actions/region_actions.js');

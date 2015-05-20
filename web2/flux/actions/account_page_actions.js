@@ -9,6 +9,8 @@ var api_refs = require('shared_constants/api_refs.js');
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
 var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
+var route_actions = require('actions/route_actions.js');
+var region_store = require('stores/region_store.js');
 module.exports.get_company_information = () => {
   return r_get_company_info.get()
     .then(response => {
@@ -27,6 +29,7 @@ var r_get_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL);
 module.exports.get_company_filial = () => {
   return r_get_company_filial.get()
     .then(response => {
+            if (response.status === 'error') return
             main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_COMPANY_FILIALS_LOADED].concat([response]));
           });
 };
@@ -43,6 +46,12 @@ module.exports.submit_company_personal_details = (detail) => {
     .then(data => {
             console.log(data);
           });
+};
+module.exports.changeLocation = () => {
+  route_actions.goto_link_with_default_params('/account/:region_id/company',
+    {region_id: region_store.get_region_current().get('translit_name')}
+  );
+
 };
 var actions_ = [
   ['update_form', event_names.kON_FORM_UPDATE],

@@ -10,6 +10,7 @@ import controllable from 'react-controllables';
 /*Component*/
 import EditableForms from 'components/editable_forms/editable_forms.jsx';
 import Modal from 'components/modal/index';
+import Payment from 'components/Account/Services/Payment';
 
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
@@ -140,7 +141,7 @@ class CompanyFilial extends Component {
           index = index | 0;
           return (
             <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(index === 0) && true} type="radio" value={index} onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
+              <input defaultChecked={(index === 1) && true} type="radio" value={index} onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-M lh1-4 fs15">
                 {(index === 0) ?
                   'Бесплатно'
@@ -351,6 +352,12 @@ class CompanyFilial extends Component {
         <div className='ta-C m20-0 fs18 '>
           Общая сумма: <strong>{formatString.money(summ, ' ')} </strong> руб.
         </div>
+
+        <div className='m30-0'>
+          <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
+        </div>
+
+        <Payment />
       </div>
     );
   }

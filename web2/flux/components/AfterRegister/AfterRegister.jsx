@@ -22,7 +22,7 @@ import AccountPageStore from 'stores/account_page_store.js';
 
 /*Utils*/
 import autobind from 'utils/autobind.js';
-/home/w/PhpstormProjects/react/web2/flux/components/SearchPage
+
 
 @rafStateUpdate(() => ({
   companyInformation: AccountPageStore.get_company_information()
@@ -133,7 +133,7 @@ class AfterRegister extends Component {
     if (type === '-' && this.state.step > 1) this.setState((state) => ({step: --state.step}));
   }
   onClickChangeLocation() {
-
+    AccountPageActions.changeLocation()
   }
   render() {
     let { step } = this.state;
@@ -153,7 +153,7 @@ class AfterRegister extends Component {
             {step > 1 && <button onClick={this.onChangeStep.bind(null, '-')} className="w110px p8 br2 grad-ap z-depth1 b0 ta-C c-white"><i className="flaticon-left-arrow"/> Назад</button>}
 
             {!stepData[step + 1] ?
-              <button onClick={this.onClickChangeLocation} className="p8-10 br2 grad-ap z-depth1 b0 ta-C c-white">Вернуться на главную</button>
+              <button onClick={this.onClickChangeLocation} className="p8-10 br2 grad-ap z-depth1 b0 ta-C c-white">Вернуться в личный кабинет</button>
               :
               <button onClick={this.onChangeStep.bind(null, '+')} className="w110px p8 br2 grad-as z-depth1 b0 ta-C c-white">Вперед <i className="flaticon-right-arrow"/> </button>
             }

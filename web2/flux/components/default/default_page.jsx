@@ -125,7 +125,7 @@ var DefaultPage = React.createClass({
               >
                 <i
                   className="flaticon-right fs16 br50 b4s"
-                  style={{ padding: '8px 8px 8px 11px'}}
+                  style={{ padding: '8px 7px 8px 11px'}}
                 /> <span className="fs18 c-ap">Обучающее видео</span></span>
               </div>
               
