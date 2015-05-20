@@ -4,6 +4,7 @@
 import React, {PropTypes, Component} from 'react/addons';
 // import controllable from 'react-controllables';
 import immutable from 'immutable';
+import sc from 'shared_constants';
 
 import GoogleMap from 'components/google/google_map.js';
 import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
@@ -190,6 +191,7 @@ export default class CatalogMap extends Component {
       });
     return (
       <GoogleMap
+        apiKey={sc.kGOOGLE_MAP_API_KEY}
         className={this.props.className}
         hoverDistance={K_HOVER_DISTANCE}
         distanceToMouse={this._distanceToMouse}
