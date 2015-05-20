@@ -107,7 +107,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _onRowMouseEnter = (index) => {
-    console.log(index);
+    //console.log(index);
     catalogDataActionNew.rowHover(index, true);
   }
 

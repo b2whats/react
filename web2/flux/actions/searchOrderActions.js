@@ -35,6 +35,7 @@ module.exports.submit = (orderInfo) => {
     resource(apiRefs.kSUBMIT_ORDER)
       .post(orderInfo)
       .then(response => {
+        console.log('response');
         if (!response.valid) {
           mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_ON_ORDER_VALIDATION_ERROR].concat([response]));
         } else {

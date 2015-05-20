@@ -18,9 +18,9 @@
 .ta-R { text-align : right }
 .ta-j { text-align : justify }
 
-.td-n { text-decoration : none }
-.td-u { text-decoration : underline }
-.td-u:hover { text-decoration : none }
+.H-td-N:hover, .td-N { text-decoration : none }
+.H-td-u:hover, .td-u { text-decoration : underline }
+
 
 .tt-l { text-transform : lowercase }
 .tt-n { text-transform : none }

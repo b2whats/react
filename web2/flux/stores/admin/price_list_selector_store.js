@@ -52,11 +52,11 @@ var cncl_ = [
   }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
     .on(event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE, range => {
-      update_state_param("price_range", range);
+      if (range) update_state_param("price_range", range);
     }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
     .on(event_names.kON_PRICE_LIST_SELECTOR_INIT_PRICE_RANGE_INFO, info => {
-      update_state_param("price_range_info", info);
+      if (info) update_state_param("price_range_info", info);
     }, kON_PRICE_LIST_SELECTOR__PRICE_LIST_SELECTOR_PRIORITY),
   main_dispatcher
     .on(event_names.kON_PRICE_LIST_SELECTOR_PRICE_RANGE_UPDATE, (id, range) => {

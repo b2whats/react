@@ -2,9 +2,10 @@ import React, {PropTypes, Component} from 'react/addons';
 import cx from 'classnames';
 
 import controllable from 'react-controllables';
+import regionStore from 'stores/region_store.js';
 
 import shallowEqual from 'react/lib/shallowEqual.js';
-
+import Link from 'components/link.jsx';
 // TODO перейти на jss вместо sass
 import {mapMarker} from 'common_vars.json';
 
@@ -173,7 +174,11 @@ export default class MapMarker extends Component {
           </div>
 
           <div className="map-marker-hint__title big-first">
-            {this.props.marker.get('company_name')}
+            <Link href={'/company/'+this.props.marker.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
+              className={cx('c-black H-td-u')}>
+
+              {this.props.marker.get('company_name')}
+            </Link>
           </div>
           <div className="map-marker-hint__address">
             {this.props.marker.get('address')}

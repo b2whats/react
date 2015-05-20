@@ -41,6 +41,7 @@ module.exports.load_price_list_data = () => {
   resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
     .get({type : 'get'})
     .then(response => {
+      console.log(response);
       module.exports.init_suppliers(response.data.wholesale_list);
       module.exports.init_price_range(response.data.price_range);
       module.exports.init_price_range_info(response.data.info);
@@ -49,7 +50,8 @@ module.exports.load_price_list_data = () => {
       if (response.data.wholesale_list.length > 0) {
         id = response.data.wholesale_list[0].id;
         main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_CURRENT_SUPPLIER_CHANGED].concat([id]));
-        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED].concat(['discount', response.data.info[id].discount]));
+        let discount = response.data.info && response.data.info[id] ? response.data.info[id].discount : 0;
+        main_dispatcher.fire.apply(main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_PROPERTY_CHANGED].concat(['discount', discount]));
       }
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_PRICE_LIST_SELECTOR_RESET]
         .concat([id]));

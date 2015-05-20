@@ -87,7 +87,7 @@ function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
         </div>
         <div className='fs12'>
           <div className='c-grey-600 m5-0'>Описание компании:{/* info {rowData.get('sort')} {rowData.get('addresses').get(0).get('coordinates').toString()} */}</div>
-          <span className='Mh40px d-ib o-h'>{rowData.get('description')}</span>
+          <span className='Mh40px d-ib o-h lh1-1'>{rowData.get('description')}</span>
         </div>
       </div>
     </div>

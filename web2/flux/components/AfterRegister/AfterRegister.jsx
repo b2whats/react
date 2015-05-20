@@ -1,4 +1,4 @@
-/*Vendor*/
+
 import React, {Component, PropTypes} from 'react/addons';
 import Link from 'components/link.jsx';
 import cx from 'classnames';
@@ -22,7 +22,7 @@ import AccountPageStore from 'stores/account_page_store.js';
 
 /*Utils*/
 import autobind from 'utils/autobind.js';
-
+/home/w/PhpstormProjects/react/web2/flux/components/SearchPage
 
 @rafStateUpdate(() => ({
   companyInformation: AccountPageStore.get_company_information()

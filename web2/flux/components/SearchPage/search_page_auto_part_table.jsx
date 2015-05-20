@@ -14,6 +14,11 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var rafBatchStateUpdateMixinCreate =require('components/mixins/raf_state_update.js');
 var PointerEventDisablerMixin = require('components/mixins/pointer_event_disabler_mixin.js');
 
+
+
+
+
+
 var point_utils = require('utils/point_utils.js');
 var text_utils = require('utils/text.js');
 
@@ -249,7 +254,7 @@ export default class SearchPageAutoPartTable extends Component {
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1">
               {part.get('retail_price')} р.
-              <i onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')} className="flaticon-exclamation mL5 fs14 c-deep-purple-500 cur-p" />
+              <i onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')} className="flaticon-exclamation mL5 fs14 c-deep-purple-500 cur-p fw-n" />
             </div>
             <div className="">
               <div className='f-R'>
