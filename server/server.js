@@ -33,6 +33,7 @@ Promise.all([
   //require('./send_order/send_order.js'),
   //require('./trace/trace.js'),
   require('./main.js'),
+  require('./g.js'),
 ])
 .then(routes => {
   _.each(routes, 

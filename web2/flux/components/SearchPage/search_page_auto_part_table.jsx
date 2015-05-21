@@ -117,7 +117,7 @@ export default class SearchPageAutoPartTable extends Component {
   onShowOrderPopup(currentItem, e) {
     e.preventDefault();
     e.stopPropagation();
-    ModalActions.openModal('order');
+    ModalActions.openModal('order1');
     this.props.onCurrentOrderItemChange(currentItem);
   }
   onRowMouseEnter(index) {
@@ -173,7 +173,7 @@ export default class SearchPageAutoPartTable extends Component {
 
           <td>
 
-            <div className="lh1-4 ellipsis">{company.get('company_name')}</div>
+            <div className="lh1-4 ellipsis big-first">{company.get('company_name')}</div>
             <div className='ellipsis'>
               <span
                 className="bb-d c-g cur-p lh1-4"
@@ -194,14 +194,14 @@ export default class SearchPageAutoPartTable extends Component {
             <div className="f-R">
             <FixedTooltip
               open_id={part.get('id')}
-              open_type={'autopart-tooltip-adresses'} 
+              open_type={'autopart-tooltip-adresses'}
             >
-                
+
               <strong className='fs12'>Все адреса</strong>
-              
+
               <div className="search-page-auto-part-table-body-work-tooltip-list fs12">
                 {part.get('addresses').filter( m => m.get('visible_address') ).map( (m, index) =>
-                  <div 
+                  <div
                     className="search-page-auto-part-table-body-work-tooltip-list-address" key={index} >
                     <span className='c-p bb-d cur-p'>{m.get('address')}</span>
                   </div> ).toJS()}
@@ -211,8 +211,29 @@ export default class SearchPageAutoPartTable extends Component {
           </td>
 
           <td className="search-page-autopart-table-td-manufacturer-code">
-            <div className="lh1-4 fw-b ellipsis">{part.get('manufacturer')}</div>
-            <div className="c-g">{part.get('code')}</div>
+              {!inDisplay ?
+                <div>
+                  <Link
+                    href={`/company/${part.get('user_id')}/${currentRegion}`}
+                    className={cx('H-td-u cur-p c-grey-900 lh1-4 fw-b ellipsis d-ib big-first')}
+                  >
+                    {part.get('manufacturer')}
+                  </Link>
+                  <br />
+                  <Link
+                  href={`/company/${part.get('user_id')}/${currentRegion}`}
+                  className={cx('H-td-u cur-p c-grey-700 lh1-4 fw-b ellipsis d-ib big-first')}
+                  >
+                    {part.get('code')}
+                  </Link>
+                </div>
+                :
+                <div>
+                  <div className="lh1-4 fw-b ellipsis big-first">{part.get('manufacturer')}</div>
+                  <div className="c-g big-first">{part.get('code')}</div>
+                </div>
+              }
+
           </td>
 
           <td className="search-page-autopart-table-td-part-description">
@@ -256,6 +277,7 @@ export default class SearchPageAutoPartTable extends Component {
               {part.get('retail_price')} р.
               <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>Условия оплаты</div>
 
+
             </div>
             <div className="">
               <div className='f-R'>
@@ -273,7 +295,7 @@ export default class SearchPageAutoPartTable extends Component {
                 </FixedTooltip>
               </div>
             </div>
-            
+
           </td>
           <td>
             <div className={cx('ta-C fs20', !(this.props.showAllPhone || isVisiblePhone) && 'd-N')}>

@@ -61,7 +61,7 @@ module.exports.submit_form = (register_data) => {
 				else {
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kREGISTER_STATUS_SUCCESS]);
 					main_dispatcher.fire.apply(main_dispatcher, [event_names.kAUTH_STATUS_SUCCESS].concat([response]));
-          route_actions.goto_link_with_default_params('/account/:region_id/company',
+          route_actions.goto_link_with_default_params('/after/register/:region_id',
             {region_id: region_store.get_region_current().get('translit_name')}
           );
 				}

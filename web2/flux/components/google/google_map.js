@@ -406,7 +406,7 @@ const GoogleMap = React.createClass({
   render() {
     return (
       <div onClick={this.onMapClick_} className={this.props.className}>
-        <GoogleMapMap ref="google_map_dom"/>
+       <GoogleMapMap ref="google_map_dom"/>
       </div>
     );
   }

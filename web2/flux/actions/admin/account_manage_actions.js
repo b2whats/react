@@ -43,7 +43,6 @@ module.exports.get_price_history_information = () => {
   return resource(api_refs.GET)
     .post({price_history_by_auth: 'price_history_by_auth'})
     .then(response => {
-      console.log(response);
       response['status'] && main_dispatcher.fire.apply (main_dispatcher, [event_names.kACCOUNT_PRICE_HISTORY_LOADED].concat([response['results']['price_history']]));
       response['error'] && console.warn(response['error']);
     })
@@ -56,8 +55,7 @@ module.exports.delete_price_by_type = (type) => {
   return resource(api_refs.DEL)
     .post(params)
     .then(response => {
-      console.log(response);
-      //main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_DELETE].concat([id]));
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_PRICE_DELETE].concat([type]));
     });
 };
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));

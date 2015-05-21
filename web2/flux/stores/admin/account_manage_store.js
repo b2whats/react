@@ -23,7 +23,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
     'delivery_time' : '1',
     'discount' : 0
   },
-  history : {},
+  history : [],
   price_list_content: '',
   loaded: false,
   file_name: null,
@@ -59,16 +59,21 @@ var cncl_ = [
 
   main_dispatcher
     .on(event_names.kACCOUNT_PRICE_HISTORY_LOADED, (data) => {
-      state_.history_cursor
-        .update(() => immutable.fromJS(data));
-      account_manage_store.fire(event_names.kON_CHANGE);
-      console.log(state_.history_cursor.toJS());
+      if (data) {
+        state_.history_cursor
+          .update(() => immutable.fromJS(data));
+        account_manage_store.fire(event_names.kON_CHANGE);
+
+      }
+
     }, kDEFAULT_STORE_PRIORITY),
   main_dispatcher
-    .on(event_names.kACCOUNT_PRICE_DELETE, (id) => {
-        console.log(id);
+    .on(event_names.kACCOUNT_PRICE_DELETE, (type) => {
+      console.log(type);
+      console.log(state_.history);
       state_.history_cursor
-        .update((l) => l.filter(b => b.get('id') !== id));
+        .update((l) => l.filter(b => b.get('price_type_id') !== type));
+      console.log(state_.history);
       account_manage_store.fire(event_names.kON_CHANGE);
     }, kDEFAULT_STORE_PRIORITY),
 

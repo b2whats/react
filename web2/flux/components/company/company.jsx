@@ -7,65 +7,51 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Link = require('components/link.jsx');
 
-
-
-
 var appElement = document.getElementById('react_main');
 var Modal = require('components/modal/index');
 Modal.setAppElement(appElement);
 
 var rafBatchStateUpdateMixinCreate = require('../mixins/raf_state_update.js');
 
-var modal_store = require('stores/ModalStore.js');
-var ModalMixin = require('../mixins/modal_mixin.js');
+
 
 var EditableForms = require('components/editable_forms/editable_forms.jsx');
-var editable_forms_actions = require('actions/editable_forms_actions.js');
-var editable_forms_store = require('stores/editable_forms_store.js');
+
 var personal_company_page_store = require('stores/personal_company_page_store.js');
 var personal_company_page_actions = require('actions/personal_company_page_actions.js');
 
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 
-var account_page_actions = require('actions/account_page_actions.js');
-var account_page_store = require('stores/account_page_store.js');
+
 var region_store = require('stores/region_store.js');
 var toggle_store = require('stores/ToggleStore.js');
 var auth_store = require('stores/auth_store.js');
 var toggle_actions = require('actions/ToggleActions.js');
 var cx = require('classnames');
 var immutable = require('immutable');
-
-var map_data_store = require('stores/personal_company_page_data_store.js');
-
+import CompanyMap from './catalog_map_data.jsx';
+var map_data_store = require('stores/personal_company_page_data_new_store.js');
+import catalogDataStore from 'stores/personal_company_page_data_new_store.js';
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
-    company_information     : personal_company_page_store.get_company_information(),
-    company_filials         : personal_company_page_store.getCompanyFilials(),
-    region_current          : region_store.get_region_current(),
-    regions          : region_store.get_region_list(),
-    toggle                  : toggle_store.getToggle(),
-    new_comment             : personal_company_page_store.get_new_comment(),
+    company_information: personal_company_page_store.get_company_information(),
+    company_filials: personal_company_page_store.getCompanyFilials(),
+    region_current: region_store.get_region_current(),
+    regions: region_store.get_region_list(),
+    toggle: toggle_store.getToggle(),
+    new_comment: personal_company_page_store.get_new_comment(),
     comment_field_validation: personal_company_page_store.get_comment_field_validation(),
-    comments                : personal_company_page_store.get_comments(),
-    rating                  : personal_company_page_store.get_rating(),
-    user_id                 : auth_store.get_user_id(),
-    markers                 : map_data_store.get_markers(),
-    comment_status :     personal_company_page_store.get_comment_status(),
+    comments: personal_company_page_store.get_comments(),
+    rating: personal_company_page_store.get_rating(),
+    user_id: auth_store.get_user_id(),
+    comment_status: personal_company_page_store.get_comment_status(),
 
 }),
-	toggle_store, region_store, personal_company_page_store, auth_store, map_data_store/*observable store list*/);
+	toggle_store, region_store, personal_company_page_store, auth_store, map_data_store, catalogDataStore/*observable store list*/);
 
-var Snackbar = require('components/snackbar/snackbar.jsx');
+
 var route_actions = require('actions/route_actions.js');
 
-var FilialAddressSelector = require('components/account/filial_address_selector.jsx');
 
-var YandexMap = require('components/yandex/yandex_map.jsx');
-
-var ymap_baloon_template =  require('components/search_page/templates/yandex_baloon_template.jsx');
-var ymap_cluster_baloon_template = require('../search_page/templates/yandex_cluster_baloon_template.jsx');
-var yandex_templates_events = require('components/search_page/templates/yandex_templates_events.js');
-var YandexMapMarker = require('components/yandex/yandex_map_marker.jsx');
 
 
 var personal_company_page = React.createClass({
@@ -104,20 +90,6 @@ var personal_company_page = React.createClass({
     personal_company_page_actions.submit_form(this.state.new_comment.toJS(), this.state.company_information.get('id'), 0);
   },
 	render() {
-    var bounds = [[59.744465,30.042834],[60.090935,30.568322]]; //определить например питером на случай если region_current не прогрузился
-    if(!!this.state.markers && this.state.markers.get(0)) {
-      var r_id = this.state.markers.get(0).get('region_id');
-      var filial_region = this.state.regions.find(x => x.get('id') == r_id );
-      bounds = [filial_region.get('lower_corner').toJS(), filial_region.get('upper_corner').toJS()];
-    }
-    var YandexMarkers  = this.state.markers &&
-      this.state.markers
-        .filter( m => m.get('on_current_page') )
-        .map(m =>
-          <YandexMapMarker
-            key={m.get('id')}
-          {...m.toJS()} />)
-        .toJS() || [];
     var operation_time = ['пн-пт', 'сб', 'вс'];
     var Filials = this.state.company_filials
       .map((part, part_index) => {
@@ -246,27 +218,9 @@ var personal_company_page = React.createClass({
                 {Filials}
             </div>
           </div>
-          <div className='w50pr h500px'>
+          <div className='w50pr p-r'>
+            <CompanyMap/>
 
-          { !!this.state.markers &&
-            <YandexMap
-              key = {this.state.markers.getIn(['0','company_id'])}
-              bounds={bounds}
-              height={400}
-              width={500}
-              header_height={0}
-              baloon_template={ymap_baloon_template}
-              cluster_baloon_template={ymap_cluster_baloon_template}
-              on_marker_click={this.noop}
-              on_marker_hover={this.noop}
-              on_close_ballon_click={this.noop}
-              on_balloon_event={this.noop}
-              on_bounds_change={this.noop}>
-
-                  {YandexMarkers}
-
-            </YandexMap>
-          }
           </div>
 
         </div>
@@ -325,7 +279,7 @@ var personal_company_page = React.createClass({
               <div className='m5-0 fs14'>Ваш отзыв
                 <sup>*</sup>
               </div>
-              {console.log(this.state.new_comment.get('comment'))}
+
               <textarea
                 type='text'
                 name='comment'

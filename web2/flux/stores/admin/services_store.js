@@ -152,7 +152,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       name : 'Другие способы (ROBOKASSA)',
       img  : '/assets/images/templates/robokassa.png',
       type : 'robokassa',
-      id   : 'yandex'
+      id   : 'all'
     },
   ],
   current_payment_method : {}

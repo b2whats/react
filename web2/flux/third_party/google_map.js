@@ -14,7 +14,6 @@ const memoizedCall_ = serialize(memoize(K_MEMOIZE_OPTIONS)((apiKey) => {
       console.error('bad initialization');  // eslint-disable-line no-console
       reject(new Error('bad initialization'));
     }
-
     window._$_google_map_initialize_$_ = () => {
       delete window._$_google_map_initialize_$_;
       resolve(window.google.maps);

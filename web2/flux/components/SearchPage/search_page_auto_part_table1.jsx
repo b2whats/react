@@ -61,8 +61,7 @@ var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок по
   hoveredMapRowIndex: searchDataStoreAS.getMapHoveredRowIndex(),
   activeAddressId: searchDataStoreAP.getActiveAddressId(),
 }), searchDataStoreAS, searchDataStoreAP)
-export default
-class SearchPageAutoPartTable extends Component {
+export default class SearchPageAutoPartTable extends Component {
   constructor(props) {
     super(props);
     autobind(this);
@@ -121,7 +120,7 @@ class SearchPageAutoPartTable extends Component {
   onShowOrderPopup(currentItem, e) {
     e.preventDefault();
     e.stopPropagation();
-    ModalActions.openModal('order');
+    ModalActions.openModal('order2');
     this.props.onCurrentOrderItemChange(currentItem);
   }
   onClickCloseModal() {
@@ -214,7 +213,7 @@ class SearchPageAutoPartTable extends Component {
 
             <td className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>
 
-              <div className="lh1-4 ellipsis">{company.get('company_name')}</div>
+              <div className="lh1-4 ellipsis big-first">{company.get('company_name')}</div>
               <div className='ellipsis'>
                 <span className="bb-d c-g cur-p lh1-4">
 
@@ -524,7 +523,7 @@ class SearchPageAutoPartTable extends Component {
             on_click={this.onCurrentPageChange}/>
 
         </div>
-        <Order type={1} item={this.props.autoServicesResults.get(this.props.currentOrderItem)} onClickCloseModal={this.onClickCloseModal}/>
+        <Order type={2} item={this.props.autoServicesResults.get(this.props.currentOrderItem)} onClickCloseModal={this.onClickCloseModal}/>
       </div>
     );
     /* jshint ignore:end */

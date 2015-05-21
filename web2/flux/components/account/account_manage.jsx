@@ -160,14 +160,16 @@ var AccountManage = React.createClass({
       </span>).toJS();
     var History = !!this.state.history &&
       <table className='T-p5-15 fs12'>
-        {this.state.history.map((el,index) =>
+        {this.state.history
+          .filter(el => el.get('price_type_id') == this.state.price_type)
+          .map((el, index) =>
           <tr key={index} className={cx((index % 2 === 0) && 'bgc-grey-200')}>
             <td>{el.get('date')}</td>
             <td>{el.get('type')}</td>
             <td>{el.get('used')}</td>
             <td>{el.get('status')}</td>
           </tr>
-        ).take(7).toArray()}
+        ).take(5).toArray()}
       </table>;
 
 

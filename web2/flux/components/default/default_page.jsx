@@ -132,7 +132,7 @@ var DefaultPage = React.createClass({
               <DefaultPageSearchBlock className="big-search-block-block autoparts"
                 header="ПОИСК АВТОЗАПЧАСТЕЙ"
                 onSearch={this.click_search}
-                sample="стойка стабилизатора bmw x5"
+                sample="фильтр салонный mazda 3"
                 sample_action={auto_part_search_actions.show_value_changed}
                 description="1) Начните вводить... 2) Выберите строку из выпадающего списка.">
                   <AutoPartsSearchWrapper 

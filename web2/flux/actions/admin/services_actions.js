@@ -28,7 +28,7 @@ module.exports.submitMasterName = (names) => {
     });
 };
 module.exports.make_payment = (payment_info, payment_method) => {
-  var w = window.open("","","width=10240,height=600,scrollbars=yes,resizable=yes,");
+  var w = window.open("","","width=1000,height=700,scrollbars=yes,resizable=yes,");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
     .post({payment_info : payment_info, payment_method : payment_method})
     .then(response => {

@@ -54,7 +54,7 @@ class Order extends Component {
   render() {
     return (
       <Modal
-        isOpen={!!this.props.modalIsOpen.get('order')}
+        isOpen={!!this.props.modalIsOpen.get('order'+this.props.type)}
         onRequestClose={this.props.onClickCloseModal}
       >
         <div className='ta-C w300px'>

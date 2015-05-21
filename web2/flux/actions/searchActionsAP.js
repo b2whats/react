@@ -52,16 +52,7 @@ const _queryAutoPartsData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, i
         return memo;
       }, {});
 
-      /*
-      const markers = res.map
-        .filter(m => m.user_id in resUserId)
-        .map(m => Object.assign({}, m, {
-            server_id: m.id,    // настоящий id
-            id: m.id + K_CATALOG_DELTA_ID[m.filial_type_id - 1],          // смещенный id
-            icon_number: m.rank, // циферка на иконке
-            marker_type: K_CATALOG_MARKER_TYPE[m.filial_type_id - 1]   // тип метки - автосервис или запчасть
-          }));
-      */
+
       // пока задать детерминированную сортировку
       const hashCode = function calcHashCode(str) {
         let hash = 0;
