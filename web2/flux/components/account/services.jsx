@@ -83,7 +83,7 @@ var AccountInfo = React.createClass({
   },
   generatePaymentBlock(type, css, title) {
     return (
-      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 w250px', css !== 'g' && 'mR20')}>
+      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 mw250px', css !== 'g' && 'mR20')}>
         <div className={`bg-c-${css} p8-10 fs14 fw-b br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
           <div dangerouslySetInnerHTML={{__html: title}}>
 
