@@ -32,8 +32,7 @@ Promise.all([
   //require('./liteurl/urllite.js'),
   //require('./send_order/send_order.js'),
   //require('./trace/trace.js'),
-  require('./main.js'),
-  require('./g.js'),
+  require('./main.js')
 ])
 .then(routes => {
   _.each(routes, 
