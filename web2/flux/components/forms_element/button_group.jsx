@@ -3,7 +3,7 @@ var PropTypes = React.PropTypes;
 
 var _ = require('underscore');
 var joinClasses = require('utils/join_classes.js');
-
+var cx = require('classnames');
 
 var ButtonGroup = React.createClass({
     displayName: 'ButtonGroup',
@@ -31,7 +31,7 @@ var ButtonGroup = React.createClass({
             });
         }, this);
         return (
-            <div className={joinClasses('btn-group', this.props.className)}>
+            <div className={cx('btn-group', this.props.className)}>
                 {children}
             </div>
         );

@@ -134,7 +134,6 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   render() {
-    console.log(this.props.catalogResults.take(4).toJS());
     if (this.props.search) {
       let q = this.props.search.toLowerCase();
       this.props.catalogResults = this.props.catalogResults.filter((part, index) => {

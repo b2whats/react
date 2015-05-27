@@ -10,7 +10,7 @@ import controllable from 'react-controllables';
 /*Component*/
 import EditableForms from 'components/editable_forms/editable_forms.jsx';
 import Modal from 'components/modal/index';
-import Payment from 'components/Account/Services/Payment';
+
 
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
@@ -353,11 +353,7 @@ class CompanyFilial extends Component {
           Общая сумма: <strong>{formatString.money(summ, ' ')} </strong> руб.
         </div>
 
-        <div className='m30-0'>
-          <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
-        </div>
 
-        <Payment />
       </div>
     );
   }

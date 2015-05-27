@@ -88,7 +88,7 @@ var DefaultPage = React.createClass({
     }
   },
   click_search_as(e) {
-    console.log(e);
+    ;
 
     var el = suggestion_store_as.get_suggestion_list ().get(0);
     if (!!el) {

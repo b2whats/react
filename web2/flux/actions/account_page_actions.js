@@ -19,7 +19,7 @@ module.exports.get_company_information = () => {
 };
 var r_set_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO_UPDATE);
 module.exports.update_company_information = (new_company_information) => {
-  console.log(new_company_information);
+  // console.log(new_company_information);
   r_set_company_info.post(new_company_information)
     .then(data => {
             return data;
@@ -35,7 +35,7 @@ module.exports.get_company_filial = () => {
 };
 var r_delete_company_filial = resource(api_refs.kACCOUNT_COMPANY_FILIAL_DELETE);
 module.exports.delete_company_filial_async = (filial_id) => {
-  console.log('delete', filial_id);
+  // console.log('delete', filial_id);
   return r_delete_company_filial.post({filial_id: filial_id});
 };
 
@@ -44,7 +44,7 @@ module.exports.submit_company_personal_details = (detail) => {
   resource(api_refs.kACCOUNT_COMPANY_PERSONAL_DETAILS)
     .post({type: 'set', legal_detail: detail})
     .then(data => {
-            console.log(data);
+
           });
 };
 module.exports.changeLocation = () => {

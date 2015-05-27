@@ -10,7 +10,7 @@ import immutable, {fromJS} from 'immutable';
 import regionStore from 'stores/region_store.js';
 
 
-const calcSortData = ({data, mapInfo}) => { // сам расчет принимает state на вход и зависит только от него
+const calcSortData = ({data, mapInfo, search}) => { // сам расчет принимает state на вход и зависит только от него
   if (!data.size) {
     return immutable.fromJS([]);
   }
@@ -31,8 +31,13 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       r[item.get('user_id')] = 1;
       return r;
     }, {});
-
+  const q = search && search.toLowerCase() || '';
   const sorted = data
+    // фильтруем по поисковому фильтру
+    .filter((item) => {
+      let str = `${item.get('company_name')} ${item.get('description')} ${item.get('main_phone')} ${item.get('site')}`;
+      return !!(str.toLowerCase().indexOf(q) + 1);
+    })
     // отсортировать по видимость на карте и sort параметру
     .sortBy(item =>
       -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort')))
@@ -189,12 +194,12 @@ class CatalogDataStoreNew extends BaseStore {
   }
 
   // view обновляется только если указанные в нем props меняюца
-  @view(['data', 'mapInfo'])
+  @view(['data','mapInfo','search'])
   getSortedData() {
     return calcSortData(this.state);
   }
 
-  @view(['data', 'mapInfo'])
+  @view(['data', 'mapInfo', 'search'])
   getFirstInvisibleRowIndex() {
     return this.getSortedData().findIndex(item => item.get('visible_item') !== true);
   }

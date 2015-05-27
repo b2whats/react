@@ -48,7 +48,7 @@ class SearchOrderStore extends BaseStore {
                             .set('email', orderInfo.email)
                             .set('phone', orderInfo.phone)
       );
-    console.log(this.state.orderField);
+    // console.log(this.state.orderField);
     this.fireChangeEvent();
   }
 

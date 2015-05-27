@@ -145,7 +145,6 @@ export default class CatalogMap1 extends Component {
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params
-
                 onCloseClick={this._onChildCloseClick}
                 showBallon={this.props.activeAddressId === addr.get('id')}
                 hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
@@ -156,14 +155,14 @@ export default class CatalogMap1 extends Component {
         }
         return emptyIm;
       });
-
+    const center = this.props.dataResults.first() && this.props.dataResults.first().get('addresses').first().get('coordinates').toJS() || [];
     return (
       <GoogleMap
         apiKey={sc.kGOOGLE_MAP_API_KEY}
         className={this.props.className}
         hoverDistance={K_HOVER_DISTANCE}
         distanceToMouse={this._distanceToMouse}
-        center={this.props.center.toJS()}
+        center={center}
         onBoundsChange={this._onBoundsChange}
         onChildMouseEnter={this._onChildMouseEnter}
         onChildMouseLeave={this._onChildMouseLeave}

@@ -66,7 +66,7 @@ var personal_company_page = React.createClass({
     }
   },
   noop() {
-    console.log('noop');
+    // console.log('noop');
   },
   updateFormElement: function(name) {
     return (e) => {

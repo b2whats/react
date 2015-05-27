@@ -95,7 +95,7 @@ var SearchPageYandexMap = React.createClass({
 
   on_balloon_event(event_name, id, prop) {
     if(event_name === yandex_templates_events.kON_GOTO_COMPANY_PAGE) {
-      console.log(prop);
+
       route_actions.goto_link_with_default_params('/company/'+prop.user_id+'/:region_id#reviews',
         {region_id: region_store.get_region_current().get('translit_name')}
       );

@@ -13,6 +13,7 @@ import controllable from 'react-controllables';
 import EditableForms from 'components/editable_forms/editable_forms.jsx';
 import CompanyFilial from 'components/Account/Company/CompanyFilial';
 import SelectServiceAndTarif from 'components/Account/Services/SelectServiceAndTarif';
+import Payment from 'components/Account/Services/Payment';
 
 /*Action*/
 import AccountPageActions from 'actions/account_page_actions.js';
@@ -115,6 +116,15 @@ let stepData = {
   3: {
     desc: 'Выберите услуги и тариф',
     component: <SelectServiceAndTarif />
+  },
+  4: {
+    desc: 'Оплата',
+    component: <div>
+                <div className='mB20'>
+                  <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
+                </div>
+                <Payment />
+              </div>
   }
 };
 

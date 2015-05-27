@@ -95,7 +95,6 @@ class SearchDataStoreAP extends BaseStore {
   }
 
   _onMapRowAddressActive(activeAddressId, activeState) {
-    console.log('store');
     this.state.activeAddressId_cursor
       .update(() => activeState ? activeAddressId : null);
 
@@ -176,7 +175,7 @@ class SearchDataStoreAP extends BaseStore {
   }
 
   getHoveredRowIndex() {
-    return this.state.hoveredRowIndex;
+    return this.state.hoveredRowIndex | 0;
   }
 
   getMapHoveredRowIndex() {

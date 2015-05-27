@@ -34,7 +34,7 @@ var atom_store = merge(Emitter.prototype, {
       window.__atom__ = atom_;
 
       //atom_store.fire(event_names.kON_CHANGE);
-      //console.log(atom_.toString().indexOf('Seq')); //так тестить что нигде случайно незамапил на динамическую последовательность
+      //// console.log(atom_.toString().indexOf('Seq')); //так тестить что нигде случайно незамапил на динамическую последовательность
       if(callback) { //механизм для оповещения основного курсора если был изменен подкурсор
         console.error('ваще не думаю что это надо');
         callback(cursor.from(atom_, name, update_fn));

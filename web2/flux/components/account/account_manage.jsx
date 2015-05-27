@@ -143,7 +143,7 @@ var AccountManage = React.createClass({
     price_list_selector_actions.delete_result(this.state.current_supplier_id);
   },
   on_change_price_type(type) {
-    console.log(type);
+
     account_manage_actions.change_price_type(type);
   },
   clear_price() {

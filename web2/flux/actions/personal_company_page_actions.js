@@ -86,7 +86,7 @@ module.exports.submit_form = (comment, company_id, parent) => {
     resource(api_refs.kSUBMIT_COMMENT_DATA)
       .post({comment: comment, company_id: company_id, parent: parent})
       .then(response => {
-        console.log(response);
+
         response['status'] && main_dispatcher.fire.apply(main_dispatcher, [event_names.kSUBMIT_COMMENT_SUCCESS].concat([response['results']]));
       })
       .catch(e => console.error(e, e.stack));

@@ -32,7 +32,7 @@ class TabBar extends React.Component {
   }
 
   handleClick = (event) => {
-    console.log(this.props);
+    // console.log(this.props);
     // Call the `onSelectedTabIndexChange` callback with the new value.
     if (!this.props.onSelectedTabIndexChange) return;
     var el = event.target;
@@ -60,7 +60,7 @@ export default class AfterRegister extends Component {
     this.setState((state) => ({step: ++state.step}))
   }
   handler = (e) => {
-    console.log(e);
+    ;
   }
   render() {
     return (
@@ -229,7 +229,7 @@ function ext1() {
   return function (target, key, descriptor) {
     let fn = descriptor.value;
     descriptor.value = function () {
-      console.log(1);
+      ;
       fn.call(this, arguments);
     };
     return descriptor;

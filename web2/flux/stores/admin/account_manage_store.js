@@ -69,11 +69,11 @@ var cncl_ = [
     }, kDEFAULT_STORE_PRIORITY),
   main_dispatcher
     .on(event_names.kACCOUNT_PRICE_DELETE, (type) => {
-      console.log(type);
-      console.log(state_.history);
+
+      // console.log(state_.history);
       state_.history_cursor
         .update((l) => l.filter(b => b.get('price_type_id') !== type));
-      console.log(state_.history);
+      // console.log(state_.history);
       account_manage_store.fire(event_names.kON_CHANGE);
     }, kDEFAULT_STORE_PRIORITY),
 

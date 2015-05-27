@@ -41,7 +41,7 @@ module.exports.load_price_list_data = () => {
   resource(api_refs.kACCOUNT_MANAGE_WHOLESALE_PRICE_INFO)
     .get({type : 'get'})
     .then(response => {
-      console.log(response);
+
       module.exports.init_suppliers(response.data.wholesale_list);
       module.exports.init_price_range(response.data.price_range);
       module.exports.init_price_range_info(response.data.info);

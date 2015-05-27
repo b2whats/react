@@ -62,7 +62,7 @@ export default class SearchMapData extends Component {
     searchActionsAS.mapBoundsChange(...args);
   }
   render() {
-    //console.log(this.props.activeAddressId);
+    //console.log(typeof this.props.hoveredRowIdAP);
     return (<SearchMap {...this.props} onRowAddressActive={this.onRowAddressActive} onRowMapHover={this.onRowMapHover} oMapBoundsChange={this.oMapBoundsChange} />);
   }
 }

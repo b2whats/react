@@ -40,7 +40,7 @@ var TypeaheadPage = React.createClass({
 
   typeahead_changed (value) {
     this.last_st = null; //нет смысла обновлять и показывать список
-    console.log('value_changed', value);
+    // console.log('value_changed', value);
   },
 
 

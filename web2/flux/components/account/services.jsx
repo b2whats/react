@@ -29,27 +29,29 @@ var Select = require('react-select');
 
 /*Component*/
 import SelectServiceAndTarif from 'components/Account/Services/SelectServiceAndTarif';
+import Payment from 'components/Account/Services/Payment';
 
-
+var ButtonGroup = require('components/forms_element/button_group.jsx');
 
 
 
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
     return ({
-      payment                : account_services_store.get_services_info(),
-      payment_method         : account_services_store.get_payment_method(),
-      current_payment_method : account_services_store.get_current_payment_method(),
-      step                   : account_services_store.get_step(),
-      regions                : region_store.get_region_list(),
-      selected_services      : account_services_store.getSelectedServices(),
-      masters_name           : account_services_store.get_masters_name(),
-      tarifs                 : account_services_store.getTarifs(),
-      modalIsOpen            : modal_store.getModalIsOpen(),
-      brands_by_region       : account_services_store.getBrandsGroupByRegion(),
-      services_by_type       : account_services_store.getServicesGroupByType(),
-      select_brands          : account_services_store.getSelectBrands(),
-      select_services        : account_services_store.get_select_services(),
-      toggle                 : toggle_store.getToggle()
+      payment: account_services_store.get_services_info(),
+      payment_method: account_services_store.get_payment_method(),
+      current_payment_method: account_services_store.get_current_payment_method(),
+      step: account_services_store.get_step(),
+      regions: region_store.get_region_list(),
+      selected_services: account_services_store.getSelectedServices(),
+      masters_name: account_services_store.get_masters_name(),
+      tarifs: account_services_store.getTarifs(),
+      modalIsOpen: modal_store.getModalIsOpen(),
+      brands_by_region: account_services_store.getBrandsGroupByRegion(),
+      orderType: account_services_store.getOrderType(),
+      services_by_type: account_services_store.getServicesGroupByType(),
+      select_brands: account_services_store.getSelectBrands(),
+      select_services: account_services_store.get_select_services(),
+      toggle: toggle_store.getToggle()
     })
   },
 	modal_store, account_services_store, toggle_store);
@@ -70,7 +72,7 @@ var AccountInfo = React.createClass({
     account_services_actions.change_step();
   },
   selectRegion(val) {
-    console.log(val);
+
     //Запоминать регионы в стейте
     if (this.state.step < 2) {
       account_services_actions.change_step();
@@ -101,8 +103,12 @@ var AccountInfo = React.createClass({
       </div>
     )
   },
+  onChangeSearchTableButton(type) {
+    account_services_actions.changeOrderType(type);
+
+  },
 	render() {
-    console.log(this.state.current_payment_method.size);
+    // console.log(this.state.current_payment_method.size);
 
     var regions = [];
     this.state.regions.forEach((region) => {
@@ -120,8 +126,12 @@ var AccountInfo = React.createClass({
         {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
 
         <hr className="hr bw4 m25-0"/>
-        <h3 className='fw-b fs20 m20-0'>Подключение услуг</h3>
-
+        <h4 className="d-ib fs20 m0 fw-n">Выбор отображения связи с клиентом</h4>
+        <ButtonGroup select_element_value={this.state.orderType} onChange={this.onChangeSearchTableButton} className="btn-group d-b m15-0">
+          <button name='type' className='btn-bg-group' value='1'>Только телефон</button>
+          <button name='type' className='btn-bg-group' value='2'>Только заявка</button>
+          <button name='type' className='btn-bg-group' value='0'>Телефон и заявка</button>
+        </ButtonGroup>
         {(this.state.step == 0) &&
           <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.changeStep}>Подключить услуги</button>
         }
@@ -144,7 +154,11 @@ var AccountInfo = React.createClass({
           </div>
           <SelectServiceAndTarif />
 
+          <div className='m30-0'>
+            <h4 className="d-ib fs20 m0 fw-n">Выбор способа оплаты:</h4>
+          </div>
 
+          <Payment />
 
 
         </div>

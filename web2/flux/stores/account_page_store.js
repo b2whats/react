@@ -26,7 +26,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
 var cncl_ = [
   main_dispatcher
     .on(event_names.kACCOUNT_COMPANY_INFO_LOADED, info => {
-      console.log(info);
+
       state_.company_information_cursor
         .update(() => immutable.fromJS(info[0]));
       if (!!info[0].legal_detail) {
@@ -70,7 +70,7 @@ var cncl_ = [
     }, 1),
   main_dispatcher
     .on(event_names.kON_CURRENT_FILIAL_CHANGE, (id_element)  => {
-      console.log('UPDATE 1');
+      // console.log('UPDATE 1');
       state_.current_filial_cursor
         .update(() => state_.companyFilials.find(b => b.get('id') === id_element));
       //После него идет открытие модального окна, стейт могу не обновлять, он его сам обновит

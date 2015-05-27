@@ -136,7 +136,7 @@ export default class SearchPageAutoPartTable extends Component {
   }
 
   onRowAddressActive(id) {
-    console.log(id);
+    //console.log(id);
     // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
     if (this.props.activeAddressId === id) {
       searchActionsAP.rowAddressActive(null, false);
@@ -421,7 +421,8 @@ export default class SearchPageAutoPartTable extends Component {
               <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
                 <button
                   onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
-                  className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                  className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 1) && 'w100pr', (part.get('order_type') === 2) && 'd-N' )}
+
                 >
                   <span className="table-line w100pr ta-C">
                     <span className="d-tc va-m ta-C"><i className="flaticon-phone c-as fs16" /></span>
@@ -430,7 +431,7 @@ export default class SearchPageAutoPartTable extends Component {
                 </button>
                 <button
                   onClick={this.onShowOrderPopup.bind(null, currentIndex)}
-                  className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                  className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 2) && 'w100pr', (part.get('order_type') === 1) && 'd-N' )}
                 >
                   <i className="flaticon-mail c-as fs16 mR5"></i>
                   <span className='M-d-n-1420'>Заявка</span>

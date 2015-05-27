@@ -25,7 +25,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
 var cncl_ = [
     main_dispatcher
         .on(event_names.kON_FORM_START_EDIT, (id)  => {
-          console.log('change');
+          // console.log('change');
             state_.formsIsEdit_cursor
                 .update(m => m.set(id,true));
             editable_forms_store.fire(event_names.kON_CHANGE);

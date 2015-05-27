@@ -27,6 +27,13 @@ module.exports.submitMasterName = (names) => {
     .then(response => {
     });
 };
+module.exports.changeOrderType = (type) => {
+  return resource(api_refs.kACCOUNT_SERVICES_INFO)
+    .post({type : 'set', field : 'order_type',value : type})
+    .then(response => {
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_CHANGE_ORDER_TYPE].concat([type]));
+    });
+};
 module.exports.make_payment = (payment_info, payment_method) => {
   var w = window.open("","","width=1000,height=700,scrollbars=yes,resizable=yes,");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)

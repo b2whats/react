@@ -82,7 +82,7 @@ var SearchPageAutoPartTable = React.createClass({
   },
 
   on_show_price_tootip(id, tooltip_type, e) {
-    console.log('on_show_price_tootip', id);
+    // console.log('on_show_price_tootip', id);
     fixed_tooltip_actions.show_fixed_tooltip(id, tooltip_type);
     e.preventDefault();
     e.stopPropagation();

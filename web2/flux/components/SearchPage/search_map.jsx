@@ -143,10 +143,10 @@ export default class CatalogMap extends Component {
         if (row.get('visible_item')) {
           return row.get('addresses')
             .filter(addr => addr.get('visible_address'))
-            .map(addr => (
+            .map((addr,index) => (
               <MapMarker
                 // required params
-                key={addr.get('id')}
+                key={addr.get('id') + '' + rowIndex}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params
@@ -167,14 +167,13 @@ export default class CatalogMap extends Component {
     const MarkersAS = rowFromAS === -1 ? emptyIm : (new immutable.Range(rowFromAS, rowToAS + 1)).toList()
       .flatMap( rowIndex => {
         const row = this.props.dataResultsAS.get(rowIndex);
-
         if (row.get('visible_item')) {
           return row.get('addresses')
             .filter(addr => addr.get('visible_address'))
-            .map(addr => (
+            .map((addr, index) => (
               <MapMarker
                 // required params
-                key={addr.get('id')}
+                key={addr.get('id') + '' + rowIndex}
                 lat={addr.get('coordinates').get(0)}
                 lng={addr.get('coordinates').get(1)}
                 // any params

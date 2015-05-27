@@ -15,7 +15,7 @@ var Link = require('components/link.jsx');
 
 
 function trace(v) {
-  console.log('SELECTOR', v);
+  // console.log('SELECTOR', v);
   return v;
 }
 

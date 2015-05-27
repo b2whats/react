@@ -63,7 +63,7 @@ var cncl_ = [
           .update((x) => x.set('plus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '+').size));
         state_.rating_cursor
           .update((x) => x.set('minus', state_.comments.filter(el => el.getIn(['review', 'rating']) === '-').size));
-      console.log(state_.new_comment.toJS());
+      // console.log(state_.new_comment.toJS());
       company_personal_page_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher

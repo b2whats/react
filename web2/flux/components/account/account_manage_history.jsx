@@ -83,7 +83,7 @@ var AccountManage = React.createClass({
         "visible": false
       },
     ];
-console.log(this.state.history.toJS());
+// console.log(this.state.history.toJS());
     return (
       <div>
         <Griddle  columnMetadata={columnMeta} results={this.state.history.toJS()} showFilter={true}/>

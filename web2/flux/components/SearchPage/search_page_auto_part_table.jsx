@@ -165,7 +165,7 @@ export default class SearchPageAutoPartTable extends Component {
           onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
           onClick={this.onRowAddressActive.bind(null, company.get('id'))}
           className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-deep-purple-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
-          key={part.get('id') + part.get('user_id')}
+          key={part_index}
         >
           <td className={cx('search-page-autopart-table-td-rank') }>
             <span className='nap'>{part.get('rank')}</span>
@@ -305,7 +305,7 @@ export default class SearchPageAutoPartTable extends Component {
             <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
               <button
                 onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
-                className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 1) && 'w100pr', (part.get('order_type') === 2) && 'd-N' )}
               >
                 <span className="table-line w100pr ta-C">
                   <span className="d-tc va-m ta-C"><i className="flaticon-phone c-ap fs16" /></span>
@@ -314,7 +314,7 @@ export default class SearchPageAutoPartTable extends Component {
               </button>
               <button
                 onClick={this.onShowOrderPopup.bind(null, currentIndex)}
-                className="p8 br2 grad-w b0 btn-shad-b w48pr ta-C"
+                className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 2) && 'w100pr', (part.get('order_type') === 1) && 'd-N' )}
               >
                 <i className="flaticon-mail c-ap fs16 mR5"></i>
                 <span className='M-d-n-1420'>Заявка</span>

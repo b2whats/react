@@ -57,6 +57,7 @@ const calcSortData = (data, mapInfo) => { // сам расчет принима�
               return addr.set('visible_address', pointUtils.imPtInImRect(addr.get('coordinates'), bounds))
                          .set('address', addr.get('full_address'))
                          .set('company_name', item.get('name'))
+                         .set('filial_type_id', addr.get('filial_type'))
                          .set('filial_phones', addr.get('phones'));
             })
             .sortBy(addr => addr.get('visible_address') ? 0 : 1))
@@ -96,7 +97,6 @@ main_dispatcher
     if (state_.regionId !== currentRegion.get('id')) {
       state_.mapInfo_cursor
         .update(mapInfo => mapInfo.merge({center: currentRegion.get('center')}));
-console.log('reg', state_.mapInfo.toJS());
       state_.regionId_cursor
         .update(() => currentRegion.get('id'));
 
@@ -130,7 +130,7 @@ console.log('reg', state_.mapInfo.toJS());
 
   main_dispatcher
     .on(event_names.K_ON_COMPANY_MAP_ROW_HOVER, (hoveredRowIndex, hoverState) => {
-      console.log(hoveredRowIndex, hoverState);
+
       state_.hoveredRowIndex_cursor
         .update(() => hoverState ? hoveredRowIndex : -1);
     }, kON_CATALOG__CATALOG_STORE_PRIORITY),
@@ -168,7 +168,7 @@ var personal_company_page_data_store1 = merge(Emitter.prototype, {
   },
 
   getHoveredRowIndex() {
-    return state_.hoveredRowIndex;
+    return state_.hoveredRowIndex | 0;
   },
   getVisibleRows() {
     return state_.visibleRows;

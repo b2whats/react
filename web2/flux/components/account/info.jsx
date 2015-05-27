@@ -57,7 +57,7 @@ var AccountInfo = React.createClass({
 	},
 	endEdit           : function () {
 		editable_forms_actions.end_edit();
-    console.log(account_page_store.get_company_information().toJS());
+    // console.log(account_page_store.get_company_information().toJS());
 		account_page_actions.update_company_information(account_page_store.get_company_information().toJS());
 	},
 	toggleEdit        : function (id) {

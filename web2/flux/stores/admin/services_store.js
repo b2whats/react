@@ -26,6 +26,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   select_brands: {},
   select_services: {},
   masters_name: {},
+  orderType: 0,
   tarifs: {
     autoparts : {
       '0' : {
@@ -89,22 +90,22 @@ var state_ =  init_state(_.last(__filename.split('/')), {
       },
       '1' : {
         month : 1,
-        price : 2500,
+        price : 5000,
         discount : 0
       },
       '3' : {
         month : 3,
-        price : 7125,
+        price : 14250,
         discount : 5
       },
       '6' : {
         month : 6,
-        price : 13500,
+        price : 27000,
         discount : 10
       },
       '12' : {
         month : 12,
-        price : 24000,
+        price : 48000,
         discount : 20
       },
     }
@@ -120,7 +121,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
     },
     catalog : {
       month : 1,
-      price : 2500
+      price : 5000
     }
   },
   payment_method : [
@@ -178,6 +179,8 @@ var cncl_ = [
 
         state_.masters_name_cursor
           .update(() => immutable.fromJS(info.masters_name));
+        state_.orderType_cursor
+          .update(() => immutable.fromJS(info.payment.order_type));
       }
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
@@ -209,7 +212,7 @@ var cncl_ = [
     }, 1),
   main_dispatcher
     .on(event_names.kACCOUNT_SERVICES_CHANGE_BRANDS, (id,val) => {
-      console.log(id,val);
+      // console.log(id,val);
       if (val) {
         state_.select_brands_cursor
           .update((list) => list.push(id));
@@ -234,6 +237,13 @@ var cncl_ = [
     .on(event_names.kACCOUNT_SERVICES_CHANGE_PAYMENT_METHOD, (id) => {
       state_.current_payment_method_cursor
         .update(() => state_.payment_method.get(id));
+      account_services_store.fire(event_names.kON_CHANGE);
+
+    }, 1),
+  main_dispatcher
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_ORDER_TYPE, (type) => {
+      state_.orderType_cursor
+        .update(() => type);
       account_services_store.fire(event_names.kON_CHANGE);
 
     }, 1),
@@ -275,6 +285,9 @@ var account_services_store = merge(Emitter.prototype, {
   },
   get_current_payment_method() {
     return state_.current_payment_method;
+  },
+  getOrderType() {
+    return state_.orderType;
   },
   dispose() {
 

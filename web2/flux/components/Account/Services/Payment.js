@@ -36,7 +36,6 @@ class Payment extends Component {
     autobind(this);
   }
   onChangePaymentMethod(e) {
-    console.log(e.target.value,e.target.checked);
     ServicesActions.change_payment_method(e.target.value,e.target.checked);
   }
   onSubmitPayment() {
@@ -44,7 +43,7 @@ class Payment extends Component {
   }
   render() {
     let paymentMethod = () => (
-      <ul className='lst-N ta-L fs14'>
+      <ul className='lst-N ta-L fs14 pL0'>
         {this.props.paymentMethod
           .map((part, index) => (
             <li className='m15-0' key={index}>
@@ -64,7 +63,7 @@ class Payment extends Component {
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price');
-    console.log(typeof summ );
+    // console.log(typeof summ );
     return (
       <div className={cx('ta-C m20-0 fs18')}>
         {paymentMethod()}
