@@ -118,6 +118,7 @@ export default class SearchPageAutoPartTable extends Component {
     e.preventDefault();
     e.stopPropagation();
     ModalActions.openModal('order1');
+    statisticsActions.setStatistics('ap', 'click', );
     this.props.onCurrentOrderItemChange(currentItem);
   }
   onRowMouseEnter(index) {

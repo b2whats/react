@@ -248,7 +248,7 @@ class CompanyFilial extends Component {
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('servicesAutoservices') && 'd-N')}>
             Заполните сначала обслуживаемые в вашем салоне <strong>марки автомобилей</strong> и
-            <strong>виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
+            <strong> виды предоставляемых услуг</strong>, a затем выберите подходящий вам тариф:
             <div>
               <button
                 className={cx('p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px', !!editMasterName && 'grad-ap c-white')}
