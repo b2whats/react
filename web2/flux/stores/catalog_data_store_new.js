@@ -10,6 +10,7 @@ import immutable, {fromJS} from 'immutable';
 import regionStore from 'stores/region_store.js';
 
 
+
 const calcSortData = ({data, mapInfo, search}) => { // сам расчет принимает state на вход и зависит только от него
   if (!data.size) {
     return immutable.fromJS([]);
@@ -31,6 +32,7 @@ const calcSortData = ({data, mapInfo, search}) => { // сам расчет пр�
       r[item.get('user_id')] = 1;
       return r;
     }, {});
+  const companyIds = [];
   const q = search && search.toLowerCase() || '';
   const sorted = data
     // фильтруем по поисковому фильтру
@@ -52,7 +54,6 @@ const calcSortData = ({data, mapInfo, search}) => { // сам расчет пр�
             .map(addr => addr.set('visible_address', pointUtils.imPtInImRect(addr.get('coordinates'), bounds)))
             .sortBy(addr => addr.get('visible_address') ? 0 : 1))
         : item );
-
   return sorted;
 };
 

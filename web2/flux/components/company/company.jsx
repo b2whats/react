@@ -193,6 +193,7 @@ var personal_company_page = React.createClass({
       .toArray();
 
 
+
     return (
       <div>
         <div className='entire-width'>

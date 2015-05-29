@@ -5,8 +5,10 @@ import CatalogSearch from '../catalog_page/catalog_search.jsx';
 import IceFixedTable from 'components/controls/fixed_table/ice_fixed_table.jsx';
 
 
+
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
+import statisticsActions from 'actions/statisticsActions.js';
 
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogDataActionNew from 'actions/catalog_data_actions_new.js';
@@ -56,6 +58,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
 
 
   _cellRenderer = (cellDataKey, rowData, rowIndex) => {
+    //statisticsActions.setStatistics('c', 'show', [rowData.get('user_id')]);
     return cellRenderer(cellDataKey, rowData, rowIndex);
   }
 

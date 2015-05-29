@@ -39,12 +39,12 @@ import controllable from 'react-controllables';
 
 /*Utils*/
 import autobind from 'utils/autobind.js';
+import arrayCompare from 'utils/arrayCompare.js';
 
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
 import Order from './Order.jsx';
-
-
+import statisticsActions from 'actions/statisticsActions.js';
 
 import Link from 'components/link.jsx';
 import regionStore from 'stores/region_store.js';
@@ -79,7 +79,9 @@ export default class SearchPageAutoPartTable extends Component {
     onItemPerPageChange: PropTypes.func,
     onCurrentOrderItemChange: PropTypes.func,
   }
-
+  componentWillMount() {
+    this.companyIds = [];
+  }
   onCurrentPageChange(num) {
 
     let current = num + 1;
@@ -110,6 +112,7 @@ export default class SearchPageAutoPartTable extends Component {
   }
 
   onVisiblePhoneChange(userId) {
+    statisticsActions.setStatistics('as', 'click', [userId]);
     searchActionsAS.visiblePhoneChange(userId);
   }
 
@@ -117,10 +120,12 @@ export default class SearchPageAutoPartTable extends Component {
     searchActionsAS.showAllPhoneChange(type);
   }
 
-  onShowOrderPopup(currentItem, e) {
+  onShowOrderPopup(currentItem, userId, e) {
     e.preventDefault();
     e.stopPropagation();
-    ModalActions.openModal('order2');
+    ModalActions.openModal('order1');
+
+    statisticsActions.setStatistics('as', 'click', [userId]);
     this.props.onCurrentOrderItemChange(currentItem);
   }
   onClickCloseModal() {
@@ -148,6 +153,7 @@ export default class SearchPageAutoPartTable extends Component {
   render() {
     let end = this.props.currentPage * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
+    const companyIds = [];
     var TrMarkers = this.props.autoServicesResults
       .slice(start, end)
       .map((part, part_index) => {
@@ -196,9 +202,7 @@ export default class SearchPageAutoPartTable extends Component {
             return <div key={index}>{l}</div>;
           }).toArray();
 
-        //console.log('brands', typeof(body_list));
-
-        /*m.get('balloon_visible').toString()*/
+        companyIds.push(part.get('user_id'));
         return (
           <tr
             onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
@@ -430,7 +434,7 @@ export default class SearchPageAutoPartTable extends Component {
                   </span>
                 </button>
                 <button
-                  onClick={this.onShowOrderPopup.bind(null, currentIndex)}
+                  onClick={this.onShowOrderPopup.bind(null, currentIndex, part.get('user_id'))}
                   className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 2) && 'w100pr', (part.get('order_type') === 1) && 'd-N' )}
                 >
                   <i className="flaticon-mail c-as fs16 mR5"></i>
@@ -455,7 +459,10 @@ export default class SearchPageAutoPartTable extends Component {
         {item}
       </a>
     ));
-
+    if (!arrayCompare(companyIds, this.companyIds)) {
+      statisticsActions.setStatistics('as', 'show', companyIds);
+      this.companyIds = companyIds;
+    }
     return (
       <div className={this.props.className}>
 

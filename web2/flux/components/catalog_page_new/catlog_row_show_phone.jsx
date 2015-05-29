@@ -3,6 +3,7 @@ import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogActions from 'actions/catalog_data_actions_new.js';
+import statisticsActions from 'actions/statisticsActions.js';
 
 
 @rafStateUpdate(() => ({
@@ -32,6 +33,7 @@ export default class CatalogRowShowPhone extends Component {
 
   _onShowPhone = (e) => {
     catalogActions.showPhone(this.props.rowData.get('user_id'));
+    statisticsActions.setStatistics('c', 'click', [this.props.rowData.get('user_id')]);
     e.stopPropagation();
   }
 

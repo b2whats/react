@@ -21,6 +21,8 @@ const K_ROW_CLASS_NAME_ODD = 'catalog-page-table-new-row-odd';
 const K_ROW_CLASS_NAME_EVEN_HOVERED = 'catalog-page-table-new-row-even catalog-page-table-new-row-even--hovered';
 const K_ROW_CLASS_NAME_ODD_HOVERED = 'catalog-page-table-new-row-odd catalog-page-table-new-row-odd--hovered';
 
+import statisticsActions from 'actions/statisticsActions.js';
+
 // DATA DEFINITION
 const columns = [
     {
@@ -49,7 +51,7 @@ export {columns};
 function showBalloon(rowData, rowIndex, e) {
   // console.log('rowIndex', rowIndex);
   const addressId = rowData.get('addresses').get(0).get('id');
-
+  statisticsActions.setStatistics('c', 'click', [rowData.get('user_id')]);
   if (catalogDataStore.getActiveAddressId() === addressId) {
     catalogDataActionsNew.rowAddressActive(null, false);
   } else {
@@ -58,6 +60,7 @@ function showBalloon(rowData, rowIndex, e) {
 }
 
 function renderPartColumn(cellDataKey, rowData, rowIndex) {
+  statisticsActions.setStatistics('c', 'show', [rowData.get('user_id')]);
   return (
     <div className='ta-C va-M w50px p0-10' onClick={showBalloon.bind(null, rowData, rowIndex)}>
       <i className={cx((rowData.get('filial_type_id') === 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>

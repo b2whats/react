@@ -11,7 +11,7 @@ import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
 import MapMarker, {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT} from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
-
+import statisticsActions from 'actions/statisticsActions.js';
 import invariant from 'fixed-data-table-ice/internal/invariant.js';
 
 // import catalogDataStore from 'stores/catalog_data_store_new.js';
@@ -101,6 +101,8 @@ export default class CatalogMap extends Component {
       } else {
         this.props.onRowAddressActive(props.marker.get('id'), true);
       }
+      let type = props.markerType === 'autoservices' ? 'as' : 'ap';
+      statisticsActions.setStatistics(type, 'click', [props.marker.get('user_id')]);
     }
   }
 

@@ -9,11 +9,11 @@ const actions_ = [];
 
 
 module.exports.setStatistics = (service, type, ids) => {
-  resource(apiRefs.STATISTICS)
-    .post({requestType: 'set', statisticsType: type, statisticsService: service, companyId: ids})
-    .then(response => {
-      console.log(response);
-    });
+  if (ids.length > 0) {
+    //console.log(service, type, ids);
+    resource(apiRefs.STATISTICS)
+      .post({requestType: 'set', statisticsType: type, statisticsService: service, companyId: ids});
+  }
 };
 
 module.exports = Object.assign({}, module.exports, actionExportHelper(actions_));

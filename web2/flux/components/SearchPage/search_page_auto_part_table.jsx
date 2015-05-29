@@ -38,6 +38,7 @@ var fixed_tooltip_actions = require('actions/fixed_tooltip_actions.js');
 
 import searchDataStoreAP from 'stores/searchDataStoreAP.js';
 import searchActionsAP from 'actions/searchActionsAP.js';
+import statisticsActions from 'actions/statisticsActions.js';
 
 import controllable from 'react-controllables';
 
@@ -45,6 +46,8 @@ import controllable from 'react-controllables';
 import autobind from 'utils/autobind.js';
 import Link from 'components/link.jsx';
 import regionStore from 'stores/region_store.js';
+import arrayCompare from 'utils/arrayCompare.js';
+
 //var search_page_actions = require('actions/search_page_actions.js');
 var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
@@ -52,7 +55,6 @@ var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок по
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
 import Order from './Order.jsx';
-
 
 
 
@@ -83,6 +85,9 @@ export default class SearchPageAutoPartTable extends Component {
     onItemPerPageChange: PropTypes.func,
     onCurrentOrderItemChange: PropTypes.func,
   }
+  componentWillMount() {
+    this.companyIds = [];
+  }
   onCurrentPageChange(num) {
     let current = num + 1;
     let end = current * this.props.itemPerPage;
@@ -109,16 +114,18 @@ export default class SearchPageAutoPartTable extends Component {
     e.stopPropagation();
   }
   onVisiblePhoneChange(userId) {
+    statisticsActions.setStatistics('ap', 'click', [userId]);
     searchActionsAP.visiblePhoneChange(userId);
   }
   onShowAllPhoneChange(type) {
     searchActionsAP.showAllPhoneChange(type);
   }
-  onShowOrderPopup(currentItem, e) {
+  onShowOrderPopup(currentItem, userId, e) {
     e.preventDefault();
     e.stopPropagation();
     ModalActions.openModal('order1');
-    statisticsActions.setStatistics('ap', 'click', );
+
+    statisticsActions.setStatistics('ap', 'click', [userId]);
     this.props.onCurrentOrderItemChange(currentItem);
   }
   onRowMouseEnter(index) {
@@ -144,6 +151,7 @@ export default class SearchPageAutoPartTable extends Component {
     if (this.props.autoPartResults.size === 0) return null
     let end = this.props.currentPage * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
+    const companyIds = [];
     const Markers  = this.props.autoPartResults
       .slice(start, end)
       .map((part, part_index) => {
@@ -160,6 +168,7 @@ export default class SearchPageAutoPartTable extends Component {
         let inDisplay = true;
         if (this.props.firstInvisibleRowIndex <= currentIndex) inDisplay = false;
         let currentRegion =  regionStore.get_region_current() && regionStore.get_region_current().get('translit_name');
+        companyIds.push(part.get('user_id'));
       return (
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
@@ -314,7 +323,7 @@ export default class SearchPageAutoPartTable extends Component {
                 </span>
               </button>
               <button
-                onClick={this.onShowOrderPopup.bind(null, currentIndex)}
+                onClick={this.onShowOrderPopup.bind(null, currentIndex, part.get('user_id'))}
                 className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 2) && 'w100pr', (part.get('order_type') === 1) && 'd-N' )}
               >
                 <i className="flaticon-mail c-ap fs16 mR5"></i>
@@ -337,6 +346,10 @@ export default class SearchPageAutoPartTable extends Component {
       </a>
     ));
 
+    if (!arrayCompare(companyIds, this.companyIds)) {
+      statisticsActions.setStatistics('ap', 'show', companyIds);
+      this.companyIds = companyIds;
+    }
     return (
       <div className={this.props.className}>
         <div className="entire-width flex-ai-c m20-0 h30px">

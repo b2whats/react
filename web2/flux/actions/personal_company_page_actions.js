@@ -12,6 +12,7 @@ var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
 
 var sass_vars = require('common_vars.json')['yandex-map'];
+import statisticsActions from 'actions/statisticsActions.js';
 
 
 
@@ -19,7 +20,8 @@ module.exports.get_company_information = (id) => {
   return resource(api_refs.GET)
     .post({company_by_id: id, company_filials_by_company_id: id, reviews_by_company_id: id})
     .then(response => {
-
+      if (response.results.company === null) return false;
+      statisticsActions.setStatistics('c', 'show', [id]);
       // пока задать детерминированную сортировку
       const hashCode = function calcHashCode(str) {
         let hash = 0;
