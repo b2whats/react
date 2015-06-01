@@ -123,10 +123,10 @@ export default class SearchPageAutoPartTable extends Component {
   onShowOrderPopup(currentItem, userId, e) {
     e.preventDefault();
     e.stopPropagation();
-    ModalActions.openModal('order1');
 
     statisticsActions.setStatistics('as', 'click', [userId]);
     this.props.onCurrentOrderItemChange(currentItem);
+    ModalActions.openModal('order2');
   }
   onClickCloseModal() {
 
@@ -140,8 +140,8 @@ export default class SearchPageAutoPartTable extends Component {
     searchActionsAS.rowHover(index, false);
   }
 
-  onRowAddressActive(id) {
-    //console.log(id);
+  onRowAddressActive(id, userId) {
+    statisticsActions.setStatistics('as', 'click', [userId]);
     // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
     if (this.props.activeAddressId === id) {
       searchActionsAP.rowAddressActive(null, false);
@@ -207,7 +207,7 @@ export default class SearchPageAutoPartTable extends Component {
           <tr
             onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
             onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
-            onClick={this.onRowAddressActive.bind(null, company.get('id'))}
+            onClick={this.onRowAddressActive.bind(null, company.get('id'), part.get('user_id'))}
             className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-yellow-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
             key={part.get('id')}
           >
@@ -225,6 +225,7 @@ export default class SearchPageAutoPartTable extends Component {
                     <Link
                       href={`/company/${part.get('user_id')}/${regionStore.get_region_current().get('translit_name')}`}
                       className={cx('td-u cur-p c-grey-700')}
+                      onClick={statisticsActions.setStatistics.bind(null, 'as', 'click', [part.get('user_id')])}
                     >
                       {company.get('address')}
                     </Link>

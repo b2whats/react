@@ -104,12 +104,7 @@ var ChartWithControl = React.createClass({
         </div>
 <div>
 
-  <div className="p-r f-L h200px fs12" style={{left: '-35px', width: '30px'}}>
-    <div className="p-a fs16 ta-C w200px" style={{left: '-120px', bottom: '100px', transform: 'rotate(-90deg)'}}>{plots_data.get(0).get('description')}</div>
-    <span className="p-a" style={{top: '-8px', right: '0px'}}>{plots_data.get(0).get('max')}</span>
-    <span className="p-a" style={{top: '47%', right: '0px'}}>{(plots_data.get(0).get('max') + plots_data.get(0).get('min')) / 2 | 0} </span>
-    <span className="p-a" style={{bottom: '-8px', right: '0px'}}>{plots_data.get(0).get('min')}</span>
-  </div>
+
   <Chart
     ref="chart"
     className={cx('chart-main-chart', this.chart_width && '-visible' || '-hidden')}

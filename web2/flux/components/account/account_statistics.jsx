@@ -40,7 +40,7 @@ var AccountStatistics = React.createClass({
 
   render() {
     return (
-      <div style={{paddingLeft: '200px', paddingRight: '200px'}} className="account-statistics">
+      <div style={{paddingLeft: '50px', paddingRight: '0px'}} className="account-statistics">
         <h3 className="fs20 fw-n m0">Выберите раздел для отображения статистики:</h3>
         <ButtonGroup select_element_value={this.state.currentService} onChange={this.updateFormElement} className="m20-0">
           <button className='btn-bg-group ' value='ap'>Поиск автозапчастей</button>

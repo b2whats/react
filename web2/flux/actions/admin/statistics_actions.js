@@ -133,7 +133,10 @@ module.exports.getStatistics = () => {
           let values = info.map(el => el.value);
           let min = Math.min.apply(null, values);
           let max = Math.max.apply(null, values);
-          values = info.map(el => (el.value/max));
+          values = info.map(el => {
+            if (max !== min) return ((el.value - min) / (max - min))
+            else return 0.5
+          });
           arr[services][type].data = values;
           arr[services][type].min = min;
           arr[services][type].max = max;
@@ -149,8 +152,8 @@ module.exports.getStatistics = () => {
           arr[services][type] = (values.length > 0) ? [arr[services][type]] : null;
         }
       }
-
-      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_STATISTICS_LOADED].concat([response.status]));
+      console.log(arr);
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_STATISTICS_LOADED].concat([arr]));
 
     })
     .catch(e => {

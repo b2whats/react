@@ -22,7 +22,7 @@ var personal_company_page_actions = require('actions/personal_company_page_actio
 
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 
-
+import statisticsActions from 'actions/statisticsActions.js';
 var region_store = require('stores/region_store.js');
 var toggle_store = require('stores/ToggleStore.js');
 var auth_store = require('stores/auth_store.js');
@@ -61,6 +61,8 @@ var personal_company_page = React.createClass({
 	],
   toggle(val) {
     return (e) => {
+console.log(21);
+      statisticsActions.setStatistics('c', 'click', [this.state.company_filials.first().get('user_id')]);
       e.preventDefault();
       toggle_actions.change(val);
     }

@@ -123,10 +123,10 @@ export default class SearchPageAutoPartTable extends Component {
   onShowOrderPopup(currentItem, userId, e) {
     e.preventDefault();
     e.stopPropagation();
-    ModalActions.openModal('order1');
 
     statisticsActions.setStatistics('ap', 'click', [userId]);
     this.props.onCurrentOrderItemChange(currentItem);
+    ModalActions.openModal('order1');
   }
   onRowMouseEnter(index) {
     searchActionsAP.rowHover(index, true);
@@ -134,7 +134,8 @@ export default class SearchPageAutoPartTable extends Component {
   onRowMouseLeave(index) {
     searchActionsAP.rowHover(index, false);
   }
-  onRowAddressActive(id) {
+  onRowAddressActive(id,userId) {
+    statisticsActions.setStatistics('ap', 'click', [userId]);
     // Один метод на 2 сторы с балунами !!! Записываем только в 1 стору
     if (this.props.activeAddressId === id) {
       searchActionsAP.rowAddressActive(null, false);
@@ -173,7 +174,7 @@ export default class SearchPageAutoPartTable extends Component {
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
           onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
-          onClick={this.onRowAddressActive.bind(null, company.get('id'))}
+          onClick={this.onRowAddressActive.bind(null, company.get('id'), part.get('user_id'))}
           className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-deep-purple-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
           key={part_index}
         >
@@ -192,6 +193,7 @@ export default class SearchPageAutoPartTable extends Component {
                   <Link
                     href={`/company/${part.get('user_id')}/${currentRegion}`}
                     className={cx('td-u cur-p c-grey-700')}
+                    onClick={statisticsActions.setStatistics.bind(null, 'ap', 'click', [part.get('user_id')])}
                   >
                     {company.get('address')}
                   </Link>
@@ -226,13 +228,15 @@ export default class SearchPageAutoPartTable extends Component {
                   <Link
                     href={`/company/${part.get('user_id')}/${currentRegion}`}
                     className={cx('H-td-u cur-p c-grey-900 lh1-4 fw-b ellipsis d-ib big-first')}
+                    onClick={statisticsActions.setStatistics.bind(null, 'ap', 'click', [part.get('user_id')])}
                   >
                     {part.get('manufacturer')}
                   </Link>
                   <br />
                   <Link
-                  href={`/company/${part.get('user_id')}/${currentRegion}`}
-                  className={cx('H-td-u cur-p c-grey-700 lh1-4 fw-b ellipsis d-ib big-first')}
+                    href={`/company/${part.get('user_id')}/${currentRegion}`}
+                    className={cx('H-td-u cur-p c-grey-700 lh1-4 fw-b ellipsis d-ib big-first')}
+                    onClick={statisticsActions.setStatistics.bind(null, 'ap', 'click', [part.get('user_id')])}
                   >
                     {part.get('code')}
                   </Link>

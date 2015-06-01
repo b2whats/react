@@ -8,6 +8,7 @@ import shallowEqual from 'react/lib/shallowEqual.js';
 import Link from 'components/link.jsx';
 // TODO перейти на jss вместо sass
 import {mapMarker} from 'common_vars.json';
+import statisticsActions from 'actions/statisticsActions.js';
 
 const K_MARKER_WIDTH = +mapMarker.width.replace('px', '');
 const K_MARKER_HEIGHT = +mapMarker.height.replace('px', '');
@@ -149,7 +150,7 @@ export default class MapMarker extends Component {
     const noTransBalloonClass = this.props.showBallon === true && this.props.showBallonState !== true ? 'hint--notrans' : '';
 
     const hintBalloonStyle = hintBaloonHorizontalPosStyle; // Object.assign({}, hintBaloonHorizontalPosStyle);
-
+    const markerType = this.props.marker.get('filial_type_id') === 1 ? 'ap' : 'as';
     return (
       <div
         className={cx('map-marker hint hint--info hint-html',
@@ -174,8 +175,11 @@ export default class MapMarker extends Component {
           </div>
 
           <div className="map-marker-hint__title big-first">
-            <Link href={'/company/'+this.props.marker.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
-              className={cx('c-black H-td-u')}>
+            <Link
+              href={'/company/'+this.props.marker.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
+              className={cx('c-black H-td-u')}
+              onClick={statisticsActions.setStatistics.bind(null, markerType, 'click', [this.props.marker.get('user_id')])}
+            >
 
               {this.props.marker.get('company_name')}
             </Link>

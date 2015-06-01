@@ -78,11 +78,18 @@ function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
     <div className='va-M p10-0' onClick={showBalloon.bind(null, rowData, rowIndex)}>
       <div className='bR1s bc-grey-300 pR15'>
         <div className='entire-width mB15 flex-ai-c'>
-          <Link href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
-            className={cx('fs16 fw-b td-u cur-p w40pr mw200px c-grey-700')}>
+          <Link
+            href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
+            className={cx('fs16 fw-b td-u cur-p w40pr mw200px c-grey-700')}
+            onClick={statisticsActions.setStatistics.bind(null, 'c', 'click', [rowData.get('user_id')])}
+          >
           { rowData.get('company_name').trim()}
           </Link>
-          <Link href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')} className='c-grey-700 fs11 td-u'>Отзывы:
+          <Link
+            href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
+            className='c-grey-700 fs11 td-u'
+            onClick={statisticsActions.setStatistics.bind(null, 'c', 'click', [rowData.get('user_id')])}
+          >Отзывы:
             <span className='c-gr'> +{rowData.get('recommended').get('plus')} </span>/
             <span className='c-r'> -{rowData.get('recommended').get('minus')}</span>
           </Link>

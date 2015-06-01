@@ -18,7 +18,7 @@ import invariant from 'fixed-data-table-ice/internal/invariant.js';
 // import catalogActions from 'actions/catalog_data_actions_new.js';
 
 import {getScale, getRealFromTo} from './calc_markers_visibility.js';
-
+import statisticsActions from 'actions/statisticsActions.js';
 
 const K_HOVER_DISTANCE = 30;
 
@@ -91,6 +91,8 @@ export default class CatalogMap1 extends Component {
   }
 
   _onChildClick = (key, props) => {
+
+    statisticsActions.setStatistics('c', 'click', [this.props.dataResults.first().get('id')]);
     if (this.props.onRowAddressActive) {
       if (props.marker.get('id') === this.props.activeAddressId) {
         this.props.onRowAddressActive(null, false);
