@@ -15,6 +15,7 @@ const catalog_actions = require('actions/catalog_actions.js');
 const catalog_data_actions_new = require('actions/catalog_data_actions_new.js');
 
 const account_services_actions = require('actions/admin/services_actions.js');
+const account_statistics_actions = require('actions/admin/statistics_actions.js');
 const account_manage_actions = require('actions/admin/account_manage_actions.js');
 const price_list_selector_actions = require('actions/admin/price_list_selector_actions.js');
 
@@ -211,22 +212,24 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
       },
       (route_name, route_context, route_context_params) => {
         switch (route_context_params.section) {
-          case 'company':
-            account_page_actions.get_company_filial();
-            account_page_actions.get_company_information();
+        case 'company':
+          account_page_actions.get_company_filial();
+          account_page_actions.get_company_information();
           break;
 
-          case 'services':
-            account_services_actions.get_services_information();
+        case 'services':
+          account_services_actions.get_services_information();
           break;
-
-          case 'manage':
-            price_list_selector_actions.load_price_list_data();
-            account_manage_actions.get_price_history_information();
+        case 'statistics':
+          account_statistics_actions.getStatistics();
           break;
-          case 'manage-history':
-            account_manage_actions.get_price_history_information();
-            break;
+        case 'manage':
+          price_list_selector_actions.load_price_list_data();
+          account_manage_actions.get_price_history_information();
+          break;
+        case 'manage-history':
+          account_manage_actions.get_price_history_information();
+          break;
         }
       },
       route_actions.default_route

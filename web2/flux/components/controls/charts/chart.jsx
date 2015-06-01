@@ -184,7 +184,7 @@ var Chart = React.createClass({
 
 
     var Markers = this.props.marker_template && plots_data
-      .map(pd => {    
+      .map(pd => {
         var positions = pd.get('data').map( (v, index) => {
           var x = this.x_index_2_position(index);
           var y = this.y_index_value_2_position(index, v, pd.get('id'));
@@ -197,13 +197,15 @@ var Chart = React.createClass({
         pd.get('positions')
           .map((pos, index) => 
             <div 
-              key={pd.get('id') + '_' + index} 
+              key={pd.get('id') + '_' + index}
+
               className={cx('svg-plot-marker-holder', index >= this.props.index_from && index<=this.props.index_to ? '-visible':'-hidden')}
               style={{position: 'absolute', left: `${pos.get('x')}px`, top: `${pos.get('y')}px` }}>              
               {React.createElement(this.props.marker_template, 
                 {
                   id: pd.get('id'),
-                  index: index, 
+                  index: index,
+                  description: pd.get('description'),
                   info: pd.get('info'), 
                   current_info: pd.get('info').get(index),
                   className: pd.get('class_name'),

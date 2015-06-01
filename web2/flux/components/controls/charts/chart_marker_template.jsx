@@ -11,7 +11,7 @@ var PureRenderMixin = React.addons.PureRenderMixin;
 var Link = require('components/link.jsx');
 /* jshint ignore:end */
 
-var kTEXT_INFO_STYLE = {color: 'green', marginTop: '10px'};
+
 
 /**
  * Пример шаблона для маркера графика
@@ -24,18 +24,10 @@ var ChartMarkerTemplateDefault = React.createClass({
       <div className={cx(this.props.className, 'hint hint--top hint--info hint-html svg-plot-marker')}>
         <div className="svg-plot-marker-hint-emitter"></div>
         <div className="hint-content noevents">
-          <h3>{this.props.current_info.get('date')}</h3>
-          <div>
-            clicks:
-              {this.props.current_info.get('clicks')}  
-          </div>
-          <div>
-            information:
-              {this.props.current_info.get('information')}
-          </div>
-          
-          <div style={kTEXT_INFO_STYLE}>
-            вобщем пишем тут чо хотим и тащим инфу какую хотим, для каждой точки передаются index, info, current_info из plot_data
+          <h3 className="m0">{this.props.current_info.get('date')}</h3>
+          <div className="mT10">
+            {this.props.description}:
+              {this.props.current_info.get('value')}
           </div>
         </div>
       </div>

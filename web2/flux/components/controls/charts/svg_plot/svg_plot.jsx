@@ -153,9 +153,9 @@ var SvgPlot = React.createClass({
   },
 
   render () {
-    var Pathes = this.props.data.map( d => 
+    var Pathes = this.props.data.map( (d,i) =>
       <SvgPlotPathLine 
-        key={d.get('id')} 
+        key={i}
         data={d.get('data')}
         hover={this.props.has_hover && d.get('hover')}
         className={this.props.has_classname && d.get('class_name')}

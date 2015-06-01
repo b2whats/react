@@ -1,0 +1,33 @@
+.chart-main-chart .svg-plot{
+  background-color: transparent;
+  background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAsAKADASIAAhEBAxEB/8QAGgABAQEBAQEBAAAAAAAAAAAAAAIGAwQBCP/EACoQAAAEBgIABQUBAAAAAAAAAAABAlMDBBKRktETFQURISNhNEFRc7Fx/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AP1F4f8AQS36k/wh3HlkEKORlj5Fl7afTyL8F8DvQp1di0AsBFCnV2LQUKdXYtALARQp1di0FCnV2LQCwEUKdXYtBQp1di0AsBFCnV2LQUKdXYtALARQp1di0FCnV2LQCwEUKdXYtBQp1di0AsBFCnV2LQUKdXYtALARQp1di0FCnV2LQCwEUKdXYtBQp1di0A4SC1FIyxcaz9tPr5l+C+R3rU0u5bHPw/6CW/Un+EO4CK1NLuWwrU0u5bFgAitTS7lsK1NLuWxYAIrU0u5bCtTS7lsWACK1NLuWwrU0u5bFgAitTS7lsK1NLuWxYAIrU0u5bCtTS7lsWACK1NLuWwrU0u5bFgAitTS7lsK1NLuWxYAIrU0u5bCtTS7lsWADyyEKGcjLGaEGZw0/b4Id+GG2jEhmIPjczCgohpRBNKEkkvMj8/Qv9F9/NNwMT2A0nDDbRiQcMNtGJDN9/NNwMT2HfzTcDE9gNJww20YkHDDbRiQzffzTcDE9h3803AxPYDScMNtGJBww20YkM33803AxPYd/NNwMT2A0nDDbRiQcMNtGJDN9/NNwMT2HfzTcDE9gNJww20YkHDDbRiQzffzTcDE9j73803AxPYDR8MNtGJBww20YkM33803AxPYd/NNwMT2A0nDDbRiQcMNtGJDN9/NNwMT2HfzTcDE9gNJww20YkHDDbRiQzffzTcDE9h3803AxPYDScMNtGJBww20YkM33803AxPYd/NNwMT2A/9k=");
+  background-position: bottom left ;
+}
+.svg-plot-marker-holder {
+  width: 8px;
+  height: 8px;
+  line-height: 8px;
+  margin-left: -3px;
+  margin-top: -5px;
+}
+.svg-plot-marker-holder .my-line-classname.svg-plot-marker {
+  background-color: #987dda;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border-color: #987dda;
+  border-style: solid;
+  border-width: 1px;
+}
+.svg-plot-marker-holder .my-line2-classname.svg-plot-marker {
+  background-color: #f6d600;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  border-color: #f6d600;
+  border-style: solid;
+  border-width: 1px;
+}
+

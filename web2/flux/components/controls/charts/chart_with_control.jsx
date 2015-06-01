@@ -41,8 +41,8 @@ var ChartWithControl = React.createClass({
 
   getInitialState() { //заменить на стору
     return {
-      from : this.props.defaultFrom!==undefined ? this.props.defaultFrom : 30,
-      to: this.props.defaultTo!==undefined ? this.props.defaultTo : 50
+      from : this.props.defaultFrom!==undefined ? this.props.defaultFrom : 0,
+      to: this.props.defaultTo!==undefined ? this.props.defaultTo : 100
     };
   },
 
@@ -93,32 +93,38 @@ var ChartWithControl = React.createClass({
       index_from = Math.ceil(visible_from - 0.5);
       index_to =   Math.floor(visible_to + 0.5);
     }
-    
     /* jshint ignore:start */
     return (
       <div className="chart-with-controls">
         
-        <div>
-          <span>from: <strong>{plots_data.get(0).get('info').get(index_from).get('date')}</strong></span>
-          <span> to: <strong>{plots_data.get(0).get('info').get(index_to).get('date')}</strong></span>
+        <div className="entire-width m5-0 c-grey-700">
+          <span>От: <strong>{plots_data.get(0).get('info').get(index_from).get('date')}</strong></span>
+          <span> До: <strong>{plots_data.get(0).get('info').get(index_to).get('date')}</strong></span>
 
         </div>
+<div>
 
-        <Chart
-          ref="chart" 
-          className={cx('chart-main-chart', this.chart_width && '-visible' || '-hidden')}
-          marker_template={this.props.marker_template || ChartMarkerTemplateDefault}
-          plots_data={plots_data}
-          plot_dx={dx}
-          plot_dx_offset={dx_offset}
-          index_from={index_from}
-          index_to={index_to}
-
-          curvature={this.props.curvature || 3}
-          margin_top_bottom={kPLOT_MARGIN_TB} />
+  <div className="p-r f-L h200px fs12" style={{left: '-35px', width: '30px'}}>
+    <div className="p-a fs16 ta-C w200px" style={{left: '-120px', bottom: '100px', transform: 'rotate(-90deg)'}}>{plots_data.get(0).get('description')}</div>
+    <span className="p-a" style={{top: '-8px', right: '0px'}}>{plots_data.get(0).get('max')}</span>
+    <span className="p-a" style={{top: '47%', right: '0px'}}>{(plots_data.get(0).get('max') + plots_data.get(0).get('min')) / 2 | 0} </span>
+    <span className="p-a" style={{bottom: '-8px', right: '0px'}}>{plots_data.get(0).get('min')}</span>
+  </div>
+  <Chart
+    ref="chart"
+    className={cx('chart-main-chart', this.chart_width && '-visible' || '-hidden')}
+    marker_template={this.props.marker_template || ChartMarkerTemplateDefault}
+    plots_data={plots_data}
+    plot_dx={dx}
+    plot_dx_offset={dx_offset}
+    index_from={index_from}
+    index_to={index_to}
+    curvature={this.props.curvature || 3}
+    margin_top_bottom={kPLOT_MARGIN_TB}
+  />
+</div>
 
         <div className="chart-control-holder">
-          {/*вот сюда можно подсунуть подписи*/}
           <Chart className="chart-control-holder-chart" plots_data={plots_data} plot_dx={dx_bottom_chart} plot_dx_offset={0} curvature={this.props.curvature || 3} margin_top_bottom={0} />
           <ChartControlsSlider defaultFrom={this.state.from} defaultTo={this.state.to} onChange={this.on_chart_interval_changed} />
         </div>
