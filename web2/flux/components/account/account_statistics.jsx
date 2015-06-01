@@ -40,13 +40,14 @@ var AccountStatistics = React.createClass({
 
   render() {
     return (
+      <div>
+      <h3 className="fs20 fw-n m0">Выберите раздел для отображения статистики:</h3>
+      <ButtonGroup select_element_value={this.state.currentService} onChange={this.updateFormElement} className="m20-0">
+        <button className='btn-bg-group ' value='ap'>Поиск автозапчастей</button>
+        <button className='btn-bg-group ' value='as'>Консультация мастера</button>
+        <button className='btn-bg-group ' value='c'>Каталог компаний</button>
+      </ButtonGroup>
       <div style={{paddingLeft: '50px', paddingRight: '0px'}} className="account-statistics">
-        <h3 className="fs20 fw-n m0">Выберите раздел для отображения статистики:</h3>
-        <ButtonGroup select_element_value={this.state.currentService} onChange={this.updateFormElement} className="m20-0">
-          <button className='btn-bg-group ' value='ap'>Поиск автозапчастей</button>
-          <button className='btn-bg-group ' value='as'>Консультация мастера</button>
-          <button className='btn-bg-group ' value='c'>Каталог компаний</button>
-        </ButtonGroup>
         {this.state.statistics && this.state.statistics.get(this.state.currentService) && this.state.statistics.get(this.state.currentService).get('click') &&
         <div>
         <h2 className="ta-C fs20 mB10">Клики</h2>
@@ -59,6 +60,7 @@ var AccountStatistics = React.createClass({
         <ChartWithControl marker_template={ChartMarkerTemplateDefault} curvature={3} plots_data={this.state.statistics && this.state.statistics.get(this.state.currentService) && this.state.statistics.get(this.state.currentService).get('show')}/>
         </div>
         }
+      </div>
       </div>
     );
   }

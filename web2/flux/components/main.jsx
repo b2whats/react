@@ -156,7 +156,7 @@ const IceMain = React.createClass({
         const menuList = [
           {name: 'Компания', id: 'company'},
           {name: 'Услуги', id: 'services'},
-          // {name: 'Статистика', id:'statistics'},
+          {name: 'Статистика', id:'statistics'},
           {name: 'Управление товарами', id: 'manage'}
           // {name: 'История оплат', id:'history'}
         ];
