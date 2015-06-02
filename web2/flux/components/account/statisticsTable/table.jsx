@@ -1,16 +1,17 @@
 import React, {PropTypes, Component} from 'react/addons';
 import controllable from 'react-controllables';
 
-import CatalogSearch from '../catalog_page/catalog_search.jsx';
+import CatalogSearch from './search.jsx';
 import IceFixedTable from 'components/controls/fixed_table/ice_fixed_table.jsx';
 
 
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
-import {columns, cellRenderer, getRowClassNameAt} from './catalog_items_renderer.js';
+import {columns, cellRenderer, getRowClassNameAt} from './cells.js';
 import statisticsActions from 'actions/statisticsActions.js';
 
 import catalogDataStore from 'stores/catalog_data_store_new.js';
+import statisticsStore from 'stores/admin/statistics_store.js';
 import catalogDataActionNew from 'actions/catalog_data_actions_new.js';
 
 import _ from 'underscore';
@@ -21,12 +22,13 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
   catalogResults: catalogDataStore.getSortedData(),
+  orderStatistics: statisticsStore.getOrderStatistics(),
   hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
   hoveredMapRowIndex: catalogDataStore.getMapHoveredRowIndex(),
   firstInvisibleRowIndex: catalogDataStore.getFirstInvisibleRowIndex(),
   mapInfo: catalogDataStore.getMapInfo(),
   search: catalogDataStore.getSearch()
-}), catalogDataStore)
+}), catalogDataStore, statisticsStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
   static propTypes = {
@@ -62,7 +64,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   _getRowObjectAt = (i) => {
-    return this.props.catalogResults && this.props.catalogResults.get(i);
+    return this.props.orderStatistics && this.props.orderStatistics.get(i);
   }
 
   _getRowClassNameAt = (i) => {
@@ -82,7 +84,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   _renderMiniHeader = () => {
     return (
       <div className="search-page-right-block-new--mini-header">
-        <a onClick={this._onShowFiltersClick} style={{pointerEvents: 'initial'}} className="ap-link us-n">Показать фильтры</a>
+        <a onClick={this._onShowFiltersClick} style={{pointerEvents: 'initial'}} className="ap-link us-n">Показать поиск</a>
       </div>
     );
   }
@@ -118,14 +120,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
     catalogDataActionNew.rowHover(index, false);
 
 
-  componentWillReceiveProps(nextProps) {
-    this._updateTableView();
 
-    // карта поменялась отмотать на начало
-    if (this.props.mapInfo !== nextProps.mapInfo) {
-      this._resetTableToStartRow();
-    }
-  }
 
   componentDidUpdate(prevProps) {
     if (this.props.startRow!==null) {
@@ -136,21 +131,15 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   render() {
-    if (this.props.search) {
-      let q = this.props.search.toLowerCase();
-      this.props.catalogResults = this.props.catalogResults.filter((part, index) => {
-        let str = `${part.get('company_name')} ${part.get('description')} ${part.get('main_phone')} ${part.get('site')}`;
-        return !!(str.toLowerCase().indexOf(q) + 1);
-      });
-    }
-    const K_ROW_HEIGHT = 112;
-    const K_HEADER_HEIGHT = 185;
+//console.log(this.props.catalogResults.toJS());
+    const K_ROW_HEIGHT = 40;
+    const K_HEADER_HEIGHT = 55;
     const K_MINI_HEADER_HEIGHT = 40;
-
+console.log(this.props.orderStatistics.toJS());
     return (
-      <div className="search-page-right-block-new search-page-right-block-new--new">
+      <div className="">
         <IceFixedTable
-          className="catalog-page-table-new"
+          className="w100% h400px p-r o-h "
           onVisibleRowsChange={this._onVisibleRowsChange}
           onRowMouseEnter={this._onRowMouseEnter}
           onRowMouseLeave={this._onRowMouseLeave}
@@ -159,7 +148,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
           cellRenderer = {this._cellRenderer}
           getRowObjectAt = {this._getRowObjectAt}
           getRowClassNameAt={this._getRowClassNameAt}
-          rowsCount = {this.props.catalogResults && this.props.catalogResults.size || K_MIN_DEFAULT_ROWS_SIZE}
+          rowsCount = {this.props.orderStatistics && this.props.orderStatistics.size || K_MIN_DEFAULT_ROWS_SIZE}
           headerHeight = {K_HEADER_HEIGHT}
           miniHeaderHeight = {K_MINI_HEADER_HEIGHT}
           startRow = {this.props.startRow}

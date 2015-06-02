@@ -222,6 +222,7 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
           break;
         case 'statistics':
           account_statistics_actions.getStatistics();
+          account_statistics_actions.getOrderStatistics();
           break;
         case 'manage':
           price_list_selector_actions.load_price_list_data();

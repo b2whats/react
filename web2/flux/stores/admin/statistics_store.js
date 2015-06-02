@@ -18,6 +18,7 @@ var kDEFAULT_STORE_PRIORITY = sc.kDEFAULT_STORE_PRIORITY;
 
 var state_ = init_state(_.last(__filename.split('/')), {
   statistics: {},
+  orderStatistics: [],
   currentService: 'ap'
 });
 
@@ -33,6 +34,12 @@ var cncl_ = [
           .update(() => immutable.fromJS(statistics));
       account_manage_store.fire(event_names.kON_CHANGE);
   }, kDEFAULT_STORE_PRIORITY),
+  main_dispatcher
+    .on(event_names.kON_ON_ACCOUNT_ORDER_STATISTICS_LOADED, orderStatistics => {
+      state_.orderStatistics_cursor
+        .update(() => immutable.fromJS(orderStatistics));
+      account_manage_store.fire(event_names.kON_CHANGE);
+    }, kDEFAULT_STORE_PRIORITY),
   main_dispatcher
     .on(event_names.kON_ON_ACCOUNT_STATISTICS_FORM_UPDATE, field => {
       state_.currentService_cursor
@@ -50,6 +57,9 @@ var account_manage_store = merge(Emitter.prototype, {
   },
   getCurrentService() {
     return state_.currentService;
+  },
+  getOrderStatistics() {
+    return state_.orderStatistics;
   },
   dispose () {
     if(cncl_) {
