@@ -8,7 +8,7 @@ import IceFixedTable from 'components/controls/fixed_table/ice_fixed_table.jsx';
 
 import rafStateUpdate from 'components/hoc/raf_state_update.js';
 import {columns, cellRenderer, getRowClassNameAt} from './cells.js';
-import statisticsActions from 'actions/statisticsActions.js';
+
 
 import catalogDataStore from 'stores/catalog_data_store_new.js';
 import statisticsStore from 'stores/admin/statistics_store.js';
@@ -21,27 +21,10 @@ const K_SCROLL_EVENT_THROTTLE_TIMEOUT = 0;
 
 @controllable(['forceUpdateCounter', 'startRow'])
 @rafStateUpdate(() => ({
-  catalogResults: catalogDataStore.getSortedData(),
   orderStatistics: statisticsStore.getOrderStatistics(),
-  hoveredRowIndex: catalogDataStore.getHoveredRowIndex(),
-  hoveredMapRowIndex: catalogDataStore.getMapHoveredRowIndex(),
-  firstInvisibleRowIndex: catalogDataStore.getFirstInvisibleRowIndex(),
-  mapInfo: catalogDataStore.getMapInfo(),
-  search: catalogDataStore.getSearch()
 }), catalogDataStore, statisticsStore)
 export default class CatalogPageRightBlockContentNew extends Component {
 
-  static propTypes = {
-    catalogResults: PropTypes.any.isRequired,
-    forceUpdateCounter: PropTypes.number.isRequired,
-    onForceUpdateCounterChange: PropTypes.func,
-    startRow: React.PropTypes.oneOfType([PropTypes.number, PropTypes.any]),
-    onStartRowChange: PropTypes.func,
-    hoveredRowIndex: PropTypes.number,
-    hoveredMapRowIndex: PropTypes.number,
-    firstInvisibleRowIndex: PropTypes.number,
-    mapInfo: PropTypes.any
-  }
 
   static defaultProps = {
     forceUpdateCounter: 0,
@@ -71,22 +54,16 @@ export default class CatalogPageRightBlockContentNew extends Component {
     return getRowClassNameAt(i, i === this.props.hoveredRowIndex || i === this.props.hoveredMapRowIndex, i === this.props.firstInvisibleRowIndex);
   }
 
-  _renderHeader = () => {
-    return (
-      <CatalogSearch filter_new_type={true} show_pager={false} />
-    );
+  _renderHeader = (w) => {
+    return cellRenderer('header', w);
   }
 
   _onShowFiltersClick = () => {
     this._resetTableToStartRow();
   }
 
-  _renderMiniHeader = () => {
-    return (
-      <div className="search-page-right-block-new--mini-header">
-        <a onClick={this._onShowFiltersClick} style={{pointerEvents: 'initial'}} className="ap-link us-n">Показать поиск</a>
-      </div>
-    );
+  _renderMiniHeader = (w) => {
+    return cellRenderer('header', w);
   }
 
   _resetTableToStartRow = () => {
@@ -131,30 +108,37 @@ export default class CatalogPageRightBlockContentNew extends Component {
   }
 
   render() {
+
 //console.log(this.props.catalogResults.toJS());
     const K_ROW_HEIGHT = 40;
-    const K_HEADER_HEIGHT = 55;
+    const K_HEADER_HEIGHT = 41;
     const K_MINI_HEADER_HEIGHT = 40;
-console.log(this.props.orderStatistics.toJS());
+//console.log(this.props.orderStatistics.toJS());
     return (
       <div className="">
-        <IceFixedTable
-          className="w100% h400px p-r o-h "
-          onVisibleRowsChange={this._onVisibleRowsChange}
-          onRowMouseEnter={this._onRowMouseEnter}
-          onRowMouseLeave={this._onRowMouseLeave}
-          forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
-          columns = {this._columns}
-          cellRenderer = {this._cellRenderer}
-          getRowObjectAt = {this._getRowObjectAt}
-          getRowClassNameAt={this._getRowClassNameAt}
-          rowsCount = {this.props.orderStatistics && this.props.orderStatistics.size || K_MIN_DEFAULT_ROWS_SIZE}
-          headerHeight = {K_HEADER_HEIGHT}
-          miniHeaderHeight = {K_MINI_HEADER_HEIGHT}
-          startRow = {this.props.startRow}
-          rowHeight = {K_ROW_HEIGHT}
-          miniHeaderRenderer = {this._renderMiniHeader}
-          headerRenderer = {this._renderHeader} />
+        {this.props.orderStatistics.size > 0 &&
+          <div>
+            <hr className="hr m50-0"/>
+            <h3 className="fs20 fw-n m20-0">Таблица запросов </h3>
+            <IceFixedTable
+              className="w100% h400px p-r o-h"
+              onVisibleRowsChange={this._onVisibleRowsChange}
+              onRowMouseEnter={this._onRowMouseEnter}
+              onRowMouseLeave={this._onRowMouseLeave}
+              forceUpdateCounter={this.props.forceUpdateCounter} //прокинуто везде где надо перерисовать данные
+              columns = {this._columns}
+              cellRenderer = {this._cellRenderer}
+              getRowObjectAt = {this._getRowObjectAt}
+              getRowClassNameAt={this._getRowClassNameAt}
+              rowsCount = {this.props.orderStatistics && this.props.orderStatistics.size || K_MIN_DEFAULT_ROWS_SIZE}
+              headerHeight = {K_HEADER_HEIGHT}
+              miniHeaderHeight = {K_MINI_HEADER_HEIGHT}
+              startRow = {this.props.startRow}
+              rowHeight = {K_ROW_HEIGHT}
+              miniHeaderRenderer = {this._renderMiniHeader}
+              headerRenderer = {this._renderHeader} />
+          </div>
+        }
       </div>
     );
   }

@@ -209,6 +209,7 @@ export default class MapMarker extends Component {
 
               {this.props.marker.getIn(['filial_phones', 0])}<br/>
               {this.props.marker.getIn(['filial_phones', 1])}<br/>
+              {this.props.marker.getIn(['filial_phones', 2])}<br/>
             </span>
 
           </div>

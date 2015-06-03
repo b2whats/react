@@ -56,6 +56,7 @@
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "extract-text-webpack-plugin": "^0.3.5",
     "file-loader": "^0.8.1",
+    "fixed-data-table": "^0.1.2",
     "html-loader": "^0.2.2",
     "items-store": "^0.4.2",
     "jscs": "^1.13.1",

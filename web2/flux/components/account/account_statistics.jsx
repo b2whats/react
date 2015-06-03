@@ -64,6 +64,7 @@ var AccountStatistics = React.createClass({
           </div>
           }
         </div>
+
         <Table />
       </div>
     );

@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react/addons';
+import React, {PropTypes, Component } from 'react/addons';
 
 import cx from 'classnames';
 import Link from 'components/link.jsx';
@@ -14,7 +14,8 @@ const K_ROW_CLASS_NAME_ODD = 'catalog-page-table-new-row-odd';
 
 const K_ROW_CLASS_NAME_EVEN_HOVERED = 'catalog-page-table-new-row-even catalog-page-table-new-row-even--hovered';
 const K_ROW_CLASS_NAME_ODD_HOVERED = 'catalog-page-table-new-row-odd catalog-page-table-new-row-odd--hovered';
-
+import Col from 'fixed-data-table-ice/internal/FixedDataTableCell.react';
+import flexGrow from 'fixed-data-table-ice/internal/FixedDataTableWidthHelper';
 import statisticsActions from 'actions/statisticsActions.js';
 
 // DATA DEFINITION
@@ -22,41 +23,106 @@ const columns = [
   {
     dataKey: 'description',
     flexGrow: 4,
-    label: 'dw',
+    label: '',
     width: 200,
-    cellClassName: 'bR1s bc-grey-400'
+    cellClassName: 'bL1s bR1s bc-grey-400'
   },
   {
     dataKey: 'manufacturer/code',
     flexGrow: 1,
-    label: 'www',
+    label: '',
     width: 150,
     cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'name/email',
     flexGrow: 1,
-    label: 'ww',
+    label: '',
     width: 150,
     cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'phone',
     flexGrow: 1,
-    label: 'qq',
+    label: '',
     width: 150,
     cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'date',
     flexGrow: 1,
-    label: '212',
+    label: '',
     width: 100,
     cellClassName: 'bR1s bc-grey-400'
   },
 ];
 
 export {columns};
+function getTotalWidth(/*array*/ columns) /*number*/ {
+  var totalWidth = 0;
+  for (var i = 0; i < columns.length; ++i) {
+    totalWidth += columns[i].width;
+  }
+  return totalWidth;
+}
+
+function getTotalFlexGrow(/*array*/ columns) /*number*/ {
+  var totalFlexGrow = 0;
+  for (var i = 0; i < columns.length; ++i) {
+    totalFlexGrow += columns[i].flexGrow || 0;
+  }
+  return totalFlexGrow;
+}
+
+function distributeFlexWidth(
+  /*array*/ columns,
+  /*number*/ flexWidth
+) /*object*/ {
+  if (flexWidth <= 0) {
+    return {
+      columns: columns,
+      width: getTotalWidth(columns),
+    };
+  }
+  var remainingFlexGrow = getTotalFlexGrow(columns);
+  var remainingFlexWidth = flexWidth;
+  var newColumns = [];
+  var totalWidth = 0;
+  for (var i = 0; i < columns.length; ++i) {
+    var column = columns[i];
+    if (!column.flexGrow) {
+      totalWidth += column.width;
+      newColumns.push(column);
+      continue;
+    }
+    var columnFlexWidth = Math.floor(
+      column.flexGrow / remainingFlexGrow * remainingFlexWidth
+    );
+    var newColumnWidth = Math.floor(column.width + columnFlexWidth);
+    totalWidth += newColumnWidth;
+
+    remainingFlexGrow -= column.flexGrow;
+    remainingFlexWidth -= columnFlexWidth;
+
+    newColumns.push(Object.assign({}, column, {width: newColumnWidth}));
+  }
+
+  return {
+    columns: newColumns,
+    width: totalWidth,
+  };
+}
+function adjustColumnWidths(
+  /*array*/ columns,
+  /*number*/ expectedWidth
+) /*array*/ {
+  var columnsWidth = getTotalWidth(columns);
+  if (columnsWidth < expectedWidth) {
+    return distributeFlexWidth(columns, expectedWidth - columnsWidth).columns;
+  }
+  return columns;
+}
+
 
 function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
   return (
@@ -100,13 +166,41 @@ function renderDateColumn(cellDataKey, rowData, rowIndex) {
     </div>
   );
 }
+function renderDescription() {
+  return <span>Заявка</span>;
+}
+function renderMC() {
+  return <span className="d-ib"><span>Производитель/<br/>Код</span></span>;
+}
+function renderNE() {
+  return <span className="d-ib"><span>Имя/<br/>Почта</span></span>;
+}
+function renderP() {
+  return <span>Телефон</span>;
+}
+function renderDate() {
+  return <span>Дата</span>;
+}
+function renderHeader(cellDataKey, {width}) {
+  let newColumns = adjustColumnWidths(columns, width);
+//console.log(11111111);
+  return (
+    <div className={cx('fs12 bB1s bc-grey-400')}>
+      <Col height={40} cellRenderer={renderDescription} rowIndex={1} className='bL1s bR1s bc-grey-400 bgc-grey-100 d-ib va-T fs13' {...newColumns[0]}/>
+      <Col height={40} cellRenderer={renderMC} rowIndex={2} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[1]}/>
+      <Col height={40} cellRenderer={renderNE} rowIndex={3} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[2]}/>
+      <Col height={40} cellRenderer={renderP} rowIndex={4} className='bR1s bc-grey-400 bgc-grey-100  d-ib va-T fs13' {...newColumns[3]}/>
+      <Col height={40} cellRenderer={renderDate} rowIndex={5} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[4]}/>
+
+    </div>
+  );
+}
 export function getRowClassNameAt(i, isHovered, isFirstInvisibleRow) {
 
   return i % 2 > 0 ? 'bgc-grey-100 p5-0' : 'p5-0 mR10'
 }
 
 export function cellRenderer(cellDataKey, rowData, rowIndex) {
-  console.log(cellDataKey);
   switch (cellDataKey) {
   case 'description':
     return renderDescriptionColumn(cellDataKey, rowData, rowIndex);
@@ -118,6 +212,8 @@ export function cellRenderer(cellDataKey, rowData, rowIndex) {
     return renderPhoneColumn(cellDataKey, rowData, rowIndex);
   case 'date':
     return renderDateColumn(cellDataKey, rowData, rowIndex);
+  case 'header':
+    return renderHeader(cellDataKey, rowData);
   default:
     return (
       <div>{rowData ? 'Привет мир' : ''}</div>

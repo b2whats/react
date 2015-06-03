@@ -266,7 +266,7 @@ const IceFixedTable = React.createClass({
           showMainHeader = false;
         }
       } else {
-        if (-headerTop > -(this.props.headerHeight - this.props.miniHeaderHeight - K_SCROLL_HEADER_DEBOUNCE_EPS)) {
+        if (-headerTop >= -(this.props.headerHeight - this.props.miniHeaderHeight - K_SCROLL_HEADER_DEBOUNCE_EPS)) {
           showMainHeader = true;
         }
       }
@@ -326,6 +326,7 @@ const IceFixedTable = React.createClass({
   },
 
   render() {
+    //console.log(this.state.showMainHeader);
     return (
       <div
         onMouseLeave={this._onMouseLeave}
@@ -358,7 +359,7 @@ const IceFixedTable = React.createClass({
               onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel}
               style={{top: `${this.state.headerTop}px`, height: this.props.headerHeight}}
               className="catalog-header-holder">
-              <PureRenderer render={this.props.headerRenderer} />
+              <PureRenderer render={this.props.headerRenderer} width={Math.floor(this.props.width)}/>
             </div>,
 
             <div
@@ -366,7 +367,7 @@ const IceFixedTable = React.createClass({
               style={this.state.showMainHeader ? styleInvisible : styleEmpty}
               onWheel={this.state.wheelHandler && this.state.wheelHandler.onWheel}
               className="search-page-right-block-new--mini-header-holder">
-              <PureRenderer render={this.props.miniHeaderRenderer} />
+              <PureRenderer render={this.props.miniHeaderRenderer} width={Math.floor(this.props.width)} />
             </div>
           ]
             :

@@ -24,15 +24,15 @@ module.exports.getOrderStatistics = () => {
   resource(api_refs.GET)
     .post({order_by_auth: true})
     .then((response) => {
-      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_ORDER_STATISTICS_LOADED].concat([response.results.order]));
-      console.log(response);
+
+      response.results.order && main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_ORDER_STATISTICS_LOADED].concat([response.results.order]));
+
     });
 };
 module.exports.getStatistics = () => {
   resource(api_refs.STATISTICS)
     .post({requestType: 'get'})
     .then((response) => {
-      console.log(response);
       response.status1 = {
         ap: {
           show: [
@@ -159,7 +159,7 @@ module.exports.getStatistics = () => {
           arr[services][type] = (values.length > 0) ? [arr[services][type]] : null;
         }
       }
-      console.log(arr);
+
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_STATISTICS_LOADED].concat([arr]));
 
     })
