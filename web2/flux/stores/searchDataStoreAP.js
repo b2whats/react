@@ -36,7 +36,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
   const sorted = data
     // отсортировать по видимость на карте и sort параметру
     .sortBy(item =>
-      -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort')))
+      -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time')))
     // проставить видимым айтемам то что они видимы
     .map(item =>
       id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)

@@ -19,7 +19,7 @@ var kDEFAULT_STORE_PRIORITY = sc.kDEFAULT_STORE_PRIORITY;
 var state_ = init_state(_.last(__filename.split('/')), {
   statistics: {},
   orderStatistics: [],
-  currentService: 'ap'
+  currentService: 'c'
 });
 
 
