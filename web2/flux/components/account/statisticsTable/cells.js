@@ -160,7 +160,7 @@ function renderDateColumn(cellDataKey, rowData, rowIndex) {
   var date = new Date(rowData.get('date'));
   return (
     <div className={cx('fs12')}>
-      {`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}<br/>
+      {`${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`}<br/>
       {`в ${date.getHours()}:${date.getMinutes()}`}
 
     </div>

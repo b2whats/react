@@ -5,7 +5,6 @@ import catalogDataStore from 'stores/catalog_data_store_new.js';
 import catalogActions from 'actions/catalog_data_actions_new.js';
 import statisticsActions from 'actions/statisticsActions.js';
 
-
 @rafStateUpdate(() => ({
   visiblePhoneSet: catalogDataStore.getVisiblePhoneSet()
 }), catalogDataStore)
@@ -21,7 +20,7 @@ export default class CatalogRowShowPhone extends Component {
     super(props);
   }
 
-  _showBalloon = () => {
+  _showBalloon = ()=> {
     const addressId = this.props.rowData.get('addresses').get(0).get('id');
 
     if (catalogDataStore.getActiveAddressId() === addressId) {
@@ -44,13 +43,13 @@ export default class CatalogRowShowPhone extends Component {
     return (
       <div className='ta-C va-M' onClick={this._showBalloon}>
         <div style={ { display: showPhone ? 'block': 'none' } }
-          className="ta-C fs20">
+             className="ta-C fs20">
           <span className='fs14'>{!!mainPhone && mainPhone.substr(0, 7)}</span>
-        {!!mainPhone && mainPhone.substr(7)}
+          {!!mainPhone && mainPhone.substr(7)}
         </div>
         <button onClick={this._onShowPhone}
-          style={ { display: showPhone ? 'none' : 'inline-block' } }
-          className="p8 br2 grad-w b0 btn-shad-b ta-C">
+                style={ { display: showPhone ? 'none' : 'inline-block' } }
+                className="p8 br2 grad-w b0 btn-shad-b ta-C">
           <i className="flaticon-phone c-deep-purple-500 fs16 mR5"></i>
           <span className=''>Показать телефон</span>
         </button>

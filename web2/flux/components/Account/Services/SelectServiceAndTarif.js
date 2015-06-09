@@ -80,7 +80,7 @@ class CompanyFilial extends Component {
   }
   onSubmitSelectBrands() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
-    ServicesActions.submitCheckbox('brands', ServicesStore.getSelectBrands().toJS().toString());
+    ServicesActions.submitCheckbox('brands', ServicesStore.getSelectBrands().filter(el => el != '').toJS().toString());
   }
   onSubmitSelectServices() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
