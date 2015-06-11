@@ -58,8 +58,8 @@ var Footer = React.createClass({
           </span>
           <span>  
             Мы в соц. сетях :
-            <Link className="icon-link" href="/"><i className="icon-facebook-rect"></i></Link>
-            <Link className="icon-link" href="/"><i className="icon-vkontakte-rect"></i></Link>
+            <Link target="_blank" className="c-deep-purple-500 H-c-yellow-500" href="https://www.facebook.com/groups/autogiper/"><i className="icon-facebook-rect"></i></Link>
+            <Link className="c-deep-purple-500 H-c-yellow-500" href="http://vk.com/theautogiper"><i className="icon-vkontakte-rect"></i></Link>
           </span>
         </div>
       </div>

@@ -65,6 +65,7 @@ var cncl_ = [
   main_dispatcher
   .on(event_names.kON_CURRENT_FILIAL_CHANGE, () => {
 		  var current_fillial  = account_page_store.get_current_filial();
+      console.log(current_fillial.toJS());
 		  update_state_param('address', current_fillial.get('city') + ' ' + current_fillial.get('street') + ' ' + current_fillial.get('house'));
 		  update_state_param('coordinates', current_fillial.get('coordinates'));
 		  update_state_param('type', current_fillial.get('filial_type_id'));

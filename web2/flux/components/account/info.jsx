@@ -29,48 +29,46 @@ var Select = require('react-select');
 /*Component*/
 import CompanyFilial from 'components/Account/Company/CompanyFilial';
 
-
-
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
-		return ({ //state update lambda
-      modalIsOpen             : modal_store.getModalIsOpen(),
-      formsIsEdit             : editable_forms_store.get_forms_editable(),
-      company_information     : account_page_store.get_company_information(),
-      company_personal_detail : account_page_store.get_company_personal_detail(),
-		})
-	},
-	modal_store, editable_forms_store, account_page_store/*observable store list*/);
+    return ({ //state update lambda
+      modalIsOpen: modal_store.getModalIsOpen(),
+      formsIsEdit: editable_forms_store.get_forms_editable(),
+      company_information: account_page_store.get_company_information(),
+      company_personal_detail: account_page_store.get_company_personal_detail(),
+    })
+  },
+  modal_store, editable_forms_store, account_page_store/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
 
 var FilialAddressSelector = require('components/account/filial_address_selector.jsx');
 var AccountInfo = React.createClass({
-	mixins : [
-		PureRenderMixin,
-		RafBatchStateUpdateMixin,
-		ModalMixin
-	],
+  mixins: [
+    PureRenderMixin,
+    RafBatchStateUpdateMixin,
+    ModalMixin
+  ],
 
-	startEdit         : function (id) {
-		return () => editable_forms_actions.start_edit(id);
-	},
-	endEdit           : function () {
-		editable_forms_actions.end_edit();
+  startEdit: function (id) {
+    return () => editable_forms_actions.start_edit(id);
+  },
+  endEdit: function () {
+    editable_forms_actions.end_edit();
     // console.log(account_page_store.get_company_information().toJS());
-		account_page_actions.update_company_information(account_page_store.get_company_information().toJS());
-	},
-	toggleEdit        : function (id) {
-		return () => (!this.state.formsIsEdit.get(id)) ?
-			editable_forms_actions.start_edit(id) :
-			editable_forms_actions.end_edit();
-	},
-	updateFormElement : function (name) {
-		return (value) => account_page_actions.update_form(name, value);
-	},
-	btnChange    : function (name) {
-		this.refs.snack.show();
-	},
+    account_page_actions.update_company_information(account_page_store.get_company_information().toJS());
+  },
+  toggleEdit: function (id) {
+    return () => (!this.state.formsIsEdit.get(id)) ?
+      editable_forms_actions.start_edit(id) :
+      editable_forms_actions.end_edit();
+  },
+  updateFormElement: function (name) {
+    return (value) => account_page_actions.update_form(name, value);
+  },
+  btnChange: function (name) {
+    this.refs.snack.show();
+  },
   updateCompanyPersonalDetails(field) {
     return (e) => {
       var value = (typeof e == 'object') ? e.target.value : e;
@@ -81,18 +79,19 @@ var AccountInfo = React.createClass({
     e.preventDefault();
     account_page_actions.submit_company_personal_details(this.state.company_personal_detail.toJS());
   },
-	render() {
+  render() {
 
-		var edit = this.state.formsIsEdit.get('informations');
-		return (
-			<div className='entire-width'>
-				<div className='company-information w50pr '>
-					<h2 className='tt-n fs26 d-ib mR15'>Информация о компании</h2>
+    var edit = this.state.formsIsEdit.get('informations');
+    return (
+      <div className='entire-width'>
+        <div className='company-information w50pr '>
+          <h2 className='tt-n fs26 d-ib mR15'>Информация о компании</h2>
 					<span className='d-ib'>
 						<i className='svg-icon_edit-grey' onClick={this.toggleEdit('informations')}/>
-						<a className='fs13 mL15  td-u ap-link d-ib' onClick={this.openModal('payment_information')} >Платежные реквизиты</a>
+						<a className='fs13 mL15  td-u ap-link d-ib' onClick={this.openModal('payment_information')}>Платежные
+              реквизиты</a>
 					</span>
-					<table className='company-information__view-edit m10-0 w100pr'>
+          <table className='company-information__view-edit m10-0 w100pr'>
             <tr>
               <td>Название</td>
               <td>
@@ -101,21 +100,21 @@ var AccountInfo = React.createClass({
                     className={cx({'input-as-text' : !edit})}
                     onChange={this.updateFormElement('name')}
                     edit={edit}
-                    text={this.state.company_information.get('name')} />
+                    text={this.state.company_information.get('name')}/>
                 </strong>
               </td>
             </tr>
-						<tr>
-							<td>Сайт</td>
-							<td>
-								<EditableForms
+            <tr>
+              <td>Сайт</td>
+              <td>
+                <EditableForms
                   placeholder='Введите название вашего сайта'
                   className={cx({'input-as-text' : !edit})}
                   onChange={this.updateFormElement('site')}
-									edit={edit}
-									text={this.state.company_information.get('site')} />
-							</td>
-						</tr>
+                  edit={edit}
+                  text={this.state.company_information.get('site')}/>
+              </td>
+            </tr>
             <tr>
               <td>Телефон</td>
               <td>
@@ -125,33 +124,36 @@ var AccountInfo = React.createClass({
                   className={cx({'input-as-text' : !edit})}
                   onChange={this.updateFormElement('phone')}
                   edit={edit}
-                  text={this.state.company_information.get('phone')} />
+                  text={this.state.company_information.get('phone')}/>
               </td>
             </tr>
-						<tr>
-							<td>Комментарии об услугах</td>
-							<td className='lh1-4'>
-								<EditableForms
+            <tr>
+              <td>Комментарии об услугах</td>
+              <td className='lh1-4'>
+                <EditableForms
                   className={cx({'input-as-text' : !edit})}
                   placeholder='Описание компании'
-									onChange={this.updateFormElement('description')}
-									edit={edit}
-									type='textarea'
-									text={this.state.company_information.get('description')} />
-							</td>
-						</tr>
-						<tr>
-							<td className='ta-C h60px p0' colSpan='2'>
-                                    {edit && <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8' onClick={this.endEdit}>Сохранить</button>}
-							</td>
-						</tr>
-					</table>
+                  onChange={this.updateFormElement('description')}
+                  edit={edit}
+                  type='textarea'
+                  text={this.state.company_information.get('description')}/>
+              </td>
+            </tr>
+            <tr>
+              <td className='ta-C h60px p0' colSpan='2'>
+                {edit &&
+                <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8' onClick={this.endEdit}>Сохранить</button>}
+              </td>
+            </tr>
+          </table>
           <CompanyFilial />
-				</div>
-				<div className='your-manager w50pr Mw500px'>
-					<h2 className='tt-n fs26'>Ваш личный менеджер</h2>
-					<div className='p15 br10 z-depth1  new_context m30-0'>
-						<img className='va-T f-L mR20' src={info_image} />
+        </div>
+        <div className='your-manager w50pr Mw500px'>
+          <h2 className='tt-n fs26'>Ваш личный менеджер</h2>
+
+          <div className='p15 br10 z-depth1  new_context m30-0'>
+            <img className='va-T f-L mR20' src={info_image}/>
+
             <div className='new-context'>
               <div className='fw-b fs18'>Ваш менеджер</div>
               <div className='m15-0'>
@@ -167,122 +169,125 @@ var AccountInfo = React.createClass({
 
               </div>
             </div>
-					</div>
+          </div>
 
-				</div>
-				<Modal
-					isOpen={!!this.state.modalIsOpen.get('payment_information')}
-					onRequestClose={this.handleModalCloseRequest}
-				>
-					<div className='ta-C w700px'>
-						<div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
+        </div>
+        <Modal
+          isOpen={!!this.state.modalIsOpen.get('payment_information')}
+          onRequestClose={this.handleModalCloseRequest}
+          >
+          <div className='ta-C w700px'>
+            <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
             <h2 className='m15-0 mB25'>Реквизиты компании</h2>
+
             <form onSubmit={this.submitCompanyPersonalDetails} encType="application/x-www-form-urlencoded">
-              <ButtonGroup className='m15-0' select_element_value={this.state.company_personal_detail && this.state.company_personal_detail.get('type') || 'ИП'} onChange={this.updateCompanyPersonalDetails('type')}>
+              <ButtonGroup className='m15-0'
+                           select_element_value={this.state.company_personal_detail && this.state.company_personal_detail.get('type') || 'ИП'}
+                           onChange={this.updateCompanyPersonalDetails('type')}>
                 <button type='button' className="btn-bg-group w80px" value={'ИП'}>ИП</button>
-                <button type='button'  className="btn-bg-group w80px" value={'ООО'}>ООО</button>
-                <button type='button'  className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
-                <button type='button'  className="btn-bg-group w80px" value={'ОАО'}>ОАО</button>
+                <button type='button' className="btn-bg-group w80px" value={'ООО'}>ООО</button>
+                <button type='button' className="btn-bg-group w80px" value={'ЗАО'}>ЗАО</button>
+                <button type='button' className="btn-bg-group w80px" value={'ОАО'}>ОАО</button>
               </ButtonGroup>
+
               <div>
                 <div className='d-ib w50pr p10'>
                   <label>
                     <span className='d-b m5-0 fs14'>Полное наименование компании</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('name')}
-                      onChange={this.updateCompanyPersonalDetails('name')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('name')}
+                           onChange={this.updateCompanyPersonalDetails('name')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>ИНН</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('inn')}
-                      onChange={this.updateCompanyPersonalDetails('inn')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('inn')}
+                           onChange={this.updateCompanyPersonalDetails('inn')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>Юридический адрес</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('legal_address')}
-                      onChange={this.updateCompanyPersonalDetails('legal_address')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('legal_address')}
+                           onChange={this.updateCompanyPersonalDetails('legal_address')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>Банк</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('bank')}
-                      onChange={this.updateCompanyPersonalDetails('bank')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('bank')}
+                           onChange={this.updateCompanyPersonalDetails('bank')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>Расчетный счет</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('rs')}
-                      onChange={this.updateCompanyPersonalDetails('rs')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('rs')}
+                           onChange={this.updateCompanyPersonalDetails('rs')}/>
                   </label>
                 </div>
                 <div className='d-ib w50pr p10'>
                   <label>
                     <span className='d-b m5-0 fs14'>ОГРН</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('ogrn')}
-                      onChange={this.updateCompanyPersonalDetails('ogrn')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('ogrn')}
+                           onChange={this.updateCompanyPersonalDetails('ogrn')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>КПП</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('kpp')}
-                      onChange={this.updateCompanyPersonalDetails('kpp')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('kpp')}
+                           onChange={this.updateCompanyPersonalDetails('kpp')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>Фактический адрес</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('actual_address')}
-                      onChange={this.updateCompanyPersonalDetails('actual_address')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('actual_address')}
+                           onChange={this.updateCompanyPersonalDetails('actual_address')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>БИК</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('bik')}
-                      onChange={this.updateCompanyPersonalDetails('bik')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('bik')}
+                           onChange={this.updateCompanyPersonalDetails('bik')}/>
                   </label>
                   <label>
                     <span className='d-b m5-0 fs14'>Корреспондентский счет</span>
                     <input type='text'
-                      className='w100pr'
-                      defaultValue={this.state.company_personal_detail.get('ks')}
-                      onChange={this.updateCompanyPersonalDetails('ks')}/>
+                           className='w100pr'
+                           defaultValue={this.state.company_personal_detail.get('ks')}
+                           onChange={this.updateCompanyPersonalDetails('ks')}/>
                   </label>
                 </div>
               </div>
               <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0'>Сохранить</button>
             </form>
 
-					</div>
-				</Modal>
-				<Modal
-					isOpen={!!this.state.modalIsOpen.get('edit_company_filial')}
-					onRequestClose={this.handleModalCloseRequest}
-				>
+          </div>
+        </Modal>
+        <Modal
+          isOpen={!!this.state.modalIsOpen.get('edit_company_filial')}
+          onRequestClose={this.handleModalCloseRequest}
+          >
 
-                    <FilialAddressSelector />
+          <FilialAddressSelector />
 
 
-
-				</Modal>
-				<Snackbar
-					message="Event added to your calendar"
-					action="undo"
-					ref='snack'
-					onActionTouchTap={this._handleAction}/>
-			</div>
-		);
-	}
+        </Modal>
+        <Snackbar
+          message="Event added to your calendar"
+          action="undo"
+          ref='snack'
+          onActionTouchTap={this._handleAction}/>
+      </div>
+    );
+  }
 });
 
 module.exports = AccountInfo;

@@ -5,7 +5,7 @@ import React, {PropTypes, Component} from 'react/addons';
 // import controllable from 'react-controllables';
 import immutable from 'immutable';
 import sc from 'shared_constants';
-
+import emptyFunction from 'react/lib/emptyFunction';
 import GoogleMap from 'components/google/google_map.js';
 import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
 
@@ -17,7 +17,7 @@ import invariant from 'fixed-data-table-ice/internal/invariant.js';
 // import catalogDataStore from 'stores/catalog_data_store_new.js';
 // import catalogActions from 'actions/catalog_data_actions_new.js';
 
-import {getScale, getRealFromTo} from './calc_markers_visibility.js';
+
 import statisticsActions from 'actions/statisticsActions.js';
 
 const K_HOVER_DISTANCE = 30;
@@ -35,19 +35,7 @@ const K_HOVER_DISTANCE = 30;
 }), catalogDataStore)
 */
 export default class CatalogMap1 extends Component {
-  static propTypes = {
-    className: PropTypes.string,
-    center: PropTypes.any.isRequired,
-    zoom: PropTypes.number.isRequired,
-    visibleRows: PropTypes.any.isRequired,
-    dataResults: PropTypes.any.isRequired,
-    hoveredRowIndex: PropTypes.number,
-    mapMargin: PropTypes.array,
-    activeAddressId: PropTypes.any,
-    onRowAddressActive: PropTypes.func,
-    onRowMapHover: PropTypes.func,
-    oMapBoundsChange: PropTypes.func
-  }
+
 
   static defaultProps = {
     mapMargin: [30, 30, 30, 30]
@@ -83,10 +71,6 @@ export default class CatalogMap1 extends Component {
   _onBoundsChange = (center, zoom, bounds, marginBounds) => {
     if (this.props.oMapBoundsChange) {
       this.props.oMapBoundsChange(center, zoom, bounds, marginBounds);
-    }
-
-    if (this.props.onRowAddressActive) {
-      this.props.onRowAddressActive(null, false);
     }
   }
 
@@ -126,55 +110,22 @@ export default class CatalogMap1 extends Component {
   }
 
   render() {
-    // console.log('this.props.activeAddressId', this.props.activeAddressId);
-    const visibleRowFrom = this.props.visibleRows.get('visibleRowFirst');
-    const visibleRowTo = this.props.visibleRows.get('visibleRowLast');
-    const {rowFrom, rowTo} = getRealFromTo(visibleRowFrom, visibleRowTo, this.props.dataResults.size);
-    const emptyIm = new immutable.List();
-
-
-    const Markers = rowFrom === -1 ? emptyIm : (new immutable.Range(rowFrom, rowTo + 1)).toList()
-      .flatMap( rowIndex => {
-        const row = this.props.dataResults.get(rowIndex);
-
-        if (row.get('visible_item')) {
-          return row.get('addresses')
-            .filter(addr => addr.get('visible_address'))
-            .map(addr => (
-              <MapMarker
-                // required params
-                key={addr.get('id')}
-                lat={addr.get('coordinates').get(0)}
-                lng={addr.get('coordinates').get(1)}
-                // any params
-                onCloseClick={this._onChildCloseClick}
-                showBallon={this.props.activeAddressId === addr.get('id')}
-                hoveredAtTable={this.props.hoveredRowIndex === rowIndex}
-                scale={getScale(rowIndex, visibleRowFrom, visibleRowTo)}
-                marker={addr}
-              />
-            ));
-        }
-        return emptyIm;
-      });
-    const center = this.props.dataResults.first() && this.props.dataResults.first().get('addresses').first().get('coordinates').toJS() || [];
-
-    console.log(this.props.zoom, center);
     return (
       <GoogleMap
         apiKey={sc.kGOOGLE_MAP_API_KEY}
         className={this.props.className}
         hoverDistance={K_HOVER_DISTANCE}
         distanceToMouse={this._distanceToMouse}
-        center={center}
+        center={this.props.center}
         onBoundsChange={this._onBoundsChange}
-        onChildMouseEnter={this._onChildMouseEnter}
-        onChildMouseLeave={this._onChildMouseLeave}
-        onChildClick={this._onChildClick}
+        onChildMouseEnter={emptyFunction}
+        onChildMouseLeave={emptyFunction}
+        onChildClick={emptyFunction}
         margin={this.props.mapMargin}
         debounced={true} // слать запросы onBoundsChange только на idle
-        zoom={this.props.zoom}>
-        {Markers}
+        zoom={this.props.zoom}
+      >
+
       </GoogleMap>
     );
   }
