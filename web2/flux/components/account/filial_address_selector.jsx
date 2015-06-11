@@ -58,6 +58,7 @@ var FilialAddressSelector = React.createClass({
     filial_address_and_work_time_actions.f_phone_change(index, e.target.value);
   },
   onClickCloseModal() {
+    filial_address_and_work_time_actions.f_metadata_change(null);
     ModalActions.closeModal();
   },
   on_address_changed(address, coords, metadata) {
