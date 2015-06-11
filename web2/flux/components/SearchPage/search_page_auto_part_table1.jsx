@@ -49,7 +49,7 @@ import statisticsActions from 'actions/statisticsActions.js';
 import Link from 'components/link.jsx';
 import regionStore from 'stores/region_store.js';
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = sc.kITEMS_PER_PAGE;
+var kITEMS_PER_PAGE = [10, 20];
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 @controllable(['currentPage', 'itemPerPage', 'currentOrderItem'])

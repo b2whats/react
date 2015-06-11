@@ -79,13 +79,14 @@ var FilialAddressSelector = React.createClass({
     filial_address_and_work_time_actions.f_work_time_from_change(index, value);
   },
   onAddressChange(center, address) {
-    //console.log(address);
+    //console.log(center);
     filial_address_and_work_time_actions.f_address_change(address.formatted_address);
     filial_address_and_work_time_actions.f_coords_change(center);
     filial_address_and_work_time_actions.f_metadata_change(address);
     //console.log(center, address);
   },
   onCenterChange(center) {
+    console.log(center);
     filial_address_and_work_time_actions.f_coords_change(center);
   },
   on_to_change(index, value) {

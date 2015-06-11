@@ -46,12 +46,18 @@ export default class GoogleAutocomplete extends Component {
 
         this.autocomplete = new maps.places.Autocomplete(React.findDOMNode(this.refs.address), {types: ['geocode']});
         this.geocoder = new maps.Geocoder();
+        var latlng = new maps.LatLng(this.props.center[0], this.props.center[1]);
+        this.geocoder.geocode({'latLng': latlng}, function(results, status) {
+          console.log(results);
+        });
+
 
         if (this.props.formattedAddress) {
           const address = this.props.formattedAddress;
 
           this.geocoder.geocode({'address': address}, (results, status) => {
             if (status === maps.GeocoderStatus.OK) {
+              this.onSelectedAddressChange(results[0])
               this._onResultsChange(results);
             }
           });
@@ -85,6 +91,7 @@ export default class GoogleAutocomplete extends Component {
   }
 
   onSelectedAddressChange(r) {
+    console.log(r);
     r && this.props.onAddressChange([r.geometry.location.A, r.geometry.location.F], r);
     this.props.onChChange(false);
   }
