@@ -249,6 +249,13 @@ a.icon-link {
     border: 4px solid #b7a6de;
     background: url('../images/templates/icon-gear.png') no-repeat -4px -3px ;
 }
+.autoparts-bg {
+    background-image: url('../images/templates/icon-gear.png');
+}
+.autoservices-bg {
+    background-image: url('../images/templates/icon-key.png');
+}
+
 .big-search-block .autoservices {
     border: 4px solid #f6d600;
     background: url('../images/templates/icon-key.png') no-repeat -4px -3px ;

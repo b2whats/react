@@ -110,7 +110,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
   render() {
 
 //console.log(this.props.catalogResults.toJS());
-    const K_ROW_HEIGHT = 40;
+    const K_ROW_HEIGHT = 60;
     const K_HEADER_HEIGHT = 41;
     const K_MINI_HEADER_HEIGHT = 40;
 //console.log(this.props.orderStatistics.toJS());

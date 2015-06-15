@@ -25,7 +25,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   services_by_type: {},
   select_brands: {},
   select_services: {},
-  masters_name: {},
+  masters_name: [],
   orderType: 0,
   tarifs: {
     autoparts : {

@@ -13,6 +13,8 @@ import Modal from 'components/modal/index';
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
 import searchOrderActions from 'actions/searchOrderActions.js';
+import searchDataStoreAP from 'stores/searchDataStoreAP.js';
+import searchDataStoreAS from 'stores/searchDataStoreAS.js';
 
 
 /*Store*/
@@ -38,8 +40,9 @@ class Order extends Component {
       sender: {
         name: React.findDOMNode(this.refs.name).value,
         email: React.findDOMNode(this.refs.email).value,
-        phone: React.findDOMNode(this.refs.phone).value,
         comment: React.findDOMNode(this.refs.comment).value,
+        searchap: searchDataStoreAP.getHeader(),
+        searchas: searchDataStoreAS.getHeader(),
       },
       subject: this.props.item.toJS(),
       companyRecipientId: this.props.item.get('user_id'),
@@ -79,18 +82,10 @@ class Order extends Component {
             />
           </label>
           <label>
-            <span className='d-b m5-0 fs14'>Телефон</span>
-            <input
-              className={cx('w100pr', this.props.orderFieldValidation.contains('phone') && 'bs-error')}
-              defaultValue={this.props.orderField.get('phone')}
-              ref="phone"
-              type="text"
-            />
-          </label>
-          <label>
             <span className='d-b m5-0 fs14'>Комментарий</span>
             <textarea
-              className={cx('w100pr h80px', this.props.orderFieldValidation.contains('comment') && 'bs-error')}
+              className={cx('w100pr h80px fs12', this.props.orderFieldValidation.contains('comment') && 'bs-error')}
+              placeholder="По желанию Вы можете ввести VIN номер автомобиля, свой телефон, или другую информацию. Это поможет быстрее обработать вашу заявку."
               ref="comment"
             />
           </label>

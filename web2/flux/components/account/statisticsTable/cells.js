@@ -22,37 +22,37 @@ import statisticsActions from 'actions/statisticsActions.js';
 const columns = [
   {
     dataKey: 'description',
-    flexGrow: 4,
+    flexGrow: 2,
     label: '',
-    width: 200,
+    width: 150,
     cellClassName: 'bL1s bR1s bc-grey-400'
+  },
+  {
+    dataKey: 'comment',
+    flexGrow: 2,
+    label: '',
+    width: 300,
+    cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'manufacturer/code',
     flexGrow: 1,
     label: '',
-    width: 150,
+    width: 130,
     cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'name/email',
     flexGrow: 1,
     label: '',
-    width: 150,
-    cellClassName: 'bR1s bc-grey-400'
-  },
-  {
-    dataKey: 'phone',
-    flexGrow: 1,
-    label: '',
-    width: 150,
+    width: 130,
     cellClassName: 'bR1s bc-grey-400'
   },
   {
     dataKey: 'date',
     flexGrow: 1,
     label: '',
-    width: 100,
+    width: 80,
     cellClassName: 'bR1s bc-grey-400'
   },
 ];
@@ -126,8 +126,22 @@ function adjustColumnWidths(
 
 function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
   return (
+    <div
+      className={cx('fs12', rowData.getIn(['services_id']) === 2 ?  'autoservices-bg' : 'autoparts-bg')}
+      style={{  backgroundRepeat: 'no-repeat', backgroundSize: '30px',  backgroundPosition: '98% 50%'}}
+      >
+      {rowData.getIn(['services_id']) === 2 ?
+        <span>{rowData.getIn(['sender', 'searchap', 'name'])}<br/>{rowData.getIn(['sender', 'searchas', 'service'])}</span>
+        :
+        rowData.getIn(['subject', 'name'])
+      }
+    </div>
+  );
+}
+function renderCommentColumn(cellDataKey, rowData, rowIndex) {
+  return (
     <div className={cx('fs12')}>
-      {rowData.getIn(['subject', 'name'])}
+      {rowData.getIn(['sender', 'comment'])}
     </div>
   );
 }
@@ -169,6 +183,9 @@ function renderDateColumn(cellDataKey, rowData, rowIndex) {
 function renderDescription() {
   return <span>Заявка</span>;
 }
+function renderComment() {
+  return <span>Комментарий</span>;
+}
 function renderMC() {
   return <span className="d-ib"><span>Производитель/<br/>Код</span></span>;
 }
@@ -187,9 +204,9 @@ function renderHeader(cellDataKey, {width}) {
   return (
     <div className={cx('fs12 bB1s bc-grey-400')}>
       <Col height={40} cellRenderer={renderDescription} rowIndex={1} className='bL1s bR1s bc-grey-400 bgc-grey-100 d-ib va-T fs13' {...newColumns[0]}/>
-      <Col height={40} cellRenderer={renderMC} rowIndex={2} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[1]}/>
-      <Col height={40} cellRenderer={renderNE} rowIndex={3} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[2]}/>
-      <Col height={40} cellRenderer={renderP} rowIndex={4} className='bR1s bc-grey-400 bgc-grey-100  d-ib va-T fs13' {...newColumns[3]}/>
+      <Col height={40} cellRenderer={renderComment} rowIndex={1} className='bR1s bc-grey-400 bgc-grey-100 d-ib va-T fs13' {...newColumns[1]}/>
+      <Col height={40} cellRenderer={renderMC} rowIndex={2} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[2]}/>
+      <Col height={40} cellRenderer={renderNE} rowIndex={3} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[3]}/>
       <Col height={40} cellRenderer={renderDate} rowIndex={5} className='bR1s bc-grey-400  bgc-grey-100 d-ib va-T fs13' {...newColumns[4]}/>
 
     </div>
@@ -204,6 +221,8 @@ export function cellRenderer(cellDataKey, rowData, rowIndex) {
   switch (cellDataKey) {
   case 'description':
     return renderDescriptionColumn(cellDataKey, rowData, rowIndex);
+  case 'comment':
+    return renderCommentColumn(cellDataKey, rowData, rowIndex);
   case 'manufacturer/code':
     return renderManCodeColumn(cellDataKey, rowData, rowIndex);
   case 'name/email':

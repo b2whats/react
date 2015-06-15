@@ -47,6 +47,11 @@ class CompanyFilial extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+    this.state = {masterName: ''};
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({masterName: newProps.masterName.first()})
   }
   onChangeToggle(val) {
     ToggleActions.change(val);
@@ -58,6 +63,7 @@ class CompanyFilial extends Component {
     ModalActions.closeModal();
   }
   onChangeMasterName(e) {
+    this.setState({masterName: e.target.value});
     ServicesActions.changeMasterName(e.target.value);
   }
   onSubmitMasterName(val) {
@@ -220,9 +226,9 @@ class CompanyFilial extends Component {
         })
         .toArray();
     };
-    let editMasterName = (this.props.masterName.first() === '') ?
-                          !this.props.toggle.get('masterName'):
-                          this.props.toggle.get('masterName');
+    let editMasterName = (this.props.masterName.first() === '' || !!this.props.toggle.get('masterName')) ?
+                          true:
+                          false;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price');
@@ -261,7 +267,7 @@ class CompanyFilial extends Component {
                   className={cx('bgc-t b1s bc-g', !editMasterName && 'input-as-text')}
                   disabled={!editMasterName}
                   type='text'
-                  value={this.props.masterName.first()}
+                  value={this.state.masterName}
                   onChange={this.onChangeMasterName}
                   placeholder='Введите имя мастера'/>
               </div>

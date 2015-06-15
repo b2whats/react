@@ -50,7 +50,7 @@ var AccountStatistics = React.createClass({
           <button className='btn-bg-group ' value='as'>Консультация мастера</button>
           <button className='btn-bg-group ' value='c'>Каталог компаний</button>
         </ButtonGroup>
-        <div style={{paddingLeft: '50px', paddingRight: '0px'}} className="account-statistics">
+        <div style={{paddingLeft: '50px', paddingRight: '50px'}} className="account-statistics">
           {this.state.statistics && this.state.statistics.get(this.state.currentService) && this.state.statistics.get(this.state.currentService).get('click') &&
           <div>
           <h2 className="ta-C fs20 mB10">Клики</h2>

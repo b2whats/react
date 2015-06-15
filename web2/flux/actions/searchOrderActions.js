@@ -19,10 +19,6 @@ module.exports.submit = (orderInfo) => {
           format: 'Не верный Email адрес'
         }
       },
-      phone: {
-        required: true,
-        allowEmpty: false
-      },
       comment: {
         required: true,
         allowEmpty: false
