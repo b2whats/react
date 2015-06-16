@@ -8,6 +8,7 @@ const security = require('./security.js');
 
 const auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
 const auto_part_search_actions = require('actions/auto_part_search_actions.js');
+const autoservices_search_actions = require('actions/autoservices_search_actions.js');
 const account_page_actions = require('actions/account_page_actions.js');
 const autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 const catalog_data_actions = require('actions/catalog_data_actions.js');
@@ -255,7 +256,12 @@ routes[route_definitions.kROUTE_ADV] = [
       searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, 'all')
     }
     if (route_context_params.service === 'autoservices') {
-      searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, 'all')
+      let suggest = await autoservices_search_actions.query_service(route_context_params.search_text);
+
+      if (suggest[0] && suggest[0][0]) {
+        searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, suggest[0][0]);
+      }
+
     }
 
   },

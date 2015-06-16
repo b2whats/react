@@ -44,7 +44,7 @@ var query_service = (words) => {
     })
   }
 };
-
+module.exports.query_service = query_service;
 var query_service_memoized = memoize(query_service, kMEMOIZE_OPTIONS);
 
 
