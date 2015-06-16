@@ -429,8 +429,8 @@ export default class SearchPageAutoPartTable extends Component {
                   className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 1) && 'w100pr', (part.get('order_type') === 2) && 'd-N' )}
 
                 >
-                  <span className="table-line w100pr ta-C">
-                    <span className="d-tc va-m ta-C"><i className="flaticon-phone c-as fs16" /></span>
+                  <span className="w100pr ta-C">
+                    <span className="va-m ta-C"><i className="flaticon-phone c-as fs16" /></span>
                     <span className='M-d-n-1420 va-m'>Телефон</span>
                   </span>
                 </button>

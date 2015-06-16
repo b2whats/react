@@ -79,6 +79,9 @@ var AccountInfo = React.createClass({
     e.preventDefault();
     account_page_actions.submit_company_personal_details(this.state.company_personal_detail.toJS());
   },
+  test() {
+    account_page_actions.testAsync();
+  },
   render() {
 
     var edit = this.state.formsIsEdit.get('informations');
@@ -170,7 +173,6 @@ var AccountInfo = React.createClass({
               </div>
             </div>
           </div>
-
         </div>
         <Modal
           isOpen={!!this.state.modalIsOpen.get('payment_information')}

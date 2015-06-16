@@ -44,7 +44,7 @@ var query_auto_parts = (words) => {
     })
   }
 };
-
+module.exports.query_auto_parts = query_auto_parts;
 //memoize - запоминает результаты
 var query_auto_parts_memoized = memoize(query_auto_parts, kMEMOIZE_OPTIONS);
 

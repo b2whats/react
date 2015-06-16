@@ -62,5 +62,19 @@ var actions_ = [
 
 ];
 
+
+async function testAsync() {
+  try {
+    console.log('Start query');
+    let a = await r_get_company_info.get();
+    console.log('End query', a);
+  } catch (err) {
+
+  }
+}
+
+module.exports.testAsync = testAsync;
+
+
 module.exports = _.extend({}, module.exports, action_export_helper(actions_));
 

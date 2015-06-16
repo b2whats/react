@@ -7,6 +7,7 @@ const region_actions = require('actions/region_actions.js');
 const security = require('./security.js');
 
 const auto_part_by_id_actions = require('actions/auto_part_by_id_actions.js');
+const auto_part_search_actions = require('actions/auto_part_search_actions.js');
 const account_page_actions = require('actions/account_page_actions.js');
 const autoservice_by_id_actions = require('actions/autoservice_by_id_actions.js');
 const catalog_data_actions = require('actions/catalog_data_actions.js');
@@ -239,6 +240,26 @@ routes[route_definitions.kROUTE_ACCOUNT] = [
 routes[route_definitions.kROUTE_ADV] = [
   (route_name, route_context, route_context_params) =>
     region_actions.region_changed(route_context_params.region_id),
+
+  (route_name, route_context, route_context_params) =>
+    catalog_data_actions.reset_catalog_data(),
+
+  async (route_name, route_context, route_context_params) => {
+    if (route_context_params.service === 'autoparts') {
+
+      let suggest = await auto_part_search_actions.query_auto_parts(route_context_params.search_text);
+
+      if (suggest[0] && suggest[0][0]) {
+        searchAutoPartsActions.queryAutoPartsData(route_context_params.region_id, suggest[0][0]);
+      }
+      searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, 'all')
+    }
+    if (route_context_params.service === 'autoservices') {
+      searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, 'all')
+    }
+
+  },
+
   route_actions.default_route];
 
 

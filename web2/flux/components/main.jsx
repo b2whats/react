@@ -97,7 +97,6 @@ const IceMain = React.createClass({
         );
       case routeNames.kROUTE_DEF:
       case routeNames.kROUTE_DEF_W_REGION:
-      case routeNames.kROUTE_ADV:
         return (
           <DefaultPage route_context={routerContextParams}/>
         );
@@ -139,6 +138,7 @@ const IceMain = React.createClass({
 
 
       case routeNames.kROUTE_PARTS_FIND_NEW:
+      case routeNames.kROUTE_ADV:
         return (
           <SearchBlockHeaderNew>
             <div ref='main_content' className="search-page-main-fixed">
