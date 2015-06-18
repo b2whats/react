@@ -208,11 +208,11 @@ export default class SearchPageAutoPartTable extends Component {
             onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}
             onMouseLeave={this.onRowMouseLeave.bind(null, part.get('user_id'))}
             onClick={this.onRowAddressActive.bind(null, company.get('id'), part.get('user_id'))}
-            className={cx((part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-yellow-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
+            className={cx('h65px', (part_index % 2 > 0) && 'bgc-grey-100', this.props.firstInvisibleRowIndex === currentIndex && 'bT4s bc-yellow-500', this.props.hoveredMapRowIndex === part.get('user_id') && 'bgc-grey-300')}
             key={part.get('id')}
           >
             <td className={cx('search-page-autoservice-table-td-rank', hover_class)}>
-              <span className='nas'>{part.get('rank')}</span>
+              <span className='nas'>{part.get('addresses').first().get('number')}</span>
             </td>
 
             <td className={cx('search-page-autoservice-table-td-seller', 'tooltip', hover_class)}>

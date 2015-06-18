@@ -247,15 +247,17 @@ a.icon-link {
 }
 .big-search-block .autoparts{
     border: 4px solid #b7a6de;
+
     background: url('../images/templates/icon-gear.png') no-repeat -4px -3px ;
 }
 .autoparts-bg {
     background-image: url('../images/templates/icon-gear.png');
 }
+.autoparts-bg1 { background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3Csvg%20version%3D%221.1%22%20id%3D%22%26%23x421%3B%26%23x43B%3B%26%23x43E%3B%26%23x439%3B_1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%20109%20109%22%20%20style%3D%22enable-background%3Anew%200%200%20109%20109%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20style%3D%22fill%3Anone%3Bstroke%3A%23A36AB3%3Bstroke-width%3A5%3Bstroke-miterlimit%3A10%3B%22%20d%3D%22M91.996%2C38.665%20c-2.369-5.572-0.897-11.785%2C3.188-15.775c-2.847-3.639-6.121-6.83-9.74-9.528c-3.914%2C4.146-10.09%2C5.724-15.698%2C3.462%20c-5.594-2.256-8.947-7.659-8.905-13.346c-4.475-0.554-9.044-0.51-13.613%2C0.147c0.14%2C5.678-3.113%2C11.131-8.658%2C13.488%20c-5.545%2C2.357-11.728%2C0.916-15.72-3.124c-3.644%2C2.834-6.845%2C6.094-9.551%2C9.701c4.125%2C3.915%2C5.689%2C10.079%2C3.432%2C15.673%20c-2.262%2C5.607-7.683%2C8.96-13.385%2C8.902c-0.568%2C4.478-0.542%2C9.05%2C0.103%2C13.625c5.708-0.174%2C11.203%2C3.077%2C13.572%2C8.649%20c2.377%2C5.591%2C0.885%2C11.824-3.233%2C15.812c2.835%2C3.656%2C6.096%2C6.869%2C9.707%2C9.584c3.909-4.212%2C10.128-5.834%2C15.774-3.556%20c5.659%2C2.283%2C9.013%2C7.785%2C8.889%2C13.545c4.487%2C0.565%2C9.069%2C0.532%2C13.652-0.121c-0.233-5.758%2C3.017-11.325%2C8.635-13.713%20c5.618-2.388%2C11.881-0.866%2C15.866%2C3.297c3.65-2.847%2C6.853-6.123%2C9.56-9.747c-4.234-3.907-5.87-10.14-3.587-15.799%20c2.278-5.647%2C7.761-9%2C13.506-8.892c0.551-4.485%2C0.5-9.063-0.166-13.64C99.897%2C47.506%2C94.373%2C44.256%2C91.996%2C38.665z%20M62.638%2C73.724%20c-10.501%2C4.465-22.633-0.429-27.098-10.931C31.076%2C52.292%2C35.97%2C40.16%2C46.471%2C35.695c10.501-4.465%2C22.633%2C0.429%2C27.098%2C10.931%20C78.033%2C57.127%2C73.139%2C69.26%2C62.638%2C73.724z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; }
 .autoservices-bg {
     background-image: url('../images/templates/icon-key.png');
 }
-
+.autoservices-bg1 { background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22iso-8859-1%22%3F%3E%3Csvg%20version%3D%221.1%22%20id%3D%22%26%23x421%3B%26%23x43B%3B%26%23x43E%3B%26%23x439%3B_1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20viewBox%3D%220%200%20105%20105%22%20%20style%3D%22enable-background%3Anew%200%200%20105%20105%3B%22%20xml%3Aspace%3D%22preserve%22%3E%3Cpath%20style%3D%22fill%3Anone%3Bstroke%3A%23D5920C%3Bstroke-width%3A5%3Bstroke-miterlimit%3A10%3B%22%20d%3D%22M2.569%2C26.349l17.122%2C17.122%20c0%2C0-12.437%2C21.807-0.462%2C38.211c0%2C0%2C20.831%2C22.898%2C50.352%2C19.651L42.718%2C74.468c0%2C0-2.868-11.598%2C8.751-23.216%20c11.618-11.618%2C23.217-8.751%2C23.217-8.751l26.864%2C26.864c3.247-29.521-19.651-50.353-19.651-50.353%20c-16.403-11.975-38.211%2C0.462-38.211%2C0.462L26.566%2C2.352%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; }
 .big-search-block .autoservices {
     border: 4px solid #f6d600;
     background: url('../images/templates/icon-key.png') no-repeat -4px -3px ;

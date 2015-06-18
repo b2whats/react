@@ -138,8 +138,11 @@ var PriceListSelectionBlock = React.createClass({
                   {TrPriceListRows}
               </tbody>
             </table>
+            <button onClick={this.props.save_price_list_selection_result}
+                    className="grad-ap btn-shad b0 c-wh fs16 br3 p8-20 mT20">Сохранить результат
+            </button>
           </div>
-          <div className="va-T br6 d-ib m25-0 w40pr z-depth1 p20-15 o-h">
+          <div className="va-T br6 d-ib m25-0 w40pr mw540px z-depth1 p20-15 o-h">
             <div className='entire-width  flex-ai-c'>
               <span className='fw-b fs24'>Инструкция</span>
               <span className='c-deep-purple-500 cur-p fs12 bB1d' onClick={this.toggle('manage-instruction')}>

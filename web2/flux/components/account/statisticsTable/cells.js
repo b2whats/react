@@ -127,7 +127,7 @@ function adjustColumnWidths(
 function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
   return (
     <div
-      className={cx('fs12', rowData.getIn(['services_id']) === 2 ?  'autoservices-bg' : 'autoparts-bg')}
+      className={cx('fs12', rowData.getIn(['services_id']) === 2 ?  'autoservices-bg1' : 'autoparts-bg1')}
       style={{  backgroundRepeat: 'no-repeat', backgroundSize: '30px',  backgroundPosition: '98% 50%'}}
       >
       {rowData.getIn(['services_id']) === 2 ?

@@ -66,7 +66,7 @@ function renderPartColumn(cellDataKey, rowData, rowIndex) {
       <i className={cx((rowData.get('filial_type_id') === 1) ? 'icon_placemark-ap' : 'icon_placemark-as')}></i>
       <div>
         <span className={cx('fs12 bB1d', (rowData.get('filial_type_id') === 1) ? 'c-deep-purple-500' : 'c-yellow-800')}>
-          {rowData.get('rank')}
+          {rowData.get('addresses').first().get('region_number')}
         </span>
       </div>
     </div>
