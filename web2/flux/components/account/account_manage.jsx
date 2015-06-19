@@ -197,15 +197,15 @@ var AccountManage = React.createClass({
         </div>
       </div>
       <div className="va-T br6 m25-0 mw540px z-depth1 p10 o-h">
-        <div className='entire-width  flex-ai-c'>
+        <div onClick={this.toggle('manage-instruction')} className='entire-width  flex-ai-c'>
           <span className='fs18'>Рекомендации по загрузке прайса</span>
-              <span className='c-deep-purple-500 cur-p fs12 bB1d' onClick={this.toggle('manage-instruction')}>
+          <span className='c-deep-purple-500 cur-p fs12 bB1d' onClick={this.toggle('manage-instruction')}>
 
-              {(!!!this.state.toggle.get('manage-instruction')) ? 'Скрыть инструкцию' : 'Показать инструкцию'}
-              </span>
+          {(!!!this.state.toggle.get('manage-instruction')) ? 'Скрыть инструкцию' : 'Показать инструкцию'}
+          </span>
         </div>
         <div className={cx(!!!this.state.toggle.get('manage-instruction') ? 'd-b' : 'd-N')}>
-          <div className="entire-width fs12">
+          <div className="entire-width fs12" onClick={this.toggle('manage-instruction')} >
             <div className="w47pr">
               <p className='lh1-4'>
                 1) Система загружает только 5 столбцов. Проверяйте пожалуйста наличие случайных данных в других столбцах.
