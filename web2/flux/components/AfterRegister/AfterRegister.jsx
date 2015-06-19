@@ -128,17 +128,28 @@ let stepData = {
   }
 };
 
-
+@rafStateUpdate(() => ({
+  companyFilials: AccountPageStore.getCompanyFilials(),
+}), AccountPageStore)
 class AfterRegister extends Component {
   constructor(props) {
     super(props);
     autobind(this);
     this.state = {
-      step: 1
+      step: 1,
+      error: null
     };
   }
 
   onChangeStep(type) {
+    console.log('change', this.state.step);// eslint-disable-line no-console
+    if (this.state.step === 2 && this.props.companyFilials.size === 0) {
+      this.setState((state) => ({error: 'Нужно заолнить информацию о филиалах компании'}));
+      return
+    }
+    if (this.state.step === 2 && this.props.companyFilials.size > 0) {
+      this.setState((state) => ({error: null}));
+    }
     if (type === '+') this.setState((state) => ({step: ++state.step}));
     if (type === '-' && this.state.step > 1) this.setState((state) => ({step: --state.step}));
   }
@@ -158,6 +169,7 @@ class AfterRegister extends Component {
           <h2 className='fs20 tt-n'>Шаг {step}</h2>
           <div className='m10-0'>
             {stepDesc}
+            <div className="c-red-500">{this.state.error}</div>
           </div>
           <div className='entire-width mT30'>
             {step > 1 && <button onClick={this.onChangeStep.bind(null, '-')} className="w110px p8 br2 grad-ap z-depth1 b0 ta-C c-white"><i className="flaticon-left-arrow"/> Назад</button>}
