@@ -20,6 +20,7 @@ var kWORK_HOURS_FROM = [
 ];
 var kWORK_HOURS_TO = [
 	'14:00',
+	'15:00',
 	'16:00',
 	'17:00',
 	'18:00',
