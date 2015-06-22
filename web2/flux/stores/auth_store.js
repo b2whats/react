@@ -17,6 +17,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   is_auth               : false,
   role                  : null,
   auth_field_validation : {},
+  change_password_validation : {},
   path                  : null,
   email                 : null,
   check_done            : false,
@@ -36,6 +37,24 @@ var cncl_ = [
         .reduce((memo, error) =>
           memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
       state_.auth_field_validation_cursor
+        .update(() => map_error);
+
+      auth_store.fire(event_names.kON_CHANGE);
+    }, 100000),
+  main_dispatcher
+    .on(event_names.kAUTH_STATUS_SUCCESS, (response)  => {
+      state_.change_password_validation_cursor
+        .clear();
+
+      auth_store.fire(event_names.kON_CHANGE);
+    }, 100000),
+  main_dispatcher
+    .on(event_names.kCHANGE_PASSWORD_ERROR, (response)  => {
+      var errors = immutable.fromJS(response.errors);
+      var map_error = errors
+        .reduce((memo, error) =>
+          memo.set(error.get('property'), (memo.get('property') || immutable.List()).push(error)), immutable.Map());
+      state_.change_password_validation_cursor
         .update(() => map_error);
 
       auth_store.fire(event_names.kON_CHANGE);
@@ -105,6 +124,9 @@ var auth_store = merge(Emitter.prototype, {
   },
   get_check_done() {
     return state_.check_done;
+  },
+  get_change_password_validation() {
+    return state_.change_password_validation;
   },
   dispose() {
 

@@ -23,7 +23,7 @@ var point_utils = require('utils/point_utils.js');
 var text_utils = require('utils/text.js');
 
 /* jshint ignore:start */
-var Link = require('components/link.jsx');
+
 var Pager = require('components/pager/pager.jsx');
 var FixedTooltip = require('components/tooltip/fixed_tooltip.jsx');
 /* jshint ignore:end */

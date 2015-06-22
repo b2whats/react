@@ -17,7 +17,7 @@ var point_utils = require('utils/point_utils.js');
 var text_utils = require('utils/text.js');
 
 /* jshint ignore:start */
-var Link = require('components/link.jsx');
+
 var Pager = require('components/pager/pager.jsx');
 var FixedTooltip = require('components/tooltip/fixed_tooltip.jsx');
 /* jshint ignore:end */
@@ -175,7 +175,7 @@ export default class SearchPageAutoPartTable extends Component {
         var stock_class_name = {};
         stock_class_name['stock-num-' + part.get('stock')] = true;
 
-        var brands = part.get('brands') && part.get('brands').keySeq().toJS().join(', ');
+        let brands = part.get('brands') && part.get('brands').keySeq().toJS().join(', ');
 
         var kBODY_WORK_KEY = 'Кузовные работы';
         var kMETAL_WORK_KEY = 'Слесарные работы';

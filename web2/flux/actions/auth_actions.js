@@ -15,25 +15,56 @@ var validator = require('revalidator');
 
 var route_actions = require('actions/route_actions.js');
 var routes_store = require('stores/routes_store.js');
+var modal_actions = require('actions/ModalActions.js');
 
 var region_store = require('stores/region_store.js');
 
-
-var auth_shema =  {
-    email: {
-        required: true,
-        format: 'email',
-        messages: {
-            format: 'Не верный Email адрес'
-        }
-    },
-    password : {
-        required: true,
-        allowEmpty: false
-    },
+var auth_shema = {
+  email: {
+    required: true,
+    format: 'email',
+    messages: {
+      format: 'Не верный Email адрес'
+    }
+  },
+  password: {
+    required: true,
+    allowEmpty: false
+  },
 
 };
+const changePasswordShema = {
+  oldPassword: {
+    required: true,
+    allowEmpty: false
+  },
+  newPassword: {
+    required: true,
+    allowEmpty: false
+  }
+};
 
+
+module.exports.submitChangePassword = (passwords) => {
+  const shema = {
+    properties: changePasswordShema,
+  };
+  const validation = validator.validate(passwords, shema);
+  if (validation.valid) {
+    resource(api_refs.kCHANGE_PASSWORD).post(passwords)
+      .then(response => {
+        if (response.valid) {
+          modal_actions.closeModal('changePassword');
+          main_dispatcher.fire.apply (main_dispatcher, [event_names.kCHANGE_PASSWORD_SUCCESS].concat([response]));
+        } else {
+          main_dispatcher.fire.apply (main_dispatcher, [event_names.kCHANGE_PASSWORD_ERROR].concat([response]));
+        }
+
+      });
+  } else {
+    main_dispatcher.fire.apply (main_dispatcher, [event_names.kCHANGE_PASSWORD_ERROR].concat([validation]));
+  }
+};
 
 var r_auth = resource(api_refs.kAUTH);
 module.exports.submit_form = (auth_data) => {
@@ -79,6 +110,16 @@ module.exports.log_out = () => {
       );
     });
 };
+
+module.exports.forgotPassword = (mail) => {
+  resource(api_refs.kFORGOT_PASSWORD).post({
+    email: mail
+  }).then(response => {
+    // console.log(response);// eslint-disable-line no-console
+  });
+}
+
+
 var actions_ = [
     ['reset_form_validate', event_names.kON_FORM_RESET_VALIDATE],
     ['save_path', event_names.kAUTH_SAVE_PATH],

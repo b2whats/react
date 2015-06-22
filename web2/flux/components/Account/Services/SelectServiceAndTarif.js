@@ -359,7 +359,18 @@ class CompanyFilial extends Component {
           Общая сумма: <strong>{formatString.money(summ, ' ')} </strong> руб.
         </div>
 
+        <form action="https://money.yandex.ru/eshop.xml" method="post">
 
+          <input name="shopId" value="42222" type="hidden"/>
+          <input name="scid" value="5096675" type="hidden"/>
+          <input name="sum" value="100.50" type="hidden" />
+            <input name="customerNumber" value="abc000" type="hidden"/>
+
+
+
+
+            <input type="submit" value="Заплатить"/>
+          </form>
       </div>
     );
   }

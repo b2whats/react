@@ -26,6 +26,12 @@ var account_page_actions = require('actions/account_page_actions.js');
 var account_page_store = require('stores/account_page_store.js');
 var Select = require('react-select');
 
+/*Actions*/
+import authAction from 'actions/auth_actions.js';
+
+/*Stores*/
+import authStore from 'stores/auth_store.js';
+
 /*Component*/
 import CompanyFilial from 'components/Account/Company/CompanyFilial';
 
@@ -35,9 +41,10 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
       formsIsEdit: editable_forms_store.get_forms_editable(),
       company_information: account_page_store.get_company_information(),
       company_personal_detail: account_page_store.get_company_personal_detail(),
+      change_password_validation: authStore.get_change_password_validation(),
     })
   },
-  modal_store, editable_forms_store, account_page_store/*observable store list*/);
+  modal_store, editable_forms_store, account_page_store, authStore/*observable store list*/);
 
 var Snackbar = require('components/snackbar/snackbar.jsx');
 var route_actions = require('actions/route_actions.js');
@@ -82,6 +89,13 @@ var AccountInfo = React.createClass({
   test() {
     account_page_actions.testAsync();
   },
+  submitChangePassword() {
+    const password = {
+      oldPassword: React.findDOMNode(this.refs.oldPassword).value,
+      newPassword: React.findDOMNode(this.refs.newPassword).value
+    }
+    authAction.submitChangePassword(password);
+  },
   render() {
 
     var edit = this.state.formsIsEdit.get('informations');
@@ -93,6 +107,7 @@ var AccountInfo = React.createClass({
 						<i className='svg-icon_edit-grey' onClick={this.toggleEdit('informations')}/>
 						<a className='fs13 mL15  td-u ap-link d-ib' onClick={this.openModal('payment_information')}>Платежные
               реквизиты</a>
+            <a className='fs13 mL15  td-u ap-link d-ib' onClick={this.openModal('changePassword')}>Изменить пароль</a>
 					</span>
           <table className='company-information__view-edit m10-0 w100pr'>
             <tr>
@@ -271,6 +286,38 @@ var AccountInfo = React.createClass({
               <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0'>Сохранить</button>
             </form>
 
+          </div>
+        </Modal>
+        <Modal
+          isOpen={!!this.state.modalIsOpen.get('changePassword')}
+          onRequestClose={this.handleModalCloseRequest}
+          >
+          <div className='ta-C w300px'>
+            <div className='ReactModal__Content-close btn-close' onClick={this.closeModal}></div>
+            <h2 className='m15-0 mB25'>Изменить пароль</h2>
+            <label>
+              <span className='d-b m5-0 fs14'>Введите старый пароль</span>
+              <input
+                ref="oldPassword"
+                type='password'
+                className={cx({
+                  'bs-error' : !!this.state.change_password_validation.has('oldPassword'),
+                  'w100pr'   : true
+                })}/>
+            </label>
+            <label>
+              <span className='d-b m5-0 fs14'>Введите новый пароль</span>
+              <input
+                ref="newPassword"
+                type='password'
+                className={cx({
+                  'bs-error' : !!this.state.change_password_validation.has('newPassword'),
+                  'w100pr'   : true
+                })}/>
+            </label>
+            <button onClick={this.submitChangePassword} className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0'>
+              Сохранить
+            </button>
           </div>
         </Modal>
         <Modal

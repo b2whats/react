@@ -39,10 +39,13 @@ var Link = React.createClass({
   },
 
   on_click (event) {
-    var link = this.get_evaluated_link(this.props.href, this.props.params || {});
-    route_actions.goto_link(link);
-    event.preventDefault();
-    event.stopPropagation();
+    if (!this.props.target) {
+      event.preventDefault();
+      event.stopPropagation();
+      var link = this.get_evaluated_link(this.props.href, this.props.params || {});
+      route_actions.goto_link(link);
+    }
+
   },
 
   render () {
@@ -50,7 +53,7 @@ var Link = React.createClass({
     var link = this.get_evaluated_link(href, this.props.params || {});
     /* jshint ignore:start */
     return (
-      <a ref="aref" onClick={this.on_click} href={link} {...other_props}>{this.props.children}</a>
+      <a ref="href"  onClick={this.on_click} href={link} {...other_props}>{this.props.children}</a>
     )
     /* jshint ignore:end */
   }
