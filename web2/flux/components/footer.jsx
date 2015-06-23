@@ -54,7 +54,7 @@ var Footer = React.createClass({
                 </li>
               </ul>
             </div>
-
+            <Link className="h_link m0-10" href={'/static/partners.html'}>Рекламодателям</Link>
           </span>
           <span>  
             Мы в соц. сетях :
