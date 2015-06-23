@@ -34,10 +34,18 @@ module.exports.changeOrderType = (type) => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_CHANGE_ORDER_TYPE].concat([type]));
     });
 };
-module.exports.make_payment = (payment_info, payment_method) => {
+module.exports.checkCodePayment = (code) => {
+  return resource(api_refs.kCHECK_CODE_PAYMENT)
+    .post({ code })
+    .then(response => {
+      console.log(response);// eslint-disable-line no-console
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.IS_DISCOUNT_CHANGE].concat([response.check]));
+    });
+};
+module.exports.make_payment = (payment_info, payment_method, code) => {
   var w = window.open("","","width=1000,height=700,scrollbars=yes,resizable=yes,");
   return resource(api_refs.kACCOUNT_SERVICES_PAYMENT)
-    .post({payment_info : payment_info, payment_method : payment_method})
+    .post({payment_info, payment_method, code})
     .then(response => {
       w.location = response.payment_url;
       if (response.payment_method.id == 'beznal') {

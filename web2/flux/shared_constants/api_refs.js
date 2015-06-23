@@ -42,7 +42,8 @@ module.exports = {
   DEL: kAPI_HOST + '/api/del.php',
   kSUBMIT_COMMENT_DATA: kAPI_HOST + '/api/set/reviews.php',
 
-  STATISTICS: kAPI_HOST + '/api/statistics.php'
+  STATISTICS: kAPI_HOST + '/api/statistics.php',
+  kCHECK_CODE_PAYMENT: kAPI_HOST + '/api/payment/check-code.php',
 
 
 };

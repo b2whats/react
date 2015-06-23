@@ -27,6 +27,7 @@ var state_ =  init_state(_.last(__filename.split('/')), {
   select_services: {},
   masters_name: [],
   orderType: 0,
+  isDiscount: false,
   tarifs: {
     autoparts : {
       '0' : {
@@ -192,6 +193,19 @@ var cncl_ = [
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
+    .on(event_names.IS_DISCOUNT_CHANGE, (check) => {
+      console.log(check);// eslint-disable-line no-console
+      state_.isDiscount_cursor
+        .update(() => check);
+      account_services_store.fire(event_names.kON_CHANGE);
+    }, 1),
+  main_dispatcher
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_STEP, () => {
+      state_.step_cursor
+        .update((m) => m+1);
+      account_services_store.fire(event_names.kON_CHANGE);
+    }, 1),
+  main_dispatcher
     .on(event_names.kACCOUNT_SERVICES_TOGGLE, (id) => {
       state_.toggle_cursor
         .update((m) => m.set(id,!!!m.get(id)));
@@ -288,6 +302,9 @@ var account_services_store = merge(Emitter.prototype, {
   },
   getOrderType() {
     return state_.orderType;
+  },
+  getDiscount() {
+    return state_.isDiscount;
   },
   dispose() {
 

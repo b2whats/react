@@ -28,7 +28,8 @@ import formatString from 'utils/format_string.js';
 @rafStateUpdate(() => ({
   paymentMethod: ServicesStore.get_payment_method(),
   currentPaymentMethod: ServicesStore.get_current_payment_method(),
-  selectedServices: ServicesStore.getSelectedServices()
+  selectedServices: ServicesStore.getSelectedServices(),
+  isDiscount: ServicesStore.getDiscount(),
 }), ServicesStore)
 class Payment extends Component {
   constructor(props) {
@@ -39,7 +40,12 @@ class Payment extends Component {
     ServicesActions.change_payment_method(e.target.value,e.target.checked);
   }
   onSubmitPayment() {
-    ServicesActions.make_payment(this.props.selectedServices.toJS(),this.props.currentPaymentMethod.toJS());
+    const code = React.findDOMNode(this.refs.codePayment).value;
+    ServicesActions.make_payment(this.props.selectedServices.toJS(),this.props.currentPaymentMethod.toJS(), code);
+  }
+  checkCodePayment() {
+    const code = React.findDOMNode(this.refs.codePayment).value;
+    ServicesActions.checkCodePayment(code);
   }
   render() {
     let paymentMethod = () => (
@@ -67,7 +73,9 @@ class Payment extends Component {
     return (
       <div className={cx('ta-C m20-0 fs18')}>
         {paymentMethod()}
-        <button disabled={(summ === 0 || this.props.currentPaymentMethod.size === 0) && true} className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1' onClick={this.onSubmitPayment}>Оплатить</button>
+        <button disabled={(summ === 0 || this.props.currentPaymentMethod.size === 0) && true} className='h35px grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1 va-M' onClick={this.onSubmitPayment}>Оплатить</button>
+        <input ref="codePayment" className={cx('w200px va-M mL20 mR10 fs11', this.props.isDiscount && 'bc-green-500 b1s')} type="text" placeholder="Промо-код" />
+        <button onClick={::this.checkCodePayment} className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1 h35px va-M'>Пересчитать</button>
       </div>
     );
   }
