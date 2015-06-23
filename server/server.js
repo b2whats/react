@@ -22,7 +22,7 @@ app.use(cookie_parser());
 app.use(body_parser.json()); //автоматом разбирать json
 app.use(validator());
 app.use(method_override()); //put and delete methods instead of <input type="hidden" name="_method" value="put" />
-app.use('/static', express.static(path.join(__dirname, '..', 'build/public')));
+app.use('/static', express.static(path.join(__dirname, '..', 'static')));
 app.use('/_assets', express.static(path.join(__dirname, '..', 'build/public')));
 app.use('/assets', express.static(path.join(__dirname, '..', 'web2/assets')));
 
