@@ -209,7 +209,7 @@ console.log(21);
                 <span className='c-red-500 cur-p'>-{this.state.rating.get('minus')}</span>
               </span>
             </div>
-              {this.state.company_information.get('site') && <Link className='mB25 d-ib' target='_blank' href='/'>{this.state.company_information.get('site')} </Link>}
+              {this.state.company_information.get('site') && <Link className='mB25 d-ib' target='_blank' href={`http://www.${this.state.company_information.get('site')}`}>{this.state.company_information.get('site')} </Link>}
             <div className='fw-b fs12 m10-0'>Описание компании:</div>
             <div className='fs12 lh1-4 Mh140px o-h to-e ws-n'>{this.state.company_information.get('description')}</div>
               {this.state.company_information.get('brands') && [
