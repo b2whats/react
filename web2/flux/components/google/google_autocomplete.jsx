@@ -54,10 +54,10 @@ export default class GoogleAutocomplete extends Component {
 
         if (this.props.formattedAddress) {
           const address = this.props.formattedAddress;
-
+          console.log('address', address);// eslint-disable-line no-console
           this.geocoder.geocode({'address': address}, (results, status) => {
             if (status === maps.GeocoderStatus.OK) {
-              this.onSelectedAddressChange(results[0])
+              // this.onSelectedAddressChange(results[0])
               this._onResultsChange(results);
             }
           });
