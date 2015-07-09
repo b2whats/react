@@ -27,6 +27,15 @@ module.exports.submitMasterName = (names) => {
     .then(response => {
     });
 };
+module.exports.submitSubscribe = (words, markup) => {
+  return resource(api_refs.kACCOUNT_SERVICES_INFO)
+    .post({type : 'set', field : 'subscribe', words, markup})
+    .then(response => {
+    });
+};
+
+
+
 module.exports.changeOrderType = (type) => {
   return resource(api_refs.kACCOUNT_SERVICES_INFO)
     .post({type : 'set', field : 'order_type',value : type})
@@ -76,6 +85,8 @@ var actions_ = [
   ['changeTarif', event_names.kACCOUNT_SERVICES_CHANGE_TARIF],
   ['change_brands', event_names.kACCOUNT_SERVICES_CHANGE_BRANDS],
   ['change_services', event_names.kACCOUNT_SERVICES_CHANGE_SERVICES],
+  ['change_words', event_names.kACCOUNT_SERVICES_CHANGE_WORDS],
+  ['change_markup', event_names.kACCOUNT_SERVICES_CHANGE_MARKUP],
   ['change_payment_method', event_names.kACCOUNT_SERVICES_CHANGE_PAYMENT_METHOD],
   ['changeMasterName', event_names.kACCOUNT_SERVICES_CHANGE_MASTERS_NAME]
 

@@ -41,6 +41,9 @@ import formatString from 'utils/format_string.js';
   isDiscount: ServicesStore.getDiscount(),
   selectServices: ServicesStore.get_select_services(),
   masterName: ServicesStore.get_masters_name(),
+  subscribeWords: ServicesStore.getSubscribeWords(),
+  subscribeWordsChecked: ServicesStore.getSubscribeWordsChecked(),
+  subscribeMarkup: ServicesStore.getSubscribeMarkup(),
   modalIsOpen: ModalStore.getModalIsOpen(),
   toggle: ToggleStore.getToggle()
 }), ModalStore, ToggleStore, ServicesStore)
@@ -93,7 +96,51 @@ class CompanyFilial extends Component {
     // Так как не меняем стетй. Берем из сторы новый набор данных
     ServicesActions.submitCheckbox('services', ServicesStore.get_select_services().filter(el => el != '').toJS().toString());
   }
+  onChangeWords(e) {
+    ServicesActions.change_words(e.target.value, e.target.checked);
+  }
+  onChangeSubscribeMarkup(e) {
+    ServicesActions.change_markup(e.target.value);
+  }
+  onSubmitSubscribe() {
+    ServicesActions.submitSubscribe(this.props.subscribeWordsChecked.toJS(), this.props.subscribeMarkup);
+  }
+  getSubscribeWordsCheckbox(words) {
+    const hasAllWords = this.props.subscribeWordsChecked.contains(9999);
+    return words
+      .map((part, index) =>
+        <label key={part.get('id')} className={cx('label--checkbox w100px d-ib m5-0', (part.get('id') === 9999) && 'fw-b td-u')}>
+          <input
+            value={part.get('id')}
+
+            checked={!!this.props.subscribeWordsChecked.contains(part.get('id'))}
+            type="checkbox"
+            disabled={part.get('id') !== 9999 && hasAllWords}
+            onChange={this.onChangeWords}
+            className="checkbox"/>
+          {(part.get('id') === 9999) ? 'Все марки' : part.get('word')}
+        </label>
+    );
+  }
   render() {
+    let cost = 0;
+    const cnt = this.props.subscribeWordsChecked.size;
+    if (this.props.subscribeWordsChecked.contains(9999)) {
+      cost = 45000;
+    } else {
+
+      switch (true) {
+      case cnt > 6:
+        cost = 25000;
+        break;
+      case cnt > 3:
+        cost = 17000;
+        break;
+      case cnt > 0:
+        cost = 9000;
+        break;
+      }
+    }
     let brandsList = () => {
       let brands = {};
       this.props.selectBrands.forEach((v) => {
@@ -168,6 +215,34 @@ class CompanyFilial extends Component {
           );
         }).toArray();
     };
+    let tarifsSubscribe = (type) => {
+
+
+      return this.props.tarifs.get(type)
+        .map((part, index) => {
+          index = index | 0;
+          return (
+            <label key={part.get('month')} className="label-radio">
+              <input defaultChecked={(index === 0) && true} type="radio" value={index} onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
+              <span className="d-ib va-M lh1-4 fs15">
+                {(index === 0) ?
+                  'Без подключения'
+                  :
+                  <span>
+                    <span>
+                      {decOfNumMonth(part.get('month'))}
+                      <br/>
+                      {formatString.money(cost * ((100 - part.get('discount')) / 100) * part.get('month'), ' ')} руб.
+                    </span>
+                    <br/>
+                    <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                  </span>
+                }
+              </span>
+            </label>
+          );
+        }).toArray();
+    };
     let servicesCheckbox = () => {
       let services = this.props.selectServices;
       this.props.selectServices.forEach((v) => {
@@ -230,9 +305,11 @@ class CompanyFilial extends Component {
     let editMasterName = (this.props.masterName.first() === '' || !!this.props.toggle.get('masterName')) ?
                           true:
                           false;
+    let subscribeCost = (this.props.selectedServices.get('subscribe').get('month') > 0 ) ? cost * this.props.selectedServices.get('subscribe').get('month') : 0;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
-      this.props.selectedServices.get('autoparts').get('price');
+      this.props.selectedServices.get('autoparts').get('price') +
+      subscribeCost;
     if (this.props.isDiscount) {
       summ = summ * 90 / 100;
     }
@@ -358,6 +435,41 @@ class CompanyFilial extends Component {
             </div>
           </div>
         </div>
+        <div className="br6 b1s bc-g grad-g m15-0">
+          <div
+            onClick={this.onChangeToggle.bind(null, 'describe_price')}
+            className={cx('grad-w-no-hover p10-15 fw-b fs15 br6 entire-width bc-g cur-p', !!this.props.toggle.get('describe_price') && 'bBLr0 bBRr0')}
+            >
+            <div>
+              Реклама по прайсам для автосервисов.
+            </div>
+            <div>
+              <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('describe_price') && 'active')}></i>
+            </div>
+          </div>
+          <div className={cx('p20-15', !this.props.toggle.get('describe_price') && 'd-N')}>
+            <div className="mB20">
+              Выберите наценку:
+              <input ref='markup'
+                     className={cx('mL20')}
+                     type='text'
+                     value={this.props.subscribeMarkup}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='Наценка'/>
+            </div>
+            Выберите марки:
+            <div className="mT10">
+              {this.props.subscribeWords && this.getSubscribeWordsCheckbox(this.props.subscribeWords)}
+            </div>
+            <div className="m10">
+              <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1' onClick={this.onSubmitSubscribe}>Сохранить</button>
+            </div>
+            <div className="entire-width mT20  flex-ai-c">
+              {tarifsSubscribe('subscribe')}
+            </div>
+          </div>
+        </div>
+
         <hr className="hr-arrow m20-0"/>
         <div className='ta-C m20-0 fs18 '>
           Общая сумма: <strong>{formatString.money(summ, ' ')} </strong> руб.

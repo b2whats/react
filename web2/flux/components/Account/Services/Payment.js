@@ -29,6 +29,7 @@ import formatString from 'utils/format_string.js';
   paymentMethod: ServicesStore.get_payment_method(),
   currentPaymentMethod: ServicesStore.get_current_payment_method(),
   selectedServices: ServicesStore.getSelectedServices(),
+  subscribeWordsChecked: ServicesStore.getSubscribeWordsChecked(),
   isDiscount: ServicesStore.getDiscount(),
 }), ServicesStore)
 class Payment extends Component {
@@ -41,7 +42,9 @@ class Payment extends Component {
   }
   onSubmitPayment() {
     const code = React.findDOMNode(this.refs.codePayment).value;
-    ServicesActions.make_payment(this.props.selectedServices.toJS(),this.props.currentPaymentMethod.toJS(), code);
+    let paymentStats = this.props.selectedServices.toJS();
+    paymentStats.subscribe.words = this.props.subscribeWordsChecked.toJS();
+    ServicesActions.make_payment(paymentStats,this.props.currentPaymentMethod.toJS(), code);
   }
   checkCodePayment() {
     const code = React.findDOMNode(this.refs.codePayment).value;
@@ -66,6 +69,7 @@ class Payment extends Component {
         }
       </ul>
     );
+    /*Тут нужно было бы досчитать сумму, но лень пробрасывать ту грязь что в другом компоненте, да и сумма нужно только для блокирования кнопки*/
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price');

@@ -85,7 +85,7 @@ var AccountInfo = React.createClass({
   },
   generatePaymentBlock(type, css, title) {
     return (
-      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 mw250px', css !== 'g' && 'mR20')}>
+      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 mw250px', type !== 'subscribe' && 'mR20')}>
         <div className={`bg-c-${css} p8-10 fs14 fw-b br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
           <div dangerouslySetInnerHTML={{__html: title}}>
 
@@ -124,6 +124,7 @@ var AccountInfo = React.createClass({
         {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
         {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
         {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
+        {this.generatePaymentBlock('subscribe','g','Повышение в поиске в<br/>"Реклама по прайсам"')}
 
         <hr className="hr bw4 m25-0"/>
         <h4 className="d-ib fs20 m0 fw-n">Выбор отображения связи с клиентом</h4>

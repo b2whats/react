@@ -60,7 +60,7 @@ routes[route_definitions.kROUTE_AGREEMENT] = [
 ];
 
 routes[route_definitions.kROUTE_R_A] = [
-  (route_name, route_context, route_context_params) => console.log('kROUTE_R_A', route_name, route_context, route_context_params),
+
   (route_name, route_context, route_context_params) =>
   region_actions.region_changed(route_context_params.region_id || kDEFAULT_REGION_ID),
 

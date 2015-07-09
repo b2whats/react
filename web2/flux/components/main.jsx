@@ -40,6 +40,7 @@ const AccountManage = require('components/account/account_manage.jsx');
 const AccountManageHistory = require('components/account/account_manage_history.jsx');
 const AccountStatistics = require('components/account/account_statistics.jsx');
 const GoogleAutocomplete = require('components/google/google_autocomplete.jsx');
+const Test = require('components/test.js');
 
 import AfterRegister from 'components/AfterRegister/AfterRegister.jsx';
 
@@ -69,12 +70,12 @@ const IceMain = React.createClass({
   _getContent(routerState, routerContextParams) {
     switch (routerState) {
       case routeNames.kROUTE_R_A:
-      case routeNames.kROUTE_R_B:
-      case routeNames.kROUTE_R_C:
+
         return (
           <div style={{width: '400px'}}>
-            <GoogleAutocomplete apiKey={sc.kGOOGLE_MAP_API_KEY} />
-            {/*
+            <Test />
+
+            {/*            <GoogleAutocomplete apiKey={sc.kGOOGLE_MAP_API_KEY} />
             <Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
           <div>
             <DefaultPage1 route_context={routerContextParams}/>
