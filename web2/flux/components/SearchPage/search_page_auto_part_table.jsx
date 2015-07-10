@@ -1,4 +1,3 @@
-'use strict';
 
 var _ = require('underscore');
 
@@ -49,7 +48,7 @@ import regionStore from 'stores/region_store.js';
 import arrayCompare from 'utils/arrayCompare.js';
 
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = [4, 8];
+var kITEMS_PER_PAGE = [7, 14];
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 /*Action*/
@@ -75,7 +74,7 @@ export default class SearchPageAutoPartTable extends Component {
   }
   static defaultProps = {
     currentPage: 1,
-    itemPerPage: 4,
+    itemPerPage: 7,
     currentOrderItem: null
   }
   static propTypes = {
@@ -205,7 +204,7 @@ export default class SearchPageAutoPartTable extends Component {
             </div>
             <div className="f-R">
             <FixedTooltip
-              open_id={part.get('id')}
+              open_id={`${part.get('user_id')}-${part.get('id')}`}
               open_type={'autopart-tooltip-adresses'}
             >
 
@@ -252,14 +251,14 @@ export default class SearchPageAutoPartTable extends Component {
 
           <td className="search-page-autopart-table-td-part-description">
             <div className='h35px o-h to-e'>
-              <span onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-part-description')}
+              <span onClick={_.bind(this.on_show_price_tootip, this, `${part.get('user_id')}-${part.get('id')}`, 'autopart-tooltip-part-description')}
                 className="fs13 c-p bb-d cur-p lh1-4">
                 {part.get('name')}
               </span>
             </div>
             <div className='f-R'>
               <FixedTooltip
-                open_id={part.get('id')}
+                open_id={`${part.get('user_id')}-${part.get('id')}`}
                 open_type={'autopart-tooltip-part-description'}
                 className="search-page-auto-part-table-body-work-tooltip">
 
@@ -289,13 +288,13 @@ export default class SearchPageAutoPartTable extends Component {
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1">
               {part.get('retail_price')} р.
-              <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, part.get('id'), 'autopart-tooltip-price')}>Условия оплаты</div>
+              <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, `${part.get('user_id')}-${part.get('id')}`, 'autopart-tooltip-price')}>Условия оплаты</div>
 
 
             </div>
             <div className="">
               <div className='f-R'>
-                <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={part.get('id')} open_type={'autopart-tooltip-price'}>
+                <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={`${part.get('user_id')}-${part.get('id')}`} open_type={'autopart-tooltip-price'}>
                   {part.get('conditions') && [
                     <div key={0} className='fs14 mB10 mR20 fw-b'>Условия оплаты</div>,
                     <div key={1}>{part.get('conditions').has('price_retail') && 'Розничная цена.'}</div>,

@@ -31,7 +31,6 @@ function decOfNumMonth(val) {
 }
 import formatString from 'utils/format_string.js';
 
-
 @rafStateUpdate(() => ({
   tarifs: ServicesStore.getTarifs(),
   brandsGroupByRegion: ServicesStore.getBrandsGroupByRegion(),
@@ -46,8 +45,7 @@ import formatString from 'utils/format_string.js';
   subscribeMarkup: ServicesStore.getSubscribeMarkup(),
   modalIsOpen: ModalStore.getModalIsOpen(),
   toggle: ToggleStore.getToggle()
-}), ModalStore, ToggleStore, ServicesStore)
-class CompanyFilial extends Component {
+}), ModalStore, ToggleStore, ServicesStore) class CompanyFilial extends Component {
   constructor(props) {
     super(props);
     autobind(this);
@@ -57,19 +55,24 @@ class CompanyFilial extends Component {
   componentWillReceiveProps(newProps) {
     this.setState({masterName: newProps.masterName.first()})
   }
+
   onChangeToggle(val) {
     ToggleActions.change(val);
   }
+
   onClickOpenModal(modalId, elementId) {
     ModalActions.openModal(modalId);
   }
+
   onClickCloseModal() {
     ModalActions.closeModal();
   }
+
   onChangeMasterName(e) {
     this.setState({masterName: e.target.value});
     ServicesActions.changeMasterName(e.target.value);
   }
+
   onSubmitMasterName(val) {
     let save = !React.findDOMNode(this.refs.masterName).disabled;
     ToggleActions.change(val);
@@ -77,39 +80,49 @@ class CompanyFilial extends Component {
       ServicesActions.submitMasterName(this.props.masterName.first());
     }
   }
+
   onChangeTarif(id, val) {
     ServicesActions.changeTarif(id, val.target.value);
   }
+
   onChangeBrands(e) {
     // Стэйт не меняем после каждого изменения
     ServicesActions.change_brands(e.target.value, e.target.checked);
   }
+
   onChangeServices(e) {
     // Стэйт не меняем после каждого изменения
     ServicesActions.change_services(e.target.value, e.target.checked);
   }
+
   onSubmitSelectBrands() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
     ServicesActions.submitCheckbox('brands', ServicesStore.getSelectBrands().filter(el => el != '').toJS().toString());
   }
+
   onSubmitSelectServices() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
     ServicesActions.submitCheckbox('services', ServicesStore.get_select_services().filter(el => el != '').toJS().toString());
   }
+
   onChangeWords(e) {
     ServicesActions.change_words(e.target.value, e.target.checked);
   }
+
   onChangeSubscribeMarkup(e) {
     ServicesActions.change_markup(e.target.value);
   }
+
   onSubmitSubscribe() {
     ServicesActions.submitSubscribe(this.props.subscribeWordsChecked.toJS(), this.props.subscribeMarkup);
   }
+
   getSubscribeWordsCheckbox(words) {
     const hasAllWords = this.props.subscribeWordsChecked.contains(9999);
     return words
       .map((part, index) =>
-        <label key={part.get('id')} className={cx('label--checkbox w100px d-ib m5-0', (part.get('id') === 9999) && 'fw-b td-u')}>
+        <label key={part.get('id')}
+               className={cx('label--checkbox w100px d-ib m5-0', (part.get('id') === 9999) && 'fw-b td-u')}>
           <input
             value={part.get('id')}
 
@@ -122,22 +135,26 @@ class CompanyFilial extends Component {
         </label>
     );
   }
+
   render() {
     let cost = 0;
     const cnt = this.props.subscribeWordsChecked.size;
     if (this.props.subscribeWordsChecked.contains(9999)) {
-      cost = 45000;
+      cost = 39000;
     } else {
 
       switch (true) {
+      case cnt > 10:
+        cost = 39000;
+        break;
       case cnt > 6:
-        cost = 25000;
+        cost = 21000;
         break;
       case cnt > 3:
-        cost = 17000;
+        cost = 15000;
         break;
       case cnt > 0:
-        cost = 9000;
+        cost = 8000;
         break;
       }
     }
@@ -195,7 +212,8 @@ class CompanyFilial extends Component {
           index = index | 0;
           return (
             <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(index === 1) && true} type="radio" value={index} onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
+              <input defaultChecked={(index === 1) && true} type="radio" value={index}
+                     onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-M lh1-4 fs15">
                 {(index === 0) ?
                   'Бесплатно'
@@ -217,16 +235,16 @@ class CompanyFilial extends Component {
     };
     let tarifsSubscribe = (type) => {
 
-
       return this.props.tarifs.get(type)
         .map((part, index) => {
           index = index | 0;
           return (
             <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(index === 0) && true} type="radio" value={index} onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
+              <input defaultChecked={(index === 0) && true} type="radio" value={index}
+                     onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-M lh1-4 fs15">
                 {(index === 0) ?
-                  'Без подключения'
+                  'Не подключена'
                   :
                   <span>
                     <span>
@@ -303,9 +321,10 @@ class CompanyFilial extends Component {
         .toArray();
     };
     let editMasterName = (this.props.masterName.first() === '' || !!this.props.toggle.get('masterName')) ?
-                          true:
-                          false;
-    let subscribeCost = (this.props.selectedServices.get('subscribe').get('month') > 0 ) ? cost * this.props.selectedServices.get('subscribe').get('month') : 0;
+      true :
+      false;
+    let subscribeCost = (this.props.selectedServices.get('subscribe').get('month') > 0 )
+      ? cost * this.props.selectedServices.get('subscribe').get('month') : 0;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
@@ -319,7 +338,7 @@ class CompanyFilial extends Component {
           <div
             onClick={this.onChangeToggle.bind(null, 'servicesAutoservices')}
             className={cx('grad-as-no-hover p10-15 fw-b fs15 br6 entire-width cur-p', !!this.props.toggle.get('servicesAutoservices') && 'bBLr0 bBRr0')}
-          >
+            >
             <div>
               Повышение в поиске в разделе "Консультация мастера"
             </div>
@@ -327,10 +346,13 @@ class CompanyFilial extends Component {
               {(this.props.selectedServices.get('autoservices').get('price') === 0) ?
                 <span className="fw-n fs14">Бесплатно</span>
                 :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoservices').get('month'))} - <strong>{this.props.selectedServices.get('autoservices').get('price')} руб.</strong>
+                <span
+                  className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoservices').get('month'))} - <strong>{this.props.selectedServices.get('autoservices').get('price')}
+                  руб.</strong>
                 </span>
               }
-              <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('servicesAutoservices') && 'active')}></i>
+              <i
+                className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('servicesAutoservices') && 'active')}></i>
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('servicesAutoservices') && 'd-N')}>
@@ -340,58 +362,67 @@ class CompanyFilial extends Component {
               <button
                 className={cx('p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px', !!editMasterName && 'grad-ap c-white')}
                 onClick={this.onSubmitMasterName.bind(null, 'masterName')}
-              >
+                >
                 {(!!editMasterName) ? 'Сохранить' : 'Имя мастера'}
               </button>
               <div className='new_context m30-0'>
                 <input ref='masterName'
-                  className={cx('bgc-t b1s bc-g', !editMasterName && 'input-as-text')}
-                  disabled={!editMasterName}
-                  type='text'
-                  value={this.state.masterName}
-                  onChange={this.onChangeMasterName}
-                  placeholder='Введите имя мастера'/>
+                       className={cx('bgc-t b1s bc-g', !editMasterName && 'input-as-text')}
+                       disabled={!editMasterName}
+                       type='text'
+                       value={this.state.masterName}
+                       onChange={this.onChangeMasterName}
+                       placeholder='Введите имя мастера'/>
               </div>
-              <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.onClickOpenModal.bind(null, 'account_services-brands')}>Марки автомобилей</button>
+              <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px"
+                      onClick={this.onClickOpenModal.bind(null, 'account_services-brands')}>Марки автомобилей
+              </button>
               <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
-                  {brandsList()}
+                {brandsList()}
               </ul>
 
-              <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px" onClick={this.onClickOpenModal.bind(null, 'account_services-services')}>Виды услуг</button>
+              <button className="p8 br2 grad-w b0 btn-shad-b f-L mR25 w170px"
+                      onClick={this.onClickOpenModal.bind(null, 'account_services-services')}>Виды услуг
+              </button>
               <ul className="br3 d-ib b1s bc-g p8-10 horizontal-list lst-d new_context m30-0">
-                  {servicesList()}
+                {servicesList()}
               </ul>
             </div>
             <div className="entire-width flex-ai-c">
-                 {tarifs('autoservices')}
+              {tarifs('autoservices')}
             </div>
           </div>
         </div>
         <Modal
           isOpen={!!this.props.modalIsOpen.get('account_services-brands')}
           onRequestClose={this.onClickCloseModal}
-        >
+          >
           <div className='ReactModal__Content-close flaticon-close' onClick={this.onClickCloseModal}></div>
           <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
             {brandsCheckbox()}
           </div>
-          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.onSubmitSelectBrands}>Сохранить</button>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0' onClick={this.onSubmitSelectBrands}>
+            Сохранить
+          </button>
         </Modal>
         <Modal
           isOpen={!!this.props.modalIsOpen.get('account_services-services')}
           onRequestClose={this.onClickCloseModal}
-        >
+          >
           <div className='ReactModal__Content-close flaticon-close' onClick={this.onClickCloseModal}></div>
           <div style={{'width': '400px', 'height': '500px', 'overflow' : 'auto'}}>
             {servicesCheckbox()}
           </div>
-          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1' onClick={this.onSubmitSelectServices}>Сохранить</button>
+          <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1'
+                  onClick={this.onSubmitSelectServices}>Сохранить
+          </button>
         </Modal>
+
         <div className="br6 b1s bc-g grad-g m15-0">
           <div
             onClick={this.onChangeToggle.bind(null, 'autoparts')}
             className={cx('grad-ap-no-hover p10-15 fw-b fs15 br6 entire-width c-wh cur-p', !!this.props.toggle.get('autoparts') && 'bBLr0 bBRr0')}
-          >
+            >
             <div>
               Повышение в поиске прайсов автозапчастей
             </div>
@@ -399,7 +430,8 @@ class CompanyFilial extends Component {
               {(this.props.selectedServices.get('autoparts').get('price') === 0) ?
                 <span className="fw-n fs14">Бесплатно</span>
                 :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoparts').get('month'))} - <strong>{this.props.selectedServices.get('autoparts').get('price')} руб.</strong></span>
+                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoparts').get('month'))} - <strong>{this.props.selectedServices.get('autoparts').get('price')}
+                  руб.</strong></span>
               }
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('autoparts') && 'active')}></i>
             </div>
@@ -407,7 +439,7 @@ class CompanyFilial extends Component {
           <div className={cx('p20-15', !this.props.toggle.get('autoparts') && 'd-N')}>
             Возможность размещения на сайте ваших товаров в течении определенного срока:
             <div className="entire-width mT20  flex-ai-c">
-                {tarifs('autoparts')}
+              {tarifs('autoparts')}
             </div>
           </div>
         </div>
@@ -415,7 +447,7 @@ class CompanyFilial extends Component {
           <div
             onClick={this.onChangeToggle.bind(null, 'catalog')}
             className={cx('grad-w-no-hover p10-15 fw-b fs15 br6 entire-width bc-g cur-p', !!this.props.toggle.get('catalog') && 'bBLr0 bBRr0')}
-          >
+            >
             <div>
               Повышение в поиске в каталоге компаний
             </div>
@@ -423,7 +455,8 @@ class CompanyFilial extends Component {
               {(this.props.selectedServices.get('catalog').get('price') === 0) ?
                 <span className="fw-n fs14">Бесплатно</span>
                 :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('catalog').get('month'))} - <strong>{this.props.selectedServices.get('catalog').get('price')} руб.</strong></span>
+                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('catalog').get('month'))}
+                  - <strong>{this.props.selectedServices.get('catalog').get('price')} руб.</strong></span>
               }
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('catalog') && 'active')}></i>
             </div>
@@ -438,31 +471,37 @@ class CompanyFilial extends Component {
         <div className="br6 b1s bc-g grad-g m15-0">
           <div
             onClick={this.onChangeToggle.bind(null, 'describe_price')}
-            className={cx('grad-w-no-hover p10-15 fw-b fs15 br6 entire-width bc-g cur-p', !!this.props.toggle.get('describe_price') && 'bBLr0 bBRr0')}
+            className={cx('grad-as-no-hover p10-15 fw-b fs15 br6 entire-width cur-p', !!this.props.toggle.get('describe_price') && 'bBLr0 bBRr0')}
             >
             <div>
               Реклама по прайсам для автосервисов.
             </div>
             <div>
-              <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('describe_price') && 'active')}></i>
+              <i
+                className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('describe_price') && 'active')}></i>
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('describe_price') && 'd-N')}>
             <div className="mB20">
+              Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Эта та цена на которую вы нацениваете.
+            </div>
+            <div className="m20-0">
               Выберите наценку:
               <input ref='markup'
-                     className={cx('mL20')}
+                     className={cx('mL20 w50px')}
                      type='text'
                      value={this.props.subscribeMarkup}
                      onChange={this.onChangeSubscribeMarkup}
-                     placeholder='Наценка'/>
+                     placeholder='%'/> %
             </div>
             Выберите марки:
             <div className="mT10">
               {this.props.subscribeWords && this.getSubscribeWordsCheckbox(this.props.subscribeWords)}
             </div>
             <div className="m10">
-              <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1' onClick={this.onSubmitSubscribe}>Сохранить</button>
+              <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1'
+                      onClick={this.onSubmitSubscribe}>Сохранить
+              </button>
             </div>
             <div className="entire-width mT20  flex-ai-c">
               {tarifsSubscribe('subscribe')}
