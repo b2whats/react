@@ -72,12 +72,13 @@ class Payment extends Component {
     /*Тут нужно было бы досчитать сумму, но лень пробрасывать ту грязь что в другом компоненте, да и сумма нужно только для блокирования кнопки*/
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
-      this.props.selectedServices.get('autoparts').get('price');
+      this.props.selectedServices.get('autoparts').get('price') +
+      this.props.selectedServices.get('subscribe').get('month');
     // console.log(typeof summ );
     return (
       <div className={cx('ta-C m20-0 fs18')}>
         {paymentMethod()}
-        <button disabled={(summ === 0 || this.props.currentPaymentMethod.size === 0) && true} className='h35px grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1 va-M' onClick={this.onSubmitPayment}>Оплатить</button>
+        <button disabled={(summ === 0) && true} className='h35px grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1 va-M' onClick={this.onSubmitPayment}>Оплатить</button>
         <input ref="codePayment" className={cx('w200px va-M mL20 mR10 fs11', this.props.isDiscount && 'bc-green-500 b1s')} type="text" placeholder="Промо-код" />
         <button onClick={::this.checkCodePayment} className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0 z-depth1 h35px va-M'>Пересчитать</button>
       </div>
