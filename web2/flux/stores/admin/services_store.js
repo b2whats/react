@@ -26,7 +26,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   masters_name: [],
   subscribeWords: [],
   subscribeWordsChecked: [],
-  subscribeMarkup: 10,
+  subscribeMarkup: [0,0,0,0,0],
   orderType: 0,
   isDiscount: false,
   tarifs: {
@@ -250,9 +250,10 @@ var cncl_ = [
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher
-    .on(event_names.kACCOUNT_SERVICES_CHANGE_MARKUP, (val) => {
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_MARKUP, (index, val) => {
+      console.log(index, val);// eslint-disable-line no-console
       state_.subscribeMarkup_cursor
-        .update((m) => val);
+        .update((m) => m.set(index, Number(val)));
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
   main_dispatcher

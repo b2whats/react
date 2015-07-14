@@ -22,6 +22,9 @@ import ServicesActions from 'actions/admin/services_actions.js';
 import ModalStore from 'stores/ModalStore.js';
 import ToggleStore from 'stores/ToggleStore.js';
 import ServicesStore from 'stores/admin/services_store.js';
+import account_services_store from 'stores/admin/services_store.js';
+
+
 
 /*Util*/
 import autobind from 'utils/autobind.js';
@@ -33,6 +36,7 @@ import formatString from 'utils/format_string.js';
 
 @rafStateUpdate(() => ({
   tarifs: ServicesStore.getTarifs(),
+  payment: account_services_store.get_services_info(),
   brandsGroupByRegion: ServicesStore.getBrandsGroupByRegion(),
   servicesGroupByType: ServicesStore.getServicesGroupByType(),
   selectedServices: ServicesStore.getSelectedServices(),
@@ -110,7 +114,8 @@ import formatString from 'utils/format_string.js';
   }
 
   onChangeSubscribeMarkup(e) {
-    ServicesActions.change_markup(e.target.value);
+    const idElement = Number(e.target.getAttribute('data-id'));
+    ServicesActions.change_markup(idElement, e.target.value);
   }
 
   onSubmitSubscribe() {
@@ -128,7 +133,7 @@ import formatString from 'utils/format_string.js';
 
             checked={!!this.props.subscribeWordsChecked.contains(part.get('id'))}
             type="checkbox"
-            disabled={part.get('id') !== 9999 && hasAllWords}
+            disabled={(this.props.payment.get('subscribe_as')) || (part.get('id') !== 9999 && hasAllWords)}
             onChange={this.onChangeWords}
             className="checkbox"/>
           {(part.get('id') === 9999) ? 'Все марки' : part.get('word')}
@@ -144,8 +149,11 @@ import formatString from 'utils/format_string.js';
     } else {
 
       switch (true) {
-      case cnt > 10:
+      case cnt > 12:
         cost = 39000;
+        break;
+      case cnt > 9:
+        cost = 27000;
         break;
       case cnt > 6:
         cost = 21000;
@@ -332,6 +340,7 @@ import formatString from 'utils/format_string.js';
     if (this.props.isDiscount) {
       summ = summ * 90 / 100;
     }
+
     return (
       <div>
         <div className="br6 b1s bc-g grad-g">
@@ -486,13 +495,44 @@ import formatString from 'utils/format_string.js';
               Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Эта та цена на которую вы нацениваете.
             </div>
             <div className="m20-0">
-              Выберите наценку:
-              <input ref='markup'
+              Выберите наценку:<br/>
+              <span className="w150px d-ib">0-5000 руб.</span>
+              <input
                      className={cx('mL20 w50px')}
                      type='text'
-                     value={this.props.subscribeMarkup}
+                     data-id="0"
+                     value={this.props.subscribeMarkup.get(0)}
                      onChange={this.onChangeSubscribeMarkup}
-                     placeholder='%'/> %
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">5000 - 10000 руб.</span>
+              <input
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     data-id="1"
+                     value={this.props.subscribeMarkup.get(1)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">10000-20000 руб.</span>
+              <input data-id="2"
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     value={this.props.subscribeMarkup.get(2)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">20000-50000 руб</span>
+              <input data-id="3"
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     value={this.props.subscribeMarkup.get(3)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">>50000 руб.</span>
+              <input data-id="4"
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     value={this.props.subscribeMarkup.get(4)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
             </div>
             Выберите марки:
             <div className="mT10">

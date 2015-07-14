@@ -42,6 +42,7 @@ var Link = React.createClass({
     if (!this.props.target) {
       event.preventDefault();
       event.stopPropagation();
+      this.props.onClick && this.props.onClick();
       var link = this.get_evaluated_link(this.props.href, this.props.params || {});
       route_actions.goto_link(link);
     }
@@ -49,7 +50,7 @@ var Link = React.createClass({
   },
 
   render () {
-    var { href, ...other_props } = this.props;
+    var { href, onClick,  ...other_props } = this.props;
     var link = this.get_evaluated_link(href, this.props.params || {});
     /* jshint ignore:start */
     return (

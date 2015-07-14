@@ -81,7 +81,9 @@ function renderDescriptionColumn(cellDataKey, rowData, rowIndex) {
           <Link
             href={'/company/'+rowData.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
             className={cx('fs16 fw-b td-u cur-p w40pr mw200px c-grey-700')}
-            onClick={statisticsActions.setStatistics.bind(null, 'c', 'click', [rowData.get('user_id')])}
+            onClick={() => {
+              return statisticsActions.setStatistics('c', 'click', [rowData.get('user_id')])}
+            }
           >
           { rowData.get('company_name').trim()}
           </Link>

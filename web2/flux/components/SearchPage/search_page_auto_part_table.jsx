@@ -303,7 +303,8 @@ export default class SearchPageAutoPartTable extends Component {
                     <div key={4}>{part.get('conditions').has('delivery_free_spb') && 'Бесплатная доставка по СПб.'}</div>,
                     <div key={5}>{part.get('conditions').has('price_only_for_legal_person') && 'Только для юр.лиц'}</div>,
                     <div key={6}>{part.get('conditions').has('price_above_level_0') && 'Цена покупки от 20 000 р'}</div>,
-                    <div key={7}>{part.get('conditions').has('price_above_level_1') && 'Цена покупки от 40 000 р'}</div>
+                    <div key={7}>{part.get('conditions').has('price_above_level_1') && 'Цена покупки от 40 000 р'}</div>,
+                    <div key={8}>{part.get('isCopy') && 'При установке на нашем автосервисе'}</div>
                   ]}
                 </FixedTooltip>
               </div>
