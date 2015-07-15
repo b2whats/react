@@ -224,7 +224,7 @@ import formatString from 'utils/format_string.js';
                      onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-M lh1-4 fs15">
                 {(index === 0) ?
-                  'Бесплатно'
+                  'Не подключена'
                   :
                   <span>
                     <span>
@@ -354,7 +354,7 @@ import formatString from 'utils/format_string.js';
             </div>
             <div>
               {(this.props.selectedServices.get('autoservices').get('price') === 0) ?
-                <span className="fw-n fs14">Бесплатно</span>
+                <span className="fw-n fs14">Не подключена</span>
                 :
                 <span
                   className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoservices').get('month'))} - <strong>{this.props.selectedServices.get('autoservices').get('price')}
@@ -438,7 +438,7 @@ import formatString from 'utils/format_string.js';
             </div>
             <div>
               {(this.props.selectedServices.get('autoparts').get('price') === 0) ?
-                <span className="fw-n fs14">Бесплатно</span>
+                <span className="fw-n fs14">Не подключена</span>
                 :
                 <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoparts').get('month'))} - <strong>{this.props.selectedServices.get('autoparts').get('price')}
                   руб.</strong></span>
@@ -447,7 +447,7 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('autoparts') && 'd-N')}>
-            Возможность размещения на сайте ваших товаров в течении определенного срока:
+            Возможность повышения в поисковой выдаче по автозапчастям предложений вашей компании. Ваши предложения будут выше предложений тех компаний, которые не пользуются этой услугой.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('autoparts')}
             </div>
@@ -463,7 +463,7 @@ import formatString from 'utils/format_string.js';
             </div>
             <div>
               {(this.props.selectedServices.get('catalog').get('price') === 0) ?
-                <span className="fw-n fs14">Бесплатно</span>
+                <span className="fw-n fs14">Не подключена</span>
                 :
                 <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('catalog').get('month'))}
                   - <strong>{this.props.selectedServices.get('catalog').get('price')} руб.</strong></span>
@@ -484,11 +484,11 @@ import formatString from 'utils/format_string.js';
             className={cx('grad-ap-no-hover p10-15 fw-b fs15 br6 entire-width c-wh cur-p', !!this.props.toggle.get('wholesale') && 'bBLr0 bBRr0')}
             >
             <div>
-              Подписка на прайс оптовика
+              Без прайса. Подписка на прайсы оптовиков.
             </div>
             <div>
               {(this.props.selectedServices.get('wholesale').get('price') === 0) ?
-                <span className="fw-n fs14">Бесплатно</span>
+                <span className="fw-n fs14">Не подключена</span>
                 :
                 <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('wholesale').get('month'))} - <strong>{this.props.selectedServices.get('wholesale').get('price')}
                   руб.</strong></span>
@@ -497,7 +497,7 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('wholesale') && 'd-N')}>
-            Возможность размещения на сайте ваших товаров в течении определенного срока:
+            Возможность размещения оптового прайса с вашей наценкой от вашего имени в нашей поисковой выдаче в качестве рекламы. Выбрать оптовика, проставить вашу общую скидку на его прайс и проставить наценки в зависимости от ценовой категории товара вы можете в разделе Управление товарами/Создание прайс-листа на основе прайс-листа оптового поставщика.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('wholesale')}
             </div>
@@ -519,7 +519,7 @@ import formatString from 'utils/format_string.js';
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('describe_price') && 'd-N')}>
             <div className="mB20">
-              Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Эта та цена на которую вы нацениваете.
+              Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Это та цена на которую вы нацениваете.
             </div>
             <div className="m20-0">
               Выберите наценку:<br/>

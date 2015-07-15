@@ -85,19 +85,19 @@ var AccountInfo = React.createClass({
   },
   generatePaymentBlock(type, css, title) {
     return (
-      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 mw250px', type !== 'subscribe' && 'mR20')}>
-        <div className={`bg-c-${css} p8-10 fs14 fw-b br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
+      <div className={cx('br8 b1s bc-g grad-g d-ib mB15 mw200px', type !== 'subscribe' && 'mR20')}>
+        <div className={`bg-c-${css} p8-10 fs14 fw-n br6 bBLr0 bBRr0 entire-width flex-ai-c o1${css}`}>
           <div dangerouslySetInnerHTML={{__html: title}}>
 
           </div>
 
         </div>
-        <div className="m15 d-f h40px flex-ai-c fs15">
+        <div className="m15 d-f h40px flex-ai-c fs13">
             {
               (!!this.state.payment.get(type))?
                 <span>Оплачено до <strong>{this.state.payment.get(type)}</strong> <i className="flaticon-calendar fs15 mL5 c-g"></i> </span>
                 :
-                <span>Бесплатное размещение</span>
+                <span>Не подключена</span>
               }
         </div>
       </div>
@@ -124,7 +124,7 @@ var AccountInfo = React.createClass({
         {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
         {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
         {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
-        {this.generatePaymentBlock('wholesale','ap','Повышение в поиске в<br/>"Подписка на оптовые прайсы"')}
+        {this.generatePaymentBlock('wholesale','ap','Без прайса. <br/>"Подписка на прайсы оптовиков"')}
         {this.generatePaymentBlock('subscribe_as','as','Повышение в поиске в<br/>"Реклама по прайсам"')}
 
         <hr className="hr bw4 m25-0"/>
