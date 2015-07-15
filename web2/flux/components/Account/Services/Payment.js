@@ -73,6 +73,7 @@ class Payment extends Component {
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
+      this.props.selectedServices.get('wholesale').get('price') +
       this.props.selectedServices.get('subscribe').get('month');
     // console.log(typeof summ );
     return (

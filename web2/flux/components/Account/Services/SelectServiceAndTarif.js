@@ -336,6 +336,7 @@ import formatString from 'utils/format_string.js';
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
+      this.props.selectedServices.get('wholesale').get('price') +
       subscribeCost;
     if (this.props.isDiscount) {
       summ = summ * 90 / 100;
@@ -477,6 +478,32 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
         </div>
+        <div className="br6 b1s bc-g grad-g m15-0">
+          <div
+            onClick={this.onChangeToggle.bind(null, 'wholesale')}
+            className={cx('grad-ap-no-hover p10-15 fw-b fs15 br6 entire-width c-wh cur-p', !!this.props.toggle.get('wholesale') && 'bBLr0 bBRr0')}
+            >
+            <div>
+              Подписка на прайс оптовика
+            </div>
+            <div>
+              {(this.props.selectedServices.get('wholesale').get('price') === 0) ?
+                <span className="fw-n fs14">Бесплатно</span>
+                :
+                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('wholesale').get('month'))} - <strong>{this.props.selectedServices.get('wholesale').get('price')}
+                  руб.</strong></span>
+              }
+              <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('wholesale') && 'active')}></i>
+            </div>
+          </div>
+          <div className={cx('p20-15', !this.props.toggle.get('wholesale') && 'd-N')}>
+            Возможность размещения на сайте ваших товаров в течении определенного срока:
+            <div className="entire-width mT20  flex-ai-c">
+              {tarifs('wholesale')}
+            </div>
+          </div>
+        </div>
+
         <div className="br6 b1s bc-g grad-g m15-0">
           <div
             onClick={this.onChangeToggle.bind(null, 'describe_price')}

@@ -124,6 +124,7 @@ var AccountInfo = React.createClass({
         {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
         {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
         {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
+        {this.generatePaymentBlock('wholesale','ap','Повышение в поиске в<br/>"Подписка на оптовые прайсы"')}
         {this.generatePaymentBlock('subscribe_as','as','Повышение в поиске в<br/>"Реклама по прайсам"')}
 
         <hr className="hr bw4 m25-0"/>

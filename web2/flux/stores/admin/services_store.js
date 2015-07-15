@@ -117,7 +117,29 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 10
       }
-    }
+    },
+    wholesale: {
+      '0': {
+        month: 0,
+        price: 0,
+        discount: 0
+      },
+      '1': {
+        month: 1,
+        price: 8000,
+        discount: 0
+      },
+      '3': {
+        month: 3,
+        price: 22800,
+        discount: 5
+      },
+      '6': {
+        month: 6,
+        price: 43200,
+        discount: 10
+      }
+    },
   },
 
   selected_services: {
@@ -137,7 +159,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
       month: 0,
       price: 0,
       words: []
-    }
+    },
+    wholesale: {
+      month: 0,
+      price: 0
+    },
   },
   payment_method: [
     {
