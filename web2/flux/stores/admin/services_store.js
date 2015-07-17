@@ -145,7 +145,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   selected_services: {
     autoparts: {
       month: 1,
-      price: 5000
+      price: 7000
     },
     autoservices: {
       month: 1,

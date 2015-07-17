@@ -102,11 +102,13 @@ import formatString from 'utils/format_string.js';
   onSubmitSelectBrands() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
     ServicesActions.submitCheckbox('brands', ServicesStore.getSelectBrands().filter(el => el != '').toJS().toString());
+    this.onClickCloseModal();
   }
 
   onSubmitSelectServices() {
     // Так как не меняем стетй. Берем из сторы новый набор данных
     ServicesActions.submitCheckbox('services', ServicesStore.get_select_services().filter(el => el != '').toJS().toString());
+    this.onClickCloseModal();
   }
 
   onChangeWords(e) {
