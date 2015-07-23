@@ -126,17 +126,17 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 8000,
+        price: 15000,
         discount: 0
       },
       '3': {
         month: 3,
-        price: 22800,
+        price: 42750,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 43200,
+        price: 81000,
         discount: 10
       }
     },

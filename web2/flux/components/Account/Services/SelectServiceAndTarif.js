@@ -155,13 +155,13 @@ import formatString from 'utils/format_string.js';
         cost = 39000;
         break;
       case cnt > 9:
-        cost = 27000;
+        cost = 18000;
         break;
       case cnt > 6:
-        cost = 21000;
+        cost = 16000;
         break;
       case cnt > 3:
-        cost = 15000;
+        cost = 12000;
         break;
       case cnt > 0:
         cost = 8000;
