@@ -162,7 +162,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
     },
     wholesale: {
       month: 1,
-      price: 8000
+      price: 15000
     },
   },
   payment_method: [
