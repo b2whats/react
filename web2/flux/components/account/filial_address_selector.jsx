@@ -94,18 +94,18 @@ var FilialAddressSelector = React.createClass({
   },
   submit_form() {
     //console.log(this.state.metadata.toJS());
-    if (this.state.metadata) {
+
       var value = {
         filial_id: this.state.filial_id,
         address: this.state.address,
         coordinates: this.state.coordinates.toJS(),
-        metadata: this.state.metadata.toJS(),
+        metadata: this.state.metadata && this.state.metadata.toJS() || null,
         work_time: this.state.work_time.toJS(),
         type: this.state.type,
         phones: this.state.phones.toJS(),
       };
       filial_address_and_work_time_actions.submit_form(value);
-    }
+
     this.onClickCloseModal();
   },
   render() {
