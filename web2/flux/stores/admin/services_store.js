@@ -38,7 +38,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 7000,
+        price: 12000,
         discount: 0
       },
       '3': {
@@ -82,7 +82,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 6000,
+        price: 9000,
         discount: 0
       },
       '3': {
@@ -145,7 +145,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   selected_services: {
     autoparts: {
       month: 1,
-      price: 7000
+      price: 12000
     },
     autoservices: {
       month: 1,
@@ -153,7 +153,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
     },
     catalog: {
       month: 1,
-      price: 6000
+      price: 9000
     },
     subscribe: {
       month: 0,
