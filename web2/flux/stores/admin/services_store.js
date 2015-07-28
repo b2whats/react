@@ -43,12 +43,12 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '3': {
         month: 3,
-        price: 19950,
+        price: 34200,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 37800,
+        price: 64800,
         discount: 10
       }
     },
@@ -87,12 +87,12 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '3': {
         month: 3,
-        price: 17100,
+        price: 25650,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 32400,
+        price: 48600,
         discount: 10
       }
     },
