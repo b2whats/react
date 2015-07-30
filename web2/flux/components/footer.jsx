@@ -37,7 +37,7 @@ var Footer = React.createClass({
       <div className="footer main-footer">
         <div className="hfm-wrapper entire-width">
           <span>
-            <span className="copyright m0-10">© 2013-2014 AutoGiper.ru</span>
+            <span className="copyright m0-10">© 2013-{new Date().getFullYear()} AutoGiper.ru</span>
             <Link className="h_link m0-10" href="/">Информационная поддержка</Link>
             <Link className="h_link m0-10" href={'/agreement'}>Пользовательское соглашение</Link>
             <div className='d-ib p-r drop-up  m0-10'>
@@ -55,6 +55,7 @@ var Footer = React.createClass({
               </ul>
             </div>
             <Link className="h_link m0-10" href={'/static/partners.html'}>Рекламодателям</Link>
+            <Link className="h_link m0-10" href={'http://www.mims.ru/ru-RU/visitors/ticket.aspx#personal'}>Мы - участники MIMS 2015</Link>
           </span>
           <span>  
             Мы в соц. сетях :

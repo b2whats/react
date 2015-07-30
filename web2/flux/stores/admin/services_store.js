@@ -144,12 +144,12 @@ var state_ = init_state(_.last(__filename.split('/')), {
 
   selected_services: {
     autoparts: {
-      month: 1,
-      price: 12000
+      month: 0,
+      price: 0
     },
     autoservices: {
-      month: 1,
-      price: 7000
+      month: 0,
+      price: 0
     },
     catalog: {
       month: 1,
@@ -161,8 +161,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       words: []
     },
     wholesale: {
-      month: 1,
-      price: 15000
+      month: 0,
+      price: 0
     },
   },
   payment_method: [

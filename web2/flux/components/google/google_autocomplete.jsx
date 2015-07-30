@@ -57,7 +57,7 @@ export default class GoogleAutocomplete extends Component {
           console.log('address', address);// eslint-disable-line no-console
           this.geocoder.geocode({'address': address}, (results, status) => {
             if (status === maps.GeocoderStatus.OK) {
-              // this.onSelectedAddressChange(results[0]) - меняется адрес в некоторых случаях!!! ставится первый
+              // this.onSelectedAddressChange(results[0]); // - меняется адрес в некоторых случаях!!! ставится первый
               this._onResultsChange(results);
             }
           });
@@ -91,8 +91,8 @@ export default class GoogleAutocomplete extends Component {
   }
 
   onSelectedAddressChange(r) {
-    console.log(r);
-    r && this.props.onAddressChange([r.geometry.location.A, r.geometry.location.F], r);
+    console.log('r', r);
+    r && this.props.onAddressChange([r.geometry.location.G, r.geometry.location.K], r); // Недавние изменения по карте
     this.props.onChChange(false);
   }
 

@@ -129,7 +129,7 @@ import formatString from 'utils/format_string.js';
     return words
       .map((part, index) =>
         <label key={part.get('id')}
-               className={cx('label--checkbox w100px d-ib m5-0', (part.get('id') === 9999) && 'fw-b td-u')}>
+               className={cx('label--checkbox w130px d-ib m5-0', (part.get('id') === 9999) && 'fw-b td-u')}>
           <input
             value={part.get('id')}
 
@@ -222,7 +222,7 @@ import formatString from 'utils/format_string.js';
           index = index | 0;
           return (
             <label key={part.get('month')} className="label-radio">
-              <input defaultChecked={(index === 1) && true} type="radio" value={index}
+              <input defaultChecked={type !== 'catalog' ? index === 0 : index === 1} type="radio" value={index}
                      onChange={this.onChangeTarif.bind(null, type)} className="radio m0-10" name={type}/>
               <span className="d-ib va-M lh1-4 fs15">
                 {(index === 0) ?
@@ -486,7 +486,7 @@ import formatString from 'utils/format_string.js';
             className={cx('grad-ap-no-hover p10-15 fw-b fs15 br6 entire-width c-wh cur-p', !!this.props.toggle.get('wholesale') && 'bBLr0 bBRr0')}
             >
             <div>
-              Без прайса. Подписка на прайсы оптовиков.
+              Без прайса. Подписка на прайсы оптовиков
             </div>
             <div>
               {(this.props.selectedServices.get('wholesale').get('price') === 0) ?
@@ -512,7 +512,7 @@ import formatString from 'utils/format_string.js';
             className={cx('grad-as-no-hover p10-15 fw-b fs15 br6 entire-width cur-p', !!this.props.toggle.get('describe_price') && 'bBLr0 bBRr0')}
             >
             <div>
-              Реклама по прайсам для автосервисов.
+              Создание собственного прайса по выбранным маркам автомобилей
             </div>
             <div>
               <i
