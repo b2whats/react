@@ -281,8 +281,11 @@ export default class SearchPageAutoPartTable extends Component {
             </div>
           </td>
           <td className='ta-C'>
-            <span className={cx('fs25 va-M m0-5', cx(part.get('used') ? 'svg-icon_no-use' : 'svg-icon_use'))}></span>
-            <span className={cx('fs23 va-M m0-5', cx(stock_class_name))}></span>
+            <span className={cx('fs23 va-M m0-5 ta-L', part.get('delivere') == 0 ? 'icon_box-check' : 'icon_car')}>
+              {part.get('delivere') != 0 &&
+                <span className="p-a c-grey-400 fs13" style={{'marginLeft': '4px', 'marginTop': '4px' }}>{part.get('delivere')}</span>
+              }
+            </span>
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
           </td>
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
@@ -381,7 +384,7 @@ export default class SearchPageAutoPartTable extends Component {
               <th className=''>Продавец</th>
               <th className='w140px'>Производитель<br/>Артикул</th>
               <th className=''>Описание детали</th>
-              <th className='ta-C w90px'>Инфо</th>
+              <th className='ta-C w90px'>Доставка</th>
               <th className='ta-C c-wh w95px t-bg-c-ap fw-b'>Цена</th>
               <th className='ta-C w210px'>
                 <label className="label--checkbox">

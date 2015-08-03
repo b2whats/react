@@ -113,7 +113,7 @@ var AccountManage = React.createClass({
 
   on_string_load() {
     var kFILE_NAME = 'from_textarea';
-    if (this.state.price_list_content.split('\n')[0].split(';').length == 5) {
+    if (this.state.price_list_content.split('\n')[0].split(';').length == 6) {
       var blob = new Blob([this.state.price_list_content], {type: 'text/csv'});
       var form_data = new FormData();
       form_data.append('price', blob, kFILE_NAME);
@@ -208,27 +208,24 @@ var AccountManage = React.createClass({
           <div className="entire-width fs12" onClick={this.toggle('manage-instruction')} >
             <div className="w47pr">
               <p className='lh1-4'>
-                1) Система загружает только 5 столбцов. Проверяйте пожалуйста наличие случайных данных в других столбцах.
+                1) Система загружает <b>только 6 столбцов</b>. Проверяйте пожалуйста наличие случайных данных в других столбцах.
               </p>
               <p className='lh1-4'>
-                2) Столбцы должны быть строго в определенном порядке: Код детали, Производитель, Наименование детали, Количество, Цена. Пустых ячеек в этих пяти колонках быть не должно.
+                2) Столбцы должны быть строго в определенном порядке: <b>Производитель, Код детали</b>, Наименование детали, Количество, Цена, Срок доставки(если в наличии - ставим 0). Пустых ячеек в этих шести колонках быть не должно.
               </p>
               <p className='lh1-4'>
                 3) В колонках "Количество" и "Цена" должны быть целые числа без букв. То есть не допускаются значения типа "В наличии", или "10,50", или "10 руб".
               </p>
+            </div>
+            <div className="w47pr">
               <p className='lh1-4'>
                 4) Нулевых значений в колонках "В наличии" и "Цена" быть не должно. Если у вас прайс с заказными позициями - ставим 1 в наличии и потом отдельно выбираем срок доставки для всего загружаемого файла.
               </p>
-            </div>
-            <div className="w47pr">
               <p className='lh1-4'>
                 5) Условия продаж и доставки распространяются на каждый загружаемый файл отдельно и распространяются на все позиции именно этого файла.
               </p>
               <p className='lh1-4'>
-                6) Прайс может состоять из нескольких загружаемых файлов. Рекомендуется отдельно загружать файл с деталями "в наличии" и отдельно файлы "под заказ", либо с разными условиями продажи.
-              </p>
-              <p className='lh1-4'>
-                7) Дублирующиеся позиции в прайсе одного клиента удаляются автоматически в пользу самой свеже-загруженной позиции.
+                6) Дублирующиеся позиции в прайсе одного клиента удаляются автоматически в пользу самой свеже-загруженной позиции.
               </p>
             </div>
           </div>
@@ -250,7 +247,7 @@ var AccountManage = React.createClass({
               </select>
             </div>
 
-            <span className="ib m-left-40px">Срок доставки</span>
+            {/*            <span className="ib m-left-40px">Срок доставки</span>
 
             <div className="ib -select-holder">
               <select
@@ -263,7 +260,7 @@ var AccountManage = React.createClass({
                 <option value={4}>14-21 дня</option>
                 <option value={5}>до 31 дня</option>
               </select>
-            </div>
+            </div>*/}
 
 
             {/* this.state.price_type == 2 &&
@@ -332,7 +329,7 @@ var AccountManage = React.createClass({
             <textarea
               value={this.state.price_list_content}
               onChange={this.on_price_list_content_changed}
-              placeholder="Код детали  |  Производитель детали  |  Наименование детали  |  Количество  |  Цена в рублях"/>
+              placeholder="Производитель детали  |  Код детали  |  Наименование детали  |  Количество  |  Цена в рублях  |  Срок доставки"/>
 
             <div className="-item2-menu justify flex">
 
