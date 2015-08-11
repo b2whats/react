@@ -22,10 +22,10 @@ var actions_ = [
 ];
 module.exports.getOrderStatistics = () => {
   resource(api_refs.GET)
-    .post({order_by_auth: true})
+    .post({order_by_auth: true, order_subscribe_by_auth: true})
     .then((response) => {
 
-      response.results.order && main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_ORDER_STATISTICS_LOADED].concat([response.results.order]));
+      response.results.order && main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_ORDER_STATISTICS_LOADED].concat([response.results]));
 
     });
 };

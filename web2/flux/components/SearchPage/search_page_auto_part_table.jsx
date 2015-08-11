@@ -54,7 +54,7 @@ var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок по
 /*Action*/
 import ModalActions from 'actions/ModalActions.js';
 import Order from './Order.jsx';
-
+import searchOrderActions from 'actions/searchOrderActions.js';
 
 
 
@@ -112,9 +112,18 @@ export default class SearchPageAutoPartTable extends Component {
     e.preventDefault();
     e.stopPropagation();
   }
-  onVisiblePhoneChange(userId) {
+  onVisiblePhoneChange(userId, part) {
     statisticsActions.setStatistics('ap', 'click', [userId]);
     searchActionsAP.visiblePhoneChange(userId);
+    if (part.isCopy) {
+      let order = {
+        sender: {},
+        subject: part,
+        companyRecipientId: part.user_id,
+        servicesId: 4
+      };
+      searchOrderActions.submit(order);
+    }
   }
   onShowAllPhoneChange(type) {
     searchActionsAP.showAllPhoneChange(type);
@@ -290,7 +299,7 @@ export default class SearchPageAutoPartTable extends Component {
           </td>
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1">
-              {part.get('retail_price')} р.
+              {part.get('retail_price') | 0} р.
               <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, `${part.get('user_id')}-${part.get('id')}`, 'autopart-tooltip-price')}>Условия оплаты</div>
 
 
@@ -320,8 +329,9 @@ export default class SearchPageAutoPartTable extends Component {
               <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
             </div>
             <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
+
               <button
-                onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'))}
+                onClick={this.onVisiblePhoneChange.bind(null, part.get('user_id'), part.toJS())}
                 className={cx('p8 br2 grad-w b0 btn-shad-b ta-C', (part.get('order_type') === 0) && 'w48pr', (part.get('order_type') === 1) && 'w100pr', (part.get('order_type') === 2) && 'd-N' )}
               >
                 <span className="w100pr ta-C">

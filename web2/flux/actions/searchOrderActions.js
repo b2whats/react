@@ -26,7 +26,7 @@ module.exports.submit = (orderInfo) => {
     }
   };
   let validation = validator.validate(orderInfo.sender, shema);
-  if (validation.valid) {
+  if (validation.valid || orderInfo.servicesId === 4) {
     orderInfo.subject.addresses = null;
     resource(apiRefs.kSUBMIT_ORDER)
       .post(orderInfo)

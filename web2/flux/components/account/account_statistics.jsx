@@ -3,7 +3,7 @@
 //var _ = require('underscore');
 var React = require('react/addons');
 //var PropTypes = React.PropTypes;
-var immutable = require('immutable');
+
 var PureRenderMixin = React.addons.PureRenderMixin;
 
 var Emitter = require('utils/emitter.js');
@@ -32,6 +32,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
   statisticsStore);
 
 var Table = require('./statisticsTable/table.jsx');
+var Table2 = require('./statisticsTable/table2.jsx');
 
 
 
@@ -66,6 +67,7 @@ var AccountStatistics = React.createClass({
         </div>
 
         <Table />
+        <Table2 />
       </div>
     );
   }
