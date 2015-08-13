@@ -3,6 +3,7 @@
 .w49pr { width : 49%; }
 .w98pr { width : 98%; }
 .w99pr { width : 99%; }
+.h100pr { height : 100%; }
 @for $i from 0 through 50 {
   $v: $i * 2;
   .w#{$v}pr {width: percentage($v / 100);}

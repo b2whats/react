@@ -21,7 +21,7 @@ const IceFixedTableHolder = React.createClass({
     const {cellRenderer, ...other} = this.props;
     return (
       <Table
-        {...other}
+        {...other        }
         >
         {this.props.columns.map((c, index) => (<Column key={index} cellRenderer={cellRenderer} {...c} />))}
       </Table>

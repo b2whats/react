@@ -8,7 +8,7 @@ import sc from 'shared_constants';
 
 import GoogleMap from 'components/google/google_map.js';
 import rafStateUpdate, {stateUpdate} from 'components/hoc/raf_state_update.js';
-
+import searchOrderActions from 'actions/searchOrderActions.js';
 import MapMarker, {K_SCALE_NORMAL, K_MARKER_WIDTH, K_MARKER_HEIGHT} from 'components/markers/map_marker.jsx';
 import raf from 'utils/raf.js';
 import statisticsActions from 'actions/statisticsActions.js';
@@ -95,14 +95,29 @@ export default class CatalogMap extends Component {
   }
 
   _onChildClick = (key, props) => {
+
     if (this.props.onRowAddressActive) {
+      const userId = props.marker.get('user_id');
+      const subscribeDetails = this.props.dataResultsAP
+        .filter(x => x.get('isCopy'))
+        .filter(x => x.get('user_id') === userId);
       if (props.marker.get('id') === this.props.activeAddressId) {
         this.props.onRowAddressActive(null, false);
       } else {
         this.props.onRowAddressActive(props.marker.get('id'), true);
       }
       let type = props.markerType === 'autoservices' ? 'as' : 'ap';
-      statisticsActions.setStatistics(type, 'click', [props.marker.get('user_id')]);
+      statisticsActions.setStatistics(type, 'click', [userId]);
+      if (subscribeDetails.size > 0) {
+        let part = subscribeDetails.get(0).toJS();
+        let order = {
+          sender: {},
+          subject: part,
+          companyRecipientId: part.user_id,
+          servicesId: 4
+        };
+        searchOrderActions.submit(order);
+      }
     }
   }
 

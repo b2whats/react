@@ -22,11 +22,10 @@ var SizeHoc = (Component) => {
         const node = this.component.getDOMNode();
         this.setState({
           width: node.offsetWidth,
-          height: node.offsetHeight
+          height: this.props.height ||  node.offsetHeight
         });
       }
     },
-
 
     render() {
       return <Component ref={v => this.component = v} {...this.props} {...this.state} />;

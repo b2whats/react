@@ -113,15 +113,19 @@ export default class CatalogPageRightBlockContentNew extends Component {
     const K_ROW_HEIGHT = 60;
     const K_HEADER_HEIGHT = 41;
     const K_MINI_HEADER_HEIGHT = 40;
+    const ROW_COUNT = this.props.orderStatisticsSubscribe && this.props.orderStatisticsSubscribe.size || K_MIN_DEFAULT_ROWS_SIZE;
+    const h = ROW_COUNT * K_ROW_HEIGHT + K_HEADER_HEIGHT;
+    const heightTable = h > 400 ? 400 : h;
 //console.log(this.props.orderStatistics.toJS());
     return (
-      <div className="">
+      <div className="mB50">
         {this.props.orderStatisticsSubscribe.size > 0 &&
           <div>
             <hr className="hr m50-0"/>
             <h3 className="fs20 fw-n m20-0">Таблица показов телефона </h3>
             <IceFixedTable
-              className="w100% h400px p-r o-h"
+              height={heightTable}
+              className="w100% p-r o-h"
               onVisibleRowsChange={this._onVisibleRowsChange}
               onRowMouseEnter={this._onRowMouseEnter}
               onRowMouseLeave={this._onRowMouseLeave}
@@ -130,7 +134,7 @@ export default class CatalogPageRightBlockContentNew extends Component {
               cellRenderer = {this._cellRenderer}
               getRowObjectAt = {this._getRowObjectAt}
               getRowClassNameAt={this._getRowClassNameAt}
-              rowsCount = {this.props.orderStatisticsSubscribe && this.props.orderStatisticsSubscribe.size || K_MIN_DEFAULT_ROWS_SIZE}
+              rowsCount = {ROW_COUNT}
               headerHeight = {K_HEADER_HEIGHT}
               miniHeaderHeight = {K_MINI_HEADER_HEIGHT}
               startRow = {this.props.startRow}
