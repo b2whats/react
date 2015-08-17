@@ -147,24 +147,27 @@ import formatString from 'utils/format_string.js';
     let cost = 0;
     const cnt = this.props.subscribeWordsChecked.size;
     if (this.props.subscribeWordsChecked.contains(9999)) {
-      cost = 39000;
+      cost = 33000;
     } else {
 
       switch (true) {
-      case cnt > 12:
-        cost = 39000;
+      case cnt > 19:
+        cost = 33000;
         break;
-      case cnt > 9:
+      case cnt > 12:
         cost = 18000;
         break;
       case cnt > 6:
-        cost = 16000;
-        break;
-      case cnt > 3:
         cost = 12000;
         break;
-      case cnt > 0:
+      case cnt > 3:
         cost = 8000;
+        break;
+      case cnt > 1:
+        cost = 5000;
+        break;
+      case cnt > 0:
+        cost = 2500;
         break;
       }
     }
@@ -339,6 +342,7 @@ import formatString from 'utils/format_string.js';
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
       this.props.selectedServices.get('wholesale').get('price') +
+      this.props.selectedServices.get('pricemore').get('price') +
       subscribeCost;
     if (this.props.isDiscount) {
       summ = summ * 90 / 100;
@@ -480,6 +484,32 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
         </div>
+        <div className="br6 b1s bc-g grad-g m15-0">
+          <div
+            onClick={this.onChangeToggle.bind(null, 'pricemore')}
+            className={cx('grad-w-no-hover p10-15 fw-b fs15 br6 entire-width bc-g cur-p', !!this.props.toggle.get('catalog') && 'bBLr0 bBRr0')}
+            >
+            <div>
+              Безлимитная заливка собственного розничного прайса
+            </div>
+            <div>
+              {(this.props.selectedServices.get('pricemore').get('price') === 0) ?
+                <span className="fw-n fs14">Не подключена</span>
+                :
+                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('pricemore').get('month'))}
+                  - <strong>{this.props.selectedServices.get('pricemore').get('price')} руб.</strong></span>
+              }
+              <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('pricemore') && 'active')}></i>
+            </div>
+          </div>
+          <div className={cx('p20-15', !this.props.toggle.get('pricemore') && 'd-N')}>
+            Вы привыкли работать с собственным прайсом? Он у вас на порядок больше 3 тыс позиций? Подключите эту услугу и снимите все ограничения по заливке прайса в систему.  Данная услуга, так же дает право подать заявку на настройку автоматического обновления вашего прайса в системе AutoGiper.ru.
+            <div className="entire-width mT20  flex-ai-c">
+              {tarifs('pricemore')}
+            </div>
+          </div>
+        </div>
+
         <div className="br6 b1s bc-g grad-g m15-0">
           <div
             onClick={this.onChangeToggle.bind(null, 'wholesale')}

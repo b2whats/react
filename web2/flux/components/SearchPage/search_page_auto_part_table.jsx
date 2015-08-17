@@ -178,6 +178,12 @@ export default class SearchPageAutoPartTable extends Component {
         if (this.props.firstInvisibleRowIndex <= currentIndex) inDisplay = false;
         let currentRegion =  regionStore.get_region_current() && regionStore.get_region_current().get('translit_name');
         companyIds.push(part.get('user_id'));
+        const filter = [1,2,3,4,5];
+
+
+        const newArr1 = [...filter];
+        newArr1.splice(8, 1 , 33);
+        console.log(newArr1);
       return (
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}

@@ -163,7 +163,7 @@ var AccountManage = React.createClass({
     var Errors = this.state.errors.map((e, index) =>
       <span key={index} className="-upload-error vm">
         <span>
-           {e.get('message')}
+           {e}
         </span>
       </span>).toJS();
     var History = !!this.state.history &&

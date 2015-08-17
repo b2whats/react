@@ -13,6 +13,15 @@ var immutable = require('immutable');
 
 var account_services_actions = require('actions/admin/services_actions.js');
 
+const PRICES = {
+  autoparts: 7000,
+  autoservices: 7000,
+  catalog: 9000,
+  subscribe: 0,
+  wholesale: 15000,
+  pricemore: 9000
+}
+
 var state_ = init_state(_.last(__filename.split('/')), {
   payment: {},
   step: 3,
@@ -38,17 +47,17 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 12000,
+        price: PRICES.autoparts,
         discount: 0
       },
       '3': {
         month: 3,
-        price: 34200,
+        price: PRICES.autoparts * 0.95 * 3,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 64800,
+        price: PRICES.autoparts * 0.90 * 6,
         discount: 10
       }
     },
@@ -60,17 +69,17 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 7000,
+        price: PRICES.autoservices,
         discount: 0
       },
       '3': {
         month: 3,
-        price: 19950,
+        price: PRICES.autoservices * 0.95 * 3,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 37800,
+        price: PRICES.autoservices * 0.90 * 6,
         discount: 10
       }
     },
@@ -82,17 +91,17 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 9000,
+        price: PRICES.catalog,
         discount: 0
       },
       '3': {
         month: 3,
-        price: 25650,
+        price: PRICES.catalog * 0.95 * 3,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 48600,
+        price: PRICES.catalog * 0.90 * 6,
         discount: 10
       }
     },
@@ -126,17 +135,39 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '1': {
         month: 1,
-        price: 15000,
+        price: PRICES.wholesale,
         discount: 0
       },
       '3': {
         month: 3,
-        price: 42750,
+        price: PRICES.wholesale * 0.95 * 3,
         discount: 5
       },
       '6': {
         month: 6,
-        price: 81000,
+        price: PRICES.wholesale * 0.90 * 6,
+        discount: 10
+      }
+    },
+    pricemore: {
+      '0': {
+        month: 0,
+        price: 0,
+        discount: 0
+      },
+      '1': {
+        month: 1,
+        price: PRICES.pricemore,
+        discount: 0
+      },
+      '3': {
+        month: 3,
+        price: PRICES.pricemore * 0.95 * 3,
+        discount: 5
+      },
+      '6': {
+        month: 6,
+        price: PRICES.pricemore * 0.90 * 6,
         discount: 10
       }
     },
@@ -153,7 +184,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
     },
     catalog: {
       month: 1,
-      price: 9000
+      price: PRICES.catalog
     },
     subscribe: {
       month: 0,
@@ -161,6 +192,10 @@ var state_ = init_state(_.last(__filename.split('/')), {
       words: []
     },
     wholesale: {
+      month: 0,
+      price: 0
+    },
+    pricemore: {
       month: 0,
       price: 0
     },

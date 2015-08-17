@@ -124,6 +124,7 @@ var AccountInfo = React.createClass({
         {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
         {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
         {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
+        {this.generatePaymentBlock('pricemore','g','Безлимитная заливка <br/>собственного розничного прайса')}
         {this.generatePaymentBlock('wholesale','ap','Без прайса. <br/>"Подписка на прайсы оптовиков"')}
         {this.generatePaymentBlock('subscribe_as','as','Для автосервисов. <br/>"Реклама по прайсам"')}
 
