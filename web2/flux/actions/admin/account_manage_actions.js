@@ -27,9 +27,8 @@ module.exports.upload_price_list = (form_data, operation_id, file_name, price_ty
   r_upload_file
   .save({operation_id: operation_id, price_type:price_type}, form_data)
   .then((r) => {
-      console.log(r);
+      main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_RESET]);
     if(r && r.errors ) {
-      console.log('ad');
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED_ERRORS].concat([r.errors, file_name]));
     } else {
       main_dispatcher.fire.apply (main_dispatcher, [event_names.kON_ON_ACCOUNT_MANAGE_PRICE_LIST_LOADED].concat([file_name]));
