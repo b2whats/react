@@ -384,7 +384,7 @@ var AccountManage = React.createClass({
                 <Link
                   className="h_link mL20"
                   href={'/company/'+this.state.current_supplier_id+'/:region_id'}
-                  >Карточка компании</Link>
+                  >Карточка оптовика</Link>
               </span>
             </div>
 
