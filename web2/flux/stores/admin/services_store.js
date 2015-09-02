@@ -45,11 +45,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: PRICES.autoparts,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: PRICES.autoparts * 0.95 * 3,
@@ -67,11 +67,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: PRICES.autoservices,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: PRICES.autoservices * 0.95 * 3,
@@ -89,11 +89,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: PRICES.catalog,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: PRICES.catalog * 0.95 * 3,
@@ -111,11 +111,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: 0,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: 0,
@@ -133,11 +133,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: PRICES.wholesale,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: PRICES.wholesale * 0.95 * 3,
@@ -155,11 +155,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-      '1': {
+/*      '1': {
         month: 1,
         price: PRICES.pricemore,
         discount: 0
-      },
+      },*/
       '3': {
         month: 3,
         price: PRICES.pricemore * 0.95 * 3,
@@ -183,8 +183,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       price: 0
     },
     catalog: {
-      month: 1,
-      price: PRICES.catalog
+      month: 0,
+      price: 0
     },
     subscribe: {
       month: 0,

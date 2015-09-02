@@ -119,16 +119,20 @@ var AccountInfo = React.createClass({
     });
 		return (
 			<div>
-        <h3 className='fw-b fs20 m20-0'>Действующие услуги</h3>
+        {
+/*          <h3 className='fw-b fs20 m20-0'>Действующие услуги</h3>
 
-        {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
-        {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
-        {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
-        {this.generatePaymentBlock('pricemore','g','Безлимитная заливка <br/>собственного розничного прайса')}
-        {this.generatePaymentBlock('wholesale','ap','Без прайса. <br/>"Подписка на прайсы оптовиков"')}
-        {this.generatePaymentBlock('subscribe_as','as','Для автосервисов. <br/>"Реклама по прайсам"')}
+          {this.generatePaymentBlock('autoservices','as','Повышение в поиске в разделе<br/>"Консультация мастера"')}
+          {this.generatePaymentBlock('autoparts','ap','Повышение в поиске прайсов<br/>автозапчастей')}
+          {this.generatePaymentBlock('catalog','g','Повышение в поиске в<br/>"Каталоге компаний"')}
+          {this.generatePaymentBlock('pricemore','g','Безлимитная заливка <br/>собственного розничного прайса')}
+          {this.generatePaymentBlock('wholesale','ap','Без прайса. <br/>"Подписка на прайсы оптовиков"')}
+          {this.generatePaymentBlock('subscribe_as','as','Для автосервисов. <br/>"Реклама по прайсам"')}
+          <hr className="hr bw4 m25-0"/>
 
-        <hr className="hr bw4 m25-0"/>
+          */
+        }
+
         <h4 className="d-ib fs20 m0 fw-n">Выбор отображения связи с клиентом</h4>
         <ButtonGroup select_element_value={this.state.orderType} onChange={this.onChangeSearchTableButton} className="btn-group d-b m15-0">
           <button name='type' className='btn-bg-group' value='1'>Только телефон</button>

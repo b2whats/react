@@ -151,24 +151,24 @@ import formatString from 'utils/format_string.js';
     } else {
 
       switch (true) {
-      case cnt > 19:
-        cost = 33000;
-        break;
-      case cnt > 12:
-        cost = 18000;
-        break;
-      case cnt > 6:
-        cost = 12000;
-        break;
-      case cnt > 3:
-        cost = 8000;
-        break;
-      case cnt > 1:
-        cost = 5000;
-        break;
-      case cnt > 0:
-        cost = 2500;
-        break;
+        case cnt > 19:
+          cost = 33000;
+          break;
+        case cnt > 12:
+          cost = 18000;
+          break;
+        case cnt > 6:
+          cost = 12000;
+          break;
+        case cnt > 3:
+          cost = 8000;
+          break;
+        case cnt > 1:
+          cost = 5000;
+          break;
+        case cnt > 0:
+          cost = 2500;
+          break;
       }
     }
     let brandsList = () => {
@@ -355,8 +355,16 @@ import formatString from 'utils/format_string.js';
             onClick={this.onChangeToggle.bind(null, 'servicesAutoservices')}
             className={cx('grad-as-no-hover p10-15 fw-b fs15 br6 entire-width cur-p', !!this.props.toggle.get('servicesAutoservices') && 'bBLr0 bBRr0')}
             >
-            <div>
+            <div className="fs14">
               Повышение в поиске в разделе "Консультация мастера"
+              <span className="fs12 fw-n"> (
+                {(!!this.props.payment.get('autoservices')) ?
+                  <span>Оплачено до <strong>{this.props.payment.get('autoservices')}</strong> <i
+                    className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                  :
+                  <span>Не подключена</span>
+                }
+                )</span>
             </div>
             <div>
               {(this.props.selectedServices.get('autoservices').get('price') === 0) ?
@@ -441,6 +449,14 @@ import formatString from 'utils/format_string.js';
             >
             <div>
               Повышение в поиске прайсов автозапчастей
+                <span className="fs12 fw-n"> (
+                  {(!!this.props.payment.get('autoparts')) ?
+                    <span>Оплачено до <strong>{this.props.payment.get('autoparts')}</strong> <i
+                      className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                    :
+                    <span>Не подключена</span>
+                  }
+                  )</span>
             </div>
             <div>
               {(this.props.selectedServices.get('autoparts').get('price') === 0) ?
@@ -453,7 +469,8 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('autoparts') && 'd-N')}>
-            Возможность повышения в поисковой выдаче по автозапчастям предложений вашей компании. Ваши предложения будут выше предложений тех компаний, которые не пользуются этой услугой.
+            Возможность повышения в поисковой выдаче по автозапчастям предложений вашей компании. Ваши предложения будут
+            выше предложений тех компаний, которые не пользуются этой услугой.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('autoparts')}
             </div>
@@ -466,6 +483,14 @@ import formatString from 'utils/format_string.js';
             >
             <div>
               Повышение в поиске в каталоге компаний
+              <span className="fs12 fw-n"> (
+                {(!!this.props.payment.get('catalog')) ?
+                  <span>Оплачено до <strong>{this.props.payment.get('catalog')}</strong> <i
+                    className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                  :
+                  <span>Не подключена</span>
+                }
+                )</span>
             </div>
             <div>
               {(this.props.selectedServices.get('catalog').get('price') === 0) ?
@@ -478,7 +503,9 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('catalog') && 'd-N')}>
-            Возможность повышения в поисковой выдаче каталога компаний информации о вашей компании. Ваша компания будет выше тех компаний, которые не пользуются этой услугой. Просмотров будет в 15-20 раз больше. Услуга хорошо подходит под рекламу Акций или имиджевую рекламу.
+            Возможность повышения в поисковой выдаче каталога компаний информации о вашей компании. Ваша компания будет
+            выше тех компаний, которые не пользуются этой услугой. Просмотров будет в 15-20 раз больше. Услуга хорошо
+            подходит под рекламу Акций или имиджевую рекламу.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('catalog')}
             </div>
@@ -491,6 +518,14 @@ import formatString from 'utils/format_string.js';
             >
             <div>
               Безлимитная заливка собственного розничного прайса
+              <span className="fs12 fw-n"> (
+                {(!!this.props.payment.get('pricemore')) ?
+                  <span>Оплачено до <strong>{this.props.payment.get('pricemore')}</strong> <i
+                    className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                  :
+                  <span>Не подключена</span>
+                }
+                )</span>
             </div>
             <div>
               {(this.props.selectedServices.get('pricemore').get('price') === 0) ?
@@ -503,7 +538,9 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('pricemore') && 'd-N')}>
-            Вы привыкли работать с собственным прайсом? Он у вас на порядок больше 3 тыс позиций? Подключите эту услугу и снимите все ограничения по заливке прайса в систему.  Данная услуга, так же дает право подать заявку на настройку автоматического обновления вашего прайса в системе AutoGiper.ru.
+            Вы привыкли работать с собственным прайсом? Он у вас на порядок больше 3 тыс позиций? Подключите эту услугу
+            и снимите все ограничения по заливке прайса в систему. Данная услуга, так же дает право подать заявку на
+            настройку автоматического обновления вашего прайса в системе AutoGiper.ru.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('pricemore')}
             </div>
@@ -517,6 +554,14 @@ import formatString from 'utils/format_string.js';
             >
             <div>
               Без прайса. Подписка на прайсы оптовиков
+              <span className="fs12 fw-n"> (
+                {(!!this.props.payment.get('wholesale')) ?
+                  <span>Оплачено до <strong>{this.props.payment.get('wholesale')}</strong> <i
+                    className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                  :
+                  <span>Не подключена</span>
+                }
+                )</span>
             </div>
             <div>
               {(this.props.selectedServices.get('wholesale').get('price') === 0) ?
@@ -529,7 +574,10 @@ import formatString from 'utils/format_string.js';
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('wholesale') && 'd-N')}>
-            Возможность размещения оптового прайса с вашей наценкой от вашего имени в нашей поисковой выдаче в качестве рекламы. Выбрать оптовика, проставить вашу общую скидку на его прайс и проставить наценки в зависимости от ценовой категории товара вы можете в разделе Управление товарами/Создание прайс-листа на основе прайс-листа оптового поставщика.
+            Возможность размещения оптового прайса с вашей наценкой от вашего имени в нашей поисковой выдаче в качестве
+            рекламы. Выбрать оптовика, проставить вашу общую скидку на его прайс и проставить наценки в зависимости от
+            ценовой категории товара вы можете в разделе Управление товарами/Создание прайс-листа на основе прайс-листа
+            оптового поставщика.
             <div className="entire-width mT20  flex-ai-c">
               {tarifs('wholesale')}
             </div>
@@ -543,6 +591,14 @@ import formatString from 'utils/format_string.js';
             >
             <div>
               Создание собственного прайса по выбранным маркам автомобилей
+              <span className="fs12 fw-n"> (
+                {(!!this.props.payment.get('subscribe_as')) ?
+                  <span>Оплачено до <strong>{this.props.payment.get('subscribe_as')}</strong> <i
+                    className="flaticon-calendar fs15 mL5 c-g"></i> </span>
+                  :
+                  <span>Не подключена</span>
+                }
+                )</span>
             </div>
             <div>
               <i
@@ -551,45 +607,62 @@ import formatString from 'utils/format_string.js';
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('describe_price') && 'd-N')}>
             <div className="mB20">
-              Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Это та цена на которую вы нацениваете.
+              Консолидированный оптовый прайс в среднем дешевле чем розничные предложения рынка на 10 процентов. Это та
+              цена на которую вы нацениваете.
             </div>
             <div className="m20-0">
               Выберите наценку:<br/>
-              <span className="w150px d-ib">0-5000 руб.</span>
+              <span className="w150px d-ib">0-1000 руб.</span>
               <input
-                     className={cx('mL20 w50px')}
-                     type='text'
-                     data-id="0"
-                     value={this.props.subscribeMarkup.get(0)}
-                     onChange={this.onChangeSubscribeMarkup}
-                     placeholder='%'/> % <br/>
+                className={cx('mL20 w50px')}
+                type='text'
+                data-id="0"
+                value={this.props.subscribeMarkup.get(0)}
+                onChange={this.onChangeSubscribeMarkup}
+                placeholder='%'/> % <br/>
+              <span className="w150px d-ib">1000-3000 руб.</span>
+              <input
+                className={cx('mL20 w50px')}
+                type='text'
+                data-id="1"
+                value={this.props.subscribeMarkup.get(1)}
+                onChange={this.onChangeSubscribeMarkup}
+                placeholder='%'/> % <br/>
+              <span className="w150px d-ib">3000-5000 руб.</span>
+              <input
+                className={cx('mL20 w50px')}
+                type='text'
+                data-id="2"
+                value={this.props.subscribeMarkup.get(2)}
+                onChange={this.onChangeSubscribeMarkup}
+                placeholder='%'/> % <br/>
               <span className="w150px d-ib">5000 - 10000 руб.</span>
               <input
-                     className={cx('mL20 w50px')}
-                     type='text'
-                     data-id="1"
-                     value={this.props.subscribeMarkup.get(1)}
-                     onChange={this.onChangeSubscribeMarkup}
-                     placeholder='%'/> % <br/>
+                className={cx('mL20 w50px')}
+                type='text'
+                data-id="3"
+                value={this.props.subscribeMarkup.get(3)}
+                onChange={this.onChangeSubscribeMarkup}
+                placeholder='%'/> % <br/>
               <span className="w150px d-ib">10000-20000 руб.</span>
-              <input data-id="2"
-                     className={cx('mL20 w50px')}
-                     type='text'
-                     value={this.props.subscribeMarkup.get(2)}
-                     onChange={this.onChangeSubscribeMarkup}
-                     placeholder='%'/> % <br/>
-              <span className="w150px d-ib">20000-50000 руб</span>
-              <input data-id="3"
-                     className={cx('mL20 w50px')}
-                     type='text'
-                     value={this.props.subscribeMarkup.get(3)}
-                     onChange={this.onChangeSubscribeMarkup}
-                     placeholder='%'/> % <br/>
-              <span className="w150px d-ib">>50000 руб.</span>
               <input data-id="4"
                      className={cx('mL20 w50px')}
                      type='text'
                      value={this.props.subscribeMarkup.get(4)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">20000-50000 руб</span>
+              <input data-id="5"
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     value={this.props.subscribeMarkup.get(5)}
+                     onChange={this.onChangeSubscribeMarkup}
+                     placeholder='%'/> % <br/>
+              <span className="w150px d-ib">>50000 руб.</span>
+              <input data-id="6"
+                     className={cx('mL20 w50px')}
+                     type='text'
+                     value={this.props.subscribeMarkup.get(6)}
                      onChange={this.onChangeSubscribeMarkup}
                      placeholder='%'/> % <br/>
             </div>
