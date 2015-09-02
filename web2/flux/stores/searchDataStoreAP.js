@@ -11,7 +11,7 @@ import regionStore from 'stores/region_store.js';
 
 
 const calcSortData = ({data, mapInfo}) => { // сам расчет принимает state на вход и зависит только от него
-  if (!data.size) {
+  if (data && !data.size) {
     return immutable.fromJS([]);
   }
 

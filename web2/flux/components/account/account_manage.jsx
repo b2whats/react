@@ -46,32 +46,11 @@ var kCHEKBOXES_LEFT = [
     'Действительна при установке на нашем сервис центре.'
   ],
   [
-    'price_retail',
-    'Розничная цена.'
-  ],
-  [
-    'delivery_free_msk',
-    'Бесплатная доставка по МСК.'
-  ],
-  [
-    'delivery_free_spb',
-    'Бесплатная доставка по СПб.'
+    'price_wholesale',
+    'Оптовая цена.'
   ],
 ];
-var kCHECKBOXES_RIGHT = [
-  [
-    'price_only_for_legal_person',
-    'Только для юр.лиц'
-  ],
-  [
-    'price_above_level_0',
-    'Цена покупки от 20 000 р'
-  ],
-  [
-    'price_above_level_1',
-    'Цена покупки от 40 000 р'
-  ],
-];
+
 var ButtonGroup = require('components/forms_element/button_group.jsx');
 
 var kGOODS_QUALITY = 'goods_quality';
@@ -281,19 +260,6 @@ var AccountManage = React.createClass({
       <div className='m20-0'>
         <div className='d-ib va-T'>
           {_.map(kCHEKBOXES_LEFT, (v, index) => (
-            <label key={index} className="label--checkbox d-b m5-0">
-              <input
-                checked={!!this.state.price_properties.get(v[kNAME])}
-                onChange={_.bind(this.on_checkbox_checked, null, v[kNAME])}
-                type="checkbox"
-                className="checkbox"/>
-              {v[kVALUE]}
-            </label>))
-          }
-        </div>
-        <div className='d-ib va-T mL20'>
-          {_.map(kCHECKBOXES_RIGHT, (v, index) => (
-
             <label key={index} className="label--checkbox d-b m5-0">
               <input
                 checked={!!this.state.price_properties.get(v[kNAME])}

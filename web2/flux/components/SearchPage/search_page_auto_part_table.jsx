@@ -296,13 +296,17 @@ export default class SearchPageAutoPartTable extends Component {
             </div>
           </td>
           <td className='ta-C'>
-            <a title={part.get('delivere') == 0 ? 'В наличии' : 'Под заказ'} className={cx('va-M m0-5 ta-L', part.get('delivere') == 0 ? 'icon_box-check' : 'icon_car', part.get('price_type') == 1 ? 'fs19' : 'fs14')}>
+            <a title={part.get('delivere') == 0 ? 'В наличии' : 'Под заказ'} className={cx('va-M m0-5 ta-L', part.get('delivere') == 0 ? 'icon_box-check' : 'icon_car', part.get('price_type') == 1 && !part.get('conditions').has('price_wholesale') && !part.get('conditions').has('price_if_our_service') ? 'fs19' : 'fs14')}>
               {part.get('delivere') != 0 &&
-                <span className="p-a c-grey-400 fs13" style={{'marginLeft': '4px', 'marginTop': '4px' }}>{part.get('delivere')}</span>
+                <span className="p-a c-grey-400 fs13" style={{'marginLeft': '5px', 'marginTop': '1px' }}>{part.get('delivere').substr(0, 2).replace(/\D/g, '')}</span>
               }
             </a>
-            {part.get('price_type') != 1 &&
-              <a title={part.get('price_type') == 2 ? 'При заказе оптом' : 'При заказе у автосервисов'} className={cx('fs14 va-M m0-5 ta-L', part.get('price_type') == 2 ? 'icon_opt' : 'icon_key-gear')}>
+            {part.get('price_type') == 3 || part.get('conditions').has('price_if_our_service') &&
+              <a title='При заказе у автосервисов' className={cx('fs14 va-M m0-5 ta-L icon_key-gear')}>
+              </a>
+            }
+            {part.get('conditions').has('price_wholesale') &&
+              <a title="При заказе оптом" className={cx('fs14 va-M m0-5 ta-L icon_opt')}>
               </a>
             }
             {/*1;"В наличии", 2;"2-7 дней", 3;"7-14 дней", 4;"14-21 дня", 5;"до 31 дня"*/}
@@ -310,11 +314,12 @@ export default class SearchPageAutoPartTable extends Component {
           <td className={cx('', cx((part_index%2 > 0) ? 't-bg-c-ap-m' : 't-bg-c-ap-l'))}>
             <div className="fs18 fw-b m0-5 lh1">
               {part.get('retail_price') | 0} р.
-              <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, `${part.get('user_id')}-${part.get('id')}`, 'autopart-tooltip-price')}>Условия оплаты</div>
 
 
             </div>
-            <div className="">
+            {
+/*            <div className="">
+              <div className="c-deep-purple-500 cur-p fw-n fs9 mT5"  onClick={_.bind(this.on_show_price_tootip, this, `${part.get('user_id')}-${part.get('id')}`, 'autopart-tooltip-price')}>Условия оплаты</div>
               <div className='f-R'>
                 <FixedTooltip className="search-page-autopart-table-price-link-tooltip" open_id={`${part.get('user_id')}-${part.get('id')}`} open_type={'autopart-tooltip-price'}>
                   {part.get('conditions') && [
@@ -330,7 +335,9 @@ export default class SearchPageAutoPartTable extends Component {
                   ]}
                 </FixedTooltip>
               </div>
-            </div>
+            </div>*/
+
+            }
 
           </td>
           <td>
