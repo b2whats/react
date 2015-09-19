@@ -78,10 +78,14 @@ const IceMain = React.createClass({
             {/*            <GoogleAutocomplete apiKey={sc.kGOOGLE_MAP_API_KEY} />
             <Link href={routeNames.kROUTE_R_A}>{routeNames.kROUTE_R_A}</Link><br/>
           <div>
-            <DefaultPage1 route_context={routerContextParams}/>
+             START processed file autogiper_all.csv Thu Sep 03 2015 15:18:35 GMT+0300 (MSK)
+
+             <DefaultPage1 route_context={routerContextParams}/>
             <DefaultPage2 route_context={routerContextParams}/>
             <Link href={routeNames.kROUTE_R_B}>{routeNames.kROUTE_R_B}</Link><br/>
-            <Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
+             tmux attach -t parser
+
+             <Link href={routeNames.kROUTE_R_C}>{routeNames.kROUTE_R_C}</Link><br/>
             */}
           </div>
         );
@@ -153,6 +157,8 @@ const IceMain = React.createClass({
       case routeNames.kROUTE_ACCOUNT:
       // У тебя тут возможно будут другие кейсы  и по итогам будет что то вроде как в блоке выше
       // по итогам смотри блок case стал таким же по структуре что и блок выше
+       // sftp://root@95.213.182.170/home/parser-git/parser/temp/out/autogiper_all.csv.csv
+        // sftp://root@95.213.182.170/var/www/autogiper.ru/public_html/api/prices/(17)-1441316596-file.csv
       // код стал читаемей
         const menuList = [
           {name: 'Компания', id: 'company'},
@@ -240,3 +246,27 @@ const IceMain = React.createClass({
 });
 
 module.exports = IceMain;
+/*
+
+tail -n 1000000 /home/parser-git/parser/temp/out/autogiper_all.csv.csv |
+sed -r 's/","/"@@@"/g' |
+awk  'BEGIN { FS="@@@"; OFS=";";}{ gsub("\"","",($4));gsub("\"","",($5));gsub("\"","",($7));gsub("\"","",($8)); print $1,$2,$3,$4,$5,$6,$7,$8}' |
+psql -U postgres -d autogiper -c "COPY prices_wholesale (manufacturer, code, name, count, price, delivere, price_files__id, user__id) FROM STDIN WITH DELIMITER ';' CSV"
+
+head -n 1000000 /home/parser-git/parser/temp/out/autogiper_all.csv.csv |
+sed -r 's/","/"@@@"/g' /home/parser-git/parser/temp/out/autogiper_all.csv.csv |
+awk  'BEGIN { FS="@@@"; OFS="@@@";}{ gsub("\"","",($4));gsub("\"","",($5));gsub("\"","",($7));gsub("\"","",($8)); print $1,$2,$3,$4,$5,$6,$7,$8}' > 111.csv
+
+sed -r 's/","/"@@@"/g' test.csv |
+awk  'BEGIN { FS="@@@"; OFS="@@@";}{ gsub("\"","",($4));gsub("\"","",($5));gsub("\"","",($7));gsub("\"","",($8)); print $1,$2,$3,$4,$5,$6,$7,$8}'
+
+
+sed -r 's/","/"@@@"/g' /home/parser-git/parser/temp/out/autogiper_all.csv.csv |
+awk  'BEGIN { FS="@@@"; OFS=";";}{ gsub("\"","",($4));gsub("\"","",($5));gsub("\"","",($7));gsub("\"","",($8)); print $1,$2,$3,$4,$5,$6,$7,$8}' |
+psql -U postgres -d autogiper -c "COPY prices_wholesale (manufacturer, code, name, count, price, delivere, price_files__id, user__id) FROM STDIN WITH DELIMITER ';' CSV"
+
+
+cat test.csv |
+psql -U postgres -d autogiper -c "COPY prices_wholesale (manufacturer, code, name, count, price, delivere, price_files__id, user__id) FROM STDIN WITH DELIMITER ',' CSV"
+
+*/
