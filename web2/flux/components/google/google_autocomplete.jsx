@@ -64,6 +64,7 @@ export default class GoogleAutocomplete extends Component {
         }
 
         maps.event.addListener(this.autocomplete, 'place_changed', () => {
+
           // let place = this.autocomplete.getPlace();
           const address = React.findDOMNode(this.refs.address).value;
 
@@ -92,7 +93,7 @@ export default class GoogleAutocomplete extends Component {
 
   onSelectedAddressChange(r) {
     console.log('r', r);
-    r && this.props.onAddressChange([r.geometry.location.G, r.geometry.location.K], r); // Недавние изменения по карте
+    r && this.props.onAddressChange([r.geometry.location.H, r.geometry.location.L], r); // Недавние изменения по карте
     this.props.onChChange(false);
   }
 
