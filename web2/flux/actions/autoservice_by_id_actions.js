@@ -55,6 +55,7 @@ module.exports.close_all_and_open_balloon = (id) => {
 };
 
 var query_autoservice_by_id = (region_text, id) => {
+
   return r_auto_service_by_id_
     .get({id:id, region_text:region_text})
     .then(res => {

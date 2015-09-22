@@ -10,7 +10,7 @@ module.exports = {
   kCHANGE_PASSWORD: kAPI_HOST + '/api/changePassword.php',
 
   kAUTO_PART_BY_ID_API: kAPI_HOST + '/api/search.php?type=autoparts&id=:id&region_text=:region_text',
-  kAUTO_SERVICE_BY_ID_API: kAPI_HOST + '/api/search.php?type=autoservices&id=:id&region_text=:region_text',
+  kAUTO_SERVICE_BY_ID_API: kAPI_HOST + '/api/search.php?type=autoservices&id=:id&region_text=:region_text&apQueryText=:apQueryText',
 
   kCATALOG_SERVICES: kAPI_HOST + '/api/get/services.php',
   kCATALOG_BRANDS: kAPI_HOST + '/api/get/brands.php',

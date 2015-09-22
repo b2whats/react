@@ -33,8 +33,8 @@ const actions_ = [
 
 ];
 
-const _queryAutoServicesData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, id) => {
-  return rAutoPartsData.get({id:id, region_text:region_text})
+const _queryAutoServicesData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, id, apQueryText) => {
+  return rAutoPartsData.get({id:id, region_text:region_text, apQueryText: apQueryText})
     .then(res => {
       if ((Array.isArray(res) && res.length === 0) || res === null) {
         return [];
@@ -81,15 +81,15 @@ const _queryAutoServicesData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text
 
       const results = res.results
         .filter(result => result.user_id in mapUserId2Markers)
-        .map(result => Object.assign({visible_item: false, sort: hashCode(result.address) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
+        .map(result => Object.assign({visible_item: false, sort: result.sort_brand}, result, {addresses: mapUserId2Markers[result.user_id]}));
 
       // console.log(results[0]);
       return {header: res.header, results: results};
     });
 }));
 
-module.exports.queryAutoServicesData = (region_text, id) => {
-  return _queryAutoServicesData(region_text, id)
+module.exports.queryAutoServicesData = (region_text, id, apQueryText) => {
+  return _queryAutoServicesData(region_text, id, apQueryText)
     .then(res => {
       mainDispatcher.fire.apply(mainDispatcher, [eventNames.K_ON_SEARCH_AS_DATA_LOADED].concat([res]));
       return res;
@@ -175,4 +175,8 @@ results === [{
   }
  ]
 }, ...]
+
+ as_subscribe_words
+
+ select m.id brand_id, s.id from ag_manufacturer m join as_subscribe_words s ON m.name ~* s.word where s.id != 9999 and length(m.name) = length(s.word)
 */
