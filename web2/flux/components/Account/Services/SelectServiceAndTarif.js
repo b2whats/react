@@ -135,7 +135,7 @@ import formatString from 'utils/format_string.js';
 
             checked={!!this.props.subscribeWordsChecked.contains(part.get('id'))}
             type="checkbox"
-            disabled={(this.props.payment.get('subscribe_as')) || (part.get('id') !== 9999 && hasAllWords)}
+            /*disabled={(this.props.payment.get('wholesale')) || (part.get('id') !== 9999 && hasAllWords)}*/
             onChange={this.onChangeWords}
             className="checkbox"/>
           {(part.get('id') === 9999) ? 'Все марки' : part.get('word')}
@@ -336,12 +336,11 @@ import formatString from 'utils/format_string.js';
     let editMasterName = (this.props.masterName.first() === '' || !!this.props.toggle.get('masterName')) ?
       true :
       false;
-    let subscribeCost = (this.props.selectedServices.get('subscribe').get('month') > 0 )
-      ? cost * this.props.selectedServices.get('subscribe').get('month') : 0;
+    let subscribeCost = (this.props.selectedServices.get('wholesale').get('month') > 0 )
+      ? cost * this.props.selectedServices.get('wholesale').get('month') : 0;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
-      this.props.selectedServices.get('wholesale').get('price') +
       this.props.selectedServices.get('pricemore').get('price') +
       subscribeCost;
     if (this.props.isDiscount) {
@@ -564,12 +563,6 @@ import formatString from 'utils/format_string.js';
                 )</span>
             </div>
             <div>
-              {(this.props.selectedServices.get('wholesale').get('price') === 0) ?
-                <span className="fw-n fs14">Не подключена</span>
-                :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('wholesale').get('month'))} - <strong>{this.props.selectedServices.get('wholesale').get('price')}
-                  руб.</strong></span>
-              }
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('wholesale') && 'active')}></i>
             </div>
           </div>
@@ -578,13 +571,22 @@ import formatString from 'utils/format_string.js';
             рекламы. Выбрать оптовика, проставить вашу общую скидку на его прайс и проставить наценки в зависимости от
             ценовой категории товара вы можете в разделе Управление товарами/Создание прайс-листа на основе прайс-листа
             оптового поставщика.
+            Выберите марки:
+            <div className="mT10">
+              {this.props.subscribeWords && this.getSubscribeWordsCheckbox(this.props.subscribeWords)}
+            </div>
+            <div className="m10">
+              <button className='grad-ap btn-shad b0 c-wh fs16 br3 p8-20 m20-0 z-depth1'
+                      onClick={this.onSubmitSubscribe}>Сохранить
+              </button>
+            </div>
             <div className="entire-width mT20  flex-ai-c">
-              {tarifs('wholesale')}
+              {tarifsSubscribe('wholesale')}
             </div>
           </div>
         </div>
 
-        <div className="br6 b1s bc-g grad-g m15-0">
+        {/* <div className="br6 b1s bc-g grad-g m15-0">
           <div
             onClick={this.onChangeToggle.bind(null, 'describe_price')}
             className={cx('grad-as-no-hover p10-15 fw-b fs15 br6 entire-width cur-p', !!this.props.toggle.get('describe_price') && 'bBLr0 bBRr0')}
@@ -679,7 +681,7 @@ import formatString from 'utils/format_string.js';
               {tarifsSubscribe('subscribe')}
             </div>
           </div>
-        </div>
+        </div>*/}
 
         <hr className="hr-arrow m20-0"/>
         <div className='ta-C m20-0 fs18 '>

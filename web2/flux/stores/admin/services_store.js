@@ -133,19 +133,19 @@ var state_ = init_state(_.last(__filename.split('/')), {
         price: 0,
         discount: 0
       },
-/*      '1': {
-        month: 1,
-        price: PRICES.wholesale,
-        discount: 0
-      },*/
+      /*      '1': {
+       month: 1,
+       price: 0,
+       discount: 0
+       },*/
       '3': {
         month: 3,
-        price: PRICES.wholesale * 0.95 * 3,
+        price: 0,
         discount: 5
       },
       '6': {
         month: 6,
-        price: PRICES.wholesale * 0.90 * 6,
+        price: 0,
         discount: 10
       }
     },
@@ -193,7 +193,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
     },
     wholesale: {
       month: 0,
-      price: 0
+      price: 0,
+      words: []
     },
     pricemore: {
       month: 0,
