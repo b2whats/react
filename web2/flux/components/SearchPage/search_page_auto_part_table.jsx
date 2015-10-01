@@ -48,7 +48,7 @@ import regionStore from 'stores/region_store.js';
 import arrayCompare from 'utils/arrayCompare.js';
 
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = [7, 14];
+var kITEMS_PER_PAGE = [10, 20];
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 /*Action*/
