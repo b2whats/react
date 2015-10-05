@@ -161,6 +161,7 @@ export default class SearchPageAutoPartTable extends Component {
     let end = this.props.currentPage * this.props.itemPerPage;
     let start = end - this.props.itemPerPage;
     const companyIds = [];
+    console.log(this.props.autoPartResults.toJS());
     const Markers  = this.props.autoPartResults
       .slice(start, end)
       .map((part, part_index) => {
@@ -183,7 +184,7 @@ export default class SearchPageAutoPartTable extends Component {
 
         const newArr1 = [...filter];
         newArr1.splice(8, 1 , 33);
-        console.log(newArr1);
+
       return (
         <tr
           onMouseEnter={this.onRowMouseEnter.bind(null, part.get('user_id'))}

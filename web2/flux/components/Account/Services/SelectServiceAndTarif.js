@@ -337,7 +337,7 @@ import formatString from 'utils/format_string.js';
       true :
       false;
     let subscribeCost = (this.props.selectedServices.get('wholesale').get('month') > 0 )
-      ? cost * this.props.selectedServices.get('wholesale').get('month') : 0;
+      ? cost * this.props.selectedServices.get('wholesale').get('month') * ((100 - this.props.selectedServices.get('wholesale').get('discount')) / 100) : 0;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +

@@ -43,7 +43,7 @@ class Payment extends Component {
   onSubmitPayment() {
     const code = React.findDOMNode(this.refs.codePayment).value;
     let paymentStats = this.props.selectedServices.toJS();
-    paymentStats.subscribe.words = this.props.subscribeWordsChecked.toJS();
+    paymentStats.wholesale.words = this.props.subscribeWordsChecked.toJS();
     ServicesActions.make_payment(paymentStats,this.props.currentPaymentMethod.toJS(), code);
   }
   checkCodePayment() {
@@ -73,9 +73,8 @@ class Payment extends Component {
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
-      this.props.selectedServices.get('wholesale').get('price') +
-      this.props.selectedServices.get('pricemore').get('price') +
-      this.props.selectedServices.get('subscribe').get('month');
+      this.props.selectedServices.get('wholesale').get('month') +
+      this.props.selectedServices.get('pricemore').get('price');
     // console.log(typeof summ );
     return (
       <div className={cx('ta-C m20-0 fs18')}>
