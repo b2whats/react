@@ -48,7 +48,7 @@ import regionStore from 'stores/region_store.js';
 import arrayCompare from 'utils/arrayCompare.js';
 
 //var search_page_actions = require('actions/search_page_actions.js');
-var kITEMS_PER_PAGE = [10, 20];
+var kITEMS_PER_PAGE = [15, 30];
 var kPAGES_ON_SCREEN = sc.kPAGES_ON_SCREEN; //сколько циферок показывать прежде чем показать ...
 
 /*Action*/
@@ -74,7 +74,7 @@ export default class SearchPageAutoPartTable extends Component {
   }
   static defaultProps = {
     currentPage: 1,
-    itemPerPage: 7,
+    itemPerPage: 15,
     currentOrderItem: null
   }
   static propTypes = {
