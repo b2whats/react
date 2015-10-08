@@ -65,7 +65,7 @@ class SearchDataStoreAP extends BaseStore {
     data: [],
     // где карта
     // mapInfo: {center: [59.914938382856434, 30.29364576757814], zoom: 10, bounds: []},
-    mapInfo: {center: [], zoom: 10, bounds: []},
+    mapInfo: {center: [], zoom: 9, bounds: []},
     regionId: null,
     // над какой строкой мышка
     hoveredRowIndex: -1,
