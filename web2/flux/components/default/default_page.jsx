@@ -168,8 +168,7 @@ var DefaultPage = React.createClass({
           <div className='ta-C'>
             <div className='ReactModal__Content-close btn-close cur-p' onClick={this.onClickCloseModal}></div>
             <h2 className='m15-0 mB20'>Обучающее видео</h2>
-            <iframe className="b0" width="560" height="315" src="https://www.youtube.com/embed/lRRgfuTpzA8?rel=0&amp;controls=1&amp;showinfo=0&autoplay=1" frameBorder="0" allowFullScreen></iframe>
-            <iframe className="b0" width="560" height="315" src="https://www.youtube.com/embed/YVJKPxTUcLQ?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+            <iframe className="b0" width="560" height="315" src="https://www.youtube.com/embed/YVJKPxTUcLQ?rel=0&amp;controls=0&amp;showinfo=0&autoplay=1" frameborder="0" allowfullscreen></iframe>
           </div>
         </Modal>
       </div>
