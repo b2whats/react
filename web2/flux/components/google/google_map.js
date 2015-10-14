@@ -163,11 +163,11 @@ const GoogleMap = React.createClass({
 
           const gmC = map.getCenter();
           if (!isArraysEqualEps([centerLatLng.lat, centerLatLng.lng], [gmC.lat(), gmC.lng()], kEPS)) {
-            console.error('cneter', gmC.lat(), gmC.lng()); // eslint-disable-line no-console
+            //console.error('cneter', gmC.lat(), gmC.lng()); // eslint-disable-line no-console
           }
           // compare with google map
           if (!isArraysEqualEps(bounds, [ne.lat(), sw.lng(), sw.lat(), ne.lng()], kEPS)) {
-            console.error('arrays not equal', '\n', bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]); // eslint-disable-line no-console
+            //console.error('arrays not equal', '\n', bounds, '\n', [ne.lat(), sw.lng(), sw.lat(), ne.lng()]); // eslint-disable-line no-console
           }
         }
       }

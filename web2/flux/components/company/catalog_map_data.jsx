@@ -43,6 +43,6 @@ export default class CatalogMapData1 extends Component {
     super(props);
   }
   render() {
-    return (<CatalogMap {...this.props} className="h500px"/>);
+    return (<CatalogMap {...this.props} className="h200px mB20"/>);
   }
 }

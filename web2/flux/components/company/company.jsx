@@ -32,6 +32,10 @@ var immutable = require('immutable');
 import CompanyMap from './catalog_map_data.jsx';
 var map_data_store = require('stores/personal_company_page_data_new_store.js');
 import catalogDataStore from 'stores/personal_company_page_data_new_store.js';
+
+var ImageGallery = require('react-image-gallery');
+
+
 var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => ({
     company_information: personal_company_page_store.get_company_information(),
     company_filials: personal_company_page_store.getCompanyFilials(),
@@ -194,6 +198,11 @@ console.log(21);
       })
       .toArray();
 
+    const img = this.state.company_information.get('images') && this.state.company_information.get('images').size ? this.state.company_information.get('images').toJS() : [];
+    const imagesSlider = img.map((el) => ({
+        original: 'http://autogiper.ru/api/company_images/'+el,
+        thumbnail: 'http://autogiper.ru/api/company_images/'+el
+      }));
 
 
     return (
@@ -223,7 +232,11 @@ console.log(21);
           </div>
           <div className='w50pr p-r'>
             <CompanyMap/>
-
+            {!!imagesSlider.length && <ImageGallery
+                items={imagesSlider}
+                autoPlay={true}
+                slideInterval={4000}/>
+            }
           </div>
 
         </div>
