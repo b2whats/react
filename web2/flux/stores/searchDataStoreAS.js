@@ -71,7 +71,7 @@ class SearchDataStoreAS extends BaseStore {
     // мышка над маркером чтобы выделить в табличке
     hoveredMapRowIndex: -1,
     // visibleRowFirst индекс первого видимого элемента,
-    visibleRows: {visibleRowFirst: 0, visibleRowLast: 15},
+    visibleRows: {visibleRowFirst: 0, visibleRowLast: 4},
     showAllPhone: {autoparts: false, autoservices: false},
     visiblePhone: [],
     header: {}
@@ -104,9 +104,11 @@ class SearchDataStoreAS extends BaseStore {
   }
 
   _onVisibleRowsChanged(visibleRowFirst, visibleRowLast) {
+    console.log(visibleRowFirst, visibleRowLast);
+
     // visibleRowFirstPart, visibleRowLastPart не обновляю ибо очень часто меняются
     this.state.visibleRows_cursor
-      .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast}));
+      .update(visibleRows => visibleRows.merge({visibleRowFirst, visibleRowLast: visibleRowLast - 1}));
 
     this.fireChangeEvent();
   }

@@ -7,7 +7,7 @@ import invariant from 'fixed-data-table-ice/internal/invariant.js';
 // если поставить пусто то на карте будут видны тока те что на экране
 const K_SCALE_SMALL = 0.25;
 const K_SCALE_MEDIUM = 0.4;
-const K_BEFORE_AFTER_SCALES = [{l: 15, scale: K_SCALE_SMALL}, {l: 10, scale: K_SCALE_MEDIUM}];
+const K_BEFORE_AFTER_SCALES = [{l: 0, scale: K_SCALE_SMALL}, {l: 5, scale: K_SCALE_MEDIUM}];
 const K_SCALES_SUM = K_BEFORE_AFTER_SCALES.reduce((sum, el) => el.l + sum, 0);
 
 
