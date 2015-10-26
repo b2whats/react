@@ -33,10 +33,22 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       return r;
     }, {});
 
+  function buildString(len, str) {
+    const tmp = Math.pow(10, len);
+    const newStr = `${tmp + str}`;
+    return newStr.substr(1);
+  }
+
   const sorted = data
+    .map((item, index) => {
+      const isVisibleMap = Number(id2PtInRect[item.get('user_id')] || 0);
+      const manufacturer = Number(item.get('sort_manufacturer'));
+      const upPayment = item.get('sort_time') > 0 ? 24 - item.get('sort_time') : 0;
+      const i = buildString(3, index);
+      return item.set('sort_field', `${isVisibleMap}${manufacturer}${buildString(2, upPayment)}${i}`);
+    })
     // отсортировать по видимость на карте и sort параметру
-    .sortBy(item =>
-      -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort') + (item.get('sort_payment') * 10000) + (item.get('sort_manufacturer') * 10000000) - item.get('sort_time')))
+    .sortBy(item => Number(item.get('sort_time')))
     // проставить видимым айтемам то что они видимы
     .map(item =>
       id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
@@ -52,7 +64,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
             .sortBy(addr => addr.get('visible_address') ? 0 : 1)
             .sortBy(addr => addr.get('distance_to_center')))
         : item );
-  // console.log(sorted.toJS());
+  console.log(sorted.toJS());
   return sorted;
 };
 

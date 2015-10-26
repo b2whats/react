@@ -72,8 +72,7 @@ const _queryAutoPartsData = serialize(memoize(K_MEMOIZE_OPTIONS)((region_text, i
       const results = res.results
         .filter(result => result.user_id in mapUserId2Markers)
         .map(result => Object.assign({visible_item: false, sort: hashCode(result.name) & 0xF}, result, {addresses: mapUserId2Markers[result.user_id]}));
-      console.log(results);
-      // console.log(results[0]);
+      //console.log(results);
       return {header: res.header, results: results};
     });
 }));
