@@ -48,7 +48,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       return item.set('sort_field', `${isVisibleMap}${manufacturer}${buildString(2, upPayment)}${i}`);
     })
     // отсортировать по видимость на карте и sort параметру
-    .sortBy(item => Number(item.get('sort_time')))
+    .sortBy(item => -Number(item.get('sort_field')))
     // проставить видимым айтемам то что они видимы
     .map(item =>
       id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
@@ -64,7 +64,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
             .sortBy(addr => addr.get('visible_address') ? 0 : 1)
             .sortBy(addr => addr.get('distance_to_center')))
         : item );
-  console.log(sorted.toJS());
+  //console.log(sorted.toJS());
   return sorted;
 };
 
