@@ -148,7 +148,7 @@ const IceMain = React.createClass({
           <SearchBlockHeaderNew>
             <div ref='main_content' className="search-page-main-fixed">
               <SearchMapData className="search-page-left-block search-page-left-block--new" />
-              <SearchPageRightBlockContentNew />
+              <SearchPageRightBlockContentNew routeParams={routerContextParams}/>
             </div>
           </SearchBlockHeaderNew>
         );

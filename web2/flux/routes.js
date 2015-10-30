@@ -140,14 +140,18 @@ routes[route_definitions.kROUTE_PARTS_FIND_NEW] = [ //route_definitions.kROUTE_P
     catalog_data_actions.reset_catalog_data(),
 
   (route_name, route_context, route_context_params) =>
-    (searchAutoPartsActions.queryAutoPartsData(route_context_params.region_id, route_context_params.id)),
+    (route_context_params.id !== '_' && searchAutoPartsActions.queryAutoPartsData(route_context_params.region_id, route_context_params.id)),
 
   (route_name, route_context, route_context_params) =>
-    (searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, route_context_params.service_id, route_context_params.sentence)),
+    (route_context_params.service_id !== '_' && searchAutoServicesActions.queryAutoServicesData(route_context_params.region_id, route_context_params.service_id, route_context_params.sentence)),
 
 /*  (route_name, route_context, route_context_params) =>
     route_context_params.service_id === '_' ? autoservice_by_id_actions.reset_autoservice_data() :
       autoservice_by_id_actions.query_autoservice_by_id(route_context_params.region_id, route_context_params.service_id),*/
+
+  () => {
+    console.log(123)
+  },
 
   route_actions.default_route];
 

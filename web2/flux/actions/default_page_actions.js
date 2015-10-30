@@ -23,9 +23,9 @@ module.exports.goto_auto_parts_page = (region_id, id, articul, producer, sentenc
       articul: text_utils.remove_tags(articul) || '_',
       producer: text_utils.remove_tags(producer) || '_',
       sentence: text_utils.remove_tags(sentence) || '_',
-      service: 'all',
-      service_id: 'all',
-      service_auto_mark: 'all'
+      service: '_',
+      service_id: '_',
+      service_auto_mark: '_'
     }));
 };
 

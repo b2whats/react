@@ -37,9 +37,9 @@ module.exports.goto_auto_parts_page = (id, articul, producer, sentence) => {
       articul: text_utils.remove_tags(articul) || '_',
       producer: text_utils.remove_tags(producer) || '_',
       sentence: text_utils.remove_tags(sentence) || '_',
-      service_id: 'all',
-      service: 'all',
-      service_auto_mark: 'all'
+      service_id: '_',
+      service: '_',
+      service_auto_mark: '_'
     })));
 };
 
@@ -51,6 +51,10 @@ module.exports.goto_auto_service_page = (service_id, service_auto_mark, service)
     {id:'_', articul:'_', producer:'_', sentence:'_', service_id:'_', service:'_', service_auto_mark:'_'},
     route_params,
     text_utils.encode_link_object_properties({
+      id: '_',
+      articul: '_',
+      producer: '_',
+      sentence: '_',
       service_id: service_id,
       service: text_utils.remove_tags(service) || '_',
       service_auto_mark: text_utils.remove_tags(service_auto_mark) || '_'      
