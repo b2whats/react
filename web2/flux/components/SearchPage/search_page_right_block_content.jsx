@@ -17,12 +17,12 @@ var SearchPageRightBlockContent = React.createClass({
   mixins: [PureRenderMixin],
   
   render () {
-    console.log(this.props.routeParams)
+    //console.log(this.props.routeParams)
     return (
       <div style={{left : '38%'}} className="search-page-right-block">
         {this.props.routeParams.id !== '_' && <SearchPageAutoPartTable />}
 
-        {this.props.routeParams.service_id !== '_' && <SearchPageAutoServiceTable />}
+        <SearchPageAutoServiceTable />
       </div>
     );
   }

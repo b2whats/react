@@ -184,7 +184,7 @@ export default class CatalogMap extends Component {
     const MarkersAS = rowFromAS === -1 ? emptyIm : (new immutable.Range(rowFromAS, rowToAS + 1)).toList()
       .flatMap( rowIndex => {
         const row = this.props.dataResultsAS.get(rowIndex);
-        console.log(getScale(rowIndex, visibleRowFromAS, visibleRowToAS));
+        //console.log(getScale(rowIndex, visibleRowFromAS, visibleRowToAS));
 
         if (row.get('visible_item')) {
           return row.get('addresses')

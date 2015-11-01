@@ -37,9 +37,9 @@ module.exports.goto_auto_parts_page = (id, articul, producer, sentence) => {
       articul: text_utils.remove_tags(articul) || '_',
       producer: text_utils.remove_tags(producer) || '_',
       sentence: text_utils.remove_tags(sentence) || '_',
-      service_id: '_',
-      service: '_',
-      service_auto_mark: '_'
+      service_id: 'all',
+      service: 'all',
+      service_auto_mark: 'all'
     })));
 };
 
