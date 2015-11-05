@@ -59,6 +59,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: PRICES.autoparts * 0.90 * 6,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 70000,
+        discount: 15
       }
     },
     autoservices: {
@@ -81,6 +86,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: PRICES.autoservices * 0.90 * 6,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 70000,
+        discount: 15
       }
     },
     catalog: {
@@ -103,6 +113,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: PRICES.catalog * 0.90 * 6,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 90000,
+        discount: 15
       }
     },
     subscribe: {
@@ -125,6 +140,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: 0,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 0,
+        discount: 15
       }
     },
     wholesale: {
@@ -147,6 +167,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: 0,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 0,
+        discount: 15
       }
     },
     pricemore: {
@@ -169,6 +194,11 @@ var state_ = init_state(_.last(__filename.split('/')), {
         month: 6,
         price: PRICES.pricemore * 0.90 * 6,
         discount: 10
+      },
+      '12': {
+        month: 12,
+        price: 90000,
+        discount: 15
       }
     },
   },
