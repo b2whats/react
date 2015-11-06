@@ -171,7 +171,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 0,
-        discount: 15
+        discount: 0,
+        dis: '2 месяца в подарок'
       }
     },
     pricemore: {

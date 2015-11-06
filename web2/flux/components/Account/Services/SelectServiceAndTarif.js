@@ -263,10 +263,17 @@ import formatString from 'utils/format_string.js';
                     <span>
                       {decOfNumMonth(part.get('month'))}
                       <br/>
-                      {formatString.money(cost * ((100 - part.get('discount')) / 100) * part.get('month'), ' ')} руб.
+                      {part.has('dis') ?
+                        <span>{formatString.money(cost * ((100 - part.get('discount')) / 100) * (part.get('month') - 2), ' ')}  руб.</span> :
+                        <span>{formatString.money(cost * ((100 - part.get('discount')) / 100) * part.get('month'), ' ')} руб.</span>
+                      }
+
                     </span>
                     <br/>
-                    <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                    {part.has('dis') ?
+                      <span className="fs15 c-r">{part.get('dis')}</span> :
+                      <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                    }
                   </span>
                 }
               </span>
@@ -337,7 +344,9 @@ import formatString from 'utils/format_string.js';
       true :
       false;
     let subscribeCost = (this.props.selectedServices.get('wholesale').get('month') > 0 )
-      ? cost * this.props.selectedServices.get('wholesale').get('month') * ((100 - this.props.selectedServices.get('wholesale').get('discount')) / 100) : 0;
+      ? this.props.selectedServices.get('wholesale').get('month') == 12 ?
+        cost * (this.props.selectedServices.get('wholesale').get('month') - 2) * ((100 - this.props.selectedServices.get('wholesale').get('discount')) / 100)
+      : cost * this.props.selectedServices.get('wholesale').get('month') * ((100 - this.props.selectedServices.get('wholesale').get('discount')) / 100) : 0;
     let summ = this.props.selectedServices.get('catalog').get('price') +
       this.props.selectedServices.get('autoservices').get('price') +
       this.props.selectedServices.get('autoparts').get('price') +
