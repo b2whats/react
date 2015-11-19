@@ -122,7 +122,11 @@ console.log(21);
                 {part.get('operation_time').map((part, part_index) => {
                   return (
                     <div key={part_index}>
-                      <span className='fw-b fs12 ta-R d-ib w35px'>{operation_time[part_index]}</span> {part.get('from')} - {part.get('to')}
+                      <span className='fw-b fs12 ta-R d-ib w35px'>{operation_time[part_index]}&nbsp;</span>
+                      {part.get('is_holiday') ?
+                        'Выходной' :
+                        `${part.get('from')} - ${part.get('to')}`
+                      }
                     </div>
                   )
                 }).toArray()}
