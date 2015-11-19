@@ -238,7 +238,11 @@ import formatString from 'utils/format_string.js';
                       {formatString.money(part.get('price'), ' ')} руб.
                     </span>
                     <br/>
-                    <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+
+                    {part.has('dis') ?
+                      <span className="fs15 c-r">{part.get('dis')}</span> :
+                      <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                    }
                   </span>
                 }
               </span>

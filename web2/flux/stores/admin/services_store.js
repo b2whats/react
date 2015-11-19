@@ -63,7 +63,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 70000,
-        discount: 15
+        discount: 15,
+        dis: '2 месяца в подарок'
       }
     },
     autoservices: {
@@ -90,7 +91,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 70000,
-        discount: 15
+        discount: 15,
+        dis: '2 месяца в подарок'
       }
     },
     catalog: {
@@ -117,7 +119,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 90000,
-        discount: 15
+        discount: 15,
+        dis: '2 месяца в подарок'
       }
     },
     subscribe: {
@@ -144,7 +147,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 0,
-        discount: 15
+        discount: 15,
+        dis: '2 месяца в подарок'
       }
     },
     wholesale: {
@@ -199,7 +203,8 @@ var state_ = init_state(_.last(__filename.split('/')), {
       '12': {
         month: 12,
         price: 90000,
-        discount: 15
+        discount: 15,
+        dis: '2 месяца в подарок'
       }
     },
   },
