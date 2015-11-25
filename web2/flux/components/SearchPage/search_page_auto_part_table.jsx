@@ -303,7 +303,7 @@ export default class SearchPageAutoPartTable extends Component {
               }
             </a>
             {part.get('price_type') == 3 || part.get('conditions').has('price_if_our_service') &&
-              <a title='При заказе у автосервисов' className={cx('fs14 va-M m0-5 ta-L icon_key-gear')}>
+              <a title='При установке на автосервисе' className={cx('fs14 va-M m0-5 ta-L icon_key-gear')}>
               </a>
             }
             {part.get('conditions').has('price_wholesale') &&

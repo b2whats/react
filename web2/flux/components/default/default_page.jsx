@@ -117,7 +117,7 @@ var DefaultPage = React.createClass({
 
                   <img className="default-page-logo-icon" src={require('icons/svg/logo.svg')} alt=""/>
                   <br />
-                  <span
+                  {/*<span
                     className="c-as tt-u cur-p d-ib"
                     onClick={this.onClickShowModal}
                   >
@@ -126,7 +126,7 @@ var DefaultPage = React.createClass({
                       style={{padding: '8px 7px 8px 11px'}}
                     />
                     <span className="fs18 c-ap">Обучающее видео</span>
-                  </span>
+                  </span>*/}
                 </div>
 
                 <DefaultPageSearchBlock className="big-search-block-block autoparts"
