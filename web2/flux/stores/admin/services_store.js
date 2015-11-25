@@ -37,6 +37,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   subscribeWordsChecked: [],
   subscribeMarkup: [0,0,0,0,0],
   orderType: 0,
+  param: {},
   isDiscount: false,
   tarifs: {
     autoparts: {
@@ -302,6 +303,11 @@ var cncl_ = [
         }
         state_.orderType_cursor
           .update(() => immutable.fromJS(info.payment.order_type));
+        if (info.payment.param) {
+          state_.param_cursor
+            .update(() => immutable.fromJS(info.payment.param));
+        }
+
       }
       account_services_store.fire(event_names.kON_CHANGE);
     }, 1),
@@ -410,6 +416,14 @@ var cncl_ = [
       account_services_store.fire(event_names.kON_CHANGE);
 
     }, 1),
+  main_dispatcher
+    .on(event_names.kACCOUNT_SERVICES_CHANGE_PARAM, (data) => {
+      console.log(data)
+      state_.param_cursor
+        .update(() => immutable.fromJS(data));
+      account_services_store.fire(event_names.kON_CHANGE);
+
+    }, 1),
 ];
 
 var account_services_store = merge(Emitter.prototype, {
@@ -418,6 +432,9 @@ var account_services_store = merge(Emitter.prototype, {
   },
   get_step() {
     return state_.step;
+  },
+  get_param() {
+    return state_.param;
   },
   getToggle() {
     return state_.toggle;

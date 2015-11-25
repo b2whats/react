@@ -41,6 +41,7 @@ var RafBatchStateUpdateMixin = rafBatchStateUpdateMixinCreate(() => {
       payment_method: account_services_store.get_payment_method(),
       current_payment_method: account_services_store.get_current_payment_method(),
       step: account_services_store.get_step(),
+      param: account_services_store.get_param(),
       regions: region_store.get_region_list(),
       selected_services: account_services_store.getSelectedServices(),
       masters_name: account_services_store.get_masters_name(),
@@ -107,6 +108,10 @@ var AccountInfo = React.createClass({
     account_services_actions.changeOrderType(type);
 
   },
+  onChangeDeleteFromDefaultSearch(val) {
+    account_services_actions.changeDeleteFromDefaultSearch(!this.state.param.get('delete_from_default'));
+
+  },
 	render() {
     // console.log(this.state.current_payment_method.size);
 
@@ -138,6 +143,10 @@ var AccountInfo = React.createClass({
           <button name='type' className='btn-bg-group' value='1'>Только телефон</button>
           <button name='type' className='btn-bg-group' value='2'>Только заявка</button>
           <button name='type' className='btn-bg-group' value='0'>Телефон и заявка</button>
+        </ButtonGroup>
+        {console.log(this.state.param && this.state.param.get('delete_from_default'))}
+        <ButtonGroup select_element_value={this.state.param && this.state.param.get('delete_from_default')} onChange={this.onChangeDeleteFromDefaultSearch} className="btn-group d-b m15-0">
+          <button name='type' className='btn-bg-group' value={true}>Без общей выдачи</button>
         </ButtonGroup>
         {(this.state.step == 0) &&
           <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.changeStep}>Подключить услуги</button>

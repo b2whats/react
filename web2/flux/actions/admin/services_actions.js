@@ -43,6 +43,14 @@ module.exports.changeOrderType = (type) => {
       main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_CHANGE_ORDER_TYPE].concat([type]));
     });
 };
+module.exports.changeDeleteFromDefaultSearch = (val) => {
+  const param = {delete_from_default: Boolean(val)}
+  return resource(api_refs.kACCOUNT_SERVICES_INFO)
+    .post({type : 'set', field : 'param',value : param})
+    .then(response => {
+      main_dispatcher.fire.apply(main_dispatcher, [event_names.kACCOUNT_SERVICES_CHANGE_PARAM].concat([param]));
+    });
+};
 module.exports.checkCodePayment = (code) => {
   return resource(api_refs.kCHECK_CODE_PAYMENT)
     .post({ code })
