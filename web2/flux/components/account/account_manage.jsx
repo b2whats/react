@@ -49,10 +49,6 @@ var kCHEKBOXES_LEFT = [
     'price_wholesale',
     'Оптовая цена.'
   ],
-  [
-    'delete_default_search',
-    'Удалить из поиска по умолчанию.'
-  ],
 ];
 
 var ButtonGroup = require('components/forms_element/button_group.jsx');

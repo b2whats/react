@@ -138,14 +138,14 @@ var AccountInfo = React.createClass({
           */
         }
 
-        <h4 className="d-ib fs20 m0 fw-n">Выбор отображения связи с клиентом</h4>
-        <ButtonGroup select_element_value={this.state.orderType} onChange={this.onChangeSearchTableButton} className="btn-group d-b m15-0">
+        <h4 className="d-b fs20 m0 fw-n">Выбор отображения связи с клиентом</h4>
+        <ButtonGroup select_element_value={this.state.orderType} onChange={this.onChangeSearchTableButton} className="btn-group d-ib m15-0">
           <button name='type' className='btn-bg-group' value='1'>Только телефон</button>
           <button name='type' className='btn-bg-group' value='2'>Только заявка</button>
           <button name='type' className='btn-bg-group' value='0'>Телефон и заявка</button>
         </ButtonGroup>
-        {console.log(this.state.param && this.state.param.get('delete_from_default'))}
-        <ButtonGroup select_element_value={this.state.param && this.state.param.get('delete_from_default')} onChange={this.onChangeDeleteFromDefaultSearch} className="btn-group d-b m15-0">
+
+        <ButtonGroup select_element_value={this.state.param && this.state.param.get('delete_from_default')} onChange={this.onChangeDeleteFromDefaultSearch} className="btn-group d-ib mL10 mT15">
           <button name='type' className='btn-bg-group' value={true}>Без общей выдачи</button>
         </ButtonGroup>
         {(this.state.step == 0) &&
