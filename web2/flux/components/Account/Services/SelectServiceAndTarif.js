@@ -147,27 +147,27 @@ import formatString from 'utils/format_string.js';
     let cost = 0;
     const cnt = this.props.subscribeWordsChecked.size;
     if (this.props.subscribeWordsChecked.contains(9999)) {
-      cost = 23000;
+      cost = 33000;
     } else {
 
       switch (true) {
         case cnt > 19:
-          cost = 23000;
+          cost = 33000;
           break;
         case cnt > 12:
-          cost = 18000;
+          cost = 24000;
           break;
         case cnt > 6:
-          cost = 12000;
+          cost = 18000;
           break;
         case cnt > 3:
-          cost = 8000;
+          cost = 12000;
           break;
         case cnt > 1:
-          cost = 5000;
+          cost = 8000;
           break;
         case cnt > 0:
-          cost = 2500;
+          cost = 3500;
           break;
       }
     }

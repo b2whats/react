@@ -19,7 +19,7 @@ const PRICES = {
   catalog: 9000,
   subscribe: 0,
   wholesale: 15000,
-  pricemore: 9000
+  pricemore: 24000
 }
 
 var state_ = init_state(_.last(__filename.split('/')), {
@@ -63,7 +63,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '12': {
         month: 12,
-        price: 70000,
+        price: PRICES.autoparts * 10,
         discount: 15,
         dis: '2 месяца в подарок'
       }
@@ -91,7 +91,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '12': {
         month: 12,
-        price: 70000,
+        price: PRICES.autoservices * 10,
         discount: 15,
         dis: '2 месяца в подарок'
       }
@@ -119,7 +119,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '12': {
         month: 12,
-        price: 90000,
+        price: PRICES.catalog * 10,
         discount: 15,
         dis: '2 месяца в подарок'
       }
@@ -203,7 +203,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
       },
       '12': {
         month: 12,
-        price: 90000,
+        price: PRICES.pricemore * 10,
         discount: 15,
         dis: '2 месяца в подарок'
       }
