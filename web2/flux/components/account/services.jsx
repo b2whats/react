@@ -145,7 +145,7 @@ var AccountInfo = React.createClass({
           <button name='type' className='btn-bg-group' value='0'>Телефон и заявка</button>
         </ButtonGroup>
 
-        <ButtonGroup select_element_value={this.state.param && this.state.param.get('delete_from_default')} onChange={this.onChangeDeleteFromDefaultSearch} className="btn-group d-ib mL10 mT15">
+        <ButtonGroup select_element_value={this.state.param && this.state.param.get('delete_from_default')} onChange={this.onChangeDeleteFromDefaultSearch} className="btn-group d-ib mL30 mT15">
           <button name='type' className='btn-bg-group' value={true}>Без общей выдачи</button>
         </ButtonGroup>
         {(this.state.step == 0) &&
