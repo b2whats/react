@@ -379,14 +379,8 @@ import formatString from 'utils/format_string.js';
                 )</span>
             </div>
             <div>
-              {(this.props.selectedServices.get('autoservices').get('price') === 0) ?
-                <span className="fw-n fs14">Не подключена</span>
-                :
-                <span
-                  className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoservices').get('month'))} - <strong>{this.props.selectedServices.get('autoservices').get('price')}
-                  руб.</strong>
-                </span>
-              }
+              {this.props.toggle.get('servicesAutoservices') ? 'Свернуть' : 'Развернуть'}
+
               <i
                 className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('servicesAutoservices') && 'active')}></i>
             </div>
@@ -471,12 +465,7 @@ import formatString from 'utils/format_string.js';
                   )</span>
             </div>
             <div>
-              {(this.props.selectedServices.get('autoparts').get('price') === 0) ?
-                <span className="fw-n fs14">Не подключена</span>
-                :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('autoparts').get('month'))} - <strong>{this.props.selectedServices.get('autoparts').get('price')}
-                  руб.</strong></span>
-              }
+              {this.props.toggle.get('autoparts') ? 'Свернуть' : 'Развернуть'}
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('autoparts') && 'active')}></i>
             </div>
           </div>
@@ -505,12 +494,7 @@ import formatString from 'utils/format_string.js';
                 )</span>
             </div>
             <div>
-              {(this.props.selectedServices.get('catalog').get('price') === 0) ?
-                <span className="fw-n fs14">Не подключена</span>
-                :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('catalog').get('month'))}
-                  - <strong>{this.props.selectedServices.get('catalog').get('price')} руб.</strong></span>
-              }
+              {this.props.toggle.get('catalog') ? 'Свернуть' : 'Развернуть'}
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('catalog') && 'active')}></i>
             </div>
           </div>
@@ -540,17 +524,12 @@ import formatString from 'utils/format_string.js';
                 )</span>
             </div>
             <div>
-              {(this.props.selectedServices.get('pricemore').get('price') === 0) ?
-                <span className="fw-n fs14">Не подключена</span>
-                :
-                <span className="fw-n fs14">{decOfNumMonth(this.props.selectedServices.get('pricemore').get('month'))}
-                  - <strong>{this.props.selectedServices.get('pricemore').get('price')} руб.</strong></span>
-              }
+              {this.props.toggle.get('pricemore') ? 'Свернуть' : 'Развернуть'}
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('pricemore') && 'active')}></i>
             </div>
           </div>
           <div className={cx('p20-15', !this.props.toggle.get('pricemore') && 'd-N')}>
-            Вы привыкли работать с собственным прайсом? Он у вас на порядок больше 3 тыс позиций? Подключите эту услугу
+            Вы привыкли работать с собственным прайсом? Подключите эту услугу
             и снимите все ограничения по заливке прайса в систему. Данная услуга, так же дает право подать заявку на
             настройку автоматического обновления вашего прайса в системе AutoGiper.ru.
             <div className="entire-width mT20  flex-ai-c">
@@ -576,6 +555,7 @@ import formatString from 'utils/format_string.js';
                 )</span>
             </div>
             <div>
+              {this.props.toggle.get('wholesale') ? 'Свернуть' : 'Развернуть'}
               <i className={cx('btn-plus-minus btn-icon m0-5', !!this.props.toggle.get('wholesale') && 'active')}></i>
             </div>
           </div>
