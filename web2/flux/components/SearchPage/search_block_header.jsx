@@ -103,7 +103,7 @@ var SearchBlockHeader = React.createClass({
                 <Link href={route_definitions.kROUTE_DEF_W_REGION}             params={ {
                   region_id : kDEFAULT_REGION_ID
                 } }>
-                  <img className="search-page-logo-icon" src={require('icons/svg/logo.svg')} alt=""/>
+                  <img className="search-page-logo-icon" src={require('images/logo.jpg')} alt=""/>
 
                   {/*<span className="search-page-logo-second">Giper</span>*/}
                 </Link>

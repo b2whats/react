@@ -46,10 +46,11 @@ class CompanyFilial extends Component {
   render() {
     let Filials = this.props.companyFilials
       .map((part, index) => {
+        console.log(part.toJS())
         return (
           <div key={part.get('id')} className='grad-g p8 m10-0 br2 entire-width z-depth1'>
             <span>
-              <span className='fw-b fs16 ta-R d-ib w25px'>{index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house')}
+              <span className='fw-b fs16 ta-R d-ib w25px'>{index + 1 + '.'}</span> {part.get('street') + ' ' + part.get('house') + ' (' + part.get('city') + ')'}
               <i className={cx('m0-10 va-M fs16', (part.get('filial_type_id') === 1) ? 'svg-icon_gear' : 'svg-icon_key')}/>
             </span>
             <span>
@@ -60,13 +61,14 @@ class CompanyFilial extends Component {
         );
       })
       .toArray();
+    console.log(Filials.length)
     return (
       <div className='filial-company'>
         <h3 className='fs20 fw-n bc-g bB1s pB5 m10-0'>Филиалы компании
           <i className='btn-question btn-icon m0-10'/>
         </h3>
           {Filials}
-        <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.onClickOpenModal.bind(null, 'editCompanyFilial', 'new')}>Новый филиал</button>
+        {Filials.length < 10 && <button className='grad-ap btn-shad b0 c-wh fs15 br3 p6-20-8 m20-0' onClick={this.onClickOpenModal.bind(null, 'editCompanyFilial', 'new')}>Новый филиал</button>}
         <Modal
           isOpen={!!this.props.modalIsOpen.get('editCompanyFilial')}
           onRequestClose={this.onClickCloseModal}

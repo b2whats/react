@@ -174,15 +174,15 @@ export default class MapMarker extends Component {
             <i className="flaticon-close" />
           </div>
 
-          <div className="map-marker-hint__title big-first">
             <Link
               href={'/company/'+this.props.marker.get('user_id')+'/'+regionStore.get_region_current().get('translit_name')}
               className={cx('c-black H-td-u')}
               onClick={statisticsActions.setStatistics.bind(null, markerType, 'click', [this.props.marker.get('user_id')])}
             >
+          <div className="map-marker-hint__title big-first">
 
               {this.props.marker.get('company_name')}
-            </Link>
+
           </div>
           <div className="map-marker-hint__address">
             {this.props.marker.get('address')}
@@ -213,7 +213,7 @@ export default class MapMarker extends Component {
             </span>
 
           </div>
-
+            </Link>
           <div>
             <a className={cx('fs11', this.props.showBallon && 'd-N')}>кликни на маркер для информации</a>
           </div>

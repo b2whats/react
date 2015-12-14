@@ -469,7 +469,7 @@ export default class SearchPageAutoPartTable extends Component {
 
         <div className="entire-width flex-ai-fe">
           <div className='fs14 bgc-yellow-600 d-ib p5-15 bTRr8'>Не нашли деталь?
-            <strong> Позвоните мастеру</strong>
+            <strong> Позвоните мастеру автосервиса</strong>
             <i className='icon_free fs22 va-M mL10'></i>
           </div>
             {(this.props.autoServicesResults.size > 0) &&

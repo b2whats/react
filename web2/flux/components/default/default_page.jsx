@@ -115,7 +115,7 @@ var DefaultPage = React.createClass({
               <div ref='default_page_content' className="default-page-content big-search-block">
                 <div className="default-page-logo">
 
-                  <img className="default-page-logo-icon" src={require('icons/svg/logo.svg')} alt=""/>
+                  <img className="default-page-logo-icon" src={require('images/logo.jpg')} alt=""/>
                   <br />
                   {/*<span
                     className="c-as tt-u cur-p d-ib"
