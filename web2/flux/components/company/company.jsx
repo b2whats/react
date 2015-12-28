@@ -65,7 +65,7 @@ var personal_company_page = React.createClass({
 	],
   toggle(val) {
     return (e) => {
-console.log(21);
+
       statisticsActions.setStatistics('c', 'click', [this.state.company_filials.first().get('user_id')]);
       e.preventDefault();
       toggle_actions.change(val);
@@ -150,6 +150,7 @@ console.log(21);
     var Comments = this.state.comments
       .reverse()
       .map((part, part_index) => {
+        console.log(part.toJS())
         return ([
         <div key={part.get('id')} className='m20-0'>
           <div className='entire-width'>
@@ -163,7 +164,7 @@ console.log(21);
                 <span onClick={this.toggle('answer_'+part_index)} className='cur-p fs14 mL10 fw-n c-deep-purple-500'>Ответить</span>
               }
             </span>
-            <span className='c-grey-600 fs12'>{part.get('date')}</span>
+            <span className='c-grey-600 fs12'>{part.get('datetime')}</span>
           </div>
           <div className='lh1-4 m10-0'>
             {part.getIn(['review','comment'])}

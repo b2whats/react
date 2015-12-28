@@ -414,7 +414,7 @@ export default class SearchPageAutoPartTable extends Component {
             </td>
 
             <td className={cx('', cx((part_index % 2 > 0) ? 'bgc-yellow-200' : 'bgc-yellow-100'))}>
-              <div className="fw-b fs14">{part.get('masters_name').first().split(' ')[0]}</div>
+              <div className="fw-b fs14">{part.get('masters_name').first().split(' ')[0] || 'Мастер'} </div>
           {/*<Link href={part.get('site')} className="c-yellow-800 d-ib fs12">Сайт</Link> */}
             </td>
 

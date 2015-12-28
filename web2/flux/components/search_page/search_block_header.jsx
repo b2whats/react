@@ -120,7 +120,7 @@ var SearchBlockHeader = React.createClass({
               className="md-12-6 autoparts">
               <AutoPartsSearchWrapper
                 initial_value={autoparts_initial_value}
-                placeholder="Поиск автозапчатей *"
+                placeholder="Поиск автозапчастей *"
                 on_value_changed={this.on_auto_parts_value_changed} />
                 {/*list_width={this.state.width - kSASS_INPUT_PADDING}*/}
             </SearchPageSearchBlock>
