@@ -241,7 +241,7 @@ import formatString from 'utils/format_string.js';
 
                     {part.has('dis') ?
                       <span className="fs15 c-r">{part.get('dis')}</span> :
-                      <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                      ''
                     }
                   </span>
                 }
@@ -251,8 +251,12 @@ import formatString from 'utils/format_string.js';
         }).toArray();
     };
     let tarifsSubscribe = (type) => {
+      const isOne = this.props.subscribeWordsChecked.size === 1 && !this.props.subscribeWordsChecked.includes(9999)
 
       return this.props.tarifs.get(type)
+        .filter((part, index) => {
+          return !(isOne && (index == 3 || index == 6))
+        })
         .map((part, index) => {
           index = index | 0;
           return (
@@ -276,7 +280,7 @@ import formatString from 'utils/format_string.js';
                     <br/>
                     {part.has('dis') ?
                       <span className="fs15 c-r">{part.get('dis')}</span> :
-                      <span className="fs15 c-r">скидка - {part.get('discount')}%</span>
+                      ''
                     }
                   </span>
                 }
