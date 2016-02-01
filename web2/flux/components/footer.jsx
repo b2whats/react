@@ -57,11 +57,11 @@ var Footer = React.createClass({
             <Link className="h_link m0-10" href={'/static/partners.html'}>Рекламодателям</Link>
             <Link className="h_link m0-10" href={'http://www.mims.ru/ru-RU/visitors/ticket.aspx#personal'}>Мы - участники MIMS 2015</Link>
           </span>
-          <span>  
+          {/*<span>
             Мы в соц. сетях :
             <Link target="_blank" className="c-deep-purple-500 H-c-yellow-500" href="https://www.facebook.com/groups/autogiper/"><i className="icon-facebook-rect"></i></Link>
             <Link className="c-deep-purple-500 H-c-yellow-500" href="http://vk.com/theautogiper"><i className="icon-vkontakte-rect"></i></Link>
-          </span>
+          </span>*/}
         </div>
       </div>
     );

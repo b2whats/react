@@ -412,7 +412,7 @@ export default class SearchPageAutoPartTable extends Component {
               <th className=''>Продавец</th>
               <th className='w140px'>Производитель<br/>Артикул</th>
               <th className=''>Описание детали</th>
-              <th className='ta-C w90px'>Условия</th>
+              <th className='ta-C w90px'>Срок<br/>дней</th>
               <th className='ta-C c-wh w95px t-bg-c-ap fw-b'>Цена</th>
               <th className='ta-C w210px'>
                 <label className="label--checkbox">

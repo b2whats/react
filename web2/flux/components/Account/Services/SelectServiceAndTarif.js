@@ -251,7 +251,7 @@ import formatString from 'utils/format_string.js';
         }).toArray();
     };
     let tarifsSubscribe = (type) => {
-      const isOne = this.props.subscribeWordsChecked.size === 1 && !this.props.subscribeWordsChecked.includes(9999)
+      const isOne = this.props.subscribeWordsChecked.size < 4 && !this.props.subscribeWordsChecked.includes(9999)
 
       return this.props.tarifs.get(type)
         .filter((part, index) => {
