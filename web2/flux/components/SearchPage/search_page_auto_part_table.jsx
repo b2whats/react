@@ -343,8 +343,10 @@ export default class SearchPageAutoPartTable extends Component {
           </td>
           <td>
             <div className={cx('ta-C fs20', !(this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
-              <span className='fs14'>{company.get('main_phone') && company.get('main_phone').substr(0,7)}</span>
-              <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
+              <div class={`ya-phone-${company.get('main_phone').replace(/\D/g, '')}`}>
+                <span className='fs14'>{company.get('main_phone') && company.get('main_phone').substr(0,7)}</span>
+                <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
+              </div>
             </div>
             <div className={cx('entire-width', (this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
 
