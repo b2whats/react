@@ -420,7 +420,7 @@ export default class SearchPageAutoPartTable extends Component {
 
             <td className="search-page-autoservice-table-td-phone search-page-autoservice-table-td-multiple-btn">
               <div className={cx('ta-C fs20', !(this.props.showAllPhone || isVisiblePhone) && 'd-N')}>
-                <div class={`ya-phone-${company.get('main_phone').replace(/\D/g, '')}`}>
+                <div className={`ya-phone-${company.get('main_phone').replace(/\D/g, '')}`}>
                   <span className='fs14'>{company.get('main_phone') && company.get('main_phone').substr(0,7)}</span>
                   <span>{company.get('main_phone') && company.get('main_phone').substr(7)}</span>
                 </div>
