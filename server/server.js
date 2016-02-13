@@ -46,7 +46,7 @@ Promise.all([
     console.log('APP SERVER ERROR '+err);
   });
 
-  server.listen(config.kPORT, '0.0.0.0', function(){
+  server.listen(config.kPORT, '127.0.0.1', function(){
     console.log('APP SERVER STARTED AT PORT ' + config.kPORT);
   });
 });
