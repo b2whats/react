@@ -32,11 +32,20 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       r[item.get('user_id')] = 1;
       return r;
     }, {});
-  // console.log(id2PtInRect);
+   //console.log(id2PtInRect);
+  let visibleRegion
   const sorted = data
     // отсортировать по видимость на карте и sort параметру
-    .sortBy(item =>
-      -((id2PtInRect[item.get('user_id')] || 0) * 10000000 + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time')))
+    .sortBy((item, index) => {
+      if (!visibleRegion && id2PtInRect[item.get('user_id')] == 1) {
+        visibleRegion = item.get('number')
+      }
+      const sort = ((id2PtInRect[item.get('user_id')] || 0) * 10000000 + (+((item.get('number') || 0) == visibleRegion) * 100000) + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time'))
+
+      //console.log(item.get('user_id'), item.get('number') == visibleRegion, sort)
+
+      return -sort
+    })
     // проставить видимым айтемам то что они видимы
     .map(item =>
       id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
@@ -53,6 +62,8 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
             .sortBy(addr => addr.get('distance_to_center')))
         : item );
   // console.log(sorted.toJS());
+
+  //console.log(sorted.take(10).toJS())
   return sorted;
 };
 
