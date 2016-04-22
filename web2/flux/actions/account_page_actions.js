@@ -8,8 +8,8 @@ var api_refs = require('shared_constants/api_refs.js');
 
 var resource = require('utils/resource.js');
 var action_export_helper = require('utils/action_export_helper.js');
-var r_get_company_info = resource('https://stage-pc2-api.herokuapp.com:443/api/auth/status');
-//var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
+
+var r_get_company_info = resource(api_refs.kACCOUNT_COMPANY_INFO);
 var route_actions = require('actions/route_actions.js');
 var region_store = require('stores/region_store.js');
 module.exports.get_company_information = () => {
