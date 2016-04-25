@@ -10,7 +10,9 @@ import immutable, {fromJS} from 'immutable';
 import regionStore from 'stores/region_store.js';
 
 
-const calcSortData = ({data, mapInfo}) => { // сам расчет принимает state на вход и зависит только от него
+const calcSortData = ({data, mapInfo, regionId}) => { // сам расчет принимает state на вход и зависит только от него
+  console.log(regionId)
+  const number = regionStore.get_region_current().get('number') || 0
   if (!data.size) {
     return immutable.fromJS([]);
   }
@@ -40,7 +42,7 @@ const calcSortData = ({data, mapInfo}) => { // сам расчет приним�
       if (!visibleRegion && id2PtInRect[item.get('user_id')] == 1) {
         visibleRegion = item.get('number')
       }
-      const sort = ((id2PtInRect[item.get('user_id')] || 0) * 10000000 + (+((item.get('number') || 0) == visibleRegion) * 100000) + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time'))
+      const sort = ((id2PtInRect[item.get('user_id')] || 0) * 10000000 + (+((item.get('number') || 0) == number) * 100000) + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time'))
 
       //console.log(item.get('user_id'), item.get('number') == visibleRegion, sort)
 

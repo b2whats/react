@@ -88,6 +88,10 @@ var region_store = merge(Emitter.prototype, {
     return kON_REGION__REGION_STORE_PRIORITY;
   },
 
+  getAll() {
+    return state_;
+  },
+
   dispose () {
     if(cncl_) {
       _.each(cncl_, cncl => cncl());
