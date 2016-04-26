@@ -12,7 +12,7 @@ import regionStore from 'stores/region_store.js';
 
 const calcSortData = ({data, mapInfo, regionId}) => { // сам расчет принимает state на вход и зависит только от него
   console.log(regionId)
-  const number = regionStore.get_region_current().get('number') || 0
+  const number = regionStore.get_region_current() ? regionStore.get_region_current().get('number') : 0
   if (!data.size) {
     return immutable.fromJS([]);
   }
