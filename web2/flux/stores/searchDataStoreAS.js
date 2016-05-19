@@ -11,8 +11,11 @@ import regionStore from 'stores/region_store.js';
 
 
 const calcSortData = ({data, mapInfo, regionId}) => { // сам расчет принимает state на вход и зависит только от него
-  console.log(regionId)
-  const number = regionStore.get_region_current() ? regionStore.get_region_current().get('number') : 0
+  console.log('region', regionId)
+  let number = regionStore.get_region_current() ? regionStore.get_region_current().get('number') : 0
+  //if ([50, 77].includes(number)) {
+  //  number = 77
+  //}
   if (!data.size) {
     return immutable.fromJS([]);
   }
@@ -36,18 +39,29 @@ const calcSortData = ({data, mapInfo, regionId}) => { // сам расчет п�
     }, {});
    //console.log(id2PtInRect);
   let visibleRegion
+  const isMoscow = [50, 77].includes(number)
+  const isSpb = [47, 78].includes(number)
   const sorted = data
     // отсортировать по видимость на карте и sort параметру
-    .sortBy((item, index) => {
-      if (!visibleRegion && id2PtInRect[item.get('user_id')] == 1) {
-        visibleRegion = item.get('number')
+    .map((item, index) => {
+      //if (id2PtInRect[item.get('user_id')] == 1) {
+      //  visibleRegion = item.get('number')
+      //}
+      let isCurrentRegion = (item.get('number') || 0) == number
+      if (isMoscow && [50, 77].includes(item.get('number') || 0)) {
+        isCurrentRegion = true
       }
-      const sort = ((id2PtInRect[item.get('user_id')] || 0) * 10000000 + (+((item.get('number') || 0) == number) * 100000) + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time'))
+      if (isSpb && [47, 78].includes(item.get('number') || 0)) {
+        isCurrentRegion = true
+      }
+
+      const sort = ((id2PtInRect[item.get('user_id')] || 0) * 10000000 + (+isCurrentRegion * 100000) + item.get('sort') + (item.get('sort_payment') * 10000) - item.get('sort_time'))
 
       //console.log(item.get('user_id'), item.get('number') == visibleRegion, sort)
 
-      return -sort
+      return item.set('sort_fn', sort)
     })
+    .sortBy((item, index) => -item.get('sort_fn'))
     // проставить видимым айтемам то что они видимы
     .map(item =>
       id2PtInRect[item.get('user_id')] ? item.set('visible_item', true) : item)
@@ -61,9 +75,10 @@ const calcSortData = ({data, mapInfo, regionId}) => { // сам расчет п�
                          .set('distance_to_center', pointUtils.distanceToCenter(addr.get('coordinates').toJS(), center.toJS()));
             })
             .sortBy(addr => addr.get('visible_address') ? 0 : 1)
-            .sortBy(addr => addr.get('distance_to_center')))
+            .sortBy(addr => addr.get('distance_to_center'))
+        )
         : item );
-  // console.log(sorted.toJS());
+  console.log(sorted.toJS());
 
   //console.log(sorted.take(10).toJS())
   return sorted;
