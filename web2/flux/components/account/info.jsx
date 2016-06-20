@@ -146,6 +146,18 @@ var AccountInfo = React.createClass({
               </td>
             </tr>
             <tr>
+              <td>Телефон(автосервис)</td>
+              <td>
+                <EditableForms
+                  type='phone'
+                  placeholder='Контактный телефон'
+                  className={cx({'input-as-text' : !edit})}
+                  onChange={this.updateFormElement('phone_as')}
+                  edit={edit}
+                  text={this.state.company_information.get('phone_as')}/>
+              </td>
+            </tr>
+            <tr>
               <td>Комментарии об услугах</td>
               <td className='lh1-4'>
                 <EditableForms

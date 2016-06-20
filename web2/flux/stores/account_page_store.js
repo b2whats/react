@@ -17,6 +17,7 @@ var state_ = init_state(_.last(__filename.split('/')), {
   company_information     : {
     legal_detail: null,
     phone: null,
+    phone_as: null,
   },
   companyFilials         : [],
   current_filial          : {},
